@@ -123,4 +123,24 @@ public abstract class Global {
 				.put("13",
 						"(GMT+13 01:00 (the following day))Nuku\u0102\u00C2\u00BBalofa");
 	}
+
+	private static final String UPPER_ALPHA_NUM = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final String ALPHA_NUM = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZqwertyuiopasdfghjklzxcvbnm";
+	public static String getUpperAlphaNumeric(int len) {
+		StringBuffer sb = new StringBuffer(len);
+		for (int i = 0; i < len; i++) {
+			int ndx = (int) (Math.random() * UPPER_ALPHA_NUM.length());
+			sb.append(ALPHA_NUM.charAt(ndx));
+		}
+		return sb.toString();
+	}
+	
+	public static String getAlphaNumeric(int len) {
+		StringBuffer sb = new StringBuffer(len);
+		for (int i = 0; i < len; i++) {
+			int ndx = (int) (Math.random() * ALPHA_NUM.length());
+			sb.append(ALPHA_NUM.charAt(ndx));
+		}
+		return sb.toString();
+	}
 }

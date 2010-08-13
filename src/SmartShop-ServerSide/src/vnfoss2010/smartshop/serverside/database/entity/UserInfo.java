@@ -22,6 +22,8 @@ public class UserInfo implements Serializable{
 
 	@Persistent
 	private String password;
+	
+	private String oldPassword;
 
 	@Persistent
 	private String first_name;
@@ -40,6 +42,12 @@ public class UserInfo implements Serializable{
 
 	@Persistent
 	private String address;
+	
+	@Persistent
+	private double lat;
+	
+	@Persistent
+	private double lng;
 
 	@Persistent
 	private int sum_star;
@@ -60,14 +68,23 @@ public class UserInfo implements Serializable{
 	private int type;
 	
 	@Persistent
+	private Set<String> setFriendsUsername;
+	
+	@Persistent
 	private Set<String> fts;
 
 	/**
 	 * Default contructor. It should be have to serialize
 	 */
 	public UserInfo() {
-		this("", "", "", "", "", "", new Date(), "", 7D, "vi", "Vietnam");
+		this("", "", "", "", "", "", new Date(), "", 0, 0, 7D, "vi", "Vietnam");
 		
+	}
+	
+	public UserInfo(String username, String firstName, String lastName){
+		this.username = username;
+		this.first_name = firstName;
+		this.last_name = lastName;
 	}
 
 	/**
@@ -75,8 +92,8 @@ public class UserInfo implements Serializable{
 	 */
 	public UserInfo(String username, String password, String firstName,
 			String lastName, String phone, String email, Date birthday,
-			String address, double gmt, String lang, String country) {
-		this(username, password, firstName, lastName, phone, email, birthday, address, 0, 0, gmt, lang, country, 0);
+			String address, double lat, double lng, double gmt, String lang, String country) {
+		this(username, password, firstName, lastName, phone, email, birthday, address, lat, lng, 0, 0, gmt, lang, country, 0);
 	}
 
 	/**
@@ -84,7 +101,7 @@ public class UserInfo implements Serializable{
 	 */
 	public UserInfo(String username, String password, String firstName,
 			String lastName, String phone, String email, Date birthday,
-			String address, int sumStar, int countVote, double gmt,
+			String address, double lat, double lng, int sumStar, int countVote, double gmt,
 			String lang, String country, int type) {
 		this.username = username;
 		this.password = password;
@@ -94,6 +111,8 @@ public class UserInfo implements Serializable{
 		this.email = email;
 		this.birthday = birthday;
 		this.address = address;
+		this.lat = lat;
+		this.lng = lng;
 		sum_star = sumStar;
 		count_vote = countVote;
 		this.gmt = gmt;
@@ -103,6 +122,8 @@ public class UserInfo implements Serializable{
 		
 		this.fts = new HashSet<String>();
 		DatabaseServiceImpl.updateFTSStuffForUserInfo(this);
+		
+		this.setFriendsUsername = new HashSet<String>();
 	}
 
 	/**
@@ -226,6 +247,34 @@ public class UserInfo implements Serializable{
 	}
 
 	/**
+	 * @param lat the lat to set
+	 */
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+	/**
+	 * @return the lat
+	 */
+	public double getLat() {
+		return lat;
+	}
+
+	/**
+	 * @param lng the lng to set
+	 */
+	public void setLng(double lng) {
+		this.lng = lng;
+	}
+
+	/**
+	 * @return the lng
+	 */
+	public double getLng() {
+		return lng;
+	}
+
+	/**
 	 * @return the sum_star
 	 */
 	public int getSum_star() {
@@ -266,7 +315,7 @@ public class UserInfo implements Serializable{
 	 * @param gmt
 	 *            the gmt to set
 	 */
-	public void setGmt(int gmt) {
+	public void setGmt(double gmt) {
 		this.gmt = gmt;
 	}
 
@@ -326,6 +375,34 @@ public class UserInfo implements Serializable{
 	 */
 	public Set<String> getFts() {
 		return fts;
+	}
+
+	/**
+	 * @param setFriendsUsername the setFriendsUsername to set
+	 */
+	public void setSetFriendsUsername(Set<String> setFriendsUsername) {
+		this.setFriendsUsername = setFriendsUsername;
+	}
+
+	/**
+	 * @return the setFriendsUsername
+	 */
+	public Set<String> getSetFriendsUsername() {
+		return setFriendsUsername;
+	}
+
+	/**
+	 * @param oldPassword the oldPassword to set
+	 */
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	/**
+	 * @return the oldPassword
+	 */
+	public String getOldPassword() {
+		return oldPassword;
 	}
 
 }
