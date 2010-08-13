@@ -9,7 +9,7 @@
 			private function showMap(): void {
 				// TODO: 
 				Alert.show("Show map");
-			}
+			}asd
 		]]>
 	</mx:Script>
 	
