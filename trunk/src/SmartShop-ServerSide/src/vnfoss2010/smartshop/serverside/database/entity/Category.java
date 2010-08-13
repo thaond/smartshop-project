@@ -1,5 +1,8 @@
 package vnfoss2010.smartshop.serverside.database.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -17,8 +20,16 @@ public class Category {
 	
 	@Persistent
 	private int parent_id;
+	
+	@Persistent
+	private Set<Long> setPages;
+	
+	public Category(){
+		setPages = new HashSet<Long>();
+	}
 
 	public Category(String name, int parentId) {
+		this();
 		this.name = name;
 		parent_id = parentId;
 	}
@@ -96,6 +107,20 @@ public class Category {
 	public String toString() {
 		return "Category [id=" + id + ", name=" + name + ", parent_id="
 				+ parent_id + "]";
+	}
+
+	/**
+	 * @param setPages the setPages to set
+	 */
+	public void setSetPages(Set<Long> setPages) {
+		this.setPages = setPages;
+	}
+
+	/**
+	 * @return the setPages
+	 */
+	public Set<Long> getSetPages() {
+		return setPages;
 	}
 	
 }
