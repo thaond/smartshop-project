@@ -18,7 +18,7 @@
 								 trigger="{loginButton}" />
 
 	<mx:StringValidator source="{fname}" property="text" 
-						required="true" requiredFieldError="Bạn chưa nhập tên"/>
+						required="true" requiredFieldError="Bạn chưa nhập vào tên"/>
 	<mx:StringValidator source="{lname}" property="text"
 						required="true" requiredFieldError="Bạn chưa nhập họ"/>
 	<mx:PhoneNumberValidator source="{phone}" property="text" minDigits="NaN"
