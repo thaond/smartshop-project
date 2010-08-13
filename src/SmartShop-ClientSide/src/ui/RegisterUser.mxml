@@ -24,7 +24,7 @@
 	<mx:PhoneNumberValidator source="{phone}" property="text" minDigits="NaN"
 							 required="true" requiredFieldError="Bạn chưa nhập số điện thoại"/>
 	<mx:DateValidator source="{dob}" property="text"
-					  inputFormat="DD/MM/YYYY"/>
+					  inputFormat="MM/DD/YYYY"/>
 	<mx:EmailValidator source="{email}" property="text" 
 					   required="true" requiredFieldError="Bạn chưa nhập email"/>
 	
