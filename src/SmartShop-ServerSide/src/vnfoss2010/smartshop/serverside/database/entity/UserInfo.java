@@ -10,10 +10,13 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.repackaged.org.json.JSONException;
+import com.google.appengine.repackaged.org.json.JSONObject;
+
 import vnfoss2010.smartshop.serverside.database.DatabaseServiceImpl;
 
-@PersistenceCapable 
-public class UserInfo implements Serializable{
+@PersistenceCapable
+public class UserInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@PrimaryKey
@@ -22,7 +25,7 @@ public class UserInfo implements Serializable{
 
 	@Persistent
 	private String password;
-	
+
 	private String oldPassword;
 
 	@Persistent
@@ -42,12 +45,15 @@ public class UserInfo implements Serializable{
 
 	@Persistent
 	private String address;
-	
+
 	@Persistent
 	private double lat;
-	
+
 	@Persistent
 	private double lng;
+
+	@Persistent
+	private String avatarLink;
 
 	@Persistent
 	private int sum_star;
@@ -57,7 +63,7 @@ public class UserInfo implements Serializable{
 
 	@Persistent
 	private double gmt;
-	
+
 	@Persistent
 	private String lang;
 
@@ -66,10 +72,10 @@ public class UserInfo implements Serializable{
 
 	@Persistent
 	private int type;
-	
+
 	@Persistent
 	private Set<String> setFriendsUsername;
-	
+
 	@Persistent
 	private Set<String> fts;
 
@@ -77,11 +83,14 @@ public class UserInfo implements Serializable{
 	 * Default contructor. It should be have to serialize
 	 */
 	public UserInfo() {
-		this("", "", "", "", "", "", new Date(), "", 0, 0, 7D, "vi", "Vietnam");
-		
+		this("", "", "", "", "", "", null, "", 0, 0, "");
 	}
-	
-	public UserInfo(String username, String firstName, String lastName){
+
+	/*
+	 * Some basic information, used in download list friend (lightweight as
+	 * possible)
+	 */
+	public UserInfo(String username, String firstName, String lastName) {
 		this.username = username;
 		this.first_name = firstName;
 		this.last_name = lastName;
@@ -92,17 +101,20 @@ public class UserInfo implements Serializable{
 	 */
 	public UserInfo(String username, String password, String firstName,
 			String lastName, String phone, String email, Date birthday,
-			String address, double lat, double lng) {
-		this(username, password, firstName, lastName, phone, email, birthday, address, lat, lng, 0, 0, 7, "vi", "VietNam", 0);
+			String address, double lat, double lng, String avatar) {
+		this(username, password, firstName, lastName, phone, email, birthday,
+				address, lat, lng, avatar, 7, "vi", "VietNam");
 	}
-	
+
 	/**
 	 * Contructor's used to register
 	 */
 	public UserInfo(String username, String password, String firstName,
 			String lastName, String phone, String email, Date birthday,
-			String address, double lat, double lng, double gmt, String lang, String country) {
-		this(username, password, firstName, lastName, phone, email, birthday, address, lat, lng, 0, 0, gmt, lang, country, 0);
+			String address, double lat, double lng, String avatarLink,
+			double gmt, String lang, String country) {
+		this(username, password, firstName, lastName, phone, email, birthday,
+				address, lat, lng, avatarLink, 0, 0, gmt, lang, country, 0);
 	}
 
 	/**
@@ -110,8 +122,9 @@ public class UserInfo implements Serializable{
 	 */
 	public UserInfo(String username, String password, String firstName,
 			String lastName, String phone, String email, Date birthday,
-			String address, double lat, double lng, int sumStar, int countVote, double gmt,
-			String lang, String country, int type) {
+			String address, double lat, double lng, String avatarLink,
+			int sumStar, int countVote, double gmt, String lang,
+			String country, int type) {
 		this.username = username;
 		this.password = password;
 		first_name = firstName;
@@ -122,16 +135,17 @@ public class UserInfo implements Serializable{
 		this.address = address;
 		this.lat = lat;
 		this.lng = lng;
+		this.avatarLink = avatarLink;
 		sum_star = sumStar;
 		count_vote = countVote;
 		this.gmt = gmt;
 		this.setLang(lang);
 		this.country = country;
 		this.type = type;
-		
+
 		this.fts = new HashSet<String>();
 		DatabaseServiceImpl.updateFTSStuffForUserInfo(this);
-		
+
 		this.setFriendsUsername = new HashSet<String>();
 	}
 
@@ -256,7 +270,8 @@ public class UserInfo implements Serializable{
 	}
 
 	/**
-	 * @param lat the lat to set
+	 * @param lat
+	 *            the lat to set
 	 */
 	public void setLat(double lat) {
 		this.lat = lat;
@@ -270,7 +285,8 @@ public class UserInfo implements Serializable{
 	}
 
 	/**
-	 * @param lng the lng to set
+	 * @param lng
+	 *            the lng to set
 	 */
 	public void setLng(double lng) {
 		this.lng = lng;
@@ -359,7 +375,8 @@ public class UserInfo implements Serializable{
 	}
 
 	/**
-	 * @param lang the lang to set
+	 * @param lang
+	 *            the lang to set
 	 */
 	public void setLang(String lang) {
 		this.lang = lang;
@@ -373,7 +390,8 @@ public class UserInfo implements Serializable{
 	}
 
 	/**
-	 * @param fts the fts to set
+	 * @param fts
+	 *            the fts to set
 	 */
 	public void setFts(Set<String> fts) {
 		this.fts = fts;
@@ -387,7 +405,8 @@ public class UserInfo implements Serializable{
 	}
 
 	/**
-	 * @param setFriendsUsername the setFriendsUsername to set
+	 * @param setFriendsUsername
+	 *            the setFriendsUsername to set
 	 */
 	public void setSetFriendsUsername(Set<String> setFriendsUsername) {
 		this.setFriendsUsername = setFriendsUsername;
@@ -401,7 +420,8 @@ public class UserInfo implements Serializable{
 	}
 
 	/**
-	 * @param oldPassword the oldPassword to set
+	 * @param oldPassword
+	 *            the oldPassword to set
 	 */
 	public void setOldPassword(String oldPassword) {
 		this.oldPassword = oldPassword;
@@ -412,6 +432,51 @@ public class UserInfo implements Serializable{
 	 */
 	public String getOldPassword() {
 		return oldPassword;
+	}
+
+	/**
+	 * @param avatarLink
+	 *            the avatarLink to set
+	 */
+	public void setAvatarLink(String avatarLink) {
+		this.avatarLink = avatarLink;
+	}
+
+	/**
+	 * @return the avatarLink
+	 */
+	public String getAvatarLink() {
+		return avatarLink;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "UserInfo [username=" + username + ", password=" + password
+				+ "]";
+	}
+	
+	public JSONObject toJSON(JSONObject json) throws JSONException{
+		json.put("username", username);
+		json.put("password", password);
+		json.put("first_name", first_name);
+		json.put("last_name",  last_name);
+		json.put("phone",  phone);
+		json.put("email",  email);
+		json.put("birthday",  birthday);
+		json.put("address",  address);
+		json.put("lat",  lat);
+		json.put("lng",  lng);
+		json.put("avatarLink",  avatarLink);
+		json.put("sum_star",  sum_star);
+		json.put("count_vote",  count_vote);
+		json.put("gmt",  gmt);
+		json.put("lang",  lang);
+		json.put("country",  country);
+		json.put("type",  type);
+		return json;
 	}
 
 }

@@ -61,7 +61,7 @@ public class EditProfileService extends BaseRestfulService {
 		}
 		userInfo.setLng(lng);
 
-		ServiceResult<Void> result = db.insertUserInfo(userInfo);
+		ServiceResult<Void> result = db.editProfile(userInfo);
 		if (result.isOK()) {
 			jsonReturn.put("errCode", 0);
 			jsonReturn.put("message", result.getMessage());
