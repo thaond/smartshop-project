@@ -35,7 +35,7 @@ public abstract class BaseRestfulService implements RestfulService {
         this.mRequiredParameters = requiredMethods;
     }
 
-    protected MissingParameterException checkParams(Map<String, String> params) {
+    protected MissingParameterException checkParams(Map params) {
         if (mRequiredParameters != null) {
             for (String param : mRequiredParameters) {
                 if (params.containsKey(param))
@@ -50,14 +50,18 @@ public abstract class BaseRestfulService implements RestfulService {
         return new MissingParameterException(mServiceName, paramName);
     }
 
-    protected String getParameter(String key, Map<String, String> params,
+    protected String getParameter(String key, Map<String, String[]> params,
             JSONObject json) {
         try {
             if (json != null && json.has(key))
                 return json.get(key).toString();
-            if (params != null && params.containsKey(key))
-                return params.get(key);
+            if (params != null && params.containsKey(key)) {
+                String[] arrParam = params.get(key);
+                return arrParam == null ? null
+                        : ((arrParam.length > 0) ? arrParam[0] : null);
+            }
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return null;
     }

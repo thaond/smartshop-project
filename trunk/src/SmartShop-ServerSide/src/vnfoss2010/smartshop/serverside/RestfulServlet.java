@@ -75,6 +75,7 @@ public class RestfulServlet extends HttpServlet {
             if (service == null) {
                 throw new UndefinedServiceException(serviceName);
             }
+
             String r = service
                     .getConstructor(String.class)
                     .newInstance(serviceName)
