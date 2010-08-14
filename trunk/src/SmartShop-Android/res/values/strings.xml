@@ -2,7 +2,11 @@
 <resources>
     <string name="hello">Hello World, HomeActivity!</string>
     <string name="app_name">smartshop</string>
-    
+    <!-- Search Form -->
+    <string name = "search">Search</string>
+    <string name="advancedSearch">Advanced Search</string>
+    <string name = "map">Map</string>
+
     <!-- Register user -->
     <string name="lblUsername">Tên đăng nhập:</string>
     <string name="lblPassword">Mật khẩu:</string>
@@ -21,5 +25,4 @@
     
     <!-- User login -->
     <string name="lblLogin">Đăng nhập</string>
-    
 </resources>
