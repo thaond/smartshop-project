@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+	
+	<!-- User name -->
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:paddingRight="10dip">
+
+		<TextView android:layout_width="wrap_content" android:textSize="11dip"
+			android:layout_height="wrap_content" android:text="@string/lblUsername"
+			android:layout_centerVertical="true" android:id="@+id/lblUsername" />
+
+		<EditText android:layout_height="wrap_content" android:id="@+id/txtUsername"
+			android:layout_alignParentRight="true" android:layout_width="wrap_content" />
+
+	</LinearLayout>
+
+	<!-- Password -->
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:paddingRight="10dip">
+
+		<TextView android:layout_width="wrap_content" android:textSize="11dip"
+			android:layout_height="wrap_content" android:text="@string/lblPassword"
+			android:layout_centerVertical="true" android:id="@+id/lblPassword" />
+
+		<EditText android:layout_height="wrap_content" android:id="@+id/txtPassword"
+			android:layout_alignParentRight="true" android:layout_width="wrap_content"
+			android:password="true" />
+
+	</LinearLayout>
+	
+	<!-- Login button -->
+	<LinearLayout android:layout_width="wrap_content" android:paddingRight="10dip"
+		android:layout_height="wrap_content" android:layout_gravity="right">
+
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/lblLogin"
+			android:layout_centerVertical="true" android:id="@+id/btnLogin" />
+
+		<Button android:layout_height="wrap_content" android:id="@+id/btnCancel"
+			android:layout_alignParentRight="true" android:layout_width="wrap_content"
+			android:text="@string/lblCancel" />
+
+	</LinearLayout>
+	
+</LinearLayout>
