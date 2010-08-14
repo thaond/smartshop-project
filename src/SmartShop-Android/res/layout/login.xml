@@ -17,7 +17,7 @@
 	</LinearLayout>
 
 	<!-- Password -->
-	<LinearLayout android:layout_width="fill_parent"
+	<LinearLayout android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:paddingRight="10dip">
 
 		<TextView android:layout_width="wrap_content" android:textSize="11dip"
