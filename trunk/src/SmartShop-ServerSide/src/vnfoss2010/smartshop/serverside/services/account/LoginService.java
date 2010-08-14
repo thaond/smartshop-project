@@ -27,44 +27,18 @@ public class LoginService extends BaseRestfulService {
 			json = new JSONObject(content);
 		} catch (Exception e) {
 		}
+		
+		String username = getParameter("username", params, json);
+		String password = getParameter("password", params, json);
 
 		JSONObject jsonReturn = new JSONObject();
 
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUsername(getParameter("username", params, json));
-		userInfo.setOldPassword(getParameter("old_password", params, json));
-		userInfo.setPassword(getParameter("new_password", params, json));
-		userInfo.setFirst_name(getParameter("first_name", params, json));
-		userInfo.setLast_name(getParameter("last_name", params, json));
-		userInfo.setPhone(getParameter("phone", params, json));
-		userInfo.setEmail(getParameter("email", params, json));
-		userInfo.setAddress(getParameter("address", params, json));
-
-		Date birthday = null;
-		try {
-			birthday = Global.df.parse(getParameter("birthday", params, json));
-		} catch (Exception e) {
-		}
-		userInfo.setBirthday(birthday);
-
-		double lat = 0;
-		try {
-			lat = Double.parseDouble(getParameter("lat", params, json));
-		} catch (Exception e) {
-		}
-		userInfo.setLat(lat);
-
-		double lng = 0;
-		try {
-			lng = Double.parseDouble(getParameter("lng", params, json));
-		} catch (Exception e) {
-		}
-		userInfo.setLng(lng);
-
-		ServiceResult<Void> result = db.insertUserInfo(userInfo);
+		ServiceResult<UserInfo> result = db.login(username, password);
 		if (result.isOK()) {
 			jsonReturn.put("errCode", 0);
 			jsonReturn.put("message", result.getMessage());
+			
+			result.getResult().toJSON(jsonReturn);
 		} else {
 			jsonReturn.put("errCode", 1);
 			jsonReturn.put("message", result.getMessage());
