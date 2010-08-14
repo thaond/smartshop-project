@@ -1,4 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content" android:layout_height="wrap_content">
-</LinearLayout>
+<ScrollView android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<LinearLayout 
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:orientation="vertical">
+		
+		<com.google.android.maps.MapView
+			xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/mapview"
+			android:layout_width="200dip" android:layout_height="200dip"
+			android:clickable="true" android:apiKey="0oXkvY2tUcbGM8-BK6Myjp770et8Obv5A2PjqnQ" />
+
+		<!-- User name -->
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblUsername"
+				android:layout_centerVertical="true" android:id="@+id/lblUsername" />
+
+			<EditText android:layout_height="wrap_content" android:id="@+id/txtUsername"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content" />
+
+		</LinearLayout>
+
+		<!-- Password -->
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblPassword"
+				android:layout_centerVertical="true" android:id="@+id/lblPassword" />
+
+			<EditText android:layout_height="wrap_content" android:id="@+id/txtPassword"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content"
+				android:password="true" />
+
+		</LinearLayout>
+
+		<!-- Confirm -->
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblConfirm"
+				android:layout_centerVertical="true" android:id="@+id/lblConfirm" />
+
+			<EditText android:layout_height="wrap_content" android:id="@+id/txtConfirm"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content" 
+				android:password="true"/>
+
+		</LinearLayout>
+
+		<!-- FirstName -->
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblFirstName"
+				android:layout_centerVertical="true" android:id="@+id/lblFirstName" />
+
+			<EditText android:layout_height="wrap_content" android:id="@+id/txtFirstName"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content" />
+
+		</LinearLayout>
+
+		<!-- LastName -->
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblLastName"
+				android:layout_centerVertical="true" android:id="@+id/lblLastName" />
+
+			<EditText android:layout_height="wrap_content" android:id="@+id/txtLastName"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content" />
+
+		</LinearLayout>
+
+		<!-- Email -->
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblEmail"
+				android:layout_centerVertical="true" android:id="@+id/lblEmail" />
+
+			<EditText android:layout_height="wrap_content" android:id="@+id/txtEmail"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content" 
+				android:inputType="textEmailAddress"/>
+
+		</LinearLayout>
+
+		<!-- Birthday -->
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblBirthday"
+				android:layout_centerVertical="true" android:id="@+id/lblBirthday" />
+				
+			<DatePicker android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:id="@+id/dpBirthday" android:textSize="10dip"/>
+
+		</LinearLayout>
+
+		<!-- Address -->
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblAddress"
+				android:layout_centerVertical="true" android:id="@+id/lblAddress" />
+
+			<EditText android:layout_height="wrap_content" android:id="@+id/txtAddress"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content" 
+				android:hint="@string/tooltipAddressHint" android:textSize="10dip"/>
+
+		</LinearLayout>
+		
+		<LinearLayout android:layout_width="wrap_content" android:layout_gravity="right"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+			
+			<Button android:layout_width="wrap_content" android:layout_height="30dip"
+				android:text="@string/btnTagAddressOnMap"
+				android:textSize="9dip" android:id="@+id/btnTagAddressOnMap"/>
+			
+		</LinearLayout>
+
+		<!-- Phone number -->
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblPhoneNumber"
+				android:layout_centerVertical="true" android:id="@+id/lblPhoneNumber" />
+
+			<EditText android:layout_height="wrap_content" android:id="@+id/txtPhoneNumber"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content" 
+				android:inputType="textPhonetic"/>
+
+		</LinearLayout>
+
+		<!-- Avatar -->
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingRight="10dip">
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblAvatar"
+				android:layout_centerVertical="true" android:id="@+id/lblAvatar" />
+
+			<EditText android:layout_height="wrap_content" android:id="@+id/txtAvatar"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content" />
+
+		</LinearLayout>
+
+		<!-- Register button -->
+		<LinearLayout android:layout_width="wrap_content" android:paddingRight="10dip"
+			android:layout_height="wrap_content" android:layout_gravity="right">
+
+			<Button android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/lblRegister"
+				android:layout_centerVertical="true" android:id="@+id/btnRegister" />
+
+			<Button android:layout_height="wrap_content" android:id="@+id/btnCancel"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content"
+				android:text="@string/lblCancel" />
+
+		</LinearLayout>
+
+	</LinearLayout>
+</ScrollView>
