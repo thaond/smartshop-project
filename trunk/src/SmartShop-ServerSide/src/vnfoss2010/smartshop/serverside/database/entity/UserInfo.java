@@ -92,6 +92,15 @@ public class UserInfo implements Serializable{
 	 */
 	public UserInfo(String username, String password, String firstName,
 			String lastName, String phone, String email, Date birthday,
+			String address, double lat, double lng) {
+		this(username, password, firstName, lastName, phone, email, birthday, address, lat, lng, 0, 0, 7, "vi", "VietNam", 0);
+	}
+	
+	/**
+	 * Contructor's used to register
+	 */
+	public UserInfo(String username, String password, String firstName,
+			String lastName, String phone, String email, Date birthday,
 			String address, double lat, double lng, double gmt, String lang, String country) {
 		this(username, password, firstName, lastName, phone, email, birthday, address, lat, lng, 0, 0, gmt, lang, country, 0);
 	}

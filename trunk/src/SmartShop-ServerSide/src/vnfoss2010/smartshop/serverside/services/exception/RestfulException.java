@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package vnfoss2010.smartshop.serverside.services;
+package vnfoss2010.smartshop.serverside.services.exception;
 
 import com.google.appengine.repackaged.org.json.JSONException;
 import com.google.appengine.repackaged.org.json.JSONObject;

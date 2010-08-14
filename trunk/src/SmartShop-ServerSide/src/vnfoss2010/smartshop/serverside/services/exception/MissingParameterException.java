@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package vnfoss2010.smartshop.serverside.services;
+package vnfoss2010.smartshop.serverside.services.exception;
 
 import com.google.appengine.repackaged.org.json.JSONException;
 import com.google.appengine.repackaged.org.json.JSONObject;
@@ -22,16 +22,20 @@ import com.google.appengine.repackaged.org.json.JSONObject;
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
  *
  */
-public class UndefinedServiceException extends RestfulException {
-    private static final long serialVersionUID = -1443998301039765949L;
+public class MissingParameterException extends RestfulException {
+    private static final long serialVersionUID = 1122744948405987845L;
     private String mServiceName;
+    private String mParamName;
 
-    public UndefinedServiceException(String serviceName) {
+    public MissingParameterException(String serviceName, String paramName) {
         this.mServiceName = serviceName;
+        this.mParamName = paramName;
     }
 
     @Override
     public JSONObject toJSONObject() throws JSONException {
-        return super.toJSONObject().put("service", mServiceName);
+        return super.toJSONObject().put("service", mServiceName).put(
+                "parameter",
+                mParamName);
     }
 }

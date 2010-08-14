@@ -48,11 +48,15 @@ public class Product {
 	private Set<Long> setPagesId;
 	
 	@Persistent
-	private Set<Long> setCategoryId;
+	private Set<String> setCategoryKeys;
+	
+	@Persistent
+	private Set<Attribute> setAttributes;
 
 	public Product() {
 		setSetPagesId(new HashSet<Long>());
-		setSetCategoryId(new HashSet<Long>());
+		setCategoryKeys = new HashSet<String>();
+		setAttributes = new HashSet<Attribute>();
 	}
 
 	public Product(String name, double price, boolean isVat, int quantity,
@@ -283,16 +287,30 @@ public class Product {
 	}
 
 	/**
-	 * @param setCategoryId the setCategoryId to set
+	 * @param setAttributes the setAttributes to set
 	 */
-	public void setSetCategoryId(Set<Long> setCategoryId) {
-		this.setCategoryId = setCategoryId;
+	public void setSetAttributes(Set<Attribute> setAttributes) {
+		this.setAttributes = setAttributes;
 	}
 
 	/**
-	 * @return the setCategoryId
+	 * @return the setAttributes
 	 */
-	public Set<Long> getSetCategoryId() {
-		return setCategoryId;
+	public Set<Attribute> getSetAttributes() {
+		return setAttributes;
+	}
+
+	/**
+	 * @param setCategoryKeys the setCategoryKeys to set
+	 */
+	public void setSetCategoryKeys(Set<String> setCategoryKeys) {
+		this.setCategoryKeys = setCategoryKeys;
+	}
+
+	/**
+	 * @return the setCategoryKeys
+	 */
+	public Set<String> getSetCategoryKeys() {
+		return setCategoryKeys;
 	}
 }

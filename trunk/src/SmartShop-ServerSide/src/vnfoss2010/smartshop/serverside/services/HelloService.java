@@ -15,27 +15,36 @@
  */
 package vnfoss2010.smartshop.serverside.services;
 
-import com.google.appengine.repackaged.org.json.JSONException;
+import java.util.Map;
+
+import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+
 import com.google.appengine.repackaged.org.json.JSONObject;
 
 /**
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
- *
  */
-public class MissingParameterException extends RestfulException {
-    private static final long serialVersionUID = 1122744948405987845L;
-    private String mServiceName;
-    private String mParamName;
+public class HelloService extends BaseRestfulService {
 
-    public MissingParameterException(String serviceName, String paramName) {
-        this.mServiceName = serviceName;
-        this.mParamName = paramName;
+    public HelloService(String name) {
+        super(name);
+        // mRequiredParameters = new String[] {"name"};
     }
 
     @Override
-    public JSONObject toJSONObject() throws JSONException {
-        return super.toJSONObject().put("service", mServiceName).put(
-                "parameter",
-                mParamName);
+    public String process(Map<String, String[]> params, String content)
+            throws RestfulException, Exception {
+        JSONObject json = null;
+        try {
+            json = new JSONObject(content);
+        } catch (Exception ex) {
+        }
+        String name = getParameter("name", params, json);
+        if (name == null)
+            throw missingParameter("name");
+        
+        return new JSONObject()
+                .put("message", "Hello " + name + "!")
+                .toString();
     }
 }

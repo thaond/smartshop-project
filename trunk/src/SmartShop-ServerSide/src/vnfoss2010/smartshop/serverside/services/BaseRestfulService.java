@@ -17,6 +17,8 @@ package vnfoss2010.smartshop.serverside.services;
 
 import java.util.Map;
 
+import vnfoss2010.smartshop.serverside.services.exception.MissingParameterException;
+
 import com.google.appengine.repackaged.org.json.JSONObject;
 
 /**

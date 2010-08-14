@@ -13,28 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package vnfoss2010.smartshop.serverside.services;
+package vnfoss2010.smartshop.serverside.services.exception;
 
-import java.util.Map;
-
-import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+import com.google.appengine.repackaged.org.json.JSONException;
+import com.google.appengine.repackaged.org.json.JSONObject;
 
 /**
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
+ *
  */
-public interface RestfulService {
+public class UndefinedServiceException extends RestfulException {
+    private static final long serialVersionUID = -1443998301039765949L;
+    private String mServiceName;
 
-    /**
-     * Process a service request.
-     *
-     * @param params
-     *            parameters passed in query string of the URL.
-     * @param content
-     *            body content of the request.
-     * @return the response in textual content.
-     *
-     * @throws RestfulException
-     */
-    public String process(Map<String, String[]> params, String content)
-            throws Exception, RestfulException;
+    public UndefinedServiceException(String serviceName) {
+        this.mServiceName = serviceName;
+    }
+
+    @Override
+    public JSONObject toJSONObject() throws JSONException {
+        return super.toJSONObject().put("service", mServiceName);
+    }
 }
