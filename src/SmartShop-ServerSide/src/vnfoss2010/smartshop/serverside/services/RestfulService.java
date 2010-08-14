@@ -33,6 +33,6 @@ public interface RestfulService {
      *
      * @throws RestfulException
      */
-    public String process(Map<String, String> params, String content)
+    public String process(Map<String, String[]> params, String content)
             throws Exception, RestfulException;
 }

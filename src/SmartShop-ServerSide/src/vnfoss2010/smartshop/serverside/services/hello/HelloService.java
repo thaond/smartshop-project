@@ -28,10 +28,11 @@ public class HelloService extends BaseRestfulService {
 
     public HelloService(String name) {
         super(name);
+        // mRequiredParameters = new String[] {"name"};
     }
 
     @Override
-    public String process(Map<String, String> params, String content)
+    public String process(Map<String, String[]> params, String content)
             throws RestfulException, Exception {
         JSONObject json = null;
         try {
@@ -39,6 +40,8 @@ public class HelloService extends BaseRestfulService {
         } catch (Exception ex) {
         }
         String name = getParameter("name", params, json);
+        if (name == null)
+            throw missingParameter("name");
         return new JSONObject()
                 .put("message", "Hello " + name + "!")
                 .toString();
