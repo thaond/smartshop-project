@@ -37,14 +37,11 @@ public class Page {
 	private String username;
 	
 	@Persistent
-	private int category_id;
-	
-	@Persistent
-	private Set<String> setPages;
+	private Set<String> setCategoryKeys;
 
 	public Page(String name, String content, String linkThumbnail,
 			int pageView, Date datePost, Date lastModified, String username,
-			int categoryId) {
+			String categoryId) {
 		this();
 		this.name = name;
 		this.content = content;
@@ -53,11 +50,10 @@ public class Page {
 		date_post = datePost;
 		last_modified = lastModified;
 		this.username = username;
-		category_id = categoryId;
 	}
 
 	public Page() {
-		setSetPages(new HashSet<String>());
+		setCategoryKeys = new HashSet<String>();
 	}
 
 	/**
@@ -172,20 +168,6 @@ public class Page {
 		this.username = username;
 	}
 
-	/**
-	 * @return the category_id
-	 */
-	public int getCategory_id() {
-		return category_id;
-	}
-
-	/**
-	 * @param categoryId the category_id to set
-	 */
-	public void setCategory_id(int categoryId) {
-		category_id = categoryId;
-	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -217,28 +199,29 @@ public class Page {
 		return true;
 	}
 
+	/**
+	 * @param setCategoryKeys the setCategoryKeys to set
+	 */
+	public void setSetCategoryKeys(Set<String> setCategoryKeys) {
+		this.setCategoryKeys = setCategoryKeys;
+	}
+
+	/**
+	 * @return the setCategoryKeys
+	 */
+	public Set<String> getSetCategoryKeys() {
+		return setCategoryKeys;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Page [id=" + id + ", category_id=" + category_id + ", content="
-				+ content + ", date_post=" + date_post + ", last_modified="
-				+ last_modified + ", name=" + name + ", page_view=" + page_view
-				+ ", username=" + username + "]";
+		return "Page [id=" + id + ", date_post=" + date_post + ", content="
+				+ content + ", name=" + name + ", page_view=" + page_view
+				+ ", setCategoryKeys=" + setCategoryKeys + ", username="
+				+ username + "]";
 	}
 
-	/**
-	 * @param setPages the setPages to set
-	 */
-	public void setSetPages(Set<String> setPages) {
-		this.setPages = setPages;
-	}
-
-	/**
-	 * @return the setPages
-	 */
-	public Set<String> getSetPages() {
-		return setPages;
-	}
 }

@@ -12,7 +12,7 @@ public class Attribute {
 	private Long id;
 	
 	@Persistent
-	private int category_id;
+	private String key_cat;
 	
 	@Persistent
 	private String username;
@@ -20,26 +20,12 @@ public class Attribute {
 	public Attribute() {
 	}
 
-	public Attribute(int categoryId, String username) {
+	public Attribute(String categoryId, String username) {
 		super();
-		category_id = categoryId;
+		setKey_cat(categoryId);
 		this.username = username;
 	}
 
-
-	/**
-	 * @param category_id the category_id to set
-	 */
-	public void setCategory_id(int category_id) {
-		this.category_id = category_id;
-	}
-
-	/**
-	 * @return the category_id
-	 */
-	public int getCategory_id() {
-		return category_id;
-	}
 
 	/**
 	 * @return the id
@@ -98,8 +84,22 @@ public class Attribute {
 	 */
 	@Override
 	public String toString() {
-		return "Attribute [id=" + id + ", category_id=" + category_id
+		return "Attribute [id=" + id + ", category_id=" + getKey_cat()
 				+ ", username=" + username + "]";
+	}
+
+	/**
+	 * @param key_cat the key_cat to set
+	 */
+	public void setKey_cat(String key_cat) {
+		this.key_cat = key_cat;
+	}
+
+	/**
+	 * @return the key_cat
+	 */
+	public String getKey_cat() {
+		return key_cat;
 	}
 	
 	

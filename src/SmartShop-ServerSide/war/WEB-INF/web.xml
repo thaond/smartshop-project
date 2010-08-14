@@ -1,48 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<web-app
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://java.sun.com/xml/ns/javaee"
-  xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-  version="2.5">
-  <servlet>
-    <servlet-name>SmartShop_ServerSide</servlet-name>
-    <servlet-class>vnfoss2010.smartshop.serverside.SmartShop_ServerSideServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SmartShop_ServerSide</servlet-name>
-    <url-pattern>/smartshop_serverside</url-pattern>
-  </servlet-mapping>
+	version="2.5">
+	<servlet>
+		<servlet-name>SmartShop_ServerSide</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.SmartShop_ServerSideServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SmartShop_ServerSide</servlet-name>
+		<url-pattern>/smartshop_serverside</url-pattern>
+	</servlet-mapping>
 
-  <!-- Root servlet for receiving all requests from client -->
-  <servlet>
-    <servlet-name>ResultServlet</servlet-name>
-    <servlet-class>vnfoss2010.smartshop.serverside.RestfulServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ResultServlet</servlet-name>
-    <url-pattern>/taolao/</url-pattern>
-  </servlet-mapping>
+	<servlet>
+		<servlet-name>AccountServlet</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.servlet.AccountServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AccountServlet</servlet-name>
+		<url-pattern>/account</url-pattern>
+	</servlet-mapping>
 
-  <!--
+	<!-- Root servlet for receiving all requests from client -->
+	<servlet>
+		<servlet-name>ResultServlet</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.RestfulServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResultServlet</servlet-name>
+		<url-pattern>/taolao/</url-pattern>
+	</servlet-mapping>
 
-    Configuration file for UrlRewriteFilter
-    http://tuckey.org/urlrewrite/
-  -->
-  <filter>
-    <filter-name>UrlRewriteFilter</filter-name>
-    <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
-    <init-param>
-      <param-name>logLevel</param-name>
-      <param-value>WARN</param-value>
-    </init-param>
-  </filter>
-  <filter-mapping>
-    <filter-name>UrlRewriteFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
+	<!--
+		Configuration file for UrlRewriteFilter http://tuckey.org/urlrewrite/
+	-->
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>WARN</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
 </web-app>

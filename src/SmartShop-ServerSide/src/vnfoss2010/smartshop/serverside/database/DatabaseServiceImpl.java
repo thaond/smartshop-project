@@ -22,6 +22,12 @@ import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 
 import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.database.entity.Attribute;
+import vnfoss2010.smartshop.serverside.database.entity.Category;
+import vnfoss2010.smartshop.serverside.database.entity.Comment;
+import vnfoss2010.smartshop.serverside.database.entity.Media;
+import vnfoss2010.smartshop.serverside.database.entity.Page;
+import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 
 import com.google.appengine.api.datastore.DatastoreNeedIndexException;
@@ -31,17 +37,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 /**
  * The server side implementation of the RPC service.<br>
- * 
- * Useful link:
- * <ul>
- * <li><a href="http://developerlife.com/tutorials/?p=230">Using Servlet
- * Sessions in GWT</a>
- * <li><a href=
- * "http://code.google.com/p/google-web-toolkit-incubator/wiki/LoginSecurityFAQ"
- * >Login Security</a>
- * </ul>
- * 
- * @author tamvo
  */
 public class DatabaseServiceImpl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -120,9 +115,8 @@ public class DatabaseServiceImpl extends HttpServlet {
 	}
 
 	public ServiceResult<Void> editProfile(UserInfo userInfo) {
-		preventSQLInjUserInfo(userInfo);
 		// Prevent SQL Injection
-		userInfo = preventSQLInjUserInfo(userInfo);
+		preventSQLInjUserInfo(userInfo);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
@@ -650,6 +644,211 @@ public class DatabaseServiceImpl extends HttpServlet {
 
 	}
 
+	// PRODUCT
+	/**
+	 * Insert new product into database
+	 * 
+	 * @return id in the datastore
+	 */
+	public ServiceResult<Long> insertProduct(Product product) {
+		preventSQLInjProduct(product);
+		ServiceResult<Long> result = new ServiceResult<Long>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (product == null) {
+			result.setMessage(messages.getString("cannot_handle_with_null"));
+		}
+
+		try {
+			product = pm.makePersistent(product);
+			if (product == null) {
+				result.setMessage(messages.getString("insert_product_fail"));
+			} else {
+				result.setResult(product.getId());
+				result.setMessage(messages
+						.getString("insert_product_successfully"));
+				result.setOK(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage(messages.getString("insert_list_userinfos_fail"));
+		}
+
+		return result;
+	}
+
+	public ServiceResult<Long> insertProduct(Product product,
+			List<String> listCategories, List<Attribute> listAttributes) {
+		preventSQLInjProduct(product);
+		ServiceResult<Long> result = new ServiceResult<Long>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (product == null) {
+			result.setMessage(messages.getString("cannot_handle_with_null"));
+		}
+
+		try {
+			if (listCategories != null){
+				//
+				for (String cat : listCategories) {
+					Category tmp = null;
+					boolean isNotFound = false;
+					try {
+						tmp = (Category) pm.getObjectById(cat);
+					} catch (NucleusObjectNotFoundException e) {
+						isNotFound = true;
+					} catch (JDOObjectNotFoundException e) {
+						isNotFound = true;
+					}
+
+					if (isNotFound || tmp == null)
+						continue;
+					product.getSetCategoryKeys().add(cat);
+				}
+			}
+			
+			if (listAttributes != null){
+				for (Attribute att : listAttributes){
+					product.getSetAttributes().add(att);
+				}
+			}
+			
+			product = pm.makePersistent(product);
+			if (product == null) {
+				result.setMessage(messages.getString("insert_product_fail"));
+			} else {
+				result.setResult(product.getId());
+				result.setMessage(messages
+						.getString("insert_product_successfully"));
+				result.setOK(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage(messages.getString("insert_list_userinfos_fail"));
+		}
+
+		return result;
+	}
+	
+	//PAGES
+	public ServiceResult<Long> insertPage(Page page,
+			List<String> listCategories) {
+		preventSQLInjPage(page);
+		ServiceResult<Long> result = new ServiceResult<Long>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (page == null) {
+			result.setMessage(messages.getString("cannot_handle_with_null"));
+		}
+
+		try {
+			if (listCategories != null){
+				//
+				for (String cat : listCategories) {
+					Category tmp = null;
+					boolean isNotFound = false;
+					try {
+						tmp = (Category) pm.getObjectById(cat);
+					} catch (NucleusObjectNotFoundException e) {
+						isNotFound = true;
+					} catch (JDOObjectNotFoundException e) {
+						isNotFound = true;
+					}
+
+					if (isNotFound || tmp == null)
+						continue;
+					page.getSetCategoryKeys().add(cat);
+				}
+			}
+			
+			page = pm.makePersistent(page);
+			if (page == null) {
+				result.setMessage(messages.getString("insert_page_fail"));
+			} else {
+				result.setResult(page.getId());
+				result.setMessage(messages
+						.getString("insert_page_successfully"));
+				result.setOK(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage(messages.getString("insert_page_fail"));
+		}
+
+		return result;
+	}
+	
+	//COMMENTS
+	/**
+	 * Insert new Comment into database
+	 * 
+	 * @return id in the datastore
+	 */
+	public ServiceResult<Long> insertComments(Comment comment) {
+		preventSQLInjComment(comment);
+		ServiceResult<Long> result = new ServiceResult<Long>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (comment == null) {
+			result.setMessage(messages.getString("cannot_handle_with_null"));
+		}
+
+		try {
+			comment = pm.makePersistent(comment);
+			if (comment == null) {
+				result.setMessage(messages.getString("insert_comment_fail"));
+			} else {
+				result.setResult(comment.getId());
+				result.setMessage(messages
+						.getString("insert_comment_successfully"));
+				result.setOK(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage(messages.getString("insert_comment_fail"));
+		}
+
+		return result;
+	}
+	
+	//MEDIA
+	/**
+	 * Insert new media into database
+	 * 
+	 * @return id in the datastore
+	 */
+	public ServiceResult<Long> insertMedia(Media media) {
+		preventSQLInjMedia(media);
+		ServiceResult<Long> result = new ServiceResult<Long>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (media == null) {
+			result.setMessage(messages.getString("cannot_handle_with_null"));
+		}
+
+		try {
+			media = pm.makePersistent(media);
+			if (media == null) {
+				result.setMessage(messages.getString("insert_media_fail"));
+			} else {
+				result.setResult(media.getId());
+				result.setMessage(messages
+						.getString("insert_media_successfully"));
+				result.setOK(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage(messages.getString("insert_media_fail"));
+		}
+
+		return result;
+	}
+
+	private void preventSQLInjMedia(Media media) {
+		media.setName(preventSQLInjection(media.getName()));
+		media.setDescription(preventSQLInjection(media.getDescription()));
+	}
+
 	// STUFF
 	private static Policy policy = null;
 
@@ -661,7 +860,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		return userService.createLogoutURL(Global.HOST_NAME);
 	}
 
-	private UserInfo preventSQLInjUserInfo(UserInfo userInfo) {
+	private void preventSQLInjUserInfo(UserInfo userInfo) {
 		userInfo.setUsername(preventSQLInjection(userInfo.getUsername()));
 		userInfo.setPassword(preventSQLInjection(userInfo.getPassword()));
 		userInfo.setFirst_name(preventSQLInjection(userInfo.getFirst_name()));
@@ -671,7 +870,20 @@ public class DatabaseServiceImpl extends HttpServlet {
 		userInfo.setAddress(preventSQLInjection(userInfo.getAddress()));
 		userInfo.setLang(preventSQLInjection(userInfo.getLang()));
 		userInfo.setCountry(preventSQLInjection(userInfo.getCountry()));
-		return userInfo;
+	}
+
+	private void preventSQLInjProduct(Product product) {
+		product.setName(preventSQLInjection(product.getName()));
+		product.setAddress(preventSQLInjection(product.getAddress()));
+	}
+	
+	private void preventSQLInjPage(Page page) {
+		page.setName(preventSQLInjection(page.getName()));
+		page.setContent(preventSQLInjection(page.getContent()));
+	}
+	
+	private void preventSQLInjComment(Comment comment) {
+		comment.setContent(preventSQLInjection(comment.getContent()));
 	}
 
 	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;

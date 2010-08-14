@@ -28,73 +28,76 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
-import vnfoss2010.smartshop.serverside.services.RestfulException;
-import vnfoss2010.smartshop.serverside.services.RestfulService;
-import vnfoss2010.smartshop.serverside.services.UndefinedServiceException;
-import vnfoss2010.smartshop.serverside.services.hello.HelloService;
+import vnfoss2010.smartshop.serverside.services.HelloService;
+import vnfoss2010.smartshop.serverside.services.account.EditProfileService;
+import vnfoss2010.smartshop.serverside.services.account.LoginService;
+import vnfoss2010.smartshop.serverside.services.account.RegisterService;
+import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
 
 /**
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
  */
 @SuppressWarnings("serial")
 public class RestfulServlet extends HttpServlet {
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-        process(req, resp, null);
-    }
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		process(req, resp, null);
+	}
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        InputStream is = req.getInputStream();
-        DataInputStream dis = new DataInputStream(is);
-        String content = "";
-        while (dis.available() > 0) {
-            content += dis.readLine() + "\n";
-        }
-        process(req, resp, content);
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		InputStream is = req.getInputStream();
+		DataInputStream dis = new DataInputStream(is);
+		String content = "";
+		while (dis.available() > 0) {
+			content += dis.readLine() + "\n";
+		}
+		process(req, resp, content);
 
-        try {
-            dis.close();
-        } catch (Exception ex) {
-        }
-    }
+		try {
+			dis.close();
+		} catch (Exception ex) {
+		}
+	}
 
-    public void process(HttpServletRequest req, HttpServletResponse resp,
-            String content) throws IOException {
-        resp.setContentType("text/plain");
-        resp.setCharacterEncoding("UTF-8");
-        PrintWriter writer = resp.getWriter();
-        try {
-            String apiKey = req.getParameter("api");
-            // TODO is this apiKey valid?
+	public void process(HttpServletRequest req, HttpServletResponse resp,
+			String content) throws IOException {
+		resp.setContentType("text/plain");
+		resp.setCharacterEncoding("UTF-8");
+		PrintWriter writer = resp.getWriter();
+		try {
+			String apiKey = req.getParameter("api");
+			// TODO is this apiKey valid?
 
-            String serviceName = req.getParameter("service");
+			String serviceName = req.getParameter("service");
 
-            Class<BaseRestfulService> service = mServices.get(serviceName);
-            if (service == null) {
-                throw new UndefinedServiceException(serviceName);
-            }
+			Class<BaseRestfulService> service = mServices.get(serviceName);
+			if (service == null) {
+				throw new UndefinedServiceException(serviceName);
+			}
 
-            String r = service
-                    .getConstructor(String.class)
-                    .newInstance(serviceName)
-                    .process(req.getParameterMap(), content);
+			String r = service.getConstructor(String.class).newInstance(
+					serviceName).process(req.getParameterMap(), content);
 
-            // reponse
-            writer.print(r);
-        } catch (RestfulException ex) {
-            writer.print(ex.toString());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            writer.print("{\"error\":\"InternalServerException\"}");
-        }
-    }
+			// response
+			writer.print(r);
+		} catch (RestfulException ex) {
+			writer.print(ex.toString());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			writer.print("{\"error\":\"InternalServerException\"}");
+		}
+	}
 
-    public static Hashtable<String, Class> mServices = new Hashtable<String, Class>();
+	public static Hashtable<String, Class> mServices = new Hashtable<String, Class>();
 
-    static {
-        // TODO: put RestfulService into mServices here using #putServiceMethods
-        mServices.put("hello", HelloService.class);
-    }
+	static {
+		// TODO: put RestfulService into mServices here using #putServiceMethods
+		mServices.put("hello", HelloService.class);
+		mServices.put("account-register", RegisterService.class);
+		mServices.put("account-editprofile", EditProfileService.class);
+		mServices.put("account-login", LoginService.class);
+	}
 }
