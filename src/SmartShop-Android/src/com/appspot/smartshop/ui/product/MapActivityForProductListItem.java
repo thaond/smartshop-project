@@ -1,4 +1,8 @@
-package com.appspot.smartshop;
+package com.appspot.smartshop.ui.product;
+
+import com.appspot.smartshop.R;
+import com.appspot.smartshop.R.id;
+import com.appspot.smartshop.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;
