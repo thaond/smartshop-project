@@ -4,6 +4,23 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
+	
+	<!--
+		Configuration file for UrlRewriteFilter http://tuckey.org/urlrewrite/
+	-->
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>WARN</param-value> 
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<servlet>
 		<servlet-name>SmartShop_ServerSide</servlet-name>
 		<servlet-class>vnfoss2010.smartshop.serverside.SmartShop_ServerSideServlet</servlet-class>
@@ -29,24 +46,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ResultServlet</servlet-name>
-		<url-pattern>/taolao/</url-pattern>
+		<url-pattern>/s</url-pattern>
 	</servlet-mapping>
 
-	<!--
-		Configuration file for UrlRewriteFilter http://tuckey.org/urlrewrite/
-	-->
-	<filter>
-		<filter-name>UrlRewriteFilter</filter-name>
-		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
-		<init-param>
-			<param-name>logLevel</param-name>
-			<param-value>WARN</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>UrlRewriteFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
