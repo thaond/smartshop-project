@@ -67,6 +67,7 @@ public class RestfulServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		resp.setCharacterEncoding("UTF-8");
 		PrintWriter writer = resp.getWriter();
+		
 		try {
 			String apiKey = req.getParameter("api");
 			// TODO is this apiKey valid?
@@ -92,7 +93,6 @@ public class RestfulServlet extends HttpServlet {
 	}
 
 	public static Hashtable<String, Class> mServices = new Hashtable<String, Class>();
-
 	static {
 		// TODO: put RestfulService into mServices here using #putServiceMethods
 		mServices.put("hello", HelloService.class);
