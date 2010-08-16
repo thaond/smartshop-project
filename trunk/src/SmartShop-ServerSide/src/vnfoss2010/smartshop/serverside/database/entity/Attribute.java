@@ -5,27 +5,30 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable 
+@PersistenceCapable
 public class Attribute {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
-	
+
 	@Persistent
 	private String key_cat;
-	
+
+	@Persistent
+	private String name;
+
 	@Persistent
 	private String username;
-	
+
 	public Attribute() {
 	}
 
-	public Attribute(String categoryId, String username) {
+	public Attribute(String categoryId, String name, String username) {
 		super();
 		setKey_cat(categoryId);
+		setName(name);
 		this.username = username;
 	}
-
 
 	/**
 	 * @return the id
@@ -42,13 +45,16 @@ public class Attribute {
 	}
 
 	/**
-	 * @param username the username to set
+	 * @param username
+	 *            the username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -59,7 +65,9 @@ public class Attribute {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -79,7 +87,9 @@ public class Attribute {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -89,7 +99,8 @@ public class Attribute {
 	}
 
 	/**
-	 * @param key_cat the key_cat to set
+	 * @param key_cat
+	 *            the key_cat to set
 	 */
 	public void setKey_cat(String key_cat) {
 		this.key_cat = key_cat;
@@ -101,6 +112,20 @@ public class Attribute {
 	public String getKey_cat() {
 		return key_cat;
 	}
-	
-	
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
 }
