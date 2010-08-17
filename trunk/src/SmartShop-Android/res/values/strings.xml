@@ -18,6 +18,8 @@
     <string name="btnChooseBirthday">Chọn ngày sinh</string>
     <string name="lblAddress">Địa chỉ:</string>
     <string name="btnTagAddressOnMap">Đánh dấu trên bản đồ</string>
+    <string name="titleChoooseUserLoction">Chọn địa chỉ của bạn</string>
+    <string name="hintChangeUserLocation">Click vào bản đồ để thay đổi địa chỉ của bạn</string>
     <string name="tooltipAddressHint">(vd: 268 Lý Thường Kiệt quận 10 HCM)</string>
     <string name="lblPhoneNumber">Số điện thoại:</string>
     <string name="lblAvatar">Hình đại diện:</string>

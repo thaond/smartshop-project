@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/layout_root"
-              android:orientation="horizontal"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:padding="10dp"
-              >
-              
-    <com.google.android.maps.MapView
-			xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/mapview"
-			android:layout_width="300dip" android:layout_height="300dip"
-			android:clickable="true" android:apiKey="0oXkvY2tUcbGM8-BK6Myjp770et8Obv5A2PjqnQ" />
+	android:id="@+id/layout_root" android:orientation="horizontal"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:padding="10dp">
+
+	<com.google.android.maps.MapView
+		xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/mapview"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:clickable="true" android:apiKey="0oXkvY2tUcbGM8-BK6Myjp770et8Obv5A2PjqnQ" />
 </LinearLayout>
 
