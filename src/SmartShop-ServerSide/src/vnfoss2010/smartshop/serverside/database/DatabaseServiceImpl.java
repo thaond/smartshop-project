@@ -666,8 +666,8 @@ public class DatabaseServiceImpl extends HttpServlet {
 				result.setMessage(messages.getString("insert_product_fail"));
 			} else {
 				result.setResult(product.getId());
-				result.setMessage(messages
-						.getString("insert_product_successfully"));
+//				result.setMessage(messages
+//						.getString("insert_product_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
@@ -873,17 +873,17 @@ public class DatabaseServiceImpl extends HttpServlet {
 		userInfo.setCountry(preventSQLInjection(userInfo.getCountry()));
 	}
 
-	private void preventSQLInjProduct(Product product) {
+	public static void preventSQLInjProduct(Product product) {
 		product.setName(preventSQLInjection(product.getName()));
 		product.setAddress(preventSQLInjection(product.getAddress()));
 	}
 	
-	private void preventSQLInjPage(Page page) {
+	public static void preventSQLInjPage(Page page) {
 		page.setName(preventSQLInjection(page.getName()));
 		page.setContent(preventSQLInjection(page.getContent()));
 	}
 	
-	private void preventSQLInjComment(Comment comment) {
+	public static void preventSQLInjComment(Comment comment) {
 		comment.setContent(preventSQLInjection(comment.getContent()));
 	}
 

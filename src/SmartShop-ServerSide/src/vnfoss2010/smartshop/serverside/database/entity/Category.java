@@ -12,14 +12,13 @@ import javax.jdo.annotations.PrimaryKey;
 public class Category {
 
 	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private String key_cat;
 	
 	@Persistent
 	private String name;
 	
 	@Persistent
-	private int parent_id;
+	private String parent_id;
 	
 	@Persistent
 	private Set<Long> setPages;
@@ -28,8 +27,9 @@ public class Category {
 		setPages = new HashSet<Long>();
 	}
 
-	public Category(String name, int parentId) {
+	public Category(String key_cat,String name, String parentId) {
 		this();
+		this.key_cat = key_cat;
 		this.name = name;
 		parent_id = parentId;
 	}
@@ -51,14 +51,14 @@ public class Category {
 	/**
 	 * @return the parent_id
 	 */
-	public int getParent_id() {
+	public String getParent_id() {
 		return parent_id;
 	}
 
 	/**
 	 * @param parentId the parent_id to set
 	 */
-	public void setParent_id(int parentId) {
+	public void setParent_id(String parentId) {
 		parent_id = parentId;
 	}
 

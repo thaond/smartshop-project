@@ -21,7 +21,7 @@ public class InsertUserInfosService extends BaseRestfulService {
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		ServiceResult<Void> result = db.insertAllUserInfos(SampleData
-				.getSampleListCUserInfos());
+				.getSampleListUserInfos());
 
 		return new JSONObject().put("ok", result.isOK()).put("message",
 				result.getMessage()).toString();
