@@ -8,19 +8,19 @@
 </head>
 <body>
 
-<form name="register_form" action="/api/abc/account-register" method="POST">
+<form name="register_form" action="/api/abc/account-register/" method="GET">
 	<div align="center"><br>
 	<br>
-	Username1: <input type="text" size="25" id="username"> <br>
-	Password: <input type="text" size="25" id="password"> <br>
-	First Name: <input type="text" size="25" id="first_name"> <br>
-	Last Name: <input type="text" size="25" id="last_name"> <br>
-	Phone: <input type="text" size="25" id="phone"> <br>
-	Email: <input type="text" size="25" id="email"> <br>
-	Address: <input type="text" size="25" id="address"> <br>
-	Birthday: <input type="text" size="25" id="birthday"> <br>
-	Lat: <input type="text" size="25" id="lat"> <br>
-	Lng: <input type="text" size="25" id="lng"> <br>
+	Username1: <input type="text" size="25" name="username"> <br>
+	Password: <input type="text" size="25" name="password"> <br>
+	First Name: <input type="text" size="25" name="first_name"> <br>
+	Last Name: <input type="text" size="25" name="last_name"> <br>
+	Phone: <input type="text" size="25" name="phone"> <br>
+	Email: <input type="text" size="25" name="email"> <br>
+	Address: <input type="text" size="25" name="address"> <br>
+	Birthday: <input type="text" size="25" name="birthday"> <br>
+	Lat: <input type="text" size="25" name="lat"> <br>
+	Lng: <input type="text" size="25" name="lng"> <br>
 	
 	<input type="submit" value="Submit" />
 	<br>

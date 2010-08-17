@@ -95,6 +95,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 			}
 
 			if (isNotFound || tmp == null) {
+				userInfo.setPassword(md5(userInfo.getPassword()));
 				pm.makePersistent(userInfo);
 				result.setOK(true);
 			} else {
