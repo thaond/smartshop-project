@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	android:orientation="vertical">
+	<LinearLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:orientation="horizontal">
+		<Button android:id="@+id/btnProductImage" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="Image" />
+		<TextView android:id="@+id/nameOfProduct"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		<EditText android:id="@+id/txtNameOfProduct"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:hint="name of product" />
+		<Button android:id="@+id/btnPreview" android:text="Preview"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+	</LinearLayout>
+
+<ListView android:layout_width="fill_parent" android:layout_height="wrap_content"
+android:id="@+id/listOfAttributeOfProduct"
+></ListView>
+
+
+
+</LinearLayout>

@@ -24,23 +24,22 @@ public class SearchProductActivity extends Activity {
 		setContentView(R.layout.search_product_form);
 		Button btnSearchProduct = (Button) findViewById(R.id.btnSearch);
 		btnSearchProduct.setOnClickListener(new OnClickListener() {
-
+			int i = 0;
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+//				productAdapter.add(new ProductInfo("name" + i, "price" + i,
+//						"description" + i));
+//				i++;
+//				listViewProduct.setAdapter(productAdapter);
 			}
 		});
+		//listViewProduct lay adapter, adapter lay tu product_list_item
 		listViewProduct = (ListView) findViewById(R.id.listProduct);
 		productAdapter = new ProductAdapter(this, R.layout.product_list_item,
 				new LinkedList<ProductInfo>()) {
 
 		};
-		listViewProduct.setAdapter(productAdapter);
-		//Code de test ma thoi
-		for (int i = 1; i <= 12; i++) {
-			productAdapter.add(new ProductInfo("name" + i, "price" + i,
-					"description" + i));
-		}
 		Button btnAdvancedSearchProduct = (Button)findViewById(R.id.btnAdvancedSearch);
 
 		//TODO: Xu Ly su kien cho button AdvancedSearch 	

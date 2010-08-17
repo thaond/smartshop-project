@@ -2,7 +2,7 @@
 <resources>
     <string name="hello">Hello World, HomeActivity!</string>
     <string name="app_name">smartshop</string>
-    <!-- Search Form -->
+    <!-- Search Form vanloi999 -->
     <string name = "search">Search</string>
     <string name="advancedSearch">Advanced Search</string>
     <string name = "map">Map</string>
@@ -28,4 +28,17 @@
     
     <!-- User login -->
     <string name="lblLogin">Đăng nhập</string>
+    <!-- Post Product Form vanloi999@gmail.com -->
+    <string name="price">Price</string>
+    <string name ="description">Description</string>
+    <string name ="isVAT">Is VAT</string>
+    <string name="quantity">Quantity</string>
+    <string name ="warranty">Warranty</string>
+    <string name = "datePost">Date Post</string>
+    <string name="origin">Origin</string>
+    <string name = "address">Address</string>
+    <string name = "lattitude">Latitude</string>
+    <string name = "longtitude">Longitude</string>
+    <string name = "userDefineAttribute">name of new attribute</string>
+    
 </resources>
