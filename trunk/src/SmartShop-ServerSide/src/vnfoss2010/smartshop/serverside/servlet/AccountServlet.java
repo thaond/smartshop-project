@@ -2,11 +2,15 @@ package vnfoss2010.smartshop.serverside.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
+import vnfoss2010.smartshop.serverside.test.SampleData;
 
 public class AccountServlet extends HttpServlet {
 
@@ -23,8 +27,8 @@ public class AccountServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		super.doPost(req, resp);
-		
-		process(req, resp);
+		doRegister(req, resp);
+//		process(req, resp);
 	}
 	
 	private void process(HttpServletRequest req, HttpServletResponse resp) throws IOException{
@@ -37,6 +41,12 @@ public class AccountServlet extends HttpServlet {
 		//String username, String password, String firstName,
 //		String lastName, String phone, String email, Date birthday,
 //		String address, double lat, double lng
+		ArrayList<UserInfo> userInfos =  SampleData.getSampleListUserInfos();
+		try {
+			resp.getWriter().print("In do register");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

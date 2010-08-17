@@ -19,52 +19,64 @@ import java.util.Map;
 
 import vnfoss2010.smartshop.serverside.services.exception.MissingParameterException;
 
+import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONObject;
 
 /**
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
  */
 public abstract class BaseRestfulService implements RestfulService {
-    protected String[] mRequiredParameters;
-    protected String mServiceName;
+	protected String[] mRequiredParameters;
+	protected String mServiceName;
 
-    public BaseRestfulService(String serviceName) {
-        super();
-        mServiceName = serviceName;
-    }
+	public BaseRestfulService(String serviceName) {
+		super();
+		mServiceName = serviceName;
+	}
 
-    public BaseRestfulService(String[] requiredMethods) {
-        this.mRequiredParameters = requiredMethods;
-    }
+	public BaseRestfulService(String[] requiredMethods) {
+		this.mRequiredParameters = requiredMethods;
+	}
 
-    protected MissingParameterException checkParams(Map params) {
-        if (mRequiredParameters != null) {
-            for (String param : mRequiredParameters) {
-                if (params.containsKey(param))
-                    continue;
-                return missingParameter(param);
-            }
-        }
-        return null;
-    }
+	protected MissingParameterException checkParams(Map params) {
+		if (mRequiredParameters != null) {
+			for (String param : mRequiredParameters) {
+				if (params.containsKey(param))
+					continue;
+				return missingParameter(param);
+			}
+		}
+		return null;
+	}
 
-    protected MissingParameterException missingParameter(String paramName) {
-        return new MissingParameterException(mServiceName, paramName);
-    }
+	protected MissingParameterException missingParameter(String paramName) {
+		return new MissingParameterException(mServiceName, paramName);
+	}
 
-    protected String getParameter(String key, Map<String, String[]> params,
-            JSONObject json) {
-        try {
-            if (json != null && json.has(key))
-                return json.get(key).toString();
-            if (params != null && params.containsKey(key)) {
-                String[] arrParam = params.get(key);
-                return arrParam == null ? null
-                        : ((arrParam.length > 0) ? arrParam[0] : null);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
+	protected String getParameter(String key, Map<String, String[]> params,
+			JSONObject json) {
+		try {
+			if (json != null && json.has(key))
+				return json.get(key).toString();
+			if (params != null && params.containsKey(key)) {
+				String[] arrParam = params.get(key);
+				return arrParam == null ? null
+						: ((arrParam.length > 0) ? arrParam[0] : null);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	protected JSONArray getJSONArray(String key, JSONObject json) {
+		JSONArray result = null;
+		try {
+			if (json != null && json.has(key))
+				result = json.getJSONArray(key);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return result;
+	}
 }

@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 
 public class SampleData {
-	public static ArrayList<UserInfo> getSampleListCUserInfos() {
+	public static ArrayList<UserInfo> getSampleListUserInfos() {
 		Calendar calendar = Calendar.getInstance();
 		ArrayList<UserInfo> listUserInfos = new ArrayList<UserInfo>();
 		listUserInfos.add(new UserInfo("hieu", "hieu", "Hieu", "Hua Phan Minh",
@@ -31,5 +32,14 @@ public class SampleData {
 				"District 10", 10.213D, 106.123123D, ""));
 
 		return listUserInfos;
+	}
+	public static ArrayList<Category> getSampleCategories() {
+		ArrayList<Category> categories = new ArrayList<Category>();
+		categories.add(new Category("comp","May tinh",null));
+		categories.add(new Category("lap","Laptop","comp"));
+		categories.add(new Category("net","Thiet bi mang","comp"));
+		categories.add(new Category("soft","Software","comp"));
+		
+		return categories;
 	}
 }
