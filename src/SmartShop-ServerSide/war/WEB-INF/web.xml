@@ -5,6 +5,35 @@
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	
+	<servlet>
+		<servlet-name>SmartShop_ServerSide</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.SmartShop_ServerSideServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SmartShop_ServerSide</servlet-name>
+		<url-pattern>/smartshop_serverside</url-pattern>
+	</servlet-mapping>
+
+	<!-- Root servlet for receiving all requests from client -->
+	<servlet>
+		<servlet-name>ResultServlet</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.RestfulServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResultServlet</servlet-name>
+		<url-pattern>/s</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Testing Service -->
+	<servlet>
+		<servlet-name>TestServlet</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.TestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TestServlet</servlet-name>
+		<url-pattern>/test</url-pattern>
+	</servlet-mapping>
+
 	<!--
 		Configuration file for UrlRewriteFilter http://tuckey.org/urlrewrite/
 	-->
@@ -20,36 +49,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<filter-name>UrlRewriteFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	<servlet>
-		<servlet-name>SmartShop_ServerSide</servlet-name>
-		<servlet-class>vnfoss2010.smartshop.serverside.SmartShop_ServerSideServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>SmartShop_ServerSide</servlet-name>
-		<url-pattern>/smartshop_serverside</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>AccountServlet</servlet-name>
-		<servlet-class>vnfoss2010.smartshop.serverside.servlet.AccountServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AccountServlet</servlet-name>
-		<url-pattern>/account</url-pattern>
-	</servlet-mapping>
-
-	<!-- Root servlet for receiving all requests from client -->
-	<servlet>
-		<servlet-name>ResultServlet</servlet-name>
-		<servlet-class>vnfoss2010.smartshop.serverside.RestfulServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ResultServlet</servlet-name>
-		<url-pattern>/s</url-pattern>
-	</servlet-mapping>
-
-	
 	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

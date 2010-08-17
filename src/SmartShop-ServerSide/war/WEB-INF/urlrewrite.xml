@@ -2,15 +2,20 @@
 <!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.2//EN"
     "http://tuckey.org/res/dtds/urlrewrite3.2.dtd">
 
-  <!--
+	<!--
 
-    Configuration file for UrlRewriteFilter
-    http://tuckey.org/urlrewrite/
-  -->
+		Configuration file for UrlRewriteFilter http://tuckey.org/urlrewrite/
+	-->
 <urlrewrite>
-  <rule>
-    <from>^/api/([^\\/]*)/([a-zA-Z_0-9]+)/$</from>
-    <to>/s?api=$1&amp;service=$2</to>
-  </rule>
+	<rule>
+		<from>^/api/([^\\/]*)/([a-zA-Z_\-0-9]+)/$</from>
+		<to>/s?api=$1&amp;service=$2</to>
+	</rule>
+
+	<!-- Testing Rule -->
+	<rule>
+		<from>^/test/([a-zA-Z_\-0-9]+)/$</from>
+		<to>/test?service=$1</to>
+	</rule>
 </urlrewrite>
 
