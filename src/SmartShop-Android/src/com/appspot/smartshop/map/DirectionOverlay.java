@@ -41,9 +41,4 @@ public class DirectionOverlay extends Overlay {
 					paint);
 		}
 	}
-	
-	@Override
-	public boolean onTouchEvent(MotionEvent e, MapView mapView) {
-		return super.onTouchEvent(e, mapView);
-	}
 }

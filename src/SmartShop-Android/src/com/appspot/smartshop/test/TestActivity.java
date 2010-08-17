@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import android.R.integer;
 import android.app.AlertDialog;
 import android.location.Address;
 import android.location.Geocoder;
@@ -16,10 +15,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnTouchListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -27,7 +24,10 @@ import com.appspot.smartshop.Global;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.DirectionListAdapter;
 import com.appspot.smartshop.map.DirectionOverlay;
+import com.appspot.smartshop.map.LocationOverlay;
+import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
+import com.appspot.smartshop.map.MapDialog.UserLocationListener;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.google.android.maps.GeoPoint;
@@ -57,7 +57,7 @@ public class TestActivity extends MapActivity {
 		
 		// TODO test
 		Global.currentActivity = this;
-		testMap();
+		testUserLocationDialog();
 	}
 	
 	void testMap() {
@@ -70,30 +70,19 @@ public class TestActivity extends MapActivity {
 		
 		// setting for map view
 		mapView = (MapView) view.findViewById(R.id.mapview);
-		
-		// controller
-		mapController = mapView.getController();
-		String coordinates[] = { "10.773267", "106.659501" };
-		double lat = Double.parseDouble(coordinates[0]);
-		double lng = Double.parseDouble(coordinates[1]);
 
-		GeoPoint point = new GeoPoint((int) (lat * 1E6), (int) (lng * 1E6));
-//		mapController.animateTo(point);
-//		mapController.setZoom(16);
-		
 		// add an overlay
-		GeoPoint[] points = new GeoPoint[] {
-			point,
-			new GeoPoint((int) (10.76734 * 1E6), (int) (106.659025 * 1E6)),
-			new GeoPoint((int) (10.767719 * 1E6), (int) (106.66675 * 1E6)),
-		};
 		
 		DirectionOverlay directionOverlay = new DirectionOverlay();
 		directionOverlay.points = MapService.getDirectionInstructions(
-				10.775242,106.661611,10.762257,106.656718).points;
+				10.773267, 106.659501, 10.762257,106.656718).points;
 		List<Overlay> listOfOverlays = mapView.getOverlays();
 		listOfOverlays.clear();
 		listOfOverlays.add(directionOverlay);
+		
+		LocationOverlay locationOverlay = new LocationOverlay();
+		locationOverlay.point = new GeoPoint((int) (10.773267 * 1E6), (int) (106.659501 * 1E6));
+		listOfOverlays.add(locationOverlay);
 		
 		// calculate lat, long span
 		int maxLat = Integer.MIN_VALUE;
@@ -120,31 +109,31 @@ public class TestActivity extends MapActivity {
 			}
 		}
 		
+		// controller
+		mapController = mapView.getController();
 		GeoPoint center = new GeoPoint((maxLat + minLat) / 2, (maxLong + minLong) / 2);
 		mapController.animateTo(center);
 		mapController.zoomToSpan(maxLat - minLat, maxLong - minLong);
 
 		// redraw the whole view
 		mapView.invalidate();
-		
-		mapView.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					System.out.println("touch");
-					return true;
-				}
-				
-				return false;
-			}
-		});
 
 		builder = new AlertDialog.Builder(this);
 		builder.setView(view);
 		alertDialog = builder.create();
 
 		alertDialog.show();
+	}
+	
+	void testUserLocationDialog() {
+		GeoPoint point = new GeoPoint((int) (10.773267 * 1E6), (int) (106.659501 * 1E6));
+		MapDialog.createLocationDialog(this, point, new UserLocationListener() {
+			
+			@Override
+			public void processUserLocation(GeoPoint point) {
+				Log.d(TAG, "user location = " + point);
+			}
+		}).show();
 	}
 	
 	void testGeocoder() {
