@@ -2,7 +2,7 @@
 <resources>
     <string name="hello">Hello World, HomeActivity!</string>
     <string name="app_name">smartshop</string>
-    <!-- Search Form vanloi999 -->
+    <!-- Search Form -->
     <string name = "search">Search</string>
     <string name="advancedSearch">Advanced Search</string>
     <string name = "map">Map</string>
@@ -24,11 +24,16 @@
     <string name="lblRegister">Đăng ký</string>
     <string name="lblCancel">Thoát</string>
     <string name="lblOk">OK</string>
-    <string name="errGetLocation">Lỗi kết nối</string>
     
     <!-- User login -->
     <string name="lblLogin">Đăng nhập</string>
-    <!-- Post Product Form vanloi999@gmail.com -->
+    
+    <!-- Map service error -->
+    <string name="errGetLocation">Lỗi kết nối</string>
+    <string name="errCantGetDirection">Không tìm được đường giữa hai vị trí trên</string>
+    <string name="errGetDirection">Lỗi kết nối</string>
+    
+    <!-- Post Product Form -->
     <string name="price">Price</string>
     <string name ="description">Description</string>
     <string name ="isVAT">Is VAT</string>
@@ -40,5 +45,4 @@
     <string name = "lattitude">Latitude</string>
     <string name = "longtitude">Longitude</string>
     <string name = "userDefineAttribute">name of new attribute</string>
-    
 </resources>

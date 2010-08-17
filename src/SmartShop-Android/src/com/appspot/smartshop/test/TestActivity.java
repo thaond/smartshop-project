@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import android.R.integer;
 import android.app.AlertDialog;
 import android.location.Address;
 import android.location.Geocoder;
@@ -18,18 +19,23 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.appspot.smartshop.Global;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.DirectionListAdapter;
+import com.appspot.smartshop.map.DirectionOverlay;
+import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
 
 public class TestActivity extends MapActivity {
 	public static final String TAG = "TestActivity";
@@ -42,13 +48,16 @@ public class TestActivity extends MapActivity {
 
 	private ArrayAdapter<String> adapter;
 
+	private MapController mapController;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		// TODO test
-		testCreateJSONObject2();
+		Global.currentActivity = this;
+		testMap();
 	}
 	
 	void testMap() {
@@ -59,14 +68,65 @@ public class TestActivity extends MapActivity {
 		View view = inflater.inflate(R.layout.test,
 		                               (ViewGroup) findViewById(R.id.layout_root));
 		
+		// setting for map view
 		mapView = (MapView) view.findViewById(R.id.mapview);
-		mapView.setOnClickListener(new OnClickListener() {
+		
+		// controller
+		mapController = mapView.getController();
+		String coordinates[] = { "10.773267", "106.659501" };
+		double lat = Double.parseDouble(coordinates[0]);
+		double lng = Double.parseDouble(coordinates[1]);
+
+		GeoPoint point = new GeoPoint((int) (lat * 1E6), (int) (lng * 1E6));
+//		mapController.animateTo(point);
+//		mapController.setZoom(16);
+		
+		// add an overlay
+		GeoPoint[] points = new GeoPoint[] {
+			point,
+			new GeoPoint((int) (10.76734 * 1E6), (int) (106.659025 * 1E6)),
+			new GeoPoint((int) (10.767719 * 1E6), (int) (106.66675 * 1E6)),
+		};
+		
+		DirectionOverlay directionOverlay = new DirectionOverlay();
+		directionOverlay.points = MapService.getDirectionInstructions(
+				10.775242,106.661611,10.762257,106.656718).points;
+		List<Overlay> listOfOverlays = mapView.getOverlays();
+		listOfOverlays.clear();
+		listOfOverlays.add(directionOverlay);
+		
+		// calculate lat, long span
+		int maxLat = Integer.MIN_VALUE;
+		int minLat = Integer.MAX_VALUE;
+		int maxLong = Integer.MIN_VALUE;
+		int minLong = Integer.MAX_VALUE;
+		int lattitude;
+		int longtitude;
+		for (GeoPoint p: directionOverlay.points) {
+			lattitude = p.getLatitudeE6();
+			longtitude = p.getLongitudeE6();
 			
-			@Override
-			public void onClick(View v) {
-				System.out.println("click");
+			if (minLat > lattitude) {
+				minLat = lattitude;
 			}
-		});
+			if (maxLat < lattitude) {
+				maxLat = lattitude;
+			}
+			if (minLong > longtitude) {
+				minLong = longtitude;
+			}
+			if (maxLong < longtitude) {
+				maxLong = longtitude;
+			}
+		}
+		
+		GeoPoint center = new GeoPoint((maxLat + minLat) / 2, (maxLong + minLong) / 2);
+		mapController.animateTo(center);
+		mapController.zoomToSpan(maxLat - minLat, maxLong - minLong);
+
+		// redraw the whole view
+		mapView.invalidate();
+		
 		mapView.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
@@ -79,7 +139,15 @@ public class TestActivity extends MapActivity {
 				return false;
 			}
 		});
-		
+
+		builder = new AlertDialog.Builder(this);
+		builder.setView(view);
+		alertDialog = builder.create();
+
+		alertDialog.show();
+	}
+	
+	void testGeocoder() {
 		Geocoder geocoder = new Geocoder(this);
 		try {
 			List<Address> addresses = geocoder.getFromLocationName(
@@ -96,12 +164,6 @@ public class TestActivity extends MapActivity {
 			Log.e(TAG, "Cannot get location from server");
 			e.printStackTrace();
 		}
-
-		builder = new AlertDialog.Builder(this);
-		builder.setView(view);
-		alertDialog = builder.create();
-
-		alertDialog.show();
 	}
 	
 	void testParseJSON() {
@@ -158,6 +220,16 @@ public class TestActivity extends MapActivity {
 				System.out.println(menuitemArray.getJSONObject(i).getString(
 						"onclick").toString());
 			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	void testParseEmptyJSONArray() {
+		String str = "{\"arr\":[]}";
+		try {
+			JSONArray arr = new JSONObject(str).getJSONArray("arr");
+			System.out.println(arr.isNull(0));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -241,6 +313,7 @@ public class TestActivity extends MapActivity {
 					System.out.println("name = " + obj.getString("name"));
 					System.out.println("url = " + obj.getString("url"));
 				}
+				
 			}
 		});
 	}
@@ -248,36 +321,17 @@ public class TestActivity extends MapActivity {
 	void testGoogleMapDirectionApi() {
 		setContentView(R.layout.direction_list);
 		listDirection = (ListView) findViewById(R.id.listDirection);
-		adapter = new DirectionListAdapter(this, R.layout.direction_list_item);
 		
-		String url = "http://maps.google.com/maps/api/directions/json?origin=10.774802,106.664475&destination=10.770881,106.67308&sensor=true&language=vi&units=metric";
-		RestClient.parse(url, new JSONParser() {
-			
-			@Override
-			public void process(JSONObject json) throws JSONException {
-				/*
-				 * routes[]
-						legs[]
-							steps[]
-								html_instructions
-				 */
-				JSONArray arrRoutes = json.getJSONArray("routes");
-				for (int k = 0; k < arrRoutes.length(); ++k) {
-					JSONArray arrLegs = arrRoutes.getJSONObject(k).getJSONArray("legs");
-					for (int i = 0; i < arrLegs.length(); ++i) {
-						JSONArray arrSteps = arrLegs.getJSONObject(i).getJSONArray("steps");
-						for (int j = 0; j < arrSteps.length(); ++j) {
-							String instruction = arrSteps.getJSONObject(j).getString("html_instructions");
-							Log.d(TAG, "instruction = " + instruction);
-							adapter.add(instruction);
-						}
-					}
-				}
-				
-				listDirection.setAdapter(adapter);
-				
-			}
-		});
+		// direction found
+		String[] directions = MapService.getDirectionInstructions(
+				10.787325f, 106.606493f,10.7f, 106.711378f).instructions;
+		
+		// no direction found
+//		String[] directions = MapService.getDirectionInstructions(
+//				10.787325f, 0f,10.7f, 106.711378f);
+		
+		adapter = new DirectionListAdapter(this, R.layout.direction_list_item, directions);
+		listDirection.setAdapter(adapter);
 	}
 	
 	@Override
