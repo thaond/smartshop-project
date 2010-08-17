@@ -21,6 +21,24 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<activity android:name=".ui.product.PostProductActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.PostProductActivity_BasicAttribute" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.PostProductActivity_UserDefine" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 
 		<activity android:name=".ui.user.LoginActivity" android:label="@string/app_name">
 			<intent-filter>
@@ -28,13 +46,13 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-
-		<activity android:name=".test.TestActivity" android:label="@string/app_name">
+		<activity android:name=".ui.product.SearchProductActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+
 
 	</application>
 
