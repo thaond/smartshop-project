@@ -15,8 +15,9 @@ public class DirectionListAdapter extends ArrayAdapter<String> {
 	private LayoutInflater inflater;
 	private int resourceId;
 	
-	public DirectionListAdapter(Context context, int textViewResourceId) {
-		super(context, textViewResourceId);
+	public DirectionListAdapter(Context context, int textViewResourceId,
+			String[] objects) {
+		super(context, textViewResourceId, objects);
 		resourceId = textViewResourceId;
 		inflater = LayoutInflater.from(context);
 	}
