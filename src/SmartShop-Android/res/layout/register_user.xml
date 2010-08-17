@@ -5,11 +5,6 @@
 	<LinearLayout 
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:orientation="vertical">
-		
-		<com.google.android.maps.MapView
-			xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/mapview"
-			android:layout_width="200dip" android:layout_height="200dip"
-			android:clickable="true" android:apiKey="0oXkvY2tUcbGM8-BK6Myjp770et8Obv5A2PjqnQ" />
 
 		<!-- User name -->
 		<LinearLayout android:layout_width="fill_parent"
@@ -100,8 +95,9 @@
 				android:layout_height="wrap_content" android:text="@string/lblBirthday"
 				android:layout_centerVertical="true" android:id="@+id/lblBirthday" />
 				
-			<DatePicker android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:id="@+id/dpBirthday" android:textSize="10dip"/>
+			<Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:id="@+id/btnBirthday" android:textSize="10dip" 
+				android:text="@string/btnChooseBirthday"/>
 
 		</LinearLayout>
 
@@ -122,9 +118,9 @@
 		<LinearLayout android:layout_width="wrap_content" android:layout_gravity="right"
 			android:layout_height="wrap_content" android:paddingRight="10dip">
 			
-			<Button android:layout_width="wrap_content" android:layout_height="30dip"
+			<Button android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/btnTagAddressOnMap"
-				android:textSize="9dip" android:id="@+id/btnTagAddressOnMap"/>
+				android:textSize="10dip" android:id="@+id/btnTagAddressOnMap"/>
 			
 		</LinearLayout>
 

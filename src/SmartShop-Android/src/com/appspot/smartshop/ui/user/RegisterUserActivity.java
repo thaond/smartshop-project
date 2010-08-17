@@ -1,6 +1,16 @@
 package com.appspot.smartshop.ui.user;
 
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
+
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -14,10 +24,14 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapView;
 
 public class RegisterUserActivity extends MapActivity {
 	public static final String TAG = "RegisterUserActivity";
+	
+	static final int DATE_DIALOG_ID = 1;
+	static final int MAP_DIALOG_ID = 2;
+	
+	static final int MAX_LOCATION_RESULTS = 5;
 	
 	private TextView lblUsername;
 	private EditText txtUsername;
@@ -38,17 +52,36 @@ public class RegisterUserActivity extends MapActivity {
 	private TextView lblAvatar;
 	private EditText txtAvatar;
 	private TextView lblBirthday;
-	private DatePicker dbBirthday;
-	private MapView mapView;
+	
+	private int mYear;
+    private int mMonth;
+    private int mDay;
+	
+	private DatePickerDialog.OnDateSetListener mDateSetListener =
+    new DatePickerDialog.OnDateSetListener() {
+
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                int dayOfMonth) {
+            mYear = year;
+            mMonth = monthOfYear + 1;
+            mDay = dayOfMonth;
+            
+            // get birthday info
+            Log.d(TAG, "birthday: " + mDay + ", " + mMonth + ", " + mYear);
+        }
+    };
+
+	private AlertDialog.Builder dialogBuilder;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_user);
 		
+		// label width
 		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		int width = display.getWidth(); 
-		int labelWidth = (int) (width * 0.25);
+		int labelWidth = (int) (width * 0.4);
 		int textWidth = width - labelWidth;
 		
 		// set up textviews
@@ -128,22 +161,84 @@ public class RegisterUserActivity extends MapActivity {
 			}
 		});
 		
-		// date picker
-		dbBirthday = (DatePicker) findViewById(R.id.dpBirthday);
-		
-		// mapview
-//		mapView = (MapView) findViewById(R.id.mapview);
+		Button btnBirthday = (Button) findViewById(R.id.btnBirthday);
+		btnBirthday.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				chooseBirthday();
+			}
+		});
+	}
+	
+	protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+            	Calendar cal = Calendar.getInstance();
+            	mDay = cal.get(Calendar.DAY_OF_MONTH);
+            	mMonth = cal.get(Calendar.MONTH);
+            	mYear = cal.get(Calendar.YEAR) - 18;
+            	
+                return new DatePickerDialog(this, mDateSetListener, mYear, mMonth, mDay);
+                
+            case MAP_DIALOG_ID:
+            	String location = txtAddress.getText().toString();
+            	
+            	Geocoder geocoder = new Geocoder(this);
+        		try {
+        			Log.d(TAG, "location = " + location);
+        			List<Address> addresses = geocoder.getFromLocationName(location, MAX_LOCATION_RESULTS);
+        			if (addresses != null && addresses.size() > 0) {
+//        				for (Address a : addresses) {
+//        					Log.d(TAG, a.toString());
+//        				}
+        				Address add = addresses.get(0);
+        				Log.d(TAG, "lat = " + add.getLatitude() + ", long = " + add.getLongitude());
+        				
+        				Log.d(TAG, "found " + addresses.size() + " addresses");
+        			} else {
+        				Log.d(TAG, "No address found");
+        			}
+        		} catch (IOException e) {
+        			if (dialogBuilder == null) {
+        				dialogBuilder = new AlertDialog.Builder(this);
+        			}
+        			dialogBuilder.setMessage(getString(R.string.errGetLocation))
+    			       .setCancelable(false)
+    			       .setPositiveButton(getString(R.string.lblOk), new DialogInterface.OnClickListener() {
+    			           public void onClick(DialogInterface dialog, int id) {
+    			        	   dialog.cancel();
+    			           }
+    			       });
+        			
+        			return dialogBuilder.create();
+        		}
+        }
+        
+        return null;
+    }
+	
+	@Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+                ((DatePickerDialog) dialog).updateDate(mYear, mMonth, mDay);
+                break;
+        }
+    }
+
+	protected void chooseBirthday() {
+		showDialog(DATE_DIALOG_ID);
 	}
 
 	protected void tagAddressOnMap() {
+		showDialog(MAP_DIALOG_ID);
 	}
 
 	protected void cancel() {
 	}
 
 	protected void register() {
-		Log.d(TAG, "Birthday = " + dbBirthday.getDayOfMonth() + ", " +  dbBirthday.getMonth()
-				+ ", " + dbBirthday.getYear());
 	}
 
 	@Override
