@@ -1,19 +1,12 @@
 package vnfoss2010.smartshop.serverside.services.product;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.smartcardio.ATR;
-
-import com.google.appengine.repackaged.org.json.JSONArray;
-import com.google.appengine.repackaged.org.json.JSONObject;
 
 import vnfoss2010.smartshop.serverside.database.AttributeServiceImpl;
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
 import vnfoss2010.smartshop.serverside.database.DatabaseServiceImpl;
-import vnfoss2010.smartshop.serverside.database.PMF;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
@@ -21,6 +14,10 @@ import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.MissingParameterException;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+
+import com.beoui.geocell.GeocellManager;
+import com.google.appengine.repackaged.org.json.JSONArray;
+import com.google.appengine.repackaged.org.json.JSONObject;
 
 public class RegisterProductService extends BaseRestfulService {
 	private AttributeServiceImpl attributeImpl = AttributeServiceImpl
@@ -85,7 +82,7 @@ public class RegisterProductService extends BaseRestfulService {
 				throw missingParameter("catKey in attributes");
 			}
 		}
-//		PMF.get().getPersistenceManager().flush();
+		// PMF.get().getPersistenceManager().flush();
 		product.setSetAttributes(attsList);
 
 		JSONArray jsonCatArray = getJSONArrayWithThrow("cats", json);
@@ -100,6 +97,8 @@ public class RegisterProductService extends BaseRestfulService {
 			catSet.add(catID);
 		}
 		product.setSetCategoryKeys(catSet);
+		product.setGeocells(GeocellManager
+				.generateGeoCell(product.getLocation()));
 
 		ServiceResult<Long> result = db.insertProduct(product);
 

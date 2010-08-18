@@ -1,7 +1,9 @@
 package vnfoss2010.smartshop.serverside.services.product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
@@ -55,28 +57,29 @@ public class GetProductService extends BaseRestfulService {
 				}
 			}
 		}
-		if (jsonReturn.has("errCode") == false){
+		if (jsonReturn.has("errCode") == false) {
 			jsonReturn.put("errCode", 0);
 			jsonReturn.put("id", product.getId());
-			jsonReturn.put("", product.getName());
-			jsonReturn.put("", product.getLat());
-			jsonReturn.put("", product.getLng());
-			jsonReturn.put("", product.getPrice());
-			jsonReturn.put("", product.getQuantity());
-			jsonReturn.put("", product.getAddress());
-			jsonReturn.put("", product.getOrigin());
-			JSONArray jsonAtts = new JSONArray();
-			for (Attribute att : product.getSetAttributes()){
-				JSONObject jsonAtt = new JSONObject();
-				jsonAtt.put("id", att.getId());
-				jsonAtt.put("key_cat", att.getKey_cat());
-				jsonAtt.put("username", att.getUsername());
-				jsonAtt.put("value", att.getValue());
-				// parse att to JSON
+			jsonReturn.put("name", product.getName());
+			jsonReturn.put("lat", product.getLat());
+			jsonReturn.put("lng", product.getLng());
+			jsonReturn.put("price", product.getPrice());
+			jsonReturn.put("quantity", product.getQuantity());
+			jsonReturn.put("address", product.getAddress());
+			jsonReturn.put("origin", product.getOrigin());
+			jsonReturn.put("atts", product.getSetAttributes());
+
+			String[] keyCats = new String[product.getSetCategoryKeys().size()];
+			product.getSetCategoryKeys().toArray(keyCats);
+			ArrayList<Category> listCategory = new ArrayList<Category>();
+			for (int i = 0; i < keyCats.length; i++) {
+				ServiceResult<Category> categoryResult = dbCategory
+						.findCategory(keyCats[i]);
+				listCategory.add(categoryResult.getResult());
 			}
-//			jsonReturn.put("", product.get);
-			
-			
+			jsonReturn.put("categories", listCategory);
+			jsonReturn.put("username", product.getUsername());
+			jsonReturn.put("warranty", product.getWarranty());
 		}
 
 		return jsonReturn.toString();
