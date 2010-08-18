@@ -1,6 +1,7 @@
 package vnfoss2010.smartshop.serverside.database.entity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -8,8 +9,11 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable 
-public class Product {
+import com.beoui.geocell.model.LocationCapable;
+import com.beoui.geocell.model.Point;
+
+@PersistenceCapable
+public class Product implements LocationCapable {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
@@ -43,15 +47,18 @@ public class Product {
 
 	@Persistent
 	private String username;
-	
+
 	@Persistent
 	private Set<Long> setPagesId;
-	
+
 	@Persistent
 	private Set<String> setCategoryKeys;
-	
+
 	@Persistent
 	private Set<Attribute> setAttributes;
+	
+	@Persistent
+	private List<String> geocells;
 
 	public Product() {
 		setSetPagesId(new HashSet<Long>());
@@ -83,7 +90,8 @@ public class Product {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Long id) {
 		this.id = id;
@@ -97,7 +105,8 @@ public class Product {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -111,7 +120,8 @@ public class Product {
 	}
 
 	/**
-	 * @param price the price to set
+	 * @param price
+	 *            the price to set
 	 */
 	public void setPrice(double price) {
 		this.price = price;
@@ -125,7 +135,8 @@ public class Product {
 	}
 
 	/**
-	 * @param isVat the is_vat to set
+	 * @param isVat
+	 *            the is_vat to set
 	 */
 	public void setIs_vat(boolean isVat) {
 		is_vat = isVat;
@@ -139,7 +150,8 @@ public class Product {
 	}
 
 	/**
-	 * @param quantity the quantity to set
+	 * @param quantity
+	 *            the quantity to set
 	 */
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
@@ -153,7 +165,8 @@ public class Product {
 	}
 
 	/**
-	 * @param warranty the warranty to set
+	 * @param warranty
+	 *            the warranty to set
 	 */
 	public void setWarranty(String warranty) {
 		this.warranty = warranty;
@@ -167,7 +180,8 @@ public class Product {
 	}
 
 	/**
-	 * @param origin the origin to set
+	 * @param origin
+	 *            the origin to set
 	 */
 	public void setOrigin(String origin) {
 		this.origin = origin;
@@ -181,7 +195,8 @@ public class Product {
 	}
 
 	/**
-	 * @param address the address to set
+	 * @param address
+	 *            the address to set
 	 */
 	public void setAddress(String address) {
 		this.address = address;
@@ -195,7 +210,8 @@ public class Product {
 	}
 
 	/**
-	 * @param lat the lat to set
+	 * @param lat
+	 *            the lat to set
 	 */
 	public void setLat(double lat) {
 		this.lat = lat;
@@ -209,7 +225,8 @@ public class Product {
 	}
 
 	/**
-	 * @param lng the lng to set
+	 * @param lng
+	 *            the lng to set
 	 */
 	public void setLng(double lng) {
 		this.lng = lng;
@@ -223,13 +240,16 @@ public class Product {
 	}
 
 	/**
-	 * @param username the username to set
+	 * @param username
+	 *            the username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -240,7 +260,9 @@ public class Product {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -260,7 +282,9 @@ public class Product {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -273,7 +297,8 @@ public class Product {
 	}
 
 	/**
-	 * @param setPagesId the setPagesId to set
+	 * @param setPagesId
+	 *            the setPagesId to set
 	 */
 	public void setSetPagesId(Set<Long> setPagesId) {
 		this.setPagesId = setPagesId;
@@ -287,7 +312,8 @@ public class Product {
 	}
 
 	/**
-	 * @param setAttributes the setAttributes to set
+	 * @param setAttributes
+	 *            the setAttributes to set
 	 */
 	public void setSetAttributes(Set<Attribute> setAttributes) {
 		this.setAttributes = setAttributes;
@@ -301,10 +327,15 @@ public class Product {
 	}
 
 	/**
-	 * @param setCategoryKeys the setCategoryKeys to set
+	 * @param setCategoryKeys
+	 *            the setCategoryKeys to set
 	 */
 	public void setSetCategoryKeys(Set<String> setCategoryKeys) {
 		this.setCategoryKeys = setCategoryKeys;
+	}
+
+	public void setGeocells(List<String> geocell) {
+		this.geocells = geocell;
 	}
 
 	/**
@@ -312,5 +343,20 @@ public class Product {
 	 */
 	public Set<String> getSetCategoryKeys() {
 		return setCategoryKeys;
+	}
+
+	@Override
+	public List<String> getGeocells() {
+		return geocells;
+	}
+
+	@Override
+	public String getKeyString() {
+		return id + "";
+	}
+
+	@Override
+	public Point getLocation() {
+		return new Point(lat, lng);
 	}
 }
