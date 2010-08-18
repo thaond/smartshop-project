@@ -19,13 +19,21 @@ public class CategoryServiceImpl {
 				.getBundle("vnfoss2010/smartshop/serverside.localization/MessagesBundle");
 	}
 
-	public Category findCategory(String catKey) {
-		Category result = null;
+	public ServiceResult<Category> findCategory(String catKey) {
+		ServiceResult<Category> result = new ServiceResult<Category>();
+		Category category = null;
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
-			result = (Category) pm.getObjectById(Category.class, catKey);
+			category = (Category) pm.getObjectById(Category.class, catKey);
 		} catch (NucleusObjectNotFoundException e) {
 		} catch (JDOObjectNotFoundException e) {
+		}
+		if (category == null){
+			result.setOK(false);
+			result.setMessage("Can't find category");
+		}else {
+			result.setOK(true);
+			result.setResult(category);
 		}
 		return result;
 	}
@@ -56,7 +64,7 @@ public class CategoryServiceImpl {
 		return result;
 	}
 
-	public static CategoryServiceImpl getInstance() {
+	public static CategoryServiceImpl instance() {
 		if (instance == null) {
 			instance = new CategoryServiceImpl();
 		}
