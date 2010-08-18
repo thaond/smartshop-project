@@ -5,14 +5,19 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+
 @PersistenceCapable
 public class Attribute {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	private Key id;
 
 	@Persistent
 	private String key_cat;
+
+	@Persistent
+	private String name;
 
 	@Persistent
 	private String value;
@@ -23,17 +28,18 @@ public class Attribute {
 	public Attribute() {
 	}
 
-	public Attribute(String categoryId, String name, String username) {
+	public Attribute(String categoryId, String name, String value,String username) {
 		super();
 		setKey_cat(categoryId);
-		setValue(name);
+		setName(name);
+		setValue(value);
 		this.username = username;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public Key getId() {
 		return id;
 	}
 
@@ -63,6 +69,14 @@ public class Attribute {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/*
@@ -127,5 +141,4 @@ public class Attribute {
 	public String getValue() {
 		return value;
 	}
-
 }

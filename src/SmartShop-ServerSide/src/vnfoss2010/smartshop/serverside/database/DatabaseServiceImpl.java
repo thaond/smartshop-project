@@ -657,22 +657,26 @@ public class DatabaseServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (product == null) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+//			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage("khong the null");
 		}
 
 		try {
+			pm.flush();
 			product = pm.makePersistent(product);
 			if (product == null) {
-				result.setMessage(messages.getString("insert_product_fail"));
+//				result.setMessage(messages.getString("insert_product_fail"));
+				result.setMessage(messages.getString("khong thanh cong"));
 			} else {
 				result.setResult(product.getId());
-//				result.setMessage(messages
-//						.getString("insert_product_successfully"));
+				result.setMessage(messages
+						.getString("insert_product_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage(messages.getString("insert_list_userinfos_fail"));
+//			result.setMessage(messages.getString("insert_list_userinfos_fail"));
+			result.setMessage(e.getMessage() + "  exception");
 		}
 
 		return result;
@@ -689,7 +693,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		}
 
 		try {
-			if (listCategories != null){
+			if (listCategories != null) {
 				//
 				for (String cat : listCategories) {
 					Category tmp = null;
@@ -707,13 +711,13 @@ public class DatabaseServiceImpl extends HttpServlet {
 					product.getSetCategoryKeys().add(cat);
 				}
 			}
-			
-			if (listAttributes != null){
-				for (Attribute att : listAttributes){
+
+			if (listAttributes != null) {
+				for (Attribute att : listAttributes) {
 					product.getSetAttributes().add(att);
 				}
 			}
-			
+
 			product = pm.makePersistent(product);
 			if (product == null) {
 				result.setMessage(messages.getString("insert_product_fail"));
@@ -730,10 +734,9 @@ public class DatabaseServiceImpl extends HttpServlet {
 
 		return result;
 	}
-	
-	//PAGES
-	public ServiceResult<Long> insertPage(Page page,
-			List<String> listCategories) {
+
+	// PAGES
+	public ServiceResult<Long> insertPage(Page page, List<String> listCategories) {
 		preventSQLInjPage(page);
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -743,7 +746,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		}
 
 		try {
-			if (listCategories != null){
+			if (listCategories != null) {
 				//
 				for (String cat : listCategories) {
 					Category tmp = null;
@@ -761,7 +764,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 					page.getSetCategoryKeys().add(cat);
 				}
 			}
-			
+
 			page = pm.makePersistent(page);
 			if (page == null) {
 				result.setMessage(messages.getString("insert_page_fail"));
@@ -778,8 +781,8 @@ public class DatabaseServiceImpl extends HttpServlet {
 
 		return result;
 	}
-	
-	//COMMENTS
+
+	// COMMENTS
 	/**
 	 * Insert new Comment into database
 	 * 
@@ -811,8 +814,8 @@ public class DatabaseServiceImpl extends HttpServlet {
 
 		return result;
 	}
-	
-	//MEDIA
+
+	// MEDIA
 	/**
 	 * Insert new media into database
 	 * 
@@ -877,12 +880,12 @@ public class DatabaseServiceImpl extends HttpServlet {
 		product.setName(preventSQLInjection(product.getName()));
 		product.setAddress(preventSQLInjection(product.getAddress()));
 	}
-	
+
 	public static void preventSQLInjPage(Page page) {
 		page.setName(preventSQLInjection(page.getName()));
 		page.setContent(preventSQLInjection(page.getContent()));
 	}
-	
+
 	public static void preventSQLInjComment(Comment comment) {
 		comment.setContent(preventSQLInjection(comment.getContent()));
 	}

@@ -13,6 +13,7 @@ import com.google.appengine.repackaged.org.json.JSONObject;
 import vnfoss2010.smartshop.serverside.database.AttributeServiceImpl;
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
 import vnfoss2010.smartshop.serverside.database.DatabaseServiceImpl;
+import vnfoss2010.smartshop.serverside.database.PMF;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
@@ -24,7 +25,7 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 public class RegisterProductService extends BaseRestfulService {
 	private AttributeServiceImpl attributeImpl = AttributeServiceImpl
 			.getInstance();
-	private CategoryServiceImpl dbcat = CategoryServiceImpl.getInstance();
+	private CategoryServiceImpl dbcat = CategoryServiceImpl.instance();
 	private AttributeServiceImpl dbatt = AttributeServiceImpl.getInstance();
 
 	private DatabaseServiceImpl db = DatabaseServiceImpl.getInstance();
@@ -67,12 +68,24 @@ public class RegisterProductService extends BaseRestfulService {
 		HashSet<Attribute> attsList = new HashSet<Attribute>();
 		for (int i = 0; i < attsLength; i++) {
 			JSONObject anAttJSON = jsonAttArray.getJSONObject(i);
-			Attribute attribute = new Attribute(getParameterWithThrow("name",
-					params, anAttJSON), getParameterWithThrow("value", params,
-					anAttJSON), userName);
-			dbatt.insertAttribute(attribute);
-			attsList.add(attribute);
+			String catKey = getParameterWithThrow("catId", params, anAttJSON);
+			Attribute attribute = null;
+			ServiceResult<Boolean> resultInsertAtt = null;
+			if (dbcat.findCategory(catKey).isOK()) {
+				attribute = new Attribute(catKey, getParameterWithThrow("name",
+						params, anAttJSON), getParameterWithThrow("value",
+						params, anAttJSON), userName);
+				resultInsertAtt = dbatt.insertAttribute(attribute);
+				if (resultInsertAtt.isOK()) {
+					attsList.add(attribute);
+				}
+			}
+
+			if (resultInsertAtt == null || resultInsertAtt.isOK() == false) {
+				throw missingParameter("catKey in attributes");
+			}
 		}
+//		PMF.get().getPersistenceManager().flush();
 		product.setSetAttributes(attsList);
 
 		JSONArray jsonCatArray = getJSONArrayWithThrow("cats", json);
@@ -80,22 +93,18 @@ public class RegisterProductService extends BaseRestfulService {
 		for (int i = 0; i < jsonCatArray.length(); i++) {
 			JSONObject jsonCat = jsonCatArray.getJSONObject(i);
 			String catID = (String) jsonCat.get("id");
-			if (dbcat.findCategory(catID) == null) {
-				throw missingParameter("cats name");
+			ServiceResult<Category> resultFindCat = dbcat.findCategory(catID);
+			if (resultFindCat == null || resultFindCat.isOK() == false) {
+				throw missingParameter("cats id");
 			}
 			catSet.add(catID);
 		}
 		product.setSetCategoryKeys(catSet);
 
 		ServiceResult<Long> result = db.insertProduct(product);
-		if (result.isOK()) {
-			jsonReturn.put("errCode", 0);
-			jsonReturn.put("message", result.getMessage());
-		} else {
-			jsonReturn.put("errCode", 1);
-			jsonReturn.put("message", result.getMessage());
-		}
 
+		jsonReturn.put("errCode", result.isOK() ? 0 : 1);
+		jsonReturn.put("message", result.getMessage());
 		return jsonReturn.toString();
 		// return "here " + result.getMessage() + "_" + result.getResult();
 	}
