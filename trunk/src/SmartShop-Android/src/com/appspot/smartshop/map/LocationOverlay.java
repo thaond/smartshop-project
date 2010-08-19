@@ -20,6 +20,10 @@ public class LocationOverlay extends Overlay {
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		super.draw(canvas, mapView, shadow);
 		
+		if (point == null) {
+			return;
+		}
+		
 		Point screenPts = new Point();
 		mapView.getProjection().toPixels(point, screenPts);
 

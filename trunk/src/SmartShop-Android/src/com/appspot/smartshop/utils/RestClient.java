@@ -18,8 +18,9 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class RestClient {
-	
+
 	public static JSONParser jsonParser = null;
+	private static HttpClient httpClient;
 
 	private static String convertStreamToString(InputStream is) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -42,34 +43,45 @@ public class RestClient {
 		return sb.toString();
 	}
 
-	public static void parse(String url, JSONParser parser) {
+	public static void loadData(String url, JSONParser parser) {
 		jsonParser = parser;
 
-		HttpClient httpclient = new DefaultHttpClient();
+		if (httpClient == null) {
+			httpClient = new DefaultHttpClient();
+		}
 		HttpGet httpget = new HttpGet(url);
-		HttpResponse response;
-		
+		HttpResponse response = null;
+		HttpEntity entity = null;
+		String result = null;
+		InputStream instream = null;
+
 		try {
-			response = httpclient.execute(httpget);
-			HttpEntity entity = response.getEntity();
+			response = httpClient.execute(httpget);
+			entity = response.getEntity();
 
 			if (entity != null) {
-				InputStream instream = entity.getContent();
-				String result = convertStreamToString(instream);
-
-				JSONObject json = new JSONObject(result);
-				jsonParser.process(json);
-
+				instream = entity.getContent();
+				result = convertStreamToString(instream);
 				instream.close();
 			}
 
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
+			jsonParser.onFailure(e.getMessage());
+			return;
 		} catch (IOException e) {
 			e.printStackTrace();
+			jsonParser.onFailure(e.getMessage());
+			return;
+		} 
+
+		try {
+			JSONObject json = new JSONObject(result);
+			jsonParser.onSuccess(json);
 		} catch (JSONException e) {
 			e.printStackTrace();
-		} 
+			jsonParser.onFailure(e.getMessage());
+		}
 	}
 
 }
