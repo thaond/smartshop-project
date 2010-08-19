@@ -32,6 +32,7 @@
     
     <!-- Map service error -->
     <string name="errGetLocation">Lỗi kết nối</string>
+    <string name="errCantGetLocation">Không tìm được địa chỉ bạn vừa chọn</string>
     <string name="errCantGetDirection">Không tìm được đường giữa hai vị trí trên</string>
     <string name="errGetDirection">Lỗi kết nối</string>
     
@@ -47,4 +48,10 @@
     <string name = "lattitude">Latitude</string>
     <string name = "longtitude">Longitude</string>
     <string name = "userDefineAttribute">name of new attribute</string>
+    
+    <!-- Dialog -->
+    <string name="btnShowDirectionOnMap">Xem trên bản đồ</string>
+    
+    <!-- Map API key -->
+    <string name="mapApiKey">0oXkvY2tUcbGM8-BK6Myjp770et8Obv5A2PjqnQ</string>
 </resources>

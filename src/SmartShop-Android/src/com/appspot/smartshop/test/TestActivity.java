@@ -57,7 +57,7 @@ public class TestActivity extends MapActivity {
 		
 		// TODO test
 		Global.currentActivity = this;
-		testUserLocationDialog();
+		testGoogleMapDirectionApi();
 	}
 	
 	void testMap() {
@@ -74,7 +74,7 @@ public class TestActivity extends MapActivity {
 		// add an overlay
 		
 		DirectionOverlay directionOverlay = new DirectionOverlay();
-		directionOverlay.points = MapService.getDirectionInstructions(
+		directionOverlay.points = MapService.getDirectionResult(
 				10.773267, 106.659501, 10.762257,106.656718).points;
 		List<Overlay> listOfOverlays = mapView.getOverlays();
 		listOfOverlays.clear();
@@ -126,7 +126,14 @@ public class TestActivity extends MapActivity {
 	}
 	
 	void testUserLocationDialog() {
-		GeoPoint point = new GeoPoint((int) (10.773267 * 1E6), (int) (106.659501 * 1E6));
+		String[] locations = new String[] {
+			"117 thành thái quận 10 hcm",
+			"166/17 phạm phú thứ quận 6 hcm",
+			"43 vương văn huống quận bình tân hcm",
+			"tào lao",
+			"ffsdfsdfdsfsfs"
+		};
+		GeoPoint point = MapService.locationToGeopoint(locations[4]);
 		MapDialog.createLocationDialog(this, point, new UserLocationListener() {
 			
 			@Override
@@ -134,25 +141,6 @@ public class TestActivity extends MapActivity {
 				Log.d(TAG, "user location = " + point);
 			}
 		}).show();
-	}
-	
-	void testGeocoder() {
-		Geocoder geocoder = new Geocoder(this);
-		try {
-			List<Address> addresses = geocoder.getFromLocationName(
-					"268 lý thường kiệt quận 10 hcm", 10);
-			if (addresses != null && addresses.size() > 0) {
-				for (Address a : addresses) {
-					Log.d(TAG, a.toString());
-				}
-				Log.d(TAG, "found " + addresses.size() + " addresses");
-			} else {
-				Log.d(TAG, "No address found");
-			}
-		} catch (IOException e) {
-			Log.e(TAG, "Cannot get location from server");
-			e.printStackTrace();
-		}
 	}
 	
 	void testParseJSON() {
@@ -289,10 +277,10 @@ public class TestActivity extends MapActivity {
 	
 	void testRestClient() {
 		String url = "http://search.twitter.com/trends.json";
-		RestClient.parse(url, new JSONParser() {
+		RestClient.loadData(url, new JSONParser() {
 			
 			@Override
-			public void process(JSONObject json) throws JSONException {
+			public void onSuccess(JSONObject json) throws JSONException {
 				System.out.println("as_of = " + json.getString("as_of"));
 				JSONArray arrTrends = json.getJSONArray("trends");
 				int len = arrTrends.length();
@@ -304,23 +292,18 @@ public class TestActivity extends MapActivity {
 				}
 				
 			}
+
+			@Override
+			public void onFailure(String message) {
+				Log.e(TAG, "fail");
+				Log.e(TAG, message);
+			}
 		});
 	}
 	
 	void testGoogleMapDirectionApi() {
-		setContentView(R.layout.direction_list);
-		listDirection = (ListView) findViewById(R.id.listDirection);
-		
-		// direction found
-		String[] directions = MapService.getDirectionInstructions(
-				10.787325f, 106.606493f,10.7f, 106.711378f).instructions;
-		
-		// no direction found
-//		String[] directions = MapService.getDirectionInstructions(
-//				10.787325f, 0f,10.7f, 106.711378f);
-		
-		adapter = new DirectionListAdapter(this, R.layout.direction_list_item, directions);
-		listDirection.setAdapter(adapter);
+		MapDialog.createDirectionListDialog(this, 10.781189,106.6513, 10.77769,106.660978)
+				.show();
 	}
 	
 	@Override
