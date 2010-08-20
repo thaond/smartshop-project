@@ -54,11 +54,9 @@ public class Product implements LocationCapable {
 	private Set<Long> setPagesId;
 
 	@Persistent
-	@SerializedName("cats")
 	private Set<String> setCategoryKeys;
 
 	@Persistent
-	@SerializedName("atts") 
 	private Set<Attribute> setAttributes;
 	
 	@Persistent
