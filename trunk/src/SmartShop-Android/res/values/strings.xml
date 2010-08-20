@@ -24,6 +24,8 @@
     <string name="lblPhoneNumber">Số điện thoại:</string>
     <string name="lblAvatar">Hình đại diện:</string>
     <string name="lblRegister">Đăng ký</string>
+    
+    <!-- Ok/cancel labels -->
     <string name="lblCancel">Thoát</string>
     <string name="lblOk">OK</string>
     
@@ -54,4 +56,10 @@
     
     <!-- Map API key -->
     <string name="mapApiKey">0oXkvY2tUcbGM8-BK6Myjp770et8Obv5A2PjqnQ</string>
+    
+    <!-- Page -->
+    <string name="page_name">Tên:</string>
+    <string name="page_content">Nội dung:</string>
+    <string name="page_view">Lượt xem:</string>
+    <string name="lblViewComment">Xem bình luận</string>
 </resources>

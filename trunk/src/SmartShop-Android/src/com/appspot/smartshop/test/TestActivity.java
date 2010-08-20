@@ -20,14 +20,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.appspot.smartshop.Global;
 import com.appspot.smartshop.R;
-import com.appspot.smartshop.adapter.DirectionListAdapter;
+import com.appspot.smartshop.adapter.DirectionAdapter;
+import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.DirectionOverlay;
 import com.appspot.smartshop.map.LocationOverlay;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
+import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.google.android.maps.GeoPoint;
@@ -36,6 +37,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
+import com.google.gson.Gson;
 
 public class TestActivity extends MapActivity {
 	public static final String TAG = "TestActivity";
@@ -56,73 +58,20 @@ public class TestActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		
 		// TODO test
-		Global.currentActivity = this;
-		testGoogleMapDirectionApi();
+		Global.application = this;
+		testGson();
 	}
 	
-	void testMap() {
-		AlertDialog.Builder builder;
-		AlertDialog alertDialog;
-
-		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.test,
-		                               (ViewGroup) findViewById(R.id.layout_root));
+	void testGson() {
+		Gson gson = new Gson();
+		ProductInfo productInfo = new ProductInfo("laptop", "1000USD", "good");
+		String json = gson.toJson(productInfo);
+		System.out.println(json);
 		
-		// setting for map view
-		mapView = (MapView) view.findViewById(R.id.mapview);
-
-		// add an overlay
-		
-		DirectionOverlay directionOverlay = new DirectionOverlay();
-		directionOverlay.points = MapService.getDirectionResult(
-				10.773267, 106.659501, 10.762257,106.656718).points;
-		List<Overlay> listOfOverlays = mapView.getOverlays();
-		listOfOverlays.clear();
-		listOfOverlays.add(directionOverlay);
-		
-		LocationOverlay locationOverlay = new LocationOverlay();
-		locationOverlay.point = new GeoPoint((int) (10.773267 * 1E6), (int) (106.659501 * 1E6));
-		listOfOverlays.add(locationOverlay);
-		
-		// calculate lat, long span
-		int maxLat = Integer.MIN_VALUE;
-		int minLat = Integer.MAX_VALUE;
-		int maxLong = Integer.MIN_VALUE;
-		int minLong = Integer.MAX_VALUE;
-		int lattitude;
-		int longtitude;
-		for (GeoPoint p: directionOverlay.points) {
-			lattitude = p.getLatitudeE6();
-			longtitude = p.getLongitudeE6();
-			
-			if (minLat > lattitude) {
-				minLat = lattitude;
-			}
-			if (maxLat < lattitude) {
-				maxLat = lattitude;
-			}
-			if (minLong > longtitude) {
-				minLong = longtitude;
-			}
-			if (maxLong < longtitude) {
-				maxLong = longtitude;
-			}
-		}
-		
-		// controller
-		mapController = mapView.getController();
-		GeoPoint center = new GeoPoint((maxLat + minLat) / 2, (maxLong + minLong) / 2);
-		mapController.animateTo(center);
-		mapController.zoomToSpan(maxLat - minLat, maxLong - minLong);
-
-		// redraw the whole view
-		mapView.invalidate();
-
-		builder = new AlertDialog.Builder(this);
-		builder.setView(view);
-		alertDialog = builder.create();
-
-		alertDialog.show();
+		ProductInfo productInfo2 = gson.fromJson(json, ProductInfo.class);
+		System.out.println(productInfo2.name);
+		System.out.println(productInfo2.description);
+		System.out.println(productInfo2.price);
 	}
 	
 	void testUserLocationDialog() {
@@ -299,11 +248,6 @@ public class TestActivity extends MapActivity {
 				Log.e(TAG, message);
 			}
 		});
-	}
-	
-	void testGoogleMapDirectionApi() {
-		MapDialog.createDirectionListDialog(this, 10.781189,106.6513, 10.77769,106.660978)
-				.show();
 	}
 	
 	@Override

@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class DirectionListAdapter extends ArrayAdapter<String> {
+public class DirectionAdapter extends ArrayAdapter<String> {
 	
 	private LayoutInflater inflater;
 	private int resourceId;
 	
-	public DirectionListAdapter(Context context, int textViewResourceId,
+	public DirectionAdapter(Context context, int textViewResourceId,
 			String[] objects) {
 		super(context, textViewResourceId, objects);
 		resourceId = textViewResourceId;

@@ -7,8 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.appspot.smartshop.Global;
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.RestClient;
 import com.google.android.maps.GeoPoint;
 
@@ -38,9 +38,9 @@ public class MapService {
 					String error = null;
 					
 					if (status.equals("NOT_FOUND") || status.equals("ZERO_RESULTS")) {
-						error = Global.currentActivity.getString(R.string.errCantGetDirection);
+						error = Global.application.getString(R.string.errCantGetDirection);
 					} else {
-						error = Global.currentActivity.getString(R.string.errGetDirection);
+						error = Global.application.getString(R.string.errGetDirection);
 					}
 					
 					result.instructions = new String[] {error};
@@ -59,7 +59,7 @@ public class MapService {
 				// no routes found
 				if (arrRoutes.isNull(0)) {
 					result.instructions = new String[] {
-							Global.currentActivity.getString(R.string.errCantGetDirection)};
+							Global.application.getString(R.string.errCantGetDirection)};
 					result.hasError = true;
 					return;
 				}
@@ -107,7 +107,7 @@ public class MapService {
 
 			@Override
 			public void onFailure(String message) {
-				String error = Global.currentActivity.getString(R.string.errGetDirection);
+				String error = Global.application.getString(R.string.errGetDirection);
 				
 				result.instructions = new String[] {error};
 				result.hasError = true;
@@ -120,7 +120,7 @@ public class MapService {
 	}
 	
 	public static GeoPoint locationToGeopoint(String locationName) {
-		Geocoder geocoder = new Geocoder(Global.currentActivity);
+		Geocoder geocoder = new Geocoder(Global.application);
 		try {
 			List<Address> addresses = geocoder.getFromLocationName(locationName, 1);
 			if (addresses != null && addresses.size() > 0) {

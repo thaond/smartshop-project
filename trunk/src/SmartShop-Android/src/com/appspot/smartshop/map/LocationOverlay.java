@@ -6,8 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.view.MotionEvent;
 
-import com.appspot.smartshop.Global;
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.utils.Global;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
@@ -28,7 +28,7 @@ public class LocationOverlay extends Overlay {
 		mapView.getProjection().toPixels(point, screenPts);
 
 		Bitmap bmp = BitmapFactory.decodeResource(
-				Global.currentActivity.getResources(), R.drawable.home);
+				Global.application.getResources(), R.drawable.home);
 		canvas.drawBitmap(bmp, screenPts.x, screenPts.y, null);
 	}
 	
