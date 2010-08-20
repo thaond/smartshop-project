@@ -1,31 +1,24 @@
 package com.appspot.smartshop.map;
 
-import com.appspot.smartshop.R;
-import com.appspot.smartshop.adapter.DirectionListAdapter;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class DirectionListActivity extends Activity {
-	
-	private static DirectionListActivity instance = null;
-	
-	public DirectionListActivity() {
-		instance = this;
-	}
+import com.appspot.smartshop.R;
+import com.appspot.smartshop.adapter.DirectionAdapter;
+import com.google.android.maps.MapActivity;
+
+public class DirectionListActivity extends MapActivity {
+	public static final String TAG = "[DirectionListActivity]";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate");
 		setContentView(R.layout.direction_list);
 		
 		// lat, lng info from HomeActivity
@@ -38,7 +31,7 @@ public class DirectionListActivity extends Activity {
 		
 		// listview
 		String[] instructions = directionResult.instructions;
-		DirectionListAdapter adapter = new DirectionListAdapter(
+		DirectionAdapter adapter = new DirectionAdapter(
 				this, R.layout.direction_list_item, instructions);
 		ListView listDirection = (ListView) findViewById(R.id.listDirection);
 		listDirection.setAdapter(adapter);
@@ -64,9 +57,17 @@ public class DirectionListActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					MapDialog.createDirectionOnMapDialog(instance, directionResult).show();
+					MapDialog.createDirectionOnMapDialog(
+							DirectionListActivity.this, directionResult).show();
 				}
 			});
 		}
+		
+		Log.d(TAG, "end of onCreate");
+	}
+	
+	@Override
+	protected boolean isRouteDisplayed() {
+		return false;
 	}
 }

@@ -4,7 +4,7 @@
 	android:layout_height="fill_parent">
 	<Button android:text="ListDirection" android:id="@+id/Button01"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-	<Button android:text="SearchProductOnMap" android:id="@+id/Button02"
+	<Button android:text="TestViewComment" android:id="@+id/Button02"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 	<TextView android:text="Under construction" android:id="@+id/TextView01"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>

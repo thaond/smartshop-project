@@ -10,8 +10,8 @@ import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 import android.view.MotionEvent;
 
-import com.appspot.smartshop.Global;
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.utils.Global;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
