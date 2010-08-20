@@ -1,6 +1,9 @@
 package vnfoss2010.smartshop.serverside.database;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
@@ -8,7 +11,6 @@ import javax.jdo.PersistenceManager;
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 
 import vnfoss2010.smartshop.serverside.database.entity.Category;
-import vnfoss2010.smartshop.serverside.database.entity.Product;
 
 public class CategoryServiceImpl {
 	private static CategoryServiceImpl instance;
@@ -28,10 +30,10 @@ public class CategoryServiceImpl {
 		} catch (NucleusObjectNotFoundException e) {
 		} catch (JDOObjectNotFoundException e) {
 		}
-		if (category == null){
+		if (category == null) {
 			result.setOK(false);
 			result.setMessage("Can't find category");
-		}else {
+		} else {
 			result.setOK(true);
 			result.setResult(category);
 		}
@@ -59,6 +61,43 @@ public class CategoryServiceImpl {
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setMessage(messages.getString("insert_list_userinfos_fail"));
+		}
+
+		return result;
+	}
+
+	public ServiceResult<ArrayList<Category>> findCategories(Set<String> catKeys) {
+		catKeys.iterator();
+		ArrayList<String> listCatKey = new ArrayList<String>();
+		for (String catKey : catKeys) {
+			listCatKey.add(catKey);
+		}
+		return findCategories(listCatKey);
+	}
+
+	public ServiceResult<ArrayList<Category>> findCategories(
+			ArrayList<String> catKeys) {
+		ServiceResult<ArrayList<Category>> result = new ServiceResult<ArrayList<Category>>();
+
+		ArrayList<Category> listCats = new ArrayList<Category>();
+
+		for (String catKey : catKeys) {
+			ServiceResult<Category> catResult = findCategory(catKey);
+			if (catResult.isOK()) {
+				listCats.add(catResult.getResult());
+			} else {
+				listCats.clear();
+				break;
+			}
+		}
+
+		if (listCats.isEmpty()) {
+			result.setOK(false);
+			result.setMessage("Can't find list category");
+		} else {
+			result.setOK(true);
+			result.setResult(listCats);
+			result.setMessage("Find list category successfully");
 		}
 
 		return result;
