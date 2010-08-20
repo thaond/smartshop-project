@@ -5,13 +5,11 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.datastore.Key;
-
 @PersistenceCapable
 public class Attribute {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key id;
+	private Long id;
 
 	@Persistent
 	private String key_cat;
@@ -39,7 +37,7 @@ public class Attribute {
 	/**
 	 * @return the id
 	 */
-	public Key getId() {
+	public Long getId() {
 		return id;
 	}
 

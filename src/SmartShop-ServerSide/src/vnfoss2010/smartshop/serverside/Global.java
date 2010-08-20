@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 public abstract class Global {
 	public static String HOST_NAME = "http://localhost:8888";
 	public static DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+	public static DateFormat dfFull = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
 
 	public static final String[][] LANGUAGE = new String[][] {
 			{ "vi", "Ti\u1EBFng Vi\u1EC7t" }, { "en", "English" } };

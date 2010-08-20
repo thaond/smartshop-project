@@ -11,6 +11,8 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 @PersistenceCapable
 public class Product implements LocationCapable {
@@ -52,9 +54,11 @@ public class Product implements LocationCapable {
 	private Set<Long> setPagesId;
 
 	@Persistent
+	@SerializedName("cats")
 	private Set<String> setCategoryKeys;
 
 	@Persistent
+	@SerializedName("atts") 
 	private Set<Attribute> setAttributes;
 	
 	@Persistent
@@ -330,6 +334,7 @@ public class Product implements LocationCapable {
 	 * @param setCategoryKeys
 	 *            the setCategoryKeys to set
 	 */
+	
 	public void setSetCategoryKeys(Set<String> setCategoryKeys) {
 		this.setCategoryKeys = setCategoryKeys;
 	}
@@ -358,5 +363,17 @@ public class Product implements LocationCapable {
 	@Override
 	public Point getLocation() {
 		return new Point(lat, lng);
+	}
+	
+	public static void main(String[] args) {
+		Product product = new Product();
+		product = new Product("Dell D630", 123, false, 2, "12 month", "China", "Binh Tan", 10.11, 106.123, "tamvo");
+		
+		product.getSetCategoryKeys().add("laptop");
+		product.getSetAttributes().add(new Attribute("laptop", "Camera", "1.3MP", "tamvo"));
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(product);
+		System.out.println(json);
 	}
 }

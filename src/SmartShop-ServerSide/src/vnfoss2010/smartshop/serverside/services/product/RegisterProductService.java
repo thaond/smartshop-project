@@ -1,8 +1,9 @@
 package vnfoss2010.smartshop.serverside.services.product;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.database.AttributeServiceImpl;
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
@@ -18,8 +19,13 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import com.beoui.geocell.GeocellManager;
 import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONObject;
+import com.google.gson.Gson;
 
 public class RegisterProductService extends BaseRestfulService {
+
+	private final static Logger log = Logger
+			.getLogger(RegisterProductService.class.getName());
+
 	private AttributeServiceImpl attributeImpl = AttributeServiceImpl
 			.getInstance();
 	private CategoryServiceImpl dbcat = CategoryServiceImpl.instance();
@@ -40,6 +46,12 @@ public class RegisterProductService extends BaseRestfulService {
 			json = new JSONObject(content);
 		} catch (Exception e) {
 		}
+
+		Gson gson = new Gson();
+		Product product2 = gson.fromJson(content, Product.class);
+
+		log.info(product2.toString());
+		log.log(Level.SEVERE, product2.toString());
 
 		String userName = getParameterWithThrow("username", params, json);
 
@@ -65,17 +77,16 @@ public class RegisterProductService extends BaseRestfulService {
 		HashSet<Attribute> attsList = new HashSet<Attribute>();
 		for (int i = 0; i < attsLength; i++) {
 			JSONObject anAttJSON = jsonAttArray.getJSONObject(i);
-			String catKey = getParameterWithThrow("catId", params, anAttJSON);
+			String catKey = getParameterWithThrow("key_cat", params, anAttJSON);
 			Attribute attribute = null;
 			ServiceResult<Boolean> resultInsertAtt = null;
-			if (dbcat.findCategory(catKey).isOK()) {
-				attribute = new Attribute(catKey, getParameterWithThrow("name",
-						params, anAttJSON), getParameterWithThrow("value",
-						params, anAttJSON), userName);
-				resultInsertAtt = dbatt.insertAttribute(attribute);
-				if (resultInsertAtt.isOK()) {
-					attsList.add(attribute);
-				}
+
+			attribute = new Attribute(catKey, getParameterWithThrow("name",
+					params, anAttJSON), getParameterWithThrow("value", params,
+					anAttJSON), userName);
+			resultInsertAtt = dbatt.insertAttribute(attribute);
+			if (resultInsertAtt.isOK()) {
+				attsList.add(attribute);
 			}
 
 			if (resultInsertAtt == null || resultInsertAtt.isOK() == false) {
@@ -97,8 +108,8 @@ public class RegisterProductService extends BaseRestfulService {
 			catSet.add(catID);
 		}
 		product.setSetCategoryKeys(catSet);
-		product.setGeocells(GeocellManager
-				.generateGeoCell(product.getLocation()));
+		product.setGeocells(GeocellManager.generateGeoCell(product
+				.getLocation()));
 
 		ServiceResult<Long> result = db.insertProduct(product);
 
