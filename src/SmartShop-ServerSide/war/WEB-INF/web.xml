@@ -24,7 +24,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/s</url-pattern>
 	</servlet-mapping>
 	
-	<!-- Testing Service -->
+	<!-- Testing Servlet -->
 	<servlet>
 		<servlet-name>TestServlet</servlet-name>
 		<servlet-class>vnfoss2010.smartshop.serverside.TestServlet</servlet-class>
@@ -32,6 +32,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>TestServlet</servlet-name>
 		<url-pattern>/test</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Upload Handler Servlet-->
+	<servlet>
+		<servlet-name>UploadHandlerServlet</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.UploadHandlerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadHandlerServlet</servlet-name>
+		<url-pattern>/upload</url-pattern>
 	</servlet-mapping>
 
 	<!--
