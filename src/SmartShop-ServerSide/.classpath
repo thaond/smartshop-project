@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/nekohtml-antisamy.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/xercesImpl-gear.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/urlrewrite-3.2.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang-2.5.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
