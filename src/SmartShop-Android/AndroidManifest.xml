@@ -4,9 +4,9 @@
 	android:versionName="1.0">
 
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
-	
+
 		<uses-library android:name="com.google.android.maps" />
-		
+
 		<activity android:name=".HomeActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,8 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".ui.user.LoginActivity" android:label="@string/app_name">
+		<activity android:name=".ui.user.LoginActivity"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -35,37 +36,64 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
-		<activity android:name=".ui.product.PostProductActivity" android:label="@string/app_name">
+
+		<activity android:name=".ui.product.PostProductActivity"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.product.PostProductActivityBasicAttribute" android:label="@string/app_name">
+		<activity android:name=".ui.product.PostProductActivityBasicAttribute"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.product.PostProductActivityUserDefine" android:label="@string/app_name">
+		<activity android:name=".ui.product.PostProductActivityUserDefine"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.product.SearchProductActivity" android:label="@string/app_name">
+		<activity android:name=".ui.product.SearchProductActivity"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<activity android:name=".ui.product.SearchByCategory"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".test.ExpandableFeatureSelector"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+				<activity android:name=".test.ExpandableFeatureSelector"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
 		<activity android:name=".map.DirectionListActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+
 
 	</application>
 

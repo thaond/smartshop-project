@@ -40,6 +40,7 @@ public class SearchProductActivity extends Activity {
 				new LinkedList<ProductInfo>()) {
 
 		};
+		listViewProduct.setAdapter(productAdapter);
 		Button btnAdvancedSearchProduct = (Button)findViewById(R.id.btnAdvancedSearch);
 
 		//TODO: Xu Ly su kien cho button AdvancedSearch 	
