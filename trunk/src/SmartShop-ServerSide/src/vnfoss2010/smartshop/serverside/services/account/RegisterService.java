@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.google.appengine.repackaged.org.json.JSONObject;
 
 import vnfoss2010.smartshop.serverside.Global;
-import vnfoss2010.smartshop.serverside.database.DatabaseServiceImpl;
+import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
@@ -16,7 +16,7 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 public class RegisterService extends BaseRestfulService{
 	
-	private DatabaseServiceImpl db = DatabaseServiceImpl.getInstance();
+	private AccountServiceImpl db = AccountServiceImpl.getInstance();
 	private Gson gson = new Gson();
 
 	public RegisterService(String serviceName) {

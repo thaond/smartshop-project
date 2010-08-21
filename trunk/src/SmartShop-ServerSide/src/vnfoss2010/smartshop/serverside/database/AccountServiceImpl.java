@@ -1,12 +1,8 @@
 package vnfoss2010.smartshop.serverside.database;
 
-import java.io.File;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,18 +13,12 @@ import javax.jdo.Query;
 import javax.servlet.http.HttpServlet;
 
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
-import org.owasp.validator.html.AntiSamy;
-import org.owasp.validator.html.CleanResults;
-import org.owasp.validator.html.Policy;
-import org.owasp.validator.html.PolicyException;
 
 import vnfoss2010.smartshop.serverside.Global;
-import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Media;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
-import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 
 import com.google.appengine.api.datastore.DatastoreNeedIndexException;
@@ -39,21 +29,21 @@ import com.google.appengine.api.users.UserServiceFactory;
 /**
  * The server side implementation of the RPC service.<br>
  */
-public class DatabaseServiceImpl extends HttpServlet {
+public class AccountServiceImpl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static DatabaseServiceImpl instance;
+	private static AccountServiceImpl instance;
 
 	public static UserService userService = UserServiceFactory.getUserService();
 	private final static Logger log = Logger
-			.getLogger(DatabaseServiceImpl.class.getName());
+			.getLogger(AccountServiceImpl.class.getName());
 
 	/**
 	 * Default constructor<br>
 	 * Modifier should be public because if modifier is private, an exception
 	 * will be thrown<br>
-	 * <code>Class {@link org.mortbay.jetty.servlet.Holder} can not access a member of class {@link DatabaseServiceImpl} with modifiers "private"</code>
+	 * <code>Class {@link org.mortbay.jetty.servlet.Holder} can not access a member of class {@link AccountServiceImpl} with modifiers "private"</code>
 	 */
-	public DatabaseServiceImpl() {
+	public AccountServiceImpl() {
 		instance = this;
 	}
 
@@ -61,11 +51,11 @@ public class DatabaseServiceImpl extends HttpServlet {
 	 * You should use this method to create an instance of this class.<br/>
 	 * <b>Note:</b> <code>Singleton</code> is used here
 	 * 
-	 * @return {@link DatabaseServiceImpl} instance
+	 * @return {@link AccountServiceImpl} instance
 	 */
-	public static DatabaseServiceImpl getInstance() {
+	public static AccountServiceImpl getInstance() {
 		if (instance == null)
-			instance = new DatabaseServiceImpl();
+			instance = new AccountServiceImpl();
 		return instance;
 	}
 
@@ -92,7 +82,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 			}
 
 			if (isNotFound || tmp == null) {
-				userInfo.setPassword(md5(userInfo.getPassword()));
+				userInfo.setPassword(DatabaseUtils.md5(userInfo.getPassword()));
 				pm.makePersistent(userInfo);
 				result.setOK(true);
 			} else {
@@ -139,27 +129,31 @@ public class DatabaseServiceImpl extends HttpServlet {
 				result.setMessage(userInfo.getUsername() + " "
 						+ Global.messages.getString("doesnot_exist"));
 			} else {
-				tmp.setFirst_name(userInfo.getFirst_name());
-				tmp.setLast_name(userInfo.getLast_name());
-				tmp.setPhone(userInfo.getPhone());
-				tmp.setEmail(userInfo.getEmail());
-				tmp.setAddress(userInfo.getAddress());
-				tmp.setLang(userInfo.getLang());
-				tmp.setCountry(userInfo.getCountry());
-				tmp.setBirthday(userInfo.getBirthday());
-				tmp.setLat(userInfo.getLat());
-				tmp.setLng(userInfo.getLng());
-				tmp.setGmt(userInfo.getGmt());
-				if (userInfo.getPassword() == null
-						|| userInfo.getPassword().toString().length() == 0) {
-					result.setOK(true);
-				} else if (userInfo.getPassword().equals(
-						userInfo.getOldPassword())) {
-					userInfo.setPassword(md5(userInfo.getPassword()));
-					result.setOK(true);
-				} else {
+				if (userInfo.getPassword() != null
+						&& userInfo.getPassword().toString().length() > 0 && !userInfo.getPassword().equals(
+						userInfo.getOldPassword())){
 					result.setMessage(Global.messages
 							.getString("password_doesnot_match"));
+				}else{
+					if (userInfo.getPassword().equals(
+							userInfo.getOldPassword())) {
+						tmp.setPassword(DatabaseUtils.md5(userInfo.getPassword()));
+					}
+					
+					tmp.setFirst_name(userInfo.getFirst_name());
+					tmp.setLast_name(userInfo.getLast_name());
+					tmp.setPhone(userInfo.getPhone());
+					tmp.setEmail(userInfo.getEmail());
+					tmp.setAddress(userInfo.getAddress());
+					tmp.setLang(userInfo.getLang());
+					tmp.setCountry(userInfo.getCountry());
+					tmp.setBirthday(userInfo.getBirthday());
+					tmp.setLat(userInfo.getLat());
+					tmp.setLng(userInfo.getLng());
+					tmp.setGmt(userInfo.getGmt());
+					
+					pm.refresh(tmp);
+					result.setOK(true);
 				}
 			}
 		} catch (Exception ex) {
@@ -190,7 +184,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 					continue;
 				}
 
-				userInfo.setPassword(md5(userInfo.getPassword()));
+				userInfo.setPassword(DatabaseUtils.md5(userInfo.getPassword()));
 				pm.makePersistent(userInfo);
 			} // end for loop
 
@@ -255,8 +249,8 @@ public class DatabaseServiceImpl extends HttpServlet {
 	}
 
 	public ServiceResult<UserInfo> login(String username, String password) {
-		username = preventSQLInjection(username);
-		password = md5(preventSQLInjection(password));
+		username = DatabaseUtils.preventSQLInjection(username);
+		password = DatabaseUtils.md5(DatabaseUtils.preventSQLInjection(password));
 
 		ServiceResult<UserInfo> result = new ServiceResult<UserInfo>();
 
@@ -308,7 +302,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 	}
 
 	public ServiceResult<Void> logout(String username) {
-		username = preventSQLInjection(username);
+		username = DatabaseUtils.preventSQLInjection(username);
 
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
@@ -358,7 +352,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 	}
 
 	public ServiceResult<Boolean> isExist(String username) {
-		username = preventSQLInjection(username);
+		username = DatabaseUtils.preventSQLInjection(username);
 		ServiceResult<Boolean> result = new ServiceResult<Boolean>();
 
 		if (username == null || username.equals("")) {
@@ -402,14 +396,14 @@ public class DatabaseServiceImpl extends HttpServlet {
 	}
 
 	public ServiceResult<List<UserInfo>> searchUsernamesLike(String queryString) {
-		queryString = preventSQLInjection(queryString);
+		queryString = DatabaseUtils.preventSQLInjection(queryString);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		StringBuffer queryBuffer = new StringBuffer();
 		queryBuffer.append("SELECT FROM " + UserInfo.class.getName()
 				+ " WHERE ");
 		Set<String> queryTokens = SearchJanitorUtils
 				.getTokensForIndexingOrQuery(queryString,
-						MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+						Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
 		List<String> parametersForSearch = new ArrayList<String>(queryTokens);
 		StringBuffer declareParametersBuffer = new StringBuffer();
 		int parameterCounter = 0;
@@ -435,14 +429,22 @@ public class DatabaseServiceImpl extends HttpServlet {
 		try {
 			listUserInfos = (List<UserInfo>) query
 					.executeWithArray(parametersForSearch.toArray());
-			result.setResult(new ArrayList<UserInfo>());
-			for (UserInfo userInfo : listUserInfos) {
-				// Just return basic information
-				result.getResult().add(
-						new UserInfo(userInfo.getUsername(), userInfo
-								.getFirst_name(), userInfo.getLast_name()));
+			
+			if (listUserInfos.size()>0){
+				result.setResult(new ArrayList<UserInfo>());
+				for (UserInfo userInfo : listUserInfos) {
+					// Just return basic information
+					result.getResult().add(
+							new UserInfo(userInfo.getUsername(), userInfo
+									.getFirst_name(), userInfo.getLast_name()));
+				}
+				result.setMessage(Global.messages.getString("search_username_successfully"));
+				result.setOK(true);
+			}else{
+				result.setOK(false);
+				result.setMessage(Global.messages.getString("search_username_fail"));
 			}
-			result.setOK(true);
+			
 		} catch (DatastoreTimeoutException e) {
 			log.severe(e.getMessage());
 			log.severe("datastore timeout at: " + queryString);// +
@@ -464,70 +466,8 @@ public class DatabaseServiceImpl extends HttpServlet {
 		return result;
 	}
 
-	public ServiceResult<Void> addFriend(String username, String friend) {
-		username = preventSQLInjection(username);
-		friend = preventSQLInjection(friend);
-		ServiceResult<Void> result = new ServiceResult<Void>();
-
-		if (username == null || username.equals("") || friend == null
-				|| friend.equals("")) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
-			return result;
-		}
-
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try {
-			boolean isNotFound = false;
-			UserInfo userInfo1 = null;
-			try {
-				userInfo1 = pm.getObjectById(UserInfo.class, username);
-			} catch (NucleusObjectNotFoundException e) {
-				isNotFound = true;
-			} catch (JDOObjectNotFoundException e) {
-				isNotFound = true;
-			}
-			if (isNotFound || userInfo1 == null) {
-				result.setMessage(Global.messages.getString("not_found") + " "
-						+ username);
-				result.setOK(false);
-			} else {
-				// Exist this username in the datastore
-				isNotFound = false;
-				UserInfo userInfo2 = null;
-				try {
-					userInfo2 = pm.getObjectById(UserInfo.class, username);
-				} catch (NucleusObjectNotFoundException e) {
-					isNotFound = true;
-				} catch (JDOObjectNotFoundException e) {
-					isNotFound = true;
-				}
-				if (isNotFound || userInfo2 == null) {
-					result.setMessage(Global.messages.getString("not_found") + " "
-							+ friend);
-					result.setOK(false);
-				} else {
-					userInfo1.getSetFriendsUsername().add(friend);
-					userInfo2.getSetFriendsUsername().add(username);
-				}
-				result.setOK(true);
-			}
-		} catch (Exception ex) {
-			result.setMessage(Global.messages.getString("add_friend_fail"));
-			ex.printStackTrace();
-			// log.log(Level.SEVERE, s, ex);
-		} finally {
-			try {
-				pm.close();
-			} catch (Exception ex) {
-				result.setMessage(Global.messages.getString("add_friend_fail"));
-				ex.printStackTrace();
-			}
-		}
-		return result;
-	}
-
-	public ServiceResult<Void> addFriends(String username, List<String> friends) {
-		username = preventSQLInjection(username);
+	public ServiceResult<Void> addFriends(String username, String... friends) {
+		username = DatabaseUtils.preventSQLInjection(username);
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
 		if (username == null || username.equals("")) {
@@ -552,7 +492,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 				result.setOK(false);
 			} else {
 				// Exist this username in the datastore
-				for (int i = 0; i < friends.size(); i++) {
+				for (int i = 0; i < friends.length; i++) {
 					isNotFound = false;
 
 					UserInfo userInfo2 = null;
@@ -569,7 +509,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 					}
 
 					userInfo.getSetFriendsUsername().add(
-							preventSQLInjection(friends.get(i)));
+							DatabaseUtils.preventSQLInjection(friends[i]));
 				}
 
 				result.setOK(true);
@@ -588,144 +528,6 @@ public class DatabaseServiceImpl extends HttpServlet {
 				result.setMessage(Global.messages.getString("add_list_friends_fail"));
 			}
 		}
-		return result;
-	}
-
-	public static List<UserInfo> searchUserInfo(String queryString,
-			PersistenceManager pm) {
-
-		StringBuffer queryBuffer = new StringBuffer();
-		queryBuffer.append("SELECT FROM " + UserInfo.class.getName()
-				+ " WHERE ");
-
-		Set<String> queryTokens = SearchJanitorUtils
-				.getTokensForIndexingOrQuery(queryString,
-						MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
-
-		List<String> parametersForSearch = new ArrayList<String>(queryTokens);
-		StringBuffer declareParametersBuffer = new StringBuffer();
-		int parameterCounter = 0;
-
-		while (parameterCounter < queryTokens.size()) {
-
-			queryBuffer.append("fts == param" + parameterCounter);
-			declareParametersBuffer.append("String param" + parameterCounter);
-
-			if (parameterCounter + 1 < queryTokens.size()) {
-				queryBuffer.append(" && ");
-				declareParametersBuffer.append(", ");
-			}
-			parameterCounter++;
-		}
-		Query query = pm.newQuery(queryBuffer.toString());
-		query.declareParameters(declareParametersBuffer.toString());
-		List<UserInfo> result = null;
-
-		try {
-			result = (List<UserInfo>) query
-					.executeWithArray(parametersForSearch.toArray());
-
-		} catch (DatastoreTimeoutException e) {
-			log.severe(e.getMessage());
-			log.severe("datastore timeout at: " + queryString);// +
-			// " - timestamp: "
-			// +
-			// discreteTimestamp);
-		} catch (DatastoreNeedIndexException e) {
-			log.severe(e.getMessage());
-			log.severe("datastore need index exception at: " + queryString);// +
-			// " - timestamp: "
-			// +
-			// discreteTimestamp);
-		}
-		return result;
-
-	}
-
-	// PRODUCT
-	/**
-	 * Insert new product into database
-	 * 
-	 * @return id in the datastore
-	 */
-	public ServiceResult<Long> insertProduct(Product product) {
-		preventSQLInjProduct(product);
-		ServiceResult<Long> result = new ServiceResult<Long>();
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-
-		if (product == null) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
-		}
-
-		try {
-			pm.flush();
-			product = pm.makePersistent(product);
-			if (product == null) {
-				result.setMessage(Global.messages.getString("insert_product_fail"));
-			} else {
-				result.setResult(product.getId());
-				result.setMessage(Global.messages
-						.getString("insert_product_successfully"));
-				result.setOK(true);
-			}
-		} catch (Exception e) {
-			Global.log(log, Arrays.toString(e.getStackTrace()));
-			result.setMessage(Global.messages.getString("insert_product_fail"));
-		}
-
-		return result;
-	}
-
-	public ServiceResult<Long> insertProduct(Product product,
-			List<String> listCategories, List<Attribute> listAttributes) {
-		preventSQLInjProduct(product);
-		ServiceResult<Long> result = new ServiceResult<Long>();
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-
-		if (product == null) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
-		}
-
-		try {
-			if (listCategories != null) {
-				//
-				for (String cat : listCategories) {
-					Category tmp = null;
-					boolean isNotFound = false;
-					try {
-						tmp = (Category) pm.getObjectById(cat);
-					} catch (NucleusObjectNotFoundException e) {
-						isNotFound = true;
-					} catch (JDOObjectNotFoundException e) {
-						isNotFound = true;
-					}
-
-					if (isNotFound || tmp == null)
-						continue;
-					product.getSetCategoryKeys().add(cat);
-				}
-			}
-
-			if (listAttributes != null) {
-				for (Attribute att : listAttributes) {
-					product.getAttributeSets().add(att);
-				}
-			}
-
-			product = pm.makePersistent(product);
-			if (product == null) {
-				result.setMessage(Global.messages.getString("insert_product_fail"));
-			} else {
-				result.setResult(product.getId());
-				result.setMessage(Global.messages
-						.getString("insert_product_successfully"));
-				result.setOK(true);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage(Global.messages.getString("insert_list_userinfos_fail"));
-		}
-
 		return result;
 	}
 
@@ -843,13 +645,11 @@ public class DatabaseServiceImpl extends HttpServlet {
 	}
 
 	private void preventSQLInjMedia(Media media) {
-		media.setName(preventSQLInjection(media.getName()));
-		media.setDescription(preventSQLInjection(media.getDescription()));
+		media.setName(DatabaseUtils.preventSQLInjection(media.getName()));
+		media.setDescription(DatabaseUtils.preventSQLInjection(media.getDescription()));
 	}
 
 	// STUFF
-	private static Policy policy = null;
-
 	public String getGoogleAccountLoginLink() {
 		return userService.createLoginURL(Global.HOST_NAME);
 	}
@@ -859,126 +659,27 @@ public class DatabaseServiceImpl extends HttpServlet {
 	}
 
 	private void preventSQLInjUserInfo(UserInfo userInfo) {
-		userInfo.setUsername(preventSQLInjection(userInfo.getUsername()));
-		userInfo.setPassword(preventSQLInjection(userInfo.getPassword()));
-		userInfo.setFirst_name(preventSQLInjection(userInfo.getFirst_name()));
-		userInfo.setLast_name(preventSQLInjection(userInfo.getLast_name()));
-		userInfo.setPhone(preventSQLInjection(userInfo.getPhone()));
-		userInfo.setEmail(preventSQLInjection(userInfo.getEmail()));
-		userInfo.setAddress(preventSQLInjection(userInfo.getAddress()));
-		userInfo.setLang(preventSQLInjection(userInfo.getLang()));
-		userInfo.setCountry(preventSQLInjection(userInfo.getCountry()));
-	}
-
-	public static void preventSQLInjProduct(Product product) {
-		product.setName(preventSQLInjection(product.getName()));
-		product.setAddress(preventSQLInjection(product.getAddress()));
+		userInfo.setUsername(DatabaseUtils.preventSQLInjection(userInfo.getUsername()));
+		userInfo.setPassword(DatabaseUtils.preventSQLInjection(userInfo.getPassword()));
+		userInfo.setFirst_name(DatabaseUtils.preventSQLInjection(userInfo.getFirst_name()));
+		userInfo.setLast_name(DatabaseUtils.preventSQLInjection(userInfo.getLast_name()));
+		userInfo.setPhone(DatabaseUtils.preventSQLInjection(userInfo.getPhone()));
+		userInfo.setEmail(DatabaseUtils.preventSQLInjection(userInfo.getEmail()));
+		userInfo.setAddress(DatabaseUtils.preventSQLInjection(userInfo.getAddress()));
+		userInfo.setLang(DatabaseUtils.preventSQLInjection(userInfo.getLang()));
+		userInfo.setCountry(DatabaseUtils.preventSQLInjection(userInfo.getCountry()));
 	}
 
 	public static void preventSQLInjPage(Page page) {
-		page.setName(preventSQLInjection(page.getName()));
-		page.setContent(preventSQLInjection(page.getContent()));
+		page.setName(DatabaseUtils.preventSQLInjection(page.getName()));
+		page.setContent(DatabaseUtils.preventSQLInjection(page.getContent()));
 	}
 
 	public static void preventSQLInjComment(Comment comment) {
-		comment.setContent(preventSQLInjection(comment.getContent()));
+		comment.setContent(DatabaseUtils.preventSQLInjection(comment.getContent()));
 	}
 
-	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;
-	public static final int MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX = 200;
 	final int DURATION_IN_S = 60 * 60 * 24; // duration remembering login: 1 day
-
-	/**
-	 * Stuff function to help preventSQLInjection do a job
-	 * 
-	 * @return {@link Policy}
-	 * @author VoMinhTam
-	 * @see <a
-	 *      href="http://www.owasp.org/index.php/Category:OWASP_AntiSamy_Project">OWASP_AntiSamy</a>
-	 */
-	private static Policy getAntiSamyPolicy() {
-		Policy policy = null;
-		try {
-			File file = new File("otherconfigs/antisamy-anythinggoes-1.3.xml");
-			policy = Policy.getInstance(file);
-		} catch (PolicyException pe) {
-			log.log(Level.SEVERE, "getAntiSamyPolicy:" + pe.getMessage(), pe);
-		}
-		return policy;
-	}
-
-	/**
-	 * The function to prevent SQLInjection which may be dangerous to our
-	 * datastore. I haven't digged whether SQL injection affect to datastore,
-	 * but because datastore also support JDOQL, kind of SQL-like, to query so I
-	 * think it's also affectted.<br />
-	 * <i>Library:</i> antisamy <br />
-	 * <b>Note:</b> Every input from client should be check by this function for
-	 * more security
-	 * 
-	 * @param <code>dirtyInput:</code> input from client
-	 * @return output that doesn't contain any dirty things, such as: escapse
-	 *         character, boolean, ...
-	 * @author VoMinhTam
-	 * @see <a
-	 *      href="http://www.owasp.org/index.php/Category:OWASP_AntiSamy_Project">OWASP_AntiSamy</a>
-	 */
-	public static String preventSQLInjection(String dirtyInput) {
-		if (dirtyInput == null)
-			return null;
-		CleanResults cr = null;
-		try {
-			if (policy == null)
-				policy = getAntiSamyPolicy();
-			AntiSamy as = new AntiSamy();
-			cr = as.scan(dirtyInput, policy);
-		} catch (Exception ex) {
-			log.log(Level.SEVERE, "preventSQLInj:" + ex.getMessage(), ex);
-		}
-		return cr.getCleanHTML(); // some custom function
-	}
-
-	/**
-	 * This function help generate an md5 string which corespondent to input
-	 * string. It's especially helpful for security in password.<br />
-	 * 
-	 * <b>Usage:</b>
-	 * <ol>
-	 * <li><i>Store:</i> before store password in datastore, plz let password go
-	 * through this function <br />
-	 * <ii><i>Match:</i> get password input from client and let it go throught
-	 * this function, and check whether it matchs md5 from datastore or not
-	 * <br/>
-	 * </ ol>
-	 * 
-	 * @param <code>value</code>
-	 * @return md5 of this value
-	 */
-	public static String md5(String value) {
-		MessageDigest algorithm = null;
-
-		try {
-			algorithm = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException nsae) {
-			log.severe("[MD5]Cannot find digest algorithm");
-			return null;
-		}
-
-		byte[] defaultBytes = value.getBytes();
-		algorithm.reset();
-		algorithm.update(defaultBytes);
-		byte messageDigest[] = algorithm.digest();
-		StringBuffer hexString = new StringBuffer();
-
-		for (int i = 0; i < messageDigest.length; i++) {
-			String hex = Integer.toHexString(0xFF & messageDigest[i]);
-			if (hex.length() == 1) {
-				hexString.append('0');
-			}
-			hexString.append(hex);
-		}
-		return hexString.toString();
-	}
 
 	public static void updateFTSStuffForUserInfo(UserInfo userInfo) {
 		StringBuffer sb = new StringBuffer();
@@ -986,7 +687,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 				+ userInfo.getLast_name());
 		Set<String> new_ftsTokens = SearchJanitorUtils
 				.getTokensForIndexingOrQuery(sb.toString(),
-						MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX);
+						Global.MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX);
 		Set<String> ftsTokens = userInfo.getFts();
 		ftsTokens.clear();
 

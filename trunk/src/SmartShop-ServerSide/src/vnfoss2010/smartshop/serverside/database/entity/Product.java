@@ -1,6 +1,7 @@
 package vnfoss2010.smartshop.serverside.database.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,8 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
+import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
@@ -35,6 +38,9 @@ public class Product implements LocationCapable {
 	private int quantity;
 
 	@Persistent
+	private Date date_post;
+
+	@Persistent
 	private String warranty;
 
 	@Persistent
@@ -53,6 +59,9 @@ public class Product implements LocationCapable {
 	private String username;
 
 	@Persistent
+	private Set<String> fts;
+
+	@Persistent
 	private List<Long> listPagesId;
 
 	@Persistent
@@ -64,13 +73,15 @@ public class Product implements LocationCapable {
 	private List<Attribute> attributeSets;
 
 	@Persistent
-	
 	private List<String> geocells;
 
 	public Product() {
 		setCategoryKeys = new HashSet<String>();
 		attributeSets = new ArrayList<Attribute>();
 		listPagesId = new ArrayList<Long>();
+
+		this.fts = new HashSet<String>();
+		ProductServiceImpl.updateFTSStuffForUserInfo(this);
 	}
 
 	public Product(String name, double price, boolean isVat, int quantity,
@@ -87,6 +98,9 @@ public class Product implements LocationCapable {
 		this.lat = lat;
 		this.lng = lng;
 		this.username = username;
+
+		this.fts = new HashSet<String>();
+		ProductServiceImpl.updateFTSStuffForUserInfo(this);
 	}
 
 	/**
@@ -332,21 +346,9 @@ public class Product implements LocationCapable {
 		return new Point(lat, lng);
 	}
 
-	public static void main(String[] args) {
-		Product product = new Product();
-		product = new Product("Dell D630", 123, false, 2, "12 month", "China",
-				"Binh Tan", 10.11, 106.123, "tamvo");
-
-		product.getSetCategoryKeys().add("laptop");
-		// product.getSetAttributes().add(
-		// new Attribute("laptop", "Camera", "1.3MP", "tamvo"));
-
-		Gson gson = new Gson();
-		String json = gson.toJson(product);
-		System.out.println(json);
-	}
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -361,7 +363,8 @@ public class Product implements LocationCapable {
 	}
 
 	/**
-	 * @param listPagesId the listPagesId to set
+	 * @param listPagesId
+	 *            the listPagesId to set
 	 */
 	public void setListPagesId(List<Long> listPagesId) {
 		this.listPagesId = listPagesId;
@@ -372,5 +375,47 @@ public class Product implements LocationCapable {
 	 */
 	public List<Long> getListPagesId() {
 		return listPagesId;
+	}
+
+	/**
+	 * @param date_post
+	 *            the date_post to set
+	 */
+	public void setDate_post(Date date_post) {
+		this.date_post = date_post;
+	}
+
+	/**
+	 * @return the date_post
+	 */
+	public Date getDate_post() {
+		return date_post;
+	}
+
+	public static void main(String[] args) {
+		Product product = new Product();
+		product = new Product("Nec Monitor", 123, false, 2, "12 month",
+				"China", "Binh Tan", 10.11, 106.123, "tamvo");
+
+		product.getSetCategoryKeys().add("comp");
+
+		Gson gson = new Gson();
+		String json = gson.toJson(product);
+		System.out.println(json);
+	}
+
+	/**
+	 * @param fts
+	 *            the fts to set
+	 */
+	public void setFts(Set<String> fts) {
+		this.fts = fts;
+	}
+
+	/**
+	 * @return the fts
+	 */
+	public Set<String> getFts() {
+		return fts;
 	}
 }

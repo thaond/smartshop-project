@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
-import vnfoss2010.smartshop.serverside.database.DatabaseServiceImpl;
+import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
@@ -23,11 +23,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class GetProductService extends BaseRestfulService {
-	ProductServiceImpl dbProduct = ProductServiceImpl.instance();
+	ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
 	CategoryServiceImpl dbCategory = CategoryServiceImpl.instance();
 	
 	private final static Logger log = Logger
-	.getLogger(DatabaseServiceImpl.class.getName());
+	.getLogger(AccountServiceImpl.class.getName());
 
 	public GetProductService(String serviceName) {
 		super(serviceName);

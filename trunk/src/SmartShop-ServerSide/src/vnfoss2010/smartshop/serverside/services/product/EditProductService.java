@@ -13,7 +13,7 @@ import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONObject;
 
 public class EditProductService extends BaseRestfulService {
-	ProductServiceImpl dbProduct = ProductServiceImpl.instance();
+	ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
 
 	public EditProductService(String serviceName) {
 		super(serviceName);

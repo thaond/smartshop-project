@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
-import vnfoss2010.smartshop.serverside.database.DatabaseServiceImpl;
+import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
@@ -14,7 +14,7 @@ public class SampleDataRestfull extends BaseRestfulService {
 	public SampleDataRestfull(String serviceName) {
 		super(serviceName);
 	}
-	private DatabaseServiceImpl db = DatabaseServiceImpl.getInstance();
+	private AccountServiceImpl db = AccountServiceImpl.getInstance();
 	private CategoryServiceImpl dbcat = CategoryServiceImpl.instance();
 
 	@Override

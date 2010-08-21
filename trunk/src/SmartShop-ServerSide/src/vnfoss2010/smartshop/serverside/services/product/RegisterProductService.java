@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.database.AttributeServiceImpl;
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
-import vnfoss2010.smartshop.serverside.database.DatabaseServiceImpl;
+import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
@@ -29,7 +29,7 @@ public class RegisterProductService extends BaseRestfulService {
 	private CategoryServiceImpl dbcat = CategoryServiceImpl.instance();
 	private AttributeServiceImpl dbatt = AttributeServiceImpl.getInstance();
 
-	private DatabaseServiceImpl db = DatabaseServiceImpl.getInstance();
+	private ProductServiceImpl db = ProductServiceImpl.getInstance();
 
 	public RegisterProductService(String serviceName) {
 		super(serviceName);
