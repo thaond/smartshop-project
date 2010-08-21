@@ -8,7 +8,6 @@ import android.widget.TabHost;
 public class PostProductActivity extends TabActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		final TabHost tabHost = getTabHost();
 

@@ -19,7 +19,6 @@ public class PostProductActivityUserDefine extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_define_attribute);
 		Button add = (Button) findViewById(R.id.btnAdd);

@@ -97,7 +97,7 @@
 				
 			<EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:id="@+id/txtBirthday" android:textSize="10dip" 
-				android:hint="@string/hintChooseBirthday"/>
+				android:hint="@string/hintChooseBirthday" android:editable="false"/>
 
 		</LinearLayout>
 

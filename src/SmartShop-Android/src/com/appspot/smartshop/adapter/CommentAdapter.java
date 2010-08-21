@@ -34,7 +34,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 			Comment comment = (Comment) getItem(position);
 			
 			Button imgAvatar = (Button) convertView.findViewById(R.id.btnAvatar);
-			// TODO load avatar of user and display
+			// TODO (condorhero01): load avatar of user and display
 			
 			TextView txtComment = (TextView) convertView.findViewById(R.id.txtComment);
 			txtComment.setText(comment.content);

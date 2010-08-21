@@ -1,6 +1,7 @@
 package com.appspot.smartshop.ui.user;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -18,16 +19,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
+import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
-public class RegisterUserActivity extends MapActivity {
-	public static final String TAG = "[RegisterUserActivity]";
+public class UserActivity extends MapActivity {
+	public static final String TAG = "[UserActivity]";
+	
+	public static final int REGISTER_USER = 0;
+	public static final int EDIT_USER_PROFILE = 1;
+	public static final int VIEW_USER_PROFILE = 2;
 	
 	static final int DATE_DIALOG_ID = 0;
+	
+	private int mode = REGISTER_USER;
 	
 	private TextView lblUsername;
 	private EditText txtUsername;
@@ -49,30 +59,34 @@ public class RegisterUserActivity extends MapActivity {
 	private EditText txtAvatar;
 	private TextView lblBirthday;
 	
+	private EditText txtBirthday;
+
 	private int mYear;
     private int mMonth;
     private int mDay;
+    
+    private double lat;
+    private double lng;
+    
+    private UserInfo userInfo = null;
 	
 	private DatePickerDialog.OnDateSetListener mDateSetListener =
     new DatePickerDialog.OnDateSetListener() {
 
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                 int dayOfMonth) {
-            mYear = year;
-            mMonth = monthOfYear + 1;
+            mYear = year - 1900;
+            mMonth = monthOfYear;
             mDay = dayOfMonth;
             
-            // TODO get birthday info
-            Log.d(TAG, "birthday: " + mDay + ", " + mMonth + ", " + mYear);
+            txtBirthday.setText(Global.df.format(new Date(mYear, mMonth, mDay)));
         }
     };
-
-	private AlertDialog.Builder dialogBuilder;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.register_user);
+		setContentView(R.layout.user);
 		
 		// label width
 		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -128,7 +142,7 @@ public class RegisterUserActivity extends MapActivity {
 		
 		lblBirthday = (TextView) findViewById(R.id.lblBirthday);
 		lblBirthday.setWidth(labelWidth);
-		EditText txtBirthday = (EditText) findViewById(R.id.txtBirthday);
+		txtBirthday = (EditText) findViewById(R.id.txtBirthday);
 		txtBirthday.setWidth(textWidth);
 		
 		txtBirthday.setOnClickListener(new OnClickListener() {
@@ -139,13 +153,59 @@ public class RegisterUserActivity extends MapActivity {
 			}
 		});
 		
+		// setup data for text field if in edit/view user profile mode
+		Bundle bundle = getIntent().getExtras();
+		if (bundle != null) {
+			mode = EDIT_USER_PROFILE;
+			userInfo = (UserInfo) bundle.get(Global.USER_INFO);
+			
+			txtUsername.setText(userInfo.username);
+			txtPassword.setText(userInfo.password);
+			txtConfirm.setText(userInfo.password);
+			txtFirstName.setText(userInfo.first_name);
+			txtLastName.setText(userInfo.last_name);
+			txtEmail.setText(userInfo.email);
+			txtAddress.setText(userInfo.address);
+			txtPhoneNumber.setText(userInfo.phone);
+			txtBirthday.setText(Global.df.format(userInfo.birthday));
+			// TODO (condorhero01): display avatar
+			
+			// TODO (condohero01): some fields of user info must be uneditable
+			txtUsername.setFilters(Utils.uneditableInputFilters);
+			txtEmail.setFilters(Utils.uneditableInputFilters);
+			txtPhoneNumber.setFilters(Utils.uneditableInputFilters);
+			
+			// not allow to edit text when in VIEW_USER_PROFILE MODE
+			Boolean canEditUserProfile = bundle.getBoolean(Global.CAN_EDIT_USER_PROFILE);
+			if (!(canEditUserProfile != null && canEditUserProfile == true)) {
+				mode = VIEW_USER_PROFILE;
+				txtUsername.setEnabled(false);
+			}
+		} else {
+			
+		}
+		
 		// buttons
 		Button btnRegister = (Button) findViewById(R.id.btnRegister);
+		if (mode != REGISTER_USER) {
+			btnRegister.setText(getString(R.string.lblUpdate));
+		}
 		btnRegister.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				register();
+				switch (mode) {
+				case REGISTER_USER:
+					registerNewUser();
+					break;
+					
+				case EDIT_USER_PROFILE:
+					editUserProfile();
+					break;
+					
+				case VIEW_USER_PROFILE:
+					break;
+				}
 			}
 		});
 		
@@ -154,7 +214,7 @@ public class RegisterUserActivity extends MapActivity {
 			
 			@Override
 			public void onClick(View v) {
-				cancel();
+				finish();
 			}
 		});
 		
@@ -166,17 +226,38 @@ public class RegisterUserActivity extends MapActivity {
 				tagAddressOnMap();
 			}
 		});
-		
-//		Button btnBirthday = (Button) findViewById(R.id.btnBirthday);
-//		btnBirthday.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				chooseBirthday();
-//			}
-//		});
 	}
 	
+	private void collectUserInfo() {
+		userInfo = new UserInfo();
+		
+		// update user info
+		userInfo.username = txtUsername.getText().toString();
+		userInfo.password = txtPassword.getText().toString();	// TODO (condorhero01): hash MD5 pass?
+		userInfo.first_name = txtFirstName.getText().toString();
+		userInfo.last_name = txtLastName.getText().toString();
+		userInfo.email = txtEmail.getText().toString();
+		userInfo.address = txtAddress.getText().toString();
+		userInfo.phone = txtPhoneNumber.getText().toString();
+		userInfo.birthday = new Date(mYear, mMonth, mDay);
+		Log.d(TAG, "birthday = " + userInfo.birthday);
+		userInfo.lat = lat;
+		userInfo.lng = lng;
+		// TODO (condorhero01): get avatar link of user
+	}
+	
+	protected void registerNewUser() {
+		collectUserInfo();
+		
+		// TODO (condorhero01): request to server to register new user
+	}
+
+	protected void editUserProfile() {
+		collectUserInfo();
+		
+		// TODO (condorhero01): request to server to update user info
+	}
+
 	protected Dialog onCreateDialog(int id) {
         switch (id) {
             case DATE_DIALOG_ID:
@@ -212,15 +293,15 @@ public class RegisterUserActivity extends MapActivity {
 					
 					@Override
 					public void processUserLocation(GeoPoint point) {
-						Log.d(TAG, "user location = " + point);
+						if (mode == REGISTER_USER) {
+							if (point != null) {
+								lat = point.getLatitudeE6();
+								lng = point.getLongitudeE6();
+							}
+							Log.d(TAG, "user location = " + point);
+						}
 					}
 				}).show();
-	}
-
-	protected void cancel() {
-	}
-
-	protected void register() {
 	}
 
 	@Override

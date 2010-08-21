@@ -4,6 +4,8 @@ import java.io.OutputStream;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -16,7 +18,7 @@ public class Utils {
 		Bitmap scaledBitmap = Bitmap.createScaledBitmap(
 				bitmap, AVATAR_WIDTH, AVATAR_HEIGHT, false);
 		
-		// TODO what output stream?
+		// TODO (condorhero01): what output stream?
 		OutputStream outputStream = null;
 		scaledBitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
 		
@@ -32,4 +34,11 @@ public class Utils {
 		
 		return screenWidth;
 	}
+	
+	public static InputFilter[] uneditableInputFilters = new InputFilter[] {new InputFilter() {
+		public CharSequence filter(CharSequence src, int start, int end,
+				Spanned dst, int dstart, int dend) {
+			return src.length() < 1 ? dst.subSequence(dstart, dend) : "";
+		}
+	}};
 }
