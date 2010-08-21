@@ -29,6 +29,8 @@ public abstract class Global {
 			"dd-MM-yyyy kk:mm:ss");
 	public static ResourceBundle messages = ResourceBundle
 			.getBundle("vnfoss2010/smartshop/serverside.localization/MessagesBundle");;
+	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;
+	public static final int MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX = 200;
 
 	public static final String[][] LANGUAGE = new String[][] {
 			{ "vi", "Ti\u1EBFng Vi\u1EC7t" }, { "en", "English" } };

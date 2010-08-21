@@ -13,7 +13,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.repackaged.org.json.JSONException;
 import com.google.appengine.repackaged.org.json.JSONObject;
 
-import vnfoss2010.smartshop.serverside.database.DatabaseServiceImpl;
+import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 
 @PersistenceCapable
 public class UserInfo implements Serializable {
@@ -144,7 +144,7 @@ public class UserInfo implements Serializable {
 		this.type = type;
 
 		this.fts = new HashSet<String>();
-		DatabaseServiceImpl.updateFTSStuffForUserInfo(this);
+		AccountServiceImpl.updateFTSStuffForUserInfo(this);
 
 		this.setFriendsUsername = new HashSet<String>();
 	}

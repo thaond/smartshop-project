@@ -1,5 +1,6 @@
 package vnfoss2010.smartshop.serverside.services.account;
 
+import java.util.List;
 import java.util.Map;
 
 import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
@@ -9,11 +10,13 @@ import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
-public class LoginService extends BaseRestfulService {
+public class SearchUsernameService extends BaseRestfulService {
 	AccountServiceImpl db = AccountServiceImpl.getInstance();
 
-	public LoginService(String serviceName) {
+	public SearchUsernameService(String serviceName) {
 		super(serviceName);
 	}
 
@@ -26,20 +29,20 @@ public class LoginService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 		
-		String username = getParameter("username", params, json);
-		String password = getParameter("password", params, json);
+		String query = getParameter("q", params, json);
 
-		JSONObject jsonReturn = new JSONObject();
+		JsonObject jsonReturn = new JsonObject();
+		Gson gson = new Gson();
 
-		ServiceResult<UserInfo> result = db.login(username, password);
+		ServiceResult<List<UserInfo>> result = db.searchUsernamesLike(query);
 		if (result.isOK()) {
-			jsonReturn.put("errCode", 0);
-			jsonReturn.put("message", result.getMessage());
+			jsonReturn.addProperty("errCode", 0);
+			jsonReturn.addProperty("message", result.getMessage());
 			
-			result.getResult().toJSON(jsonReturn);
+			jsonReturn.add("userinfos", gson.toJsonTree(result.getResult()));
 		} else {
-			jsonReturn.put("errCode", 1);
-			jsonReturn.put("message", result.getMessage());
+			jsonReturn.addProperty("errCode", 1);
+			jsonReturn.addProperty("message", result.getMessage());
 		}
 		return jsonReturn.toString();
 	}

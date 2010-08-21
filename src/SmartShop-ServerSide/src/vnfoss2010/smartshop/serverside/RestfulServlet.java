@@ -29,13 +29,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.HelloService;
+import vnfoss2010.smartshop.serverside.services.account.AddFriendsService;
 import vnfoss2010.smartshop.serverside.services.account.EditProfileService;
 import vnfoss2010.smartshop.serverside.services.account.LoginService;
 import vnfoss2010.smartshop.serverside.services.account.RegisterService;
+import vnfoss2010.smartshop.serverside.services.account.SearchUsernameService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
+import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaInCategoryService;
+import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductService;
 import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
+import vnfoss2010.smartshop.serverside.services.product.SearchProductService;
 
 /**
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
@@ -101,8 +106,15 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("account-register", RegisterService.class);
 		mServices.put("account-editprofile", EditProfileService.class);
 		mServices.put("account-login", LoginService.class);
+		mServices.put("account-search", SearchUsernameService.class);
+		mServices.put("account-addfriend", AddFriendsService.class);
+		
 		mServices.put("registerproduct", RegisterProductService.class);
 		mServices.put("get-product", GetProductService.class);
+		mServices.put("product-search-criteria", GetListProductByCriteriaService.class);
+		mServices.put("product-search-criteria-cat", GetListProductByCriteriaInCategoryService.class);
+		mServices.put("product-search", SearchProductService.class);
+		
 //		mServices.put("sampledata", SampleDataRestfull.class);
 	}
 }
