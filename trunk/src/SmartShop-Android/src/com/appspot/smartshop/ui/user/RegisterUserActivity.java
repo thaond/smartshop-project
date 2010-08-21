@@ -1,16 +1,11 @@
 package com.appspot.smartshop.ui.user;
 
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -23,15 +18,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.map.MapDialog;
+import com.appspot.smartshop.map.MapService;
+import com.appspot.smartshop.map.MapDialog.UserLocationListener;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
 public class RegisterUserActivity extends MapActivity {
-	public static final String TAG = "RegisterUserActivity";
+	public static final String TAG = "[RegisterUserActivity]";
 	
-	static final int DATE_DIALOG_ID = 1;
-	static final int MAP_DIALOG_ID = 2;
-	
-	static final int MAX_LOCATION_RESULTS = 5;
+	static final int DATE_DIALOG_ID = 0;
 	
 	private TextView lblUsername;
 	private EditText txtUsername;
@@ -66,7 +62,7 @@ public class RegisterUserActivity extends MapActivity {
             mMonth = monthOfYear + 1;
             mDay = dayOfMonth;
             
-            // get birthday info
+            // TODO get birthday info
             Log.d(TAG, "birthday: " + mDay + ", " + mMonth + ", " + mYear);
         }
     };
@@ -132,6 +128,16 @@ public class RegisterUserActivity extends MapActivity {
 		
 		lblBirthday = (TextView) findViewById(R.id.lblBirthday);
 		lblBirthday.setWidth(labelWidth);
+		EditText txtBirthday = (EditText) findViewById(R.id.txtBirthday);
+		txtBirthday.setWidth(textWidth);
+		
+		txtBirthday.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showDialog(DATE_DIALOG_ID);
+			}
+		});
 		
 		// buttons
 		Button btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -161,14 +167,14 @@ public class RegisterUserActivity extends MapActivity {
 			}
 		});
 		
-		Button btnBirthday = (Button) findViewById(R.id.btnBirthday);
-		btnBirthday.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				chooseBirthday();
-			}
-		});
+//		Button btnBirthday = (Button) findViewById(R.id.btnBirthday);
+//		btnBirthday.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				chooseBirthday();
+//			}
+//		});
 	}
 	
 	protected Dialog onCreateDialog(int id) {
@@ -180,39 +186,6 @@ public class RegisterUserActivity extends MapActivity {
             	mYear = cal.get(Calendar.YEAR) - 18;
             	
                 return new DatePickerDialog(this, mDateSetListener, mYear, mMonth, mDay);
-                
-            case MAP_DIALOG_ID:
-            	String location = txtAddress.getText().toString();
-            	
-            	Geocoder geocoder = new Geocoder(this);
-        		try {
-        			Log.d(TAG, "location = " + location);
-        			List<Address> addresses = geocoder.getFromLocationName(location, MAX_LOCATION_RESULTS);
-        			if (addresses != null && addresses.size() > 0) {
-//        				for (Address a : addresses) {
-//        					Log.d(TAG, a.toString());
-//        				}
-        				Address add = addresses.get(0);
-        				Log.d(TAG, "lat = " + add.getLatitude() + ", long = " + add.getLongitude());
-        				
-        				Log.d(TAG, "found " + addresses.size() + " addresses");
-        			} else {
-        				Log.d(TAG, "No address found");
-        			}
-        		} catch (IOException e) {
-        			if (dialogBuilder == null) {
-        				dialogBuilder = new AlertDialog.Builder(this);
-        			}
-        			dialogBuilder.setMessage(getString(R.string.errGetLocation))
-    			       .setCancelable(false)
-    			       .setPositiveButton(getString(R.string.lblOk), new DialogInterface.OnClickListener() {
-    			           public void onClick(DialogInterface dialog, int id) {
-    			        	   dialog.cancel();
-    			           }
-    			       });
-        			
-        			return dialogBuilder.create();
-        		}
         }
         
         return null;
@@ -232,7 +205,16 @@ public class RegisterUserActivity extends MapActivity {
 	}
 
 	protected void tagAddressOnMap() {
-		showDialog(MAP_DIALOG_ID);
+		String location = txtAddress.getText().toString();
+    	
+    	MapDialog.createLocationDialog(this, MapService.locationToGeopoint(location), 
+    			new UserLocationListener() {
+					
+					@Override
+					public void processUserLocation(GeoPoint point) {
+						Log.d(TAG, "user location = " + point);
+					}
+				}).show();
 	}
 
 	protected void cancel() {

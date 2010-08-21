@@ -31,9 +31,9 @@ public class ViewCommentsActivity extends Activity {
 		
 		// TODO sample comments
 		LinkedList<Comment> comments = new LinkedList<Comment>();
-		for (int i = 0; i < 10; ++i) {
+		for (int i = 0; i < 30; ++i) {
 			Comment c = new Comment();
-			c.content = "comment " + i;
+			c.content = "this is comment number " + (i + 1);
 			comments.add(c);
 		}
 		

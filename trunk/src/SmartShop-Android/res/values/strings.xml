@@ -15,7 +15,7 @@
     <string name="lblLastName">Họ:</string>
     <string name="lblEmail">Email:</string>
     <string name="lblBirthday">Ngày sinh:</string>
-    <string name="btnChooseBirthday">Chọn ngày sinh</string>
+    <string name="hintChooseBirthday">Chọn ngày sinh</string>
     <string name="lblAddress">Địa chỉ:</string>
     <string name="btnTagAddressOnMap">Đánh dấu trên bản đồ</string>
     <string name="titleChoooseUserLoction">Chọn địa chỉ của bạn</string>

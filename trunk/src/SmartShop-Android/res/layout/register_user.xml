@@ -95,9 +95,9 @@
 				android:layout_height="wrap_content" android:text="@string/lblBirthday"
 				android:layout_centerVertical="true" android:id="@+id/lblBirthday" />
 				
-			<Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:id="@+id/btnBirthday" android:textSize="10dip" 
-				android:text="@string/btnChooseBirthday"/>
+			<EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:id="@+id/txtBirthday" android:textSize="10dip" 
+				android:hint="@string/hintChooseBirthday"/>
 
 		</LinearLayout>
 
