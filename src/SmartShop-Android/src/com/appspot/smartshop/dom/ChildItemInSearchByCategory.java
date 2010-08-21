@@ -1,14 +1,14 @@
 package com.appspot.smartshop.dom;
 
-import android.widget.CheckBox;
-import android.widget.TextView;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ChildItemInSearchByCategory {
-	public CheckBox checkbox;
-	public String nameOfChildCategory;
-	public ChildItemInSearchByCategory(CheckBox checkbox, String nameOfChildCategory){
-		this.checkbox = checkbox;
-		this.nameOfChildCategory = nameOfChildCategory;
+public class ChildItemInSearchByCategory extends HashMap<String, String> {
+
+	public ChildItemInSearchByCategory() {
+		super();
+//		put("checked", "checked");
+//		put("unchecked", "unchecked");
 	}
 
 }
