@@ -1,0 +1,30 @@
+Home
+	Register user
+	Login
+		View user profile
+		Post product
+			View product
+		Create page
+		Manage page
+			View page
+				View comment
+			Edit page
+		Manage product list
+			View product
+	View product
+		List all products
+			View single product
+				View comment
+					View user profile
+		List product of a category
+			View single product
+				View comment
+					View user profile
+	Search product
+		Search on category, sub category
+			View product
+		Search by enter a query
+			View product
+		Search by location
+			View product
+			
