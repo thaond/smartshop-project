@@ -5,11 +5,13 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+
 @PersistenceCapable
 public class Attribute {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	private Key id;
 
 	@Persistent
 	private String key_cat;
@@ -22,11 +24,23 @@ public class Attribute {
 
 	@Persistent
 	private String username;
+	
+	@Persistent
+	private Product product;
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 
 	public Attribute() {
 	}
 
-	public Attribute(String categoryId, String name, String value,String username) {
+	public Attribute(String categoryId, String name, String value,
+			String username) {
 		super();
 		setKey_cat(categoryId);
 		setName(name);
@@ -37,7 +51,7 @@ public class Attribute {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public Key getId() {
 		return id;
 	}
 

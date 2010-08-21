@@ -57,8 +57,8 @@ public class GetProductService extends BaseRestfulService {
 				jsonReturn.add("message",gson.toJsonTree(catsResult.getMessage()));
 			} else {
 				categoryList = catsResult.getResult();
-				product.setSetCategoryKeys(null);
-				product.setGeocells(null);
+//				product.setSetCategoryKeys(null);
+//				product.setGeocells(null);
 			}
 		}
 		if (jsonReturn.has("errCode") == false) {
@@ -68,7 +68,7 @@ public class GetProductService extends BaseRestfulService {
 			}
 
 			jsonReturn = (JsonObject) gson.toJsonTree(product);
-			jsonReturn.add("cats", catJsonArray);
+//			jsonReturn.add("cats", catJsonArray);
 		}
 		return jsonReturn.toString();
 

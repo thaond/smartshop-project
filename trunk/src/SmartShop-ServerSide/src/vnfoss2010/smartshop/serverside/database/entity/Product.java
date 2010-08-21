@@ -1,9 +1,11 @@
 package vnfoss2010.smartshop.serverside.database.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -12,7 +14,6 @@ import javax.jdo.annotations.PrimaryKey;
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 @PersistenceCapable
 public class Product implements LocationCapable {
@@ -56,16 +57,17 @@ public class Product implements LocationCapable {
 	@Persistent
 	private Set<String> setCategoryKeys;
 
-	@Persistent
-	private Set<Attribute> setAttributes;
-	
+	@Persistent(mappedBy = "product")
+	@Element(dependent = "true")
+	private List<Attribute> attributeSets;
+
 	@Persistent
 	private List<String> geocells;
 
 	public Product() {
 		setSetPagesId(new HashSet<Long>());
 		setCategoryKeys = new HashSet<String>();
-		setAttributes = new HashSet<Attribute>();
+		attributeSets = new ArrayList<Attribute>();
 	}
 
 	public Product(String name, double price, boolean isVat, int quantity,
@@ -313,26 +315,19 @@ public class Product implements LocationCapable {
 		return setPagesId;
 	}
 
-	/**
-	 * @param setAttributes
-	 *            the setAttributes to set
-	 */
-	public void setSetAttributes(Set<Attribute> setAttributes) {
-		this.setAttributes = setAttributes;
+	public List<Attribute> getAttributeSets() {
+		return attributeSets;
 	}
 
-	/**
-	 * @return the setAttributes
-	 */
-	public Set<Attribute> getSetAttributes() {
-		return setAttributes;
+	public void setAttributeSets(List<Attribute> attributeSets) {
+		this.attributeSets = attributeSets;
 	}
 
 	/**
 	 * @param setCategoryKeys
 	 *            the setCategoryKeys to set
 	 */
-	
+
 	public void setSetCategoryKeys(Set<String> setCategoryKeys) {
 		this.setCategoryKeys = setCategoryKeys;
 	}
@@ -362,14 +357,16 @@ public class Product implements LocationCapable {
 	public Point getLocation() {
 		return new Point(lat, lng);
 	}
-	
+
 	public static void main(String[] args) {
 		Product product = new Product();
-		product = new Product("Dell D630", 123, false, 2, "12 month", "China", "Binh Tan", 10.11, 106.123, "tamvo");
-		
+		product = new Product("Dell D630", 123, false, 2, "12 month", "China",
+				"Binh Tan", 10.11, 106.123, "tamvo");
+
 		product.getSetCategoryKeys().add("laptop");
-		product.getSetAttributes().add(new Attribute("laptop", "Camera", "1.3MP", "tamvo"));
-		
+		// product.getSetAttributes().add(
+		// new Attribute("laptop", "Camera", "1.3MP", "tamvo"));
+
 		Gson gson = new Gson();
 		String json = gson.toJson(product);
 		System.out.println(json);
