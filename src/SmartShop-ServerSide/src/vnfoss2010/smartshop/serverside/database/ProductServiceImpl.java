@@ -2,6 +2,7 @@ package vnfoss2010.smartshop.serverside.database;
 
 import javax.jdo.PersistenceManager;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 
 public class ProductServiceImpl {
@@ -17,7 +18,7 @@ public class ProductServiceImpl {
 		product = pm.getObjectById(Product.class, id);
 		if (product == null) {
 			result.setOK(false);
-			result.setMessage("Khong tim thay product");
+			result.setMessage(Global.messages.getString("no_found_product"));
 		} else {
 			result.setOK(true);
 			result.setResult(product);

@@ -4,6 +4,7 @@ import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -41,7 +42,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class DatabaseServiceImpl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static DatabaseServiceImpl instance;
-	private ResourceBundle messages;
 
 	public static UserService userService = UserServiceFactory.getUserService();
 	private final static Logger log = Logger
@@ -55,9 +55,6 @@ public class DatabaseServiceImpl extends HttpServlet {
 	 */
 	public DatabaseServiceImpl() {
 		instance = this;
-		messages = ResourceBundle
-				.getBundle("vnfoss2010/smartshop/serverside.localization/MessagesBundle");
-		// getResponse().setContentLength(512);
 	}
 
 	/**
@@ -79,7 +76,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (userInfo == null || userInfo.getUsername() == null) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -103,13 +100,13 @@ public class DatabaseServiceImpl extends HttpServlet {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			result.setMessage(messages.getString("register_fail"));
+			result.setMessage(Global.messages.getString("register_fail"));
 		} finally {
 			try {
 				pm.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				result.setMessage(messages.getString("register_fail"));
+				result.setMessage(Global.messages.getString("register_fail"));
 			}
 		}
 		return result;
@@ -122,7 +119,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
 		if (userInfo == null || userInfo.getUsername() == null) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -140,7 +137,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 			if (isNotFound || tmp == null) {
 				// UserInfo is not existed
 				result.setMessage(userInfo.getUsername() + " "
-						+ messages.getString("doesnot_exist"));
+						+ Global.messages.getString("doesnot_exist"));
 			} else {
 				tmp.setFirst_name(userInfo.getFirst_name());
 				tmp.setLast_name(userInfo.getLast_name());
@@ -161,19 +158,19 @@ public class DatabaseServiceImpl extends HttpServlet {
 					userInfo.setPassword(md5(userInfo.getPassword()));
 					result.setOK(true);
 				} else {
-					result.setMessage(messages
+					result.setMessage(Global.messages
 							.getString("password_doesnot_match"));
 				}
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			result.setMessage(messages.getString("edit_profile_fail"));
+			result.setMessage(Global.messages.getString("edit_profile_fail"));
 		} finally {
 			try {
 				pm.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				result.setMessage(messages.getString("edit_profile_fail"));
+				result.setMessage(Global.messages.getString("edit_profile_fail"));
 			}
 		}
 		return result;
@@ -198,17 +195,17 @@ public class DatabaseServiceImpl extends HttpServlet {
 			} // end for loop
 
 			result.setOK(true);
-			result.setMessage(messages
+			result.setMessage(Global.messages
 					.getString("insert_list_userinfos_successfully"));
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			result.setMessage(messages.getString("insert_list_userinfos_fail"));
+			result.setMessage(Global.messages.getString("insert_list_userinfos_fail"));
 		} finally {
 			try {
 				pm.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				result.setMessage(messages
+				result.setMessage(Global.messages
 						.getString("insert_list_userinfos_fail"));
 			}
 		}
@@ -225,12 +222,12 @@ public class DatabaseServiceImpl extends HttpServlet {
 			Query query = pm.newQuery(UserInfo.class);
 			query.deletePersistentAll();
 
-			result.setMessage(messages
+			result.setMessage(Global.messages
 					.getString("delete_all_userinfos_successfully"));
 			result.setOK(true);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			result.setMessage(messages.getString("delete_all_userinfos_fail"));
+			result.setMessage(Global.messages.getString("delete_all_userinfos_fail"));
 			log.log(Level.SEVERE, ex.getMessage(), ex);
 		} finally {
 			try {
@@ -238,7 +235,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				result.setOK(false);
-				result.setMessage(messages
+				result.setMessage(Global.messages
 						.getString("delete_all_userinfos_fail"));
 			}
 		}
@@ -264,7 +261,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		ServiceResult<UserInfo> result = new ServiceResult<UserInfo>();
 
 		if (username == null || username.equals("")) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -282,19 +279,19 @@ public class DatabaseServiceImpl extends HttpServlet {
 
 			if (isNotFound || userInfo == null) {
 				// Not found userinfo
-				result.setMessage(messages.getString("not_found") + " "
+				result.setMessage(Global.messages.getString("not_found") + " "
 						+ username);
 			} else {
 				if (userInfo.getPassword().equals(password)) {
-					result.setMessage(messages.getString("login_successfully"));
+					result.setMessage(Global.messages.getString("login_successfully"));
 					result.setResult(userInfo);
 					result.setOK(true);
 				} else {
-					result.setMessage(messages.getString("wrong_password"));
+					result.setMessage(Global.messages.getString("wrong_password"));
 				}
 			}
 		} catch (Exception ex) {
-			result.setMessage(messages.getString("login_fail"));
+			result.setMessage(Global.messages.getString("login_fail"));
 			result.setOK(false);
 			// log.log(Level.SEVERE, s, ex);
 			ex.printStackTrace();
@@ -303,7 +300,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 				pm.close();
 			} catch (Exception ex) {
 				result.setOK(false);
-				result.setMessage(messages.getString("login_fail"));
+				result.setMessage(Global.messages.getString("login_fail"));
 				log.log(Level.SEVERE, ex.getMessage(), ex);
 			}
 		}
@@ -316,7 +313,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
 		if (username == null || username.equals("")) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -333,9 +330,9 @@ public class DatabaseServiceImpl extends HttpServlet {
 			}
 
 			if (isNotFound || userInfo == null) {
-				result.setMessage(messages.getString("not_found") + username);
+				result.setMessage(Global.messages.getString("not_found") + username);
 			} else {
-				result.setMessage(messages.getString("logout_successfully"));
+				result.setMessage(Global.messages.getString("logout_successfully"));
 				// TODO
 				// userInfo.setOnline(false);
 				// if (userInfo.getTypeCus() == 1) {
@@ -344,7 +341,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 				result.setOK(true);
 			}
 		} catch (Exception ex) {
-			result.setMessage(messages.getString("logout_fail"));
+			result.setMessage(Global.messages.getString("logout_fail"));
 			result.setOK(false);
 			// log.log(Level.SEVERE, s, ex);
 			// ex.printStackTrace();
@@ -353,7 +350,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 				pm.close();
 			} catch (Exception ex) {
 				result.setOK(false);
-				result.setMessage(messages.getString("logout_fail"));
+				result.setMessage(Global.messages.getString("logout_fail"));
 				log.log(Level.SEVERE, ex.getMessage(), ex);
 			}
 		}
@@ -365,7 +362,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		ServiceResult<Boolean> result = new ServiceResult<Boolean>();
 
 		if (username == null || username.equals("")) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -382,22 +379,22 @@ public class DatabaseServiceImpl extends HttpServlet {
 			}
 			if (isNotFound || userInfo == null) {
 				result.setResult(false);
-				result.setMessage(messages.getString("username_not_exist"));
+				result.setMessage(Global.messages.getString("username_not_exist"));
 			} else {
 				// Exist this username in the datastore
 				result.setResult(true);
-				result.setMessage(messages.getString("username_already_exist"));
+				result.setMessage(Global.messages.getString("username_already_exist"));
 			}
 			result.setOK(true);
 		} catch (Exception ex) {
-			result.setMessage(messages.getString("have_problem"));
+			result.setMessage(Global.messages.getString("have_problem"));
 			ex.printStackTrace();
 			// log.log(Level.SEVERE, s, ex);
 		} finally {
 			try {
 				pm.close();
 			} catch (Exception ex) {
-				result.setMessage(messages.getString("have_problem"));
+				result.setMessage(Global.messages.getString("have_problem"));
 				ex.printStackTrace();
 			}
 		}
@@ -450,7 +447,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 			log.severe(e.getMessage());
 			log.severe("datastore timeout at: " + queryString);// +
 			result.setOK(false);
-			result.setMessage(messages.getString("have_problem"));
+			result.setMessage(Global.messages.getString("have_problem"));
 			// " - timestamp: "
 			// +
 			// discreteTimestamp);
@@ -458,7 +455,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 			log.severe(e.getMessage());
 			log.severe("datastore need index exception at: " + queryString);// +
 			result.setOK(false);
-			result.setMessage(messages.getString("have_problem"));
+			result.setMessage(Global.messages.getString("have_problem"));
 			// " - timestamp: "
 			// +
 			// discreteTimestamp);
@@ -474,7 +471,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 
 		if (username == null || username.equals("") || friend == null
 				|| friend.equals("")) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -490,7 +487,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 				isNotFound = true;
 			}
 			if (isNotFound || userInfo1 == null) {
-				result.setMessage(messages.getString("not_found") + " "
+				result.setMessage(Global.messages.getString("not_found") + " "
 						+ username);
 				result.setOK(false);
 			} else {
@@ -505,7 +502,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 					isNotFound = true;
 				}
 				if (isNotFound || userInfo2 == null) {
-					result.setMessage(messages.getString("not_found") + " "
+					result.setMessage(Global.messages.getString("not_found") + " "
 							+ friend);
 					result.setOK(false);
 				} else {
@@ -515,14 +512,14 @@ public class DatabaseServiceImpl extends HttpServlet {
 				result.setOK(true);
 			}
 		} catch (Exception ex) {
-			result.setMessage(messages.getString("add_friend_fail"));
+			result.setMessage(Global.messages.getString("add_friend_fail"));
 			ex.printStackTrace();
 			// log.log(Level.SEVERE, s, ex);
 		} finally {
 			try {
 				pm.close();
 			} catch (Exception ex) {
-				result.setMessage(messages.getString("add_friend_fail"));
+				result.setMessage(Global.messages.getString("add_friend_fail"));
 				ex.printStackTrace();
 			}
 		}
@@ -534,7 +531,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
 		if (username == null || username.equals("")) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -550,7 +547,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 				isNotFound = true;
 			}
 			if (isNotFound || userInfo == null) {
-				result.setMessage(messages.getString("not_found") + " "
+				result.setMessage(Global.messages.getString("not_found") + " "
 						+ username);
 				result.setOK(false);
 			} else {
@@ -576,19 +573,19 @@ public class DatabaseServiceImpl extends HttpServlet {
 				}
 
 				result.setOK(true);
-				result.setMessage(messages
+				result.setMessage(Global.messages
 						.getString("add_list_friends_successfully"));
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			result.setMessage(messages.getString("add_list_friends_fail"));
-			// log.log(Level.SEVERE, s, ex);
+			// ex.printStackTrace();
+			result.setMessage(Global.messages.getString("add_list_friends_fail"));
+			Global.log(log, Arrays.toString(ex.getStackTrace()));
 		} finally {
 			try {
 				pm.close();
 			} catch (Exception ex) {
-				ex.printStackTrace();
-				result.setMessage(messages.getString("add_list_friends_fail"));
+				Global.log(log, Arrays.toString(ex.getStackTrace()));
+				result.setMessage(Global.messages.getString("add_list_friends_fail"));
 			}
 		}
 		return result;
@@ -657,26 +654,23 @@ public class DatabaseServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (product == null) {
-//			result.setMessage(messages.getString("cannot_handle_with_null"));
-			result.setMessage("khong the null");
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 		}
 
 		try {
 			pm.flush();
 			product = pm.makePersistent(product);
 			if (product == null) {
-//				result.setMessage(messages.getString("insert_product_fail"));
-				result.setMessage(messages.getString("khong thanh cong"));
+				result.setMessage(Global.messages.getString("insert_product_fail"));
 			} else {
 				result.setResult(product.getId());
-				result.setMessage(messages
+				result.setMessage(Global.messages
 						.getString("insert_product_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-//			result.setMessage(messages.getString("insert_list_userinfos_fail"));
-			result.setMessage(e.getMessage() + "  exception");
+			Global.log(log, Arrays.toString(e.getStackTrace()));
+			result.setMessage(Global.messages.getString("insert_product_fail"));
 		}
 
 		return result;
@@ -689,7 +683,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (product == null) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 		}
 
 		try {
@@ -720,16 +714,16 @@ public class DatabaseServiceImpl extends HttpServlet {
 
 			product = pm.makePersistent(product);
 			if (product == null) {
-				result.setMessage(messages.getString("insert_product_fail"));
+				result.setMessage(Global.messages.getString("insert_product_fail"));
 			} else {
 				result.setResult(product.getId());
-				result.setMessage(messages
+				result.setMessage(Global.messages
 						.getString("insert_product_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage(messages.getString("insert_list_userinfos_fail"));
+			result.setMessage(Global.messages.getString("insert_list_userinfos_fail"));
 		}
 
 		return result;
@@ -742,7 +736,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (page == null) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 		}
 
 		try {
@@ -767,16 +761,16 @@ public class DatabaseServiceImpl extends HttpServlet {
 
 			page = pm.makePersistent(page);
 			if (page == null) {
-				result.setMessage(messages.getString("insert_page_fail"));
+				result.setMessage(Global.messages.getString("insert_page_fail"));
 			} else {
 				result.setResult(page.getId());
-				result.setMessage(messages
+				result.setMessage(Global.messages
 						.getString("insert_page_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage(messages.getString("insert_page_fail"));
+			result.setMessage(Global.messages.getString("insert_page_fail"));
 		}
 
 		return result;
@@ -794,22 +788,22 @@ public class DatabaseServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (comment == null) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 		}
 
 		try {
 			comment = pm.makePersistent(comment);
 			if (comment == null) {
-				result.setMessage(messages.getString("insert_comment_fail"));
+				result.setMessage(Global.messages.getString("insert_comment_fail"));
 			} else {
 				result.setResult(comment.getId());
-				result.setMessage(messages
+				result.setMessage(Global.messages
 						.getString("insert_comment_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage(messages.getString("insert_comment_fail"));
+			result.setMessage(Global.messages.getString("insert_comment_fail"));
 		}
 
 		return result;
@@ -827,22 +821,22 @@ public class DatabaseServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (media == null) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 		}
 
 		try {
 			media = pm.makePersistent(media);
 			if (media == null) {
-				result.setMessage(messages.getString("insert_media_fail"));
+				result.setMessage(Global.messages.getString("insert_media_fail"));
 			} else {
 				result.setResult(media.getId());
-				result.setMessage(messages
+				result.setMessage(Global.messages
 						.getString("insert_media_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage(messages.getString("insert_media_fail"));
+			result.setMessage(Global.messages.getString("insert_media_fail"));
 		}
 
 		return result;

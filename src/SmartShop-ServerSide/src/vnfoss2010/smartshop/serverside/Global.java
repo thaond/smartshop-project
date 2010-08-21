@@ -18,11 +18,17 @@ package vnfoss2010.smartshop.serverside;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class Global {
 	public static String HOST_NAME = "http://localhost:8888";
 	public static DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-	public static DateFormat dfFull = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
+	public static DateFormat dfFull = new SimpleDateFormat(
+			"dd-MM-yyyy kk:mm:ss");
+	public static ResourceBundle messages = ResourceBundle
+			.getBundle("vnfoss2010/smartshop/serverside.localization/MessagesBundle");;
 
 	public static final String[][] LANGUAGE = new String[][] {
 			{ "vi", "Ti\u1EBFng Vi\u1EC7t" }, { "en", "English" } };
@@ -162,6 +168,10 @@ public abstract class Global {
 			sb.append(ALPHA_NUM.charAt(ndx));
 		}
 		return sb.toString();
+	}
+
+	public static void log(Logger log, Object message) {
+		log.log(Level.SEVERE, message.toString());
 	}
 
 }

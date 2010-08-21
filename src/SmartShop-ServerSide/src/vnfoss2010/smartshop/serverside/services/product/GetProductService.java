@@ -1,30 +1,33 @@
 package vnfoss2010.smartshop.serverside.services.product;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
+import vnfoss2010.smartshop.serverside.database.DatabaseServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
-import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.MissingParameterException;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
-import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class GetProductService extends BaseRestfulService {
 	ProductServiceImpl dbProduct = ProductServiceImpl.instance();
 	CategoryServiceImpl dbCategory = CategoryServiceImpl.instance();
+	
+	private final static Logger log = Logger
+	.getLogger(DatabaseServiceImpl.class.getName());
 
 	public GetProductService(String serviceName) {
 		super(serviceName);
@@ -38,38 +41,37 @@ public class GetProductService extends BaseRestfulService {
 			json = new JSONObject(content);
 		} catch (Exception e) {
 		}
+		
 		Long id = new Long(getParameterWithThrow("id", params, json));
 		Product product = null;
-		ArrayList<Category> categoryList = null;
 		ServiceResult<Product> productResult = dbProduct.findProduct(id);
+		
 		JsonObject jsonReturn = new JsonObject();
 		Gson gson = new Gson();
+		
 		if (productResult.isOK() == false) {
-			jsonReturn.add("errCode", gson.toJsonTree(1));
-			jsonReturn.add("message", gson.toJsonTree(productResult.getMessage()));
+			jsonReturn.addProperty("errCode", 1);
+			jsonReturn.addProperty("message", productResult.getMessage());
 		} else {
 			product = productResult.getResult();
-			ServiceResult<ArrayList<Category>> catsResult = dbCategory
+			
+			Global.log(log, product.toString());
+			ServiceResult<Set<Category>> catsResult = dbCategory
 					.findCategories(product.getSetCategoryKeys());
 
 			if (catsResult.isOK() == false) {
-				jsonReturn.add("errCode", gson.toJsonTree(1));
-				jsonReturn.add("message",gson.toJsonTree(catsResult.getMessage()));
+				jsonReturn.addProperty("errCode", 1);
+				jsonReturn.addProperty("message", catsResult.getMessage());
 			} else {
-				categoryList = catsResult.getResult();
-//				product.setSetCategoryKeys(null);
-//				product.setGeocells(null);
+				Set<Category> categoryList = catsResult.getResult();
+				jsonReturn.addProperty("errCode", 1);
+				jsonReturn.addProperty("message", Global.messages.getString("find_product_successfully"));
+				jsonReturn.add("listCategories", gson.toJsonTree(categoryList));
+				jsonReturn.add("product", gson.toJsonTree(product));
 			}
 		}
-		if (jsonReturn.has("errCode") == false) {
-			JsonArray catJsonArray = new JsonArray();
-			for (Category category : categoryList) {
-				catJsonArray.add(gson.toJsonTree(category));
-			}
-
-			jsonReturn = (JsonObject) gson.toJsonTree(product);
-//			jsonReturn.add("cats", catJsonArray);
-		}
+		
+		Global.log(log, jsonReturn.toString());
 		return jsonReturn.toString();
 
 		// old

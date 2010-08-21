@@ -1,9 +1,8 @@
 package vnfoss2010.smartshop.serverside.database.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -21,10 +20,10 @@ public class Category {
 	private String parent_id;
 	
 	@Persistent
-	private Set<Long> setPages;
+	private List<Long> listPages;
 	
 	public Category(){
-		setPages = new HashSet<Long>();
+		setListPages(new ArrayList<Long>());
 	}
 
 	public Category(String key_cat,String name, String parentId) {
@@ -103,20 +102,6 @@ public class Category {
 	}
 
 	/**
-	 * @param setPages the setPages to set
-	 */
-	public void setSetPages(Set<Long> setPages) {
-		this.setPages = setPages;
-	}
-
-	/**
-	 * @return the setPages
-	 */
-	public Set<Long> getSetPages() {
-		return setPages;
-	}
-
-	/**
 	 * @param key_cat the key_cat to set
 	 */
 	public void setKey_cat(String key_cat) {
@@ -128,6 +113,20 @@ public class Category {
 	 */
 	public String getKey_cat() {
 		return key_cat;
+	}
+
+	/**
+	 * @param listPages the listPages to set
+	 */
+	public void setListPages(List<Long> listPages) {
+		this.listPages = listPages;
+	}
+
+	/**
+	 * @return the listPages
+	 */
+	public List<Long> getListPages() {
+		return listPages;
 	}
 	
 }
