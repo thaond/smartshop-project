@@ -714,7 +714,7 @@ public class DatabaseServiceImpl extends HttpServlet {
 
 			if (listAttributes != null) {
 				for (Attribute att : listAttributes) {
-					product.getSetAttributes().add(att);
+					product.getAttributeSets().add(att);
 				}
 			}
 

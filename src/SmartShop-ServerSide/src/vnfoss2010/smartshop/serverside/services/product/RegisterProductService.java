@@ -49,6 +49,15 @@ public class RegisterProductService extends BaseRestfulService {
 		}
 		Gson gson = new Gson();
 		Product product = gson.fromJson(content, Product.class);
+		// log.log(Level.SEVERE, product.getSetAttributes().size() + "");
+		// JSONArray array = getJSONArrayWithThrow("setAttributes", json);
+		// for (int i = 0; i < array.length(); i++) {
+		// log.log(Level.SEVERE, array.getString(i) + "");
+		// log.log(Level.SEVERE, gson.fromJson(array.getString(i),
+		// Attribute.class).toString()
+		// + "___gson");
+		// }
+
 		ServiceResult<ArrayList<Category>> listCategories = dbcat
 				.findCategories(product.getSetCategoryKeys());
 		if (listCategories.isOK() == false) {
