@@ -4,9 +4,10 @@
 	android:orientation="vertical">
 	
 	<Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:id="@+id/btnAddComment" android:background="@drawable/new_comment"/>
+		android:id="@+id/btnAddComment" android:background="@drawable/new_comment"
+		android:layout_gravity="right"/>
 		
 	<ListView android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:id="@+id/listComments" android:paddingRight="15dip"/>
+		android:id="@+id/listComments"/>
 	
 </LinearLayout>

@@ -59,7 +59,7 @@ public class TestActivity extends MapActivity {
 		
 		// TODO test
 		Global.application = this;
-		testGson();
+		testUserLocationDialog();
 	}
 	
 	void testGson() {
@@ -80,9 +80,10 @@ public class TestActivity extends MapActivity {
 			"166/17 phạm phú thứ quận 6 hcm",
 			"43 vương văn huống quận bình tân hcm",
 			"tào lao",
-			"ffsdfsdfdsfsfs"
+			"ffsdfsdfdsfsfs",
+			"new york"
 		};
-		GeoPoint point = MapService.locationToGeopoint(locations[4]);
+		GeoPoint point = MapService.locationToGeopoint(locations[1]);
 		MapDialog.createLocationDialog(this, point, new UserLocationListener() {
 			
 			@Override

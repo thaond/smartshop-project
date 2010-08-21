@@ -5,6 +5,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.map.DirectionListActivity;
 import com.appspot.smartshop.ui.page.ViewCommentsActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
+import com.appspot.smartshop.ui.user.RegisterUserActivity;
 import com.appspot.smartshop.utils.Global;
 
 public class HomeActivity extends Activity {
@@ -47,9 +49,21 @@ public class HomeActivity extends Activity {
 		});
     }
 
+    
 	protected void test2() {
-		Intent intent = new Intent(this, ViewCommentsActivity.class);
+//		testRegisterForm();
+		testGmapIntent();
+	}
+	
+	void testRegisterForm() {
+		Intent intent = new Intent(this, RegisterUserActivity.class);
 		
+		startActivity(intent);
+	}
+	
+	private void testGmapIntent() {
+		String url = "http://maps.google.com/maps?saddr=10.775495,106.661181&daddr=10.76072,106.661021";
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 		startActivity(intent);
 	}
 	

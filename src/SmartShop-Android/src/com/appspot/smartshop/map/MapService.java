@@ -122,7 +122,8 @@ public class MapService {
 	public static GeoPoint locationToGeopoint(String locationName) {
 		Geocoder geocoder = new Geocoder(Global.application);
 		try {
-			List<Address> addresses = geocoder.getFromLocationName(locationName, 1);
+			Log.d(TAG, "Find address of " + locationName);
+			List<Address> addresses = geocoder.getFromLocationName(locationName, 5);
 			if (addresses != null && addresses.size() > 0) {
 				Address add = addresses.get(0);
 				return new GeoPoint((int) (add.getLatitude() * 1E6), (int) (add.getLongitude() * 1E6));

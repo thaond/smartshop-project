@@ -47,9 +47,8 @@ public class MapDialog {
 
 		// overlay
 		List<Overlay> listOfOverlays = mapView.getOverlays();
-		if (locationOverlay == null) {
-			locationOverlay = new LocationOverlay();
-		}
+		listOfOverlays.clear();
+		locationOverlay = new LocationOverlay();
 		locationOverlay.point = point;
 		listOfOverlays.add(locationOverlay);
 		
@@ -62,10 +61,6 @@ public class MapDialog {
 
 		// redraw the whole view
 		mapView.invalidate();
-
-		// create dialog
-		dialogBuilder = new AlertDialog.Builder(activity);
-		dialogBuilder.setView(view);
 		
 		// dialog title
 		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
@@ -82,6 +77,15 @@ public class MapDialog {
 				dialog.cancel();
 			}
 		});
+		
+
+		// create dialog
+		dialogBuilder = new AlertDialog.Builder(activity);
+		ViewGroup parent = ((ViewGroup) view.getParent());
+		if (parent != null) {
+			parent.removeView(view);
+		}
+		dialogBuilder.setView(view);
 		
 		dialog = dialogBuilder.create(); 
 		return dialog;
