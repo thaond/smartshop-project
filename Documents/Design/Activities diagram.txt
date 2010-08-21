@@ -3,11 +3,12 @@ Home
 	Login
 		View user profile
 		Post product
-			View product
+			View/edit product
 		Create page
 		Manage page
 			View page
 				View comment
+					View user profile
 			Edit page
 		Manage product list
 			View product
