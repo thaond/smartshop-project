@@ -31,7 +31,7 @@ public class EditPageActivity extends Activity {
 			page = new Page();
 		} else {
 			mode = EDIT_MODE;
-			// TODO get data from intent to fill in page object
+			// TODO (condorhero01): get data from intent to fill in page object
 		}
 		
 		txtName = (TextView) findViewById(R.id.txtName);

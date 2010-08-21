@@ -21,7 +21,6 @@ public class UserDefineAttributeAdapter extends
 	public UserDefineAttributeAdapter(Context context, int textViewResourceId,
 			List<UserDefineAttribute> objects) {
 		super(context, textViewResourceId, objects);
-		// TODO Auto-generated constructor stub
 		resourceId = textViewResourceId;
 	}
 

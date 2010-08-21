@@ -7,7 +7,7 @@
     <string name="advancedSearch">Advanced Search</string>
     <string name = "map">Map</string>
 
-    <!-- Register user -->
+    <!-- User -->
     <string name="lblUsername">Tên đăng nhập:</string>
     <string name="lblPassword">Mật khẩu:</string>
     <string name="lblConfirm">Xác nhận:</string>
@@ -18,6 +18,7 @@
     <string name="hintChooseBirthday">Chọn ngày sinh</string>
     <string name="lblAddress">Địa chỉ:</string>
     <string name="btnTagAddressOnMap">Đánh dấu trên bản đồ</string>
+    <string name="btnViewAddressOnMap">Xem trên bản đồ</string>
     <string name="titleChoooseUserLoction">Chọn địa chỉ của bạn</string>
     <string name="hintChangeUserLocation">Click vào bản đồ để thay đổi địa chỉ của bạn</string>
     <string name="tooltipAddressHint">(vd: 268 Lý Thường Kiệt quận 10 HCM)</string>
@@ -25,7 +26,8 @@
     <string name="lblAvatar">Hình đại diện:</string>
     <string name="lblRegister">Đăng ký</string>
     
-    <!-- Ok/cancel labels -->
+    <!-- General labels -->
+    <string name="lblUpdate">Cập nhật</string>
     <string name="lblCancel">Thoát</string>
     <string name="lblOk">OK</string>
     

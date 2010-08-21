@@ -27,7 +27,6 @@ public class SearchProductActivity extends Activity {
 			int i = 0;
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 //				productAdapter.add(new ProductInfo("name" + i, "price" + i,
 //						"description" + i));
 //				i++;

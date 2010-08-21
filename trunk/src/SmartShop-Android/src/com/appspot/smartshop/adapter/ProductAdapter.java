@@ -19,13 +19,11 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 	public ProductAdapter(Context context, int textViewResourceId,
 			List<ProductInfo> objects) {
 		super(context, textViewResourceId, objects);
-		// TODO Auto-generated constructor stub
 		resourceId = textViewResourceId;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		LayoutInflater inflater = (LayoutInflater) getContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(resourceId, null);

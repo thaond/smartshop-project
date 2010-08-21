@@ -21,7 +21,7 @@ public class ViewPageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_page);
 		
-		// TODO get page object from intent
+		// TODO (condorhero01): get page object from intent
 		Bundle bundle = getIntent().getExtras();
 		page = (Page) bundle.get("page");
 		

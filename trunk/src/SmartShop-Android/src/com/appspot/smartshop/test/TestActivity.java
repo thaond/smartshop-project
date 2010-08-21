@@ -1,30 +1,22 @@
 package com.appspot.smartshop.test;
 
-import java.io.IOException;
-import java.util.List;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import android.app.AlertDialog;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.appspot.smartshop.R;
-import com.appspot.smartshop.adapter.DirectionAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.map.DirectionOverlay;
-import com.appspot.smartshop.map.LocationOverlay;
+import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
@@ -36,8 +28,8 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
-import com.google.android.maps.Overlay;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class TestActivity extends MapActivity {
 	public static final String TAG = "TestActivity";
@@ -57,9 +49,39 @@ public class TestActivity extends MapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// TODO test
 		Global.application = this;
-		testUserLocationDialog();
+		testGson4(); 			// TODO (condorhero01): place test function here
+	}
+	
+	void testGson4() {
+		UserInfo userInfo = new UserInfo();
+		userInfo.birthday = new Date(2010, 8, 11);	// month = 8 means September
+		String json = new Gson().toJson(userInfo);
+		System.out.println(json);
+		
+		userInfo = new Gson().fromJson(json, UserInfo.class);
+		System.out.println(Global.df.format(userInfo.birthday));
+	}
+	
+	void testGson3() {
+		UserInfo userInfo = new UserInfo();
+		userInfo.birthday = new Date();
+		String json = new Gson().toJson(userInfo);
+		System.out.println(json);
+		
+		userInfo = new Gson().fromJson(json, UserInfo.class);
+		System.out.println(Global.df.format(userInfo.birthday));
+	}
+	
+	void testGson2() {
+		Foo foo = new Foo();		// must have assignment field = null to non-primitive field
+		foo.username = "foo"; 
+		String json = new Gson().toJson(foo);
+		
+		System.out.println(json);
+		
+		foo = new Gson().fromJson(json, Foo.class);
+		System.out.println(foo);
 	}
 	
 	void testGson() {
@@ -254,5 +276,17 @@ public class TestActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+}
+
+class Foo {
+	public Foo() {}
+	public String username = null;
+	public String pass = null;
+	public Date birthday = null;
+	
+	@Override
+	public String toString() {
+		return "username = " + username + ", pass = " + pass + ", birthday = " + birthday;
 	}
 }
