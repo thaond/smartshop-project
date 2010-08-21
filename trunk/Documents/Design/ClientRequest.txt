@@ -1,0 +1,15 @@
+user_name -> UserInfo
+login ?
+post product / edit product
+product_id -> ProductInfo
+product_id -> list Comments
+post page / edit page
+page_id -> PageInfo
+page_id -> list Comments
+user_name -> list product: interested products, sell products, buy products
+product_criteria (time | price | numBuyers) -> list product
+list cat_id -> list product
+query string -> list product
+current lat, long, radius -> list product
+start lat, start long, end lat, end long -> direction: instruction and list of points
+location name -> lat, long
