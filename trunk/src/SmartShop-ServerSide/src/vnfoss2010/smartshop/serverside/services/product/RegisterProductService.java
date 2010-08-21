@@ -1,8 +1,7 @@
 package vnfoss2010.smartshop.serverside.services.product;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,14 +9,12 @@ import vnfoss2010.smartshop.serverside.database.AttributeServiceImpl;
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
 import vnfoss2010.smartshop.serverside.database.DatabaseServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
-import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.MissingParameterException;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
-import com.beoui.geocell.GeocellManager;
 import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
@@ -49,30 +46,22 @@ public class RegisterProductService extends BaseRestfulService {
 		}
 		Gson gson = new Gson();
 		Product product = gson.fromJson(content, Product.class);
-		// log.log(Level.SEVERE, product.getSetAttributes().size() + "");
-		// JSONArray array = getJSONArrayWithThrow("setAttributes", json);
-		// for (int i = 0; i < array.length(); i++) {
-		// log.log(Level.SEVERE, array.getString(i) + "");
-		// log.log(Level.SEVERE, gson.fromJson(array.getString(i),
-		// Attribute.class).toString()
-		// + "___gson");
-		// }
-
-		ServiceResult<ArrayList<Category>> listCategories = dbcat
+		log.log(Level.SEVERE, product.toString());
+		
+		ServiceResult<Set<Category>> listCategories = dbcat
 				.findCategories(product.getSetCategoryKeys());
 		if (listCategories.isOK() == false) {
 			jsonReturn.put("errCode", 1);
 			jsonReturn.put("message", listCategories.getMessage());
-		}
-
-		if (jsonReturn.has("errCode") == false) {
+		}else {
 			ServiceResult<Long> result = db.insertProduct(product);
-
 			jsonReturn.put("errCode", result.isOK() ? 0 : 1);
 			jsonReturn.put("message", result.getMessage());
+			if (result.isOK()){
+				jsonReturn.put("product_id", result.getResult());
+			}
 		}
 		return jsonReturn.toString();
-		// return "here " + result.getMessage() + "_" + result.getResult();
 	}
 
 	private String getParameterWithThrow(String parameterName,

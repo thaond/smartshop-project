@@ -34,6 +34,7 @@ import vnfoss2010.smartshop.serverside.services.account.LoginService;
 import vnfoss2010.smartshop.serverside.services.account.RegisterService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
+import vnfoss2010.smartshop.serverside.services.product.GetProductService;
 import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
 
 /**
@@ -101,6 +102,7 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("account-editprofile", EditProfileService.class);
 		mServices.put("account-login", LoginService.class);
 		mServices.put("registerproduct", RegisterProductService.class);
+		mServices.put("get-product", GetProductService.class);
 //		mServices.put("sampledata", SampleDataRestfull.class);
 	}
 }

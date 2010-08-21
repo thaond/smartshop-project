@@ -14,6 +14,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 
 @PersistenceCapable
 public class Product implements LocationCapable {
@@ -52,22 +53,24 @@ public class Product implements LocationCapable {
 	private String username;
 
 	@Persistent
-	private Set<Long> setPagesId;
+	private List<Long> listPagesId;
 
 	@Persistent
 	private Set<String> setCategoryKeys;
 
+	@Expose
 	@Persistent(mappedBy = "product")
 	@Element(dependent = "true")
 	private List<Attribute> attributeSets;
 
 	@Persistent
+	
 	private List<String> geocells;
 
 	public Product() {
-		setSetPagesId(new HashSet<Long>());
 		setCategoryKeys = new HashSet<String>();
 		attributeSets = new ArrayList<Attribute>();
+		listPagesId = new ArrayList<Long>();
 	}
 
 	public Product(String name, double price, boolean isVat, int quantity,
@@ -286,35 +289,6 @@ public class Product implements LocationCapable {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", quantity="
-				+ quantity + ", warranty=" + warranty + ", price=" + price
-				+ ", is_vat=" + is_vat + ", address=" + address + ", lat="
-				+ lat + ", lng=" + lng + ", origin=" + origin + ", username="
-				+ username + "]";
-	}
-
-	/**
-	 * @param setPagesId
-	 *            the setPagesId to set
-	 */
-	public void setSetPagesId(Set<Long> setPagesId) {
-		this.setPagesId = setPagesId;
-	}
-
-	/**
-	 * @return the setPagesId
-	 */
-	public Set<Long> getSetPagesId() {
-		return setPagesId;
-	}
-
 	public List<Attribute> getAttributeSets() {
 		return attributeSets;
 	}
@@ -370,5 +344,33 @@ public class Product implements LocationCapable {
 		Gson gson = new Gson();
 		String json = gson.toJson(product);
 		System.out.println(json);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Product [address=" + address + ", attributeSets="
+				+ attributeSets + ", geocells=" + geocells + ", id=" + id
+				+ ", is_vat=" + is_vat + ", lat=" + lat + ", lng=" + lng
+				+ ", name=" + name + ", origin=" + origin + ", price=" + price
+				+ ", quantity=" + quantity + ", setCategoryKeys="
+				+ setCategoryKeys + ", setPagesId=" + getListPagesId()
+				+ ", username=" + username + ", warranty=" + warranty + "]";
+	}
+
+	/**
+	 * @param listPagesId the listPagesId to set
+	 */
+	public void setListPagesId(List<Long> listPagesId) {
+		this.listPagesId = listPagesId;
+	}
+
+	/**
+	 * @return the listPagesId
+	 */
+	public List<Long> getListPagesId() {
+		return listPagesId;
 	}
 }

@@ -1,7 +1,8 @@
 package vnfoss2010.smartshop.serverside.database;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import javax.jdo.PersistenceManager;
 
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 
 public class CategoryServiceImpl {
@@ -32,7 +34,7 @@ public class CategoryServiceImpl {
 		}
 		if (category == null) {
 			result.setOK(false);
-			result.setMessage("Can't find category");
+			result.setMessage(Global.messages.getString("no_found_category"));
 		} else {
 			result.setOK(true);
 			result.setResult(category);
@@ -66,38 +68,25 @@ public class CategoryServiceImpl {
 		return result;
 	}
 
-	public ServiceResult<ArrayList<Category>> findCategories(Set<String> catKeys) {
+	public ServiceResult<Set<Category>> findCategories(Set<String> catKeys) {
 		catKeys.iterator();
-		ArrayList<String> listCatKey = new ArrayList<String>();
-		for (String catKey : catKeys) {
-			listCatKey.add(catKey);
-		}
-		return findCategories(listCatKey);
-	}
-
-	public ServiceResult<ArrayList<Category>> findCategories(
-			ArrayList<String> catKeys) {
-		ServiceResult<ArrayList<Category>> result = new ServiceResult<ArrayList<Category>>();
-
-		ArrayList<Category> listCats = new ArrayList<Category>();
+		ServiceResult<Set<Category>> result = new ServiceResult<Set<Category>>();
+		Set<Category> setCategories = new HashSet<Category>();
 
 		for (String catKey : catKeys) {
 			ServiceResult<Category> catResult = findCategory(catKey);
 			if (catResult.isOK()) {
-				listCats.add(catResult.getResult());
-			} else {
-				listCats.clear();
-				break;
+				setCategories.add(catResult.getResult());
 			}
 		}
 
-		if (listCats.isEmpty()) {
+		if (setCategories.isEmpty()) {
 			result.setOK(false);
-			result.setMessage("Can't find list category");
+			result.setMessage(Global.messages.getString("no_found_list_category"));
 		} else {
 			result.setOK(true);
-			result.setResult(listCats);
-			result.setMessage("Find list category successfully");
+			result.setResult(setCategories);
+			result.setMessage(Global.messages.getString("get_list_category_successfully"));
 		}
 
 		return result;
