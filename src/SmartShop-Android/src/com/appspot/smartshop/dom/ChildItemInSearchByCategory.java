@@ -1,14 +1,15 @@
 package com.appspot.smartshop.dom;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChildItemInSearchByCategory extends HashMap<String, String> {
-
-	public ChildItemInSearchByCategory() {
-		super();
-//		put("checked", "checked");
-//		put("unchecked", "unchecked");
+public class ChildItemInSearchByCategory {
+	public boolean checkbox;
+	public String nameOfChildCategory;
+	public ChildItemInSearchByCategory(boolean checkbox, String nameOfChildCategory){
+		this.checkbox = checkbox;
+		this.nameOfChildCategory = nameOfChildCategory;
 	}
 
 }

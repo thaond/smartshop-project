@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:checkedButton="@+id/radioLatest"
+        android:id="@+id/menu">
+        <RadioButton
+            android:text="Lastest"
+            android:id="@+id/radioLatest"
+            />
+        <RadioButton
+            android:text="Best Seller"
+            android:id="@+id/radioBestSeller" />
+        <RadioButton
+            android:text="Price"
+            android:id="@+id/radioPrice" />
+    </RadioGroup>
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewProductAfterSearch" />
+</LinearLayout>

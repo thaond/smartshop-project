@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.appspot.smartshop.R;
-import com.appspot.smartshop.R.id;
 import com.appspot.smartshop.dom.ProductInfo;
 
 public class ProductAdapter extends ArrayAdapter<ProductInfo> {
@@ -27,7 +26,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		LayoutInflater inflater = (LayoutInflater) getContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(resourceId, null);
-		ProductInfo product = (ProductInfo) getItem(position);
+		ProductInfo product = (ProductInfo) this.getItem(position);
 		TextView productName = (TextView) view
 				.findViewById(R.id.txtProductName);
 		productName.setText(product.name);

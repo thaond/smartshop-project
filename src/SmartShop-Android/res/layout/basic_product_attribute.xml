@@ -4,52 +4,62 @@
 	android:scrollbars="vertical">
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="vertical">
-		<LinearLayout android:orientation="vertical"
+		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/descriptionInPostProductForm"
+			<TextView android:id="@+id/nameOfProduct"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="@string/description" />
-			<EditText android:id="@+id/txtDescriptionOfProduct"
+				android:text="@string/nameOfProduct" />
+			<EditText android:id="@+id/txtNameOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
-		<LinearLayout android:orientation="vertical"
+		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/priceInPostProductForm"
+			<TextView android:id="@+id/priceOfProduct"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="@string/price" />
+				android:text="@string/priceOfProduct" />
 			<EditText android:id="@+id/txtPriceOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
-		<LinearLayout android:orientation="vertical"
+		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<CheckBox android:id="@+id/checkBoxIsVAT" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
 			<TextView android:id="@+id/isVATInPostProductForm"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/isVAT" />
-			<EditText android:id="@+id/txtIsVAT" android:layout_width="fill_parent"
-				android:layout_height="wrap_content" />
 		</LinearLayout>
-		<LinearLayout android:orientation="vertical"
+		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/quantity" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="@string/quantity" />
-			<EditText android:id="@+id/txtQuantity"
+			<TextView android:id="@+id/quantityOfProduct" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/quantityOfProduct" />
+			<EditText android:id="@+id/txtQuantityOfProduct"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/warrantyOfProduct" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/warrantyOfProduct" />
+			<EditText android:id="@+id/txtWarrantyOfProduct"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/originOfProduct" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/originOfProduct" />
+			<EditText android:id="@+id/txtOriginOfProduct"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/addressOfProduct" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/addressOfProduct" />
+			<EditText android:id="@+id/txtAddressOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 
-		<LinearLayout android:orientation="vertical"
-			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/warranty" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="@string/warranty" />
-			<EditText android:id="@+id/txtWarranty"
-				android:layout_width="fill_parent" android:layout_height="wrap_content" />
-		</LinearLayout>
-		<LinearLayout android:orientation="vertical"
-			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/datePost" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="@string/datePost" />
-			<EditText android:id="@+id/txtDatePost"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_alignParentRight="true" />
-		</LinearLayout>
+
+
+
+
 	</LinearLayout>
 </ScrollView>

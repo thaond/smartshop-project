@@ -28,20 +28,6 @@ public class ExpandableFeatureSelector extends ExpandableListActivity {
 		List<Map<String, String>> groupData = new ArrayList<Map<String, String>>();
 		List<List<Map<String, String>>> childData = new ArrayList<List<Map<String, String>>>();
 		
-		List<Map<String, String>> list = null;
-		Map<String, String> map = null;
-		
-		for (int i = 0; i < 3; ++i) {
-			list = new ArrayList<Map<String, String>>();
-			map = new HashMap<String, String>();
-			
-			map.put("checked", "checked");
-			map.put("unchecked", "unchecked");
-			list.add(map);
-			childData.add(list);
-		}
-		
-		
 		for (String database_name : AvailableCategories) {
 			Map<String, String> curGroupMap = new HashMap<String, String>();
 			groupData.add(curGroupMap);
@@ -59,7 +45,7 @@ public class ExpandableFeatureSelector extends ExpandableListActivity {
 		mAdapter = new SearchByCategoryAdapter(this, groupData,
 				android.R.layout.simple_expandable_list_item_1,
 				new String[] { NAME }, new int[] { android.R.id.text1 },
-				childData, 0,
+				childData, R.layout.child_category,
 				new String[] { NAME }, new int[] { android.R.id.text1 });
 		setListAdapter(mAdapter);
 
