@@ -1,5 +1,6 @@
 package vnfoss2010.smartshop.serverside.services.page;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ import vnfoss2010.smartshop.serverside.utils.DateUtil;
 
 import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class CreatePageService extends BaseRestfulService {
 	CategoryServiceImpl dbCat = CategoryServiceImpl.instance();
@@ -28,54 +31,15 @@ public class CreatePageService extends BaseRestfulService {
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		JSONObject jsonReturn = new JSONObject();
-		JSONObject json = null;
-		try {
-			json = new JSONObject(content);
-		} catch (Exception e) {
-		}
-		Page page = new Page();
-		page.setContent(getParameterWithThrow("content", params, json));
-		page.setDate_post(DateUtil.parseDate(getParameterWithThrow("date",
-				params, json)));
-		page.setName(getParameterWithThrow("name", params, json));
-		page.setUsername(getParameterWithThrow("username", params, json));
-		JSONArray jsonCatArray = getJSONArrayWithThrow("cats", json);
-		HashSet<String> catSet = new HashSet<String>();
-		for (int i = 0; i < jsonCatArray.length(); i++) {
-			JSONObject jsonCat = jsonCatArray.getJSONObject(i);
-			String catID = (String) jsonCat.get("id");
-			ServiceResult<Category> resultFindCat = dbCat.findCategory(catID);
-			if (resultFindCat == null || resultFindCat.isOK() == false) {
-				throw missingParameter("cats id");
-			}
-			catSet.add(catID);
-		}
-		page.setSetCategoryKeys(catSet);
-		page.setLast_modified(DateUtil.parseDate(getParameterWithThrow("date",
-				params, json)));
+
+		Gson gson;
+		GsonBuilder builder = new GsonBuilder();
+		gson = builder.setDateFormat("dd/MM/yyyy hh:mm").create();
+		Page page = gson.fromJson(content, Page.class);
 		ServiceResult<Boolean> result = dbPage.insertPage(page);
 		jsonReturn.put("errCode", result.isOK() ? 0 : 1);
 		jsonReturn.put("message", result.getMessage());
 
 		return jsonReturn.toString();
-	}
-
-	private String getParameterWithThrow(String parameterName,
-			Map<String, String[]> params, JSONObject json)
-			throws MissingParameterException {
-		String result = getParameter(parameterName, params, json);
-		if (result == null) {
-			throw missingParameter(parameterName);
-		}
-		return result;
-	}
-
-	private JSONArray getJSONArrayWithThrow(String parameterName,
-			JSONObject json) throws MissingParameterException {
-		JSONArray jsonArray = getJSONArray(parameterName, json);
-		if (jsonArray == null) {
-			throw missingParameter(parameterName);
-		}
-		return jsonArray;
 	}
 }
