@@ -27,9 +27,11 @@ import com.google.gson.GsonBuilder;
 
 public abstract class Global {
 	public static String HOST_NAME = "http://localhost:8888";
-	public static DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+	public static final String NORMAL_DATE = "dd-MM-yyyy";
+	public static final String NORMAL_DATE_WITH_HOUR = "dd/MM/yyyy hh:mm:ss";
+	public static DateFormat df = new SimpleDateFormat(NORMAL_DATE);
 	public static DateFormat dfFull = new SimpleDateFormat(
-			"dd-MM-yyyy kk:mm:ss");
+			NORMAL_DATE_WITH_HOUR);
 	public static ResourceBundle messages = ResourceBundle
 			.getBundle("vnfoss2010/smartshop/serverside.localization/MessagesBundle");;
 	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;
@@ -38,6 +40,9 @@ public abstract class Global {
 
 	public static final String[][] LANGUAGE = new String[][] {
 			{ "vi", "Ti\u1EBFng Vi\u1EC7t" }, { "en", "English" } };
+
+	public static final Gson gsonWithDate = new GsonBuilder().setDateFormat(
+			NORMAL_DATE_WITH_HOUR).create();
 
 	public static final LinkedHashMap<String, String> COUNTRIES_NAME;
 	static {

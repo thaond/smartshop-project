@@ -11,7 +11,6 @@ import javax.jdo.PersistenceManager;
 import vnfoss2010.smartshop.serverside.database.PMF;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
-import vnfoss2010.smartshop.serverside.services.exception.MissingParameterException;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.beoui.geocell.GeocellManager;

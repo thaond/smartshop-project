@@ -12,6 +12,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
+
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
 import com.google.gson.Gson;
@@ -30,7 +32,7 @@ public class Product implements LocationCapable {
 	private double price;
 
 	@Persistent
-	private boolean is_vat; 
+	private boolean is_vat;
 
 	@Persistent
 	private int quantity;
@@ -55,30 +57,41 @@ public class Product implements LocationCapable {
 
 	@Persistent
 	private String username;
-	
+
 	@Persistent
 	private String username_buyer;
 
 	@Exclude
 	@Persistent
 	private Set<String> fts;
-
 	@Persistent
-	private List<Long> listPagesId;
-
+	private Set<Long> setPagesID;
 	@Persistent
 	private Set<String> setCategoryKeys;
 
 	@Persistent(mappedBy = "product")
-	@Element(dependent = "true") 
+	@Element(dependent = "true")
 	private List<Attribute> attributeSets;
 
 	@Exclude
 	@Persistent
 	private List<String> geocells;
 
+	public Set<Long> getSetPagesID() {
+		return setPagesID;
+	}
+
+	public void setSetPages(Set<Long> setPages) {
+		this.setPagesID = setPages;
+	}
+
+	public Boolean getIs_vat() {
+		return is_vat;
+	}
+
 	public Product() {
 		this("", 0, false, 0, "", "", "", 0, 0, "");
+		ProductServiceImpl.updateFTSStuffForUserInfo(this);
 	}
 
 	public Product(String name, double price, boolean isVat, int quantity,
@@ -94,10 +107,10 @@ public class Product implements LocationCapable {
 		this.lat = lat;
 		this.lng = lng;
 		this.username = username;
-		
+
 		setCategoryKeys = new HashSet<String>();
 		attributeSets = new ArrayList<Attribute>();
-		listPagesId = new ArrayList<Long>();
+		setPagesID = new HashSet<Long>();
 		this.fts = new HashSet<String>();
 	}
 
@@ -356,23 +369,8 @@ public class Product implements LocationCapable {
 				+ ", is_vat=" + is_vat + ", lat=" + lat + ", lng=" + lng
 				+ ", name=" + name + ", origin=" + origin + ", price=" + price
 				+ ", quantity=" + quantity + ", setCategoryKeys="
-				+ setCategoryKeys + ", setPagesId=" + getListPagesId()
+				+ setCategoryKeys + ", setPagesId=" + getSetPagesID()
 				+ ", username=" + username + ", warranty=" + warranty + "]";
-	}
-
-	/**
-	 * @param listPagesId
-	 *            the listPagesId to set
-	 */
-	public void setListPagesId(List<Long> listPagesId) {
-		this.listPagesId = listPagesId;
-	}
-
-	/**
-	 * @return the listPagesId
-	 */
-	public List<Long> getListPagesId() {
-		return listPagesId;
 	}
 
 	/**
@@ -391,7 +389,8 @@ public class Product implements LocationCapable {
 	}
 
 	/**
-	 * @param username_buyer the username_buyer to set
+	 * @param username_buyer
+	 *            the username_buyer to set
 	 */
 	public void setUsername_buyer(String username_buyer) {
 		this.username_buyer = username_buyer;

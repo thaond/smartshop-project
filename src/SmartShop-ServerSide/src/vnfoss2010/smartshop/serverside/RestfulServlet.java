@@ -35,9 +35,16 @@ import vnfoss2010.smartshop.serverside.services.account.GetUserInfoService;
 import vnfoss2010.smartshop.serverside.services.account.LoginService;
 import vnfoss2010.smartshop.serverside.services.account.RegisterService;
 import vnfoss2010.smartshop.serverside.services.account.SearchUsernameService;
+import vnfoss2010.smartshop.serverside.services.comment.CreateCommentService;
+import vnfoss2010.smartshop.serverside.services.comment.DeleteCommentService;
+import vnfoss2010.smartshop.serverside.services.comment.GetCommentService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
 import vnfoss2010.smartshop.serverside.services.page.CreatePageService;
+import vnfoss2010.smartshop.serverside.services.page.EditPageService;
+import vnfoss2010.smartshop.serverside.services.page.GetPageService;
+import vnfoss2010.smartshop.serverside.services.page.TagProductToPageService;
+import vnfoss2010.smartshop.serverside.services.page.UntagProductFromPageService;
 import vnfoss2010.smartshop.serverside.services.product.EditProductService;
 import vnfoss2010.smartshop.serverside.services.product.GetBuyedProductByUserService;
 import vnfoss2010.smartshop.serverside.services.product.GetInterestedProductByUserService;
@@ -124,11 +131,21 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("create-page", CreatePageService.class);
 		mServices.put("product-search-criteria", GetListProductByCriteriaService.class);
 		mServices.put("product-search-criteria-cat", GetListProductByCriteriaInCategoryService.class);
-		mServices.put("product-search", SearchProductService.class);
-		mServices.put("product-get-buyed-product", GetBuyedProductByUserService.class);
+		mServices.put("product-search", SearchProductService.class);mServices.put("product-get-buyed-product", GetBuyedProductByUserService.class);
 		mServices.put("product-get-selled-product", GetSelledProductByUserService.class);
 		mServices.put("product-get-interested-product", GetInterestedProductByUserService.class);
-		
+
+		// page
+		mServices.put("create-page", CreatePageService.class);
+		mServices.put("edit-page", EditPageService.class);
+		mServices.put("get-page", GetPageService.class);
+		mServices.put("tag-product-to-page", TagProductToPageService.class);
+		mServices.put("untag-product-to-page", UntagProductFromPageService.class);
+
+		// comment
+		mServices.put("create-comment", CreateCommentService.class);
+		mServices.put("get-comment", GetCommentService.class);
+		mServices.put("delete-comment", DeleteCommentService.class);
 		// mServices.put("sampledata", SampleDataRestfull.class);
 	}
 }

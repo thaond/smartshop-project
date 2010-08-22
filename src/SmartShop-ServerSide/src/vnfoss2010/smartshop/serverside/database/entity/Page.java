@@ -9,35 +9,45 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable 
+@PersistenceCapable
 public class Page {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
-	
+
 	@Persistent
 	private String name;
-	
+
 	@Persistent
 	private String content;
-	
+
 	@Persistent
 	private String link_thumbnail; 
-	
+
 	@Persistent
 	private int page_view;
-	
+
 	@Persistent
 	private Date date_post;
-	
+
 	@Persistent
 	private Date last_modified;
-	
+
 	@Persistent
 	private String username;
-	
+
 	@Persistent
 	private Set<String> setCategoryKeys;
+	@Persistent
+	private Set<Long> setProductIDs;
+
+	public Set<Long> getSetProduct() {
+		return setProductIDs;
+	}
+
+	public void setSetProduct(Set<Long> setProduct) {
+		this.setProductIDs = setProduct;
+	}
 
 	public Page(String name, String content, String linkThumbnail,
 			int pageView, Date datePost, Date lastModified, String username,
@@ -64,7 +74,8 @@ public class Page {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Long id) {
 		this.id = id;
@@ -78,7 +89,8 @@ public class Page {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -92,7 +104,8 @@ public class Page {
 	}
 
 	/**
-	 * @param content the content to set
+	 * @param content
+	 *            the content to set
 	 */
 	public void setContent(String content) {
 		this.content = content;
@@ -106,7 +119,8 @@ public class Page {
 	}
 
 	/**
-	 * @param linkThumbnail the link_thumbnail to set
+	 * @param linkThumbnail
+	 *            the link_thumbnail to set
 	 */
 	public void setLink_thumbnail(String linkThumbnail) {
 		link_thumbnail = linkThumbnail;
@@ -120,7 +134,8 @@ public class Page {
 	}
 
 	/**
-	 * @param pageView the page_view to set
+	 * @param pageView
+	 *            the page_view to set
 	 */
 	public void setPage_view(int pageView) {
 		page_view = pageView;
@@ -134,7 +149,8 @@ public class Page {
 	}
 
 	/**
-	 * @param datePost the date_post to set
+	 * @param datePost
+	 *            the date_post to set
 	 */
 	public void setDate_post(Date datePost) {
 		date_post = datePost;
@@ -148,7 +164,8 @@ public class Page {
 	}
 
 	/**
-	 * @param lastModified the last_modified to set
+	 * @param lastModified
+	 *            the last_modified to set
 	 */
 	public void setLast_modified(Date lastModified) {
 		last_modified = lastModified;
@@ -162,13 +179,16 @@ public class Page {
 	}
 
 	/**
-	 * @param username the username to set
+	 * @param username
+	 *            the username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -179,7 +199,9 @@ public class Page {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -200,7 +222,8 @@ public class Page {
 	}
 
 	/**
-	 * @param setCategoryKeys the setCategoryKeys to set
+	 * @param setCategoryKeys
+	 *            the setCategoryKeys to set
 	 */
 	public void setSetCategoryKeys(Set<String> setCategoryKeys) {
 		this.setCategoryKeys = setCategoryKeys;
@@ -213,7 +236,9 @@ public class Page {
 		return setCategoryKeys;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

@@ -1,28 +1,32 @@
 package vnfoss2010.smartshop.serverside.database.entity;
 
+import java.util.Date;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable 
+@PersistenceCapable
 public class Comment {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
-	
+
 	@Persistent
 	private String content;
-	
+
 	@Persistent
 	private String type; 
-	
+
 	@Persistent
-	private int type_id;
-	
+	private long type_id;
+
 	@Persistent
 	private String username;
-	
+	@Persistent
+	private Date datePost;
+
 	public Comment() {
 	}
 
@@ -41,7 +45,8 @@ public class Comment {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Long id) {
 		this.id = id;
@@ -55,7 +60,8 @@ public class Comment {
 	}
 
 	/**
-	 * @param content the content to set
+	 * @param content
+	 *            the content to set
 	 */
 	public void setContent(String content) {
 		this.content = content;
@@ -69,7 +75,8 @@ public class Comment {
 	}
 
 	/**
-	 * @param type the type to set
+	 * @param type
+	 *            the type to set
 	 */
 	public void setType(String type) {
 		this.type = type;
@@ -78,12 +85,13 @@ public class Comment {
 	/**
 	 * @return the type_id
 	 */
-	public int getType_id() {
+	public Long getType_id() {
 		return type_id;
 	}
 
 	/**
-	 * @param typeId the type_id to set
+	 * @param typeId
+	 *            the type_id to set
 	 */
 	public void setType_id(int typeId) {
 		type_id = typeId;
@@ -97,13 +105,16 @@ public class Comment {
 	}
 
 	/**
-	 * @param username the username to set
+	 * @param username
+	 *            the username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -114,7 +125,9 @@ public class Comment {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -134,7 +147,17 @@ public class Comment {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	public Date getDatePost() {
+		return datePost;
+	}
+
+	public void setDatePost(Date datePost) {
+		this.datePost = datePost;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -142,4 +165,5 @@ public class Comment {
 		return "Comment [id=" + id + ", content=" + content + ", type=" + type
 				+ ", type_id=" + type_id + ", username=" + username + "]";
 	}
+
 }
