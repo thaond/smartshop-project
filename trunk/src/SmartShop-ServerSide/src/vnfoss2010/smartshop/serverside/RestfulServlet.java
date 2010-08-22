@@ -36,10 +36,13 @@ import vnfoss2010.smartshop.serverside.services.account.RegisterService;
 import vnfoss2010.smartshop.serverside.services.account.SearchUsernameService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
+import vnfoss2010.smartshop.serverside.services.page.CreatePageService;
+import vnfoss2010.smartshop.serverside.services.product.EditProductService;
 import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaInCategoryService;
 import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductService;
 import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
+import vnfoss2010.smartshop.serverside.services.product.SearchProductPromixity;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductService;
 
 /**
@@ -74,7 +77,7 @@ public class RestfulServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		resp.setCharacterEncoding("UTF-8");
 		PrintWriter writer = resp.getWriter();
-		
+
 		try {
 			String apiKey = req.getParameter("api");
 			// TODO is this apiKey valid?
@@ -108,13 +111,18 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("account-login", LoginService.class);
 		mServices.put("account-search", SearchUsernameService.class);
 		mServices.put("account-addfriend", AddFriendsService.class);
-		
+
 		mServices.put("registerproduct", RegisterProductService.class);
+		mServices.put("searchproductproximity", SearchProductPromixity.class);
 		mServices.put("get-product", GetProductService.class);
-		mServices.put("product-search-criteria", GetListProductByCriteriaService.class);
-		mServices.put("product-search-criteria-cat", GetListProductByCriteriaInCategoryService.class);
+		mServices.put("editproduct", EditProductService.class);
+		mServices.put("create-page", CreatePageService.class);
+		mServices.put("registerproduct", RegisterProductService.class);
+		mServices.put("product-search-criteria",
+				GetListProductByCriteriaService.class);
+		mServices.put("product-search-criteria-cat",
+				GetListProductByCriteriaInCategoryService.class);
 		mServices.put("product-search", SearchProductService.class);
-		
-//		mServices.put("sampledata", SampleDataRestfull.class);
+		// mServices.put("sampledata", SampleDataRestfull.class);
 	}
 }

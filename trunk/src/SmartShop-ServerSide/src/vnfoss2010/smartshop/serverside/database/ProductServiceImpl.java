@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOObjectNotFoundException;
@@ -12,14 +13,13 @@ import javax.jdo.Query;
 
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 
-import com.google.appengine.api.datastore.DatastoreNeedIndexException;
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
-
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
-import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
+
+import com.google.appengine.api.datastore.DatastoreNeedIndexException;
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
 
 public class ProductServiceImpl {
 	private static ProductServiceImpl instance;
@@ -29,7 +29,7 @@ public class ProductServiceImpl {
 
 	private ProductServiceImpl() {
 	}
-	
+
 	// PRODUCT
 	/**
 	 * Insert new product into database
@@ -42,14 +42,16 @@ public class ProductServiceImpl {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (product == null) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 		}
 
 		try {
 			pm.flush();
 			product = pm.makePersistent(product);
 			if (product == null) {
-				result.setMessage(Global.messages.getString("insert_product_fail"));
+				result.setMessage(Global.messages
+						.getString("insert_product_fail"));
 			} else {
 				result.setResult(product.getId());
 				result.setMessage(Global.messages
@@ -63,11 +65,6 @@ public class ProductServiceImpl {
 
 		return result;
 	}
-	
-	//TODO
-	public ServiceResult<Void> updateProduct(Product product){
-		return null;
-	}
 
 	public ServiceResult<Long> insertProduct(Product product,
 			List<String> listCategories, List<Attribute> listAttributes) {
@@ -76,7 +73,8 @@ public class ProductServiceImpl {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (product == null) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 		}
 
 		try {
@@ -107,7 +105,8 @@ public class ProductServiceImpl {
 
 			product = pm.makePersistent(product);
 			if (product == null) {
-				result.setMessage(Global.messages.getString("insert_product_fail"));
+				result.setMessage(Global.messages
+						.getString("insert_product_fail"));
 			} else {
 				result.setResult(product.getId());
 				result.setMessage(Global.messages
@@ -116,7 +115,8 @@ public class ProductServiceImpl {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage(Global.messages.getString("insert_list_userinfos_fail"));
+			result.setMessage(Global.messages
+					.getString("insert_list_userinfos_fail"));
 		}
 
 		return result;
@@ -125,14 +125,90 @@ public class ProductServiceImpl {
 	public ServiceResult<Product> findProduct(Long id) {
 		ServiceResult<Product> result = new ServiceResult<Product>();
 		Product product = null;
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		product = pm.getObjectById(Product.class, id);
-		if (product == null) {
-			result.setOK(false);
-			result.setMessage(Global.messages.getString("no_found_product"));
-		} else {
-			result.setOK(true);
-			result.setResult(product);
+
+		PersistenceManager pm = null;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			product = pm.getObjectById(Product.class, id);
+			if (product == null) {
+				result.setOK(false);
+				result
+						.setMessage(Global.messages
+								.getString("no_found_product"));
+			} else {
+				result.setOK(true);
+				result.setResult(product);
+			}
+		} catch (Exception e) {
+			result.setMessage("exception");
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception e) {
+			}
+
+		}
+		return result;
+	}
+
+	public ServiceResult<Void> updateProduct(Product editProduct) {
+		ServiceResult<Void> result = new ServiceResult<Void>();
+		Product product = null;
+		PersistenceManager pm = null;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			product = pm.getObjectById(Product.class, editProduct.getId());
+			if (product == null) {
+				result.setOK(false);
+				result.setMessage("Khong tim thay product");
+			} else {
+				if (editProduct.getAddress() != null) {
+					product.setAddress(editProduct.getAddress());
+				}
+				if (editProduct.getAttributeSets() != null) {
+					product.setAttributeSets(editProduct.getAttributeSets());
+				}
+				if (editProduct.getLat() != null) {
+					product.setLat(editProduct.getLat());
+				}
+				if (editProduct.getLng() != null) {
+					product.setLng(editProduct.getLng());
+				}
+				if (editProduct.getName() != null) {
+					product.setName(editProduct.getName());
+				}
+				if (editProduct.getOrigin() != null) {
+					product.setOrigin(editProduct.getOrigin());
+				}
+				if (editProduct.getPrice() != null) {
+					product.setPrice(editProduct.getPrice());
+				}
+				if (editProduct.getQuantity() != null) {
+					product.setQuantity(editProduct.getQuantity());
+				}
+				if (editProduct.getWarranty() != null) {
+					product.setWarranty(editProduct.getWarranty());
+				}
+				if (editProduct.getSetCategoryKeys() != null
+						&& editProduct.getSetCategoryKeys().size() != 0) {
+					product
+							.setSetCategoryKeys(editProduct
+									.getSetCategoryKeys());
+				}
+				log.log(Level.SEVERE, "old " + product.toString());
+				log.log(Level.SEVERE, "Edit " + editProduct.toString());
+				result.setOK(true);
+				result.setMessage("Update thanh cong");
+			}
+		} catch (Exception e) {
+			result.setMessage("exception " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -214,7 +290,7 @@ public class ProductServiceImpl {
 
 		return result;
 	}
-	
+
 	/**
 	 * 
 	 * @param maximum
@@ -222,12 +298,13 @@ public class ProductServiceImpl {
 	 * @param criterias
 	 *            : String as list of integers, seperated by comma (|)
 	 *            <i>Ex:</i>1,3,4
-	 * @param cat_keys List categories you want to search in, separated by ,
+	 * @param cat_keys
+	 *            List categories you want to search in, separated by ,
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public ServiceResult<List<Product>> getListProductByCriteriaInCategories(int maximum,
-			int[] criterias,String... cat_keys) {
+	public ServiceResult<List<Product>> getListProductByCriteriaInCategories(
+			int maximum, int[] criterias, String... cat_keys) {
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
 
 		String queryString = "";
@@ -262,23 +339,25 @@ public class ProductServiceImpl {
 				break;
 			}
 		}
-		
-		queryString = "select from " + Product.class.getName() + " order by " + queryString
-				+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+		queryString = "select from " + Product.class.getName() + " order by "
+				+ queryString + ((maximum == 0) ? "" : (" limit " + maximum));
 
 		Global.log(log, queryString);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
+
 		Query query = pm.newQuery(queryString);
-		query.setFilter("setCategoryKeys.contains(catKey)" );
+		query.setFilter("setCategoryKeys.contains(catKey)");
 		query.declareParameters("String catKey");
-		
-		List<Product> listProducts = (List<Product>) query.execute(Arrays.asList(cat_keys));
+
+		List<Product> listProducts = (List<Product>) query.execute(Arrays
+				.asList(cat_keys));
 
 		if (listProducts.size() > 0) {
 			result.setOK(true);
-			result.setMessage(Global.messages
-					.getString("search_product_by_criteria_in_cat_successfully"));
+			result
+					.setMessage(Global.messages
+							.getString("search_product_by_criteria_in_cat_successfully"));
 			result.setResult(listProducts);
 		} else {
 			result.setOK(false);
@@ -288,13 +367,13 @@ public class ProductServiceImpl {
 
 		return result;
 	}
-	
+
 	public ServiceResult<List<Product>> searchProdcutLike(String queryString) {
 		queryString = DatabaseUtils.preventSQLInjection(queryString);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		StringBuffer queryBuffer = new StringBuffer();
-		queryBuffer.append("SELECT FROM " + Product.class.getName()
-				+ " WHERE ");
+		queryBuffer
+				.append("SELECT FROM " + Product.class.getName() + " WHERE ");
 		Set<String> queryTokens = SearchJanitorUtils
 				.getTokensForIndexingOrQuery(queryString,
 						Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
@@ -323,15 +402,17 @@ public class ProductServiceImpl {
 		try {
 			listProducts = (List<Product>) query
 					.executeWithArray(parametersForSearch.toArray());
-			
-			//TODO return basic information
-			if (listProducts.size()>0){
+
+			// TODO return basic information
+			if (listProducts.size() > 0) {
 				result.setResult(listProducts);
 				result.setOK(true);
-				result.setMessage(Global.messages.getString("search_product_by_query_successfully"));
-			}else{
+				result.setMessage(Global.messages
+						.getString("search_product_by_query_successfully"));
+			} else {
 				result.setOK(false);
-				result.setMessage(Global.messages.getString("search_product_by_query_fail"));
+				result.setMessage(Global.messages
+						.getString("search_product_by_query_fail"));
 			}
 		} catch (DatastoreTimeoutException e) {
 			log.severe(e.getMessage());
@@ -353,12 +434,12 @@ public class ProductServiceImpl {
 
 		return result;
 	}
-	
+
 	public static void updateFTSStuffForUserInfo(Product product) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(product.getName() + " " + product.getAddress());
-		
-		for (Attribute att : product.getAttributeSets()){
+
+		for (Attribute att : product.getAttributeSets()) {
 			sb.append(att.getName());
 		}
 		Set<String> new_ftsTokens = SearchJanitorUtils
@@ -371,9 +452,10 @@ public class ProductServiceImpl {
 			ftsTokens.add(token);
 		}
 	}
-	
+
 	public static void preventSQLInjProduct(Product product) {
 		product.setName(DatabaseUtils.preventSQLInjection(product.getName()));
-		product.setAddress(DatabaseUtils.preventSQLInjection(product.getAddress()));
+		product.setAddress(DatabaseUtils.preventSQLInjection(product
+				.getAddress()));
 	}
 }
