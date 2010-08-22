@@ -29,13 +29,13 @@ public class Product implements LocationCapable {
 	private String name;
 
 	@Persistent
-	private Double price;
+	private double price;
 
 	@Persistent
-	private Boolean is_vat;
+	private boolean is_vat; 
 
 	@Persistent
-	private Integer quantity;
+	private int quantity;
 
 	@Persistent
 	private Date date_post;
@@ -50,10 +50,10 @@ public class Product implements LocationCapable {
 	private String address;
 
 	@Persistent
-	private Double lat;
+	private double lat;
 
 	@Persistent
-	private Double lng;
+	private double lng;
 
 	@Persistent
 	private String username;
@@ -76,18 +76,12 @@ public class Product implements LocationCapable {
 	private List<String> geocells;
 
 	public Product() {
-		setCategoryKeys = new HashSet<String>();
-		attributeSets = new ArrayList<Attribute>();
-		listPagesId = new ArrayList<Long>();
-
-		this.fts = new HashSet<String>();
-		ProductServiceImpl.updateFTSStuffForUserInfo(this);
+		this("", 0, false, 0, "", "", "", 0, 0, "");
 	}
 
-	public Product(String name, Double price, Boolean isVat, Integer quantity,
-			String warranty, String origin, String address, Double lat,
-			Double lng, String username) {
-		this();
+	public Product(String name, double price, boolean isVat, int quantity,
+			String warranty, String origin, String address, double lat,
+			double lng, String username) {
 		this.name = name;
 		this.price = price;
 		is_vat = isVat;
@@ -98,9 +92,11 @@ public class Product implements LocationCapable {
 		this.lat = lat;
 		this.lng = lng;
 		this.username = username;
-
+		
+		setCategoryKeys = new HashSet<String>();
+		attributeSets = new ArrayList<Attribute>();
+		listPagesId = new ArrayList<Long>();
 		this.fts = new HashSet<String>();
-		ProductServiceImpl.updateFTSStuffForUserInfo(this);
 	}
 
 	/**
@@ -136,7 +132,7 @@ public class Product implements LocationCapable {
 	/**
 	 * @return the price
 	 */
-	public Double getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
@@ -144,14 +140,14 @@ public class Product implements LocationCapable {
 	 * @param price
 	 *            the price to set
 	 */
-	public void setPrice(Double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
 	/**
 	 * @return the is_vat
 	 */
-	public Boolean isIs_vat() {
+	public boolean isIs_vat() {
 		return is_vat;
 	}
 
@@ -159,14 +155,14 @@ public class Product implements LocationCapable {
 	 * @param isVat
 	 *            the is_vat to set
 	 */
-	public void setIs_vat(Boolean isVat) {
+	public void setIs_vat(boolean isVat) {
 		is_vat = isVat;
 	}
 
 	/**
 	 * @return the quantity
 	 */
-	public Integer getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
@@ -174,7 +170,7 @@ public class Product implements LocationCapable {
 	 * @param quantity
 	 *            the quantity to set
 	 */
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
@@ -226,7 +222,7 @@ public class Product implements LocationCapable {
 	/**
 	 * @return the lat
 	 */
-	public Double getLat() {
+	public double getLat() {
 		return lat;
 	}
 
@@ -234,14 +230,14 @@ public class Product implements LocationCapable {
 	 * @param lat
 	 *            the lat to set
 	 */
-	public void setLat(Double lat) {
+	public void setLat(double lat) {
 		this.lat = lat;
 	}
 
 	/**
 	 * @return the lng
 	 */
-	public Double getLng() {
+	public double getLng() {
 		return lng;
 	}
 
@@ -249,7 +245,7 @@ public class Product implements LocationCapable {
 	 * @param lng
 	 *            the lng to set
 	 */
-	public void setLng(Double lng) {
+	public void setLng(double lng) {
 		this.lng = lng;
 	}
 
@@ -303,20 +299,6 @@ public class Product implements LocationCapable {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", quantity="
-				+ quantity + ", warranty=" + warranty + ", price=" + price
-				+ ", is_vat=" + is_vat + ", address=" + address + ", lat="
-				+ lat + ", lng=" + lng + ", origin=" + origin + ", username="
-				+ username + "]";
-	}
-
 	public List<Attribute> getAttributeSets() {
 		return attributeSets;
 	}
@@ -360,6 +342,22 @@ public class Product implements LocationCapable {
 		return new Point(lat, lng);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Product [address=" + address + ", attributeSets="
+				+ attributeSets + ", geocells=" + geocells + ", id=" + id
+				+ ", is_vat=" + is_vat + ", lat=" + lat + ", lng=" + lng
+				+ ", name=" + name + ", origin=" + origin + ", price=" + price
+				+ ", quantity=" + quantity + ", setCategoryKeys="
+				+ setCategoryKeys + ", setPagesId=" + getListPagesId()
+				+ ", username=" + username + ", warranty=" + warranty + "]";
+	}
+
 	/**
 	 * @param listPagesId
 	 *            the listPagesId to set
@@ -388,6 +386,18 @@ public class Product implements LocationCapable {
 	 */
 	public Date getDate_post() {
 		return date_post;
+	}
+
+	public static void main(String[] args) {
+		Product product = new Product();
+		product = new Product("Nec Monitor", 123, false, 2, "12 month",
+				"China", "Binh Tan", 10.11, 106.123, "tamvo");
+
+		product.getSetCategoryKeys().add("comp");
+
+		Gson gson = new Gson();
+		String json = gson.toJson(product);
+		System.out.println(json);
 	}
 
 	/**
