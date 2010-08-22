@@ -21,7 +21,7 @@ public class Category {
 	
 	@Persistent
 	private List<Long> listPages;
-	
+	 
 	public Category(){
 		setListPages(new ArrayList<Long>());
 	}

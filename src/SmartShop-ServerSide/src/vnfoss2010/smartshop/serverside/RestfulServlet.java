@@ -31,6 +31,7 @@ import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.HelloService;
 import vnfoss2010.smartshop.serverside.services.account.AddFriendsService;
 import vnfoss2010.smartshop.serverside.services.account.EditProfileService;
+import vnfoss2010.smartshop.serverside.services.account.GetUserInfoService;
 import vnfoss2010.smartshop.serverside.services.account.LoginService;
 import vnfoss2010.smartshop.serverside.services.account.RegisterService;
 import vnfoss2010.smartshop.serverside.services.account.SearchUsernameService;
@@ -111,17 +112,15 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("account-login", LoginService.class);
 		mServices.put("account-search", SearchUsernameService.class);
 		mServices.put("account-addfriend", AddFriendsService.class);
-
+		mServices.put("account-getuser", GetUserInfoService.class);
+		
 		mServices.put("registerproduct", RegisterProductService.class);
 		mServices.put("searchproductproximity", SearchProductPromixity.class);
 		mServices.put("get-product", GetProductService.class);
 		mServices.put("editproduct", EditProductService.class);
 		mServices.put("create-page", CreatePageService.class);
-		mServices.put("registerproduct", RegisterProductService.class);
-		mServices.put("product-search-criteria",
-				GetListProductByCriteriaService.class);
-		mServices.put("product-search-criteria-cat",
-				GetListProductByCriteriaInCategoryService.class);
+		mServices.put("product-search-criteria", GetListProductByCriteriaService.class);
+		mServices.put("product-search-criteria-cat", GetListProductByCriteriaInCategoryService.class);
 		mServices.put("product-search", SearchProductService.class);
 		// mServices.put("sampledata", SampleDataRestfull.class);
 	}

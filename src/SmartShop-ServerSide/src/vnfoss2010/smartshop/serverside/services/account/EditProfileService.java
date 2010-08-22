@@ -60,6 +60,7 @@ public class EditProfileService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 		userInfo.setLng(lng);
+		AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
 
 		ServiceResult<Void> result = db.editProfile(userInfo);
 		if (result.isOK()) {

@@ -22,6 +22,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public abstract class Global {
 	public static String HOST_NAME = "http://localhost:8888";
 	public static DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -31,6 +34,7 @@ public abstract class Global {
 			.getBundle("vnfoss2010/smartshop/serverside.localization/MessagesBundle");;
 	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;
 	public static final int MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX = 200;
+	public static final Gson gson = new GsonBuilder().excludeFieldsWithExcludeAnnotation().create();
 
 	public static final String[][] LANGUAGE = new String[][] {
 			{ "vi", "Ti\u1EBFng Vi\u1EC7t" }, { "en", "English" } };

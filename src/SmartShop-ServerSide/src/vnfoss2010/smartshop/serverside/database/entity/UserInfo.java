@@ -12,8 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.repackaged.org.json.JSONException;
 import com.google.appengine.repackaged.org.json.JSONObject;
-
-import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
+import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
 public class UserInfo implements Serializable {
@@ -26,6 +25,7 @@ public class UserInfo implements Serializable {
 	@Persistent
 	private String password;
 
+	@Exclude
 	private String oldPassword;
 
 	@Persistent
@@ -76,6 +76,7 @@ public class UserInfo implements Serializable {
 	@Persistent
 	private Set<String> setFriendsUsername;
 
+	@Exclude
 	@Persistent
 	private Set<String> fts;
 
@@ -144,7 +145,7 @@ public class UserInfo implements Serializable {
 		this.type = type;
 
 		this.fts = new HashSet<String>();
-		AccountServiceImpl.updateFTSStuffForUserInfo(this);
+		// AccountServiceImpl.updateFTSStuffForUserInfo(this);
 
 		this.setFriendsUsername = new HashSet<String>();
 	}
@@ -449,7 +450,9 @@ public class UserInfo implements Serializable {
 		return avatarLink;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -457,25 +460,25 @@ public class UserInfo implements Serializable {
 		return "UserInfo [username=" + username + ", password=" + password
 				+ "]";
 	}
-	
-	public JSONObject toJSON(JSONObject json) throws JSONException{
+
+	public JSONObject toJSON(JSONObject json) throws JSONException {
 		json.put("username", username);
 		json.put("password", password);
 		json.put("first_name", first_name);
-		json.put("last_name",  last_name);
-		json.put("phone",  phone);
-		json.put("email",  email);
-		json.put("birthday",  birthday);
-		json.put("address",  address);
-		json.put("lat",  lat);
-		json.put("lng",  lng);
-		json.put("avatarLink",  avatarLink);
-		json.put("sum_star",  sum_star);
-		json.put("count_vote",  count_vote);
-		json.put("gmt",  gmt);
-		json.put("lang",  lang);
-		json.put("country",  country);
-		json.put("type",  type);
+		json.put("last_name", last_name);
+		json.put("phone", phone);
+		json.put("email", email);
+		json.put("birthday", birthday);
+		json.put("address", address);
+		json.put("lat", lat);
+		json.put("lng", lng);
+		json.put("avatarLink", avatarLink);
+		json.put("sum_star", sum_star);
+		json.put("count_vote", count_vote);
+		json.put("gmt", gmt);
+		json.put("lang", lang);
+		json.put("country", country);
+		json.put("type", type);
 		return json;
 	}
 

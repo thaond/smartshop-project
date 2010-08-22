@@ -34,8 +34,8 @@ public class AccountServiceImpl extends HttpServlet {
 	private static AccountServiceImpl instance;
 
 	public static UserService userService = UserServiceFactory.getUserService();
-	private final static Logger log = Logger
-			.getLogger(AccountServiceImpl.class.getName());
+	private final static Logger log = Logger.getLogger(AccountServiceImpl.class
+			.getName());
 
 	/**
 	 * Default constructor<br>
@@ -66,7 +66,8 @@ public class AccountServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (userInfo == null || userInfo.getUsername() == null) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -102,6 +103,56 @@ public class AccountServiceImpl extends HttpServlet {
 		return result;
 	}
 
+	public ServiceResult<UserInfo> getUserInfo(String username) {
+		username = DatabaseUtils.preventSQLInjection(username);
+
+		ServiceResult<UserInfo> result = new ServiceResult<UserInfo>();
+
+		if (username == null || username.equals("")) {
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
+			return result;
+		}
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			boolean isNotFound = false;
+			UserInfo userInfo = null;
+			try {
+				userInfo = pm.getObjectById(UserInfo.class, username);
+			} catch (JDOObjectNotFoundException e) {
+				isNotFound = true;
+			} catch (NucleusObjectNotFoundException e) {
+				isNotFound = true;
+			}
+
+			if (isNotFound || userInfo == null) {
+				// Not found userinfo
+				result.setMessage(Global.messages.getString("not_found") + " "
+						+ username);
+			} else {
+				result.setMessage(Global.messages
+						.getString("login_successfully"));
+				result.setResult(userInfo);
+				result.setOK(true);
+			}
+		} catch (Exception ex) {
+			result.setMessage(Global.messages.getString("login_fail"));
+			result.setOK(false);
+			// log.log(Level.SEVERE, s, ex);
+			ex.printStackTrace();
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception ex) {
+				result.setOK(false);
+				result.setMessage(Global.messages.getString("login_fail"));
+				log.log(Level.SEVERE, ex.getMessage(), ex);
+			}
+		}
+		return result;
+	}
+
 	public ServiceResult<Void> editProfile(UserInfo userInfo) {
 		// Prevent SQL Injection
 		preventSQLInjUserInfo(userInfo);
@@ -109,7 +160,8 @@ public class AccountServiceImpl extends HttpServlet {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
 		if (userInfo == null || userInfo.getUsername() == null) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -130,16 +182,18 @@ public class AccountServiceImpl extends HttpServlet {
 						+ Global.messages.getString("doesnot_exist"));
 			} else {
 				if (userInfo.getPassword() != null
-						&& userInfo.getPassword().toString().length() > 0 && !userInfo.getPassword().equals(
-						userInfo.getOldPassword())){
+						&& userInfo.getPassword().toString().length() > 0
+						&& !userInfo.getPassword().equals(
+								userInfo.getOldPassword())) {
 					result.setMessage(Global.messages
 							.getString("password_doesnot_match"));
-				}else{
-					if (userInfo.getPassword().equals(
-							userInfo.getOldPassword())) {
-						tmp.setPassword(DatabaseUtils.md5(userInfo.getPassword()));
+				} else {
+					if (userInfo.getPassword()
+							.equals(userInfo.getOldPassword())) {
+						tmp.setPassword(DatabaseUtils.md5(userInfo
+								.getPassword()));
 					}
-					
+
 					tmp.setFirst_name(userInfo.getFirst_name());
 					tmp.setLast_name(userInfo.getLast_name());
 					tmp.setPhone(userInfo.getPhone());
@@ -151,7 +205,7 @@ public class AccountServiceImpl extends HttpServlet {
 					tmp.setLat(userInfo.getLat());
 					tmp.setLng(userInfo.getLng());
 					tmp.setGmt(userInfo.getGmt());
-					
+
 					pm.refresh(tmp);
 					result.setOK(true);
 				}
@@ -164,7 +218,8 @@ public class AccountServiceImpl extends HttpServlet {
 				pm.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				result.setMessage(Global.messages.getString("edit_profile_fail"));
+				result.setMessage(Global.messages
+						.getString("edit_profile_fail"));
 			}
 		}
 		return result;
@@ -193,7 +248,8 @@ public class AccountServiceImpl extends HttpServlet {
 					.getString("insert_list_userinfos_successfully"));
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			result.setMessage(Global.messages.getString("insert_list_userinfos_fail"));
+			result.setMessage(Global.messages
+					.getString("insert_list_userinfos_fail"));
 		} finally {
 			try {
 				pm.close();
@@ -221,7 +277,8 @@ public class AccountServiceImpl extends HttpServlet {
 			result.setOK(true);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			result.setMessage(Global.messages.getString("delete_all_userinfos_fail"));
+			result.setMessage(Global.messages
+					.getString("delete_all_userinfos_fail"));
 			log.log(Level.SEVERE, ex.getMessage(), ex);
 		} finally {
 			try {
@@ -250,12 +307,14 @@ public class AccountServiceImpl extends HttpServlet {
 
 	public ServiceResult<UserInfo> login(String username, String password) {
 		username = DatabaseUtils.preventSQLInjection(username);
-		password = DatabaseUtils.md5(DatabaseUtils.preventSQLInjection(password));
+		password = DatabaseUtils.md5(DatabaseUtils
+				.preventSQLInjection(password));
 
 		ServiceResult<UserInfo> result = new ServiceResult<UserInfo>();
 
 		if (username == null || username.equals("")) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -277,11 +336,13 @@ public class AccountServiceImpl extends HttpServlet {
 						+ username);
 			} else {
 				if (userInfo.getPassword().equals(password)) {
-					result.setMessage(Global.messages.getString("login_successfully"));
+					result.setMessage(Global.messages
+							.getString("login_successfully"));
 					result.setResult(userInfo);
 					result.setOK(true);
 				} else {
-					result.setMessage(Global.messages.getString("wrong_password"));
+					result.setMessage(Global.messages
+							.getString("wrong_password"));
 				}
 			}
 		} catch (Exception ex) {
@@ -307,7 +368,8 @@ public class AccountServiceImpl extends HttpServlet {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
 		if (username == null || username.equals("")) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -324,9 +386,11 @@ public class AccountServiceImpl extends HttpServlet {
 			}
 
 			if (isNotFound || userInfo == null) {
-				result.setMessage(Global.messages.getString("not_found") + username);
+				result.setMessage(Global.messages.getString("not_found")
+						+ username);
 			} else {
-				result.setMessage(Global.messages.getString("logout_successfully"));
+				result.setMessage(Global.messages
+						.getString("logout_successfully"));
 				// TODO
 				// userInfo.setOnline(false);
 				// if (userInfo.getTypeCus() == 1) {
@@ -356,7 +420,8 @@ public class AccountServiceImpl extends HttpServlet {
 		ServiceResult<Boolean> result = new ServiceResult<Boolean>();
 
 		if (username == null || username.equals("")) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -373,11 +438,13 @@ public class AccountServiceImpl extends HttpServlet {
 			}
 			if (isNotFound || userInfo == null) {
 				result.setResult(false);
-				result.setMessage(Global.messages.getString("username_not_exist"));
+				result.setMessage(Global.messages
+						.getString("username_not_exist"));
 			} else {
 				// Exist this username in the datastore
 				result.setResult(true);
-				result.setMessage(Global.messages.getString("username_already_exist"));
+				result.setMessage(Global.messages
+						.getString("username_already_exist"));
 			}
 			result.setOK(true);
 		} catch (Exception ex) {
@@ -429,8 +496,8 @@ public class AccountServiceImpl extends HttpServlet {
 		try {
 			listUserInfos = (List<UserInfo>) query
 					.executeWithArray(parametersForSearch.toArray());
-			
-			if (listUserInfos.size()>0){
+
+			if (listUserInfos.size() > 0) {
 				result.setResult(new ArrayList<UserInfo>());
 				for (UserInfo userInfo : listUserInfos) {
 					// Just return basic information
@@ -438,13 +505,15 @@ public class AccountServiceImpl extends HttpServlet {
 							new UserInfo(userInfo.getUsername(), userInfo
 									.getFirst_name(), userInfo.getLast_name()));
 				}
-				result.setMessage(Global.messages.getString("search_username_successfully"));
+				result.setMessage(Global.messages
+						.getString("search_username_successfully"));
 				result.setOK(true);
-			}else{
+			} else {
 				result.setOK(false);
-				result.setMessage(Global.messages.getString("search_username_fail"));
+				result.setMessage(Global.messages
+						.getString("search_username_fail"));
 			}
-			
+
 		} catch (DatastoreTimeoutException e) {
 			log.severe(e.getMessage());
 			log.severe("datastore timeout at: " + queryString);// +
@@ -471,7 +540,8 @@ public class AccountServiceImpl extends HttpServlet {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
 		if (username == null || username.equals("")) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 			return result;
 		}
 
@@ -518,14 +588,16 @@ public class AccountServiceImpl extends HttpServlet {
 			}
 		} catch (Exception ex) {
 			// ex.printStackTrace();
-			result.setMessage(Global.messages.getString("add_list_friends_fail"));
+			result.setMessage(Global.messages
+					.getString("add_list_friends_fail"));
 			Global.log(log, Arrays.toString(ex.getStackTrace()));
 		} finally {
 			try {
 				pm.close();
 			} catch (Exception ex) {
 				Global.log(log, Arrays.toString(ex.getStackTrace()));
-				result.setMessage(Global.messages.getString("add_list_friends_fail"));
+				result.setMessage(Global.messages
+						.getString("add_list_friends_fail"));
 			}
 		}
 		return result;
@@ -538,7 +610,8 @@ public class AccountServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (page == null) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 		}
 
 		try {
@@ -563,7 +636,9 @@ public class AccountServiceImpl extends HttpServlet {
 
 			page = pm.makePersistent(page);
 			if (page == null) {
-				result.setMessage(Global.messages.getString("insert_page_fail"));
+				result
+						.setMessage(Global.messages
+								.getString("insert_page_fail"));
 			} else {
 				result.setResult(page.getId());
 				result.setMessage(Global.messages
@@ -590,13 +665,15 @@ public class AccountServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (comment == null) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 		}
 
 		try {
 			comment = pm.makePersistent(comment);
 			if (comment == null) {
-				result.setMessage(Global.messages.getString("insert_comment_fail"));
+				result.setMessage(Global.messages
+						.getString("insert_comment_fail"));
 			} else {
 				result.setResult(comment.getId());
 				result.setMessage(Global.messages
@@ -623,13 +700,15 @@ public class AccountServiceImpl extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (media == null) {
-			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
 		}
 
 		try {
 			media = pm.makePersistent(media);
 			if (media == null) {
-				result.setMessage(Global.messages.getString("insert_media_fail"));
+				result.setMessage(Global.messages
+						.getString("insert_media_fail"));
 			} else {
 				result.setResult(media.getId());
 				result.setMessage(Global.messages
@@ -646,7 +725,8 @@ public class AccountServiceImpl extends HttpServlet {
 
 	private void preventSQLInjMedia(Media media) {
 		media.setName(DatabaseUtils.preventSQLInjection(media.getName()));
-		media.setDescription(DatabaseUtils.preventSQLInjection(media.getDescription()));
+		media.setDescription(DatabaseUtils.preventSQLInjection(media
+				.getDescription()));
 	}
 
 	// STUFF
@@ -659,15 +739,23 @@ public class AccountServiceImpl extends HttpServlet {
 	}
 
 	private void preventSQLInjUserInfo(UserInfo userInfo) {
-		userInfo.setUsername(DatabaseUtils.preventSQLInjection(userInfo.getUsername()));
-		userInfo.setPassword(DatabaseUtils.preventSQLInjection(userInfo.getPassword()));
-		userInfo.setFirst_name(DatabaseUtils.preventSQLInjection(userInfo.getFirst_name()));
-		userInfo.setLast_name(DatabaseUtils.preventSQLInjection(userInfo.getLast_name()));
-		userInfo.setPhone(DatabaseUtils.preventSQLInjection(userInfo.getPhone()));
-		userInfo.setEmail(DatabaseUtils.preventSQLInjection(userInfo.getEmail()));
-		userInfo.setAddress(DatabaseUtils.preventSQLInjection(userInfo.getAddress()));
+		userInfo.setUsername(DatabaseUtils.preventSQLInjection(userInfo
+				.getUsername()));
+		userInfo.setPassword(DatabaseUtils.preventSQLInjection(userInfo
+				.getPassword()));
+		userInfo.setFirst_name(DatabaseUtils.preventSQLInjection(userInfo
+				.getFirst_name()));
+		userInfo.setLast_name(DatabaseUtils.preventSQLInjection(userInfo
+				.getLast_name()));
+		userInfo.setPhone(DatabaseUtils
+				.preventSQLInjection(userInfo.getPhone()));
+		userInfo.setEmail(DatabaseUtils
+				.preventSQLInjection(userInfo.getEmail()));
+		userInfo.setAddress(DatabaseUtils.preventSQLInjection(userInfo
+				.getAddress()));
 		userInfo.setLang(DatabaseUtils.preventSQLInjection(userInfo.getLang()));
-		userInfo.setCountry(DatabaseUtils.preventSQLInjection(userInfo.getCountry()));
+		userInfo.setCountry(DatabaseUtils.preventSQLInjection(userInfo
+				.getCountry()));
 	}
 
 	public static void preventSQLInjPage(Page page) {
@@ -676,7 +764,8 @@ public class AccountServiceImpl extends HttpServlet {
 	}
 
 	public static void preventSQLInjComment(Comment comment) {
-		comment.setContent(DatabaseUtils.preventSQLInjection(comment.getContent()));
+		comment.setContent(DatabaseUtils.preventSQLInjection(comment
+				.getContent()));
 	}
 
 	final int DURATION_IN_S = 60 * 60 * 24; // duration remembering login: 1 day

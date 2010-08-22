@@ -35,10 +35,10 @@ public class SampleData {
 	}
 	public static ArrayList<Category> getSampleCategories() {
 		ArrayList<Category> categories = new ArrayList<Category>();
-//		categories.add(new Category("comp","May tinh",null));
-//		categories.add(new Category("lap","Laptop","comp"));
-//		categories.add(new Category("net","Thiet bi mang","comp"));
-//		categories.add(new Category("soft","Software","comp"));
+		categories.add(new Category("comp","May tinh",null));
+		categories.add(new Category("lap","Laptop","comp"));
+		categories.add(new Category("net","Thiet bi mang","comp"));
+		categories.add(new Category("soft","Software","comp"));
 		
 		return categories;
 	}

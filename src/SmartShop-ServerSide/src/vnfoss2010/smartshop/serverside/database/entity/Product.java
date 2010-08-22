@@ -12,12 +12,10 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
-
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
 import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
 public class Product implements LocationCapable {
@@ -58,6 +56,7 @@ public class Product implements LocationCapable {
 	@Persistent
 	private String username;
 
+	@Exclude
 	@Persistent
 	private Set<String> fts;
 
@@ -67,11 +66,11 @@ public class Product implements LocationCapable {
 	@Persistent
 	private Set<String> setCategoryKeys;
 
-	@Expose
 	@Persistent(mappedBy = "product")
 	@Element(dependent = "true")
 	private List<Attribute> attributeSets;
 
+	@Exclude
 	@Persistent
 	private List<String> geocells;
 

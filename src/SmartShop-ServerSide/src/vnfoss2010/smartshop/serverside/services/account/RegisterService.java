@@ -9,6 +9,7 @@ import com.google.appengine.repackaged.org.json.JSONObject;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
+import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
@@ -27,6 +28,7 @@ public class RegisterService extends BaseRestfulService{
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		UserInfo userInfo = gson.fromJson(content, UserInfo.class);
+		AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
 		
 //		JSONObject json = null;
 //		try {

@@ -68,7 +68,26 @@ public abstract class BaseRestfulService implements RestfulService {
 		}
 		return null;
 	}
-
+	
+	protected String getParameterWithThrow(String parameterName,
+			Map<String, String[]> params, JSONObject json)
+			throws MissingParameterException {
+		String result = getParameter(parameterName, params, json);
+		if (result == null) {
+			throw missingParameter(parameterName);
+		}
+		return result;
+	}
+	
+	protected JSONArray getJSONArrayWithThrow(String parameterName,
+			JSONObject json) throws MissingParameterException {
+		JSONArray jsonArray = getJSONArray(parameterName, json);
+		if (jsonArray == null) {
+			throw missingParameter(parameterName);
+		}
+		return jsonArray;
+	}
+	
 	protected JSONArray getJSONArray(String key, JSONObject json) {
 		JSONArray result = null;
 		try {
