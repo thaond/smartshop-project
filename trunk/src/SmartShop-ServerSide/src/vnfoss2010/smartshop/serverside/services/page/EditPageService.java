@@ -2,23 +2,19 @@ package vnfoss2010.smartshop.serverside.services.page;
 
 import java.util.Map;
 
+import com.google.appengine.repackaged.org.json.JSONObject;
+
 import vnfoss2010.smartshop.serverside.Global;
-import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
 import vnfoss2010.smartshop.serverside.database.PageServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
-import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-public class CreatePageService extends BaseRestfulService {
-	CategoryServiceImpl dbCat = CategoryServiceImpl.instance();
+public class EditPageService extends BaseRestfulService {
 	PageServiceImpl dbPage = PageServiceImpl.instance();
 
-	public CreatePageService(String serviceName) {
+	public EditPageService(String serviceName) {
 		super(serviceName);
 	}
 
@@ -26,14 +22,10 @@ public class CreatePageService extends BaseRestfulService {
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		JSONObject jsonReturn = new JSONObject();
-
-		Gson gson;
-		gson = Global.gsonWithDate;
-		Page page = gson.fromJson(content, Page.class);
-		ServiceResult<Long> result = dbPage.insertPage(page);
+		Page page = Global.gsonWithDate.fromJson(content, Page.class);
+		ServiceResult<Void> result = dbPage.updatePage(page);
 		if (result.isOK()) {
 			jsonReturn.put("errCode", 0);
-			jsonReturn.put("pageid", result.getResult());
 		} else {
 			jsonReturn.put("errCode", 1);
 		}

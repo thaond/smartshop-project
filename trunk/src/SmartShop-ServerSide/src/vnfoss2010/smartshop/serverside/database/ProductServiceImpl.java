@@ -21,6 +21,7 @@ import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 
 import com.google.appengine.api.datastore.DatastoreNeedIndexException;
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 public class ProductServiceImpl {
 	private static ProductServiceImpl instance;
@@ -63,7 +64,7 @@ public class ProductServiceImpl {
 			e.printStackTrace();
 			Global.log(log, e.getMessage());
 			Global.log(log, Arrays.toString(e.getStackTrace()));
-			
+
 			result.setMessage(Global.messages.getString("insert_product_fail"));
 		}
 
@@ -75,7 +76,6 @@ public class ProductServiceImpl {
 		preventSQLInjProduct(product);
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-
 		if (product == null) {
 			result.setMessage(Global.messages
 					.getString("cannot_handle_with_null"));
@@ -129,7 +129,6 @@ public class ProductServiceImpl {
 	public ServiceResult<Product> findProduct(Long id) {
 		ServiceResult<Product> result = new ServiceResult<Product>();
 		Product product = null;
-
 		PersistenceManager pm = null;
 		try {
 			pm = PMF.get().getPersistenceManager();
@@ -144,7 +143,8 @@ public class ProductServiceImpl {
 				result.setResult(product);
 			}
 		} catch (Exception e) {
-			result.setMessage("exception");
+			e.printStackTrace();
+			result.setMessage("exception " + e.getMessage());
 		} finally {
 			try {
 				pm.close();
@@ -176,8 +176,7 @@ public class ProductServiceImpl {
 				product.setQuantity(editProduct.getQuantity());
 				product.setWarranty(editProduct.getWarranty());
 				product.setSetCategoryKeys(editProduct.getSetCategoryKeys());
-				log.log(Level.SEVERE, "old " + product.toString());
-				log.log(Level.SEVERE, "Edit " + editProduct.toString());
+				product.setGeocells(editProduct.getGeocells());
 				result.setOK(true);
 				result.setMessage("Update thanh cong");
 			}
@@ -527,7 +526,7 @@ public class ProductServiceImpl {
 				query.declareParameters("String u_seller");
 				if (limit > 0)
 					query.setRange(0, limit);
-				
+
 				List<Product> listProducts = (List<Product>) query
 						.execute(username);
 				if (listProducts.size() > 0) {

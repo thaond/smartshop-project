@@ -15,6 +15,7 @@ import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.MissingParameterException;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
+import com.beoui.geocell.GeocellManager;
 import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
@@ -46,10 +47,12 @@ public class EditProductService extends BaseRestfulService {
 
 		ServiceResult<Set<Category>> listCategory = dbCat
 				.findCategories(editProduct.getSetCategoryKeys());
-		
 		if (listCategory.isOK()) {
+			editProduct.setGeocells(GeocellManager.generateGeoCell(editProduct
+					.getLocation()));
 			ServiceResult<Void> editResult = dbProduct
 					.updateProduct(editProduct);
+
 			jsonReturn.put("errCode", editResult.isOK() ? 0 : 1);
 			jsonReturn.put("message", editResult.getMessage());
 		} else {

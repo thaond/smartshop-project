@@ -1,12 +1,12 @@
-package vnfoss2010.smartshop.serverside.services.page;
+package vnfoss2010.smartshop.serverside.services.comment;
 
 import java.util.Map;
 
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
-public class TagProductService extends BaseRestfulService {
-	public TagProductService(String serviceName) {
+public class DeleteCommentService extends BaseRestfulService {
+	public DeleteCommentService(String serviceName) {
 		super(serviceName);
 	}
 

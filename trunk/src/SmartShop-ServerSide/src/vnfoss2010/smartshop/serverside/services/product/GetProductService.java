@@ -73,31 +73,5 @@ public class GetProductService extends BaseRestfulService {
 		Global.log(log, jsonReturn.toString());
 		return jsonReturn.toString();
 
-		// old
-		// jsonReturn.put("errCode", 0);
-		// jsonReturn.put("id", product.getId());
-		// jsonReturn.put("name", product.getName());
-		// jsonReturn.put("lat", product.getLat());
-		// jsonReturn.put("lng", product.getLng());
-		// jsonReturn.put("price", product.getPrice());
-		// jsonReturn.put("quantity", product.getQuantity());
-		// jsonReturn.put("address", product.getAddress());
-		// jsonReturn.put("origin", product.getOrigin());
-		// jsonReturn.put("atts", product.getSetAttributes());
-		//
-		// String[] keyCats = new String[product.getSetCategoryKeys().size()];
-		// product.getSetCategoryKeys().toArray(keyCats);
-		// ArrayList<Category> listCategory = new ArrayList<Category>();
-		// for (int i = 0; i < keyCats.length; i++) {
-		// ServiceResult<Category> categoryResult = dbCategory
-		// .findCategory(keyCats[i]);
-		// listCategory.add(categoryResult.getResult());
-		// }
-		// jsonReturn.put("categories", listCategory);
-		// jsonReturn.put("username", product.getUsername());
-		// jsonReturn.put("warranty", product.getWarranty());
-		// }
-
-		// return jsonReturn.toString();
 	}
 }

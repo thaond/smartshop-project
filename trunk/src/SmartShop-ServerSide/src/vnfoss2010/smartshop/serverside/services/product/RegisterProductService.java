@@ -2,7 +2,6 @@ package vnfoss2010.smartshop.serverside.services.product;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.database.AttributeServiceImpl;
@@ -23,10 +22,7 @@ public class RegisterProductService extends BaseRestfulService {
 	private final static Logger log = Logger
 			.getLogger(RegisterProductService.class.getName());
 
-	private AttributeServiceImpl attributeImpl = AttributeServiceImpl
-			.getInstance();
 	private CategoryServiceImpl dbcat = CategoryServiceImpl.instance();
-	private AttributeServiceImpl dbatt = AttributeServiceImpl.getInstance();
 
 	private ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
 
@@ -46,8 +42,6 @@ public class RegisterProductService extends BaseRestfulService {
 		Gson gson = new Gson();
 		Product product = gson.fromJson(content, Product.class);
 		ProductServiceImpl.updateFTSStuffForUserInfo(product);
-		log.log(Level.SEVERE, product.toString());
-		
 		ServiceResult<Set<Category>> listCategories = dbcat
 				.findCategories(product.getSetCategoryKeys());
 		if (listCategories.isOK() == false) {
