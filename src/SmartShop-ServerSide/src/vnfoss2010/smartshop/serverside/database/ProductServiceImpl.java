@@ -17,6 +17,7 @@ import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
+import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 
 import com.google.appengine.api.datastore.DatastoreNeedIndexException;
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
@@ -47,7 +48,7 @@ public class ProductServiceImpl {
 		}
 
 		try {
-			pm.flush();
+			// pm.flush();
 			product = pm.makePersistent(product);
 			if (product == null) {
 				result.setMessage(Global.messages
@@ -59,7 +60,10 @@ public class ProductServiceImpl {
 				result.setOK(true);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+			Global.log(log, e.getMessage());
 			Global.log(log, Arrays.toString(e.getStackTrace()));
+			
 			result.setMessage(Global.messages.getString("insert_product_fail"));
 		}
 
@@ -407,6 +411,248 @@ public class ProductServiceImpl {
 			// " - timestamp: "
 			// +
 			// discreteTimestamp);
+		}
+
+		return result;
+	}
+
+	public ServiceResult<List<Product>> getListBuyedProductsByUsername(
+			String username, int limit) {
+		username = DatabaseUtils.preventSQLInjection(username);
+		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (username == null || username.equals("")) {
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
+			return result;
+		}
+
+		try {
+			boolean isNotFound = false;
+			UserInfo userInfo = null;
+			try {
+				userInfo = pm.getObjectById(UserInfo.class, username);
+			} catch (JDOObjectNotFoundException e) {
+				isNotFound = true;
+			} catch (NucleusObjectNotFoundException e) {
+				isNotFound = true;
+			}
+
+			if (isNotFound || userInfo == null) {
+				// Not found userinfo
+				result.setMessage(Global.messages.getString("not_found") + " "
+						+ username);
+			} else {
+				// Query here
+				Query query = pm.newQuery(Product.class);
+				query.setOrdering("date_post DESC");
+				query.setFilter("username_buyer == username");
+				query.declareParameters("String username");
+				if (limit > 0)
+					query.setRange(0, limit);
+
+				List<Product> listProducts = (List<Product>) query
+						.execute(username);
+				if (listProducts.size() > 0) {
+					result.setOK(true);
+					result
+							.setMessage(String
+									.format(
+											Global.messages
+													.getString("get_list_buyed_product_by_username_successfully"),
+											username));
+					result.setResult(listProducts);
+				} else {
+					result.setOK(false);
+					result
+							.setMessage(String
+									.format(
+											Global.messages
+													.getString("get_list_buyed_product_by_username_fail"),
+											username));
+				}
+			}
+		} catch (Exception ex) {
+			result.setMessage(Global.messages.getString("not_found" + " "
+					+ username));
+			result.setOK(false);
+			// log.log(Level.SEVERE, s, ex);
+			ex.printStackTrace();
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception ex) {
+				result.setOK(false);
+				result.setMessage(Global.messages
+						.getString("get_list_buyed_product_by_username_fail"));
+				log.log(Level.SEVERE, ex.getMessage(), ex);
+			}
+		}
+
+		return result;
+	}
+
+	public ServiceResult<List<Product>> getListSelledProductsByUsername(
+			String username, int limit) {
+		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (username == null || username.equals("")) {
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
+			return result;
+		}
+
+		try {
+			boolean isNotFound = false;
+			UserInfo userInfo = null;
+			try {
+				userInfo = pm.getObjectById(UserInfo.class, username);
+			} catch (JDOObjectNotFoundException e) {
+				isNotFound = true;
+			} catch (NucleusObjectNotFoundException e) {
+				isNotFound = true;
+			}
+
+			if (isNotFound || userInfo == null) {
+				// Not found userinfo
+				result.setMessage(Global.messages.getString("not_found") + " "
+						+ username);
+			} else {
+				// Query here
+				Query query = pm.newQuery(Product.class);
+				query.setOrdering("date_post DESC");
+				query.setFilter("username == u_seller");
+				query.declareParameters("String u_seller");
+				if (limit > 0)
+					query.setRange(0, limit);
+				
+				List<Product> listProducts = (List<Product>) query
+						.execute(username);
+				if (listProducts.size() > 0) {
+					result.setOK(true);
+					result
+							.setMessage(Global.messages
+									.getString("get_list_selled_product_by_username_successfully"));
+					result.setResult(listProducts);
+				} else {
+					result.setOK(false);
+					result
+							.setMessage(Global.messages
+									.getString("get_list_selled_product_by_username_fail"));
+				}
+			}
+		} catch (Exception ex) {
+			result.setMessage(Global.messages.getString("not_found" + " "
+					+ username));
+			result.setOK(false);
+			// log.log(Level.SEVERE, s, ex);
+			ex.printStackTrace();
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception ex) {
+				result.setOK(false);
+				result.setMessage(Global.messages
+						.getString("get_list_selled_product_by_username_fail"));
+				log.log(Level.SEVERE, ex.getMessage(), ex);
+			}
+		}
+
+		return result;
+	}
+
+	public ServiceResult<List<Product>> getListInterestedProductsByUsername(
+			String username, int limit) {
+		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (username == null || username.equals("")) {
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
+			return result;
+		}
+
+		try {
+			boolean isNotFound = false;
+			UserInfo userInfo = null;
+			try {
+				userInfo = pm.getObjectById(UserInfo.class, username);
+			} catch (JDOObjectNotFoundException e) {
+				isNotFound = true;
+			} catch (NucleusObjectNotFoundException e) {
+				isNotFound = true;
+			}
+
+			if (isNotFound || userInfo == null) {
+				// Not found userinfo
+				result.setMessage(Global.messages.getString("not_found") + " "
+						+ username);
+			} else {
+				// Query here
+				if (limit == 0)
+					limit = userInfo.getListInteredProduct().size();
+
+				Query query = pm.newQuery(Product.class);
+				query.setOrdering("date_post DESC");
+				query.setFilter("id = produtId");
+				query.declareParameters("Long productId");
+
+				List<Product> listProducts = (List<Product>) query
+						.execute(userInfo.getListInteredProduct());
+				if (listProducts.size() > 0) {
+					result.setOK(true);
+					result
+							.setMessage(Global.messages
+									.getString("get_list_interested_product_by_username_successfully"));
+					result.setResult(listProducts);
+				} else {
+					result.setOK(false);
+					result
+							.setMessage(Global.messages
+									.getString("get_list_interested_product_by_username_fail"));
+				}
+			}
+		} catch (Exception ex) {
+			result.setMessage(Global.messages.getString("not_found" + " "
+					+ username));
+			result.setOK(false);
+			ex.printStackTrace();
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception ex) {
+				result.setOK(false);
+				result
+						.setMessage(Global.messages
+								.getString("get_list_interested_product_by_username_fail"));
+				log.log(Level.SEVERE, ex.getMessage(), ex);
+			}
+		}
+
+		Query query = pm.newQuery(Product.class);
+		query.setOrdering("date_post DESC");
+		query.setFilter("username_buyer == username");
+		query.declareParameters("String username");
+		if (limit > 0)
+			query.setRange(0, limit);
+
+		List<Product> listProducts = (List<Product>) query.execute(username);
+		if (listProducts.size() > 0) {
+			result.setOK(true);
+			result
+					.setMessage(String
+							.format(
+									Global.messages
+											.getString("get_list_buyed_product_by_username_successfully"),
+									username));
+			result.setResult(listProducts);
+		} else {
+			result.setOK(false);
+			result.setMessage(String.format(Global.messages
+					.getString("get_list_buyed_product_by_username_fail"),
+					username));
 		}
 
 		return result;

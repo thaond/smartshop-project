@@ -132,12 +132,12 @@ public class AccountServiceImpl extends HttpServlet {
 						+ username);
 			} else {
 				result.setMessage(Global.messages
-						.getString("login_successfully"));
+						.getString("get_userinfo_successfully"));
 				result.setResult(userInfo);
 				result.setOK(true);
 			}
 		} catch (Exception ex) {
-			result.setMessage(Global.messages.getString("login_fail"));
+			result.setMessage(Global.messages.getString("get_userinfo_fail"));
 			result.setOK(false);
 			// log.log(Level.SEVERE, s, ex);
 			ex.printStackTrace();
@@ -146,7 +146,7 @@ public class AccountServiceImpl extends HttpServlet {
 				pm.close();
 			} catch (Exception ex) {
 				result.setOK(false);
-				result.setMessage(Global.messages.getString("login_fail"));
+				result.setMessage(Global.messages.getString("get_userinfo_fail"));
 				log.log(Level.SEVERE, ex.getMessage(), ex);
 			}
 		}

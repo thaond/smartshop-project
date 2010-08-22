@@ -1,8 +1,10 @@
 package vnfoss2010.smartshop.serverside.database.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -74,6 +76,9 @@ public class UserInfo implements Serializable {
 	private int type;
 
 	@Persistent
+	private List<Long> listInteredProduct;
+	
+	@Persistent
 	private Set<String> setFriendsUsername;
 
 	@Exclude
@@ -144,9 +149,9 @@ public class UserInfo implements Serializable {
 		this.country = country;
 		this.type = type;
 
+		listInteredProduct = new ArrayList<Long>();
 		this.fts = new HashSet<String>();
 		// AccountServiceImpl.updateFTSStuffForUserInfo(this);
-
 		this.setFriendsUsername = new HashSet<String>();
 	}
 
@@ -480,6 +485,20 @@ public class UserInfo implements Serializable {
 		json.put("country", country);
 		json.put("type", type);
 		return json;
+	}
+
+	/**
+	 * @param listInteredProduct the listInteredProduct to set
+	 */
+	public void setListInteredProduct(List<Long> listInteredProduct) {
+		this.listInteredProduct = listInteredProduct;
+	}
+
+	/**
+	 * @return the listInteredProduct
+	 */
+	public List<Long> getListInteredProduct() {
+		return listInteredProduct;
 	}
 
 }
