@@ -1,15 +1,28 @@
+/* USER */
+login
 user_name -> UserInfo
-login ?
+user_name -> list product: interested products, sell products, buy products
+
+/* PRODUCT */
 post product / edit product
 product_id -> ProductInfo
 product_id -> list Comments
+product_criteria (time | price | numBuyers) -> list product
+query string -> list product
+
+/* PAGE */
 post page / edit page
 page_id -> PageInfo
 page_id -> list Comments
-user_name -> list product: interested products, sell products, buy products
-product_criteria (time | price | numBuyers) -> list product
+user_name -> list of page
+list of pages sort by (date | view | category)
+	? sort by location
+list of all pages
+
+/* CATEGORY */
 list cat_id -> list product
-query string -> list product
+
+/* LOCATION */
 current lat, long, radius -> list product
 start lat, start long, end lat, end long -> direction: instruction and list of points
 location name -> lat, long
