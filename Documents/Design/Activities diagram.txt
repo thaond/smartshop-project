@@ -28,4 +28,14 @@ Home
 			View product
 		Search by location
 			View product
-			
+	View page
+		List of pages of categories
+			View page
+				View comment
+					View user profile
+				View profile of page author
+		List of pages sort by (date | view)	
+			View page
+				View comment
+					View user profile
+				View profile of page author
