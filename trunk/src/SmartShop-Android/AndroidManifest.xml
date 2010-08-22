@@ -2,11 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.appspot.smartshop" android:versionCode="1"
 	android:versionName="1.0">
-
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
-
 		<uses-library android:name="com.google.android.maps" />
-
 		<activity android:name=".HomeActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -14,14 +11,12 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".ui.user.UserActivity"
-			android:label="@string/app_name">
+		<activity android:name=".ui.user.UserActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-
 		<activity android:name=".ui.user.LoginActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -72,28 +67,6 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".test.ExpandableFeatureSelector"
-			android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".test.ExpandableFeatureSelector"
-			android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".map.DirectionListActivity"
-			android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-
 		<activity android:name=".ui.page.EditPageActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -101,7 +74,6 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-
 		<activity android:name=".ui.page.ViewPageActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -109,7 +81,6 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-
 		<activity android:name=".ui.page.ViewCommentsActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -117,13 +88,46 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-
-
+		<activity android:name=".ui.page.ViewCommentsActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ListProductAfterSearch"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ViewSingleProduct"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ViewBasicAttributeOfProduct"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ViewAdvanceAttributeOfProduct"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<uses-sdk android:minSdkVersion="7" />
+		<uses-permission android:name="android.permission.INTERNET" />
+		<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+		<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+		<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
 	</application>
-
-	<uses-sdk android:minSdkVersion="7" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+	>
 </manifest> 
