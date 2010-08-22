@@ -17,7 +17,7 @@ public class Attribute {
 	private String key_cat;
 
 	@Persistent
-	private String name;
+	private String name; 
 
 	@Persistent
 	private String value;
@@ -25,17 +25,6 @@ public class Attribute {
 	@Persistent
 	private String username;
 	
-	@Persistent
-	private Product product;
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
 	public Attribute() {
 	}
 

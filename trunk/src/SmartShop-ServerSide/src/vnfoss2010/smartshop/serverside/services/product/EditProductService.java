@@ -41,10 +41,12 @@ public class EditProductService extends BaseRestfulService {
 		}
 		Gson gson = new Gson();
 		Product editProduct = gson.fromJson(content, Product.class);
+		ProductServiceImpl.updateFTSStuffForUserInfo(editProduct);
 		log.log(Level.SEVERE, editProduct.toString());
 
 		ServiceResult<Set<Category>> listCategory = dbCat
 				.findCategories(editProduct.getSetCategoryKeys());
+		
 		if (listCategory.isOK()) {
 			ServiceResult<Void> editResult = dbProduct
 					.updateProduct(editProduct);
@@ -58,24 +60,5 @@ public class EditProductService extends BaseRestfulService {
 		// return value;
 		return jsonReturn.toString();
 		// return null;
-	}
-
-	private String getParameterWithThrow(String parameterName,
-			Map<String, String[]> params, JSONObject json)
-			throws MissingParameterException {
-		String result = getParameter(parameterName, params, json);
-		if (result == null) {
-			throw missingParameter(parameterName);
-		}
-		return result;
-	}
-
-	private JSONArray getJSONArrayWithThrow(String parameterName,
-			JSONObject json) throws MissingParameterException {
-		JSONArray jsonArray = getJSONArray(parameterName, json);
-		if (jsonArray == null) {
-			throw missingParameter(parameterName);
-		}
-		return jsonArray;
 	}
 }

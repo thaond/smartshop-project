@@ -1,25 +1,21 @@
 package vnfoss2010.smartshop.serverside.services.product;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.Global;
-import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
 import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
+import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
-import vnfoss2010.smartshop.serverside.services.exception.MissingParameterException;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class GetProductService extends BaseRestfulService {
@@ -103,15 +99,5 @@ public class GetProductService extends BaseRestfulService {
 		// }
 
 		// return jsonReturn.toString();
-	}
-
-	private String getParameterWithThrow(String parameterName,
-			Map<String, String[]> params, JSONObject json)
-			throws MissingParameterException {
-		String result = getParameter(parameterName, params, json);
-		if (result == null) {
-			throw missingParameter(parameterName);
-		}
-		return result;
 	}
 }

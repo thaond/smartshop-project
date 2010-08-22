@@ -22,7 +22,7 @@ public class Page {
 	private String content;
 	
 	@Persistent
-	private String link_thumbnail;
+	private String link_thumbnail; 
 	
 	@Persistent
 	private int page_view;

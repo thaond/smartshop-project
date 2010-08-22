@@ -64,14 +64,4 @@ public class SearchProductPromixity extends BaseRestfulService {
 		}
 		return productArray.toString();
 	}
-
-	private String getParameterWithThrow(String parameterName,
-			Map<String, String[]> params, JSONObject json)
-			throws MissingParameterException {
-		String result = getParameter(parameterName, params, json);
-		if (result == null) {
-			throw missingParameter(parameterName);
-		}
-		return result;
-	}
 }

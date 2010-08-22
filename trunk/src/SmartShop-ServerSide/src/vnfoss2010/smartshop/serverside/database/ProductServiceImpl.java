@@ -162,39 +162,16 @@ public class ProductServiceImpl {
 				result.setOK(false);
 				result.setMessage("Khong tim thay product");
 			} else {
-				if (editProduct.getAddress() != null) {
-					product.setAddress(editProduct.getAddress());
-				}
-				if (editProduct.getAttributeSets() != null) {
-					product.setAttributeSets(editProduct.getAttributeSets());
-				}
-				if (editProduct.getLat() != null) {
-					product.setLat(editProduct.getLat());
-				}
-				if (editProduct.getLng() != null) {
-					product.setLng(editProduct.getLng());
-				}
-				if (editProduct.getName() != null) {
-					product.setName(editProduct.getName());
-				}
-				if (editProduct.getOrigin() != null) {
-					product.setOrigin(editProduct.getOrigin());
-				}
-				if (editProduct.getPrice() != null) {
-					product.setPrice(editProduct.getPrice());
-				}
-				if (editProduct.getQuantity() != null) {
-					product.setQuantity(editProduct.getQuantity());
-				}
-				if (editProduct.getWarranty() != null) {
-					product.setWarranty(editProduct.getWarranty());
-				}
-				if (editProduct.getSetCategoryKeys() != null
-						&& editProduct.getSetCategoryKeys().size() != 0) {
-					product
-							.setSetCategoryKeys(editProduct
-									.getSetCategoryKeys());
-				}
+				product.setAddress(editProduct.getAddress());
+				product.setAttributeSets(editProduct.getAttributeSets());
+				product.setLat(editProduct.getLat());
+				product.setLng(editProduct.getLng());
+				product.setName(editProduct.getName());
+				product.setOrigin(editProduct.getOrigin());
+				product.setPrice(editProduct.getPrice());
+				product.setQuantity(editProduct.getQuantity());
+				product.setWarranty(editProduct.getWarranty());
+				product.setSetCategoryKeys(editProduct.getSetCategoryKeys());
 				log.log(Level.SEVERE, "old " + product.toString());
 				log.log(Level.SEVERE, "Edit " + editProduct.toString());
 				result.setOK(true);
@@ -436,15 +413,23 @@ public class ProductServiceImpl {
 	}
 
 	public static void updateFTSStuffForUserInfo(Product product) {
+
+		Global.log(log, "Product " + product);
+
 		StringBuffer sb = new StringBuffer();
 		sb.append(product.getName() + " " + product.getAddress());
 
 		for (Attribute att : product.getAttributeSets()) {
-			sb.append(att.getName());
+			sb.append(att.getName() + " ");
 		}
+
+		Global.log(log, "StringBuffer" + sb.toString());
+
 		Set<String> new_ftsTokens = SearchJanitorUtils
 				.getTokensForIndexingOrQuery(sb.toString(),
 						Global.MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX);
+
+		Global.log(log, new_ftsTokens.toString());
 		Set<String> ftsTokens = product.getFts();
 		ftsTokens.clear();
 

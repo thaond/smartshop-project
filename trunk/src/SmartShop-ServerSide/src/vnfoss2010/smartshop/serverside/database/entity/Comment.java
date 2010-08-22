@@ -15,7 +15,7 @@ public class Comment {
 	private String content;
 	
 	@Persistent
-	private String type;
+	private String type; 
 	
 	@Persistent
 	private int type_id;

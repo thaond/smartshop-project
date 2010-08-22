@@ -2,6 +2,7 @@ package vnfoss2010.smartshop.serverside.services.product;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.database.AttributeServiceImpl;
@@ -11,11 +12,9 @@ import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
-import vnfoss2010.smartshop.serverside.services.exception.MissingParameterException;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.beoui.geocell.GeocellManager;
-import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
 
@@ -46,6 +45,9 @@ public class RegisterProductService extends BaseRestfulService {
 		}
 		Gson gson = new Gson();
 		Product product = gson.fromJson(content, Product.class);
+		ProductServiceImpl.updateFTSStuffForUserInfo(product);
+		log.log(Level.SEVERE, product.toString());
+		
 		ServiceResult<Set<Category>> listCategories = dbcat
 				.findCategories(product.getSetCategoryKeys());
 		if (listCategories.isOK() == false) {
@@ -63,24 +65,5 @@ public class RegisterProductService extends BaseRestfulService {
 			}
 		}
 		return jsonReturn.toString();
-	}
-
-	private String getParameterWithThrow(String parameterName,
-			Map<String, String[]> params, JSONObject json)
-			throws MissingParameterException {
-		String result = getParameter(parameterName, params, json);
-		if (result == null) {
-			throw missingParameter(parameterName);
-		}
-		return result;
-	}
-
-	private JSONArray getJSONArrayWithThrow(String parameterName,
-			JSONObject json) throws MissingParameterException {
-		JSONArray jsonArray = getJSONArray(parameterName, json);
-		if (jsonArray == null) {
-			throw missingParameter(parameterName);
-		}
-		return jsonArray;
 	}
 }
