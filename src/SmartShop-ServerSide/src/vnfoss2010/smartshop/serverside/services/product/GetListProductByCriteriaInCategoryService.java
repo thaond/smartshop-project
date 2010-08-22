@@ -53,7 +53,7 @@ public class GetListProductByCriteriaInCategoryService extends
 		String cat_keys = getParameter("cat_keys", params, json);
 
 		Global.log(log, "Cat keys : " + cat_keys);
-		
+
 		ServiceResult<List<Product>> result = dbProduct
 				.getListProductByCriteriaInCategories(maximum, criteriaIDs,
 						cat_keys.split(","));
