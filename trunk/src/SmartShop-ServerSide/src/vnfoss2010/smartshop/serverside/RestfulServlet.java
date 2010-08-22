@@ -39,9 +39,12 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
 import vnfoss2010.smartshop.serverside.services.page.CreatePageService;
 import vnfoss2010.smartshop.serverside.services.product.EditProductService;
+import vnfoss2010.smartshop.serverside.services.product.GetBuyedProductByUserService;
+import vnfoss2010.smartshop.serverside.services.product.GetInterestedProductByUserService;
 import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaInCategoryService;
 import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductService;
+import vnfoss2010.smartshop.serverside.services.product.GetSelledProductByUserService;
 import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductPromixity;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductService;
@@ -122,6 +125,10 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("product-search-criteria", GetListProductByCriteriaService.class);
 		mServices.put("product-search-criteria-cat", GetListProductByCriteriaInCategoryService.class);
 		mServices.put("product-search", SearchProductService.class);
+		mServices.put("product-get-buyed-product", GetBuyedProductByUserService.class);
+		mServices.put("product-get-selled-product", GetSelledProductByUserService.class);
+		mServices.put("product-get-interested-product", GetInterestedProductByUserService.class);
+		
 		// mServices.put("sampledata", SampleDataRestfull.class);
 	}
 }

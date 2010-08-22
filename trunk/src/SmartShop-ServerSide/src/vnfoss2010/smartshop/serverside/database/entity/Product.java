@@ -55,6 +55,9 @@ public class Product implements LocationCapable {
 
 	@Persistent
 	private String username;
+	
+	@Persistent
+	private String username_buyer;
 
 	@Exclude
 	@Persistent
@@ -67,7 +70,7 @@ public class Product implements LocationCapable {
 	private Set<String> setCategoryKeys;
 
 	@Persistent(mappedBy = "product")
-	@Element(dependent = "true")
+	@Element(dependent = "true") 
 	private List<Attribute> attributeSets;
 
 	@Exclude
@@ -385,6 +388,20 @@ public class Product implements LocationCapable {
 	 */
 	public Date getDate_post() {
 		return date_post;
+	}
+
+	/**
+	 * @param username_buyer the username_buyer to set
+	 */
+	public void setUsername_buyer(String username_buyer) {
+		this.username_buyer = username_buyer;
+	}
+
+	/**
+	 * @return the username_buyer
+	 */
+	public String getUsername_buyer() {
+		return username_buyer;
 	}
 
 	public static void main(String[] args) {
