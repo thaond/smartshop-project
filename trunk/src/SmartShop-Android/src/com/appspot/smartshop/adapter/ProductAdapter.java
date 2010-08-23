@@ -21,11 +21,13 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 	
 	private Context context;
 	private LayoutInflater inflater;
+	private int resourceId;
 	
 	public ProductAdapter(Context context, int textViewResourceId,
 			List<ProductInfo> objects) {
 		super(context, textViewResourceId, objects);
 		this.context = context;
+		resourceId = textViewResourceId;
 	}
 
 	public ProductAdapter(Context context, int textViewResourceId,
@@ -41,6 +43,20 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+//		LayoutInflater inflater = (LayoutInflater) getContext()
+//				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//		View view = inflater.inflate(resourceId, null);
+//		ProductInfo product = (ProductInfo) this.getItem(position);
+//		TextView productName = (TextView) view
+//				.findViewById(R.id.txtProductName);
+//		productName.setText(product.name);
+//		TextView productPrice = (TextView) view
+//				.findViewById(R.id.txtProductPrice);
+//		productPrice.setText(""+product.price);
+//		TextView productDescription = (TextView) view
+//				.findViewById(R.id.txtDescription);
+//		productDescription.setText(product.description);
+//		return view;
 		ViewHolder holder;
 		
 		if (convertView == null) {
@@ -60,7 +76,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		
 		final ProductInfo product = (ProductInfo) getItem(position);
 		holder.txtName.setText(product.name);
-		holder.txtPrice.setText(product.price);
+		holder.txtPrice.setText(""+product.price);
 		holder.txtDescription.setText(product.description);
 		holder.btnMap.setOnClickListener(new OnClickListener() {
 			

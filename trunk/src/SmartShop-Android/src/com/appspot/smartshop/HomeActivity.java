@@ -1,6 +1,7 @@
 package com.appspot.smartshop;
 
 import java.util.Date;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,14 +19,26 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.appspot.smartshop.dom.Page;
+import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.DirectionListActivity;
+
+import com.appspot.smartshop.mock.MockProductInfo;
+
 import com.appspot.smartshop.mock.MockPage;
+
 import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
+import com.appspot.smartshop.ui.product.PostProductActivityBasicAttribute;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.utils.Global;
+
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
+import com.google.gson.Gson;
+
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
+
 
 public class HomeActivity extends Activity {
 	public static final String TAG = "[HomeActivity]";
@@ -64,13 +77,47 @@ public class HomeActivity extends Activity {
 				test3();
 			}
 		});
+		Button btn4 = (Button) findViewById(R.id.btnPostProduct);
+		btn4.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				test4();
+				
+			}
+		});
 	}
 
 	// TODO (condorhero01): place test function into test1, test2, or test3 to
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
+
+//		testRegisterForm();
+		String url = "http://10.0.2.2:8888/api/asd/product-search-criteria-cat/?maximum=10&criterias=1,3,4&cat_keys=soft,net";
+		RestClient.loadData(url, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				// TODO Auto-generated method stub
+				Log.d(TAG, "json response = " + json.toString());
+				JSONArray arr = json.getJSONArray("products");
+				
+				for (int i = 0; i < arr.length(); ++i) {
+					ProductInfo info = new Gson().fromJson(arr.getString(0), ProductInfo.class);
+					Log.d(TAG, info.name);
+				}
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				// TODO Auto-generated method stub
+				Log.e(TAG, message);
+			}
+		});
+
 		testViewPage();
+
 	}
 
 	protected void test2() {
@@ -80,10 +127,17 @@ public class HomeActivity extends Activity {
 	protected void test3() {
 		testEditUserInfo();
 	}
+
+	private void test4() {
+		testPostProduct();
+		
+	}
+
 	
 	private void testViewPage() {
 		Intent intent = new Intent(this, ViewPageActivity.class);
 		intent.putExtra("page", MockPage.getInstance());
+
 
 		startActivity(intent);
 	}
@@ -178,5 +232,12 @@ public class HomeActivity extends Activity {
 		String url = "http://maps.google.com/maps?saddr=10.775495,106.661181&daddr=10.76072,106.661021";
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 		startActivity(intent);
+	}
+	private void testPostProduct() {
+		Intent intent = new Intent(this, PostProductActivityBasicAttribute.class);
+		intent.putExtra(Global.PRODUCT_INFO,MockProductInfo.getInstance());
+		intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
+		startActivity(intent);
+		
 	}
 }

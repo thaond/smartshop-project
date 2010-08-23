@@ -39,11 +39,11 @@ public class ListProductAfterSearch extends Activity implements
 	@Override
 	public void onCheckedChanged(RadioGroup mRadioGroup, int checkedId) {
 		if (mRadioGroup.getCheckedRadioButtonId() == btnBestSeller.getId()) {
-			productAdapter.add(new ProductInfo("name", "price", "Best Seller"));
+			productAdapter.add(new ProductInfo("name", 300, "Best Seller"));
 		} else if (mRadioGroup.getCheckedRadioButtonId() == btnPrice.getId()) {
-			productAdapter.add(new ProductInfo("name", "price", "Price"));
+			productAdapter.add(new ProductInfo("name", 400, "Price"));
 		} else {
-			productAdapter.add(new ProductInfo("name", "price",
+			productAdapter.add(new ProductInfo("name", 500,
 					"Latest Product"));
 		}
 		System.out.println("onFocusChange called");
