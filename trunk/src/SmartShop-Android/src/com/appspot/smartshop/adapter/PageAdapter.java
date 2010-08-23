@@ -50,9 +50,11 @@ public class PageAdapter extends ArrayAdapter<Page> {
 		
 		final Page page = (Page) getItem(position);
 		holder.txtName.setText(page.name);
-		holder.txtPageView.setText(page.page_view);
+		holder.txtPageView.setText(context.getString(R.string.page_view) + " " + page.page_view);
 		holder.txtPostDate.setText(Global.dfFull.format(page.date_post));
-		holder.btnDetail.setOnClickListener(new OnClickListener() {
+		
+		// listener for view page
+		OnClickListener onClickListener = new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -61,7 +63,9 @@ public class PageAdapter extends ArrayAdapter<Page> {
 				
 				context.startActivity(intent);
 			}
-		});
+		};
+		holder.btnDetail.setOnClickListener(onClickListener);
+		convertView.setOnClickListener(onClickListener);
 		
 		return convertView;
 	}

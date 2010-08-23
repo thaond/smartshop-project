@@ -11,13 +11,21 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.PageAdapter;
 import com.appspot.smartshop.dom.Page;
+import com.appspot.smartshop.mock.MockPage;
+import com.appspot.smartshop.utils.DataLoader;
+import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.SimpleAsyncTask;
 
 public class PagesListActivity extends Activity {
 	
 	public static final int PAGE_MOST_VIEW = 0;
 	public static final int PAGE_MOST_UPDATE = 1;
 	
-	private int pagesListType = PAGE_MOST_VIEW;
+	public static final int PAGES_OF_CATEGORIES = 0;
+	public static final int PAGES_OF_USER = 1;
+	
+	private int pagesListMode = PAGE_MOST_VIEW;
+	private int pagesListType = PAGES_OF_CATEGORIES;
 	
 	private Page[] arrPages = null;
 	
@@ -29,6 +37,9 @@ public class PagesListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pages_list);
 		
+		// type of pages list
+		pagesListType = getIntent().getExtras().getInt(Global.PAGES_LIST_TYPE);
+		
 		// radio buttons
 		RadioButton rbPageMostView = (RadioButton) findViewById(R.id.rbPageMostView);
 		rbPageMostView.setChecked(true);
@@ -37,7 +48,7 @@ public class PagesListActivity extends Activity {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					pagesListType = PAGE_MOST_VIEW;
+					pagesListMode = PAGE_MOST_VIEW;
 					loadPagesList();
 				}
 			}
@@ -49,30 +60,31 @@ public class PagesListActivity extends Activity {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					pagesListType = PAGE_MOST_UPDATE;
+					pagesListMode = PAGE_MOST_UPDATE;
 					loadPagesList();
 				}
 			}
 		});
 		
-		// listview
+		// load pages to listview
 		listPages = (ListView) findViewById(R.id.listPages);
-		adapter = new PageAdapter(this, 0);
-		
-		// TODO (condorhero01): load list of pages
-//		new AsyncTask<String, Void, Void>() {
-//
-//			@Override
-//			protected Void doInBackground(String... params) {
-//				return null;
-//			}
-//			
-//		}.execute();
+		loadPagesList();
 	}
 
 	protected void loadPagesList() {
-		// TODO (condorhero01): load list of pages to arrPages
-		
-		listPages.setAdapter(adapter);
+		new SimpleAsyncTask(this, new DataLoader() {
+			
+			@Override
+			public void updateUI() {
+				adapter = new PageAdapter(PagesListActivity.this, 0, arrPages);
+				listPages.setAdapter(adapter);
+			}
+			
+			@Override
+			public void loadData() {
+				// TODO (condorhero01): request list of pages to arrPages based on pagesListType
+				arrPages = MockPage.getPages();
+			}
+		}).execute();
 	}
 }

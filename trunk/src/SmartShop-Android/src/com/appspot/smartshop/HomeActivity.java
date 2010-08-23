@@ -27,13 +27,17 @@ import com.appspot.smartshop.mock.MockProductInfo;
 import com.appspot.smartshop.mock.MockPage;
 
 import com.appspot.smartshop.mock.MockUserInfo;
+import com.appspot.smartshop.ui.page.PageActivity;
+import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.product.PostProductActivityBasicAttribute;
 import com.appspot.smartshop.ui.user.UserActivity;
+import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.Global;
 
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.Utils;
 import com.google.gson.Gson;
 
 import com.appspot.smartshop.utils.JSONParser;
@@ -93,31 +97,6 @@ public class HomeActivity extends Activity {
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
 
-//		testRegisterForm();
-		String url = "http://10.0.2.2:8888/api/asd/product-search-criteria-cat/?maximum=10&criterias=1,3,4&cat_keys=soft,net";
-		RestClient.loadData(url, new JSONParser() {
-			
-			@Override
-			public void onSuccess(JSONObject json) throws JSONException {
-				// TODO Auto-generated method stub
-				Log.d(TAG, "json response = " + json.toString());
-				JSONArray arr = json.getJSONArray("products");
-				
-				for (int i = 0; i < arr.length(); ++i) {
-					ProductInfo info = new Gson().fromJson(arr.getString(0), ProductInfo.class);
-					Log.d(TAG, info.name);
-				}
-			}
-			
-			@Override
-			public void onFailure(String message) {
-				// TODO Auto-generated method stub
-				Log.e(TAG, message);
-			}
-		});
-
-		testViewPage();
-
 	}
 
 	protected void test2() {
@@ -133,6 +112,28 @@ public class HomeActivity extends Activity {
 		
 	}
 
+	
+	private void testUserProfile() {
+		Intent intent = new Intent(this, UserProfileActivity.class);
+		intent.putExtra(Global.USER_NAME, Global.username);
+		startActivity(intent);
+	}
+	
+	private void testEditPage() {
+		Intent intent = new Intent(this, PageActivity.class);
+		intent.putExtra(Global.PAGE, MockPage.getInstance());
+		startActivity(intent);
+	}
+	
+	private void testPagesList() {
+		Intent intent = new Intent(this, PagesListActivity.class);
+		startActivity(intent);
+	}
+	
+	private void testCreatePage() {
+		Intent intent = new Intent(this, PageActivity.class);
+		startActivity(intent);
+	}
 	
 	private void testViewPage() {
 		Intent intent = new Intent(this, ViewPageActivity.class);
