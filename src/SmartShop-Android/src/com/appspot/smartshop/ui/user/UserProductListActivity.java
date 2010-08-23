@@ -33,9 +33,6 @@ public class UserProductListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_product_list);
 		
-		// type of products list
-		productsListType = getIntent().getExtras().getInt(Global.PRODUCT_LIST_TYPE);
-		
 		// radio buttons
 		RadioButton rbInterestedProducts = (RadioButton) findViewById(R.id.rbInterestedProducts);
 		rbInterestedProducts.setChecked(true);

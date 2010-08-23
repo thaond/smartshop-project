@@ -80,4 +80,11 @@
     
     <!-- Loading -->
     <string name="loading">Đang nạp dữ liệu...</string>
+    
+    <!-- User profile -->
+    <string name="user_profile">Thông tin</string>
+    <string name="user_pages_list">Danh sách bài viết</string>
+    <string name="user_products_list">Danh sách mặt hàng</string>
+    <string name="add_new_page">Đăng bài viết mới</string>
+    <string name="post_new_product">Đăng mặt hàng mới</string>
 </resources>

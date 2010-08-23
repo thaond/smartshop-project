@@ -164,9 +164,9 @@ public class UserActivity extends MapActivity {
 			// TODO (condorhero01): display avatar
 			
 			// TODO (condohero01): some fields of user info must be uneditable
-			txtUsername.setFilters(Utils.uneditableInputFilters);
-			txtEmail.setFilters(Utils.uneditableInputFilters);
-			txtPhoneNumber.setFilters(Utils.uneditableInputFilters);
+			txtUsername.setFilters(Global.uneditableInputFilters);
+			txtEmail.setFilters(Global.uneditableInputFilters);
+			txtPhoneNumber.setFilters(Global.uneditableInputFilters);
 			
 			// not allow to edit text when in VIEW_USER_PROFILE MODE
 			Boolean canEditUserProfile = bundle.getBoolean(Global.CAN_EDIT_USER_PROFILE);
@@ -189,9 +189,9 @@ public class UserActivity extends MapActivity {
 		}
 		
 		// TODO (condorhero01): set filters for text fields to prevent wrong input value
-		txtUsername.setFilters(Utils.usernameInputFilters);
-		txtFirstName.setFilters(Utils.usernameInputFilters);
-		txtLastName.setFilters(Utils.usernameInputFilters);
+		txtUsername.setFilters(Global.usernameInputFilters);
+		txtFirstName.setFilters(Global.usernameInputFilters);
+		txtLastName.setFilters(Global.usernameInputFilters);
 		
 		// buttons
 		Button btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -261,12 +261,16 @@ public class UserActivity extends MapActivity {
 		collectUserInfo();
 		
 		// TODO (condorhero01): request to server to register new user
+		
+		finish();
 	}
 
 	protected void editUserProfile() {
 		collectUserInfo();
 		
 		// TODO (condorhero01): request to server to update user info
+		
+		finish();
 	}
 
 	protected Dialog onCreateDialog(int id) {

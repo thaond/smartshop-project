@@ -36,12 +36,7 @@ public class Utils {
 		return screenWidth;
 	}
 	
-	public static InputFilter[] uneditableInputFilters = new InputFilter[] {new InputFilter() {
-		public CharSequence filter(CharSequence src, int start, int end,
-				Spanned dst, int dstart, int dend) {
-			return src.length() < 1 ? dst.subSequence(dstart, dend) : "";
-		}
-	}};
-	
-	public static InputFilter[] usernameInputFilters = new InputFilter[] {new UsernameFilterGMail()};
+	public static int random(int n) {
+		return (int) (Math.random() * n);
+	}
 }

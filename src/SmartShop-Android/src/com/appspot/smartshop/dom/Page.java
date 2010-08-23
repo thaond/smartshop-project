@@ -8,22 +8,15 @@ import java.util.Set;
 import org.apache.http.entity.SerializableEntity;
 
 public class Page implements Serializable {
-	public Long id;
-
-	public String name;
-
-	public String content;
-
-	public String link_thumbnail;
-
+	public String name = null;
+	public String content = null;
+	public String link_thumbnail = null;
+	public Date date_post = null;
+	public Date last_modified = null;
+	public String username = null;
+	public Long id = null;
 	public int page_view;
-
-	public Date date_post;
-
-	public Date last_modified;
-
-	public String username;
-
+	
 	public Set<String> setCategoryKeys;
 
 	public Page(String name, String content, String linkThumbnail,

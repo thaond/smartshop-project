@@ -4,7 +4,7 @@
 	android:layout_height="fill_parent">
 	<TextView android:text="Under construction" android:id="@+id/TextView01"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-	<Button android:text="TestViewPage" android:id="@+id/Button01"
+	<Button android:text="TestUserProfile" android:id="@+id/Button01"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 	<Button android:text="ViewUser" android:id="@+id/Button02"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
