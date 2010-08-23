@@ -86,7 +86,7 @@ public class TestActivity extends MapActivity {
 	
 	void testGson() {
 		Gson gson = new Gson();
-		ProductInfo productInfo = new ProductInfo("laptop", "1000USD", "good");
+		ProductInfo productInfo = new ProductInfo("laptop", 1000, "good");
 		String json = gson.toJson(productInfo);
 		System.out.println(json);
 		
