@@ -1,6 +1,5 @@
 package com.appspot.smartshop.test;
 
-
 import com.appspot.smartshop.R;
 
 import android.app.ExpandableListActivity;
@@ -8,38 +7,41 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnKeyListener;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
+import android.widget.ExpandableListView.OnChildClickListener;
 
 /**
  * Demonstrates expandable lists using a custom {@link ExpandableListAdapter}
  * from {@link BaseExpandableListAdapter}.
  */
-public class UseThisExpandableListForImplementSearchByCategory extends ExpandableListActivity {
+public class UseThisExpandableListForImplementSearchByCategory extends
+		ExpandableListActivity {
 
 	ExpandableListAdapter mAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		// Set up our adapter
 		mAdapter = new MyExpandableListAdapter();
-
 		setListAdapter(mAdapter);
-
 		registerForContextMenu(getExpandableListView());
 	}
+	
 
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
@@ -118,12 +120,14 @@ public class UseThisExpandableListForImplementSearchByCategory extends Expandabl
 			AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
 					ViewGroup.LayoutParams.FILL_PARENT, 64);
 
-			TextView textView = new TextView(UseThisExpandableListForImplementSearchByCategory.this);
+			TextView textView = new TextView(
+					UseThisExpandableListForImplementSearchByCategory.this);
 			textView.setLayoutParams(lp);
 			// Center the text vertically
 			textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
 			// Set the text starting position
 			textView.setPadding(36, 0, 0, 0);
+
 			return textView;
 		}
 
@@ -131,7 +135,7 @@ public class UseThisExpandableListForImplementSearchByCategory extends Expandabl
 				boolean isLastChild, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) getBaseContext()
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			
+
 			View view = inflater.inflate(R.layout.child_category, null);
 			TextView textView = (TextView) view
 					.findViewById(R.id.txtchildCategory);
@@ -152,15 +156,15 @@ public class UseThisExpandableListForImplementSearchByCategory extends Expandabl
 			return groupPosition;
 		}
 
-//		public View getGroupView(int groupPosition, boolean isExpanded,
-//				View convertView, ViewGroup parent) {
-//			LayoutInflater inflater = (LayoutInflater) getBaseContext()
-//					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//			View view = inflater.inflate(R.layout.child_category, null);
-//			CheckBox ch1 = (CheckBox) view.findViewById(R.id.checkBox);
-//			ch1.setChecked(true);
-//			return view;
-//		}
+		// public View getGroupView(int groupPosition, boolean isExpanded,
+		// View convertView, ViewGroup parent) {
+		// LayoutInflater inflater = (LayoutInflater) getBaseContext()
+		// .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		// View view = inflater.inflate(R.layout.child_category, null);
+		// CheckBox ch1 = (CheckBox) view.findViewById(R.id.checkBox);
+		// ch1.setChecked(true);
+		// return view;
+		// }
 
 		public boolean isChildSelectable(int groupPosition, int childPosition) {
 			return true;
@@ -170,12 +174,14 @@ public class UseThisExpandableListForImplementSearchByCategory extends Expandabl
 			return true;
 		}
 
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
-                ViewGroup parent) {
-            TextView textView = getGenericView();
-            textView.setText(getGroup(groupPosition).toString());
-            return textView;
-        }
+		public View getGroupView(int groupPosition, boolean isExpanded,
+				View convertView, ViewGroup parent) {
+			LayoutInflater inflater = (LayoutInflater) getBaseContext()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View view = inflater.inflate(R.layout.parent_category, null);
+			return view;
+		}
+		
 
 	}
 }
