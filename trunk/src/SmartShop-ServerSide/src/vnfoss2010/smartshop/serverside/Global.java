@@ -34,15 +34,19 @@ public abstract class Global {
 			NORMAL_DATE_WITH_HOUR);
 	public static ResourceBundle messages = ResourceBundle
 			.getBundle("vnfoss2010/smartshop/serverside.localization/MessagesBundle");;
+	public static final String YAHOO_APP_ID = "VFv3MmLV34EjL9IdhgJeiiS9024qwIYt6HwMOWwoIG69CZ0kJDyi2lHprgwSoAtnvg--";
+	public static final String GOOGLE_APP_ID = "VFv3MmLV34EjL9IdhgJeiiS9024qwIYt6HwMOWwoIG69CZ0kJDyi2lHprgwSoAtnvg--";
 	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;
 	public static final int MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX = 200;
-	public static final Gson gson = new GsonBuilder().excludeFieldsWithExcludeAnnotation().create();
+	public static final Gson gson = new GsonBuilder().setDateFormat(
+			NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
+			.create();
+	public static final Gson gsonWithDate = new GsonBuilder().setDateFormat(
+			NORMAL_DATE_WITH_HOUR).create();
 
 	public static final String[][] LANGUAGE = new String[][] {
 			{ "vi", "Ti\u1EBFng Vi\u1EC7t" }, { "en", "English" } };
 
-	public static final Gson gsonWithDate = new GsonBuilder().setDateFormat(
-			NORMAL_DATE_WITH_HOUR).create();
 
 	public static final LinkedHashMap<String, String> COUNTRIES_NAME;
 	static {
