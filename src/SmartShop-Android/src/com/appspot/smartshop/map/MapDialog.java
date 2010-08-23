@@ -35,12 +35,11 @@ public class MapDialog {
 	private static View view;
 	private static AlertDialog.Builder dialogBuilder;
 
-	public static AlertDialog createLocationDialog(Activity activity, GeoPoint point,
+	public static AlertDialog createLocationDialog(Context context, GeoPoint point,
 			final UserLocationListener listener) {
 		// setup view
-		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.map_dialog,
-				(ViewGroup) activity.findViewById(R.id.layout_root));
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.map_dialog, null);
 		
 		// setting for map view
 		mapView = (MapView) view.findViewById(R.id.mapview);
@@ -64,7 +63,7 @@ public class MapDialog {
 		
 		// dialog title
 		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
-		txtTitle.setText(activity.getString(
+		txtTitle.setText(context.getString(
 				point != null ? R.string.titleChoooseUserLoction : R.string.errCantGetLocation));
 		
 		// listener 
@@ -73,14 +72,16 @@ public class MapDialog {
 			
 			@Override
 			public void onClick(View v) {
-				listener.processUserLocation(locationOverlay.point);
+				if (listener != null) {
+					listener.processUserLocation(locationOverlay.point);
+				}
 				dialog.cancel();
 			}
 		});
 		
 
 		// create dialog
-		dialogBuilder = new AlertDialog.Builder(activity);
+		dialogBuilder = new AlertDialog.Builder(context);
 		ViewGroup parent = ((ViewGroup) view.getParent());
 		if (parent != null) {
 			parent.removeView(view);

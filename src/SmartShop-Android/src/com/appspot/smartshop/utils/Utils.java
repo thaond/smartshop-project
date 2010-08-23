@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.LoginFilter.UsernameFilterGMail;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -41,4 +42,6 @@ public class Utils {
 			return src.length() < 1 ? dst.subSequence(dstart, dend) : "";
 		}
 	}};
+	
+	public static InputFilter[] usernameInputFilters = new InputFilter[] {new UsernameFilterGMail()};
 }

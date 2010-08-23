@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/txtName"
+		android:textSize="16dip" android:textColor="#00ff00"
+		android:textStyle="bold" />
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/txtPageView"
+		android:layout_below="@+id/txtName" android:layout_toLeftOf="@+id/txtPostDate" />
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/txtPostDate"
+		android:layout_below="@+id/txtName" android:paddingRight="10dip" />
+
+	<Button android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/btnDetail"
+		android:background="@drawable/detail" android:layout_alignParentRight="true" />
+
+</RelativeLayout>

@@ -68,4 +68,16 @@
     <string name="page_content">Nội dung:</string>
     <string name="page_view">Lượt xem:</string>
     <string name="lblViewComment">Xem bình luận</string>
+    
+    <!-- User products list -->
+    <string name="lblInterestedProducts">Ưa thích</string>
+    <string name="lblBuyProducts">Bán</string>
+    <string name="lblSellProducts">Mua</string>
+    
+    <!-- Pages list criteria-->
+    <string name="page_most_view">Xem nhiều</string>
+    <string name="page_most_update">Mới nhất</string>
+    
+    <!-- Loading -->
+    <string name="loading">Đang nạp dữ liệu...</string>
 </resources>

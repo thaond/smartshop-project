@@ -3,11 +3,12 @@ package com.appspot.smartshop.ui.user;
 import java.util.Calendar;
 import java.util.Date;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.LoginFilter.UsernameFilterGMail;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -145,14 +146,6 @@ public class UserActivity extends MapActivity {
 		txtBirthday = (EditText) findViewById(R.id.txtBirthday);
 		txtBirthday.setWidth(textWidth);
 		
-		txtBirthday.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showDialog(DATE_DIALOG_ID);
-			}
-		});
-		
 		// setup data for text field if in edit/view user profile mode
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
@@ -181,9 +174,24 @@ public class UserActivity extends MapActivity {
 				mode = VIEW_USER_PROFILE;
 				txtUsername.setEnabled(false);
 			}
-		} else {
-			
+		} 
+		
+		/********************************** Listeners *******************************/
+		// allow change birthday in register and view profile mode
+		if (mode != VIEW_USER_PROFILE) {
+			txtBirthday.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					showDialog(DATE_DIALOG_ID);
+				}
+			});
 		}
+		
+		// TODO (condorhero01): set filters for text fields to prevent wrong input value
+		txtUsername.setFilters(Utils.usernameInputFilters);
+		txtFirstName.setFilters(Utils.usernameInputFilters);
+		txtLastName.setFilters(Utils.usernameInputFilters);
 		
 		// buttons
 		Button btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -219,6 +227,9 @@ public class UserActivity extends MapActivity {
 		});
 		
 		Button btnTagAddressOnMap = (Button) findViewById(R.id.btnTagAddressOnMap);
+		if (mode != REGISTER_USER) {
+			btnTagAddressOnMap.setText(getString(R.string.btnViewAddressOnMap));
+		}
 		btnTagAddressOnMap.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -261,10 +272,16 @@ public class UserActivity extends MapActivity {
 	protected Dialog onCreateDialog(int id) {
         switch (id) {
             case DATE_DIALOG_ID:
-            	Calendar cal = Calendar.getInstance();
-            	mDay = cal.get(Calendar.DAY_OF_MONTH);
-            	mMonth = cal.get(Calendar.MONTH);
-            	mYear = cal.get(Calendar.YEAR) - 18;
+            	if (mode == REGISTER_USER) {
+	            	Calendar cal = Calendar.getInstance();
+	            	mDay = cal.get(Calendar.DAY_OF_MONTH);
+	            	mMonth = cal.get(Calendar.MONTH);
+	            	mYear = cal.get(Calendar.YEAR) - 18;
+            	} else {
+            		mDay = userInfo.birthday.getDate();
+            		mMonth = userInfo.birthday.getMonth();
+            		mYear = userInfo.birthday.getYear() + 1900;
+            	}
             	
                 return new DatePickerDialog(this, mDateSetListener, mYear, mMonth, mDay);
         }
