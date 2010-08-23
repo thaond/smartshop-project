@@ -27,6 +27,6 @@
 			android:text="Description" />
 	</LinearLayout>
 	<Button android:id="@+id/btnMap" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:text="@string/map"
+		android:layout_height="wrap_content" android:background="@drawable/map_icon"
 		android:layout_alignParentRight="true" />
 </RelativeLayout>

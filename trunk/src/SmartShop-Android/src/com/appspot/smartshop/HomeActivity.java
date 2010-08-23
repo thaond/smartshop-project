@@ -2,9 +2,15 @@ package com.appspot.smartshop;
 
 import java.util.Date;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,11 +19,13 @@ import android.widget.Button;
 
 import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.map.DirectionListActivity;
+import com.appspot.smartshop.mock.MockPage;
 import com.appspot.smartshop.mock.MockUserInfo;
-import com.appspot.smartshop.ui.page.ViewCommentsActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
 
 public class HomeActivity extends Activity {
 	public static final String TAG = "[HomeActivity]";
@@ -62,7 +70,7 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testRegisterForm();
+		testViewPage();
 	}
 
 	protected void test2() {
@@ -71,6 +79,66 @@ public class HomeActivity extends Activity {
 
 	protected void test3() {
 		testEditUserInfo();
+	}
+	
+	private void testViewPage() {
+		Intent intent = new Intent(this, ViewPageActivity.class);
+		intent.putExtra("page", MockPage.getInstance());
+
+		startActivity(intent);
+	}
+	
+	private void testAsyncTask() {
+		new AsyncTask<Void, Void, Void>() {
+			private final ProgressDialog dialog = new ProgressDialog(Global.application);
+			
+			protected void onPreExecute() {
+				dialog.setCancelable(false);
+				dialog.setCanceledOnTouchOutside(false);
+				dialog.setMessage("Loading...");
+				dialog.show();
+			};
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				loadJson();
+				return null;
+			}
+			
+			protected void onPostExecute(Void result) {
+				if (dialog != null) {
+					dialog.setMessage("Finish");
+					dialog.dismiss();
+				}
+			};
+			
+		}.execute();
+	}
+	
+	private void loadJson() {
+		String url = "http://search.twitter.com/trends.json";
+		RestClient.loadData(url, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				System.out.println("as_of = " + json.getString("as_of"));
+				JSONArray arrTrends = json.getJSONArray("trends");
+				int len = arrTrends.length();
+				JSONObject obj = null;
+				for (int i = 0; i < len; ++i) {
+					obj = arrTrends.getJSONObject(i);
+					System.out.println("name = " + obj.getString("name"));
+					System.out.println("url = " + obj.getString("url"));
+				}
+				
+			}
+
+			@Override
+			public void onFailure(String message) {
+				Log.e(TAG, "fail");
+				Log.e(TAG, message);
+			}
+		});
 	}
 
 	private void testEditUserInfo() {
@@ -109,19 +177,6 @@ public class HomeActivity extends Activity {
 	private void testGmapIntent() {
 		String url = "http://maps.google.com/maps?saddr=10.775495,106.661181&daddr=10.76072,106.661021";
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-		startActivity(intent);
-	}
-
-	private void testViewPage() {
-		Page page = new Page();
-		page.content = "hàng việt nam chất lượng cao";
-		page.name = "hàng dổm";
-		page.page_view = 100;
-		page.date_post = new Date();
-
-		Intent intent = new Intent(this, ViewPageActivity.class);
-		intent.putExtra("page", page);
-
 		startActivity(intent);
 	}
 }
