@@ -40,6 +40,8 @@ import vnfoss2010.smartshop.serverside.services.comment.DeleteCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.GetCommentService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
+import vnfoss2010.smartshop.serverside.services.map.GeocoderService;
+import vnfoss2010.smartshop.serverside.services.map.ReserveGeocoderService;
 import vnfoss2010.smartshop.serverside.services.page.CreatePageService;
 import vnfoss2010.smartshop.serverside.services.page.EditPageService;
 import vnfoss2010.smartshop.serverside.services.page.GetPageService;
@@ -146,6 +148,16 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("create-comment", CreateCommentService.class);
 		mServices.put("get-comment", GetCommentService.class);
 		mServices.put("delete-comment", DeleteCommentService.class);
+		mServices.put("map-geocoder", GeocoderService.class);
+		mServices.put("map-regeocoder", ReserveGeocoderService.class);
+		
+		// page
+		mServices.put("create-page", CreatePageService.class);
+		mServices.put("edit-page", EditPageService.class);
+		mServices.put("get-page", GetPageService.class);
+		mServices.put("tag-product-to-page", TagProductToPageService.class);
+		mServices.put("untag-product-to-page", UntagProductFromPageService.class);
+		
 		// mServices.put("sampledata", SampleDataRestfull.class);
 	}
 }
