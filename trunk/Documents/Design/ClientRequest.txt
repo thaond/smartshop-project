@@ -9,6 +9,7 @@ product_id -> ProductInfo
 product_id -> list Comments
 product_criteria (time | price | numBuyers) -> list product
 query string -> list product
+region (ex: quận 10) -> list product?
 
 /* PAGE */
 post page / edit page
@@ -16,7 +17,6 @@ page_id -> PageInfo
 page_id -> list Comments
 user_name -> list of page
 list of pages sort by (date | view | category)
-	sort by location?
 list of all pages
 query string -> list page
 
