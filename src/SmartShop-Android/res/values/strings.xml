@@ -52,7 +52,7 @@
     <string name = "addressOfProduct">Address</string>
     <string name = "latOfProduct">Latitude</string>
     <string name = "lngOfProduct">Longitude</string>
-    <string name = "userDefineAttribute">name of new attribute</string>
+    <string name = "userDefineAttribute">name of attribute</string>
     <string name = "chooseDatePost">Choose Date</string>
     <!-- View Product Form -->
   	<string name ="userName">Username</string>

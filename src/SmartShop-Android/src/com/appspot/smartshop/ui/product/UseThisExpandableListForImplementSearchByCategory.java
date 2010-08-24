@@ -17,7 +17,7 @@ import com.appspot.smartshop.R;
  * Demonstrates expandable lists using a custom {@link ExpandableListAdapter}
  * from {@link BaseExpandableListAdapter}.
  */
-public class SearchByCategory extends
+public class UseThisExpandableListForImplementSearchByCategory extends
 		ExpandableListActivity {
 
 	ExpandableListAdapter mAdapter;

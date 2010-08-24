@@ -1,12 +1,9 @@
 package com.appspot.smartshop;
 
-import java.util.Date;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,28 +14,19 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
-import com.appspot.smartshop.dom.Page;
-import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.DirectionListActivity;
-
-import com.appspot.smartshop.mock.MockProductInfo;
-
 import com.appspot.smartshop.mock.MockPage;
-
 import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
-import com.appspot.smartshop.ui.product.PostProductActivityBasicAttribute;
+import com.appspot.smartshop.ui.product.PostProductActivity;
+import com.appspot.smartshop.ui.product.SearchByCategory;
+import com.appspot.smartshop.ui.product.SearchProductActivity;
+import com.appspot.smartshop.ui.product.ViewSingleProduct;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.Global;
-
-import com.appspot.smartshop.utils.JSONParser;
-import com.appspot.smartshop.utils.RestClient;
-import com.appspot.smartshop.utils.Utils;
-import com.google.gson.Gson;
 
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
@@ -81,12 +69,38 @@ public class HomeActivity extends Activity {
 				test3();
 			}
 		});
-		Button btn4 = (Button) findViewById(R.id.btnPostProduct);
+		Button btn4 = (Button) findViewById(R.id.btnViewProduct);
 		btn4.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				test4();
+				
+			}
+		});
+		Button btn5 = (Button) findViewById(R.id.btnPostProduct);
+		btn5.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				test5();
+				
+			}
+		});
+		Button btn6 = (Button) findViewById(R.id.btnSearchQuery);
+		btn6.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				test6();
+			}
+		});
+		Button btn7 = (Button) findViewById(R.id.btnSearchCategory);
+		btn7.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				test7();
 				
 			}
 		});
@@ -108,11 +122,20 @@ public class HomeActivity extends Activity {
 	}
 
 	private void test4() {
+		testViewProduct();
+	}
+	private void test5() {
 		testPostProduct();
 		
 	}
-
-	
+	protected void test6() {
+		searchByEnterQuery();
+		
+	}
+	protected void test7() {
+		searchByCategory();
+		
+	}
 	private void testUserProfile() {
 		Intent intent = new Intent(this, UserProfileActivity.class);
 		intent.putExtra(Global.USER_NAME, Global.username);
@@ -185,9 +208,7 @@ public class HomeActivity extends Activity {
 					System.out.println("name = " + obj.getString("name"));
 					System.out.println("url = " + obj.getString("url"));
 				}
-				
 			}
-
 			@Override
 			public void onFailure(String message) {
 				Log.e(TAG, "fail");
@@ -234,10 +255,20 @@ public class HomeActivity extends Activity {
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 		startActivity(intent);
 	}
+	private void testViewProduct() {
+		Intent intent = new Intent(this, ViewSingleProduct.class);
+		startActivity(intent);
+	}
 	private void testPostProduct() {
-		Intent intent = new Intent(this, PostProductActivityBasicAttribute.class);
-		intent.putExtra(Global.PRODUCT_INFO,MockProductInfo.getInstance());
-		intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
+		Intent intent = new Intent(this, PostProductActivity.class);
+		startActivity(intent);
+	}
+	private void searchByEnterQuery() {
+		Intent intent = new Intent(this, SearchProductActivity.class);
+		startActivity(intent);
+	}
+	private void searchByCategory() {
+		Intent intent = new Intent(this, SearchByCategory.class);
 		startActivity(intent);
 		
 	}

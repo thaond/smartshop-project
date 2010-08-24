@@ -1,5 +1,8 @@
 package com.appspot.smartshop.ui.product;
 
+import com.appspot.smartshop.mock.MockProductInfo;
+import com.appspot.smartshop.utils.Global;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +14,13 @@ public class PostProductActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 		final TabHost tabHost = getTabHost();
 
+		Intent basicIntent = new Intent(this, PostProductActivityBasicAttribute.class);
+		basicIntent.putExtra(Global.PRODUCT_INFO,MockProductInfo.getInstance());
+		basicIntent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
 		tabHost.addTab(tabHost.newTabSpec("Basic Features").setIndicator(
-				"Basic Features").setContent(
-				new Intent(this, PostProductActivityBasicAttribute.class)));
-
+				"Basic Features").setContent(basicIntent));
 		tabHost.addTab(tabHost.newTabSpec("User Define").setIndicator(
 				"Advanced Fearture").setContent(
 				new Intent(this, PostProductActivityUserDefine.class)));
-
 	}
-
 }

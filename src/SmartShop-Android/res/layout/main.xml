@@ -10,6 +10,12 @@
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 	<Button android:text="EditUser" android:id="@+id/Button03"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-	<Button android:text="PostProduct" android:id="@+id/btnPostProduct"
+	<Button android:text="View Product" android:id="@+id/btnViewProduct"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	<Button android:text="Post Product" android:id="@+id/btnPostProduct"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	<Button android:text="Search By Query" android:id="@+id/btnSearchQuery"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	<Button android:text="Search By Category" android:id="@+id/btnSearchCategory"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 </LinearLayout>
