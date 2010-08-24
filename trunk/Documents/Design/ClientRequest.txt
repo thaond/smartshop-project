@@ -18,10 +18,11 @@ user_name -> list of page
 list of pages sort by (date | view | category)
 	sort by location?
 list of all pages
-search pages?
+query string -> list page
 
 /* CATEGORY */
 list cat_id -> list product
+list cat_id -> list page
 
 /* LOCATION */
 current lat, long, radius -> list product
