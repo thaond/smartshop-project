@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,29 +18,33 @@ public class SearchProductActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_product_form);
 		Button btnSearchProduct = (Button) findViewById(R.id.btnSearch);
 		btnSearchProduct.setOnClickListener(new OnClickListener() {
 			int i = 0;
+
 			@Override
 			public void onClick(View v) {
-//				productAdapter.add(new ProductInfo("name" + i, "price" + i,
-//						"description" + i));
-//				i++;
-//				listViewProduct.setAdapter(productAdapter);
+				// TODO:condohero01: xu li su kien cho btn Search
 			}
 		});
-		//listViewProduct lay adapter, adapter lay tu product_list_item
 		listViewProduct = (ListView) findViewById(R.id.listProduct);
 		productAdapter = new ProductAdapter(this, R.layout.product_list_item,
 				new LinkedList<ProductInfo>()) {
 
 		};
 		listViewProduct.setAdapter(productAdapter);
-		Button btnAdvancedSearchProduct = (Button)findViewById(R.id.btnAdvancedSearch);
+		Button btnAdvancedSearchProduct = (Button) findViewById(R.id.btnAdvancedSearch);
+		btnAdvancedSearchProduct.setOnClickListener(new OnClickListener() {
 
-		//TODO: Xu Ly su kien cho button AdvancedSearch 	
+			@Override
+			public void onClick(View v) {
+				// TODO:(condohero01) xu ly su kien cho advance search
+
+			}
+		});
+
 	}
 }

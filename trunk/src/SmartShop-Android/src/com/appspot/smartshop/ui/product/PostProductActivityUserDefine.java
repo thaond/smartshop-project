@@ -29,7 +29,7 @@ public class PostProductActivityUserDefine extends Activity {
 				userDefineAttributeAdapter.add(new UserDefineAttribute(
 						"", ""));
 				listViewAttribute.setAdapter(userDefineAttributeAdapter);
-
+			//TODO:(CONDOHERO01) get data from 2 editText (name of attribute and valueOfNewAttribute) and send them to server
 			}
 		});
 		Button clear = (Button) findViewById(R.id.btnClear);
@@ -39,6 +39,7 @@ public class PostProductActivityUserDefine extends Activity {
 			public void onClick(View v) {
 				userDefineAttributeAdapter.clear();
 				listViewAttribute.setAdapter(userDefineAttributeAdapter);
+				//TODO:(CONDOHERO001) the same with above
 				
 			}
 		});

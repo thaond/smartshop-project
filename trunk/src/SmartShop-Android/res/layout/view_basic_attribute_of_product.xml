@@ -6,73 +6,58 @@
 		android:layout_height="wrap_content" android:orientation="vertical">
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/txtViewName"
+			<TextView android:id="@+id/viewNameOfProduct"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/nameOfProduct" />
-			<TextView android:id="@+id/txtViewNameOfProduct"
+			<EditText android:id="@+id/txtViewNameOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/txtViewPrice"
+			<TextView android:id="@+id/viewPriceOfProduct"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/priceOfProduct" />
-			<TextView android:id="@+id/txtViewPriceOfProduct"
+			<EditText android:id="@+id/txtViewPriceOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="@string/isVAT" />
-			<TextView android:id="@+id/isVATInViewProduct"
+			<CheckBox android:id="@+id/viewCheckBoxIsVAT"
 				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			<TextView android:id="@+id/txtViewIsVATInPostProductForm"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/isVAT" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/txtViewQuantity"
+			<TextView android:id="@+id/viewQuantityOfProduct"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/quantityOfProduct" />
-			<TextView android:id="@+id/txtViewQuantityOfProduct"
+			<EditText android:id="@+id/txtViewQuantityOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/txtViewDatePost"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="@string/datePost" />
-			<TextView android:id="@+id/txtViewDatePostOfProduct"
-				android:layout_width="fill_parent" android:layout_height="wrap_content" />
-		</LinearLayout>
-		<LinearLayout android:orientation="horizontal"
-			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/txtViewWarranty"
+			<TextView android:id="@+id/viewWarrantyOfProduct"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/warrantyOfProduct" />
-			<TextView android:id="@+id/txtViewWarrantyOfProduct"
+			<EditText android:id="@+id/txtViewWarrantyOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/txtViewOrigin"
+			<TextView android:id="@+id/viewOriginOfProduct"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/originOfProduct" />
-			<TextView android:id="@+id/txtViewOriginOfProduct"
+			<EditText android:id="@+id/txtViewOriginOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/txtViewAddress"
+			<TextView android:id="@+id/viewAddressOfProduct"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/addressOfProduct" />
-			<TextView android:id="@+id/txtViewAddressOfProduct"
-				android:layout_width="fill_parent" android:layout_height="wrap_content" />
-		</LinearLayout>
-		<LinearLayout android:orientation="horizontal"
-			android:layout_height="wrap_content" android:layout_width="fill_parent">
-			<TextView android:id="@+id/txtViewUserName"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="@string/userName" />
-			<TextView android:id="@+id/txtUserNameOfProduct"
+			<EditText android:id="@+id/txtViewAddressOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 	</LinearLayout>
