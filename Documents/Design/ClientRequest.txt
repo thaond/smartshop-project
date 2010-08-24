@@ -16,8 +16,9 @@ page_id -> PageInfo
 page_id -> list Comments
 user_name -> list of page
 list of pages sort by (date | view | category)
-	? sort by location
+	sort by location?
 list of all pages
+search pages?
 
 /* CATEGORY */
 list cat_id -> list product
