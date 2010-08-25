@@ -87,4 +87,12 @@
     <string name="user_products_list">Danh sách mặt hàng</string>
     <string name="add_new_page">Đăng bài viết mới</string>
     <string name="post_new_product">Đăng mặt hàng mới</string>
+    
+    <!-- Main form -->
+    <string name="btnLogin">Đăng nhập</string>
+    <string name="btnRegister">Đăng ký</string>
+    <string name="tab_list_products">Sản phẩm</string>
+    <string name="tab_list_pages">Bài viết</string>
+    <string name="tab_search_products">Tìm kiếm SP</string>
+    <string name="tab_search_on_map">Bản đồ</string>
 </resources>
