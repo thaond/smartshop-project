@@ -15,12 +15,15 @@ public class PostProductActivity extends TabActivity {
 		final TabHost tabHost = getTabHost();
 
 		Intent basicIntent = new Intent(this, PostProductActivityBasicAttribute.class);
-//		basicIntent.putExtra(Global.PRODUCT_INFO,MockProductInfo.getInstance());
-		basicIntent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
+		basicIntent.putExtra(Global.PRODUCT_INFO,MockProductInfo.getInstance());
+//		basicIntent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
 		tabHost.addTab(tabHost.newTabSpec("Basic Features").setIndicator(
 				"Basic Features").setContent(basicIntent));
 		tabHost.addTab(tabHost.newTabSpec("User Define").setIndicator(
 				"Advanced Fearture").setContent(
 				new Intent(this, PostProductActivityUserDefine.class)));
+		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++){
+			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height=40;
+		}
 	}
 }
