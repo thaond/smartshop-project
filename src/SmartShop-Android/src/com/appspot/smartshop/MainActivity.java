@@ -24,10 +24,10 @@ public class MainActivity extends TabActivity {
 	public static final String TAB_LIST_PRODUCTS = "list_products";
 	public static final String TAB_LIST_PAGES = "list_pages";
 	public static final String TAB_SEARCH_PRODUCTS = "search_products";
-	
+
 	public static final int PRODUCT = 0;
 	public static final int PAGE = 1;
-	
+
 	private int type = PRODUCT;
 
 	private TabHost tabHost;
@@ -70,6 +70,10 @@ public class MainActivity extends TabActivity {
 				}
 			}
 		});
+		// set up size for tab
+		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
+		}
 	}
 
 	protected void loadPagesList() {
@@ -93,8 +97,9 @@ public class MainActivity extends TabActivity {
 				R.drawable.register);
 		menu.add(0, MENU_USER_PROFILE, 0, getString(R.string.user_profile))
 				.setIcon(R.drawable.user_profile);
-		menu.add(0, MENU_SEARCH_BY_CATEGORIES, 0, getString(R.string.search_by_categories))
-				.setIcon(R.drawable.category);
+		menu.add(0, MENU_SEARCH_BY_CATEGORIES, 0,
+				getString(R.string.search_by_categories)).setIcon(
+				R.drawable.category);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -111,19 +116,21 @@ public class MainActivity extends TabActivity {
 			intent = new Intent(MainActivity.this, UserActivity.class);
 			startActivity(intent);
 			break;
-			
+
 		case MENU_USER_PROFILE:
 			if (!Global.isLogin) {
-				Toast.makeText(this, getString(R.string.errMustLoginToViewProfile), 
+				Toast.makeText(this,
+						getString(R.string.errMustLoginToViewProfile),
 						Toast.LENGTH_SHORT).show();
 			} else {
-				intent = new Intent(MainActivity.this, UserProfileActivity.class);
+				intent = new Intent(MainActivity.this,
+						UserProfileActivity.class);
 				intent.putExtra(Global.USER_NAME, Global.username);
 				startActivity(intent);
 			}
-			
+
 			break;
-			
+
 		case MENU_SEARCH_BY_CATEGORIES:
 			intent = new Intent(this, SearchByCategory.class);
 			// TODO (vanloi999): category of page of product
