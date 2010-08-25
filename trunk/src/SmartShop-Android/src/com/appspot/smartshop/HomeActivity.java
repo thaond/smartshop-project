@@ -75,7 +75,6 @@ public class HomeActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				test4();
-				
 			}
 		});
 		Button btn5 = (Button) findViewById(R.id.btnPostProduct);
