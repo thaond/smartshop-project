@@ -5,7 +5,10 @@ import java.util.LinkedList;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.ui.page.PageActivity;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +27,6 @@ public class SearchProductActivity extends Activity {
 		Button btnSearchProduct = (Button) findViewById(R.id.btnSearch);
 		btnSearchProduct.setOnClickListener(new OnClickListener() {
 			int i = 0;
-
 			@Override
 			public void onClick(View v) {
 				// TODO:condohero01: xu li su kien cho btn Search
@@ -41,10 +43,15 @@ public class SearchProductActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				searchByCategory();
+				
 				// TODO:(condohero01) xu ly su kien cho advance search
-
 			}
 		});
-
+	}
+	private void searchByCategory() {
+		Intent intent = new Intent(this, SearchByCategory.class);
+		startActivity(intent);
+		
 	}
 }
