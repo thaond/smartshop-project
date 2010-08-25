@@ -1,9 +1,15 @@
 package com.appspot.smartshop.adapter;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,20 +53,6 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-//		LayoutInflater inflater = (LayoutInflater) getContext()
-//				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//		View view = inflater.inflate(resourceId, null);
-//		ProductInfo product = (ProductInfo) this.getItem(position);
-//		TextView productName = (TextView) view
-//				.findViewById(R.id.txtProductName);
-//		productName.setText(product.name);
-//		TextView productPrice = (TextView) view
-//				.findViewById(R.id.txtProductPrice);
-//		productPrice.setText(""+product.price);
-//		TextView productDescription = (TextView) view
-//				.findViewById(R.id.txtDescription);
-//		productDescription.setText(product.description);
-//		return view;
 		ViewHolder holder;
 		
 		if (convertView == null) {
@@ -91,6 +83,15 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 						context, new GeoPoint((int)product.lat, (int)product.lng), null).show();
 			}
 		});
+		//Load image of product from internet
+		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
+		try{
+			Drawable drawable = getDrawableFromUrl(url);
+			holder.image.setImageDrawable(drawable);
+		}catch(Exception ex){
+			Log.d("ProductAdapter","load image failed");
+		}
+		
 		
 		// go to product detail
 		convertView.setOnClickListener(new OnClickListener() {
@@ -106,7 +107,11 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		
 		return convertView;
 	}
-	
+	private Drawable getDrawableFromUrl(String url) throws MalformedURLException, IOException {
+		InputStream is = (InputStream) new URL(url).getContent();
+		Drawable drawable = Drawable.createFromStream(is, "src name");
+		return drawable;
+	}
 	static class ViewHolder {
 		ImageView image;
 		TextView txtName;
