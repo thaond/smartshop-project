@@ -18,11 +18,13 @@ public class ViewSingleProduct extends TabActivity {
 		// TODO (vanloi999): load data of product from server and put them into
 		// basic attribute and advance attribute
 		Intent basicIntent = new Intent(this, ViewBasicAttributeOfProduct.class);
-//		basicIntent
-//				.putExtra(Global.PRODUCT_INFO, MockProductInfo.getInstance());
-		ProductInfo productInfo = (ProductInfo) getIntent().getExtras().get(Global.PRODUCT_INFO);
 		basicIntent
-			.putExtra(Global.PRODUCT_INFO, productInfo);
+				.putExtra(Global.PRODUCT_INFO, MockProductInfo.getInstance());
+		basicIntent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, false);
+		// ProductInfo productInfo = (ProductInfo)
+		// getIntent().getExtras().get(Global.PRODUCT_INFO);
+		// basicIntent
+		// .putExtra(Global.PRODUCT_INFO, productInfo);
 		Log.d("Test", "Tab is not created");
 
 		tabHost.addTab(tabHost.newTabSpec("Basic").setIndicator(
@@ -30,6 +32,10 @@ public class ViewSingleProduct extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec("User Define").setIndicator(
 				"Advanced Fearture").setContent(
 				new Intent(this, ViewAdvanceAttributeOfProduct.class)));
-	}
+		//set up size for tab
+		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++){
+			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height=40;
+		}
 
+	}
 }
