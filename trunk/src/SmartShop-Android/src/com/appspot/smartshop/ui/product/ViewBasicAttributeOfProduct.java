@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +29,9 @@ public class ViewBasicAttributeOfProduct extends Activity {
 	public EditText txtWarrantyOfProduct;
 	public EditText txtOriginOfProduct;
 	public EditText txtAddressOfProduct;
+	
+	public Button btnBack;
+	public Button btnExit;
 	
 	public ProductInfo productInfo = null;
 	
@@ -53,22 +57,22 @@ public class ViewBasicAttributeOfProduct extends Activity {
 		lblQuantityOfProduct = (TextView) findViewById(R.id.viewQuantityOfProduct);
 		lblQuantityOfProduct.setWidth(labelWidth);
 		txtQuantityOfProduct = (EditText) findViewById(R.id.txtViewQuantityOfProduct);
-		txtQuantityOfProduct.setEnabled(false);
+		txtQuantityOfProduct.setFilters(Global.uneditableInputFilters);
 		
 		lblWarrantyOfProduct = (TextView) findViewById(R.id.viewWarrantyOfProduct);
 		lblWarrantyOfProduct.setWidth(labelWidth);
 		txtWarrantyOfProduct = (EditText) findViewById(R.id.txtViewWarrantyOfProduct);
-		txtWarrantyOfProduct.setEnabled(false);
+		txtWarrantyOfProduct.setFilters(Global.uneditableInputFilters);
 		
 		lblOriginOfProduct = (TextView) findViewById(R.id.viewOriginOfProduct);
 		lblOriginOfProduct.setWidth(labelWidth);
 		txtOriginOfProduct = (EditText) findViewById(R.id.txtViewOriginOfProduct);
-		txtOriginOfProduct.setEnabled(false);
+		txtOriginOfProduct.setFilters(Global.uneditableInputFilters);
 		
 		lblAddressOfProduct = (TextView) findViewById(R.id.viewAddressOfProduct);
 		lblAddressOfProduct.setWidth(labelWidth);
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtViewAddressOfProduct);
-		txtAddressOfProduct.setEnabled(false);
+		txtAddressOfProduct.setFilters(Global.uneditableInputFilters);
 		//set up check box
 		final CheckBox check1 = (CheckBox) findViewById(R.id.viewCheckBoxIsVAT);
 		check1.setEnabled(false);

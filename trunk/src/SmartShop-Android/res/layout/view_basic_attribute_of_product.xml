@@ -60,5 +60,12 @@
 			<EditText android:id="@+id/txtViewAddressOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
+		<LinearLayout android:orientation="horizontal" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		<Button android:id="@+id/viewBasicAttBack" android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></Button>
+		<Button android:id="@+id/viewBasicAttExit" android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></Button>
+		</LinearLayout>
 	</LinearLayout>
 </ScrollView>
