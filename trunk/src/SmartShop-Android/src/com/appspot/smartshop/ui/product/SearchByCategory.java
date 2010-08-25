@@ -12,21 +12,29 @@ import android.widget.CheckBox;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.dom.CategoryInfo;
+import com.appspot.smartshop.utils.Global;
 
 /**
  * Demonstrates expandable lists using a custom {@link ExpandableListAdapter}
  * from {@link BaseExpandableListAdapter}.
  */
-public class SearchByCategory extends
-		ExpandableListActivity {
+public class SearchByCategory extends ExpandableListActivity {
 
 	ExpandableListAdapter mAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// ge
+		Bundle bundle = getIntent().getExtras();
+		CategoryInfo categoryInfo = (CategoryInfo) bundle
+				.get(Global.CATEGORY_INFO);
+		String[] groups = categoryInfo.parentCategory;
+		String[][] children = categoryInfo.childrenCategory;
 		// Set up our adapter
-		mAdapter = new MyExpandableListAdapter();
+
+		mAdapter = new MyExpandableListAdapter(groups, children);
 		setListAdapter(mAdapter);
 		registerForContextMenu(getExpandableListView());
 	}
@@ -38,13 +46,15 @@ public class SearchByCategory extends
 	 * 
 	 */
 	public class MyExpandableListAdapter extends BaseExpandableListAdapter {
-		// TODO: condohero01: Load category from database and put it into groups and chldren
-		private String[] groups = { "People Names", "Dog Names", "Cat Names",
-				"Fish Names" };
-		private String[][] children = {
-				{ "Arnold", "Barry", "Chuck", "David" },
-				{ "Ace", "Bandit", "Cha-Cha", "Deuce" },
-				{ "Fluffy", "Snuggles" }, { "Goldy", "Bubbles" } };
+		// TODO: condohero01: Load category from database and put it into groups
+		// and chldren
+		public String[] groups;
+		public String[][] children;
+
+		public MyExpandableListAdapter(String[] groups, String[][] children) {
+			this.groups = groups;
+			this.children = children;
+		}
 
 		public Object getChild(int groupPosition, int childPosition) {
 			return children[groupPosition][childPosition];
@@ -58,21 +68,33 @@ public class SearchByCategory extends
 			return children[groupPosition].length;
 		}
 
+		public View getGroupView(int groupPosition, boolean isExpanded,
+				View convertView, ViewGroup parent) {
+			LayoutInflater inflater = (LayoutInflater) getBaseContext()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View view = inflater.inflate(R.layout.parent_category, null);
+			TextView textView = (TextView)view.findViewById(R.id.txtParentCategory);
+			textView.setText(groups[groupPosition]);
+			return view;
+		}
+
 		public View getChildView(int groupPosition, int childPosition,
 				boolean isLastChild, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) getBaseContext()
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View view = inflater.inflate(R.layout.child_category, null);
-				final TextView txtView = (TextView) view.findViewById(R.id.txtchildCategory);
-				final CheckBox ch1 = (CheckBox) view.findViewById(R.id.checkBox);
+			final TextView txtView = (TextView) view
+					.findViewById(R.id.txtchildCategory);
+			txtView.setText(children[groupPosition][childPosition]);
+			final CheckBox ch1 = (CheckBox) view.findViewById(R.id.checkBox);
 			view.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
-					//TODO: condohero01: process checkbox
-					if(ch1.isChecked()){
+					// TODO: condohero01: process checkbox
+					if (ch1.isChecked()) {
 						txtView.setText("is Clicked");
-					}else{
+					} else {
 						txtView.setText("is not Clicked");
 					}
 				}
@@ -80,6 +102,7 @@ public class SearchByCategory extends
 
 			return view;
 		}
+
 		public Object getGroup(int groupPosition) {
 			return groups[groupPosition];
 		}
@@ -92,21 +115,12 @@ public class SearchByCategory extends
 			return groupPosition;
 		}
 
-
 		public boolean isChildSelectable(int groupPosition, int childPosition) {
 			return true;
 		}
 
 		public boolean hasStableIds() {
 			return true;
-		}
-
-		public View getGroupView(int groupPosition, boolean isExpanded,
-				View convertView, ViewGroup parent) {
-			LayoutInflater inflater = (LayoutInflater) getBaseContext()
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View view = inflater.inflate(R.layout.parent_category, null);
-			return view;
 		}
 
 	}
