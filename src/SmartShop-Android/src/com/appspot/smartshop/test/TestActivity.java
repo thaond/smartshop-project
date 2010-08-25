@@ -8,42 +8,26 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import android.content.Context;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
+import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.gson.Gson;
 
 public class TestActivity extends MapActivity {
 	public static final String TAG = "TestActivity";
-
-	private MapView mapView;
-	private MyLocationOverlay myLocationOverlay;
-	private LocationManager locationManager;
-
-	private ListView listDirection;
-
-	private ArrayAdapter<String> adapter;
-
-	private MapController mapController;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -51,72 +35,15 @@ public class TestActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		Global.application = this;
-		testGetCurrentLocation(); // TODO (condorhero01): place test function
+		testUserLocationDialog(); // TODO (condorhero01): place test function
 									// here
 	}
 
 	void testGetCurrentLocation() {
 		LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-		LocationListener mlocListener = new MyLocationListener();
-
+		LocationListener mlocListener = new MyLocationListener(this);
 		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 	}
-
-	class MyLocationListener implements LocationListener
-
-	{
-
-		@Override
-		public void onLocationChanged(Location loc)
-
-		{
-
-			loc.getLatitude();
-			loc.getLongitude();
-			String Text = "My current location is: " + "Latitud = "
-					+ loc.getLatitude() + "Longitud = " + loc.getLongitude();
-
-			Toast.makeText(getApplicationContext(),
-
-			Text,
-
-			Toast.LENGTH_SHORT).show();
-
-		}
-
-		@Override
-		public void onProviderDisabled(String provider)
-
-		{
-
-			Toast.makeText(getApplicationContext(),
-
-			"Gps Disabled",
-
-			Toast.LENGTH_SHORT).show();
-
-		}
-
-		@Override
-		public void onProviderEnabled(String provider)
-
-		{
-
-			Toast.makeText(getApplicationContext(),
-
-			"Gps Enabled",
-
-			Toast.LENGTH_SHORT).show();
-
-		}
-
-		@Override
-		public void onStatusChanged(String provider, int status, Bundle extras)
-		{
-		}
-
-	}/* End of Class MyLocationListener */
 
 	void testGson4() {
 		UserInfo userInfo = new UserInfo();
@@ -167,7 +94,7 @@ public class TestActivity extends MapActivity {
 				"166/17 phạm phú thứ quận 6 hcm",
 				"43 vương văn huống quận bình tân hcm", "tào lao",
 				"ffsdfsdfdsfsfs", "new york" };
-		GeoPoint point = MapService.locationToGeopoint(locations[1]);
+		GeoPoint point = MapService.locationToGeopoint(locations[0]);
 		MapDialog.createLocationDialog(this, point, new UserLocationListener() {
 
 			@Override

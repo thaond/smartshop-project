@@ -12,7 +12,7 @@
 	<com.google.android.maps.MapView
 		android:id="@+id/mapview" android:layout_width="250dip"
 		android:layout_height="250dip" android:clickable="true"
-		android:apiKey="0oXkvY2tUcbGM8-BK6Myjp770et8Obv5A2PjqnQ" />
+		android:apiKey="@string/mapApiKey" />
 
 	<Button android:layout_width="50dip" android:layout_height="wrap_content"
 		android:textColor="#0000ff" android:textSize="11dip" android:id="@+id/btnOk"

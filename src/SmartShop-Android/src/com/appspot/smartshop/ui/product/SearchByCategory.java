@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.dom.CategoryInfo;
 import com.appspot.smartshop.utils.Global;
 
@@ -22,10 +23,14 @@ import com.appspot.smartshop.utils.Global;
 public class SearchByCategory extends ExpandableListActivity {
 
 	ExpandableListAdapter mAdapter;
+	private int type;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// TODO (vanloi999): type (page or product)
+		type = getIntent().getExtras().getInt(Global.TYPE);
 		// ge
 		Bundle bundle = getIntent().getExtras();
 		CategoryInfo categoryInfo = (CategoryInfo) bundle

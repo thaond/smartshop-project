@@ -15,7 +15,7 @@ public class PostProductActivity extends TabActivity {
 		final TabHost tabHost = getTabHost();
 
 		Intent basicIntent = new Intent(this, PostProductActivityBasicAttribute.class);
-		basicIntent.putExtra(Global.PRODUCT_INFO,MockProductInfo.getInstance());
+//		basicIntent.putExtra(Global.PRODUCT_INFO,MockProductInfo.getInstance());
 		basicIntent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
 		tabHost.addTab(tabHost.newTabSpec("Basic Features").setIndicator(
 				"Basic Features").setContent(basicIntent));

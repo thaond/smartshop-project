@@ -21,7 +21,6 @@ public class SearchProductActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_product_form);
 		Button btnSearchProduct = (Button) findViewById(R.id.btnSearch);
@@ -29,7 +28,7 @@ public class SearchProductActivity extends Activity {
 			int i = 0;
 			@Override
 			public void onClick(View v) {
-				// TODO:condohero01: xu li su kien cho btn Search
+				// TODO (vanloi999): request list products based on query string
 			}
 		});
 		listViewProduct = (ListView) findViewById(R.id.listProduct);
@@ -44,7 +43,6 @@ public class SearchProductActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				searchByCategory();
-				
 				// TODO:(condohero01) xu ly su kien cho advance search
 			}
 		});
