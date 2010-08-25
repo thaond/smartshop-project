@@ -1,6 +1,5 @@
 package com.appspot.smartshop.ui.product;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import android.content.Intent;
@@ -12,8 +11,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
-import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
@@ -36,7 +33,7 @@ public class ProductsListActivity extends MapActivity implements
 	
 	private int productsMode = NEWEST_PRODUCTS;
 	
-	private ArrayList<ProductInfo> products;
+	private LinkedList<ProductInfo> products;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,34 +74,38 @@ public class ProductsListActivity extends MapActivity implements
 		listView = (ListView) findViewById(R.id.listViewProductAfterSearch);
 		productAdapter = new ProductAdapter(this, R.layout.product_list_item,
 				new LinkedList<ProductInfo>());
-		loadProductsList();
+//		loadProductsList();
+		
 	}
 
-	private void loadProductsList() {
-		new SimpleAsyncTask(this, new DataLoader() {
+//	private void loadProductsList() {
+//		new SimpleAsyncTask(this, new DataLoader() {
 			
-			@Override
 			public void updateUI() {
 				productAdapter = new ProductAdapter(ProductsListActivity.this, R.layout.product_list_item,
 						products);
 				listView.setAdapter(productAdapter);
 			}
 			
-			@Override
 			public void loadData() {
 				products = MockProduct.getProducts();	// TODO (vanloi999): remove mock
 				switch (productsMode) {
 				case BEST_SELLER_PRODUCTS:
 					// TODO (vanloi999): request best seller products list
+					productAdapter.add(new ProductInfo("Best Seller", 1000, " Tào Lao"));
 					
 					break;
 					
 				case CHEAPEST_PRODUCTS:
 					// TODO (vanloi999): request  products listsort by price
+
+					productAdapter.add(new ProductInfo("CHEAPEST_PRODUCTS", 1000, " Tào Lao"));
 					break;
 					
 				case NEWEST_PRODUCTS:
 					// TODO (vanloi999): request products list sort by date
+
+					productAdapter.add(new ProductInfo("NEWEST_PRODUCTS", 1000, " Tào Lao"));
 					
 					break;
 
@@ -112,8 +113,8 @@ public class ProductsListActivity extends MapActivity implements
 					break;
 				}
 			}
-		}).execute();
-	}
+//		});
+//	}
 
 	@Override
 	public void onCheckedChanged(RadioGroup mRadioGroup, int checkedId) {
@@ -124,8 +125,9 @@ public class ProductsListActivity extends MapActivity implements
 		} else {
 			productsMode = NEWEST_PRODUCTS;
 		}
+		loadData();
+		updateUI();
 		
-		loadProductsList();
 	}
 
 	@Override
