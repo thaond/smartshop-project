@@ -4,6 +4,6 @@
 	android:paddingLeft="30px">
 	<ImageView android:src="@drawable/icon" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/parentImage"></ImageView>
-	<TextView android:id="@+id/txtchildCategory" android:text=" Parent "
+	<TextView android:id="@+id/txtParentCategory" android:text=" Parent "
 		android:layout_width="wrap_content" android:layout_height="wrap_content" />
 </LinearLayout>
