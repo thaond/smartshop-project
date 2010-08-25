@@ -38,7 +38,7 @@ public class PagesListActivity extends Activity {
 		setContentView(R.layout.pages_list);
 		
 		// type of pages list
-		pagesListType = getIntent().getExtras().getInt(Global.PAGES_LIST_TYPE);
+//		pagesListType = getIntent().getExtras().getInt(Global.PAGES_LIST_TYPE);
 		
 		// radio buttons
 		RadioButton rbPageMostView = (RadioButton) findViewById(R.id.rbPageMostView);

@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-    <RadioGroup
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:checkedButton="@+id/radioLatest"
-        android:id="@+id/menu">
-        <RadioButton
-            android:text="Lastest"
-            android:id="@+id/radioLatest"
-            />
-        <RadioButton
-            android:text="Best Seller"
-            android:id="@+id/radioBestSeller" />
-        <RadioButton
-            android:text="Price"
-            android:id="@+id/radioPrice" />
-    </RadioGroup>
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listViewProductAfterSearch" />
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal">
+		<EditText android:id="@+id/searchEditText" android:textSize="12dip"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:hint="@string/hintEnterProductsName" android:layout_weight="1" />
+		<Button android:layout_width="wrap_content" android:text="@string/search"
+			android:layout_height="wrap_content" android:id="@+id/btnSearch" />
+		<Button android:layout_width="wrap_content" android:background="@drawable/map_icon"
+			android:layout_height="wrap_content" android:id="@+id/btnSearchOnMap" />
+	</LinearLayout>
+
+	<RadioGroup android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal"
+		android:checkedButton="@+id/radioLatest" android:id="@+id/menu">
+		<RadioButton android:text="@string/rbMostUpdate"
+			android:id="@+id/radioLatest" android:textSize="12dip" />
+		<RadioButton android:text="@string/rbBestSeller"
+			android:id="@+id/radioBestSeller" android:textSize="12dip" />
+		<RadioButton android:text="@string/rbCheapest" android:id="@+id/radioPrice"
+			android:textSize="12dip" />
+	</RadioGroup>
+
+	<ListView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:id="@+id/listViewProductAfterSearch" />
 </LinearLayout>

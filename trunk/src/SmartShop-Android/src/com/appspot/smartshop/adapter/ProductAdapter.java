@@ -3,6 +3,7 @@ package com.appspot.smartshop.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.MapDialog;
+import com.appspot.smartshop.ui.product.ViewSingleProduct;
+import com.appspot.smartshop.utils.Global;
 import com.google.android.maps.GeoPoint;
 
 public class ProductAdapter extends ArrayAdapter<ProductInfo> {
@@ -27,6 +30,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			List<ProductInfo> objects) {
 		super(context, textViewResourceId, objects);
 		this.context = context;
+		inflater = LayoutInflater.from(context);
 		resourceId = textViewResourceId;
 	}
 
@@ -85,6 +89,18 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 				// TODO (condorhero01): can product has no lat, lng?
 				MapDialog.createLocationDialog(
 						context, new GeoPoint((int)product.lat, (int)product.lng), null).show();
+			}
+		});
+		
+		// go to product detail
+		convertView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, ViewSingleProduct.class);
+				intent.putExtra(Global.PRODUCT_INFO, product);
+				
+				context.startActivity(intent);
 			}
 		});
 		

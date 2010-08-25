@@ -54,4 +54,6 @@ public class Global {
 	public static final String ID_OF_COMMENTS = "id_of_comments";
 	public static final String USER_NAME = "user_name";
 	public static final String PAGES_LIST_TYPE = "pages_list_type";
+	public static final String TYPE = "type";
+	public static final String CATEGORY_INFO = "category_info";
 }

@@ -38,8 +38,13 @@ public class MapDialog {
 	public static AlertDialog createLocationDialog(Context context, GeoPoint point,
 			final UserLocationListener listener) {
 		// setup view
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.map_dialog, null);
+		if (inflater == null) {
+			inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+		if (view == null) {
+			view = inflater.inflate(R.layout.map_dialog, null);
+			mapView = (MapView) view.findViewById(R.id.mapview);
+		}
 		
 		// setting for map view
 		mapView = (MapView) view.findViewById(R.id.mapview);
@@ -78,7 +83,6 @@ public class MapDialog {
 				dialog.cancel();
 			}
 		});
-		
 
 		// create dialog
 		dialogBuilder = new AlertDialog.Builder(context);

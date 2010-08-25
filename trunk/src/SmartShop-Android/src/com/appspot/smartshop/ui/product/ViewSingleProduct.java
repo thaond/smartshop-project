@@ -1,5 +1,6 @@
 package com.appspot.smartshop.ui.product;
 
+import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.mock.MockProductInfo;
 import com.appspot.smartshop.utils.Global;
 
@@ -14,11 +15,14 @@ public class ViewSingleProduct extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final TabHost tabHost = getTabHost();
-		// TODO:condohero01 load data of product from server and put them into
+		// TODO (vanloi999): load data of product from server and put them into
 		// basic attribute and advance attribute
 		Intent basicIntent = new Intent(this, ViewBasicAttributeOfProduct.class);
+//		basicIntent
+//				.putExtra(Global.PRODUCT_INFO, MockProductInfo.getInstance());
+		ProductInfo productInfo = (ProductInfo) getIntent().getExtras().get(Global.PRODUCT_INFO);
 		basicIntent
-				.putExtra(Global.PRODUCT_INFO, MockProductInfo.getInstance());
+			.putExtra(Global.PRODUCT_INFO, productInfo);
 		Log.d("Test", "Tab is not created");
 
 		tabHost.addTab(tabHost.newTabSpec("Basic").setIndicator(
@@ -26,7 +30,6 @@ public class ViewSingleProduct extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec("User Define").setIndicator(
 				"Advanced Fearture").setContent(
 				new Intent(this, ViewAdvanceAttributeOfProduct.class)));
-		Log.d("Test", "Tab is created");
 	}
 
 }

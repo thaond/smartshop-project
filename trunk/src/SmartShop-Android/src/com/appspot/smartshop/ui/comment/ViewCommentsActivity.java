@@ -3,17 +3,22 @@ package com.appspot.smartshop.ui.comment;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.CommentAdapter;
 import com.appspot.smartshop.dom.Comment;
 import com.appspot.smartshop.mock.MockComments;
+import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
@@ -27,6 +32,12 @@ public class ViewCommentsActivity extends Activity {
 	private long id;
 	
 	private List<Comment> comments;
+
+	private LayoutInflater inflater;
+
+	private AlertDialog dialog;
+
+	private EditText txtComment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +54,7 @@ public class ViewCommentsActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				addNewComment();
+				showAddNewCommentDialog();
 			}
 		});
 		
@@ -67,12 +78,41 @@ public class ViewCommentsActivity extends Activity {
 		}).execute();
 	}
 
-	protected void addNewComment() {
-		Log.d(TAG, "add new comment");
-		// TODO (condorhero01): add new comments to list
-		Comment comment = new Comment();
-		comment.content = "new comment";
+	protected void showAddNewCommentDialog() {
+		// inflater
+		if (inflater == null) {
+			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+		View view = inflater.inflate(R.layout.add_comment_dialog, null);
 		
-		adapter.addNewComment(comment);
+		// comment content
+		txtComment = (EditText) view.findViewById(R.id.txtComment);
+		Button btnOk = (Button) view.findViewById(R.id.btnOk);
+		btnOk.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String content = txtComment.getText().toString();
+				if (content.trim().equals("")) {
+					return;
+				}
+				
+				Comment comment = new Comment();
+				comment.content = content;
+				comment.username = Global.username;
+				adapter.addNewComment(comment);
+				
+				// TODO (condorhero01): type and type_id of comment?
+				// TODO (condorhero01): request add new comment
+				Log.d(TAG, "user " + comment.username + ", comment = " + comment.content);
+				
+				dialog.cancel();
+			}
+		});
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setView(view);
+		dialog = builder.create();
+		dialog.show();
 	}
 }
