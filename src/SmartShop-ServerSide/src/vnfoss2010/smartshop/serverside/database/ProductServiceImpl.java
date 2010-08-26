@@ -16,6 +16,7 @@ import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
+import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 
@@ -685,6 +686,54 @@ public class ProductServiceImpl {
 		return result;
 	}
 
+	public ServiceResult<List<Product>> getListProductFromUsername(String username) {
+		username = DatabaseUtils.preventSQLInjection(username);
+		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (username == null || username.equals("")) {
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
+			return result;
+		}
+		boolean isNotFound = false;
+		UserInfo userInfo = null;
+		try {
+			userInfo = pm.getObjectById(UserInfo.class, username);
+		} catch (JDOObjectNotFoundException e) {
+			isNotFound = true;
+		} catch (NucleusObjectNotFoundException e) {
+			isNotFound = true;
+		}
+
+		if (isNotFound || userInfo == null) {
+			// Not found userinfo
+			result.setMessage(Global.messages.getString("not_found") + " "
+					+ username);
+		} else {
+			Query query = pm.newQuery(Page.class);
+			query.setFilter("username = us");
+			query.declareParameters("String us");
+			query.setOrdering("date_post DESC");
+			List<Product> listProducts = (List<Product>) query.execute(username);
+			
+			if (listProducts.size() > 0) {
+				result.setOK(true);
+				result
+						.setMessage(String.format(Global.messages
+								.getString("get_products_by_username_successfully"), username));
+				result.setResult(listProducts);
+			} else {
+				result.setOK(false);
+				result.setMessage(String.format(Global.messages
+						.getString("get_products_by_username_fail"), username));
+			}
+		}
+		pm.close();
+		return result;
+
+	}
+	
 	public static void updateFTSStuffForProduct(Product product) {
 
 		Global.log(log, "Product " + product);

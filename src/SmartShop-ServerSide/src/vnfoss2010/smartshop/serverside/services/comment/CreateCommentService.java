@@ -12,7 +12,7 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import com.google.appengine.repackaged.org.json.JSONObject;
 
 public class CreateCommentService extends BaseRestfulService {
-	private static CommentServiceImpl dbComment = CommentServiceImpl.instance();
+	private static CommentServiceImpl dbComment = CommentServiceImpl.getInstance();
 
 	public CreateCommentService(String serviceName) {
 		super(serviceName);
