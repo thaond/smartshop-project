@@ -1,18 +1,20 @@
 package com.appspot.smartshop.ui.product;
 
-import com.appspot.smartshop.R;
-import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.utils.Global;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.appspot.smartshop.R;
+import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.utils.Global;
 
 
 public class ViewBasicAttributeOfProduct extends Activity {
@@ -30,8 +32,8 @@ public class ViewBasicAttributeOfProduct extends Activity {
 	public EditText txtOriginOfProduct;
 	public EditText txtAddressOfProduct;
 	
-	public Button btnBack;
-	public Button btnExit;
+	public Button btnViewComment;
+	public Button btnViewUserInfo;
 	
 	public ProductInfo productInfo = null;
 	
@@ -47,12 +49,13 @@ public class ViewBasicAttributeOfProduct extends Activity {
 		lblNameOfProduct = (TextView) findViewById(R.id.viewNameOfProduct);
 		lblNameOfProduct.setWidth(labelWidth);
 		txtNameProduct = (EditText) findViewById(R.id.txtViewNameOfProduct);
-		txtNameProduct.setEnabled(false);
+		txtNameProduct.setFilters(Global.uneditableInputFilters);
+		
 		
 		lblPriceOfProduct = (TextView) findViewById(R.id.viewPriceOfProduct);
 		lblPriceOfProduct.setWidth(labelWidth);
 		txtPriceOfProduct = (EditText) findViewById(R.id.txtViewPriceOfProduct);
-		txtPriceOfProduct.setEnabled(false);
+		txtPriceOfProduct.setFilters(Global.uneditableInputFilters);
 		
 		lblQuantityOfProduct = (TextView) findViewById(R.id.viewQuantityOfProduct);
 		lblQuantityOfProduct.setWidth(labelWidth);
@@ -73,26 +76,33 @@ public class ViewBasicAttributeOfProduct extends Activity {
 		lblAddressOfProduct.setWidth(labelWidth);
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtViewAddressOfProduct);
 		txtAddressOfProduct.setFilters(Global.uneditableInputFilters);
+		btnViewComment = (Button) findViewById(R.id.viewComment);
+		btnViewUserInfo = (Button) findViewById(R.id.viewUserInfo);
+		btnViewComment.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//TODO: vanloi999 xu li comment 
+				
+			}
+		});
+		btnViewUserInfo.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//TODO: vanloi999 xu li view User info 
+				
+			}
+		});
 		//set up check box
 		final CheckBox check1 = (CheckBox) findViewById(R.id.viewCheckBoxIsVAT);
 		check1.setEnabled(false);
 		//final TextView txtVAT = (TextView) findViewById(R.id.txtViewIsVATInPostProductForm);
-		
-//		check1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//			@Override
-//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//				if(check1.isChecked()) {
-//					txtVAT.setText("clicked");
-//				}
-//				else {
-//					txtVAT.setText("is not clicked");
-//				}
-//			}
-//		});
 		// setup data for text field if in edit/view product info mode
 		Bundle bundle = getIntent().getExtras();
 		if(bundle!=null){
 			productInfo = (ProductInfo) bundle.get(Global.PRODUCT_INFO);
+			boolean edit = bundle.getBoolean(Global.CAN_EDIT_PRODUCT_INFO);
 			txtNameProduct.setText(productInfo.name);
 			txtPriceOfProduct.setText(""+productInfo.price);
 			if(productInfo.isVAT==true){

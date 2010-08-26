@@ -62,10 +62,10 @@
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal" android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
-		<Button android:id="@+id/viewBasicAttBack" android:layout_width="wrap_content"
-		android:layout_height="wrap_content"></Button>
-		<Button android:id="@+id/viewBasicAttExit" android:layout_width="wrap_content"
-		android:layout_height="wrap_content"></Button>
+		<Button android:id="@+id/viewComment" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@string/lblViewComment"></Button>
+		<Button android:id="@+id/viewUserInfo" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@string/lblViewUser"></Button>
 		</LinearLayout>
 	</LinearLayout>
 </ScrollView>

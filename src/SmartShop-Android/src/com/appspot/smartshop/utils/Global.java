@@ -47,8 +47,10 @@ public class Global {
 	public static final String USER_INFO = "user_info";
 	public static final String CAN_EDIT_USER_PROFILE = "can_edit_user_profile";
 	public static final String USER_PRODUCT_LIST_TYPE = "product_list_type";
+	
 	public static final String PRODUCT_INFO = "product_info";
 	public static final String CAN_EDIT_PRODUCT_INFO = "can_edit_product_info";
+	
 	public static final String PRODUCT_LIST_TYPE = "product_list_type";
 	public static final String PAGE = "page";
 	public static final String ID_OF_COMMENTS = "id_of_comments";

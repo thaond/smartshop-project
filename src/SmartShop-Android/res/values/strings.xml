@@ -74,6 +74,7 @@
 	<string name="page_content">Nội dung:</string>
 	<string name="page_view">Lượt xem:</string>
 	<string name="lblViewComment">Xem bình luận</string>
+	<string name="lblViewUser">Xem thông tin người đăng</string>
 
 	<!-- User products list -->
 	<string name="lblInterestedProducts">Ưa thích</string>
