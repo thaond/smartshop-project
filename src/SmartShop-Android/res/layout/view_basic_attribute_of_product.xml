@@ -60,12 +60,12 @@
 			<EditText android:id="@+id/txtViewAddressOfProduct"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
-		<LinearLayout android:orientation="horizontal" android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
-		<Button android:id="@+id/viewComment" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:text="@string/lblViewComment"></Button>
-		<Button android:id="@+id/viewUserInfo" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:text="@string/lblViewUser"></Button>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="100dip">
+			<Button android:id="@+id/viewComment" android:layout_width="64px"
+				android:layout_height="64px" android:background="@drawable/comment_icon"></Button>
+			<Button android:id="@+id/viewUserInfo" android:layout_width="64px"
+				android:layout_height="64px" android:background="@drawable/user_info"></Button>
 		</LinearLayout>
 	</LinearLayout>
 </ScrollView>

@@ -47,17 +47,17 @@
 	<string name="errGetDirection">Lỗi kết nối</string>
 
 	<!-- Post Product Form -->
-	<string name="nameOfProduct">Name</string>
-	<string name="priceOfProduct">Price</string>
-	<string name="description">Description</string>
-	<string name="isVAT">Is VAT</string>
-	<string name="quantityOfProduct">Quantity</string>
-	<string name="warrantyOfProduct">Warranty</string>
-	<string name="datePost">Date Post</string>
-	<string name="originOfProduct">Origin</string>
-	<string name="addressOfProduct">Address</string>
-	<string name="latOfProduct">Latitude</string>
-	<string name="lngOfProduct">Longitude</string>
+	<string name="nameOfProduct">Tên</string>
+	<string name="priceOfProduct">Giá</string>
+	<string name="description">Mô tả</string>
+	<string name="isVAT">Tính VAT</string>
+	<string name="quantityOfProduct">Số lượng</string>
+	<string name="warrantyOfProduct">Bảo hành</string>
+	<string name="datePost">Ngày đăng</string>
+	<string name="originOfProduct">Xuất xứ</string>
+	<string name="addressOfProduct">Địa chỉ</string>
+	<string name="latOfProduct">Vĩ độ</string>
+	<string name="lngOfProduct">Kinh độ</string>
 	<string name="userDefineAttribute">name of attribute</string>
 	<string name="chooseDatePost">Choose Date</string>
 	<!-- View Product Form -->

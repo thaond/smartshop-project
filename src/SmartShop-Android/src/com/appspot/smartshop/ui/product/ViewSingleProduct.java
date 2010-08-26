@@ -28,9 +28,9 @@ public class ViewSingleProduct extends TabActivity {
 		Log.d("Test", "Tab is not created");
 
 		tabHost.addTab(tabHost.newTabSpec("Basic").setIndicator(
-				"Basic Features").setContent(basicIntent));
+				"Thông tin cơ bản").setContent(basicIntent));
 		tabHost.addTab(tabHost.newTabSpec("User Define").setIndicator(
-				"Advanced Fearture").setContent(
+				"Thông tin chi tiết").setContent(
 				new Intent(this, ViewAdvanceAttributeOfProduct.class)));
 		//set up size for tab
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++){
