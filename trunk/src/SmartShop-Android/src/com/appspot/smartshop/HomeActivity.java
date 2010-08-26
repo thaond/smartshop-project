@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import com.appspot.smartshop.map.DirectionListActivity;
 import com.appspot.smartshop.mock.MockPage;
+import com.appspot.smartshop.mock.MockCategory;
 import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
@@ -194,7 +195,7 @@ public class HomeActivity extends Activity {
 	
 	private void loadJson() {
 		String url = "http://search.twitter.com/trends.json";
-		RestClient.loadData(url, new JSONParser() {
+		RestClient.getData(url, new JSONParser() {
 			
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
@@ -268,6 +269,8 @@ public class HomeActivity extends Activity {
 	}
 	private void searchByCategory() {
 		Intent intent = new Intent(this, SearchByCategory.class);
+		intent.putExtra(Global.CATEGORY_INFO, MockCategory.getInstance());
+		intent.putExtra(Global.TYPE, MainActivity.PRODUCT);
 		startActivity(intent);
 		
 	}
