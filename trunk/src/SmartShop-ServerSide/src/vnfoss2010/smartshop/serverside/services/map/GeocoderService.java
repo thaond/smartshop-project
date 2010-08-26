@@ -2,15 +2,14 @@ package vnfoss2010.smartshop.serverside.services.map;
 
 import java.util.Map;
 
-import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.JsonObject;
-
 import vnfoss2010.smartshop.serverside.Global;
-import vnfoss2010.smartshop.serverside.map.geocoder.YahooGeocoder;
 import vnfoss2010.smartshop.serverside.map.geocoder.YahooPlaceFinder;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.utils.StringUtils;
+
+import com.google.appengine.repackaged.org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 public class GeocoderService extends BaseRestfulService{
 

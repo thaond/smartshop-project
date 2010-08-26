@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+
+import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
+import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 
 import com.google.appengine.api.datastore.DatastoreNeedIndexException;
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
@@ -284,20 +289,20 @@ public class PageServiceImpl {
 		queryObj.setFilter("setCategoryKeys.contains(catKey)");
 		queryObj.declareParameters("String catKey");
 
-		List<Page> listProducts = null;
+		List<Page> listPages = null;
 		if (cat_keys != null) {
-			listProducts = (List<Page>) queryObj.execute(Arrays
+			listPages = (List<Page>) queryObj.execute(Arrays
 					.asList(cat_keys));
 		} else {
-			listProducts = (List<Page>) pm.newQuery(query).execute();
+			listPages = (List<Page>) pm.newQuery(query).execute();
 		}
 
-		if (listProducts.size() > 0) {
+		if (listPages.size() > 0) {
 			result.setOK(true);
 			result
 					.setMessage(Global.messages
 							.getString("search_product_by_criteria_in_cat_successfully"));
-			result.setResult(listProducts);
+			result.setResult(listPages);
 		} else {
 			result.setOK(false);
 			result.setMessage(Global.messages
@@ -305,6 +310,54 @@ public class PageServiceImpl {
 		}
 
 		return result;
+	}
+
+	public ServiceResult<List<Page>> getListPageFromUsername(String username) {
+		username = DatabaseUtils.preventSQLInjection(username);
+		ServiceResult<List<Page>> result = new ServiceResult<List<Page>>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (username == null || username.equals("")) {
+			result.setMessage(Global.messages
+					.getString("cannot_handle_with_null"));
+			return result;
+		}
+		boolean isNotFound = false;
+		UserInfo userInfo = null;
+		try {
+			userInfo = pm.getObjectById(UserInfo.class, username);
+		} catch (JDOObjectNotFoundException e) {
+			isNotFound = true;
+		} catch (NucleusObjectNotFoundException e) {
+			isNotFound = true;
+		}
+
+		if (isNotFound || userInfo == null) {
+			// Not found userinfo
+			result.setMessage(Global.messages.getString("not_found") + " "
+					+ username);
+		} else {
+			Query query = pm.newQuery(Page.class);
+			query.setFilter("username = us");
+			query.declareParameters("String us");
+			query.setOrdering("date_post DESC");
+			List<Page> listPages = (List<Page>) query.execute(username);
+			
+			if (listPages.size() > 0) {
+				result.setOK(true);
+				result
+						.setMessage(String.format(Global.messages
+								.getString("get_pages_by_username_successfully"), username));
+				result.setResult(listPages);
+			} else {
+				result.setOK(false);
+				result.setMessage(String.format(Global.messages
+						.getString("get_pages_by_username_fail"), username));
+			}
+		}
+		pm.close();
+		return result;
+
 	}
 
 	public static void preventSQLInjPage(Page page) {

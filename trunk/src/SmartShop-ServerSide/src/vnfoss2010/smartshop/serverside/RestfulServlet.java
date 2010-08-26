@@ -38,23 +38,25 @@ import vnfoss2010.smartshop.serverside.services.account.SearchUsernameService;
 import vnfoss2010.smartshop.serverside.services.comment.CreateCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.DeleteCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.GetCommentService;
+import vnfoss2010.smartshop.serverside.services.comment.GetCommentsByUsernameService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
+import vnfoss2010.smartshop.serverside.services.map.DirectionService;
 import vnfoss2010.smartshop.serverside.services.map.GeocoderService;
 import vnfoss2010.smartshop.serverside.services.map.ReserveGeocoderService;
 import vnfoss2010.smartshop.serverside.services.page.CreatePageService;
 import vnfoss2010.smartshop.serverside.services.page.EditPageService;
 import vnfoss2010.smartshop.serverside.services.page.GetListPageByCriteriaService;
 import vnfoss2010.smartshop.serverside.services.page.GetPageService;
-import vnfoss2010.smartshop.serverside.services.page.SearchPageService;
+import vnfoss2010.smartshop.serverside.services.page.GetPagesByUsernameService;
 import vnfoss2010.smartshop.serverside.services.page.TagProductToPageService;
 import vnfoss2010.smartshop.serverside.services.page.UntagProductFromPageService;
 import vnfoss2010.smartshop.serverside.services.product.EditProductService;
 import vnfoss2010.smartshop.serverside.services.product.GetBuyedProductByUserService;
 import vnfoss2010.smartshop.serverside.services.product.GetInterestedProductByUserService;
 import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaInCategoryService;
-import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductService;
+import vnfoss2010.smartshop.serverside.services.product.GetProductsByUsernameService;
 import vnfoss2010.smartshop.serverside.services.product.GetSelledProductByUserService;
 import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductPromixity;
@@ -140,6 +142,7 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("product-get-buyed-product", GetBuyedProductByUserService.class);
 		mServices.put("product-get-selled-product", GetSelledProductByUserService.class);
 		mServices.put("product-get-interested-product", GetInterestedProductByUserService.class);
+		mServices.put("product-get-by-username", GetProductsByUsernameService.class);
 
 		// page
 		mServices.put("create-page", CreatePageService.class);
@@ -149,15 +152,18 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("untag-product-to-page", UntagProductFromPageService.class);
 		mServices.put("page-search", SearchProductService.class);
 		mServices.put("page-search-criteria", GetListPageByCriteriaService.class);
+		mServices.put("page-get-by-username", GetPagesByUsernameService.class);
 
 		// comment
 		mServices.put("create-comment", CreateCommentService.class);
 		mServices.put("get-comment", GetCommentService.class);
 		mServices.put("delete-comment", DeleteCommentService.class);
+		mServices.put("comment-get-by-username", GetCommentsByUsernameService.class);
 		
 		//map
 		mServices.put("map-geocoder", GeocoderService.class);
 		mServices.put("map-regeocoder", ReserveGeocoderService.class);
+		mServices.put("map-direction", DirectionService.class);
 		
 		// mServices.put("sampledata", SampleDataRestfull.class);
 	}
