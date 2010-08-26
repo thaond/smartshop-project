@@ -30,9 +30,7 @@ public class ProductsListActivity extends MapActivity implements
 	private RadioButton btnRadioLatest, btnBestSeller, btnPrice;
 	private ListView listView;
 	private ProductAdapter productAdapter;
-	
 	private int productsMode = NEWEST_PRODUCTS;
-	
 	private LinkedList<ProductInfo> products;
 
 	@Override
