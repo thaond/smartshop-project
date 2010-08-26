@@ -1,6 +1,6 @@
 package com.appspot.smartshop.mock;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.utils.Utils;
@@ -9,8 +9,8 @@ import com.google.android.maps.GeoPoint;
 public class MockProduct {
 	private static final int NUM_OF_PRODUCTS = 20;	
 
-	public static ArrayList<ProductInfo> getProducts() {
-		ArrayList<ProductInfo> list = new ArrayList<ProductInfo>();
+	public static LinkedList<ProductInfo> getProducts() {
+		LinkedList<ProductInfo> list = new LinkedList<ProductInfo>();
 		
 		ProductInfo productInfo;
 		int len = MockLocation.getPoints().length;
