@@ -12,8 +12,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.repackaged.org.json.JSONException;
-import com.google.appengine.repackaged.org.json.JSONObject;
+import vnfoss2010.smartshop.serverside.Global;
+
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
@@ -27,8 +27,7 @@ public class UserInfo implements Serializable {
 	@Persistent
 	private String password;
 
-	@Exclude
-	private String oldPassword;
+	private String old_password;
 
 	@Persistent
 	private String first_name;
@@ -426,19 +425,6 @@ public class UserInfo implements Serializable {
 	}
 
 	/**
-	 * @param oldPassword
-	 *            the oldPassword to set
-	 */
-	public void setOldPassword(String oldPassword) {
-		this.oldPassword = oldPassword;
-	}
-
-	/**
-	 * @return the oldPassword
-	 */
-	public String getOldPassword() {
-		return oldPassword;
-	}
 
 	/**
 	 * @param avatarLink
@@ -446,6 +432,20 @@ public class UserInfo implements Serializable {
 	 */
 	public void setAvatarLink(String avatarLink) {
 		this.avatarLink = avatarLink;
+	}
+
+	/**
+	 * @return the old_password
+	 */
+	public String getOld_password() {
+		return old_password;
+	}
+
+	/**
+	 * @param oldPassword the old_password to set
+	 */
+	public void setOld_password(String oldPassword) {
+		old_password = oldPassword;
 	}
 
 	/**
@@ -460,31 +460,48 @@ public class UserInfo implements Serializable {
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
+//	@Override
+//	public String toString() {
+//		return "UserInfo [username=" + username + ", password=" + password
+//				+ "]";
+//	}
+	
+//	public JSONObject toJSON(JSONObject json) throws JSONException {
+//		json.put("username", username);
+//		json.put("password", password);
+//		json.put("first_name", first_name);
+//		json.put("last_name", last_name);
+//		json.put("phone", phone);
+//		json.put("email", email);
+//		json.put("birthday", birthday);
+//		json.put("address", address);
+//		json.put("lat", lat);
+//		json.put("lng", lng);
+//		json.put("avatarLink", avatarLink);
+//		json.put("sum_star", sum_star);
+//		json.put("count_vote", count_vote);
+//		json.put("gmt", gmt);
+//		json.put("lang", lang);
+//		json.put("country", country);
+//		json.put("type", type);
+//		return json;
+//	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "UserInfo [username=" + username + ", password=" + password
-				+ "]";
-	}
-
-	public JSONObject toJSON(JSONObject json) throws JSONException {
-		json.put("username", username);
-		json.put("password", password);
-		json.put("first_name", first_name);
-		json.put("last_name", last_name);
-		json.put("phone", phone);
-		json.put("email", email);
-		json.put("birthday", birthday);
-		json.put("address", address);
-		json.put("lat", lat);
-		json.put("lng", lng);
-		json.put("avatarLink", avatarLink);
-		json.put("sum_star", sum_star);
-		json.put("count_vote", count_vote);
-		json.put("gmt", gmt);
-		json.put("lang", lang);
-		json.put("country", country);
-		json.put("type", type);
-		return json;
+		return "UserInfo [address=" + address + ", avatarLink=" + avatarLink
+				+ ", birthday=" + birthday + ", count_vote=" + count_vote
+				+ ", country=" + country + ", email=" + email + ", first_name="
+				+ first_name + ", fts=" + fts + ", gmt=" + gmt + ", lang="
+				+ lang + ", last_name=" + last_name + ", lat=" + lat
+				+ ", listInteredProduct=" + listInteredProduct + ", lng=" + lng
+				+ ", old_password=" + old_password + ", password=" + password
+				+ ", phone=" + phone + ", setFriendsUsername="
+				+ setFriendsUsername + ", sum_star=" + sum_star + ", type="
+				+ type + ", username=" + username + "]";
 	}
 
 	/**
@@ -499,6 +516,15 @@ public class UserInfo implements Serializable {
 	 */
 	public List<Long> getListInteredProduct() {
 		return listInteredProduct;
+	}
+	
+	public static void main(String[] args) {
+		UserInfo newUser = new UserInfo("tamvo", "tamvo", "Tam", "Vo Minh",
+				"123123123", "vo.mita.ov@gmail.com", new Date(88, 12, 22),
+				"Binh Tan district", 10.213D, 106.123123D, "");
+		
+		System.out.println(Global.gsonDateWithoutHour.toJson(newUser));
+		
 	}
 
 }

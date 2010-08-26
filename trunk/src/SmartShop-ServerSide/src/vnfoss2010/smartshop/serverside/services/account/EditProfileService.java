@@ -22,46 +22,11 @@ public class EditProfileService extends BaseRestfulService {
 	@Override
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
-		JSONObject json = null;
-		try {
-			json = new JSONObject(content);
-		} catch (Exception e) {
-		}
-
-		JSONObject jsonReturn = new JSONObject();
-
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUsername(getParameter("username", params, json));
-		userInfo.setOldPassword(getParameter("old_password", params, json));
-		userInfo.setPassword(getParameter("new_password", params, json));
-		userInfo.setFirst_name(getParameter("first_name", params, json));
-		userInfo.setLast_name(getParameter("last_name", params, json));
-		userInfo.setPhone(getParameter("phone", params, json));
-		userInfo.setEmail(getParameter("email", params, json));
-		userInfo.setAddress(getParameter("address", params, json));
-
-		Date birthday = null;
-		try {
-			birthday = Global.df.parse(getParameter("birthday", params, json));
-		} catch (Exception e) {
-		}
-		userInfo.setBirthday(birthday);
-
-		double lat = 0;
-		try {
-			lat = Double.parseDouble(getParameter("lat", params, json));
-		} catch (Exception e) {
-		}
-		userInfo.setLat(lat);
-
-		double lng = 0;
-		try {
-			lng = Double.parseDouble(getParameter("lng", params, json));
-		} catch (Exception e) {
-		}
-		userInfo.setLng(lng);
+		UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(content, UserInfo.class);
+		Global.log(null, userInfo + "");
 		AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
 
+		JSONObject jsonReturn = new JSONObject();
 		ServiceResult<Void> result = db.editProfile(userInfo);
 		if (result.isOK()) {
 			jsonReturn.put("errCode", 0);

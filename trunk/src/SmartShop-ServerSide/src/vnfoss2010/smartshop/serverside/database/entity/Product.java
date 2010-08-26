@@ -54,16 +54,23 @@ public class Product implements LocationCapable {
 
 	@Persistent
 	private double lng;
+	
+	@Persistent
+	private String description;
+	
+	@Persistent
+	private int product_view;
 
 	@Persistent
 	private String username;
 
 	@Persistent
-	private String username_buyer;
+	private List<String> listBuyers;
 
 	@Exclude
 	@Persistent
 	private Set<String> fts;
+	
 	@Persistent
 	private Set<Long> setPagesID;
 	@Persistent
@@ -90,13 +97,13 @@ public class Product implements LocationCapable {
 	}
 
 	public Product() {
-		this("", 0, false, 0, "", "", "", 0, 0, "");
-		ProductServiceImpl.updateFTSStuffForUserInfo(this);
+		this("", 0, false, 0, "", "", "", 0, 0, "", 0, "");
+		ProductServiceImpl.updateFTSStuffForProduct(this);
 	}
 
 	public Product(String name, double price, boolean isVat, int quantity,
 			String warranty, String origin, String address, double lat,
-			double lng, String username) {
+			double lng, String description, int view, String username) {
 		this.name = name;
 		this.price = price;
 		is_vat = isVat;
@@ -106,11 +113,14 @@ public class Product implements LocationCapable {
 		this.address = address;
 		this.lat = lat;
 		this.lng = lng;
+		this.description = description;
+		this.product_view = view;
 		this.username = username;
 
 		setCategoryKeys = new HashSet<String>();
 		attributeSets = new ArrayList<Attribute>();
 		setPagesID = new HashSet<Long>();
+		listBuyers = new ArrayList<String>();
 		this.fts = new HashSet<String>();
 	}
 
@@ -388,25 +398,10 @@ public class Product implements LocationCapable {
 		return date_post;
 	}
 
-	/**
-	 * @param username_buyer
-	 *            the username_buyer to set
-	 */
-	public void setUsername_buyer(String username_buyer) {
-		this.username_buyer = username_buyer;
-	}
-
-	/**
-	 * @return the username_buyer
-	 */
-	public String getUsername_buyer() {
-		return username_buyer;
-	}
-
 	public static void main(String[] args) {
 		Product product = new Product();
 		product = new Product("Nec Monitor", 123, false, 2, "12 month",
-				"China", "Binh Tan", 10.11, 106.123, "tamvo");
+				"China", "Binh Tan", 10.11, 106.123, "Man hình rất xịn" , 3, "tamvo");
 
 		product.getSetCategoryKeys().add("comp");
 
@@ -428,5 +423,54 @@ public class Product implements LocationCapable {
 	 */
 	public Set<String> getFts() {
 		return fts;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @return the product_view
+	 */
+	public int getProduct_view() {
+		return product_view;
+	}
+
+	/**
+	 * @param productView the product_view to set
+	 */
+	public void setProduct_view(int productView) {
+		product_view = productView;
+	}
+
+	/**
+	 * @param setPagesID the setPagesID to set
+	 */
+	public void setSetPagesID(Set<Long> setPagesID) {
+		this.setPagesID = setPagesID;
+	}
+
+	/**
+	 * @param listBuyers the listBuyers to set
+	 */
+	public void setListBuyers(List<String> listBuyers) {
+		this.listBuyers = listBuyers;
+	}
+
+	/**
+	 * @return the listBuyers
+	 */
+	public List<String> getListBuyers() {
+		return listBuyers;
 	}
 }

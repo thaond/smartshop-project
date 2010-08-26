@@ -44,7 +44,9 @@ import vnfoss2010.smartshop.serverside.services.map.GeocoderService;
 import vnfoss2010.smartshop.serverside.services.map.ReserveGeocoderService;
 import vnfoss2010.smartshop.serverside.services.page.CreatePageService;
 import vnfoss2010.smartshop.serverside.services.page.EditPageService;
+import vnfoss2010.smartshop.serverside.services.page.GetListPageByCriteriaService;
 import vnfoss2010.smartshop.serverside.services.page.GetPageService;
+import vnfoss2010.smartshop.serverside.services.page.SearchPageService;
 import vnfoss2010.smartshop.serverside.services.page.TagProductToPageService;
 import vnfoss2010.smartshop.serverside.services.page.UntagProductFromPageService;
 import vnfoss2010.smartshop.serverside.services.product.EditProductService;
@@ -126,37 +128,36 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("account-addfriend", AddFriendsService.class);
 		mServices.put("account-getuser", GetUserInfoService.class);
 		
+		//product
 		mServices.put("registerproduct", RegisterProductService.class);
 		mServices.put("searchproductproximity", SearchProductPromixity.class);
 		mServices.put("get-product", GetProductService.class);
 		mServices.put("editproduct", EditProductService.class);
 		mServices.put("create-page", CreatePageService.class);
-		mServices.put("product-search-criteria", GetListProductByCriteriaService.class);
+//		mServices.put("product-search-criteria", GetListProductByCriteriaService.class);
 		mServices.put("product-search-criteria-cat", GetListProductByCriteriaInCategoryService.class);
-		mServices.put("product-search", SearchProductService.class);mServices.put("product-get-buyed-product", GetBuyedProductByUserService.class);
+		mServices.put("product-search", SearchProductService.class);
+		mServices.put("product-get-buyed-product", GetBuyedProductByUserService.class);
 		mServices.put("product-get-selled-product", GetSelledProductByUserService.class);
 		mServices.put("product-get-interested-product", GetInterestedProductByUserService.class);
 
 		// page
 		mServices.put("create-page", CreatePageService.class);
-		mServices.put("edit-page", EditPageService.class);
+		mServices.put("page-edit", EditPageService.class);
 		mServices.put("get-page", GetPageService.class);
 		mServices.put("tag-product-to-page", TagProductToPageService.class);
 		mServices.put("untag-product-to-page", UntagProductFromPageService.class);
+		mServices.put("page-search", SearchProductService.class);
+		mServices.put("page-search-criteria", GetListPageByCriteriaService.class);
 
 		// comment
 		mServices.put("create-comment", CreateCommentService.class);
 		mServices.put("get-comment", GetCommentService.class);
 		mServices.put("delete-comment", DeleteCommentService.class);
+		
+		//map
 		mServices.put("map-geocoder", GeocoderService.class);
 		mServices.put("map-regeocoder", ReserveGeocoderService.class);
-		
-		// page
-		mServices.put("create-page", CreatePageService.class);
-		mServices.put("edit-page", EditPageService.class);
-		mServices.put("get-page", GetPageService.class);
-		mServices.put("tag-product-to-page", TagProductToPageService.class);
-		mServices.put("untag-product-to-page", UntagProductFromPageService.class);
 		
 		// mServices.put("sampledata", SampleDataRestfull.class);
 	}

@@ -14,7 +14,7 @@ public class CommentServiceImpl {
 	public static final String TYPE_PAGE = "page";
 	private static ProductServiceImpl dbProduct = ProductServiceImpl
 			.getInstance();
-	private static PageServiceImpl dbPage = PageServiceImpl.instance();
+	private static PageServiceImpl dbPage = PageServiceImpl.getInstance();
 
 	private static Logger log = Logger.getLogger(CommentServiceImpl.class
 			.getName());

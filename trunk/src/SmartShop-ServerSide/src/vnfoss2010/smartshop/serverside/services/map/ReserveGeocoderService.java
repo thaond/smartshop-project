@@ -42,18 +42,18 @@ public class ReserveGeocoderService extends BaseRestfulService {
 			for (String s : srcs) {
 				if (s.equals("yahoo"))
 					jsonReturn
-							.add("yahoo", Global.gson
+							.add("yahoo", Global.gsonDateWithoutHour
 									.toJsonTree(YahooPlaceFinder.geocode(req,
 											country)));
 				if (s.equals("google"))
-					jsonReturn.add("google", Global.gson
+					jsonReturn.add("google", Global.gsonDateWithoutHour
 							.toJsonTree(GoogleReserveGeocoder.regeocode(lat,
 									lng)));
 			}
 		} else {
-			jsonReturn.add("yahoo", Global.gson.toJsonTree(YahooPlaceFinder
+			jsonReturn.add("yahoo", Global.gsonDateWithoutHour.toJsonTree(YahooPlaceFinder
 					.geocode(req, country)));
-			jsonReturn.add("google", Global.gson
+			jsonReturn.add("google", Global.gsonDateWithoutHour
 					.toJsonTree(GoogleReserveGeocoder.regeocode(lat, lng)));
 		}
 

@@ -37,7 +37,7 @@ public class GetUserInfoService extends BaseRestfulService {
 		jsonReturn.addProperty("message", result.getMessage());
 		
 		if (result.isOK()){
-			jsonReturn.add("userinfo", Global.gson.toJsonTree(result.getResult()));
+			jsonReturn.add("userinfo", Global.gsonDateWithoutHour.toJsonTree(result.getResult()));
 		}
 		
 		return jsonReturn.toString();

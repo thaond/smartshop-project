@@ -12,7 +12,7 @@ import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 public class EditPageService extends BaseRestfulService {
-	PageServiceImpl dbPage = PageServiceImpl.instance();
+	PageServiceImpl dbPage = PageServiceImpl.getInstance();
 
 	public EditPageService(String serviceName) {
 		super(serviceName);

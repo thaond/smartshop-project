@@ -16,7 +16,7 @@ import com.google.gson.GsonBuilder;
 
 public class CreatePageService extends BaseRestfulService {
 	CategoryServiceImpl dbCat = CategoryServiceImpl.instance();
-	PageServiceImpl dbPage = PageServiceImpl.instance();
+	PageServiceImpl dbPage = PageServiceImpl.getInstance();
 
 	public CreatePageService(String serviceName) {
 		super(serviceName);

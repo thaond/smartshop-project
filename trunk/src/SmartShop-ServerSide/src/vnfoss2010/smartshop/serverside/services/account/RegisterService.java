@@ -1,24 +1,19 @@
 package vnfoss2010.smartshop.serverside.services.account;
 
-import java.util.Date;
 import java.util.Map;
-
-import com.google.gson.Gson;
-
-import com.google.appengine.repackaged.org.json.JSONObject;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
-import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
+import com.google.appengine.repackaged.org.json.JSONObject;
+
 public class RegisterService extends BaseRestfulService{
 	
 	private AccountServiceImpl db = AccountServiceImpl.getInstance();
-	private Gson gson = new Gson();
 
 	public RegisterService(String serviceName) {
 		super(serviceName);
@@ -27,7 +22,7 @@ public class RegisterService extends BaseRestfulService{
 	@Override
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
-		UserInfo userInfo = gson.fromJson(content, UserInfo.class);
+		UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(content, UserInfo.class);
 		AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
 		
 //		JSONObject json = null;

@@ -21,7 +21,6 @@ import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 
 import com.google.appengine.api.datastore.DatastoreNeedIndexException;
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 
 public class ProductServiceImpl {
 	private static ProductServiceImpl instance;
@@ -213,9 +212,77 @@ public class ProductServiceImpl {
 	 *            <i>Ex:</i>1,3,4
 	 * @return
 	 */
+	// @SuppressWarnings("unchecked")
+	// public ServiceResult<List<Product>> getListProductByCriteria(int maximum,
+	// int[] criterias) {
+	// ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
+	//
+	// String query = "";
+	// for (int criteria : criterias) {
+	// switch (criteria) {
+	// case 0:
+	// query += ("date_post asc ");
+	// break;
+	//
+	// case 1:
+	// query += ("date_post desc ");
+	// break;
+	//
+	// case 2:
+	// query += ("price asc ");
+	// break;
+	//
+	// case 3:
+	// query += ("price desc ");
+	// break;
+	//
+	// case 4:
+	// query += ("product_view asc ");
+	// break;
+	//
+	// case 5:
+	// query += ("product_view desc ");
+	// break;
+	//
+	// default:
+	// break;
+	// }
+	// }
+	// query = "select from " + Product.class.getName() + " order by " + query
+	// + ((maximum == 0) ? "" : (" limit " + maximum));
+	//
+	// Global.log(log, query);
+	// PersistenceManager pm = PMF.get().getPersistenceManager();
+	// List<Product> listProducts = (List<Product>) pm.newQuery(query)
+	// .execute();
+	// if (listProducts.size() > 0) {
+	// result.setOK(true);
+	// result.setMessage(Global.messages
+	// .getString("search_product_by_criteria_successfully"));
+	// result.setResult(listProducts);
+	// } else {
+	// result.setOK(false);
+	// result.setMessage(Global.messages
+	// .getString("search_product_by_criteria_fail"));
+	// }
+	//
+	// return result;
+	// }
+
+	/**
+	 * 
+	 * @param maximum
+	 *            = 0 means get as much as possible
+	 * @param criterias
+	 *            : String as list of integers, seperated by comma (|)
+	 *            <i>Ex:</i>1,3,4
+	 * @param cat_keys
+	 *            List categories you want to search in, separated by ,
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
-	public ServiceResult<List<Product>> getListProductByCriteria(int maximum,
-			int[] criterias) {
+	public ServiceResult<List<Product>> getListProductByCriteriaInCategories(
+			int maximum, int[] criterias, int status, String... cat_keys) {
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
 
 		String query = "";
@@ -237,101 +304,62 @@ public class ProductServiceImpl {
 				query += ("price desc ");
 				break;
 
-			// TODO
 			case 4:
-
+				query += ("product_view asc ");
 				break;
 
 			case 5:
-
+				query += ("product_view desc ");
+				break;
+				
+			case 6:
+				query += ("quantity asc ");
+				break;
+				
+			case 7:
+				query += ("quantity desc ");
 				break;
 
 			default:
 				break;
 			}
 		}
-		query = "select from " + Product.class.getName() + " order by " + query
-				+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+		switch (status) {
+		case 0://List all products (both sold and non-sold)
+			query = "select from " + Product.class.getName() + " order by " + query
+			+ ((maximum == 0) ? "" : (" limit " + maximum));
+			break;
+			
+		case 1: 
+			query = "select from " + Product.class.getName() + "where (quantity>0) order by " + query
+			+ ((maximum == 0) ? "" : (" limit " + maximum));
+			break;
+			
+		case 2: 
+			query = "select from " + Product.class.getName() + "where (quantity=0) order by " + query
+			+ ((maximum == 0) ? "" : (" limit " + maximum));
+			break;
+
+		default:
+			break;
+		}
+		
 
 		Global.log(log, query);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		List<Product> listProducts = (List<Product>) pm.newQuery(query)
-				.execute();
-		if (listProducts.size() > 0) {
-			result.setOK(true);
-			result.setMessage(Global.messages
-					.getString("search_product_by_criteria_successfully"));
-			result.setResult(listProducts);
+
+		Query queryObj = pm.newQuery(query);
+		queryObj.setFilter("setCategoryKeys.contains(catKey)");
+		queryObj.declareParameters("String catKey");
+
+		List<Product> listProducts = null;
+		if (cat_keys != null) {
+			listProducts = (List<Product>) queryObj.execute(Arrays
+					.asList(cat_keys));
 		} else {
-			result.setOK(false);
-			result.setMessage(Global.messages
-					.getString("search_product_by_criteria_fail"));
+			listProducts = (List<Product>) pm.newQuery(query).execute();
 		}
-
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param maximum
-	 *            = 0 means get as much as possible
-	 * @param criterias
-	 *            : String as list of integers, seperated by comma (|)
-	 *            <i>Ex:</i>1,3,4
-	 * @param cat_keys
-	 *            List categories you want to search in, separated by ,
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public ServiceResult<List<Product>> getListProductByCriteriaInCategories(
-			int maximum, int[] criterias, String... cat_keys) {
-		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
-
-		String queryString = "";
-		for (int criteria : criterias) {
-			switch (criteria) {
-			case 0:
-				queryString += ("date_post asc ");
-				break;
-
-			case 1:
-				queryString += ("date_post desc ");
-				break;
-
-			case 2:
-				queryString += ("price asc ");
-				break;
-
-			case 3:
-				queryString += ("price desc ");
-				break;
-
-			// TODO
-			case 4:
-
-				break;
-
-			case 5:
-
-				break;
-
-			default:
-				break;
-			}
-		}
-
-		queryString = "select from " + Product.class.getName() + " order by "
-				+ queryString + ((maximum == 0) ? "" : (" limit " + maximum));
-
-		Global.log(log, queryString);
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-
-		Query query = pm.newQuery(queryString);
-		query.setFilter("setCategoryKeys.contains(catKey)");
-		query.declareParameters("String catKey");
-
-		List<Product> listProducts = (List<Product>) query.execute(Arrays
-				.asList(cat_keys));
 
 		if (listProducts.size() > 0) {
 			result.setOK(true);
@@ -348,7 +376,7 @@ public class ProductServiceImpl {
 		return result;
 	}
 
-	public ServiceResult<List<Product>> searchProdcutLike(String queryString) {
+	public ServiceResult<List<Product>> searchProductLike(String queryString) {
 		queryString = DatabaseUtils.preventSQLInjection(queryString);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		StringBuffer queryBuffer = new StringBuffer();
@@ -657,7 +685,7 @@ public class ProductServiceImpl {
 		return result;
 	}
 
-	public static void updateFTSStuffForUserInfo(Product product) {
+	public static void updateFTSStuffForProduct(Product product) {
 
 		Global.log(log, "Product " + product);
 

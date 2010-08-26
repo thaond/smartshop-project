@@ -34,7 +34,7 @@ public class SearchProductService extends BaseRestfulService {
 		JsonObject jsonReturn = new JsonObject();
 		Gson gson = new Gson();
 
-		ServiceResult<List<Product>> result = db.searchProdcutLike(query);
+		ServiceResult<List<Product>> result = db.searchProductLike(query);
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());

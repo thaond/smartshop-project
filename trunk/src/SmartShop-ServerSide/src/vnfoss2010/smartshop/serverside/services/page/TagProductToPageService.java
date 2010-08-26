@@ -12,7 +12,7 @@ import vnfoss2010.smartshop.serverside.services.exception.MissingParameterExcept
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 public class TagProductToPageService extends BaseRestfulService {
-	private PageServiceImpl dbPage = PageServiceImpl.instance();
+	private PageServiceImpl dbPage = PageServiceImpl.getInstance();
 
 	public TagProductToPageService(String serviceName) {
 		super(serviceName);

@@ -38,15 +38,17 @@ public abstract class Global {
 	public static final String GOOGLE_APP_ID = "VFv3MmLV34EjL9IdhgJeiiS9024qwIYt6HwMOWwoIG69CZ0kJDyi2lHprgwSoAtnvg--";
 	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;
 	public static final int MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX = 200;
-	public static final Gson gson = new GsonBuilder().setDateFormat(
-			NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
+	public static final Gson gsonDateWithoutHour = new GsonBuilder()
+			.setDateFormat(NORMAL_DATE).excludeFieldsWithExcludeAnnotation()
 			.create();
 	public static final Gson gsonWithDate = new GsonBuilder().setDateFormat(
-			NORMAL_DATE_WITH_HOUR).create();
+			NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
+			.create();
+	
+	private static Logger log = Logger.getLogger(Global.class.getName());
 
 	public static final String[][] LANGUAGE = new String[][] {
 			{ "vi", "Ti\u1EBFng Vi\u1EC7t" }, { "en", "English" } };
-
 
 	public static final LinkedHashMap<String, String> COUNTRIES_NAME;
 	static {
@@ -186,6 +188,8 @@ public abstract class Global {
 	}
 
 	public static void log(Logger log, Object message) {
+		if (log == null)
+			log = Global.log;
 		log.log(Level.SEVERE, message.toString());
 	}
 

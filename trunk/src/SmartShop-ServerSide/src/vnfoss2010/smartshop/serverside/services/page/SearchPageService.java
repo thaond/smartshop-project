@@ -1,21 +1,26 @@
-package vnfoss2010.smartshop.serverside.services.account;
+package vnfoss2010.smartshop.serverside.services.page;
 
+import java.util.List;
 import java.util.Map;
 
-import vnfoss2010.smartshop.serverside.Global;
-import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
+import vnfoss2010.smartshop.serverside.database.PageServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
-import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
+import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-public class LoginService extends BaseRestfulService {
-	AccountServiceImpl db = AccountServiceImpl.getInstance();
+/**
+ * 
+ * @author VoMinhTam
+ */
+public class SearchPageService extends BaseRestfulService {
+	PageServiceImpl db = PageServiceImpl.getInstance();
 
-	public LoginService(String serviceName) {
+	public SearchPageService(String serviceName) {
 		super(serviceName);
 	}
 
@@ -28,17 +33,17 @@ public class LoginService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 		
-		String username = getParameter("username", params, json);
-		String password = getParameter("password", params, json);
+		String query = getParameter("q", params, json);
 
 		JsonObject jsonReturn = new JsonObject();
+		Gson gson = new Gson();
 
-		ServiceResult<UserInfo> result = db.login(username, password);
+		ServiceResult<List<Page>> result = db.searchPageLike(query);
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());
 			
-			jsonReturn.add("userinfo", Global.gsonDateWithoutHour.toJsonTree(result.getResult()));
+			jsonReturn.add("pages", gson.toJsonTree(result.getResult()));
 		} else {
 			jsonReturn.addProperty("errCode", 1);
 			jsonReturn.addProperty("message", result.getMessage());

@@ -71,6 +71,13 @@ public class AccountServiceImpl extends HttpServlet {
 			return result;
 		}
 
+		if (userInfo.getPassword() == null
+				|| userInfo.getPassword().length() < 6) {
+			result.setMessage(Global.messages
+					.getString("password_length_at_least_6_characters"));
+			return result;
+		}
+
 		try {
 			UserInfo tmp = null;
 			boolean isNotFound = false;
@@ -86,8 +93,12 @@ public class AccountServiceImpl extends HttpServlet {
 				userInfo.setPassword(DatabaseUtils.md5(userInfo.getPassword()));
 				pm.makePersistent(userInfo);
 				result.setOK(true);
+				result.setMessage(Global.messages
+						.getString("register_successfully"));
 			} else {
 				result.setOK(false);
+				result.setMessage(Global.messages
+						.getString("username_already_exist"));
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -146,7 +157,8 @@ public class AccountServiceImpl extends HttpServlet {
 				pm.close();
 			} catch (Exception ex) {
 				result.setOK(false);
-				result.setMessage(Global.messages.getString("get_userinfo_fail"));
+				result.setMessage(Global.messages
+						.getString("get_userinfo_fail"));
 				log.log(Level.SEVERE, ex.getMessage(), ex);
 			}
 		}
@@ -183,13 +195,19 @@ public class AccountServiceImpl extends HttpServlet {
 			} else {
 				if (userInfo.getPassword() != null
 						&& userInfo.getPassword().toString().length() > 0
-						&& !userInfo.getPassword().equals(
-								userInfo.getOldPassword())) {
+						&& !tmp.getPassword().equals(
+								DatabaseUtils.md5(userInfo.getOld_password()))) {
+					// Intent to change password
 					result.setMessage(Global.messages
 							.getString("password_doesnot_match"));
+				} else if (userInfo.getPassword() == null
+						|| userInfo.getPassword().length() < 6) {
+					result
+							.setMessage(Global.messages
+									.getString("password_length_at_least_6_characters"));
+					return result;
 				} else {
-					if (userInfo.getPassword()
-							.equals(userInfo.getOldPassword())) {
+					if (userInfo.getPassword().length() > 0) {
 						tmp.setPassword(DatabaseUtils.md5(userInfo
 								.getPassword()));
 					}
@@ -208,6 +226,7 @@ public class AccountServiceImpl extends HttpServlet {
 
 					pm.refresh(tmp);
 					result.setOK(true);
+					result.setMessage(Global.messages.getString("edit_profile_successfully"));
 				}
 			}
 		} catch (Exception ex) {

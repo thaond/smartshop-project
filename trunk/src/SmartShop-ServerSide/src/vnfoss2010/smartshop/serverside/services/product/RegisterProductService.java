@@ -41,7 +41,7 @@ public class RegisterProductService extends BaseRestfulService {
 		}
 		Gson gson = new Gson();
 		Product product = gson.fromJson(content, Product.class);
-		ProductServiceImpl.updateFTSStuffForUserInfo(product);
+		ProductServiceImpl.updateFTSStuffForProduct(product);
 		ServiceResult<Set<Category>> listCategories = dbcat
 				.findCategories(product.getSetCategoryKeys());
 		if (listCategories.isOK() == false) {
