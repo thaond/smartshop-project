@@ -2,7 +2,7 @@ package com.appspot.smartshop.mock;
 
 import com.appspot.smartshop.dom.CategoryInfo;
 
-public class MockSearchByCategory {
+public class MockCategory {
 	public static CategoryInfo getInstance() {
 		String[] parentCategory = { "Áo quần", "Giày dép", "Mỹ phẩm",
 				"Váy dự tiệc" };

@@ -115,7 +115,7 @@ public class MapService {
 		};
 		
 		// return direction result
-		RestClient.loadData(url, directionParser);
+		RestClient.getData(url, directionParser);
 		return directionParser.result;
 	}
 	
