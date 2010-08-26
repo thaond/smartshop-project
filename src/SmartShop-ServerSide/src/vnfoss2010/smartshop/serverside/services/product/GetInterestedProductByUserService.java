@@ -13,7 +13,6 @@ import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class GetInterestedProductByUserService extends BaseRestfulService {
@@ -45,13 +44,12 @@ public class GetInterestedProductByUserService extends BaseRestfulService {
 		ServiceResult<List<Product>> productResult = dbProduct.getListInterestedProductsByUsername(username, limit);
 
 		JsonObject jsonReturn = new JsonObject();
-		Gson gson = new Gson();
 
 		jsonReturn.addProperty("errCode", productResult.isOK()?0:1);
 		jsonReturn.addProperty("message", productResult.getMessage());
 		
 		if (productResult.isOK() == true) {
-			jsonReturn.add("products", Global.gson.toJsonTree(productResult.getResult()));
+			jsonReturn.add("products", Global.gsonDateWithoutHour.toJsonTree(productResult.getResult()));
 		}
 
 		Global.log(log, jsonReturn.toString());

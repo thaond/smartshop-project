@@ -36,13 +36,13 @@ public class GeocoderService extends BaseRestfulService{
 			String[] srcs = src.split(",");
 			for (String s : srcs){
 				if (s.equals("yahoo"))
-					jsonReturn.add("yahoo", Global.gson.toJsonTree(YahooPlaceFinder.geocode(adr, country)));
+					jsonReturn.add("yahoo", Global.gsonDateWithoutHour.toJsonTree(YahooPlaceFinder.geocode(adr, country)));
 				if (s.equals("google"))
-					jsonReturn.add("google", Global.gson.toJsonTree(YahooPlaceFinder.geocode(adr, country)));
+					jsonReturn.add("google", Global.gsonDateWithoutHour.toJsonTree(YahooPlaceFinder.geocode(adr, country)));
 			}
 		}else{
-			jsonReturn.add("yahoo", Global.gson.toJsonTree(YahooPlaceFinder.geocode(adr, country)));
-			jsonReturn.add("google", Global.gson.toJsonTree(YahooPlaceFinder.geocode(adr, country)));
+			jsonReturn.add("yahoo", Global.gsonDateWithoutHour.toJsonTree(YahooPlaceFinder.geocode(adr, country)));
+			jsonReturn.add("google", Global.gsonDateWithoutHour.toJsonTree(YahooPlaceFinder.geocode(adr, country)));
 		}
 		
 		return jsonReturn.toString();

@@ -25,7 +25,7 @@ public class Comment {
 	@Persistent
 	private String username;
 	@Persistent
-	private Date datePost;
+	private Date date_post;
 
 	public Comment() {
 	}
@@ -148,11 +148,11 @@ public class Comment {
 	}
 
 	public Date getDatePost() {
-		return datePost;
+		return date_post;
 	}
 
 	public void setDatePost(Date datePost) {
-		this.datePost = datePost;
+		this.date_post = datePost;
 	}
 
 	/*

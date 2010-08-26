@@ -37,7 +37,7 @@ public class GetCommentService extends BaseRestfulService {
 				commentType);
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
-			jsonReturn.add("comments", Global.gson.toJsonTree(result
+			jsonReturn.add("comments", Global.gsonDateWithoutHour.toJsonTree(result
 					.getResult()));
 		} else {
 			jsonReturn.addProperty("errCode", 1);

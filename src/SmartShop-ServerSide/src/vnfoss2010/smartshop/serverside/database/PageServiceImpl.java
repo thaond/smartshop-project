@@ -1,15 +1,26 @@
 package vnfoss2010.smartshop.serverside.database;
 
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 
+import com.google.appengine.api.datastore.DatastoreNeedIndexException;
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
+
 public class PageServiceImpl {
 	private static PageServiceImpl instance;
+
+	private final static Logger log = Logger.getLogger(ProductServiceImpl.class
+			.getName());
 
 	private PageServiceImpl() {
 	}
@@ -46,6 +57,7 @@ public class PageServiceImpl {
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
+			updateFTSStuffForPage(page);
 			page = pm.makePersistent(page);
 			if (page == null) {
 				result.setMessage("khong the insert page");
@@ -160,7 +172,163 @@ public class PageServiceImpl {
 		return result;
 	}
 
-	public static PageServiceImpl instance() {
+	public ServiceResult<List<Page>> searchPageLike(String queryString) {
+		queryString = DatabaseUtils.preventSQLInjection(queryString);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		StringBuffer queryBuffer = new StringBuffer();
+		queryBuffer.append("SELECT FROM " + Page.class.getName() + " WHERE ");
+		Set<String> queryTokens = SearchJanitorUtils
+				.getTokensForIndexingOrQuery(queryString,
+						Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+		List<String> parametersForSearch = new ArrayList<String>(queryTokens);
+		StringBuffer declareParametersBuffer = new StringBuffer();
+		int parameterCounter = 0;
+
+		while (parameterCounter < queryTokens.size()) {
+			queryBuffer.append("fts == param" + parameterCounter);
+			declareParametersBuffer.append("String param" + parameterCounter);
+
+			if (parameterCounter + 1 < queryTokens.size()) {
+				queryBuffer.append(" && ");
+				declareParametersBuffer.append(", ");
+			}
+			parameterCounter++;
+		}
+
+		Query query = pm.newQuery(queryBuffer.toString());
+		query.declareParameters(declareParametersBuffer.toString());
+
+		List<Page> listPages = null;
+		ServiceResult<List<Page>> result = new ServiceResult<List<Page>>();
+
+		try {
+			listPages = (List<Page>) query.executeWithArray(parametersForSearch
+					.toArray());
+
+			// TODO return basic information
+			if (listPages.size() > 0) {
+				result.setResult(listPages);
+				result.setOK(true);
+				result.setMessage(Global.messages
+						.getString("search_page_by_query_successfully"));
+			} else {
+				result.setOK(false);
+				result.setMessage(Global.messages
+						.getString("search_page_by_query_fail"));
+			}
+		} catch (DatastoreTimeoutException e) {
+			log.severe(e.getMessage());
+			log.severe("datastore timeout at: " + queryString);// +
+			result.setOK(false);
+			result.setMessage(Global.messages.getString("have_problem"));
+			// " - timestamp: "
+			// +
+			// discreteTimestamp);
+		} catch (DatastoreNeedIndexException e) {
+			log.severe(e.getMessage());
+			log.severe("datastore need index exception at: " + queryString);// +
+			result.setOK(false);
+			result.setMessage(Global.messages.getString("have_problem"));
+			// " - timestamp: "
+			// +
+			// discreteTimestamp);
+		}
+
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ServiceResult<List<Page>> getListPageByCriteria(int maximum,
+			int[] criterias, String... cat_keys) {
+		ServiceResult<List<Page>> result = new ServiceResult<List<Page>>();
+
+		String query = "";
+		for (int criteria : criterias) {
+			switch (criteria) {
+			case 0:
+				query += ("date_post asc ");
+				break;
+
+			case 1:
+				query += ("date_post desc ");
+				break;
+
+			case 2:
+				query += ("last_modified asc ");
+				break;
+
+			case 3:
+				query += ("last_modified desc ");
+				break;
+
+			case 4:
+				query += ("page_view asc ");
+				break;
+
+			case 5:
+				query += ("page_view desc ");
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		query = "select from " + Page.class.getName() + " order by " + query
+				+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+		Global.log(log, query);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		Query queryObj = pm.newQuery(query);
+		queryObj.setFilter("setCategoryKeys.contains(catKey)");
+		queryObj.declareParameters("String catKey");
+
+		List<Page> listProducts = null;
+		if (cat_keys != null) {
+			listProducts = (List<Page>) queryObj.execute(Arrays
+					.asList(cat_keys));
+		} else {
+			listProducts = (List<Page>) pm.newQuery(query).execute();
+		}
+
+		if (listProducts.size() > 0) {
+			result.setOK(true);
+			result
+					.setMessage(Global.messages
+							.getString("search_product_by_criteria_in_cat_successfully"));
+			result.setResult(listProducts);
+		} else {
+			result.setOK(false);
+			result.setMessage(Global.messages
+					.getString("search_product_by_criteria_in_cat_fail"));
+		}
+
+		return result;
+	}
+
+	public static void preventSQLInjPage(Page page) {
+		page.setName(DatabaseUtils.preventSQLInjection(page.getName()));
+		page.setContent(DatabaseUtils.preventSQLInjection(page.getContent()));
+	}
+
+	public static void updateFTSStuffForPage(Page page) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(page.getName() + " " + page.getContent());
+
+		Set<String> new_ftsTokens = SearchJanitorUtils
+				.getTokensForIndexingOrQuery(sb.toString(),
+						Global.MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX);
+
+		Set<String> ftsTokens = page.getFts();
+		ftsTokens.clear();
+
+		for (String token : new_ftsTokens) {
+			ftsTokens.add(token);
+		}
+	}
+
+	public static PageServiceImpl getInstance() {
 		if (instance == null) {
 			instance = new PageServiceImpl();
 		}

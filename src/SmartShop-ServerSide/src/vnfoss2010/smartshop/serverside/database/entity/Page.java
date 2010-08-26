@@ -9,6 +9,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.gson.annotations.Exclude;
+
 @PersistenceCapable
 public class Page {
 	@PrimaryKey
@@ -29,12 +31,16 @@ public class Page {
 
 	@Persistent
 	private Date date_post;
-
+	
 	@Persistent
 	private Date last_modified;
 
 	@Persistent
 	private String username;
+	
+	@Exclude
+	@Persistent
+	private Set<String> fts;
 
 	@Persistent
 	private Set<String> setCategoryKeys;
@@ -249,4 +255,17 @@ public class Page {
 				+ username + "]";
 	}
 
+	/**
+	 * @param fts the fts to set
+	 */
+	public void setFts(Set<String> fts) {
+		this.fts = fts;
+	}
+
+	/**
+	 * @return the fts
+	 */
+	public Set<String> getFts() {
+		return fts;
+	}
 }

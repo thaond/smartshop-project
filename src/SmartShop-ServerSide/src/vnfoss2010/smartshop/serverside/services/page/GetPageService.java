@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class GetPageService extends BaseRestfulService {
-	private PageServiceImpl dbPage = PageServiceImpl.instance();
+	private PageServiceImpl dbPage = PageServiceImpl.getInstance();
 	private CategoryServiceImpl dbCat = CategoryServiceImpl.instance();
 
 	public GetPageService(String serviceName) {
@@ -34,7 +34,7 @@ public class GetPageService extends BaseRestfulService {
 			json = new JSONObject(content);
 		} catch (Exception e) {
 		}
-		Gson gson = Global.gson;
+		Gson gson = Global.gsonDateWithoutHour;
 		Long id = Long.parseLong(getParameterWithThrow("id", params, json));
 
 		ServiceResult<Page> pageResult = dbPage.findPage(id);

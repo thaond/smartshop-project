@@ -16,6 +16,10 @@ import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+@Deprecated
+/**
+ * Please use {@link GetListProductByCriteriaInCategoryService} instead
+ */
 public class GetListProductByCriteriaService extends BaseRestfulService {
 
 	ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
@@ -43,13 +47,19 @@ public class GetListProductByCriteriaService extends BaseRestfulService {
 		}
 		
 		String criterias = getParameter("criterias", params, json);
+		int status = 0;
+		try {
+			status = Integer.parseInt(getParameter("status", params, json));
+		} catch (Exception e) {
+		}
+		
 		String[] arr = criterias.split(",");
 		int[] criteriaIDs = new int[arr.length];
 		for (int i=0;i<criteriaIDs.length;i++){
 			criteriaIDs[i] = Integer.parseInt(arr[i].trim());
 		}
 		
-		ServiceResult<List<Product>> result  = dbProduct.getListProductByCriteria(maximum, criteriaIDs);
+		ServiceResult<List<Product>> result  = dbProduct.getListProductByCriteriaInCategories(maximum, criteriaIDs, status);
 		JsonObject jsonReturn = new JsonObject();
 		
 		jsonReturn.addProperty("errCode", result.isOK() ? 0 : 1);

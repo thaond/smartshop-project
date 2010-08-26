@@ -21,9 +21,13 @@ public class Category {
 	
 	@Persistent
 	private List<Long> listPages;
+	
+	@Persistent
+	private List<Long> listProducts;
 	 
 	public Category(){
-		setListPages(new ArrayList<Long>());
+		listPages = new ArrayList<Long>();
+		listProducts = new ArrayList<Long>();
 	}
 
 	public Category(String key_cat,String name, String parentId) {
@@ -127,6 +131,20 @@ public class Category {
 	 */
 	public List<Long> getListPages() {
 		return listPages;
+	}
+
+	/**
+	 * @param listProducts the listProducts to set
+	 */
+	public void setListProducts(List<Long> listProducts) {
+		this.listProducts = listProducts;
+	}
+
+	/**
+	 * @return the listProducts
+	 */
+	public List<Long> getListProducts() {
+		return listProducts;
 	}
 	
 }

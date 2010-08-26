@@ -14,7 +14,7 @@ import vnfoss2010.smartshop.serverside.services.exception.MissingParameterExcept
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 public class UntagProductFromPageService extends BaseRestfulService {
-	PageServiceImpl dbPage = PageServiceImpl.instance();
+	PageServiceImpl dbPage = PageServiceImpl.getInstance();
 
 	public UntagProductFromPageService(String serviceName) {
 		super(serviceName);
