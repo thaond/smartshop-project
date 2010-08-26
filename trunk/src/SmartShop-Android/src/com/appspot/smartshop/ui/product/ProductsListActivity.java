@@ -92,20 +92,21 @@ public class ProductsListActivity extends MapActivity implements
 				switch (productsMode) {
 				case BEST_SELLER_PRODUCTS:
 					// TODO (vanloi999): request best seller products list
-					productAdapter.add(new ProductInfo("Best Seller", 1000, " Tào Lao"));
+					
+					products.add(new ProductInfo("Best Seller", 1000, " Tào Lao"));
 					
 					break;
 					
 				case CHEAPEST_PRODUCTS:
 					// TODO (vanloi999): request  products listsort by price
 
-					productAdapter.add(new ProductInfo("CHEAPEST_PRODUCTS", 1000, " Tào Lao"));
+					products.add(new ProductInfo("CHEAPEST_PRODUCTS", 1000, " Tào Lao"));
 					break;
 					
 				case NEWEST_PRODUCTS:
 					// TODO (vanloi999): request products list sort by date
 
-					productAdapter.add(new ProductInfo("NEWEST_PRODUCTS", 1000, " Tào Lao"));
+					products.add(new ProductInfo("NEWEST_PRODUCTS", 1000, " Tào Lao"));
 					
 					break;
 

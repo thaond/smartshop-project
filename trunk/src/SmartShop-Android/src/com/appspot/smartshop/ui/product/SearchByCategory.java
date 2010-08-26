@@ -31,7 +31,7 @@ public class SearchByCategory extends ExpandableListActivity {
 		
 		// TODO (vanloi999): type (page or product)
 		type = getIntent().getExtras().getInt(Global.TYPE);
-		// ge
+
 		Bundle bundle = getIntent().getExtras();
 		CategoryInfo categoryInfo = (CategoryInfo) bundle
 				.get(Global.CATEGORY_INFO);
