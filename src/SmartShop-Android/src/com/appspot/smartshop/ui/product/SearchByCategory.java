@@ -1,12 +1,9 @@
 package com.appspot.smartshop.ui.product;
 
 import android.app.ExpandableListActivity;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
@@ -36,6 +34,8 @@ public class SearchByCategory extends ExpandableListActivity {
 	ExpandableListAdapter mAdapter;
 	private int type;
 	public String childSeledted = "";
+	ExpandableListView expandableListView;
+	Button btnSearchCategory;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,34 +43,45 @@ public class SearchByCategory extends ExpandableListActivity {
 
 		// TODO (vanloi999): type (page or product)
 		// type = getIntent().getExtras().getInt(Global.TYPE);
-
+		setContentView(R.layout.search_by_category);
+		expandableListView = (ExpandableListView) findViewById(R.id.listCategory);
+		btnSearchCategory = (Button) findViewById(R.id.btnSearchByCategory);
+		btnSearchCategory.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Log.d("Child Item Seledted",childSeledted);
+				
+			}
+		});
 		Bundle bundle = getIntent().getExtras();
 		CategoryInfo categoryInfo = (CategoryInfo) bundle
 				.get(Global.CATEGORY_INFO);
 		String[] groups = categoryInfo.parentCategory;
 		String[][] children = categoryInfo.childrenCategory;
 		// Set up our adapter
-
+		
 		mAdapter = new MyExpandableListAdapter(groups, children);
 			
-		setListAdapter(mAdapter);
+		expandableListView.setAdapter(mAdapter);
 		registerForContextMenu(getExpandableListView());
 	}
-	public final static int MENU_SEARCH_BY_CATEGORY =0;
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, MENU_SEARCH_BY_CATEGORY, 0, R.string.search_by_categories).setIcon(R.drawable.category);
-		return super.onCreateOptionsMenu(menu);
-	}
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
-			case MENU_SEARCH_BY_CATEGORY:
-				//TODO: vanloi999 process the result that user selected in child category
-				Log.d("Child Item Seledted",childSeledted);
-		}
-		return super.onOptionsItemSelected(item);
-	}
+//	public final static int MENU_SEARCH_BY_CATEGORY =0;
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		menu.add(0, MENU_SEARCH_BY_CATEGORY, 0, R.string.search_by_categories).setIcon(R.drawable.category);
+//		return super.onCreateOptionsMenu(menu);
+//	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		switch(item.getItemId()){
+//			case MENU_SEARCH_BY_CATEGORY:
+//				//TODO: vanloi999 process the result that user selected in child category
+//				Log.d("Child Item Seledted",childSeledted);
+//		}
+//		return super.onOptionsItemSelected(item);
+//	}
+	
 
 	/**
 	 * A simple adapter which maintains an ArrayList of photo resource Ids. Each
