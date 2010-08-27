@@ -41,6 +41,8 @@ import vnfoss2010.smartshop.serverside.services.comment.GetCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.GetCommentsByUsernameService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
+import vnfoss2010.smartshop.serverside.services.mail.SendEmailService;
+import vnfoss2010.smartshop.serverside.services.mail.SendEmailToAdminService;
 import vnfoss2010.smartshop.serverside.services.map.DirectionService;
 import vnfoss2010.smartshop.serverside.services.map.GeocoderService;
 import vnfoss2010.smartshop.serverside.services.map.ReserveGeocoderService;
@@ -178,6 +180,10 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("map-geocoder", GeocoderService.class);
 		mServices.put("map-regeocoder", ReserveGeocoderService.class);
 		mServices.put("map-direction", DirectionService.class);
+		
+		//mail
+		mServices.put("mail-send-to-admin", SendEmailToAdminService.class);
+		mServices.put("mail-send", SendEmailService.class);
 		
 		// mServices.put("sampledata", SampleDataRestfull.class);
 	}
