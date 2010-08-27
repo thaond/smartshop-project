@@ -5,9 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -16,14 +13,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.dom.CategoryInfo;
-import com.google.android.maps.MapView.LayoutParams;
 
 /**
  * Demonstrates expandable lists using a custom {@link ExpandableListAdapter}
@@ -34,7 +28,6 @@ public class SearchByCategory extends ExpandableListActivity {
 	ExpandableListAdapter mAdapter;
 	private String type;
 	public String childSeledted = "";
-	ExpandableListView expandableListView;
 	Button btnSearchCategory;
 
 	@Override
@@ -47,14 +40,13 @@ public class SearchByCategory extends ExpandableListActivity {
 		// TODO (vanloi999): type (page or product)
 		// type = getIntent().getExtras().getInt(Global.TYPE);
 		setContentView(R.layout.search_by_category);
-		expandableListView = (ExpandableListView) findViewById(R.id.listCategory);
 		btnSearchCategory = (Button) findViewById(R.id.btnSearchByCategory);
 		btnSearchCategory.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Log.d("Child Item Seledted",childSeledted);
-				
+				Log.d("Child Item Seledted", childSeledted);
+
 			}
 		});
 		Bundle bundle = getIntent().getExtras();
@@ -63,28 +55,29 @@ public class SearchByCategory extends ExpandableListActivity {
 		String[] groups = categoryInfo.parentCategory;
 		String[][] children = categoryInfo.childrenCategory;
 		// Set up our adapter
-		
+
 		mAdapter = new MyExpandableListAdapter(groups, children);
-			
-		expandableListView.setAdapter(mAdapter);
+
+		setListAdapter(mAdapter);
 		registerForContextMenu(getExpandableListView());
 	}
-//	public final static int MENU_SEARCH_BY_CATEGORY =0;
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		menu.add(0, MENU_SEARCH_BY_CATEGORY, 0, R.string.search_by_categories).setIcon(R.drawable.category);
-//		return super.onCreateOptionsMenu(menu);
-//	}
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		switch(item.getItemId()){
-//			case MENU_SEARCH_BY_CATEGORY:
-//				//TODO: vanloi999 process the result that user selected in child category
-//				Log.d("Child Item Seledted",childSeledted);
-//		}
-//		return super.onOptionsItemSelected(item);
-//	}
-	
+
+	// public final static int MENU_SEARCH_BY_CATEGORY =0;
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu) {
+	// menu.add(0, MENU_SEARCH_BY_CATEGORY, 0,
+	// R.string.search_by_categories).setIcon(R.drawable.category);
+	// return super.onCreateOptionsMenu(menu);
+	// }
+	// @Override
+	// public boolean onOptionsItemSelected(MenuItem item) {
+	// switch(item.getItemId()){
+	// case MENU_SEARCH_BY_CATEGORY:
+	// //TODO: vanloi999 process the result that user selected in child category
+	// Log.d("Child Item Seledted",childSeledted);
+	// }
+	// return super.onOptionsItemSelected(item);
+	// }
 
 	/**
 	 * A simple adapter which maintains an ArrayList of photo resource Ids. Each
@@ -134,17 +127,19 @@ public class SearchByCategory extends ExpandableListActivity {
 			final TextView txtView = (TextView) convertView
 					.findViewById(R.id.txtchildCategory);
 			txtView.setText(children[groupPosition][childPosition]);
-			final CheckBox ch1 = (CheckBox) convertView.findViewById(R.id.checkBox);
+			final CheckBox ch1 = (CheckBox) convertView
+					.findViewById(R.id.checkBox);
 			ch1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				
+
 				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
 					if (ch1.isChecked()) {
-						if(childSeledted.length()==0){
+						if (childSeledted.length() == 0) {
 							childSeledted += (String) txtView.getText();
-						}else{
+						} else {
 							childSeledted += ", " + (String) txtView.getText();
-							//TODO: vanloi999 post request to server
+							// TODO: vanloi999 post request to server
 						}
 						Log.d("TAG", childSeledted);
 					}
