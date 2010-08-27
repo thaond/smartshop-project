@@ -132,9 +132,10 @@ public class MainActivity extends TabActivity {
 			break;
 
 		case MENU_SEARCH_BY_CATEGORIES:
-			intent = new Intent(this, SearchByCategory.class);
+			intent = new Intent(MainActivity.this, SearchByCategory.class);
 			// TODO (vanloi999): category of page of product
 			intent.putExtra(Global.TYPE, type);
+			//startActivity(intent);
 			break;
 		}
 

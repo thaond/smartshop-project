@@ -6,9 +6,9 @@
 	<LinearLayout android:orientation="horizontal"
 		android:layout_width="fill_parent" android:layout_height="wrap_content">
 		<Button android:id="@+id/btnAdd" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="Add more attribute" />
-		<Button android:id="@+id/btnClear" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="Clear" />
+			android:layout_height="wrap_content" android:text="@string/moreAttribute" />
+		<Button android:id="@+id/btnSelect" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/lblOk" />
 	</LinearLayout>
 	<FrameLayout android:layout_width="fill_parent"
 		android:layout_height="0dip" android:layout_weight="1">

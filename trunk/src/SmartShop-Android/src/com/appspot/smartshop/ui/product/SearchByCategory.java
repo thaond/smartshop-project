@@ -3,18 +3,23 @@ package com.appspot.smartshop.ui.product;
 import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.dom.CategoryInfo;
-import com.appspot.smartshop.utils.Global;
+import com.google.android.maps.MapView.LayoutParams;
 
 /**
  * Demonstrates expandable lists using a custom {@link ExpandableListAdapter}
@@ -24,13 +29,14 @@ public class SearchByCategory extends ExpandableListActivity {
 
 	ExpandableListAdapter mAdapter;
 	private int type;
+	public String childSeledted = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// TODO (vanloi999): type (page or product)
-		type = getIntent().getExtras().getInt(Global.TYPE);
+		// type = getIntent().getExtras().getInt(Global.TYPE);
 
 		Bundle bundle = getIntent().getExtras();
 		CategoryInfo categoryInfo = (CategoryInfo) bundle
@@ -40,8 +46,11 @@ public class SearchByCategory extends ExpandableListActivity {
 		// Set up our adapter
 
 		mAdapter = new MyExpandableListAdapter(groups, children);
+			
 		setListAdapter(mAdapter);
 		registerForContextMenu(getExpandableListView());
+		
+	
 	}
 
 	/**
@@ -51,8 +60,8 @@ public class SearchByCategory extends ExpandableListActivity {
 	 * 
 	 */
 	public class MyExpandableListAdapter extends BaseExpandableListAdapter {
-		// TODO: condohero01: Load category from database and put it into groups
-		// and chldren
+		// TODO: vanloi999 Load category from database and put it into groups
+		// and children
 		public String[] groups;
 		public String[][] children;
 
@@ -78,7 +87,8 @@ public class SearchByCategory extends ExpandableListActivity {
 			LayoutInflater inflater = (LayoutInflater) getBaseContext()
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View view = inflater.inflate(R.layout.parent_category, null);
-			TextView textView = (TextView)view.findViewById(R.id.txtParentCategory);
+			TextView textView = (TextView) view
+					.findViewById(R.id.txtParentCategory);
 			textView.setText(groups[groupPosition]);
 			return view;
 		}
@@ -87,25 +97,23 @@ public class SearchByCategory extends ExpandableListActivity {
 				boolean isLastChild, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) getBaseContext()
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View view = inflater.inflate(R.layout.child_category, null);
-			final TextView txtView = (TextView) view
+			convertView = inflater.inflate(R.layout.child_category, null);
+			final TextView txtView = (TextView) convertView
 					.findViewById(R.id.txtchildCategory);
 			txtView.setText(children[groupPosition][childPosition]);
-			final CheckBox ch1 = (CheckBox) view.findViewById(R.id.checkBox);
-			view.setOnClickListener(new OnClickListener() {
-
+			final CheckBox ch1 = (CheckBox) convertView.findViewById(R.id.checkBox);
+			ch1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				
 				@Override
-				public void onClick(View v) {
-					// TODO: condohero01: process checkbox
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (ch1.isChecked()) {
-						txtView.setText("is Clicked");
-					} else {
-						txtView.setText("is not Clicked");
+						childSeledted += (String) txtView.getText();
+						//TODO: vanloi999 post request to server
+						Log.d("TAG", childSeledted);
 					}
 				}
 			});
-
-			return view;
+			return convertView;
 		}
 
 		public Object getGroup(int groupPosition) {

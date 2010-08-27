@@ -58,11 +58,12 @@
 	<string name="addressOfProduct">Địa chỉ</string>
 	<string name="latOfProduct">Vĩ độ</string>
 	<string name="lngOfProduct">Kinh độ</string>
-	<string name="userDefineAttribute">name of attribute</string>
-	<string name="chooseDatePost">Choose Date</string>
+	<string name="userDefineAttribute">tên của thuộc tính</string>
+	<string name="chooseDatePost">Chọn ngày</string>
+	<string name="moreAttribute">Thêm thuộc tính</string>
 	<!-- View Product Form -->
 	<string name="userName">Username</string>
-
+	
 	<!-- Dialog -->
 	<string name="btnShowDirectionOnMap">Xem trên bản đồ</string>
 
