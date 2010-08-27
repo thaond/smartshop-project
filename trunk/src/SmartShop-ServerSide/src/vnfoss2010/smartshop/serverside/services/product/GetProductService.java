@@ -20,7 +20,7 @@ import com.google.gson.JsonObject;
 
 public class GetProductService extends BaseRestfulService {
 	ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
-	CategoryServiceImpl dbCategory = CategoryServiceImpl.instance();
+	CategoryServiceImpl dbCategory = CategoryServiceImpl.getInstance();
 
 	private final static Logger log = Logger.getLogger(AccountServiceImpl.class
 			.getName());

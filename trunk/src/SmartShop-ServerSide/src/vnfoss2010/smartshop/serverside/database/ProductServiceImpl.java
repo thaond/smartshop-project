@@ -30,6 +30,7 @@ public class ProductServiceImpl {
 			.getName());
 
 	private ProductServiceImpl() {
+		instance = this;
 	}
 
 	// PRODUCT
@@ -198,10 +199,6 @@ public class ProductServiceImpl {
 			instance = new ProductServiceImpl();
 		}
 		return instance;
-	}
-
-	enum SearchCriteria {
-		DATE_POST_ASC, DATE_POST_DESC, PRICE_ASC, PRICE_DESC, NUM_BUYER_ASC, NUM_BUYER_DESC
 	}
 
 	/**

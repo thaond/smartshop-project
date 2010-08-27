@@ -25,6 +25,10 @@ public class CommentServiceImpl {
 	private static Logger log = Logger.getLogger(CommentServiceImpl.class
 			.getName());
 
+	public CommentServiceImpl() {
+		instance = this;
+	}
+	
 	public ServiceResult<Long> insertComment(Comment comment) {
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();

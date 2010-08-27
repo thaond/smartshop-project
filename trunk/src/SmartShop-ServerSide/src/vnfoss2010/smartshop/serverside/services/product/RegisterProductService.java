@@ -22,7 +22,7 @@ public class RegisterProductService extends BaseRestfulService {
 	private final static Logger log = Logger
 			.getLogger(RegisterProductService.class.getName());
 
-	private CategoryServiceImpl dbcat = CategoryServiceImpl.instance();
+	private CategoryServiceImpl dbcat = CategoryServiceImpl.getInstance();
 
 	private ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
 

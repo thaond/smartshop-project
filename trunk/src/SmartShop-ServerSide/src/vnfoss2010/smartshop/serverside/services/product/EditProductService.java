@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 
 public class EditProductService extends BaseRestfulService {
 	ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
-	CategoryServiceImpl dbCat = CategoryServiceImpl.instance();
+	CategoryServiceImpl dbCat = CategoryServiceImpl.getInstance();
 
 	private final static Logger log = Logger.getLogger(EditProductService.class
 			.getName());

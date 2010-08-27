@@ -1,22 +1,17 @@
 package vnfoss2010.smartshop.serverside.database;
 
-import java.util.ResourceBundle;
-
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
-import vnfoss2010.smartshop.serverside.database.entity.Category;
 
 public class AttributeServiceImpl {
 	private static AttributeServiceImpl instance;
-	private ResourceBundle messages;
 
 	public AttributeServiceImpl() {
-		messages = ResourceBundle
-				.getBundle("vnfoss2010/smartshop/serverside.localization/MessagesBundle");
+		instance = this;
 	}
 
 	public Attribute findAttribute(String attName) {

@@ -465,7 +465,6 @@ public class AccountServiceImpl extends HttpServlet {
 				result.setMessage(Global.messages
 						.getString("username_already_exist"));
 			}
-			result.setOK(true);
 		} catch (Exception ex) {
 			result.setMessage(Global.messages.getString("have_problem"));
 			ex.printStackTrace();

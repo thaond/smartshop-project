@@ -1,23 +1,20 @@
-package vnfoss2010.smartshop.serverside.services.page;
+package vnfoss2010.smartshop.serverside.services.notification;
 
 import java.util.Map;
 
 import vnfoss2010.smartshop.serverside.Global;
-import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
-import vnfoss2010.smartshop.serverside.database.PageServiceImpl;
+import vnfoss2010.smartshop.serverside.database.NotificationServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
-import vnfoss2010.smartshop.serverside.database.entity.Page;
+import vnfoss2010.smartshop.serverside.database.entity.Notification;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
 
-public class CreatePageService extends BaseRestfulService {
-	CategoryServiceImpl dbCat = CategoryServiceImpl.getInstance();
-	PageServiceImpl dbPage = PageServiceImpl.getInstance();
+public class InsertNotificationService extends BaseRestfulService {
+	private NotificationServiceImpl dbNotification = NotificationServiceImpl.getInstance();
 
-	public CreatePageService(String serviceName) {
+	public InsertNotificationService(String serviceName) {
 		super(serviceName);
 	}
 
@@ -26,13 +23,12 @@ public class CreatePageService extends BaseRestfulService {
 			throws Exception, RestfulException {
 		JSONObject jsonReturn = new JSONObject();
 
-		Gson gson;
-		gson = Global.gsonWithDate;
-		Page page = gson.fromJson(content, Page.class);
-		ServiceResult<Long> result = dbPage.insertPage(page);
+		Notification notification = Global.gsonWithDate.fromJson(content, Notification.class);
+		ServiceResult<Long> result = dbNotification.insertNotification(notification);
+		
 		if (result.isOK()) {
 			jsonReturn.put("errCode", 0);
-			jsonReturn.put("pageid", result.getResult());
+			jsonReturn.put("notificationid", result.getResult());
 		} else {
 			jsonReturn.put("errCode", 1);
 		}
