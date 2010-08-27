@@ -10,7 +10,7 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.test.SampleData;
 
 public class InsertCategoryService extends BaseRestfulService{
-	private CategoryServiceImpl db = CategoryServiceImpl.instance();
+	private CategoryServiceImpl db = CategoryServiceImpl.getInstance();
 
 	public InsertCategoryService(String serviceName) {
 		super(serviceName);

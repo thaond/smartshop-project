@@ -1,9 +1,6 @@
 package vnfoss2010.smartshop.serverside.database;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.jdo.JDOObjectNotFoundException;
@@ -16,11 +13,9 @@ import vnfoss2010.smartshop.serverside.database.entity.Category;
 
 public class CategoryServiceImpl {
 	private static CategoryServiceImpl instance;
-	private ResourceBundle messages;
 
 	public CategoryServiceImpl() {
-		messages = ResourceBundle
-				.getBundle("vnfoss2010/smartshop/serverside.localization/MessagesBundle");
+		instance = this;
 	}
 
 	public ServiceResult<Category> findCategory(String catKey) {
@@ -47,22 +42,22 @@ public class CategoryServiceImpl {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (category == null) {
-			result.setMessage(messages.getString("cannot_handle_with_null"));
+			result.setMessage(Global.messages.getString("cannot_handle_with_null"));
 		}
 
 		try {
 			category = pm.makePersistent(category);
 			if (category == null) {
-				result.setMessage(messages.getString("insert_product_fail"));
+				result.setMessage(Global.messages.getString("insert_product_fail"));
 			} else {
 				result.setResult(true);
-				result.setMessage(messages
+				result.setMessage(Global.messages
 						.getString("insert_product_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage(messages.getString("insert_list_userinfos_fail"));
+			result.setMessage(Global.messages.getString("insert_list_userinfos_fail"));
 		}
 
 		return result;
@@ -92,7 +87,7 @@ public class CategoryServiceImpl {
 		return result;
 	}
 
-	public static CategoryServiceImpl instance() {
+	public static CategoryServiceImpl getInstance() {
 		if (instance == null) {
 			instance = new CategoryServiceImpl();
 		}

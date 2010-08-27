@@ -15,7 +15,7 @@ public class SampleDataRestfull extends BaseRestfulService {
 		super(serviceName);
 	}
 	private AccountServiceImpl db = AccountServiceImpl.getInstance();
-	private CategoryServiceImpl dbcat = CategoryServiceImpl.instance();
+	private CategoryServiceImpl dbcat = CategoryServiceImpl.getInstance();
 
 	@Override
 	public String process(Map<String, String[]> params, String content)

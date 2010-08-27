@@ -19,7 +19,7 @@ import com.google.gson.JsonObject;
 
 public class GetPageService extends BaseRestfulService {
 	private PageServiceImpl dbPage = PageServiceImpl.getInstance();
-	private CategoryServiceImpl dbCat = CategoryServiceImpl.instance();
+	private CategoryServiceImpl dbCat = CategoryServiceImpl.getInstance();
 
 	public GetPageService(String serviceName) {
 		super(serviceName);

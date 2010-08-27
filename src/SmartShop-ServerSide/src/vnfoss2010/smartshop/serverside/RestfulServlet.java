@@ -44,6 +44,12 @@ import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceExcept
 import vnfoss2010.smartshop.serverside.services.map.DirectionService;
 import vnfoss2010.smartshop.serverside.services.map.GeocoderService;
 import vnfoss2010.smartshop.serverside.services.map.ReserveGeocoderService;
+import vnfoss2010.smartshop.serverside.services.notification.DeleteNotificationsByUsernameService;
+import vnfoss2010.smartshop.serverside.services.notification.DeleteNotificationsService;
+import vnfoss2010.smartshop.serverside.services.notification.EditNotificationService;
+import vnfoss2010.smartshop.serverside.services.notification.GetNotificationsByUsernameService;
+import vnfoss2010.smartshop.serverside.services.notification.InsertNotificationService;
+import vnfoss2010.smartshop.serverside.services.notification.MarkAsReadNotificationsByUsernameService;
 import vnfoss2010.smartshop.serverside.services.page.CreatePageService;
 import vnfoss2010.smartshop.serverside.services.page.EditPageService;
 import vnfoss2010.smartshop.serverside.services.page.GetListPageByCriteriaService;
@@ -159,6 +165,14 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("get-comment", GetCommentService.class);
 		mServices.put("delete-comment", DeleteCommentService.class);
 		mServices.put("comment-get-by-username", GetCommentsByUsernameService.class);
+		
+		//notification
+		mServices.put("noti-insert", InsertNotificationService.class);
+		mServices.put("noti-delete-all-by", DeleteNotificationsByUsernameService.class);
+		mServices.put("noti-delete-all", DeleteNotificationsService.class);
+		mServices.put("noti-edit", EditNotificationService.class);
+		mServices.put("noti-get-by", GetNotificationsByUsernameService.class);
+		mServices.put("noti-mark-as-read", MarkAsReadNotificationsByUsernameService.class);
 		
 		//map
 		mServices.put("map-geocoder", GeocoderService.class);
