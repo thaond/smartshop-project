@@ -12,8 +12,11 @@ import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.RestClient;
 import com.google.android.maps.GeoPoint;
 
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.util.Log;
 
 public class MapService {

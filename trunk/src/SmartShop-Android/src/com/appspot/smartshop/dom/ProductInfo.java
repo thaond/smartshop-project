@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.Set;
 
 public class ProductInfo implements Serializable {
+	public long id;
 	public String name = null;
 	public double price;
 	public String description = null;

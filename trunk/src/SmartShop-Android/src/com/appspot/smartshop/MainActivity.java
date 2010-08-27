@@ -10,6 +10,7 @@ import android.widget.TabHost;
 import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 
+import com.appspot.smartshop.mock.MockCategory;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.product.ProductsListActivity;
 import com.appspot.smartshop.ui.product.SearchByCategory;
@@ -25,10 +26,10 @@ public class MainActivity extends TabActivity {
 	public static final String TAB_LIST_PAGES = "list_pages";
 	public static final String TAB_SEARCH_PRODUCTS = "search_products";
 
-	public static final int PRODUCT = 0;
-	public static final int PAGE = 1;
+	public static final String PRODUCT = "product";
+	public static final String PAGE = "page";
 
-	private int type = PRODUCT;
+	private String type = PRODUCT;
 
 	private TabHost tabHost;
 
@@ -50,7 +51,7 @@ public class MainActivity extends TabActivity {
 		// Pages tab
 		intent = new Intent(this, PagesListActivity.class);
 		intent.putExtra(Global.PAGES_LIST_TYPE,
-				PagesListActivity.PAGES_OF_CATEGORIES);
+				PagesListActivity.ALL_PAGES);
 		tabHost.addTab(tabHost.newTabSpec(TAB_LIST_PAGES).setIndicator(
 				getString(R.string.tab_list_pages)).setContent(intent));
 
@@ -132,10 +133,10 @@ public class MainActivity extends TabActivity {
 			break;
 
 		case MENU_SEARCH_BY_CATEGORIES:
-			intent = new Intent(MainActivity.this, SearchByCategory.class);
-			// TODO (vanloi999): category of page of product
+			intent = new Intent(this, SearchByCategory.class);
 			intent.putExtra(Global.TYPE, type);
-			//startActivity(intent);
+			intent.putExtra(Global.CATEGORY_INFO, MockCategory.getInstance());
+			startActivity(intent);
 			break;
 		}
 

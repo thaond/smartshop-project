@@ -3,17 +3,20 @@ package com.appspot.smartshop.test;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
 import android.content.Context;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.MapDialog;
@@ -36,45 +39,25 @@ public class TestActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		Global.application = this;
-		testHttpPost(); // TODO (condorhero01): place test function here
-		//testHttpView();
+		testGetCurrentLocation(); // TODO (condorhero01): place test function here
 	}
 	
-	void testHttpView() {
-		String url = "http://localhost:8888/api/asd/get-product/?id=82";
-		
-	}
-
 	void testHttpPost() {
-		//String url = "http://10.0.2.2:8888/api/asd/registerproduct/";
-		String url = "http://localhost:8888/api/asd/get-product/?id=3";
-		//List<NameValuePair> params = new LinkedList<NameValuePair>();
-		//String value = "{\"name\":\"Dell D630\",\"price\":123.0,\"is_vat\":true, \"quantity\":2,\"warranty\":\"12 month\",\"origin\":\"China\", \"address\":\"Binh Tan\",\"lat\":10.11,\"lng\":106.123,\"username\":\"tam\",\"setPagesId\":[],\"setCategoryKeys\":[\"lap\",\"soft\"],\"attributeSets\":[{\"key_cat\":\"lap\",\"name\":\"Camera3\",\"value\":\"1.3MP\",\"username\":\"tam\"},{\"key_cat\":\"lap\",\"name\":\"Camera4\",\"value\":\"1.3MP\",\"username\":\"tam\"}]}";
-		//params.add(new BasicNameValuePair("", value));
-//		RestClient.postData(url, value, new JSONParser() {
-//			
-//			@Override
-//			public void onSuccess(JSONObject json) throws JSONException {
-//				System.out.println(json);
-//			}
-//			
-//			@Override
-//			public void onFailure(String message) {
-//				System.out.println(message);
-//			}
-//		});
-		RestClient.getData(url, new JSONParser() {
+		String url = "http://10.0.2.2:8888/api/asd/registerproduct/";
+		List<NameValuePair> params = new LinkedList<NameValuePair>();
+		String value = "{\"name\":\"Dell D630\",\"price\":123.0,\"is_vat\":true, \"quantity\":2,\"warranty\":\"12 month\",\"origin\":\"China\", \"address\":\"Binh Tan\",\"lat\":10.11,\"lng\":106.123,\"username\":\"tam\",\"setPagesId\":[],\"setCategoryKeys\":[\"lap\",\"soft\"],\"attributeSets\":[{\"key_cat\":\"lap\",\"name\":\"Camera3\",\"value\":\"1.3MP\",\"username\":\"tam\"},{\"key_cat\":\"lap\",\"name\":\"Camera4\",\"value\":\"1.3MP\",\"username\":\"tam\"}]}";
+		params.add(new BasicNameValuePair("", value));
+		
+		RestClient.postData(url, value, new JSONParser() {
 			
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
 				System.out.println(json);
-				
 			}
 			
 			@Override
 			public void onFailure(String message) {
 				System.out.println(message);
-				
 			}
 		});
 	}
@@ -110,7 +93,9 @@ public class TestActivity extends MapActivity {
 								// non-primitive field
 		foo.username = "foo";
 		String json = new Gson().toJson(foo);
+
 		System.out.println(json);
+
 		foo = new Gson().fromJson(json, Foo.class);
 		System.out.println(foo);
 	}

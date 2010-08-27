@@ -24,7 +24,7 @@ public class Global {
 	 * User
 	 */
 	public static String username = MockUserInfo.getInstance().username;
-	public static boolean isLogin = false;
+	public static boolean isLogin = false;	
 
 	/*
 	 * Misc
@@ -54,6 +54,7 @@ public class Global {
 	public static final String PRODUCT_LIST_TYPE = "product_list_type";
 	public static final String PAGE = "page";
 	public static final String ID_OF_COMMENTS = "id_of_comments";
+	public static final String TYPE_OF_COMMENTS = "type_of_comments";
 	public static final String USER_NAME = "user_name";
 	public static final String PAGES_LIST_TYPE = "pages_list_type";
 	public static final String TYPE = "type";

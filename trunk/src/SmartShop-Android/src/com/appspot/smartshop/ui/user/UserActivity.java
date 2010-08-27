@@ -163,7 +163,7 @@ public class UserActivity extends MapActivity {
 			txtBirthday.setText(Global.df.format(userInfo.birthday));
 			// TODO (condorhero01): display avatar
 			
-			// TODO (condohero01): some fields of user info must be uneditable
+			// some fields of user info must be uneditable
 			txtUsername.setFilters(Global.uneditableInputFilters);
 			txtEmail.setFilters(Global.uneditableInputFilters);
 			txtPhoneNumber.setFilters(Global.uneditableInputFilters);
@@ -171,9 +171,16 @@ public class UserActivity extends MapActivity {
 			// not allow to edit text when in VIEW_USER_PROFILE MODE
 			Boolean canEditUserProfile = bundle.getBoolean(Global.CAN_EDIT_USER_PROFILE);
 			if (!(canEditUserProfile != null && canEditUserProfile == true)) {
+				Log.d(TAG, "view user profile");
 				mode = VIEW_USER_PROFILE;
-				txtUsername.setEnabled(false);
+				txtPassword.setFilters(Global.uneditableInputFilters);
+				txtConfirm.setFilters(Global.uneditableInputFilters);
+				txtFirstName.setFilters(Global.uneditableInputFilters);
+				txtLastName.setFilters(Global.uneditableInputFilters);
+				txtAddress.setFilters(Global.uneditableInputFilters);
 			}
+			
+			Log.d(TAG, "edit user profile");
 		} 
 		
 		/********************************** Listeners *******************************/
@@ -251,7 +258,6 @@ public class UserActivity extends MapActivity {
 		userInfo.address = txtAddress.getText().toString();
 		userInfo.phone = txtPhoneNumber.getText().toString();
 		userInfo.birthday = new Date(mYear, mMonth, mDay);
-		Log.d(TAG, "birthday = " + userInfo.birthday);
 		userInfo.lat = lat;
 		userInfo.lng = lng;
 		// TODO (condorhero01): get avatar link of user
@@ -261,6 +267,7 @@ public class UserActivity extends MapActivity {
 		collectUserInfo();
 		
 		// TODO (condorhero01): request to server to register new user
+		Log.d(TAG, Utils.gson.toJson(userInfo));
 		
 		finish();
 	}
@@ -269,6 +276,7 @@ public class UserActivity extends MapActivity {
 		collectUserInfo();
 		
 		// TODO (condorhero01): request to server to update user info
+		Log.d(TAG, Utils.gson.toJson(userInfo));
 		
 		finish();
 	}
@@ -314,7 +322,7 @@ public class UserActivity extends MapActivity {
 					
 					@Override
 					public void processUserLocation(GeoPoint point) {
-						if (mode == REGISTER_USER) {
+						if (mode == REGISTER_USER || mode == EDIT_USER_PROFILE) {
 							if (point != null) {
 								lat = point.getLatitudeE6();
 								lng = point.getLongitudeE6();

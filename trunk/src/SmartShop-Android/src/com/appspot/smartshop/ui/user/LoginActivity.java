@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.utils.Global;
 
 public class LoginActivity extends Activity {
 	public static final String TAG = "LoginActivity";
@@ -58,14 +59,17 @@ public class LoginActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				cancel();
+				finish();
 			}
 		});
 	}
 
-	protected void cancel() {
-	}
-
 	protected void login() {
+		// TODO (condorhero01): mock login, assign Global.isLogin = true when click Login button
+		Global.isLogin = true;
+		
+		// TODO (condorhero01): request login service
+		
+		finish();
 	}
 }

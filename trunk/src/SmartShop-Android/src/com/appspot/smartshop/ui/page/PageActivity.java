@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.Utils;
 import com.google.gson.Gson;
 
 public class PageActivity extends Activity {
@@ -89,7 +90,7 @@ public class PageActivity extends Activity {
 		page.date_post = new Date();
 		
 		// TODO (condorhero01): request to server to update page
-		Log.d(TAG, new Gson().toJson(page));
+		Log.d(TAG, Utils.gson.toJson(page));
 	}
 
 	protected void createPage() {
@@ -102,6 +103,6 @@ public class PageActivity extends Activity {
 		page.username = Global.username;
 		
 		// TODO (condorhero01): request to server to create new page
-		Log.d(TAG, new Gson().toJson(page));
+		Log.d(TAG, Utils.gson.toJson(page));
 	}
 }
