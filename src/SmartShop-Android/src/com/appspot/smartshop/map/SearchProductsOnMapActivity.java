@@ -1,4 +1,4 @@
-package com.appspot.smartshop.ui.product;
+package com.appspot.smartshop.map;
 
 import java.util.List;
 
@@ -15,8 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appspot.smartshop.R;
-import com.appspot.smartshop.map.LocationOverlay;
-import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.utils.Global;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;

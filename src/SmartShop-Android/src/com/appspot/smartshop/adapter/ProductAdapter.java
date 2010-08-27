@@ -30,14 +30,12 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 	
 	private Context context;
 	private LayoutInflater inflater;
-	private int resourceId;
 	
 	public ProductAdapter(Context context, int textViewResourceId,
 			List<ProductInfo> objects) {
 		super(context, textViewResourceId, objects);
 		this.context = context;
 		inflater = LayoutInflater.from(context);
-		resourceId = textViewResourceId;
 	}
 
 	public ProductAdapter(Context context, int textViewResourceId,
@@ -91,6 +89,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		}catch(Exception ex){
 			Log.d("ProductAdapter","load image failed");
 		}
+//		holder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.icon));
 		
 		
 		// go to product detail

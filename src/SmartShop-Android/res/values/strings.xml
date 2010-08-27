@@ -111,6 +111,7 @@
 
 	<!-- Comment dialog -->
 	<string name="add_new_comment">Thêm bình luận</string>
+	<string name="errEmptyComment">Bạn chưa nhập nội dung</string>
 	
 	<!-- Search by categories -->
 	<string name="search_by_categories">Tìm theo mục</string>

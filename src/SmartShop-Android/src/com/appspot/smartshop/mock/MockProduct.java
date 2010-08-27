@@ -17,9 +17,13 @@ public class MockProduct {
 		for (int i = 0; i < NUM_OF_PRODUCTS; ++i) {
 			productInfo = new ProductInfo("name " + i, i * 1E4, "description " + i);
 			
+			productInfo.id = i;
+			
 			GeoPoint point = MockLocation.getPoints()[Utils.random(len)];
 			productInfo.lat = point.getLatitudeE6();
 			productInfo.lng = point.getLongitudeE6();
+			
+			productInfo.username = MockUserInfo.getUsers()[Utils.random(4)].username;
 			
 			list.add(productInfo);
 		}

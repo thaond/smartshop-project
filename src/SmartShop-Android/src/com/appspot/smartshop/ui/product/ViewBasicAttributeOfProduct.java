@@ -13,10 +13,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
-import com.appspot.smartshop.ui.user.UserProfileActivity;
+import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
+import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.Global;
 
 public class ViewBasicAttributeOfProduct extends Activity {
@@ -48,11 +49,12 @@ public class ViewBasicAttributeOfProduct extends Activity {
 				.getDefaultDisplay();
 		int width = display.getWidth();
 		int labelWidth = (int) (width * 0.25);
-		// set up TextView and EditText
+		
+		//set up TextView and EditText
 		lblNameOfProduct = (TextView) findViewById(R.id.viewNameOfProduct);
 		lblNameOfProduct.setWidth(labelWidth);
 		txtNameProduct = (EditText) findViewById(R.id.txtViewNameOfProduct);
-
+		txtNameProduct.setFilters(Global.uneditableInputFilters);
 		lblPriceOfProduct = (TextView) findViewById(R.id.viewPriceOfProduct);
 		lblPriceOfProduct.setWidth(labelWidth);
 		txtPriceOfProduct = (EditText) findViewById(R.id.txtViewPriceOfProduct);
@@ -79,8 +81,10 @@ public class ViewBasicAttributeOfProduct extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO: vanloi999 process comment event
-
+				Intent intent = new Intent(ViewBasicAttributeOfProduct.this, ViewCommentsActivity.class);
+				intent.putExtra(Global.ID_OF_COMMENTS, productInfo.id);
+				intent.putExtra(Global.TYPE_OF_COMMENTS, MainActivity.PRODUCT);
+				startActivity(intent);
 			}
 		});
 		btnViewUserInfo.setOnClickListener(new OnClickListener() {
@@ -88,7 +92,6 @@ public class ViewBasicAttributeOfProduct extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO: vanloi999 process user info event
-
 			}
 		});
 		// set up check box

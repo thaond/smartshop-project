@@ -7,7 +7,7 @@ public class Comment {
 
 	public String type;
 
-	public int type_id;
+	public long type_id;
 
 	public String username;
 

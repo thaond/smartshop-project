@@ -2,6 +2,8 @@ package com.appspot.smartshop.utils;
 
 import java.io.OutputStream;
 
+import com.google.gson.Gson;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.InputFilter;
@@ -39,4 +41,6 @@ public class Utils {
 	public static int random(int n) {
 		return (int) (Math.random() * n);
 	}
+	
+	public static Gson gson = new Gson();
 }

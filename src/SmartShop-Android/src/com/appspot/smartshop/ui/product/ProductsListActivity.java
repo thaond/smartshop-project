@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.map.SearchProductsOnMapActivity;
 import com.appspot.smartshop.mock.MockProduct;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
@@ -30,7 +31,9 @@ public class ProductsListActivity extends MapActivity implements
 	private RadioButton btnRadioLatest, btnBestSeller, btnPrice;
 	private ListView listView;
 	private ProductAdapter productAdapter;
+	
 	private int productsMode = NEWEST_PRODUCTS;
+	
 	private LinkedList<ProductInfo> products;
 
 	@Override
@@ -72,12 +75,11 @@ public class ProductsListActivity extends MapActivity implements
 		listView = (ListView) findViewById(R.id.listViewProductAfterSearch);
 		productAdapter = new ProductAdapter(this, R.layout.product_list_item,
 				new LinkedList<ProductInfo>());
-//		loadProductsList();
-		
+		loadProductsList();
 	}
 
-//	private void loadProductsList() {
-//		new SimpleAsyncTask(this, new DataLoader() {
+	private void loadProductsList() {
+		new SimpleAsyncTask(this, new DataLoader() {
 			
 			public void updateUI() {
 				productAdapter = new ProductAdapter(ProductsListActivity.this, R.layout.product_list_item,
@@ -90,30 +92,22 @@ public class ProductsListActivity extends MapActivity implements
 				switch (productsMode) {
 				case BEST_SELLER_PRODUCTS:
 					// TODO (vanloi999): request best seller products list
-					
-					products.add(new ProductInfo("Best Seller", 1000, " Tào Lao"));
-					
 					break;
 					
 				case CHEAPEST_PRODUCTS:
 					// TODO (vanloi999): request  products listsort by price
-
-					products.add(new ProductInfo("CHEAPEST_PRODUCTS", 1000, " Tào Lao"));
 					break;
 					
 				case NEWEST_PRODUCTS:
 					// TODO (vanloi999): request products list sort by date
-
-					products.add(new ProductInfo("NEWEST_PRODUCTS", 1000, " Tào Lao"));
-					
 					break;
 
 				default:
 					break;
 				}
 			}
-//		});
-//	}
+		}).execute();
+	}
 
 	@Override
 	public void onCheckedChanged(RadioGroup mRadioGroup, int checkedId) {
@@ -124,9 +118,7 @@ public class ProductsListActivity extends MapActivity implements
 		} else {
 			productsMode = NEWEST_PRODUCTS;
 		}
-		loadData();
-		updateUI();
-		
+		loadProductsList();
 	}
 
 	@Override

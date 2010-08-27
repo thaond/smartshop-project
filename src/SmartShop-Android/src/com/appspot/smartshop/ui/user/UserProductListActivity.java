@@ -1,6 +1,7 @@
 package com.appspot.smartshop.ui.user;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
@@ -13,7 +14,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.mock.MockProduct;
+import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.SimpleAsyncTask;
 
 public class UserProductListActivity extends Activity {
 	
@@ -21,7 +25,7 @@ public class UserProductListActivity extends Activity {
 	public static final int BUY_PRODUCTS = 1;
 	public static final int SELL_PRODUCTS = 2;
 	
-	private static ProductInfo[] arrUserProducts;
+	private static LinkedList<ProductInfo> products;
 	
 	private int productsListType = INTERESTED_PRODUCTS; 
 	
@@ -73,32 +77,43 @@ public class UserProductListActivity extends Activity {
 		
 		// products listview
 		listProducts = (ListView) findViewById(R.id.listUserProducts);
-		if (arrUserProducts != null) {
-			adapter = new ProductAdapter(this, R.layout.product_list_item, arrUserProducts);
+		if (products != null) {
+			adapter = new ProductAdapter(this, R.layout.product_list_item, products);
 			listProducts.setAdapter(adapter);
 		} else {
-			adapter = new ProductAdapter(this, R.layout.product_list_item);
 			loadProductsList();
 		}
 	}
 
 	protected void loadProductsList() {
-		// TODO (condorhero01): request list of products (buy, sell and interested list)
-		// update value for arrUserProducts
-		switch (productsListType) {
-		case INTERESTED_PRODUCTS:
+		new SimpleAsyncTask(this, new DataLoader() {
 			
-			break;
+			@Override
+			public void updateUI() {
+				adapter = new ProductAdapter(UserProductListActivity.this, 
+						R.layout.product_list_item, products);
+				listProducts.setAdapter(adapter);
+			}
 			
-		case BUY_PRODUCTS:
-			
-			break;
-			
-		case SELL_PRODUCTS:
-			
-			break;
-		}
-		
-		listProducts.setAdapter(adapter);
+			@Override
+			public void loadData() {
+				// TODO (condorhero01): request list of products (buy, sell and interested list)
+				switch (productsListType) {
+				case INTERESTED_PRODUCTS:
+					
+					break;
+					
+				case BUY_PRODUCTS:
+					
+					break;
+					
+				case SELL_PRODUCTS:
+					
+					break;
+				}
+				
+				products = MockProduct.getProducts();
+			}
+		}).execute();
 	}
 }

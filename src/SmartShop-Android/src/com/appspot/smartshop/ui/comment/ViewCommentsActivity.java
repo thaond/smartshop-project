@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.CommentAdapter;
@@ -30,6 +31,7 @@ public class ViewCommentsActivity extends Activity {
 	private ListView listComments;
 	
 	private long id;
+	private String type;
 	
 	private List<Comment> comments;
 
@@ -44,9 +46,11 @@ public class ViewCommentsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_comments);
 		
-		// TODO (condorhero01): get page_id or product_id from intent
+		// get type_id and type
 		id = getIntent().getExtras().getLong(Global.ID_OF_COMMENTS);
+		type = getIntent().getExtras().getString(Global.TYPE_OF_COMMENTS);
 		Log.d(TAG, "id of comments = " + id);
+		Log.d(TAG, "type of comments = " + type);
 		
 		// add new comment
 		Button btnAddComment = (Button) findViewById(R.id.btnAddComment);
@@ -94,17 +98,23 @@ public class ViewCommentsActivity extends Activity {
 			public void onClick(View v) {
 				String content = txtComment.getText().toString();
 				if (content.trim().equals("")) {
+					Toast.makeText(ViewCommentsActivity.this, getString(R.string.errEmptyComment), 
+							Toast.LENGTH_SHORT).show();
+					dialog.cancel();
 					return;
 				}
 				
 				Comment comment = new Comment();
 				comment.content = content;
 				comment.username = Global.username;
+				comment.type_id = id;
+				comment.type = type;
 				adapter.addNewComment(comment);
 				
 				// TODO (condorhero01): type and type_id of comment?
 				// TODO (condorhero01): request add new comment
-				Log.d(TAG, "user " + comment.username + ", comment = " + comment.content);
+				Log.d(TAG, "user " + comment.username + ", comment = " + comment.content
+						+ " type_id = " + comment.type_id + ", type = " + type);
 				
 				dialog.cancel();
 			}

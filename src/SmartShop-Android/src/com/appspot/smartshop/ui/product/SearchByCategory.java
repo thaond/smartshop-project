@@ -32,7 +32,7 @@ import com.google.android.maps.MapView.LayoutParams;
 public class SearchByCategory extends ExpandableListActivity {
 
 	ExpandableListAdapter mAdapter;
-	private int type;
+	private String type;
 	public String childSeledted = "";
 	ExpandableListView expandableListView;
 	Button btnSearchCategory;
@@ -40,6 +40,9 @@ public class SearchByCategory extends ExpandableListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// type (page or product)
+		type = getIntent().getExtras().getString(Global.TYPE);
 
 		// TODO (vanloi999): type (page or product)
 		// type = getIntent().getExtras().getInt(Global.TYPE);

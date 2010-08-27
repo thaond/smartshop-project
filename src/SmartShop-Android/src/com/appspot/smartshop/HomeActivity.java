@@ -40,7 +40,7 @@ public class HomeActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.home);
 
 		Global.application = this;
 
@@ -70,72 +70,21 @@ public class HomeActivity extends Activity {
 				test3();
 			}
 		});
-		Button btn4 = (Button) findViewById(R.id.btnViewProduct);
-		btn4.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				test4();
-			}
-		});
-		Button btn5 = (Button) findViewById(R.id.btnPostProduct);
-		btn5.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				test5();
-				
-			}
-		});
-		Button btn6 = (Button) findViewById(R.id.btnSearchQuery);
-		btn6.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				test6();
-			}
-		});
-		Button btn7 = (Button) findViewById(R.id.btnSearchCategory);
-		btn7.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				test7();
-				
-			}
-		});
 	}
 
 	// TODO (condorhero01): place test function into test1, test2, or test3 to
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testViewPage();
+		testGmapIntent();
 	}
 
 	protected void test2() {
-		testViewUserInfo();
 	}
 
 	protected void test3() {
-		testEditUserInfo();
 	}
-
-	private void test4() {
-		testViewProduct();
-	}
-	private void test5() {
-		testPostProduct();
-		
-	}
-	protected void test6() {
-		searchByEnterQuery();
-		
-	}
-	protected void test7() {
-		searchByCategory();
-		
-	}
+	
 	private void testUserProfile() {
 		Intent intent = new Intent(this, UserProfileActivity.class);
 		intent.putExtra(Global.USER_NAME, Global.username);

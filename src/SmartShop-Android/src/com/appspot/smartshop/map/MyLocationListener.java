@@ -21,7 +21,7 @@ public class MyLocationListener implements LocationListener {
 	
 	@Override
 	public void onLocationChanged(Location loc) {
-		point = new GeoPoint((int) loc.getLatitude(), (int) loc.getLongitude());
+		point = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc.getLongitude() * 1E6));
 		Log.d(TAG, "current location = " + point);
 	}
 

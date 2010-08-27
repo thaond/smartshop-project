@@ -18,7 +18,6 @@ public class DirectionListActivity extends MapActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d(TAG, "onCreate");
 		setContentView(R.layout.direction_list);
 		
 		// lat, lng info from HomeActivity
@@ -62,8 +61,6 @@ public class DirectionListActivity extends MapActivity {
 				}
 			});
 		}
-		
-		Log.d(TAG, "end of onCreate");
 	}
 	
 	@Override
