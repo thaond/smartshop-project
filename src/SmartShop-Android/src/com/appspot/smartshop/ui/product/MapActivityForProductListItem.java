@@ -14,7 +14,7 @@ public class MapActivityForProductListItem extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.product_list_item);
 		Button btnMap = (Button)findViewById(R.id.btnMap);
-		//TODO: xu ly su kien cho button Map, tim dia diem cho mon hang
+		//TODO: Process btnMap event
 	}
 
 }

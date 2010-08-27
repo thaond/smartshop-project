@@ -43,7 +43,7 @@ public class SearchProductActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				searchByCategory();
-				// TODO:(condohero01) xu ly su kien cho advance search
+				// TODO:(condohero01) process event for btn Advance search
 			}
 		});
 	}

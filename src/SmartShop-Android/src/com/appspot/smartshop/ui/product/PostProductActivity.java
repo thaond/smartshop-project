@@ -1,8 +1,5 @@
 package com.appspot.smartshop.ui.product;
 
-import com.appspot.smartshop.mock.MockProductInfo;
-import com.appspot.smartshop.utils.Global;
-
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,16 +11,18 @@ public class PostProductActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 		final TabHost tabHost = getTabHost();
 
-		Intent basicIntent = new Intent(this, PostProductActivityBasicAttribute.class);
-		basicIntent.putExtra(Global.PRODUCT_INFO,MockProductInfo.getInstance());
-//		basicIntent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
-		tabHost.addTab(tabHost.newTabSpec("Basic Features").setIndicator(
-				"Basic Features").setContent(basicIntent));
-		tabHost.addTab(tabHost.newTabSpec("User Define").setIndicator(
-				"Advanced Fearture").setContent(
+		// Intent basicIntent = new Intent(this,
+		// PostProductActivityBasicAttribute.class);
+		// basicIntent.putExtra(Global.PRODUCT_INFO,MockProductInfo.getInstance());
+		// basicIntent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
+		tabHost.addTab(tabHost.newTabSpec("Basic").setIndicator(
+				"Thông tin cơ bản").setContent(
+				new Intent(this, PostProductActivityBasicAttribute.class)));
+		tabHost.addTab(tabHost.newTabSpec("Advance").setIndicator(
+				"Thông tin chi tiết").setContent(
 				new Intent(this, PostProductActivityUserDefine.class)));
-		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++){
-			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height=40;
+		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
 		}
 	}
 }

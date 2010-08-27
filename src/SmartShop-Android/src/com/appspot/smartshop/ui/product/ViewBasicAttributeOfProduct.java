@@ -2,6 +2,7 @@ package com.appspot.smartshop.ui.product;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
+import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.utils.Global;
@@ -76,7 +79,7 @@ public class ViewBasicAttributeOfProduct extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO: vanloi999 xu li comment
+				// TODO: vanloi999 process comment event
 
 			}
 		});
@@ -84,15 +87,13 @@ public class ViewBasicAttributeOfProduct extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO: vanloi999 xu li view User info
+				// TODO: vanloi999 process user info event
 
 			}
 		});
 		// set up check box
 		final CheckBox check1 = (CheckBox) findViewById(R.id.viewCheckBoxIsVAT);
 		check1.setEnabled(false);
-		// final TextView txtVAT = (TextView)
-		// findViewById(R.id.txtViewIsVATInPostProductForm);
 		// setup data for text field if in edit/view product info mode
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
@@ -119,5 +120,33 @@ public class ViewBasicAttributeOfProduct extends Activity {
 			}
 
 		}
+		btnViewUserInfo.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showUserProfile();
+			}
+		});
+		btnViewComment.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showComment();
+				
+			}
+		});
+		
+	}
+
+	protected void showComment() {
+		Intent intent = new Intent(this, ViewCommentsActivity.class);
+		intent.putExtra(Global.ID_OF_COMMENTS, Global.username);
+		startActivity(intent);
+	}
+
+	protected void showUserProfile() {
+		Intent intent = new Intent(this, UserProfileActivity.class);
+		intent.putExtra(Global.USER_NAME, Global.username);
+		startActivity(intent);
 	}
 }
