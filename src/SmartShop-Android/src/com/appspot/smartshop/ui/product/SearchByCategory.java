@@ -1,10 +1,16 @@
 package com.appspot.smartshop.ui.product;
 
 import android.app.ExpandableListActivity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -49,8 +55,21 @@ public class SearchByCategory extends ExpandableListActivity {
 			
 		setListAdapter(mAdapter);
 		registerForContextMenu(getExpandableListView());
-		
-	
+	}
+	public final static int MENU_SEARCH_BY_CATEGORY =0;
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_SEARCH_BY_CATEGORY, 0, R.string.search_by_categories).setIcon(R.drawable.category);
+		return super.onCreateOptionsMenu(menu);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+			case MENU_SEARCH_BY_CATEGORY:
+				//TODO: vanloi999 process the result that user selected in child category
+				Log.d("Child Item Seledted",childSeledted);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	/**
@@ -107,8 +126,12 @@ public class SearchByCategory extends ExpandableListActivity {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (ch1.isChecked()) {
-						childSeledted += (String) txtView.getText();
-						//TODO: vanloi999 post request to server
+						if(childSeledted.length()==0){
+							childSeledted += (String) txtView.getText();
+						}else{
+							childSeledted += ", " + (String) txtView.getText();
+							//TODO: vanloi999 post request to server
+						}
 						Log.d("TAG", childSeledted);
 					}
 				}
@@ -135,6 +158,5 @@ public class SearchByCategory extends ExpandableListActivity {
 		public boolean hasStableIds() {
 			return true;
 		}
-
 	}
 }
