@@ -37,6 +37,7 @@ public class ViewBasicAttributeOfProduct extends Activity {
 	public TextView lblWarrantyOfProduct;
 	public TextView lblOriginOfProduct;
 	public TextView lblAddressOfProduct;
+	public TextView lblPageViewOfProduct;
 
 	public EditText txtNameProduct;
 	public EditText txtPriceOfProduct;
@@ -44,6 +45,7 @@ public class ViewBasicAttributeOfProduct extends Activity {
 	public EditText txtWarrantyOfProduct;
 	public EditText txtOriginOfProduct;
 	public EditText txtAddressOfProduct;
+	public EditText txtPageViewOfProduct;
 
 	public Button btnViewComment;
 	public Button btnViewUserInfo;
@@ -85,6 +87,9 @@ public class ViewBasicAttributeOfProduct extends Activity {
 		lblAddressOfProduct = (TextView) findViewById(R.id.viewAddressOfProduct);
 		lblAddressOfProduct.setWidth(labelWidth);
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtViewAddressOfProduct);
+		lblPageViewOfProduct = (TextView) findViewById(R.id.viewPageViewOfProduct);
+		lblPageViewOfProduct.setWidth(labelWidth);
+		txtPageViewOfProduct = (EditText) findViewById(R.id.txtViewPageViewOfProduct);
 
 		// buttons
 		btnViewComment = (Button) findViewById(R.id.viewComment);
@@ -141,6 +146,7 @@ public class ViewBasicAttributeOfProduct extends Activity {
 				txtWarrantyOfProduct.setFilters(Global.uneditableInputFilters);
 				txtOriginOfProduct.setFilters(Global.uneditableInputFilters);
 				txtAddressOfProduct.setFilters(Global.uneditableInputFilters);
+				txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
 			}
 
 		}

@@ -1,11 +1,14 @@
 package com.appspot.smartshop.ui.product;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -41,23 +44,24 @@ public class PostProductActivityBasicAttribute extends Activity {
 
 	public ProductInfo productInfo = null;
 	private CheckBox chVat;
-	
-	// TODO 
+	public ArrayList<String> childSelected;
+
+	// TODO
 	private EditText txtDescription;
 	private int lat, lng;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.post_basic_product_attribute);	
-		
+		childSelected = new ArrayList<String>();
+		setContentView(R.layout.post_basic_product_attribute);
+
 		// set up labelWidth and textWidth
 		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE))
 				.getDefaultDisplay();
 		int width = display.getWidth();
 		int labelWidth = (int) (width * 0.25);
-		int labelHeight = (int)(width*0.2);
-		
+
 		// set up TextView and EditText
 		lblNameOfProduct = (TextView) findViewById(R.id.nameOfProduct);
 		lblNameOfProduct.setWidth(labelWidth);
@@ -83,54 +87,56 @@ public class PostProductActivityBasicAttribute extends Activity {
 		lblAddressOfProduct.setWidth(labelWidth);
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtAddressOfProduct);
 		txtDescriptionOfProduct = (EditText) findViewById(R.id.txtDescription);
-		txtDescriptionOfProduct.setHeight(labelHeight);
-		btnChooseCategory = (Button) findViewById(R.id.btnChooseCategory);	
+		txtDescriptionOfProduct.setHeight(labelWidth);
+		btnChooseCategory = (Button) findViewById(R.id.btnChooseCategory);
 		btnChooseCategory.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				startActivityForResult(new Intent(Intent.ACTION_PICK), PICK_CATEGORIES);
-				
+				sendRequestToCategoryDialog();
 			}
 		});
-		
+
 		// set up check box
-		
+
 		chVat = (CheckBox) findViewById(R.id.checkBoxIsVAT);
 		btnOK = (Button) findViewById(R.id.btnXong);
 		btnOK.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				postNewProduct();
 			}
 
 			private void postNewProduct() {
-				// TODO condohero01: user has finished posting product, put it in database
+				// TODO condohero01: user has finished posting product, put it
+				// in database
 				// remember to get currently time (post date)
 				productInfo = new ProductInfo();
 				productInfo.datePost = new Date();
-				productInfo.description = txtDescription.getText().toString(); 
+				productInfo.description = txtDescription.getText().toString();
 				productInfo.isVAT = chVat.isChecked();
 				productInfo.lat = lat;
 				productInfo.lng = lng;
 				productInfo.name = txtNameProduct.getText().toString();
 				productInfo.origin = txtOriginOfProduct.getText().toString();
-				productInfo.price = Double.parseDouble(txtPriceOfProduct.getText().toString());
-				productInfo.quantity = Integer.parseInt(txtQuantityOfProduct.getText().toString());
+				productInfo.price = Double.parseDouble(txtPriceOfProduct
+						.getText().toString());
+				productInfo.quantity = Integer.parseInt(txtQuantityOfProduct
+						.getText().toString());
 			}
 		});
 		btnCancel = (Button) findViewById(R.id.btnCancel);
 		btnCancel.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				finish();
 			}
 		});
-		
+
 		// TODO get lat, lng of product
-		
+
 		// TODO get description of product
 
 		// setup data for text field if in edit/view product info mode
@@ -139,7 +145,7 @@ public class PostProductActivityBasicAttribute extends Activity {
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
 			productInfo = (ProductInfo) bundle.get(Global.PRODUCT_INFO);
-			
+
 			txtNameProduct.setText(productInfo.name);
 			txtPriceOfProduct.setText("" + productInfo.price);
 			txtQuantityOfProduct.setText("" + productInfo.quantity);
@@ -153,12 +159,21 @@ public class PostProductActivityBasicAttribute extends Activity {
 			}
 		}
 	}
+
+	protected void sendRequestToCategoryDialog() {
+		Intent intent = new Intent(PostProductActivityBasicAttribute.this,CategoryDialogActivity.class);
+		intent.putExtra(Global.SELECTED_CATEGORIES,childSelected);
+		startActivityForResult(intent, PICK_CATEGORIES);
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		if(requestCode==PICK_CATEGORIES){
-			if(resultCode== RESULT_OK){
-				startActivity(new Intent(data));
+		if (requestCode == PICK_CATEGORIES) {
+			if (resultCode == RESULT_OK) {
+					childSelected = data.getStringArrayListExtra(Global.SELECTED_CATEGORIES);
+					for(int i =0;i<childSelected.size();i++){
+						Log.d("TAG",childSelected.get(i));
+					}
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);

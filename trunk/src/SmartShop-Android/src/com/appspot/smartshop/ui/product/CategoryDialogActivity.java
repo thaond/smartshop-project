@@ -1,5 +1,6 @@
 package com.appspot.smartshop.ui.product;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import android.app.Activity;
@@ -34,7 +35,7 @@ public class CategoryDialogActivity extends Activity {
 	public static final int PICK_CATEGORIES = 0;
 	ExpandableListAdapter mAdapter;
 	private String type;
-	private LinkedList<String> selectedCategories = new LinkedList<String>();
+	private ArrayList<String> selectedCategories = new ArrayList<String>();
 	ExpandableListView expandableListView;
 	Button btnFinish;
 
@@ -47,21 +48,26 @@ public class CategoryDialogActivity extends Activity {
 		type = getIntent().getExtras().getString(Global.TYPE);
 
 		// search button
-		btnFinish = (Button) findViewById(R.id.btnSearch);
+		btnFinish = (Button) findViewById(R.id.btnFinish);
 		btnFinish.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				getSelectedCategories();
 			}
 		});
-		
+
 		// get categories infori
-		Bundle bundle = getIntent().getExtras();
-		CategoryInfo categoryInfo = (CategoryInfo) bundle.get(Global.CATEGORY_INFO);
-		String[] groups = categoryInfo.parentCategory;
-		String[][] children = categoryInfo.childrenCategory;
-		
+		// Bundle bundle = getIntent().getExtras();
+		// CategoryInfo categoryInfo = (CategoryInfo)
+		// bundle.get(Global.CATEGORY_INFO);
+		// String[] groups = categoryInfo.parentCategory;
+		// String[][] children = categoryInfo.childrenCategory;
+		String[] groups= { "Áo quần", "Giày dép", "Mỹ phẩm",
+				"Váy dự tiệc" };
+		String[][] children = { { "Nam", "Nữ" },
+				{ "Mỹ", "Trung Quốc", "Việt Nam" }, { "Son môi", "Tào Lao" },
+				{ "Đầm bầu", "Váy hiệu", "Hàng Fake" } };
 		// list view
 		expandableListView = (ExpandableListView) findViewById(R.id.listCategoryDialog);
 		mAdapter = new MyExpandableListAdapter(groups, children);
@@ -69,12 +75,12 @@ public class CategoryDialogActivity extends Activity {
 	}
 
 	protected void getSelectedCategories() {
-		Intent intent = new Intent(this, PostProductActivityBasicAttribute.class);
-		intent.putExtra("selectedCategories", selectedCategories);
-		startActivity(intent);
-		
+		Intent intent = new Intent(CategoryDialogActivity.this,
+				PostProductActivityBasicAttribute.class);
+		intent.putExtra(Global.SELECTED_CATEGORIES, selectedCategories);
+		setResult(RESULT_OK, intent);
+		finish();
 	}
-
 
 	class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		public String[] groups;
@@ -116,19 +122,23 @@ public class CategoryDialogActivity extends Activity {
 			final TextView txtView = (TextView) convertView
 					.findViewById(R.id.txtchildCategory);
 			txtView.setText(children[groupPosition][childPosition]);
-			final CheckBox chSubCategory = (CheckBox) convertView.findViewById(R.id.checkBox);
-			chSubCategory.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (isChecked) {
-						String subCategory = txtView.getText().toString();
-						if (!selectedCategories.contains(subCategory)) {
-							selectedCategories.add(subCategory);
+			final CheckBox chSubCategory = (CheckBox) convertView
+					.findViewById(R.id.checkBox);
+			chSubCategory
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							if (isChecked) {
+								String subCategory = txtView.getText()
+										.toString();
+								if (!selectedCategories.contains(subCategory)) {
+									selectedCategories.add(subCategory);
+								}
+							}
 						}
-					}
-				}
-			});
+					});
 			return convertView;
 		}
 

@@ -61,6 +61,14 @@
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/viewPageViewOfProduct"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/pageView" />
+			<EditText android:id="@+id/txtViewPageViewOfProduct"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
 			android:layout_width="wrap_content" android:layout_height="wrap_content">
 			<Button android:id="@+id/viewComment" android:layout_width="48dip"
 				android:layout_height="48dip" android:background="@drawable/comment_icon"/>
