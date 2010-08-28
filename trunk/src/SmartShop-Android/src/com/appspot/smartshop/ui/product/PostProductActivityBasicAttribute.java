@@ -1,8 +1,7 @@
 package com.appspot.smartshop.ui.product;
 
-import com.appspot.smartshop.R;
-import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.utils.Global;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +13,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import com.appspot.smartshop.R;
+import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.utils.Global;
 
 public class PostProductActivityBasicAttribute extends Activity {
 
@@ -35,16 +37,23 @@ public class PostProductActivityBasicAttribute extends Activity {
 	public Button btnCancel;
 
 	public ProductInfo productInfo = null;
+	private CheckBox chVat;
+	
+	// TODO 
+	private EditText txtDescription;
+	private int lat, lng;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.basic_product_attribute);
+		
 		// set up labelWidth and textWidth
 		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE))
 				.getDefaultDisplay();
 		int width = display.getWidth();
 		int labelWidth = (int) (width * 0.25);
+		
 		// set up TextView and EditText
 		lblNameOfProduct = (TextView) findViewById(R.id.nameOfProduct);
 		lblNameOfProduct.setWidth(labelWidth);
@@ -69,17 +78,31 @@ public class PostProductActivityBasicAttribute extends Activity {
 		lblAddressOfProduct = (TextView) findViewById(R.id.addressOfProduct);
 		lblAddressOfProduct.setWidth(labelWidth);
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtAddressOfProduct);
+		
 		// set up check box
-		CheckBox check1 = (CheckBox) findViewById(R.id.checkBoxIsVAT);
-		TextView txtVAT = (TextView) findViewById(R.id.isVATInPostProductForm);
+		
+		chVat = (CheckBox) findViewById(R.id.checkBoxIsVAT);
 		btnOK = (Button) findViewById(R.id.btnXong);
 		btnOK.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				postNewProduct();
+			}
+
+			private void postNewProduct() {
 				// TODO condohero01: user has finished posting product, put it in database
 				// remember to get currently time (post date)
-				
+				productInfo = new ProductInfo();
+				productInfo.datePost = new Date();
+				productInfo.description = txtDescription.getText().toString(); 
+				productInfo.isVAT = chVat.isChecked();
+				productInfo.lat = lat;
+				productInfo.lng = lng;
+				productInfo.name = txtNameProduct.getText().toString();
+				productInfo.origin = txtOriginOfProduct.getText().toString();
+				productInfo.price = Double.parseDouble(txtPriceOfProduct.getText().toString());
+				productInfo.quantity = Integer.parseInt(txtQuantityOfProduct.getText().toString());
 			}
 		});
 		btnCancel = (Button) findViewById(R.id.btnCancel);
@@ -87,10 +110,13 @@ public class PostProductActivityBasicAttribute extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO condohero01
-				
+				finish();
 			}
 		});
+		
+		// TODO get lat, lng of product
+		
+		// TODO get description of product
 
 		// setup data for text field if in edit/view product info mode
 		// TODO:(condohero01) check whether the user has logined or not to post
@@ -98,17 +124,18 @@ public class PostProductActivityBasicAttribute extends Activity {
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
 			productInfo = (ProductInfo) bundle.get(Global.PRODUCT_INFO);
+			
 			txtNameProduct.setText(productInfo.name);
 			txtPriceOfProduct.setText("" + productInfo.price);
-			if (productInfo.isVAT == true) {
-				check1.setChecked(true);
-			} else {
-				check1.setChecked(false);
-			}
 			txtQuantityOfProduct.setText("" + productInfo.quantity);
 			txtWarrantyOfProduct.setText(productInfo.warranty);
 			txtOriginOfProduct.setText(productInfo.origin);
 			txtAddressOfProduct.setText(productInfo.address);
+			if (productInfo.isVAT == true) {
+				chVat.setChecked(true);
+			} else {
+				chVat.setChecked(false);
+			}
 		}
 	}
 }
