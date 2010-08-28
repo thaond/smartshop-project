@@ -30,7 +30,7 @@ import android.os.Message;
  * @see {@link ServiceMethodCallback}
  * @see {@link CallbackHandler}
  */
-public class AsyncCallback<T> implements ServiceCallback<T> {
+public class AsyncCallback<T> extends ServiceCallback<T> {
     private CallbackHandler<T> handler;
 
     /**

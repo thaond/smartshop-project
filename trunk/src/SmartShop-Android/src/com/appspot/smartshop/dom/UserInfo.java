@@ -28,4 +28,16 @@ public class UserInfo implements Serializable {
 	public Set<String> fts;
 	public UserInfo() {
 	}
+	@Override
+	public String toString() {
+		return "UserInfo [address=" + address + ", avatarLink=" + avatarLink
+				+ ", birthday=" + birthday + ", count_vote=" + count_vote
+				+ ", country=" + country + ", email=" + email + ", first_name="
+				+ first_name + ", fts=" + fts + ", gmt=" + gmt + ", lang="
+				+ lang + ", last_name=" + last_name + ", lat=" + lat + ", lng="
+				+ lng + ", oldPassword=" + oldPassword + ", password="
+				+ password + ", phone=" + phone + ", setFriendsUsername="
+				+ setFriendsUsername + ", sum_star=" + sum_star + ", type="
+				+ type + ", username=" + username + "]";
+	}
 }

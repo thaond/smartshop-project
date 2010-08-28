@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import com.appspot.smartshop.mock.MockUserInfo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,43 +16,52 @@ import android.view.Display;
 import android.view.WindowManager;
 
 public class Global {
-	
+
 	/*
 	 * Update interval
 	 */
 	public static int UPDATE_INTERVAL = 60000;
-	
+
 	/*
 	 * User
 	 */
 	public static String username = MockUserInfo.getInstance().username;
-	public static boolean isLogin = false;	
+	public static boolean isLogin = false;
 
 	/*
 	 * Misc
 	 */
-	public static Activity application = null;	// point to HomeActivity
-	public static DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-	public static DateFormat dfFull = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
-	public static InputFilter[] uneditableInputFilters = new InputFilter[] {new InputFilter() {
+	public static final String NORMAL_DATE = "dd-MM-yyyy";
+	public static final String NORMAL_DATE_WITH_HOUR = "dd/MM/yyyy hh:mm:ss";
+	public static final Gson gsonDateWithoutHour = new GsonBuilder()
+			.setDateFormat(NORMAL_DATE).excludeFieldsWithExcludeAnnotation()
+			.create();
+	public static final Gson gsonWithDate = new GsonBuilder().setDateFormat(
+			NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
+			.create();
+	public static Activity application = null; // point to HomeActivity
+	public static DateFormat df = new SimpleDateFormat(NORMAL_DATE);
+	public static DateFormat dfFull = new SimpleDateFormat(
+			NORMAL_DATE_WITH_HOUR);
+	public static InputFilter[] uneditableInputFilters = new InputFilter[] { new InputFilter() {
 		public CharSequence filter(CharSequence src, int start, int end,
 				Spanned dst, int dstart, int dend) {
 			return src.length() < 1 ? dst.subSequence(dstart, dend) : "";
 		}
-	}};
-	
-	public static InputFilter[] usernameInputFilters = new InputFilter[] {new UsernameFilterGMail()};
-	
+	} };
+
+	public static InputFilter[] usernameInputFilters = new InputFilter[] { new UsernameFilterGMail() };
+
 	/*
-	 * Intent key 
+	 * Intent key
 	 */
 	public static final String USER_INFO = "user_info";
 	public static final String CAN_EDIT_USER_PROFILE = "can_edit_user_profile";
 	public static final String USER_PRODUCT_LIST_TYPE = "product_list_type";
-	
+
 	public static final String PRODUCT_INFO = "product_info";
 	public static final String CAN_EDIT_PRODUCT_INFO = "can_edit_product_info";
-	
+
 	public static final String PRODUCT_LIST_TYPE = "product_list_type";
 	public static final String PAGE = "page";
 	public static final String ID_OF_COMMENTS = "id_of_comments";

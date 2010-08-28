@@ -1,5 +1,7 @@
 package com.appspot.smartshop.ui.user;
 
+import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
+import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +15,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.URLConstant;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class LoginActivity extends Activity {
 	public static final String TAG = "LoginActivity";
@@ -69,6 +75,28 @@ public class LoginActivity extends Activity {
 		Global.isLogin = true;
 		
 		// TODO (condorhero01): request login service
+		String username = txtUsername.getText().toString();
+		String pass = txtPassword.getText().toString();
+		HttpService.getResource(String.format(URLConstant.LOGIN, username, pass), 
+			true, new ServiceCallback<String>() {
+			
+			@Override
+			public void onSuccess(String result) {
+				Log.d(TAG, result);
+				
+				JsonParser parser = new JsonParser();
+				JsonObject json = parser.parse(result).getAsJsonObject();
+				String errCode = json.getAsString("errCode");
+				Log.d(TAG, "errCode: " + errCode);
+				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo"), UserInfo.class);
+				Log.d(TAG, "UserInfo: " + userInfo);
+			}
+			
+			@Override
+			public void onFailure(Exception ex) {
+				ex.printStackTrace();
+			}
+		});
 		
 		finish();
 	}

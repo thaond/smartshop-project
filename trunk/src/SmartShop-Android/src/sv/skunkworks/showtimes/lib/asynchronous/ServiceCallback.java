@@ -21,14 +21,18 @@ package sv.skunkworks.showtimes.lib.asynchronous;
  *
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
  */
-public interface ServiceCallback<T> {
+public abstract class ServiceCallback<T> {
     /**
      * Called when service request success.
      */
-    public void onSuccess(T result);
+    public abstract void onSuccess(T result);
 
     /**
      * Called when service request failed.
      */
-    public void onFailure(Exception ex);
+    public abstract void onFailure(Exception ex);
+    
+    public void onUpdating() {}
+    
+    public void onEndUpdating() {};
 }
