@@ -2,6 +2,9 @@ package com.appspot.smartshop.adapter;
 
 import java.util.ArrayList;
 
+import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
+import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
@@ -22,6 +26,10 @@ import com.appspot.smartshop.ui.product.PostProductActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProductListActivity;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class UserProfileAdapter extends BaseAdapter {
 	
@@ -68,10 +76,7 @@ public class UserProfileAdapter extends BaseAdapter {
 					Intent intent = null;
 					switch (position) {
 					case 0:
-						intent = new Intent(context, UserActivity.class);
-						// TODO (condorhero01): request info of user based on Global.username
-						intent.putExtra(Global.USER_INFO, MockUserInfo.getInstance());
-						intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
+						getUserProfile();
 						break;
 						
 					case 1:
@@ -99,6 +104,24 @@ public class UserProfileAdapter extends BaseAdapter {
 		}
 		
 		return convertView;
+	}
+
+	protected void getUserProfile() {
+		String url = String.format(URLConstant.GET_USER_INFO, Global.username);
+		HttpService.getResource(url, false, new ServiceCallback() {
+			
+			@Override
+			public void onSuccess(JsonObject result) {
+				JsonObject json = result.getAsJsonObject("userinfo");
+				UserInfo userInfo = Utils.gson.fromJson(json, UserInfo.class);
+				
+				Intent intent = new Intent(context, UserActivity.class);
+//				intent.putExtra(Global.USER_INFO, MockUserInfo.getInstance());
+				intent.putExtra(Global.USER_INFO, userInfo);
+				intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
+				context.startActivity(intent);
+			}
+		});
 	}
 
 	public int getCount() {

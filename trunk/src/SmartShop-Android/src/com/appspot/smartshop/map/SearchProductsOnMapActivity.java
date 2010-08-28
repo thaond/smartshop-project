@@ -64,10 +64,14 @@ public class SearchProductsOnMapActivity extends MapActivity {
 		MyLocationListener myLocationListener = new MyLocationListener(this, new MyLocationCallback() {
 			
 			@Override
-			public void onGetCurrentLocation(GeoPoint point) {
+			public void onSuccess(GeoPoint point) {
 				mapController.setCenter(point);
 				productsOverlay.center = point;
 				mapView.invalidate();
+			}
+			
+			@Override
+			public void onFailure() {
 			}
 		});
 		locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, myLocationListener);

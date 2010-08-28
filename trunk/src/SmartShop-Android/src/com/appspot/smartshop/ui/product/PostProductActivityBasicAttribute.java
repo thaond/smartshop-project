@@ -49,7 +49,7 @@ public class PostProductActivityBasicAttribute extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.post_basic_product_attribute);
+		setContentView(R.layout.post_basic_product_attribute);	
 		
 		// set up labelWidth and textWidth
 		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE))
@@ -84,7 +84,7 @@ public class PostProductActivityBasicAttribute extends Activity {
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtAddressOfProduct);
 		txtDescriptionOfProduct = (EditText) findViewById(R.id.txtDescription);
 		txtDescriptionOfProduct.setHeight(labelHeight);
-		btnChooseCategory = (Button) findViewById(R.id.btnChooseCategory);
+		btnChooseCategory = (Button) findViewById(R.id.btnChooseCategory);	
 		btnChooseCategory.setOnClickListener(new OnClickListener() {
 			
 			@Override

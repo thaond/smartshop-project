@@ -48,15 +48,20 @@ public class TestActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		Global.application = this;
-		testLogin(); // TODO (condorhero01): place test function here
+		testGetCurrentLocation(); // TODO (condorhero01): place test function here
 	}
 	
 	void testGetCurrentLocation() {
 		new MyLocationListener(this, new MyLocationCallback() {
 			
 			@Override
-			public void onGetCurrentLocation(GeoPoint point) {
+			public void onSuccess(GeoPoint point) {
 				Log.d(TAG, "current location is " + point);
+			}
+			
+			@Override
+			public void onFailure() {
+				Log.d(TAG, "onFailure");
 			}
 		}).getCurrentLocation();
 	}
@@ -305,38 +310,6 @@ public class TestActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
-	}
-	
-	private void testLogin(){
-		HttpService.getResource(String.format(URLConstant.LOGIN, "tam", "dflsdj"), true, new ServiceCallback<String>() {
-			
-			@Override
-			public void onUpdating() {
-				
-			}
-			
-			@Override
-			public void onEndUpdating() {
-			}
-			
-			@Override
-			public void onSuccess(String result) {
-				Log.d(TAG, result);
-				
-				JsonParser parser = new JsonParser();
-				JsonObject json = parser.parse(result).getAsJsonObject();
-				String errCode = json.getAsString("errCode");
-				Log.d(TAG, "errCode: " + errCode);
-				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo"), UserInfo.class);
-				Log.d(TAG, "UserInfo: " + userInfo);
-				
-			}
-			
-			@Override
-			public void onFailure(Exception ex) {
-				ex.printStackTrace();
-			}
-		});
 	}
 }
 

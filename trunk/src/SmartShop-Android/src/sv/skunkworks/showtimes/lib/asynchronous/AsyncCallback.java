@@ -16,6 +16,8 @@
 
 package sv.skunkworks.showtimes.lib.asynchronous;
 
+import com.google.gson.JsonObject;
+
 import android.os.Message;
 
 /**
@@ -30,8 +32,8 @@ import android.os.Message;
  * @see {@link ServiceMethodCallback}
  * @see {@link CallbackHandler}
  */
-public class AsyncCallback<T> extends ServiceCallback<T> {
-    private CallbackHandler<T> handler;
+public class AsyncCallback extends ServiceCallback {
+    private CallbackHandler<JsonObject> handler;
 
     /**
      * Constructs an {@link AsyncCallback} from a {@link CallbackHandler}.
@@ -39,7 +41,7 @@ public class AsyncCallback<T> extends ServiceCallback<T> {
      *
      * @param handler
      */
-    public AsyncCallback(CallbackHandler<T> handler) {
+    public AsyncCallback(CallbackHandler<JsonObject> handler) {
         this.handler = handler;
     }
 
@@ -53,7 +55,7 @@ public class AsyncCallback<T> extends ServiceCallback<T> {
         handler.sendMessage(msg);
     }
 
-    public void onSuccess(T result) {
+    public void onSuccess(JsonObject result) {
         if (handler == null) {
             return;
         }

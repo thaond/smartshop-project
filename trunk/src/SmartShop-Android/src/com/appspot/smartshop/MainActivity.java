@@ -1,11 +1,14 @@
 package com.appspot.smartshop;
 
+import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
+import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.URLUtil;
 import android.widget.TabHost;
 import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
@@ -18,6 +21,8 @@ import com.appspot.smartshop.ui.user.LoginActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.URLConstant;
+import com.google.gson.JsonObject;
 
 public class MainActivity extends TabActivity {
 	public static final String TAG = "[MainActivity]";
@@ -82,7 +87,6 @@ public class MainActivity extends TabActivity {
 	}
 
 	protected void loadProductsList() {
-		// TODO (condorehro01): request products list
 	}
 
 	public static final int MENU_LOGIN = 0;
