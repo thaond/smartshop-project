@@ -15,9 +15,10 @@ import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
 import com.appspot.smartshop.R;
-import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.dom.CategoryInfo;
+import com.appspot.smartshop.utils.Global;
 
 /**
  * Demonstrates expandable lists using a custom {@link ExpandableListAdapter}
@@ -40,7 +41,7 @@ public class SearchByCategory extends ExpandableListActivity {
 		// TODO (vanloi999): type (page or product)
 		// type = getIntent().getExtras().getInt(Global.TYPE);
 		setContentView(R.layout.search_by_category);
-		btnSearchCategory = (Button) findViewById(R.id.btnSearchByCategory);
+		btnSearchCategory = (Button) findViewById(R.id.btnSearch);
 		btnSearchCategory.setOnClickListener(new OnClickListener() {
 
 			@Override
