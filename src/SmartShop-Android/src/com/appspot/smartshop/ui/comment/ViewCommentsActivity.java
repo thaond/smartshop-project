@@ -2,6 +2,9 @@ package com.appspot.smartshop.ui.comment;
 
 import java.util.List;
 
+import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
+import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -23,6 +26,10 @@ import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
+import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class ViewCommentsActivity extends Activity {
 	public static final String TAG = "[ViewCommentsActivity]";
@@ -96,27 +103,7 @@ public class ViewCommentsActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				String content = txtComment.getText().toString();
-				if (content.trim().equals("")) {
-					Toast.makeText(ViewCommentsActivity.this, getString(R.string.errEmptyComment), 
-							Toast.LENGTH_SHORT).show();
-					dialog.cancel();
-					return;
-				}
-				
-				Comment comment = new Comment();
-				comment.content = content;
-				comment.username = Global.username;
-				comment.type_id = id;
-				comment.type = type;
-				adapter.addNewComment(comment);
-				
-				// TODO (condorhero01): type and type_id of comment?
-				// TODO (condorhero01): request add new comment
-				Log.d(TAG, "user " + comment.username + ", comment = " + comment.content
-						+ " type_id = " + comment.type_id + ", type = " + type);
-				
-				dialog.cancel();
+				addNewComment();
 			}
 		});
 		
@@ -124,5 +111,40 @@ public class ViewCommentsActivity extends Activity {
 		builder.setView(view);
 		dialog = builder.create();
 		dialog.show();
+	}
+
+	protected void addNewComment() {
+		String url = URLConstant.ADD_NEW_COMMENT;
+		// create comment
+		String content = txtComment.getText().toString();
+		if (content.trim().equals("")) {
+			onAddNewCommentFailure();
+			return;
+		}
+		
+		final Comment comment = new Comment();
+		comment.content = content;
+		comment.username = Global.username;
+		comment.type_id = id;
+		comment.type = type;
+		Log.d(TAG, "user " + comment.username + ", comment = " + comment.content
+				+ " type_id = " + comment.type_id + ", type = " + type);
+		
+		String param = Utils.gson.toJson(comment);
+		HttpService.postResource(url, param, false, new ServiceCallback() {
+			
+			@Override
+			public void onSuccess(JsonObject result) {
+				
+				adapter.addNewComment(comment);
+				dialog.cancel();
+			}
+		});
+	}
+	
+	private void onAddNewCommentFailure() {
+		Toast.makeText(ViewCommentsActivity.this, getString(R.string.errEmptyComment), 
+				Toast.LENGTH_SHORT).show();
+		dialog.cancel();
 	}
 }

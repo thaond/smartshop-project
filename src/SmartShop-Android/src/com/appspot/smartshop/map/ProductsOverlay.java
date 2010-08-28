@@ -63,7 +63,8 @@ public class ProductsOverlay extends Overlay{
 		paint.setColor(Color.BLUE);
 		for (ProductInfo productInfo : products) {
 			Point screenPoint = new Point();
-			mapView.getProjection().toPixels(new GeoPoint(productInfo.lat, productInfo.lng), screenPoint);
+			mapView.getProjection().toPixels(
+					new GeoPoint((int) (productInfo.lat * 1E6), (int) (productInfo.lng  * 1E6)), screenPoint);
 			
 			canvas.drawPoint(screenPoint.x, screenPoint.y, paint);
 		}

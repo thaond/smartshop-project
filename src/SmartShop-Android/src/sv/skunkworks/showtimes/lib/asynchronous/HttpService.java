@@ -21,6 +21,9 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import android.util.Log;
 
 /**
@@ -53,17 +56,22 @@ public class HttpService {
      *            content) of this method invocation.
      */
     public static void getResource(final String url, final boolean blocking,
-            final ServiceCallback<String> callback) {
+            final ServiceCallback callback) {
         Log.d("URL",url);
         callback.onUpdating();
         try {
+        	final JsonObject response = getContent(url);
             if (blocking) {
-                callback.onSuccess(getContent(url));
+            	if (callback.handleMessage(response)) {
+            		callback.onSuccess(response);
+            	}
             } else {
                 ThreadPool.getInstance().execute(new TaskPool() {
                     public void run() {
                         try {
-                            callback.onSuccess(getContent(url));
+                        	if (callback.handleMessage(response)) {
+                        		callback.onSuccess(response);
+                        	}
                         } catch (Exception ex) {
                             callback.onFailure(ex);
                         }
@@ -94,17 +102,22 @@ public class HttpService {
      *            content) of this method invocation.
      */
     public static void postResource(final String url, String content, final boolean blocking,
-            final ServiceCallback<String> callback) {
+            final ServiceCallback callback) {
         Log.d("URL",url);
         callback.onUpdating();
         try {
+        	final JsonObject response = postContent(url, content);
             if (blocking) {
-                callback.onSuccess(postContent(url, content));
+            	if (callback.handleMessage(response)) {
+            		callback.onSuccess(response);
+            	}
             } else {
                 ThreadPool.getInstance().execute(new TaskPool() {
                     public void run() {
                         try {
-                            callback.onSuccess(getContent(url));
+                        	if (callback.handleMessage(response)) {
+                        		callback.onSuccess(response);
+                        	}
                         } catch (Exception ex) {
                             callback.onFailure(ex);
                         }
@@ -121,7 +134,7 @@ public class HttpService {
     /**
      * Get the textual content of a webpage through <code>HTTP GET</code>.
      */
-    private static String getContent(String urlResource) {
+    private static JsonObject getContent(String urlResource) {
         String result = "";
         try {
             URL url = new URL(urlResource);
@@ -136,13 +149,16 @@ public class HttpService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        
+        JsonParser parser = new JsonParser();
+		JsonObject json = parser.parse(result).getAsJsonObject();
+        return json;
     }
     
     /**
      * Get the textual content of a webpage through <code>HTTP POST</code>.
      */
-    private static String postContent(String urlResource, String content) {
+    private static JsonObject postContent(String urlResource, String content) {
         String result = "";
         try {
             URL url = new URL(urlResource);
@@ -164,6 +180,9 @@ public class HttpService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        
+        JsonParser parser = new JsonParser();
+		JsonObject json = parser.parse(result).getAsJsonObject();
+        return json;
     }
 }

@@ -79,7 +79,9 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			public void onClick(View v) {
 				// TODO (condorhero01): can product has no lat, lng?
 				MapDialog.createLocationDialog(
-						context, new GeoPoint((int)productInfo.lat, (int)productInfo.lng), null).show();
+						context, 
+						new GeoPoint((int) (productInfo.lat * 1E6), (int) (productInfo.lng * 1E6)), 
+						null).show();
 			}
 		});
 		

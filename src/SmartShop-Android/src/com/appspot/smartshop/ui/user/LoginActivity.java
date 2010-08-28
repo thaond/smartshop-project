@@ -78,17 +78,14 @@ public class LoginActivity extends Activity {
 		String username = txtUsername.getText().toString();
 		String pass = txtPassword.getText().toString();
 		HttpService.getResource(String.format(URLConstant.LOGIN, username, pass), 
-			true, new ServiceCallback<String>() {
+			true, new ServiceCallback() {
 			
 			@Override
-			public void onSuccess(String result) {
-				Log.d(TAG, result);
-				
-				JsonParser parser = new JsonParser();
-				JsonObject json = parser.parse(result).getAsJsonObject();
-				String errCode = json.getAsString("errCode");
+			public void onSuccess(JsonObject result) {
+				Log.d(TAG, result.toString());
+				String errCode = result.getAsString("errCode");
 				Log.d(TAG, "errCode: " + errCode);
-				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo"), UserInfo.class);
+				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(result.get("userinfo"), UserInfo.class);
 				Log.d(TAG, "UserInfo: " + userInfo);
 			}
 			

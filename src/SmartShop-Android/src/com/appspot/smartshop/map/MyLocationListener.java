@@ -13,12 +13,13 @@ import com.google.android.maps.GeoPoint;
 
 public class MyLocationListener implements LocationListener {
 	public static final String TAG = "[MyLocationListener]";
-	private static final int NUM_OF_REQUEST = 20;
+	private static final int NUM_OF_REQUEST = 10;
 	
 	private Context context;
 	private MyLocationCallback callback;
 	public GeoPoint point;
 	private LocationManager locationManager;
+	private boolean requestLocation = false;
 
 	public MyLocationListener(Context context, MyLocationCallback callback) {
 		this.context = context;
@@ -30,38 +31,47 @@ public class MyLocationListener implements LocationListener {
 	
 	public void getCurrentLocation() {
 		new Thread() {
-			@Override
 			public void run() {
+				requestLocation = true;
 				Log.d(TAG, "start get current location info");
-				for (int i = 0; i < NUM_OF_REQUEST; ++i) {
+				for (int i = 1; i <= NUM_OF_REQUEST; ++i) {
+					Log.d(TAG, "try get location " + i);
+					if (point != null) {
+						callback.onSuccess(point);
+						Log.d(TAG, "get current location success");
+						requestLocation = false;
+						return;
+					}
+					
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {}
-					
-					if (point != null) {
-						callback.onGetCurrentLocation(point);
-						break;
-					}
 				}
-				Log.d(TAG, "end get current location info");
-			}
+				Log.d(TAG, "cannot find current location info");
+				Log.d(TAG, "find last location");
+				
+				Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+				if (lastLocation != null) {
+					Log.d(TAG, "last location found");
+					callback.onSuccess(new GeoPoint(
+							(int) (lastLocation.getLatitude() * 1E6), 
+							(int) (lastLocation.getLongitude() * 1E6)));
+				} else {
+					Log.d(TAG, "cannot find last location");
+					callback.onFailure();
+				}
+				requestLocation = false;
+			};
 		}.start();
-		
-		Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		if (lastLocation != null) {
-			callback.onGetCurrentLocation(new GeoPoint(
-					(int) (lastLocation.getLatitude() * 1E6), 
-					(int) (lastLocation.getLongitude() * 1E6)));
-			return;
-		}
 	}
 	
 	@Override
 	public void onLocationChanged(Location loc) {
+		Log.d(TAG, "onLocationChanged");
 		point = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc.getLongitude() * 1E6));
-//		if (callback != null) {
-//			callback.onGetCurrentLocation(point);
-//		}
+		if (callback != null && !requestLocation) {
+			callback.onSuccess(point);
+		}
 	}
 
 	@Override
@@ -81,6 +91,7 @@ public class MyLocationListener implements LocationListener {
 	}
 
 	public interface MyLocationCallback {
-		void onGetCurrentLocation(GeoPoint point);
+		void onSuccess(GeoPoint point);
+		void onFailure();
 	}
 }

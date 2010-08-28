@@ -15,11 +15,16 @@
  */
 package sv.skunkworks.showtimes.lib.asynchronous;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.URLConstant;
+import com.google.gson.JsonObject;
 
 /**
  * Interface definition for a callback to be invoked when a service request has
@@ -27,20 +32,39 @@ import com.appspot.smartshop.R;
  * 
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
  */
-public abstract class ServiceCallback<T> {
+public abstract class ServiceCallback {
 	private Context context;
+	private ProgressDialog dialog = null;
 
 	public ServiceCallback() {
+		dialog = new ProgressDialog(context);
+		dialog.setCancelable(false);
+		dialog.setCanceledOnTouchOutside(false);
 	}
 
 	public ServiceCallback(Context context) {
 		this.context = context;
+		dialog = new ProgressDialog(context);
+		dialog.setCancelable(false);
+		dialog.setCanceledOnTouchOutside(false);
 	}
 
 	/**
 	 * Called when service request success.
 	 */
-	public abstract void onSuccess(T result);
+	public abstract void onSuccess(JsonObject jsonObject);
+	
+	public boolean handleMessage(JsonObject jsonObject) {
+		int errorCode = jsonObject.get(URLConstant.ERROR_CODE).getAsInt();
+		if (errorCode == 1) {
+			String message = jsonObject.get(URLConstant.MESSAGE).getAsString();
+			Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+			
+			return false;
+		} 
+		
+		return true;
+	}
 
 	/**
 	 * Called when service request failed.
@@ -56,8 +80,11 @@ public abstract class ServiceCallback<T> {
     }
 
 	public void onUpdating() {
+		dialog.setMessage(Global.application.getString(R.string.loading));
+		dialog.show();
 	}
 
 	public void onEndUpdating() {
-	};
+		dialog.dismiss();
+	}
 }

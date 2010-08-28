@@ -16,8 +16,8 @@ public class ProductInfo implements Serializable {
 	public String warranty = null;
 	public String origin = null;
 	public String address = null;
-	public int lat;
-	public int lng;
+	public double lat;
+	public double lng;
 	public String username = null;
 	public Set<Long> setPagesId;
 	public Set<String> setCategoryKeys;
