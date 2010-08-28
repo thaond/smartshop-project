@@ -2,7 +2,7 @@ package com.appspot.smartshop.dom;
 
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 public class ProductInfo implements Serializable {
