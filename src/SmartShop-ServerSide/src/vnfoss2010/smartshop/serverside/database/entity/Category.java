@@ -17,7 +17,7 @@ public class Category {
 	private String name;
 	
 	@Persistent
-	private String parent_id;
+	private String parent_id; 
 	
 	@Persistent
 	private List<Long> listPages;

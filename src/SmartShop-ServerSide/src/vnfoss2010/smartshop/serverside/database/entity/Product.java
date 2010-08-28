@@ -411,7 +411,7 @@ public class Product implements LocationCapable {
 	}
 
 	/**
-	 * @param fts
+	 * @param fts 
 	 *            the fts to set
 	 */
 	public void setFts(Set<String> fts) {

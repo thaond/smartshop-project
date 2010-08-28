@@ -16,10 +16,12 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
 import vnfoss2010.smartshop.serverside.services.test.DeleteUserInfosService;
 import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
+import vnfoss2010.smartshop.serverside.services.test.InsertSampleProductService;
 import vnfoss2010.smartshop.serverside.services.test.InsertUserInfosService;
 
 public class TestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		process(req, resp, null);
@@ -76,7 +78,8 @@ public class TestServlet extends HttpServlet {
 	static {
 		mServices.put("insert-userinfos", InsertUserInfosService.class);
 		mServices.put("delete-userinfos", DeleteUserInfosService.class);
-		
+
 		mServices.put("insert-cats", InsertCategoryService.class);
+		mServices.put("insert-products", InsertSampleProductService.class);
 	}
 }

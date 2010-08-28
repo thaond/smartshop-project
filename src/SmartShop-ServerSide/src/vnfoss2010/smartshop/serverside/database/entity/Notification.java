@@ -25,7 +25,7 @@ public class Notification {
 	private boolean isNew;
 
 	@Persistent
-	@Exclude
+	@Exclude 
 	private String username;
 
 	public Notification() {

@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.servlet.http.HttpServlet;
 
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 
@@ -29,7 +28,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 /**
  * The server side implementation of the RPC service.<br>
  */
-public class AccountServiceImpl extends HttpServlet {
+public class AccountServiceImpl {
 	private static final long serialVersionUID = 1L;
 	private static AccountServiceImpl instance;
 
