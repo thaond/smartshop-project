@@ -21,7 +21,7 @@ public class ViewSingleProduct extends TabActivity {
 		
 		// get product info from intent
 		ProductInfo productInfo = (ProductInfo) getIntent().getExtras().get(Global.PRODUCT_INFO);
-		Log.d(TAG, Utils.gson.toJson(productInfo));
+		Log.d(TAG, Global.gsonWithHour.toJson(productInfo));
 		
 		// TODO (vanloi999): load data of product from server and put them into
 		// basic attribute and advance attribute

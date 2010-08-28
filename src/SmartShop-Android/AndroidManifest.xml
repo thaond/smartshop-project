@@ -13,21 +13,21 @@
 
 		<activity android:name=".ui.user.UserActivity" android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="User"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.user.LoginActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="Login"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 
 		<activity android:name=".test.TestActivity" android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="Test"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
@@ -35,141 +35,143 @@
 		<activity android:name=".ui.product.PostProductActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="PostProduct"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.product.PostProductActivityBasicAttribute"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="PostProductBasicAttribute"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.product.PostProductActivityUserDefine"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="PostProductUserDefine"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.product.SearchProductActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="SearchProduct"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.product.SearchByCategoryActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="SearchByCategory"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.page.PageActivity" android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="Page"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.page.ViewPageActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="ViewPage"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.comment.ViewCommentsActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="ViewComments"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.product.ProductsListActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ui.comment.ViewCommentsActivity"
-			android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="ProductsList"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.product.ViewSingleProduct"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="ViewSingle"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.product.ViewBasicAttributeOfProduct"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="ViewBasicAttributeOfProduct"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.product.ViewAdvanceAttributeOfProduct"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="ViewAdvanceAttributeOfProduct"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.page.PagesListActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="PagesList"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.user.UserProfileActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="UserProfile"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".ui.user.UserProductListActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="UserProductList"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".test.ImageFromUrlExample"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="ImageFromUrlExample"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".map.SearchProductsOnMapActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="SearchProductsOnMap"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity android:name=".MainActivity" android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="Main"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+
 		<activity android:name=".map.DirectionListActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
+				<action android:name="DirectionList"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+
+		<activity android:name=".test.UploadActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="Upload"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
 		<activity android:name=".ui.product.CategoryDialogActivity"
 			android:label="@string/app_name">
 			<intent-filter>

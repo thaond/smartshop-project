@@ -5,7 +5,6 @@ import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,13 +12,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.URLConstant;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class LoginActivity extends Activity {
 	public static final String TAG = "LoginActivity";
@@ -71,10 +70,6 @@ public class LoginActivity extends Activity {
 	}
 
 	protected void login() {
-		// TODO (condorhero01): mock login, assign Global.isLogin = true when click Login button
-		Global.isLogin = true;
-		
-		// TODO (condorhero01): request login service
 		String username = txtUsername.getText().toString();
 		String pass = txtPassword.getText().toString();
 		HttpService.getResource(String.format(URLConstant.LOGIN, username, pass), 
@@ -82,11 +77,21 @@ public class LoginActivity extends Activity {
 			
 			@Override
 			public void onSuccess(JsonObject result) {
-				Log.d(TAG, result.toString());
-				String errCode = result.getAsString("errCode");
-				Log.d(TAG, "errCode: " + errCode);
-				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(result.get("userinfo"), UserInfo.class);
-				Log.d(TAG, "UserInfo: " + userInfo);
+				int errCode = Integer.parseInt(result.getAsString("errCode"));
+				String message = result.getAsString("message");
+				switch (errCode) {
+				case Global.SUCCESS:
+					Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+					Global.userInfo = Global.gsonDateWithoutHour.fromJson(result.get("userinfo"), UserInfo.class);
+					Global.isLogin = true;
+					finish();
+					break;
+
+				default:
+					Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+					Global.isLogin = false;
+					break;
+				}
 			}
 			
 			@Override
@@ -94,7 +99,5 @@ public class LoginActivity extends Activity {
 				ex.printStackTrace();
 			}
 		});
-		
-		finish();
 	}
 }

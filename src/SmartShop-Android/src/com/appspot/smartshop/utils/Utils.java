@@ -2,15 +2,12 @@ package com.appspot.smartshop.utils;
 
 import java.io.OutputStream;
 
-import com.google.gson.Gson;
-
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.text.LoginFilter.UsernameFilterGMail;
 import android.view.Display;
 import android.view.WindowManager;
+
+import com.google.gson.Gson;
 
 
 public class Utils {

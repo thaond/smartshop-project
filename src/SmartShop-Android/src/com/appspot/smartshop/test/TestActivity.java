@@ -1,6 +1,5 @@
 package com.appspot.smartshop.test;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,11 +30,9 @@ import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
-import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -48,20 +45,23 @@ public class TestActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		Global.application = this;
-		testGetCurrentLocation(); // TODO (condorhero01): place test function here
+		testLogin(); // TODO (condorhero01): place test function here
 	}
 	
 	void testGetCurrentLocation() {
 		new MyLocationListener(this, new MyLocationCallback() {
 			
+			public void onGetCurrentLocation(GeoPoint point) {
+				Log.d(TAG, "current location is " + point);
+			}
+
+			@Override
+			public void onFailure() {
+			}
+
 			@Override
 			public void onSuccess(GeoPoint point) {
 				Log.d(TAG, "current location is " + point);
-			}
-			
-			@Override
-			public void onFailure() {
-				Log.d(TAG, "onFailure");
 			}
 		}).getCurrentLocation();
 	}
@@ -310,6 +310,33 @@ public class TestActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	
+	private void testLogin(){
+		HttpService.getResource(String.format(URLConstant.LOGIN, "tam", "dflsdj"), true, new ServiceCallback() {
+			
+			@Override
+			public void onUpdating() {
+				
+			}
+			
+			@Override
+			public void onEndUpdating() {
+			}
+			
+			@Override
+			public void onSuccess(JsonObject json) {
+				String errCode = json.getAsString("errCode");
+				Log.d(TAG, "errCode: " + errCode);
+				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo"), UserInfo.class);
+				Log.d(TAG, "UserInfo: " + userInfo);
+			}
+			
+			@Override
+			public void onFailure(Exception ex) {
+				ex.printStackTrace();
+			}
+		});
 	}
 }
 
