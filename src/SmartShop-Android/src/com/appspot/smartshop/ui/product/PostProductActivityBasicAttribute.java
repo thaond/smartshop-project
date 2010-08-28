@@ -4,6 +4,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
@@ -19,7 +20,7 @@ import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.utils.Global;
 
 public class PostProductActivityBasicAttribute extends Activity {
-
+	public static final int PICK_CATEGORIES = 0;
 	public TextView lblNameOfProduct;
 	public TextView lblPriceOfProduct;
 	public TextView lblQuantityOfProduct;
@@ -33,8 +34,10 @@ public class PostProductActivityBasicAttribute extends Activity {
 	public EditText txtWarrantyOfProduct;
 	public EditText txtOriginOfProduct;
 	public EditText txtAddressOfProduct;
+	public EditText txtDescriptionOfProduct;
 	public Button btnOK;
 	public Button btnCancel;
+	public Button btnChooseCategory;
 
 	public ProductInfo productInfo = null;
 	private CheckBox chVat;
@@ -46,13 +49,14 @@ public class PostProductActivityBasicAttribute extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.basic_product_attribute);
+		this.setContentView(R.layout.post_basic_product_attribute);
 		
 		// set up labelWidth and textWidth
 		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE))
 				.getDefaultDisplay();
 		int width = display.getWidth();
 		int labelWidth = (int) (width * 0.25);
+		int labelHeight = (int)(width*0.2);
 		
 		// set up TextView and EditText
 		lblNameOfProduct = (TextView) findViewById(R.id.nameOfProduct);
@@ -78,6 +82,17 @@ public class PostProductActivityBasicAttribute extends Activity {
 		lblAddressOfProduct = (TextView) findViewById(R.id.addressOfProduct);
 		lblAddressOfProduct.setWidth(labelWidth);
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtAddressOfProduct);
+		txtDescriptionOfProduct = (EditText) findViewById(R.id.txtDescription);
+		txtDescriptionOfProduct.setHeight(labelHeight);
+		btnChooseCategory = (Button) findViewById(R.id.btnChooseCategory);
+		btnChooseCategory.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivityForResult(new Intent(Intent.ACTION_PICK), PICK_CATEGORIES);
+				
+			}
+		});
 		
 		// set up check box
 		
@@ -138,4 +153,14 @@ public class PostProductActivityBasicAttribute extends Activity {
 			}
 		}
 	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		if(requestCode==PICK_CATEGORIES){
+			if(resultCode== RESULT_OK){
+				startActivity(new Intent(data));
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	};
 }
