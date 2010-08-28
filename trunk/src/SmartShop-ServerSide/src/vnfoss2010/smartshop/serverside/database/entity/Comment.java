@@ -25,7 +25,7 @@ public class Comment {
 	@Persistent
 	private String username;
 	@Persistent
-	private Date date_post;
+	private Date date_post; 
 
 	public Comment() {
 	}

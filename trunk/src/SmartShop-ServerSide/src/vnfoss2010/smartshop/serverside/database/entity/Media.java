@@ -22,7 +22,7 @@ public class Media {
 	private String mime_type; 
 	
 	@Persistent
-	private String description;
+	private String description; 
 	
 	@Persistent
 	private int product_id;

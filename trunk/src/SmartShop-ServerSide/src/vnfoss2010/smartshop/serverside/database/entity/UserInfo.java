@@ -23,7 +23,7 @@ public class UserInfo implements Serializable {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private String username;
-
+ 
 	@Persistent
 	private String password;
 

@@ -28,7 +28,7 @@ public class Page {
 
 	@Persistent
 	private int page_view;
-
+ 
 	@Persistent
 	private Date date_post;
 	
