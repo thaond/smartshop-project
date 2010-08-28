@@ -15,24 +15,49 @@
  */
 package sv.skunkworks.showtimes.lib.asynchronous;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.appspot.smartshop.R;
+
 /**
  * Interface definition for a callback to be invoked when a service request has
  * been done.
- *
+ * 
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
  */
 public abstract class ServiceCallback<T> {
-    /**
-     * Called when service request success.
-     */
-    public abstract void onSuccess(T result);
+	private Context context;
 
-    /**
-     * Called when service request failed.
-     */
-    public abstract void onFailure(Exception ex);
-    
-    public void onUpdating() {}
-    
-    public void onEndUpdating() {};
+	public ServiceCallback() {
+	}
+
+	public ServiceCallback(Context context) {
+		this.context = context;
+	}
+
+	/**
+	 * Called when service request success.
+	 */
+	public abstract void onSuccess(T result);
+
+	/**
+	 * Called when service request failed.
+	 */
+	public void onFailure(Exception ex){
+    	if (context!=null){
+    		Log.e(context.getPackageName(), ex.getMessage());
+        	Toast.makeText(context, context.getString(R.string.cant_connect_network), Toast.LENGTH_SHORT).show();	
+    	}
+    	else{
+    		ex.printStackTrace();
+    	}
+    }
+
+	public void onUpdating() {
+	}
+
+	public void onEndUpdating() {
+	};
 }

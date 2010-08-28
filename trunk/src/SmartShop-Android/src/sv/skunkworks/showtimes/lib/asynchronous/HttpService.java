@@ -17,6 +17,7 @@ package sv.skunkworks.showtimes.lib.asynchronous;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -75,6 +76,47 @@ public class HttpService {
         	callback.onEndUpdating();
         }
     }
+    
+    /**
+     * Send a <code>HTTP POST</code> to <code>url</code> and retrieve the string
+     * content.
+     *
+     * @param url
+     *            URL of the webpage you want to retrieve content.
+     * @param blocking
+     *            Indicate <code>HTTP GET</code> will be sent synchronous or
+     *            asynchronous. Pass <code>true</code> if want to send
+     *            <code>HTTP GET</code> in the same thread of caller, otherwise
+     *            pass <code>false</code>.
+     * @param callback
+     *            A callback instance that is being called as soon as the remote
+     *            service returns the result (a String object contains textual
+     *            content) of this method invocation.
+     */
+    public static void postResource(final String url, String content, final boolean blocking,
+            final ServiceCallback<String> callback) {
+        Log.d("URL",url);
+        callback.onUpdating();
+        try {
+            if (blocking) {
+                callback.onSuccess(postContent(url, content));
+            } else {
+                ThreadPool.getInstance().execute(new TaskPool() {
+                    public void run() {
+                        try {
+                            callback.onSuccess(getContent(url));
+                        } catch (Exception ex) {
+                            callback.onFailure(ex);
+                        }
+                    };
+                }, null);
+            }
+        } catch (Exception ex) {
+            callback.onFailure(ex);
+        } finally {
+        	callback.onEndUpdating();
+        }
+    }
 
     /**
      * Get the textual content of a webpage through <code>HTTP GET</code>.
@@ -90,6 +132,34 @@ public class HttpService {
             while ((line = rd.readLine()) != null) {
                 result += line + "\n";
             }
+            rd.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    /**
+     * Get the textual content of a webpage through <code>HTTP POST</code>.
+     */
+    private static String postContent(String urlResource, String content) {
+        String result = "";
+        try {
+            URL url = new URL(urlResource);
+            URLConnection con = url.openConnection();
+            con.setDoOutput(true);
+            
+            OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+            wr.write(content);
+            wr.flush();
+            
+            BufferedReader rd = new BufferedReader(new InputStreamReader(con
+                    .getInputStream()));
+            String line;
+            while ((line = rd.readLine()) != null) {
+                result += line + "\n";
+            }
+            wr.close();
             rd.close();
         } catch (Exception e) {
             e.printStackTrace();
