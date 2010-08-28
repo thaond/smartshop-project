@@ -12,12 +12,13 @@
 	<string name="rbCheapest">Rẻ nhất</string>
 
 	<!-- User -->
-	<string name="lblUsername">Tên đăng nhập:</string>
-	<string name="lblPassword">Mật khẩu:</string>
-	<string name="lblConfirm">Xác nhận:</string>
-	<string name="lblFirstName">Tên:</string>
+	<string name="lblUsername">Tên đăng nhập*:</string>
+	<string name="lblOldPassword">Mật khẩu cũ:</string>
+	<string name="lblPassword">Mật khẩu*:</string>
+	<string name="lblConfirm">Xác nhận*:</string>
+	<string name="lblFirstName">Tên*:</string>
 	<string name="lblLastName">Họ:</string>
-	<string name="lblEmail">Email:</string>
+	<string name="lblEmail">Email*:</string>
 	<string name="lblBirthday">Ngày sinh:</string>
 	<string name="hintChooseBirthday">Chọn ngày sinh</string>
 	<string name="lblAddress">Địa chỉ:</string>
@@ -30,6 +31,13 @@
 	<string name="lblPhoneNumber">Số điện thoại:</string>
 	<string name="lblAvatar">Hình đại diện:</string>
 	<string name="lblRegister">Đăng ký</string>
+
+	<!-- Validate user -->
+	<string name="username_longer_6_chars">Tên đăng nhập phải nhiều hơn 6 kí tự</string>
+	<string name="password_longer_6_chars">Mật khẩu phải nhiều hơn 6 kí tự</string>
+	<string name="password_not_match">Mật khẩu và xác nhận không trùng nhau</string>
+	<string name="first_name_longer_6_chars">Tên phải nhiều hơn 6 kí tự</string>
+	<string name="email_invalid">Email không hợp lệ</string>
 
 	<!-- General labels -->
 	<string name="lblUpdate">Cập nhật</string>
@@ -67,7 +75,7 @@
 	<!-- View Product Form -->
 	<string name="userName">Username</string>
 	<string name="pageView">Số lượt xem</string>
-	
+
 	<!-- Dialog -->
 	<string name="btnShowDirectionOnMap">Xem trên bản đồ</string>
 
@@ -116,10 +124,19 @@
 	<!-- Comment dialog -->
 	<string name="add_new_comment">Thêm bình luận</string>
 	<string name="errEmptyComment">Bạn chưa nhập nội dung</string>
-	
+
 	<!-- Search by categories -->
 	<string name="search_by_categories">Tìm theo mục</string>
-	
+
 	<!-- Message -->
 	<string name="cant_connect_network">Không thể kết nối mạng</string>
+
+	<!-- File explorer -->
+	<string name="dirname_app_name">Android File Browser - by anddev.org</string>
+	<string name="menu_new_folder">New Folder</string>
+	<string name="dirnameinput_cmd_return">Save</string>
+	<string name="dirnameinput_hint">Enter a directory-name:</string>
+	<string name="up_one_level">..</string>
+	<string name="current_dir">.</string>
+	
 </resources>
