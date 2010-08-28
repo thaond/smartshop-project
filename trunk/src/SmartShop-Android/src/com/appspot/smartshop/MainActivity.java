@@ -13,7 +13,7 @@ import android.widget.TabHost.OnTabChangeListener;
 import com.appspot.smartshop.mock.MockCategory;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.product.ProductsListActivity;
-import com.appspot.smartshop.ui.product.SearchByCategory;
+import com.appspot.smartshop.ui.product.SearchByCategoryActivity;
 import com.appspot.smartshop.ui.user.LoginActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
@@ -133,7 +133,7 @@ public class MainActivity extends TabActivity {
 			break;
 
 		case MENU_SEARCH_BY_CATEGORIES:
-			intent = new Intent(this, SearchByCategory.class);
+			intent = new Intent(this, SearchByCategoryActivity.class);
 			intent.putExtra(Global.TYPE, type);
 			intent.putExtra(Global.CATEGORY_INFO, MockCategory.getInstance());
 			startActivity(intent);

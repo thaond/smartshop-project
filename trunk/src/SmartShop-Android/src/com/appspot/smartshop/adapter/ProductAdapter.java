@@ -24,6 +24,7 @@ import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.ui.product.ViewSingleProduct;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
 
 public class ProductAdapter extends ArrayAdapter<ProductInfo> {
@@ -68,20 +69,21 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		final ProductInfo product = (ProductInfo) getItem(position);
-		holder.txtName.setText(product.name);
-		holder.txtPrice.setText(""+product.price);
-		holder.txtDescription.setText(product.description);
+		final ProductInfo productInfo = (ProductInfo) getItem(position);
+		holder.txtName.setText(productInfo.name);
+		holder.txtPrice.setText(""+productInfo.price);
+		holder.txtDescription.setText(productInfo.description);
 		holder.btnMap.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO (condorhero01): can product has no lat, lng?
 				MapDialog.createLocationDialog(
-						context, new GeoPoint((int)product.lat, (int)product.lng), null).show();
+						context, new GeoPoint((int)productInfo.lat, (int)productInfo.lng), null).show();
 			}
 		});
-		//Load image of product from internet
+		
+		// Load image of product from internet
 		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
 		try{
 			Drawable drawable = getDrawableFromUrl(url);
@@ -98,7 +100,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(context, ViewSingleProduct.class);
-				intent.putExtra(Global.PRODUCT_INFO, product);
+				intent.putExtra(Global.PRODUCT_INFO, productInfo);
 				
 				context.startActivity(intent);
 			}

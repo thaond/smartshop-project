@@ -22,7 +22,7 @@ import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.product.PostProductActivity;
-import com.appspot.smartshop.ui.product.SearchByCategory;
+import com.appspot.smartshop.ui.product.SearchByCategoryActivity;
 import com.appspot.smartshop.ui.product.SearchProductActivity;
 import com.appspot.smartshop.ui.product.ViewSingleProduct;
 import com.appspot.smartshop.ui.user.UserActivity;
@@ -217,7 +217,7 @@ public class HomeActivity extends Activity {
 		startActivity(intent);
 	}
 	private void searchByCategory() {
-		Intent intent = new Intent(this, SearchByCategory.class);
+		Intent intent = new Intent(this, SearchByCategoryActivity.class);
 		intent.putExtra(Global.CATEGORY_INFO, MockCategory.getInstance());
 		intent.putExtra(Global.TYPE, MainActivity.PRODUCT);
 		startActivity(intent);

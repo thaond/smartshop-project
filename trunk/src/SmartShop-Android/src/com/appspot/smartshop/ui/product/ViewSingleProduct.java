@@ -3,6 +3,7 @@ package com.appspot.smartshop.ui.product;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.mock.MockProductInfo;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.Utils;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -11,6 +12,8 @@ import android.util.Log;
 import android.widget.TabHost;
 
 public class ViewSingleProduct extends TabActivity {
+	public static final String TAG = "[ViewSingleProduct]";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,6 +21,7 @@ public class ViewSingleProduct extends TabActivity {
 		
 		// get product info from intent
 		ProductInfo productInfo = (ProductInfo) getIntent().getExtras().get(Global.PRODUCT_INFO);
+		Log.d(TAG, Utils.gson.toJson(productInfo));
 		
 		// TODO (vanloi999): load data of product from server and put them into
 		// basic attribute and advance attribute

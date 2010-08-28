@@ -48,7 +48,7 @@ public class SearchProductActivity extends Activity {
 		});
 	}
 	private void searchByCategory() {
-		Intent intent = new Intent(this, SearchByCategory.class);
+		Intent intent = new Intent(this, SearchByCategoryActivity.class);
 		startActivity(intent);
 		
 	}

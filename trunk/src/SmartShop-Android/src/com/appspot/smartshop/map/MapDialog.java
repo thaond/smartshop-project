@@ -110,6 +110,7 @@ public class MapDialog {
 			
 		// overlay
 		List<Overlay> listOfOverlays = mapView.getOverlays();
+		listOfOverlays.clear();
 		if (directionOverlay == null) {
 			directionOverlay = new DirectionOverlay();
 		}

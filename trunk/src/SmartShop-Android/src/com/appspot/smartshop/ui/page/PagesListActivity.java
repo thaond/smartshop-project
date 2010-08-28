@@ -3,7 +3,11 @@ package com.appspot.smartshop.ui.page;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -34,6 +38,8 @@ public class PagesListActivity extends Activity {
 	private ListView listPages;
 	private PageAdapter adapter;
 
+	private EditText txtSearch;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +51,17 @@ public class PagesListActivity extends Activity {
 			Log.d(TAG, "view pages of user " + Global.username);
 			pagesListType = getIntent().getExtras().getInt(Global.PAGES_LIST_TYPE);
 		}
+		
+		// search field
+		txtSearch = (EditText) findViewById(R.id.txtSearch);
+		Button btnSearch = (Button) findViewById(R.id.btnSearch);
+		btnSearch.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				searchPages();
+			}
+		});
 		
 		// radio buttons
 		RadioButton rbPageMostView = (RadioButton) findViewById(R.id.rbPageMostView);
@@ -75,6 +92,12 @@ public class PagesListActivity extends Activity {
 		// load pages to listview
 		listPages = (ListView) findViewById(R.id.listPages);
 		loadPagesList();
+	}
+
+	protected void searchPages() {
+		// TODO (condorhero01): request pages list based on query string
+		String query = txtSearch.getText().toString();
+		Log.d(TAG, "query = " + query);
 	}
 
 	protected void loadPagesList() {
