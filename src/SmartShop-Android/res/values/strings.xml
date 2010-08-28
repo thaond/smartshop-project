@@ -115,4 +115,7 @@
 	
 	<!-- Search by categories -->
 	<string name="search_by_categories">Tìm theo mục</string>
+	
+	<!-- Message -->
+	<string name="cant_connect_network">Không thể kết nối mạng</string>
 </resources>
