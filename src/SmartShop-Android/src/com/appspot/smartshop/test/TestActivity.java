@@ -11,9 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import android.content.Context;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -21,8 +19,11 @@ import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
+import com.appspot.smartshop.map.MyLocation;
 import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
+import com.appspot.smartshop.map.MyLocation.LocationResult;
+import com.appspot.smartshop.map.MyLocationListener.MyLocationCallback;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
@@ -40,6 +41,27 @@ public class TestActivity extends MapActivity {
 
 		Global.application = this;
 		testGetCurrentLocation(); // TODO (condorhero01): place test function here
+	}
+	
+	void testGetCurrentLocation() {
+		new MyLocationListener(this, new MyLocationCallback() {
+			
+			@Override
+			public void onGetCurrentLocation(GeoPoint point) {
+				Log.d(TAG, "current location is " + point);
+			}
+		}).getCurrentLocation();
+	}
+	
+	void testMyLocation() {
+		MyLocation myLocation = MyLocation.getInstance();
+		myLocation.getLocation(this, new LocationResult() {
+			
+			@Override
+			public void gotLocation(Location location) {
+				Log.d(TAG, "current location = " + location.getLatitude()+ ", " + location.getLongitude());
+			}
+		});
 	}
 	
 	void testHttpPost() {
@@ -60,12 +82,6 @@ public class TestActivity extends MapActivity {
 				System.out.println(message);
 			}
 		});
-	}
-
-	void testGetCurrentLocation() {
-		LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		LocationListener mlocListener = new MyLocationListener(this);
-		mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 	}
 
 	void testGson4() {

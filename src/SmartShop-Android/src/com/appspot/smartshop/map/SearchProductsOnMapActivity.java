@@ -1,9 +1,10 @@
 package com.appspot.smartshop.map;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
-import android.location.LocationListener;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.map.MyLocation.LocationResult;
+import com.appspot.smartshop.map.MyLocationListener.MyLocationCallback;
+import com.appspot.smartshop.mock.MockProduct;
 import com.appspot.smartshop.utils.Global;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -29,8 +34,8 @@ public class SearchProductsOnMapActivity extends MapActivity {
 	private EditText txtSearch;
 	private EditText txtRadius;
 	private TextView txtLocation;
-
-	private LocationOverlay locationOverlay;
+	
+	private ProductsOverlay productsOverlay;
 
 	private MapController mapController;
 
@@ -53,22 +58,43 @@ public class SearchProductsOnMapActivity extends MapActivity {
 		
 		// map view
 		mapView = (MapView) findViewById(R.id.mapview);
+		
 		// location listener
 		LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		MyLocationListener myLocationListener = new MyLocationListener(this);
+		MyLocationListener myLocationListener = new MyLocationListener(this, new MyLocationCallback() {
+			
+			@Override
+			public void onGetCurrentLocation(GeoPoint point) {
+				mapController.setCenter(point);
+				productsOverlay.center = point;
+				mapView.invalidate();
+			}
+		});
 		locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, myLocationListener);
-		GeoPoint point = myLocationListener.point;
+		locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		
+		// get last location of user
+		Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		GeoPoint lastPoint = lastLocation == null ? null : 
+			new GeoPoint(
+				(int) (lastLocation.getLatitude() * 1E6), 
+				(int) (lastLocation.getLongitude() * 1E6));
+		
 		// overlay
 		List<Overlay> listOfOverlays = mapView.getOverlays();
 		listOfOverlays.clear();
-		locationOverlay = new LocationOverlay();
-		locationOverlay.point = point;
-		listOfOverlays.add(locationOverlay);
+		productsOverlay = new ProductsOverlay(this);
+		productsOverlay.products = new LinkedList<ProductInfo>();
+		productsOverlay.center = lastPoint;
+		listOfOverlays.add(productsOverlay);
+		
 		// controller
 		mapController = mapView.getController();
-		// TODO (condorhero01): center map screen to current location of users
-		mapController.setCenter(new GeoPoint(15931751,107746581));
-		mapController.setZoom(13);
+		mapController.setZoom(16);
+		if (lastPoint != null) {
+			mapController.setCenter(lastPoint);
+		}
+		
 		// redraw the whole view
 		mapView.invalidate();
 		
@@ -91,9 +117,9 @@ public class SearchProductsOnMapActivity extends MapActivity {
 					Toast.LENGTH_LONG).show();
 			return;
 		}
-		String radius = txtRadius.getText().toString();
+		float radius = ProductsOverlay.NO_RADIUS;
 		try {
-			Integer.parseInt(radius);
+			radius = Integer.parseInt(txtRadius.getText().toString());
 		} catch (NumberFormatException ex) {
 			Toast.makeText(this, getString(R.string.errorSearchProductsOnMapRadius), 
 					Toast.LENGTH_LONG).show();
@@ -103,6 +129,9 @@ public class SearchProductsOnMapActivity extends MapActivity {
 		// TODO (condorhero01): request products list based on center point and radius
 		Log.d(TAG, "query = " + query);
 		Log.d(TAG, "radius = " + radius);
+		productsOverlay.radius = radius;
+		productsOverlay.products = MockProduct.getSearchOnMapProducts();
+		mapView.invalidate();
 	}
 
 }

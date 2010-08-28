@@ -17,6 +17,8 @@ public class MockUserInfo {
 		userInfo.email = "condorher01@gmail.com";
 		userInfo.first_name = "Cao Tiến";
 		userInfo.last_name = "Đức";
+		userInfo.lat = 10.771766;
+		userInfo.lng = 106.664969;
 		
 		return userInfo;
 	}
@@ -57,5 +59,16 @@ public class MockUserInfo {
 		users[3].last_name = "Văn Lợi";
 		
 		return users;
+	}
+	
+	public static UserInfo getUser(String username) {
+		UserInfo[] userInfos = getUsers();
+		for (UserInfo userInfo : userInfos) {
+			if (userInfo.username.equals(username)) {
+				return userInfo;
+			}
+		}
+		
+		return null;
 	}
 }
