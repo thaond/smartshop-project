@@ -20,13 +20,13 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
-public class Product implements LocationCapable {
+public class Product implements LocationCapable { 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
 
 	@Persistent
-	private String name;
+	private String name; 
 
 	@Persistent
 	private double price;

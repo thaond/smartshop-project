@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.PMF;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
@@ -55,9 +56,8 @@ public class SearchProductPromixity extends BaseRestfulService {
 			e.printStackTrace();
 			return e.toString();
 		}
-		Gson gson = new Gson();
+		Gson gson = Global.gsonDateWithoutHour;
 		JsonArray productArray = new JsonArray();
-		log.log(Level.SEVERE, objects + " " + objects.size());
 		for (Product product : objects) {
 			productArray.add(gson.toJsonTree(product));
 		}

@@ -76,9 +76,19 @@ public class UserInfo implements Serializable {
 
 	@Persistent
 	private List<Long> listInteredProduct;
-	
+
 	@Persistent
 	private Set<String> setFriendsUsername;
+	@Exclude
+	@Persistent
+	private List<Long> listSubcribeProduct;
+	public List<Long> getListSubcribeProduct() {
+		return listSubcribeProduct;
+	}
+
+	public void setListSubcribeProduct(List<Long> listSubcribeProduct) {
+		this.listSubcribeProduct = listSubcribeProduct;
+	}
 
 	@Exclude
 	@Persistent
@@ -425,8 +435,8 @@ public class UserInfo implements Serializable {
 	}
 
 	/**
-
-	/**
+	 * /**
+	 * 
 	 * @param avatarLink
 	 *            the avatarLink to set
 	 */
@@ -442,7 +452,8 @@ public class UserInfo implements Serializable {
 	}
 
 	/**
-	 * @param oldPassword the old_password to set
+	 * @param oldPassword
+	 *            the old_password to set
 	 */
 	public void setOld_password(String oldPassword) {
 		old_password = oldPassword;
@@ -460,34 +471,36 @@ public class UserInfo implements Serializable {
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-//	@Override
-//	public String toString() {
-//		return "UserInfo [username=" + username + ", password=" + password
-//				+ "]";
-//	}
-	
-//	public JSONObject toJSON(JSONObject json) throws JSONException {
-//		json.put("username", username);
-//		json.put("password", password);
-//		json.put("first_name", first_name);
-//		json.put("last_name", last_name);
-//		json.put("phone", phone);
-//		json.put("email", email);
-//		json.put("birthday", birthday);
-//		json.put("address", address);
-//		json.put("lat", lat);
-//		json.put("lng", lng);
-//		json.put("avatarLink", avatarLink);
-//		json.put("sum_star", sum_star);
-//		json.put("count_vote", count_vote);
-//		json.put("gmt", gmt);
-//		json.put("lang", lang);
-//		json.put("country", country);
-//		json.put("type", type);
-//		return json;
-//	}
+	// @Override
+	// public String toString() {
+	// return "UserInfo [username=" + username + ", password=" + password
+	// + "]";
+	// }
 
-	/* (non-Javadoc)
+	// public JSONObject toJSON(JSONObject json) throws JSONException {
+	// json.put("username", username);
+	// json.put("password", password);
+	// json.put("first_name", first_name);
+	// json.put("last_name", last_name);
+	// json.put("phone", phone);
+	// json.put("email", email);
+	// json.put("birthday", birthday);
+	// json.put("address", address);
+	// json.put("lat", lat);
+	// json.put("lng", lng);
+	// json.put("avatarLink", avatarLink);
+	// json.put("sum_star", sum_star);
+	// json.put("count_vote", count_vote);
+	// json.put("gmt", gmt);
+	// json.put("lang", lang);
+	// json.put("country", country);
+	// json.put("type", type);
+	// return json;
+	// }
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -505,7 +518,8 @@ public class UserInfo implements Serializable {
 	}
 
 	/**
-	 * @param listInteredProduct the listInteredProduct to set
+	 * @param listInteredProduct
+	 *            the listInteredProduct to set
 	 */
 	public void setListInteredProduct(List<Long> listInteredProduct) {
 		this.listInteredProduct = listInteredProduct;
@@ -517,14 +531,14 @@ public class UserInfo implements Serializable {
 	public List<Long> getListInteredProduct() {
 		return listInteredProduct;
 	}
-	
+
 	public static void main(String[] args) {
 		UserInfo newUser = new UserInfo("tamvo", "tamvo", "Tam", "Vo Minh",
 				"123123123", "vo.mita.ov@gmail.com", new Date(88, 12, 22),
 				"Binh Tan district", 10.213D, 106.123123D, "");
-		
+
 		System.out.println(Global.gsonDateWithoutHour.toJson(newUser));
-		
+
 	}
 
 }

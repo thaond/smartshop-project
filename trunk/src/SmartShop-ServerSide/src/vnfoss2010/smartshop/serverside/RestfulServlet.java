@@ -69,6 +69,9 @@ import vnfoss2010.smartshop.serverside.services.product.GetSelledProductByUserSe
 import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductPromixity;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductService;
+import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
+import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.CreateSubcribeProduct;
+import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetProductInSubcribeRange;
 
 /**
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
@@ -137,54 +140,69 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("account-search", SearchUsernameService.class);
 		mServices.put("account-addfriend", AddFriendsService.class);
 		mServices.put("account-getuser", GetUserInfoService.class);
-		
-		//product
+
+		// product
 		mServices.put("registerproduct", RegisterProductService.class);
 		mServices.put("searchproductproximity", SearchProductPromixity.class);
 		mServices.put("get-product", GetProductService.class);
 		mServices.put("editproduct", EditProductService.class);
 		mServices.put("create-page", CreatePageService.class);
-//		mServices.put("product-search-criteria", GetListProductByCriteriaService.class);
-		mServices.put("product-search-criteria-cat", GetListProductByCriteriaInCategoryService.class);
+		// mServices.put("product-search-criteria",
+		// GetListProductByCriteriaService.class);
+		mServices.put("product-search-criteria-cat",
+				GetListProductByCriteriaInCategoryService.class);
 		mServices.put("product-search", SearchProductService.class);
-		mServices.put("product-get-buyed-product", GetBuyedProductByUserService.class);
-		mServices.put("product-get-selled-product", GetSelledProductByUserService.class);
-		mServices.put("product-get-interested-product", GetInterestedProductByUserService.class);
-		mServices.put("product-get-by-username", GetProductsByUsernameService.class);
+		mServices.put("product-get-buyed-product",
+				GetBuyedProductByUserService.class);
+		mServices.put("product-get-selled-product",
+				GetSelledProductByUserService.class);
+		mServices.put("product-get-interested-product",
+				GetInterestedProductByUserService.class);
+		mServices.put("product-get-by-username",
+				GetProductsByUsernameService.class);
 
 		// page
 		mServices.put("create-page", CreatePageService.class);
 		mServices.put("page-edit", EditPageService.class);
 		mServices.put("get-page", GetPageService.class);
 		mServices.put("tag-product-to-page", TagProductToPageService.class);
-		mServices.put("untag-product-to-page", UntagProductFromPageService.class);
+		mServices.put("untag-product-to-page",
+				UntagProductFromPageService.class);
 		mServices.put("page-search", SearchProductService.class);
-		mServices.put("page-search-criteria", GetListPageByCriteriaService.class);
+		mServices.put("page-search-criteria",
+				GetListPageByCriteriaService.class);
 		mServices.put("page-get-by-username", GetPagesByUsernameService.class);
 
 		// comment
 		mServices.put("create-comment", CreateCommentService.class);
 		mServices.put("get-comment", GetCommentService.class);
 		mServices.put("delete-comment", DeleteCommentService.class);
-		mServices.put("comment-get-by-username", GetCommentsByUsernameService.class);
-		
-		//notification
+		mServices.put("comment-get-by-username",
+				GetCommentsByUsernameService.class);
+
+		// notification
 		mServices.put("noti-insert", InsertNotificationService.class);
-		mServices.put("noti-delete-all-by", DeleteNotificationsByUsernameService.class);
+		mServices.put("noti-delete-all-by",
+				DeleteNotificationsByUsernameService.class);
 		mServices.put("noti-delete-all", DeleteNotificationsService.class);
 		mServices.put("noti-edit", EditNotificationService.class);
 		mServices.put("noti-get-by", GetNotificationsByUsernameService.class);
-		mServices.put("noti-mark-as-read", MarkAsReadNotificationsByUsernameService.class);
-		
-		//map
+		mServices.put("noti-mark-as-read",
+				MarkAsReadNotificationsByUsernameService.class);
+
+		// map
 		mServices.put("map-geocoder", GeocoderService.class);
 		mServices.put("map-regeocoder", ReserveGeocoderService.class);
 		mServices.put("map-direction", DirectionService.class);
-		
-		//mail
+
+		// mail
 		mServices.put("mail-send-to-admin", SendEmailToAdminService.class);
 		mServices.put("mail-send", SendEmailService.class);
-		
-		// mServices.put("sampledata", SampleDataRestfull.class);
+
+		// user subcribe
+		mServices.put("create-subcribe", CreateSubcribeProduct.class);
+		mServices.put("get-products-in-sub-range", GetProductInSubcribeRange.class);
+
+		mServices.put("sampledata", InsertCategoryService.class);
 	}
 }

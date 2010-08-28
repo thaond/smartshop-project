@@ -20,6 +20,9 @@ import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 
+import com.beoui.geocell.GeocellManager;
+import com.beoui.geocell.model.GeocellQuery;
+import com.beoui.geocell.model.Point;
 import com.google.appengine.api.datastore.DatastoreNeedIndexException;
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 
@@ -309,11 +312,11 @@ public class ProductServiceImpl {
 			case 5:
 				query += ("product_view desc ");
 				break;
-				
+
 			case 6:
 				query += ("quantity asc ");
 				break;
-				
+
 			case 7:
 				query += ("quantity desc ");
 				break;
@@ -324,25 +327,26 @@ public class ProductServiceImpl {
 		}
 
 		switch (status) {
-		case 0://List all products (both sold and non-sold)
-			query = "select from " + Product.class.getName() + " order by " + query
-			+ ((maximum == 0) ? "" : (" limit " + maximum));
+		case 0:// List all products (both sold and non-sold)
+			query = "select from " + Product.class.getName() + " order by "
+					+ query + ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
-			
-		case 1: 
-			query = "select from " + Product.class.getName() + "where (quantity>0) order by " + query
-			+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+		case 1:
+			query = "select from " + Product.class.getName()
+					+ "where (quantity>0) order by " + query
+					+ ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
-			
-		case 2: 
-			query = "select from " + Product.class.getName() + "where (quantity=0) order by " + query
-			+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+		case 2:
+			query = "select from " + Product.class.getName()
+					+ "where (quantity=0) order by " + query
+					+ ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
 
 		default:
 			break;
 		}
-		
 
 		Global.log(log, query);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -683,7 +687,8 @@ public class ProductServiceImpl {
 		return result;
 	}
 
-	public ServiceResult<List<Product>> getListProductFromUsername(String username) {
+	public ServiceResult<List<Product>> getListProductFromUsername(
+			String username) {
 		username = DatabaseUtils.preventSQLInjection(username);
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -712,13 +717,14 @@ public class ProductServiceImpl {
 			query.setFilter("username = us");
 			query.declareParameters("String us");
 			query.setOrdering("date_post DESC");
-			List<Product> listProducts = (List<Product>) query.execute(username);
-			
+			List<Product> listProducts = (List<Product>) query
+					.execute(username);
+
 			if (listProducts.size() > 0) {
 				result.setOK(true);
-				result
-						.setMessage(String.format(Global.messages
-								.getString("get_products_by_username_successfully"), username));
+				result.setMessage(String.format(Global.messages
+						.getString("get_products_by_username_successfully"),
+						username));
 				result.setResult(listProducts);
 			} else {
 				result.setOK(false);
@@ -730,7 +736,30 @@ public class ProductServiceImpl {
 		return result;
 
 	}
-	
+
+	public ServiceResult<List<Product>> searchProductPromixity(Point center,
+			Double maxDistance) {
+		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		List<Object> pa = new ArrayList<Object>();
+		GeocellQuery baseQuery = new GeocellQuery(" ", " ", pa);
+
+		List<Product> listProduct = null;
+		try {
+			listProduct = GeocellManager.proximityFetch(center, 40,
+					maxDistance, Product.class, baseQuery, pm);
+			if (listProduct != null) {
+				result.setOK(true);
+				result.setResult(listProduct);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setOK(false);
+		}
+
+		return result;
+	}
+
 	public static void updateFTSStuffForProduct(Product product) {
 
 		Global.log(log, "Product " + product);
