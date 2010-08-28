@@ -89,6 +89,7 @@ import com.beoui.geocell.model.Tuple;
 
 public class GeocellManager {
 
+	static Logger log = Logger.getLogger(GeocellManager.class.getName());
 	// The maximum *practical* geocell resolution.
 	public static final int MAX_GEOCELL_RESOLUTION = 13;
 
@@ -321,9 +322,227 @@ public class GeocellManager {
 			} else {
 				List<Object> parameters = new ArrayList<Object>(baseQuery
 						.getParameters());
+
 				parameters.add(curGeocellsUnique);
 				newResultEntities = (List<T>) query.executeWithArray(parameters
 						.toArray());
+			}
+
+			logger.log(Level.FINE, "fetch complete for: "
+					+ StringUtils.join(curGeocellsUnique, ", "));
+
+			searchedCells.addAll(curGeocells);
+
+			// Begin storing distance from the search result entity to the
+			// search center along with the search result itself, in a tuple.
+			List<LocationComparableTuple<T>> newResults = new ArrayList<LocationComparableTuple<T>>();
+			for (T entity : newResultEntities) {
+				newResults.add(new LocationComparableTuple<T>(entity,
+						GeocellUtils.distance(center, entity.getLocation())));
+			}
+			// TODO (Alex) we can optimize here. Sort is needed only if
+			// new_results.size() > max_results.
+			Collections.sort(newResults);
+			newResults = newResults.subList(0, Math.min(maxResults, newResults
+					.size()));
+
+			// Merge new_results into results
+			for (LocationComparableTuple<T> tuple : newResults) {
+				// contains method will check if entity in tuple have same key
+				if (!results.contains(tuple)) {
+					results.add(tuple);
+				}
+			}
+
+			Collections.sort(results);
+			results = results.subList(0, Math.min(maxResults, results.size()));
+
+			sortedEdgesDistances = GeocellUtils.distanceSortedEdges(
+					curGeocells, center);
+
+			if (results.size() == 0 || curGeocells.size() == 4) {
+				/*
+				 * Either no results (in which case we optimize by not looking
+				 * at adjacents, go straight to the parent) or we've searched 4
+				 * adjacent geocells, in which case we should now search the
+				 * parents of those geocells.
+				 */
+				curContainingGeocell = curContainingGeocell.substring(0, Math
+						.max(curContainingGeocell.length() - 1, 0));
+				if (curContainingGeocell.length() == 0) {
+					break; // Done with search, we've searched everywhere.
+				}
+				List<String> oldCurGeocells = new ArrayList<String>(curGeocells);
+				curGeocells.clear();
+				for (String cell : oldCurGeocells) {
+					if (cell.length() > 0) {
+						String newCell = cell.substring(0, cell.length() - 1);
+						if (!curGeocells.contains(newCell)) {
+							curGeocells.add(newCell);
+						}
+					}
+				}
+				if (curGeocells.size() == 0) {
+					break; // Done with search, we've searched everywhere.
+				}
+			} else if (curGeocells.size() == 1) {
+				// Get adjacent in one direction.
+				// TODO(romannurik): Watch for +/- 90 degree latitude edge case
+				// geocells.
+				int nearestEdge[] = sortedEdgesDistances.get(0).getFirst();
+				curGeocells.add(GeocellUtils.adjacent(curGeocells.get(0),
+						nearestEdge));
+			} else if (curGeocells.size() == 2) {
+				// Get adjacents in perpendicular direction.
+				int nearestEdge[] = GeocellUtils.distanceSortedEdges(
+						Arrays.asList(curContainingGeocell), center).get(0)
+						.getFirst();
+				int[] perpendicularNearestEdge = { 0, 0 };
+				if (nearestEdge[0] == 0) {
+					// Was vertical, perpendicular is horizontal.
+					for (Tuple<int[], Double> edgeDistance : sortedEdgesDistances) {
+						if (edgeDistance.getFirst()[0] != 0) {
+							perpendicularNearestEdge = edgeDistance.getFirst();
+							break;
+						}
+					}
+				} else {
+					// Was horizontal, perpendicular is vertical.
+					for (Tuple<int[], Double> edgeDistance : sortedEdgesDistances) {
+						if (edgeDistance.getFirst()[0] == 0) {
+							perpendicularNearestEdge = edgeDistance.getFirst();
+							break;
+						}
+					}
+				}
+				List<String> tempCells = new ArrayList<String>();
+				for (String cell : curGeocells) {
+					tempCells.add(GeocellUtils.adjacent(cell,
+							perpendicularNearestEdge));
+				}
+				curGeocells.addAll(tempCells);
+			}
+
+			// We don't have enough items yet, keep searching.
+			if (results.size() < maxResults) {
+				logger.log(Level.FINE, results.size()
+						+ " results found but want " + maxResults
+						+ " results, continuing search.");
+				continue;
+			}
+
+			logger.log(Level.FINE, results.size() + " results found.");
+
+			// If the currently max_results'th closest item is closer than any
+			// of the next test geocells, we're done searching.
+			double currentFarthestReturnableResultDist = GeocellUtils.distance(
+					center, results.get(maxResults - 1).getFirst()
+							.getLocation());
+			if (closestPossibleNextResultDist >= currentFarthestReturnableResultDist) {
+				logger.log(Level.FINE, "DONE next result at least "
+						+ closestPossibleNextResultDist
+						+ " away, current farthest is "
+						+ currentFarthestReturnableResultDist + " dist");
+				break;
+			}
+			logger.log(Level.FINE, "next result at least "
+					+ closestPossibleNextResultDist
+					+ " away, current farthest is "
+					+ currentFarthestReturnableResultDist + " dist");
+		}
+		List<T> result = new ArrayList<T>();
+		for (Tuple<T, Double> entry : results.subList(0, Math.min(maxResults,
+				results.size()))) {
+			if (maxDistance == 0 || entry.getSecond() < maxDistance) {
+				result.add(entry.getFirst());
+			}
+		}
+		logger.log(Level.INFO, "Proximity query looked in "
+				+ searchedCells.size() + " geocells and found " + result.size()
+				+ " results.");
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static final <T extends LocationCapable> List<T> proximityFetchNew(
+			Point center, int maxResults, double maxDistance,
+			Class<T> entityClass, GeocellQuery baseQuery,
+			PersistenceManager pm, int maxGeocellResolution) {
+		List<LocationComparableTuple<T>> results = new ArrayList<LocationComparableTuple<T>>();
+
+		Validate.isTrue(maxGeocellResolution <= MAX_GEOCELL_RESOLUTION,
+				"Invalid max resolution parameter. Must be inferior to ",
+				MAX_GEOCELL_RESOLUTION);
+
+		// The current search geocell containing the lat,lon.
+		String curContainingGeocell = GeocellUtils.compute(center,
+				maxGeocellResolution);
+
+		// Set of already searched cells
+		Set<String> searchedCells = new HashSet<String>();
+
+		/*
+		 * The currently-being-searched geocells. NOTES: Start with max
+		 * possible. Must always be of the same resolution. Must always form a
+		 * rectangular region. One of these must be equal to the
+		 * cur_containing_geocell.
+		 */
+		List<String> curGeocells = new ArrayList<String>();
+		curGeocells.add(curContainingGeocell);
+		double closestPossibleNextResultDist = 0;
+
+		/*
+		 * Assumes both a and b are lists of (entity, dist) tuples, *sorted by
+		 * dist*. NOTE: This is an in-place merge, and there are guaranteed no
+		 * duplicates in the resulting list.
+		 */
+
+		int noDirection[] = { 0, 0 };
+		List<Tuple<int[], Double>> sortedEdgesDistances = Arrays
+				.asList(new Tuple<int[], Double>(noDirection, 0d));
+
+		while (!curGeocells.isEmpty()) {
+			closestPossibleNextResultDist = sortedEdgesDistances.get(0)
+					.getSecond();
+			if (maxDistance > 0 && closestPossibleNextResultDist > maxDistance) {
+				break;
+			}
+
+			Set<String> curTempUnique = new HashSet<String>(curGeocells);
+			curTempUnique.removeAll(searchedCells);
+			List<String> curGeocellsUnique = new ArrayList<String>(
+					curTempUnique);
+
+			// Run query on the next set of geocells.
+			// String and =
+			// baseQuery.getBaseQuery().toUpperCase().contains("WHERE") ? " && "
+			// : " ";
+			String and = baseQuery.getBaseQuery() != null
+					&& baseQuery.getBaseQuery().trim().length() != 0 ? " && "
+					: " ";
+			Query query = pm.newQuery(entityClass, baseQuery.getBaseQuery()
+					+ and + "geocellsP.contains(geocells)");
+
+			if (baseQuery.getDeclaredParameters() == null
+					|| baseQuery.getDeclaredParameters().trim().length() == 0) {
+				query.declareParameters("String geocellsP");
+			} else {
+				query.declareParameters(baseQuery.getDeclaredParameters()
+						+ ", String geocellsP");
+			}
+
+			List<T> newResultEntities;
+			if (baseQuery.getParameters() == null
+					|| baseQuery.getParameters().isEmpty()) {
+				newResultEntities = (List<T>) query.execute(curGeocellsUnique);
+			} else {
+//				List<Object> parameters = new ArrayList<Object>(baseQuery
+				//						.getParameters());
+				// newResultEntities = (List<T>)
+				// query.executeWithArray(parameters
+				// .toArray());
+				newResultEntities = (List<T>) query.execute(baseQuery
+						.getParameters(), curGeocells);
 			}
 
 			logger.log(Level.FINE, "fetch complete for: "

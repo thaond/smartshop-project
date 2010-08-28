@@ -8,12 +8,12 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable 
-public class Category {
+public class Category { 
 
 	@PrimaryKey
 	private String key_cat;
 	
-	@Persistent
+	@Persistent 
 	private String name;
 	
 	@Persistent
