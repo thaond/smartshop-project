@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 Google Inc.
+ * Copyright (C) 2009 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.google.gson;
 
-import java.io.IOException;
+import com.google.gson.annotations.Exclude;
 
 /**
- * Common interface for a formatter for Json. 
- * 
- * @author Inderjeet Singh
+ * Excludes fields that have the {@link Exclude} annotation
  */
-interface JsonFormatter {
+final class ExcludeAnnotationDeserializationExclusionStrategy implements
+		ExclusionStrategy {
 
-  /**
-   * Writes a formatted version of the Json corresponding to 
-   * the specified Json.  
-   * 
-   * @param root the root of the Json tree. 
-   * @param writer the writer to output the formatter JSON to.
-   * @param serializeNulls serialize null values in the output.
-   */
-  public void format(JsonElement root, Appendable writer, 
-      boolean serializeNulls) throws IOException;
+	public boolean shouldSkipClass(Class<?> clazz) {
+		return false;
+	}
+
+	public boolean shouldSkipField(FieldAttributes f) {
+		Exclude annotation = f.getAnnotation(Exclude.class);
+		if (annotation == null) {
+			return false;
+		}
+		return true;
+	}
 }

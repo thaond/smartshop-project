@@ -11,6 +11,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
+import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
+
+import android.graphics.Paint.Join;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,9 +31,11 @@ import com.appspot.smartshop.map.MyLocationListener.MyLocationCallback;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.URLConstant;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class TestActivity extends MapActivity {
 	public static final String TAG = "TestActivity";
@@ -297,6 +303,22 @@ public class TestActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	
+	private void testLogin(){
+		HttpService.getResource(String.format(URLConstant.LOGIN, "tam", "tam"), true, new ServiceCallback<String>() {
+			
+			@Override
+			public void onSuccess(String result) {
+				Log.d(TAG, result);
+				
+//				JsonObject jsonObject = G
+			}
+			
+			@Override
+			public void onFailure(Exception ex) {
+			}
+		});
 	}
 }
 
