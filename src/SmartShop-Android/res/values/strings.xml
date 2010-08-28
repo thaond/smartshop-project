@@ -66,6 +66,7 @@
 	<string name="tagOnMap">Đánh dấu trên bản đồ</string>
 	<!-- View Product Form -->
 	<string name="userName">Username</string>
+	<string name="pageView">Số lượt xem</string>
 	
 	<!-- Dialog -->
 	<string name="btnShowDirectionOnMap">Xem trên bản đồ</string>
