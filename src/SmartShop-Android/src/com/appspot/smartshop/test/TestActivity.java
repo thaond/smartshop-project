@@ -1,5 +1,6 @@
 package com.appspot.smartshop.test;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,8 +14,6 @@ import org.json.JSONTokener;
 
 import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
 import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
-
-import android.graphics.Paint.Join;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,10 +31,13 @@ import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class TestActivity extends MapActivity {
 	public static final String TAG = "TestActivity";
@@ -46,7 +48,7 @@ public class TestActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		Global.application = this;
-		testGetCurrentLocation(); // TODO (condorhero01): place test function here
+		testLogin(); // TODO (condorhero01): place test function here
 	}
 	
 	void testGetCurrentLocation() {
@@ -306,17 +308,33 @@ public class TestActivity extends MapActivity {
 	}
 	
 	private void testLogin(){
-		HttpService.getResource(String.format(URLConstant.LOGIN, "tam", "tam"), true, new ServiceCallback<String>() {
+		HttpService.getResource(String.format(URLConstant.LOGIN, "tam", "dflsdj"), true, new ServiceCallback<String>() {
+			
+			@Override
+			public void onUpdating() {
+				
+			}
+			
+			@Override
+			public void onEndUpdating() {
+			}
 			
 			@Override
 			public void onSuccess(String result) {
 				Log.d(TAG, result);
 				
-//				JsonObject jsonObject = G
+				JsonParser parser = new JsonParser();
+				JsonObject json = parser.parse(result).getAsJsonObject();
+				String errCode = json.getAsString("errCode");
+				Log.d(TAG, "errCode: " + errCode);
+				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo"), UserInfo.class);
+				Log.d(TAG, "UserInfo: " + userInfo);
+				
 			}
 			
 			@Override
 			public void onFailure(Exception ex) {
+				ex.printStackTrace();
 			}
 		});
 	}

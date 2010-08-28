@@ -54,6 +54,7 @@ public class HttpService {
     public static void getResource(final String url, final boolean blocking,
             final ServiceCallback<String> callback) {
         Log.d("URL",url);
+        callback.onUpdating();
         try {
             if (blocking) {
                 callback.onSuccess(getContent(url));
@@ -70,6 +71,8 @@ public class HttpService {
             }
         } catch (Exception ex) {
             callback.onFailure(ex);
+        } finally {
+        	callback.onEndUpdating();
         }
     }
 
