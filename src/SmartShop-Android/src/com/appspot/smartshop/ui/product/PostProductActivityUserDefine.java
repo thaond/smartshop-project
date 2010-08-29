@@ -1,6 +1,8 @@
 package com.appspot.smartshop.ui.product;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.logging.LoggingPermission;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.UserDefineAttributeAdapter;
@@ -9,6 +11,7 @@ import com.appspot.smartshop.dom.UserDefineAttribute;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,11 +26,15 @@ public class PostProductActivityUserDefine extends Activity {
 	public UserDefineAttributeAdapter userDefineAttributeAdapter;
 	public EditText newAtt;
 	public EditText newValueAtt;
+	public ArrayList<UserDefineAttribute> att;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.user_define_attribute);
+		att = new ArrayList<UserDefineAttribute>();
+		newAtt = (EditText) findViewById(R.id.txtNewAttribute);
+		newValueAtt  = (EditText) findViewById(R.id.txtValueOfNewAttribute);
+		setContentView(R.layout.post_user_define_attribute);
 		
 		Button add = (Button) findViewById(R.id.btnAdd);
 		add.setOnClickListener(new OnClickListener() {
@@ -49,13 +56,11 @@ public class PostProductActivityUserDefine extends Activity {
 				//TODO:(vanloi999) post data to server
 				userDefineAttributeAdapter.clear();
 				listViewAttribute.setAdapter(userDefineAttributeAdapter);
-				
-				
 			}
 		});
 		listViewAttribute = (ListView) findViewById(R.id.listUserDefineAttritube);
 		userDefineAttributeAdapter = new UserDefineAttributeAdapter(this,
-				R.layout.user_define_attribute_item,
+				R.layout.post_user_define_attribute_item,
 				new LinkedList<UserDefineAttribute>());
 
 	}

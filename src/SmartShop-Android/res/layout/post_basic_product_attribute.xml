@@ -75,7 +75,7 @@
 			android:layout_width="fill_parent" android:layout_height="wrap_content">
 			<Button android:id="@+id/btnChooseCategory" android:text="@string/select"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-			<TextView android:text="@string/chooseCategory"
+			<TextView android:text="@string/chooseCategory" android:id="@+id/txtChoose"
 				android:layout_width="wrap_content" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"

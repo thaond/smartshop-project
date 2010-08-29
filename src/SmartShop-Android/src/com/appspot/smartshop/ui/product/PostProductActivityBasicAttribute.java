@@ -2,7 +2,6 @@ package com.appspot.smartshop.ui.product;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,7 +19,13 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.map.DirectionListActivity;
+import com.appspot.smartshop.map.DirectionResult;
+import com.appspot.smartshop.map.MapDialog;
+import com.appspot.smartshop.map.MapService;
+import com.appspot.smartshop.map.SearchProductsOnMapActivity;
 import com.appspot.smartshop.utils.Global;
+import com.google.android.maps.GeoPoint;
 
 public class PostProductActivityBasicAttribute extends Activity {
 	public static final int PICK_CATEGORIES = 0;
@@ -41,12 +46,11 @@ public class PostProductActivityBasicAttribute extends Activity {
 	public Button btnOK;
 	public Button btnCancel;
 	public Button btnChooseCategory;
+	public Button btnTagOnMap;
 
 	public ProductInfo productInfo = null;
 	private CheckBox chVat;
 	public ArrayList<String> childSelected;
-
-	// TODO
 	private EditText txtDescription;
 	private int lat, lng;
 
@@ -94,6 +98,14 @@ public class PostProductActivityBasicAttribute extends Activity {
 			@Override
 			public void onClick(View v) {
 				sendRequestToCategoryDialog();
+			}
+		});
+		btnTagOnMap = (Button) findViewById(R.id.btnTagOnMap);
+		btnTagOnMap.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tagOnMap();
 			}
 		});
 
@@ -160,6 +172,11 @@ public class PostProductActivityBasicAttribute extends Activity {
 		}
 	}
 
+	protected void tagOnMap() {
+		//TODO:(condohero01) show Map Dialog
+		
+	}
+
 	protected void sendRequestToCategoryDialog() {
 		Intent intent = new Intent(PostProductActivityBasicAttribute.this,CategoryDialogActivity.class);
 		intent.putExtra(Global.SELECTED_CATEGORIES,childSelected);
@@ -174,6 +191,8 @@ public class PostProductActivityBasicAttribute extends Activity {
 					for(int i =0;i<childSelected.size();i++){
 						Log.d("TAG",childSelected.get(i));
 					}
+					TextView txtChoose = (TextView) findViewById(R.id.txtChoose);
+					txtChoose.setText("Đã chọn xong");
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
