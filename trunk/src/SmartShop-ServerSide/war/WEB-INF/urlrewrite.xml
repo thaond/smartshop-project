@@ -17,5 +17,10 @@
 		<from>^/test/([a-zA-Z_\-0-9]+)/$</from>
 		<to>/test?service=$1</to>
 	</rule>
+	<!-- Testing Rule -->
+	<rule>
+		<from>^/scan</from>
+		<to>/scan</to>
+	</rule>
 </urlrewrite>
 

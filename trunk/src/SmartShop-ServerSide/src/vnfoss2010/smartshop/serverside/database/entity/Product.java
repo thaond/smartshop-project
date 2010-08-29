@@ -23,9 +23,9 @@ import com.google.gson.annotations.Exclude;
 public class Product implements LocationCapable { 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	private Long id;  
 
-	@Persistent
+	@Persistent 
 	private String name; 
 
 	@Persistent

@@ -70,7 +70,9 @@ import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductPromixity;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductService;
 import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
+import vnfoss2010.smartshop.serverside.services.test.InsertUserInfosService;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.CreateSubcribeProduct;
+import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.EditSubcribe;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetProductInSubcribeRange;
 
 /**
@@ -202,7 +204,9 @@ public class RestfulServlet extends HttpServlet {
 		// user subcribe
 		mServices.put("create-subcribe", CreateSubcribeProduct.class);
 		mServices.put("get-products-in-sub-range", GetProductInSubcribeRange.class);
-
+		mServices.put("edit-subcribe", EditSubcribe.class);
+		
 		mServices.put("sampledata", InsertCategoryService.class);
+		mServices.put("sampledata-user", InsertUserInfosService.class);
 	}
 }

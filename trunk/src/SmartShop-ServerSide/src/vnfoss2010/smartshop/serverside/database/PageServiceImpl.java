@@ -166,6 +166,7 @@ public class PageServiceImpl {
 			}
 		} catch (Exception e) {
 			result.setMessage("exception " + e.getMessage());
+			result.setOK(false);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -291,8 +292,7 @@ public class PageServiceImpl {
 
 		List<Page> listPages = null;
 		if (cat_keys != null) {
-			listPages = (List<Page>) queryObj.execute(Arrays
-					.asList(cat_keys));
+			listPages = (List<Page>) queryObj.execute(Arrays.asList(cat_keys));
 		} else {
 			listPages = (List<Page>) pm.newQuery(query).execute();
 		}
@@ -342,12 +342,12 @@ public class PageServiceImpl {
 			query.declareParameters("String us");
 			query.setOrdering("date_post DESC");
 			List<Page> listPages = (List<Page>) query.execute(username);
-			
+
 			if (listPages.size() > 0) {
 				result.setOK(true);
-				result
-						.setMessage(String.format(Global.messages
-								.getString("get_pages_by_username_successfully"), username));
+				result.setMessage(String.format(Global.messages
+						.getString("get_pages_by_username_successfully"),
+						username));
 				result.setResult(listPages);
 			} else {
 				result.setOK(false);
