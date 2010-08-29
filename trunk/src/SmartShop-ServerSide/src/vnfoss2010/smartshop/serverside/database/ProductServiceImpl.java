@@ -289,67 +289,71 @@ public class ProductServiceImpl {
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
 
 		String query = "";
-		for (int criteria : criterias) {
-			switch (criteria) {
-			case 0:
-				query += ("date_post asc ");
-				break;
+		if (criterias != null) {
+			query = " order by ";
+			for (int criteria : criterias) {
+				switch (criteria) {
+				case 0:
+					query += ("date_post asc ");
+					break;
 
-			case 1:
-				query += ("date_post desc ");
-				break;
+				case 1:
+					query += ("date_post desc ");
+					break;
 
-			case 2:
-				query += ("price asc ");
-				break;
+				case 2:
+					query += ("price asc ");
+					break;
 
-			case 3:
-				query += ("price desc ");
-				break;
+				case 3:
+					query += ("price desc ");
+					break;
 
-			case 4:
-				query += ("product_view asc ");
-				break;
+				case 4:
+					query += ("product_view asc ");
+					break;
 
-			case 5:
-				query += ("product_view desc ");
-				break;
+				case 5:
+					query += ("product_view desc ");
+					break;
 
-			case 6:
-				query += ("quantity asc ");
-				break;
+				case 6:
+					query += ("quantity asc ");
+					break;
 
-			case 7:
-				query += ("quantity desc ");
-				break;
+				case 7:
+					query += ("quantity desc ");
+					break;
 
-			default:
-				break;
+				default:
+					break;
+				}
 			}
+			
 		}
-
+		
 		switch (status) {
 		case 0:// List all products (both sold and non-sold)
-			query = "select from " + Product.class.getName() + " order by "
+			query = "select from " + Product.class.getName() 
 					+ query + ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
 
 		case 1:
 			query = "select from " + Product.class.getName()
-					+ "where (quantity>0) order by " + query
+					+ " where (quantity>0) " + query
 					+ ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
 
 		case 2:
 			query = "select from " + Product.class.getName()
-					+ "where (quantity=0) order by " + query
+					+ " where (quantity=0) " + query
 					+ ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
 
 		default:
 			break;
 		}
-
+		
 		Global.log(log, query);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -359,6 +363,7 @@ public class ProductServiceImpl {
 
 		List<Product> listProducts = null;
 		if (cat_keys != null) {
+			log.log(Level.SEVERE, Arrays.toString(cat_keys) +"");
 			listProducts = (List<Product>) queryObj.execute(Arrays
 					.asList(cat_keys));
 		} else {
