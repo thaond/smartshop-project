@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserDefineAttribute;
+import com.appspot.smartshop.ui.product.PostProductActivityBasicAttribute;
+import com.appspot.smartshop.ui.product.PostProductActivityUserDefine;
 
 import android.util.Log;
 import android.view.WindowManager;
@@ -23,7 +25,6 @@ import android.widget.TextView;
 public class UserDefineAttributeAdapter extends
 		ArrayAdapter<UserDefineAttribute> {
 	public int resourceId;
-	public ArrayList<UserDefineAttribute> att;
 
 	public UserDefineAttributeAdapter(Context context, int textViewResourceId,
 			List<UserDefineAttribute> objects) {
@@ -36,7 +37,6 @@ public class UserDefineAttributeAdapter extends
 		LayoutInflater inflater = (LayoutInflater) getContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(resourceId, null);
-		att = new ArrayList<UserDefineAttribute>();
 		final UserDefineAttribute product = this.getItem(position);
 		// label width
 		final TextView attName = (TextView) view
@@ -51,11 +51,13 @@ public class UserDefineAttributeAdapter extends
 
 			@Override
 			public void onClick(View v) {
-				att.add(new UserDefineAttribute(attName.getText().toString(),
+				//  attributeSet contains all new attribute that user define
+				PostProductActivityUserDefine.attributeSet.add(new UserDefineAttribute(attName.getText().toString(),
 						newValueAtt.getText().toString()));
-				for (int i = 0; i < att.size(); i++) {
-					Log.d("tag", att.get(i).getNewAttribute() + " "
-							+ att.get(i).getValueOfNewAttribute());
+				
+				for (int i = 0; i < PostProductActivityUserDefine.attributeSet.size(); i++) {
+					Log.d("tag", PostProductActivityUserDefine.attributeSet.get(i).getNewAttribute() + " "
+							+ PostProductActivityUserDefine.attributeSet.get(i).getValueOfNewAttribute());
 				}
 			}
 		});
