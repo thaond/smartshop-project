@@ -204,7 +204,7 @@ public class UserInfo implements Serializable {
 	/**
 	 * @param firstName
 	 *            the first_name to set
-	 */
+	 */ 
 	public void setFirst_name(String firstName) {
 		first_name = firstName;
 	}

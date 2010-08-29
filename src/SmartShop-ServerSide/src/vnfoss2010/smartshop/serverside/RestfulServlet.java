@@ -35,6 +35,8 @@ import vnfoss2010.smartshop.serverside.services.account.GetUserInfoService;
 import vnfoss2010.smartshop.serverside.services.account.LoginService;
 import vnfoss2010.smartshop.serverside.services.account.RegisterService;
 import vnfoss2010.smartshop.serverside.services.account.SearchUsernameService;
+import vnfoss2010.smartshop.serverside.services.cat.GetAllCategoriesService;
+import vnfoss2010.smartshop.serverside.services.cat.GetSubCategoriesService;
 import vnfoss2010.smartshop.serverside.services.comment.CreateCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.DeleteCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.GetCommentService;
@@ -142,6 +144,10 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("account-search", SearchUsernameService.class);
 		mServices.put("account-addfriend", AddFriendsService.class);
 		mServices.put("account-getuser", GetUserInfoService.class);
+		
+		//category
+		mServices.put("category-get-all", GetAllCategoriesService.class);
+		mServices.put("category-get-sub", GetSubCategoriesService.class);
 
 		// product
 		mServices.put("registerproduct", RegisterProductService.class);
