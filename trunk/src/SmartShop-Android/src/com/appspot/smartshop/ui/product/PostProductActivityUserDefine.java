@@ -54,8 +54,10 @@ public class PostProductActivityUserDefine extends Activity {
 			@Override
 			public void onClick(View v) {
 				//TODO:(vanloi999) post data to server
-				userDefineAttributeAdapter.clear();
-				listViewAttribute.setAdapter(userDefineAttributeAdapter);
+				if(!userDefineAttributeAdapter.isEmpty()){
+					userDefineAttributeAdapter.remove( userDefineAttributeAdapter.getItem(0));
+					listViewAttribute.setAdapter(userDefineAttributeAdapter);
+				}
 			}
 		});
 		listViewAttribute = (ListView) findViewById(R.id.listUserDefineAttritube);
