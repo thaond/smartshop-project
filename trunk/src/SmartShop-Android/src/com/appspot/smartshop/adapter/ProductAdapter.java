@@ -85,15 +85,15 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			}
 		});
 		
-		// Load image of product from internet
-		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
-		try{
-			Drawable drawable = getDrawableFromUrl(url);
-			holder.image.setImageDrawable(drawable);
-		}catch(Exception ex){
-			Log.d("ProductAdapter","load image failed");
-		}
-//		holder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.icon));
+		// TODO Load image of product from internet
+//		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
+//		try{
+//			Drawable drawable = getDrawableFromUrl(url);
+//			holder.image.setImageDrawable(drawable);
+//		}catch(Exception ex){
+//			Log.d("ProductAdapter","load image failed");
+//		}
+		holder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.icon));
 		
 		
 		// go to product detail

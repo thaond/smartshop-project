@@ -7,9 +7,10 @@
 	<string name="advancedSearch">Advanced Search</string>
 	<string name="map">Map</string>
 	<string name="hintEnterProductsName">Nhập tên sản phẩm cần tìm</string>
-	<string name="rbMostUpdate">Mới nhất</string>
-	<string name="rbBestSeller">Bán chạy nhất</string>
-	<string name="rbCheapest">Rẻ nhất</string>
+	<string name="chMostUpdate">Mới nhất</string>
+	<string name="chCheapest">Giá thấp nhất</string>
+	<string name="chMostView">Xem nhiều</string>
+	<string name="chQuantity">Số lượng</string>
 
 	<!-- User -->
 	<string name="lblUsername">Tên đăng nhập*:</string>
@@ -31,7 +32,7 @@
 	<string name="lblPhoneNumber">Số điện thoại:</string>
 	<string name="lblAvatar">Hình đại diện:</string>
 	<string name="lblRegister">Đăng ký</string>
-
+	
 	<!-- Validate user -->
 	<string name="username_longer_6_chars">Tên đăng nhập phải nhiều hơn 6 kí tự</string>
 	<string name="password_longer_6_chars">Mật khẩu phải nhiều hơn 6 kí tự</string>
@@ -75,7 +76,7 @@
 	<!-- View Product Form -->
 	<string name="userName">Username</string>
 	<string name="pageView">Số lượt xem</string>
-
+	
 	<!-- Dialog -->
 	<string name="btnShowDirectionOnMap">Xem trên bản đồ</string>
 
@@ -124,13 +125,13 @@
 	<!-- Comment dialog -->
 	<string name="add_new_comment">Thêm bình luận</string>
 	<string name="errEmptyComment">Bạn chưa nhập nội dung</string>
-
+	
 	<!-- Search by categories -->
 	<string name="search_by_categories">Tìm theo mục</string>
-
+	
 	<!-- Message -->
 	<string name="cant_connect_network">Không thể kết nối mạng</string>
-
+	
 	<!-- File explorer -->
 	<string name="dirname_app_name">Android File Browser - by anddev.org</string>
 	<string name="menu_new_folder">New Folder</string>
@@ -138,5 +139,4 @@
 	<string name="dirnameinput_hint">Enter a directory-name:</string>
 	<string name="up_one_level">..</string>
 	<string name="current_dir">.</string>
-	
 </resources>

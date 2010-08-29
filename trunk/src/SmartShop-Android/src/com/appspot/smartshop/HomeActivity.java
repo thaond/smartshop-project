@@ -4,6 +4,9 @@ package com.appspot.smartshop;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
+import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -31,6 +34,8 @@ import com.appspot.smartshop.utils.Global;
 
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.URLConstant;
+import com.google.gson.JsonObject;
 
 
 public class HomeActivity extends Activity {
@@ -83,6 +88,17 @@ public class HomeActivity extends Activity {
 	}
 
 	protected void test3() {
+	}
+	
+	void testLoadProductsList() {
+		String url = URLConstant.GET_PRODUCTS_BY_CRITERIA;
+		HttpService.getResource(url, false, new ServiceCallback(this) {
+			
+			@Override
+			public void onSuccess(JsonObject jsonObject) {
+				System.out.println(jsonObject);
+			}
+		});
 	}
 	
 	private void testUserProfile() {

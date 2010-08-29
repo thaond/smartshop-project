@@ -21,8 +21,10 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RestClient {
+import android.util.Log;
 
+public class RestClient {
+	public static final String TAG = "[RestClient]";
 	public static JSONParser jsonParser = null;
 	private static HttpClient httpClient;
 
@@ -48,6 +50,8 @@ public class RestClient {
 	}
 	
 	public static void postData(String url, String jsonParam, JSONParser parser) {
+		Log.d(TAG, url); 
+				
 		jsonParser = parser;
 
 		if (httpClient == null) {
@@ -96,6 +100,8 @@ public class RestClient {
 	}
 
 	public static void getData(String url, JSONParser parser) {
+		Log.d(TAG, url);
+		
 		jsonParser = parser;
 
 		if (httpClient == null) {

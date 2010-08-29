@@ -14,16 +14,18 @@
 			android:layout_height="wrap_content" android:id="@+id/btnSearchOnMap" />
 	</LinearLayout>
 
-	<RadioGroup android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:orientation="horizontal"
-		android:checkedButton="@+id/radioLatest" android:id="@+id/menu">
-		<RadioButton android:text="@string/rbMostUpdate"
-			android:id="@+id/radioLatest" android:textSize="12dip" />
-		<RadioButton android:text="@string/rbBestSeller"
-			android:id="@+id/radioBestSeller" android:textSize="12dip" />
-		<RadioButton android:text="@string/rbCheapest" android:id="@+id/radioPrice"
-			android:textSize="12dip" />
-	</RadioGroup>
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal">
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/chMostUpdate"
+			android:textSize="12dip" android:id="@+id/chMostUpdate" />
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/chCheapest"
+			android:textSize="12dip" android:id="@+id/chCheapest" />
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/chMostView"
+			android:textSize="12dip" android:id="@+id/chMostView" />
+	</LinearLayout>
 
 	<ListView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:id="@+id/listViewProductAfterSearch" />

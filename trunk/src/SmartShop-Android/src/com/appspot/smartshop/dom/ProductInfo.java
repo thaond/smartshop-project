@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Set;
 
 public class ProductInfo implements Serializable {
-	public long id;
+	public Long id;
 	public int product_view;
 	public String name = null;
 	public double price;
@@ -29,4 +29,17 @@ public class ProductInfo implements Serializable {
 		this.description = description;
 	}
 	public ProductInfo() {}
+	@Override
+	public String toString() {
+		return "ProductInfo [address=" + address + ", datePost=" + datePost
+				+ ", description=" + description + ", id=" + id + ", isVAT="
+				+ isVAT + ", lat=" + lat + ", lng=" + lng + ", name=" + name
+				+ ", origin=" + origin + ", price=" + price + ", product_view="
+				+ product_view + ", quantity=" + quantity + ", setAttributes="
+				+ setAttributes + ", setCategoryKeys=" + setCategoryKeys
+				+ ", setPagesId=" + setPagesId + ", username=" + username
+				+ ", warranty=" + warranty + "]";
+	}
+	
+	
 }

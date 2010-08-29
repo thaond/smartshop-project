@@ -1,6 +1,7 @@
 package com.appspot.smartshop.test;
 
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
 import com.appspot.smartshop.map.MyLocation.LocationResult;
 import com.appspot.smartshop.map.MyLocationListener.MyLocationCallback;
+import com.appspot.smartshop.mock.MockProduct;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
@@ -45,7 +47,7 @@ public class TestActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		Global.application = this;
-		testLogin(); // TODO (condorhero01): place test function here
+		testInsertMockData(); // TODO (condorhero01): place test function here
 	}
 	
 	void testGetCurrentLocation() {
@@ -77,11 +79,54 @@ public class TestActivity extends MapActivity {
 		});
 	}
 	
+	void testInsertMockData() {
+		insertMockProduct();
+	}
+	
+	void insertMockProduct() {
+		for (ProductInfo productInfo : MockProduct.getProducts()) {
+			String url = "http://10.0.2.2:8888/api/asd/registerproduct/";
+			String param = Global.gsonWithHour.toJson(productInfo);
+			
+			RestClient.postData(url, param, new JSONParser() {
+				
+				@Override
+				public void onSuccess(JSONObject json) throws JSONException {
+					System.out.println(json);
+				}
+				
+				@Override
+				public void onFailure(String message) {
+					System.out.println(message);
+				}
+			});
+		}
+	}
+	
+	void insertMockPage() {
+		
+	}
+	
 	void testHttpPost() {
 		String url = "http://10.0.2.2:8888/api/asd/registerproduct/";
-		List<NameValuePair> params = new LinkedList<NameValuePair>();
-		String value = "{\"name\":\"Dell D630\",\"price\":123.0,\"is_vat\":true, \"quantity\":2,\"warranty\":\"12 month\",\"origin\":\"China\", \"address\":\"Binh Tan\",\"lat\":10.11,\"lng\":106.123,\"username\":\"tam\",\"setPagesId\":[],\"setCategoryKeys\":[\"lap\",\"soft\"],\"attributeSets\":[{\"key_cat\":\"lap\",\"name\":\"Camera3\",\"value\":\"1.3MP\",\"username\":\"tam\"},{\"key_cat\":\"lap\",\"name\":\"Camera4\",\"value\":\"1.3MP\",\"username\":\"tam\"}]}";
-		params.add(new BasicNameValuePair("", value));
+		ProductInfo productInfo = new ProductInfo();
+		productInfo.name = "new product";
+		productInfo.address = "268 ly thuong kiet, quan 10, hcm";
+		productInfo.datePost = new Date();
+		productInfo.description = "product description";
+		productInfo.isVAT = true;
+		productInfo.lat = 10.775386;
+		productInfo.lng = 106.660938;
+		productInfo.origin = "viet nam";
+		productInfo.price = 1000;
+		productInfo.quantity = 1;
+		productInfo.setCategoryKeys = new LinkedHashSet<String>();
+		productInfo.setCategoryKeys.add("comp");
+		productInfo.warranty = "12 thang";
+		productInfo.username = "duc";
+		
+		String value = Global.gsonWithHour.toJson(productInfo);
+		Log.d(TAG, "json = " + value);
 		
 		RestClient.postData(url, value, new JSONParser() {
 			
