@@ -1,6 +1,5 @@
 package com.appspot.smartshop.dom;
 
-import java.io.Serializable;
 
 public class UserDefineAttribute {
 	public String newAttribute;
