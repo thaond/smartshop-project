@@ -26,12 +26,12 @@ public class PostProductActivityUserDefine extends Activity {
 	public UserDefineAttributeAdapter userDefineAttributeAdapter;
 	public EditText newAtt;
 	public EditText newValueAtt;
-	public ArrayList<UserDefineAttribute> att;
+	public static ArrayList<UserDefineAttribute> attributeSet;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		att = new ArrayList<UserDefineAttribute>();
+		attributeSet = new ArrayList<UserDefineAttribute>();
 		newAtt = (EditText) findViewById(R.id.txtNewAttribute);
 		newValueAtt  = (EditText) findViewById(R.id.txtValueOfNewAttribute);
 		setContentView(R.layout.post_user_define_attribute);
