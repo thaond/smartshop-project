@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
-import vnfoss2010.smartshop.serverside.test.SampleData;
+import vnfoss2010.smartshop.serverside.test.SampleDataNghia;
 
 public class AccountServlet extends HttpServlet {
 
@@ -41,7 +41,7 @@ public class AccountServlet extends HttpServlet {
 		//String username, String password, String firstName,
 //		String lastName, String phone, String email, Date birthday,
 //		String address, double lat, double lng
-		ArrayList<UserInfo> userInfos =  SampleData.getSampleListUserInfos();
+		ArrayList<UserInfo> userInfos =  SampleDataNghia.getSampleListUserInfos();
 		try {
 			resp.getWriter().print("In do register");
 		} catch (IOException e) {

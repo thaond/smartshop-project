@@ -2,13 +2,13 @@ package vnfoss2010.smartshop.serverside.services.test;
 
 import java.util.Map;
 
-import com.google.appengine.repackaged.org.json.JSONObject;
-
 import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.test.SampleData;
+
+import com.google.appengine.repackaged.org.json.JSONObject;
 
 public class InsertUserInfosService extends BaseRestfulService {
 	private AccountServiceImpl db = AccountServiceImpl.getInstance();
