@@ -23,7 +23,6 @@ public class RegisterService extends BaseRestfulService{
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(content, UserInfo.class);
-		AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
 		
 //		JSONObject json = null;
 //		try {

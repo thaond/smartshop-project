@@ -44,6 +44,7 @@ public class ProductServiceImpl {
 	 */
 	public ServiceResult<Long> insertProduct(Product product) {
 		preventSQLInjProduct(product);
+		ProductServiceImpl.updateFTSStuffForProduct(product);
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -78,6 +79,7 @@ public class ProductServiceImpl {
 	public ServiceResult<Long> insertProduct(Product product,
 			List<String> listCategories, List<Attribute> listAttributes) {
 		preventSQLInjProduct(product);
+		ProductServiceImpl.updateFTSStuffForProduct(product);
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		if (product == null) {

@@ -24,7 +24,6 @@ public class EditProfileService extends BaseRestfulService {
 			throws Exception, RestfulException {
 		UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(content, UserInfo.class);
 		Global.log(null, userInfo + "");
-		AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
 
 		JSONObject jsonReturn = new JSONObject();
 		ServiceResult<Void> result = db.editProfile(userInfo);

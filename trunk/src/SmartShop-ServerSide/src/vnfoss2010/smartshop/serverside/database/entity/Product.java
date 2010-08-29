@@ -98,7 +98,6 @@ public class Product implements LocationCapable {
 
 	public Product() {
 		this("", 0, false, 0, "", "", "", 0, 0, "", 0, "");
-		ProductServiceImpl.updateFTSStuffForProduct(this);
 	}
 
 	public Product(String name, double price, boolean isVat, int quantity,

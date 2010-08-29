@@ -59,10 +59,10 @@ public class PageServiceImpl {
 	}
 
 	public ServiceResult<Long> insertPage(Page page) {
+		updateFTSStuffForPage(page);
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
-			updateFTSStuffForPage(page);
 			page = pm.makePersistent(page);
 			if (page == null) {
 				result.setMessage("khong the insert page");
