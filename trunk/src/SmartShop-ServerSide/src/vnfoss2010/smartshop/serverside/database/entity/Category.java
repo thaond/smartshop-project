@@ -7,6 +7,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.gson.annotations.Exclude;
+
 @PersistenceCapable 
 public class Category { 
 
@@ -18,10 +20,12 @@ public class Category {
 	
 	@Persistent
 	private String parent_id; 
-	
-	@Persistent
+
+	@Exclude
+	@Persistent 
 	private List<Long> listPages;
 	
+	@Exclude
 	@Persistent
 	private List<Long> listProducts;
 	 

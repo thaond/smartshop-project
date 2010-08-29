@@ -71,12 +71,12 @@ public class AccountServiceImpl {
 			return result;
 		}
 
-		if (userInfo.getPassword() == null
-				|| userInfo.getPassword().length() < 6) {
-			result.setMessage(Global.messages
-					.getString("password_length_at_least_6_characters"));
-			return result;
-		}
+//		if (userInfo.getPassword() == null
+//				|| userInfo.getPassword().length() < 6) {
+//			result.setMessage(Global.messages
+//					.getString("password_length_at_least_6_characters"));
+//			return result;
+//		}
 
 		try {
 			UserInfo tmp = null;

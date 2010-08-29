@@ -1,10 +1,13 @@
 package vnfoss2010.smartshop.serverside.database;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 
@@ -84,6 +87,45 @@ public class CategoryServiceImpl {
 			result.setMessage(Global.messages.getString("get_list_category_successfully"));
 		}
 
+		return result;
+	}
+	
+	public ServiceResult<List<Category>> getCategories() {
+		ServiceResult<List<Category>> result = new ServiceResult<List<Category>>();
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(Category.class);
+		
+		List<Category> listCategories = (List<Category>) query.execute();
+		if (listCategories!= null && listCategories.size()>0){
+			result.setOK(true);
+			result.setMessage(Global.messages.getString("get_categories_successfully"));
+			result.setResult(listCategories);
+		}else{
+			result.setMessage(Global.messages.getString("get_categories_fail"));
+		}
+
+		return result;
+	}
+	
+	public ServiceResult<List<Category>> getCategories(String cat_parent) {
+		ServiceResult<List<Category>> result = new ServiceResult<List<Category>>();
+		List<Category> setCategories = new ArrayList<Category>();
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(Category.class);
+		query.setFilter("parent_id == cat");
+		query.declareParameters("String cat");
+		
+		List<Category> listCategories = (List<Category>) query.execute(cat_parent);
+		if (listCategories!= null && listCategories.size()>0){
+			result.setOK(true);
+			result.setMessage(Global.messages.getString("get_categories_successfully"));
+			result.setResult(listCategories);
+		}else{
+			result.setMessage(Global.messages.getString("get_categories_fail"));
+		}
+		
 		return result;
 	}
 
