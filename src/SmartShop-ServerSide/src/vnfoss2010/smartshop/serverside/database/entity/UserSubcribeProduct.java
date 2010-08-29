@@ -17,11 +17,11 @@ import com.google.gson.annotations.Exclude;
 public class UserSubcribeProduct implements LocationCapable {
 	private static final long serialVersionUID = 1L;
 
-	@PrimaryKey
+	@PrimaryKey 
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	private Long id; 
 	@Persistent
-	private Double lat;
+	private Double lat;  
 	@Persistent
 	private Double lng;
 	@Persistent

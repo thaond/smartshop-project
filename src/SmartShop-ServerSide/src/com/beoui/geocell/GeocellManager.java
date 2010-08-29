@@ -536,8 +536,8 @@ public class GeocellManager {
 					|| baseQuery.getParameters().isEmpty()) {
 				newResultEntities = (List<T>) query.execute(curGeocellsUnique);
 			} else {
-//				List<Object> parameters = new ArrayList<Object>(baseQuery
-				//						.getParameters());
+				// List<Object> parameters = new ArrayList<Object>(baseQuery
+				// .getParameters());
 				// newResultEntities = (List<T>)
 				// query.executeWithArray(parameters
 				// .toArray());
@@ -689,7 +689,7 @@ public class GeocellManager {
 	public static final <T extends LocationCapable> List<T> proximityFetch(
 			Point center, int maxResults, double maxDistance,
 			Class<T> entityClass, GeocellQuery baseQuery, PersistenceManager pm) {
-		return proximityFetch(center, maxResults, maxDistance, entityClass,
+		return proximityFetchNew(center, maxResults, maxDistance, entityClass,
 				baseQuery, pm, MAX_GEOCELL_RESOLUTION);
 	}
 

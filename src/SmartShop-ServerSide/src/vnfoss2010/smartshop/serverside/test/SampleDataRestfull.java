@@ -25,7 +25,7 @@ public class SampleDataRestfull extends BaseRestfulService {
 
 		db.insertAllUserInfos(userInfo);
 		for (Category category : categories){
-			dbcat.insertCategory(category);
+//			dbcat.insertCategory(category);
 		}
 		
 		return "hello from sample";
