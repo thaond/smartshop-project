@@ -24,20 +24,20 @@ public class Page {
 	private String content;
 
 	@Persistent
-	private String link_thumbnail; 
+	private String link_thumbnail;
 
 	@Persistent
 	private int page_view;
- 
+
 	@Persistent
 	private Date date_post;
-	
+
 	@Persistent
 	private Date last_modified;
 
 	@Persistent
 	private String username;
-	
+
 	@Exclude
 	@Persistent
 	private Set<String> fts;
@@ -56,8 +56,7 @@ public class Page {
 	}
 
 	public Page(String name, String content, String linkThumbnail,
-			int pageView, Date datePost, Date lastModified, String username,
-			String categoryId) {
+			int pageView, Date datePost, Date lastModified, String username) {
 		this();
 		this.name = name;
 		this.content = content;
@@ -70,6 +69,8 @@ public class Page {
 
 	public Page() {
 		setCategoryKeys = new HashSet<String>();
+		setProductIDs = new HashSet<Long>();
+		fts = new HashSet<String>();
 	}
 
 	/**
@@ -256,7 +257,8 @@ public class Page {
 	}
 
 	/**
-	 * @param fts the fts to set
+	 * @param fts
+	 *            the fts to set
 	 */
 	public void setFts(Set<String> fts) {
 		this.fts = fts;

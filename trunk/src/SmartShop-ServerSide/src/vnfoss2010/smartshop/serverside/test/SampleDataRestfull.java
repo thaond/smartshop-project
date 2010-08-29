@@ -20,8 +20,8 @@ public class SampleDataRestfull extends BaseRestfulService {
 	@Override
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
-		ArrayList<Category> categories = SampleData.getSampleCategories();
-		ArrayList<UserInfo> userInfo = SampleData.getSampleListUserInfos();
+		ArrayList<Category> categories = SampleDataNghia.getSampleCategories();
+		ArrayList<UserInfo> userInfo = SampleDataNghia.getSampleListUserInfos();
 
 		db.insertAllUserInfos(userInfo);
 		for (Category category : categories){

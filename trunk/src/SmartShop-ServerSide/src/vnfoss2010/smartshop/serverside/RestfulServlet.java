@@ -59,6 +59,7 @@ import vnfoss2010.smartshop.serverside.services.page.EditPageService;
 import vnfoss2010.smartshop.serverside.services.page.GetListPageByCriteriaService;
 import vnfoss2010.smartshop.serverside.services.page.GetPageService;
 import vnfoss2010.smartshop.serverside.services.page.GetPagesByUsernameService;
+import vnfoss2010.smartshop.serverside.services.page.SearchPageService;
 import vnfoss2010.smartshop.serverside.services.page.TagProductToPageService;
 import vnfoss2010.smartshop.serverside.services.page.UntagProductFromPageService;
 import vnfoss2010.smartshop.serverside.services.product.EditProductService;
@@ -72,6 +73,7 @@ import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductPromixity;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductService;
 import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
+import vnfoss2010.smartshop.serverside.services.test.InsertPageService;
 import vnfoss2010.smartshop.serverside.services.test.InsertUserInfosService;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.CreateSubcribeProduct;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.EditSubcribe;
@@ -176,7 +178,7 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("tag-product-to-page", TagProductToPageService.class);
 		mServices.put("untag-product-to-page",
 				UntagProductFromPageService.class);
-		mServices.put("page-search", SearchProductService.class);
+		mServices.put("page-search", SearchPageService.class);
 		mServices.put("page-search-criteria",
 				GetListPageByCriteriaService.class);
 		mServices.put("page-get-by-username", GetPagesByUsernameService.class);
@@ -214,5 +216,6 @@ public class RestfulServlet extends HttpServlet {
 		
 		mServices.put("sampledata", InsertCategoryService.class);
 		mServices.put("sampledata-user", InsertUserInfosService.class);
+		mServices.put("sampledata-page", InsertPageService.class);
 	}
 }
