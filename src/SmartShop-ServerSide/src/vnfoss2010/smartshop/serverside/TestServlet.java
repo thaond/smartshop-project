@@ -16,6 +16,7 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
 import vnfoss2010.smartshop.serverside.services.test.DeleteUserInfosService;
 import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
+import vnfoss2010.smartshop.serverside.services.test.InsertPageService;
 import vnfoss2010.smartshop.serverside.services.test.InsertSampleProductService;
 import vnfoss2010.smartshop.serverside.services.test.InsertUserInfosService;
 
@@ -78,7 +79,7 @@ public class TestServlet extends HttpServlet {
 	static {
 		mServices.put("insert-userinfos", InsertUserInfosService.class);
 		mServices.put("delete-userinfos", DeleteUserInfosService.class);
-
+		mServices.put("insert-page", InsertPageService.class);
 		mServices.put("insert-cats", InsertCategoryService.class);
 		mServices.put("insert-products", InsertSampleProductService.class);
 	}
