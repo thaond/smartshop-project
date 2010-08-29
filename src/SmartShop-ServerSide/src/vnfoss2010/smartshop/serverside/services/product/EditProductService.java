@@ -42,7 +42,6 @@ public class EditProductService extends BaseRestfulService {
 		}
 		Gson gson = new Gson();
 		Product editProduct = gson.fromJson(content, Product.class);
-		ProductServiceImpl.updateFTSStuffForProduct(editProduct);
 		log.log(Level.SEVERE, editProduct.toString());
 
 		ServiceResult<Set<Category>> listCategory = dbCat

@@ -61,6 +61,7 @@ public class AccountServiceImpl {
 	// USERINFO
 	public ServiceResult<Void> insertUserInfo(UserInfo userInfo) {
 		preventSQLInjUserInfo(userInfo);
+		AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -256,7 +257,7 @@ public class AccountServiceImpl {
 				if (userInfo == null || userInfo.getUsername() == null) {
 					continue;
 				}
-
+				AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
 				userInfo.setPassword(DatabaseUtils.md5(userInfo.getPassword()));
 				pm.makePersistent(userInfo);
 			} // end for loop
