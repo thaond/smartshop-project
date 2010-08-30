@@ -64,9 +64,9 @@ public class NotificationServiceImpl {
 			if (limit > 0)
 				query.setRange(0, limit);
 			if (type == 1) {
-				query.setFilter("isNew = true");
+				query.setFilter("isNew == true");
 			} else if (type == 2) {
-				query.setFilter("isNew = false");
+				query.setFilter("isNew == false");
 			}
 			List<Notification> listNotifications = (List<Notification>) query
 					.execute(username);
@@ -131,9 +131,9 @@ public class NotificationServiceImpl {
 
 		if (dbAccount.isExist(username).isOK()) {
 			Query query = pm.newQuery(Notification.class);
-			query.setFilter("username = us");
+			query.setFilter("username == us");
 			query.declareParameters("String us");
-			query.setFilter("isNew = true");
+			query.setFilter("isNew == true");
 			List<Notification> list = (List<Notification>) query.execute(username);
 			for (Notification n : list){
 				n.setNew(false);
@@ -157,7 +157,7 @@ public class NotificationServiceImpl {
 
 		if (dbAccount.isExist(username).isOK()) {
 			Query query = pm.newQuery(Notification.class);
-			query.setFilter("username = us");
+			query.setFilter("username == us");
 			query.declareParameters("String us");
 			List<Notification> list = (List<Notification>) query.execute(username);
 			if (list == null){

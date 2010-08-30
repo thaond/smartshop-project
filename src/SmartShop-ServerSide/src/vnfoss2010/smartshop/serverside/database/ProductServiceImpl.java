@@ -346,7 +346,7 @@ public class ProductServiceImpl {
 
 		case 2:
 			query = "select from " + Product.class.getName()
-					+ " where (quantity=0) " + query
+					+ " where (quantity==0) " + query
 					+ ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
 
@@ -632,7 +632,7 @@ public class ProductServiceImpl {
 
 				Query query = pm.newQuery(Product.class);
 				query.setOrdering("date_post DESC");
-				query.setFilter("id = produtId");
+				query.setFilter("id == produtId");
 				query.declareParameters("Long productId");
 
 				List<Product> listProducts = (List<Product>) query
@@ -721,7 +721,7 @@ public class ProductServiceImpl {
 					+ username);
 		} else {
 			Query query = pm.newQuery(Page.class);
-			query.setFilter("username = us");
+			query.setFilter("username == us");
 			query.declareParameters("String us");
 			query.setOrdering("date_post DESC");
 			List<Product> listProducts = (List<Product>) query

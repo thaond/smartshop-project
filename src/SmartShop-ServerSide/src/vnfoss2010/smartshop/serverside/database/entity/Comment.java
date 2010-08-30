@@ -14,7 +14,7 @@ public class Comment {
 	private Long id;
 
 	@Persistent
-	private String content;
+	private String content; 
 
 	@Persistent
 	private String type; 

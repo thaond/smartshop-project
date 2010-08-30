@@ -1,4 +1,4 @@
-package vnfoss2010.smartshop.serverside.database.entity;
+ package vnfoss2010.smartshop.serverside.database.entity;
 
 import java.util.Date;
 
@@ -19,7 +19,7 @@ public class Notification {
 	private String content;
 
 	@Persistent
-	private Date date;
+	private Date date; 
 
 	@Persistent
 	private boolean isNew;

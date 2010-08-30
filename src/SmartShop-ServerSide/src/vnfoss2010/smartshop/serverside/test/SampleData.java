@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.google.gson.Gson;
-
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
@@ -145,5 +143,25 @@ public class SampleData {
 		
 		return products;
 	}
+	
+//	public static ArrayList<Page> getSamplePages(){
+//		ArrayList<Page> listPages = new ArrayList<Page>();
+//		
+//		Page page;
+//		page = new Page("Giới thiệu sản phẩm Laptop", "Nội dung", null, 0, new Date(), new Date(), "tam", "laptop");
+//		listPages.add(page);
+//		
+//		page = new Page("Giới thiệu sản phẩm các phụ kiện di động", "Nội dung", null, 0, new Date(), new Date(), "tam", "mobile_accessories");
+//		listPages.add(page);
+//		
+//		page = new Page("Giới thiệu sản phẩm ĐTDĐ", "Nội dung", null, 0, new Date(), new Date(), "duc", "mobile_pda_sub");
+//		listPages.add(page);
+//		
+//		page = new Page("Giới thiệu sản phẩm Laptop Dell", "Nội dung", null, 0, new Date(), new Date(), "nghia", "laptop");
+//		listPages.add(page);
+//		
+//		return listPages;
+//		
+//	}
 }
 
