@@ -14,7 +14,7 @@ public class Attribute {
 	private Key id;
 
 	@Persistent
-	private String key_cat;
+	private String key_cat; 
 
 	@Persistent
 	private String name;  

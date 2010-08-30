@@ -119,7 +119,7 @@ public class CommentServiceImpl {
 					+ username);
 		} else {
 			Query query = pm.newQuery(Page.class);
-			query.setFilter("username = us");
+			query.setFilter("username == us");
 			query.declareParameters("String us");
 			query.setOrdering("date_post DESC");
 			List<Comment> listComments = (List<Comment>) query

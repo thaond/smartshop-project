@@ -19,7 +19,7 @@ public class Category {
 	private String name;
 	
 	@Persistent
-	private String parent_id; 
+	private String parent_id;  
 
 	@Exclude
 	@Persistent 
