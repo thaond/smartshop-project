@@ -28,6 +28,8 @@ import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 import com.google.android.maps.MapActivity;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 public class ProductsListActivity extends MapActivity {
@@ -104,8 +106,8 @@ public class ProductsListActivity extends MapActivity {
 				RestClient.getData(url, new JSONParser() {
 					
 					@Override
-					public void onSuccess(JSONObject json) throws JSONException {
-						JSONArray arr = json.getJSONArray("products");
+					public void onSuccess(JsonObject json){
+						JsonArray arr = json.getAsJsonArray("products");
 						Type listType = new TypeToken<List<ProductInfo>>() {}.getType();
 						products = Global.gsonWithHour.fromJson(arr.toString(), listType);
 						System.out.println(products);
@@ -156,8 +158,8 @@ public class ProductsListActivity extends MapActivity {
 				RestClient.getData(url, new JSONParser() {
 					
 					@Override
-					public void onSuccess(JSONObject json) throws JSONException {
-						JSONArray arr = json.getJSONArray("products");
+					public void onSuccess(JsonObject json){
+						JsonArray arr = json.getAsJsonArray("products");
 						Type listType = new TypeToken<List<ProductInfo>>() {}.getType();
 						products = Global.gsonWithHour.fromJson(arr.toString(), listType);
 						System.out.println(products);

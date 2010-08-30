@@ -1,10 +1,5 @@
 package com.appspot.smartshop;
 
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
 import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.Activity;
@@ -17,9 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
 import com.appspot.smartshop.map.DirectionListActivity;
-import com.appspot.smartshop.mock.MockPage;
 import com.appspot.smartshop.mock.MockCategory;
+import com.appspot.smartshop.mock.MockPage;
 import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
@@ -31,12 +27,11 @@ import com.appspot.smartshop.ui.product.ViewSingleProduct;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.Global;
-
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 
 public class HomeActivity extends Activity {
 	public static final String TAG = "[HomeActivity]";
@@ -89,52 +84,52 @@ public class HomeActivity extends Activity {
 
 	protected void test3() {
 	}
-	
+
 	void testLoadProductsList() {
 		String url = URLConstant.GET_PRODUCTS_BY_CRITERIA;
 		HttpService.getResource(url, false, new ServiceCallback(this) {
-			
+
 			@Override
 			public void onSuccess(JsonObject jsonObject) {
 				System.out.println(jsonObject);
 			}
 		});
 	}
-	
+
 	private void testUserProfile() {
 		Intent intent = new Intent(this, UserProfileActivity.class);
 		intent.putExtra(Global.USER_NAME, Global.username);
 		startActivity(intent);
 	}
-	
+
 	private void testEditPage() {
 		Intent intent = new Intent(this, PageActivity.class);
 		intent.putExtra(Global.PAGE, MockPage.getInstance());
 		startActivity(intent);
 	}
-	
+
 	private void testPagesList() {
 		Intent intent = new Intent(this, PagesListActivity.class);
 		startActivity(intent);
 	}
-	
+
 	private void testCreatePage() {
 		Intent intent = new Intent(this, PageActivity.class);
 		startActivity(intent);
 	}
-	
+
 	private void testViewPage() {
 		Intent intent = new Intent(this, ViewPageActivity.class);
 		intent.putExtra("page", MockPage.getInstance());
 
-
 		startActivity(intent);
 	}
-	
+
 	private void testAsyncTask() {
 		new AsyncTask<Void, Void, Void>() {
-			private final ProgressDialog dialog = new ProgressDialog(Global.application);
-			
+			private final ProgressDialog dialog = new ProgressDialog(
+					Global.application);
+
 			protected void onPreExecute() {
 				dialog.setCancelable(false);
 				dialog.setCanceledOnTouchOutside(false);
@@ -147,33 +142,34 @@ public class HomeActivity extends Activity {
 				loadJson();
 				return null;
 			}
-			
+
 			protected void onPostExecute(Void result) {
 				if (dialog != null) {
 					dialog.setMessage("Finish");
 					dialog.dismiss();
 				}
 			};
-			
+
 		}.execute();
 	}
-	
+
 	private void loadJson() {
 		String url = "http://search.twitter.com/trends.json";
 		RestClient.getData(url, new JSONParser() {
-			
+
 			@Override
-			public void onSuccess(JSONObject json) throws JSONException {
-				System.out.println("as_of = " + json.getString("as_of"));
-				JSONArray arrTrends = json.getJSONArray("trends");
-				int len = arrTrends.length();
-				JSONObject obj = null;
+			public void onSuccess(JsonObject json) {
+				System.out.println("as_of = " + json.getAsString("as_of"));
+				JsonArray arrTrends = json.getAsJsonArray("trends");
+				int len = arrTrends.size();
+				JsonObject obj = null;
 				for (int i = 0; i < len; ++i) {
-					obj = arrTrends.getJSONObject(i);
-					System.out.println("name = " + obj.getString("name"));
-					System.out.println("url = " + obj.getString("url"));
+					obj = arrTrends.getAsJsonObject(i);
+					System.out.println("name = " + obj.getAsString("name"));
+					System.out.println("url = " + obj.getAsString("url"));
 				}
 			}
+
 			@Override
 			public void onFailure(String message) {
 				Log.e(TAG, "fail");
@@ -220,23 +216,27 @@ public class HomeActivity extends Activity {
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 		startActivity(intent);
 	}
+
 	private void testViewProduct() {
 		Intent intent = new Intent(this, ViewSingleProduct.class);
 		startActivity(intent);
 	}
+
 	private void testPostProduct() {
 		Intent intent = new Intent(this, PostProductActivity.class);
 		startActivity(intent);
 	}
+
 	private void searchByEnterQuery() {
 		Intent intent = new Intent(this, SearchProductActivity.class);
 		startActivity(intent);
 	}
+
 	private void searchByCategory() {
 		Intent intent = new Intent(this, SearchByCategoryActivity.class);
 		intent.putExtra(Global.CATEGORY_INFO, MockCategory.getInstance());
 		intent.putExtra(Global.TYPE, MainActivity.PRODUCT);
 		startActivity(intent);
-		
+
 	}
 }

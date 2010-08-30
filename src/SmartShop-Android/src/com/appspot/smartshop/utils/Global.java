@@ -26,7 +26,11 @@ public class Global {
 	 */
 	public static String username = MockUserInfo.getInstance().username;
 	public static boolean isLogin = false;
-	public static UserInfo userInfo = null;
+	public static UserInfo userInfo = new UserInfo();
+	//TODO (tam -> duc) Test, remove username, isLogin. B/c we check whether userInfo isn't equals null to know user have logined or not
+	static{
+		userInfo.username = "tam";
+	}
 
 	/*
 	 * Misc
@@ -47,6 +51,7 @@ public class Global {
 	public static DateFormat df = new SimpleDateFormat(NORMAL_DATE);
 	public static DateFormat dfFull = new SimpleDateFormat(
 			NORMAL_DATE_WITH_HOUR);
+	public static DateFormat dfTimeStamp = new SimpleDateFormat("yyyyMMddHHmmssSS");
 	public static InputFilter[] uneditableInputFilters = new InputFilter[] { new InputFilter() {
 		public CharSequence filter(CharSequence src, int start, int end,
 				Spanned dst, int dstart, int dend) {
@@ -76,6 +81,10 @@ public class Global {
 	public static final String CATEGORY_INFO = "category_info";
 	public static final String SELECTED_CATEGORIES = "selected_categories";
 	
+	public static final String FILE_INTENT_ID = "file";
+	public static final String BYTE_ARRAY_INTENT_ID = "byte_array";
+	public static final String FILTER_FILE = "filter";
+	
 	/*
 	 * ACTIVITY ACTION NAME
 	 */
@@ -102,5 +111,6 @@ public class Global {
 	public static final String MAIN_ACTIVITY = "Main";
 	public static final String DIRECTION_LIST_ACTIVITY = "DirectionList";
 	public static final String UPLOAD_ACTIVITY = "Upload";
-	
+	public static final String FILE_BROWSER_ACTIVITY = "FileBrowser";
+	public static final String IMAGE_CAPURE_ACTIVITY = "ImageCapture";
 }

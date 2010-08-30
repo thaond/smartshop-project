@@ -1,7 +1,7 @@
 package com.appspot.smartshop.utils;
 
 public class URLConstant {
-	public static final String HOST = "http://10.0.2.2:8888/";
+	public static final String HOST = "http://10.0.2.2:8888";
 	
 	/************************ Error code and message ********************/
 	public static final String ERROR_CODE = "errCode";
@@ -20,4 +20,7 @@ public class URLConstant {
 	public static final String REGISTER = HOST + "/api/asd/account-register/";
 	public static final String EDIT_PROFILE = HOST + "/api/asd/account-editprofile/";
 	public static final String GET_USER_INFO = HOST + "/api/asd/account-getuser/?username=%s";
+	
+	/********* Image Hosting */
+	public static final String HOST_IMG = "http://10.0.2.2/testupload/myupload.php?username=%s";
 }

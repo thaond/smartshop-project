@@ -21,10 +21,11 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class RestClient {
-	public static final String TAG = "[RestClient]";
+
 	public static JSONParser jsonParser = null;
 	private static HttpClient httpClient;
 
@@ -48,28 +49,26 @@ public class RestClient {
 		}
 		return sb.toString();
 	}
-	
+
 	public static void postData(String url, String jsonParam, JSONParser parser) {
-		Log.d(TAG, url); 
-				
 		jsonParser = parser;
 
 		if (httpClient == null) {
 			httpClient = new DefaultHttpClient();
 		}
-		
+
 		HttpPost httpPost = new HttpPost(url);
 		try {
 			httpPost.setEntity(new StringEntity(jsonParam));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		
+
 		HttpResponse response = null;
 		HttpEntity entity = null;
 		String result = null;
 		InputStream instream = null;
-		
+
 		try {
 			response = httpClient.execute(httpPost);
 			entity = response.getEntity();
@@ -88,20 +87,14 @@ public class RestClient {
 			e.printStackTrace();
 			jsonParser.onFailure(e.getMessage());
 			return;
-		} 
-
-		try {
-			JSONObject json = new JSONObject(result);
-			jsonParser.onSuccess(json);
-		} catch (JSONException e) {
-			e.printStackTrace();
-			jsonParser.onFailure(e.getMessage());
 		}
+
+		JsonParser tmp = new JsonParser();
+		JsonObject json = tmp.parse(result).getAsJsonObject();
+		jsonParser.onSuccess(json);
 	}
 
 	public static void getData(String url, JSONParser parser) {
-		Log.d(TAG, url);
-		
 		jsonParser = parser;
 
 		if (httpClient == null) {
@@ -131,15 +124,10 @@ public class RestClient {
 			e.printStackTrace();
 			jsonParser.onFailure(e.getMessage());
 			return;
-		} 
-
-		try {
-			JSONObject json = new JSONObject(result);
-			jsonParser.onSuccess(json);
-		} catch (JSONException e) {
-			e.printStackTrace();
-			jsonParser.onFailure(e.getMessage());
 		}
+		JsonParser tmp = new JsonParser();
+		JsonObject json = tmp.parse(result).getAsJsonObject();
+		jsonParser.onSuccess(json);
 	}
 
 }

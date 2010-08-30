@@ -20,9 +20,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
-import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.URLConstant;
 import com.google.gson.JsonObject;
 
@@ -37,9 +35,6 @@ public abstract class ServiceCallback {
 	private ProgressDialog dialog = null;
 
 	public ServiceCallback() {
-		dialog = new ProgressDialog(context);
-		dialog.setCancelable(false);
-		dialog.setCanceledOnTouchOutside(false);
 	}
 
 	public ServiceCallback(Context context) {
@@ -53,38 +48,43 @@ public abstract class ServiceCallback {
 	 * Called when service request success.
 	 */
 	public abstract void onSuccess(JsonObject jsonObject);
-	
+
 	public boolean handleMessage(JsonObject jsonObject) {
 		int errorCode = jsonObject.get(URLConstant.ERROR_CODE).getAsInt();
 		if (errorCode == 1) {
 			String message = jsonObject.get(URLConstant.MESSAGE).getAsString();
 			Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-			
+
 			return false;
-		} 
-		
+		}
+
 		return true;
 	}
 
 	/**
 	 * Called when service request failed.
 	 */
-	public void onFailure(Exception ex){
-    	if (context!=null){
-    		Log.e(context.getPackageName(), ex.getMessage());
-        	Toast.makeText(context, context.getString(R.string.cant_connect_network), Toast.LENGTH_SHORT).show();	
-    	}
-    	else{
-    		ex.printStackTrace();
-    	}
-    }
+	public void onFailure(Exception ex) {
+		if (context != null) {
+			Log.e(context.getPackageName(), ex.getMessage());
+			Toast.makeText(context,
+					context.getString(R.string.cant_connect_network),
+					Toast.LENGTH_SHORT).show();
+		} else {
+			ex.printStackTrace();
+		}
+	}
 
 	public void onUpdating() {
-		dialog.setMessage(Global.application.getString(R.string.loading));
-		dialog.show();
+		if (dialog != null) {
+			dialog.setMessage("asd");
+			dialog.show();
+		}
 	}
 
 	public void onEndUpdating() {
-		dialog.dismiss();
+		if (dialog != null) {
+			dialog.dismiss();
+		}
 	}
 }

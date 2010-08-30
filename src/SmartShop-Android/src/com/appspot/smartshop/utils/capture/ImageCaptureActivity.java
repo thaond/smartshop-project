@@ -3,10 +3,8 @@ package com.appspot.smartshop.utils.capture;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
@@ -21,11 +19,10 @@ import android.view.SurfaceView;
 
 import com.appspot.smartshop.R;
 
-public class ImageCapture extends Activity implements SurfaceHolder.Callback
+public class ImageCaptureActivity extends Activity implements SurfaceHolder.Callback
 {
     private Camera camera;
     private boolean isPreviewRunning = false;
-    private SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyyMMddHHmmssSS");
     
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
@@ -44,11 +41,14 @@ public class ImageCapture extends Activity implements SurfaceHolder.Callback
     }
 
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        MenuItem item = menu.add(0, 0, 0, "goto gallery");
+        MenuItem item = menu.add(0, 0, 0, getString(R.string.back));
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, target);
-                startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_VIEW, target);
+//                startActivity(intent);
+            	
+            	setResult(RESULT_CANCELED);
+            	finish();
                 return true;
             }
         });
@@ -86,13 +86,14 @@ public class ImageCapture extends Activity implements SurfaceHolder.Callback
     	ImageCaptureCallback iccb = null;
     	if(keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
     	try {
-    		String filename = timeStampFormat.format(new Date());
-    		ContentValues values = new ContentValues();
-    		values.put(Media.TITLE, filename);
-    		values.put(Media.DESCRIPTION, "Image capture by camera");
-    		Uri uri = getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
+//    		String filename = timeStampFormat.format(new Date());
+//    		ContentValues values = new ContentValues();
+//    		values.put(Media.TITLE, filename);
+//    		values.put(Media.DESCRIPTION, "Image capture by camera");
+//    		Uri uri = getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
     		//String filename = timeStampFormat.format(new Date());
-    		iccb = new ImageCaptureCallback( getContentResolver().openOutputStream(uri));
+//    		iccb = new ImageCaptureCallback( getContentResolver().openInputStream(uri));
+    		iccb = new ImageCaptureCallback(this );
     	} catch(Exception ex ){
     		ex.printStackTrace();
     		Log.e(getClass().getSimpleName(), ex.getMessage(), ex);
