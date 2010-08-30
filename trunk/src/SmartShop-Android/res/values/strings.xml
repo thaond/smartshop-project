@@ -14,7 +14,7 @@
 
 	<!-- User -->
 	<string name="lblUsername">Tên đăng nhập*:</string>
-	<string name="lblOldPassword">Mật khẩu cũ:</string>
+	<string name="lblOldPassword">Mật khẩu cũ:</string> 
 	<string name="lblPassword">Mật khẩu*:</string>
 	<string name="lblConfirm">Xác nhận*:</string>
 	<string name="lblFirstName">Tên*:</string>
@@ -133,10 +133,21 @@
 	<string name="cant_connect_network">Không thể kết nối mạng</string>
 	
 	<!-- File explorer -->
-	<string name="dirname_app_name">Android File Browser - by anddev.org</string>
-	<string name="menu_new_folder">New Folder</string>
-	<string name="dirnameinput_cmd_return">Save</string>
-	<string name="dirnameinput_hint">Enter a directory-name:</string>
+	<string name="dirname_app_name">Android File Browser</string>
+	<string name="menu_new_folder">Tạo thư mục</string>
+	<string name="dirnameinput_cmd_return">Lưu</string>
+	<string name="dirnameinput_hint">Nhập tên thư mục:</string>
 	<string name="up_one_level">..</string>
 	<string name="current_dir">.</string>
+	<string name="do_you_want_to_choose_this_file">Bạn có muốn chọn file này?</string>
+	<string name="do_you_want_to_change_avatar">Bạn có muốn thay đổi avatar?</string>
+	<string name="yes">Có</string>
+	<string name="no">Không</string>
+	<string name="notice">Thông báo</string>
+	<string name="can_not_choose_this_file">Định dạng file không được hỗ trợ</string>
+	<string name="back">Trở về</string>
+	
+	<!-- Upload -->
+	<string name="cant_upload_image_try_again">Không thể upload hình ảnh. Bạn muốn thử lại không?</string>
+	
 </resources>

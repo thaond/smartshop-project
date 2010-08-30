@@ -1,25 +1,35 @@
 package com.appspot.smartshop.utils.capture;
 
-import java.io.OutputStream;
-
+import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
-import android.util.Log;
 
-public class ImageCaptureCallback implements PictureCallback  {
+import com.appspot.smartshop.utils.Global;
 
-	private OutputStream filoutputStream;
-	public ImageCaptureCallback(OutputStream filoutputStream) {
-		this.filoutputStream = filoutputStream;
+public class ImageCaptureCallback implements PictureCallback {
+	private Activity activity;
+
+	public ImageCaptureCallback(Activity activity) {
+		this.activity = activity;
 	}
+
 	@Override
 	public void onPictureTaken(byte[] data, Camera camera) {
 		try {
-			Log.v(getClass().getSimpleName(), "onPictureTaken=" + data + " length = " + data.length);
-			filoutputStream.write(data);
-			filoutputStream.flush();
-			filoutputStream.close();
-		} catch(Exception ex) {
+			// Callback here
+			Intent intent = new Intent();
+			intent.putExtra(Global.BYTE_ARRAY_INTENT_ID, data);
+			activity.setResult(Activity.RESULT_OK, intent);
+			activity.finish();
+			
+			// Write into SDCARD
+			// Log.v(getClass().getSimpleName(), "onPictureTaken=" + data +
+			// " length = " + data.length);
+			// inputStream.write(data);
+			// inputStream.flush();
+			// inputStream.close();
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

@@ -1,9 +1,8 @@
 package com.appspot.smartshop.utils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 public interface JSONParser {
-	void onSuccess(JSONObject json) throws JSONException;
+	void onSuccess(JsonObject json);
 	void onFailure(String message);
 }
