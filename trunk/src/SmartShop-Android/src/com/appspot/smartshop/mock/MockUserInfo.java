@@ -9,7 +9,7 @@ public class MockUserInfo {
 	public static UserInfo getInstance() {
 		UserInfo userInfo = new UserInfo();
 		
-		userInfo.username = "condorhero89";
+		userInfo.username = "duc";
 		userInfo.password = "pass";
 		userInfo.address = "117 thành thái quận 10 hcm";
 		userInfo.phone = "0984 432 486";

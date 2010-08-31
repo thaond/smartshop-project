@@ -14,6 +14,6 @@ public class DirectionParser implements JSONParser {
 	}
 
 	@Override
-	public void onSuccess(JsonObject json) {
+	public void onSuccess(JSONObject json) throws JSONException {
 	}
 }

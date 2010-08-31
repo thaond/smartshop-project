@@ -23,7 +23,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.CategoryInfo;
-import com.appspot.smartshop.dom.ChildItemInSearchByCategory;
 import com.appspot.smartshop.utils.Global;
 
 /**

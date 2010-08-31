@@ -615,9 +615,14 @@ public class UserActivity extends MapActivity {
 				.toJson(userInfo), new JSONParser() {
 
 			@Override
-			public void onSuccess(JsonObject json) {
-				int errCode = Integer.parseInt(json.getAsString("errCode"));
-				String message = json.getAsString("message");
+			public void onFailure(String message) {
+				Log.e(TAG, message);
+			}
+
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				int errCode = json.getInt("errCode");
+				String message = json.getString("message");
 				switch (errCode) {
 				case Global.SUCCESS:
 					Toast.makeText(UserActivity.this, message,
@@ -634,43 +639,7 @@ public class UserActivity extends MapActivity {
 					break;
 				}
 			}
-
-			@Override
-			public void onFailure(String message) {
-				Log.e(TAG, message);
-			}
 		});
-
-		// HttpService.postResource(URLConstant.REGISTER,
-		// Global.gsonDateWithoutHour.toJson(userInfo), true,
-		// new ServiceCallback(this) {
-		//
-		// @Override
-		// public void onSuccess(JsonObject json) {
-		// int errCode = Integer.parseInt(json
-		// .getAsString("errCode"));
-		// String message = json.getAsString("message");
-		// switch (errCode) {
-		// case Global.SUCCESS:
-		// Toast.makeText(UserActivity.this, message,
-		// Toast.LENGTH_SHORT).show();
-		// Global.intent.setAction(Global.LOGIN_ACTIVITY);
-		// startActivity(Global.intent);
-		//
-		// break;
-		//
-		// default:
-		// Toast.makeText(UserActivity.this, message,
-		// Toast.LENGTH_SHORT).show();
-		// Global.isLogin = false;
-		// break;
-		// }
-		// }
-		//
-		// });
-		// } else {
-		// Toast.makeText(UserActivity.this, err, Toast.LENGTH_SHORT).show();
-		// }
 	}
 
 	protected void editUserProfile() {

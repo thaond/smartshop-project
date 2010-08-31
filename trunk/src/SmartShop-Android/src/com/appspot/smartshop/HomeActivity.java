@@ -1,5 +1,7 @@
 package com.appspot.smartshop;
 
+import java.util.Set;
+
 import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
 import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.Activity;
@@ -26,10 +28,12 @@ import com.appspot.smartshop.ui.product.SearchProductActivity;
 import com.appspot.smartshop.ui.product.ViewSingleProduct;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
+import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -76,7 +80,7 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testPostProduct();
+		testUserProfile();
 	}
 
 	protected void test2() {
@@ -85,6 +89,16 @@ public class HomeActivity extends Activity {
 	protected void test3() {
 	}
 
+	void testCategoriesDialog() {
+		CategoriesDialog.showCategoriesDialog(this, new CategoriesDialogListener() {
+			
+			@Override
+			public void onCategoriesDialogClose(Set<String> categories) {
+				System.out.println(categories);
+			}
+		});
+	}
+	
 	void testLoadProductsList() {
 		String url = URLConstant.GET_PRODUCTS_BY_CRITERIA;
 		HttpService.getResource(url, false, new ServiceCallback(this) {
@@ -98,7 +112,8 @@ public class HomeActivity extends Activity {
 
 	private void testUserProfile() {
 		Intent intent = new Intent(this, UserProfileActivity.class);
-		intent.putExtra(Global.USER_NAME, Global.username);
+//		intent.putExtra(Global.USER_NAME, Global.username);
+		intent.putExtra(Global.USER_NAME, "duc");
 		startActivity(intent);
 	}
 
@@ -123,59 +138,6 @@ public class HomeActivity extends Activity {
 		intent.putExtra("page", MockPage.getInstance());
 
 		startActivity(intent);
-	}
-
-	private void testAsyncTask() {
-		new AsyncTask<Void, Void, Void>() {
-			private final ProgressDialog dialog = new ProgressDialog(
-					Global.application);
-
-			protected void onPreExecute() {
-				dialog.setCancelable(false);
-				dialog.setCanceledOnTouchOutside(false);
-				dialog.setMessage("Loading...");
-				dialog.show();
-			};
-
-			@Override
-			protected Void doInBackground(Void... params) {
-				loadJson();
-				return null;
-			}
-
-			protected void onPostExecute(Void result) {
-				if (dialog != null) {
-					dialog.setMessage("Finish");
-					dialog.dismiss();
-				}
-			};
-
-		}.execute();
-	}
-
-	private void loadJson() {
-		String url = "http://search.twitter.com/trends.json";
-		RestClient.getData(url, new JSONParser() {
-
-			@Override
-			public void onSuccess(JsonObject json) {
-				System.out.println("as_of = " + json.getAsString("as_of"));
-				JsonArray arrTrends = json.getAsJsonArray("trends");
-				int len = arrTrends.size();
-				JsonObject obj = null;
-				for (int i = 0; i < len; ++i) {
-					obj = arrTrends.getAsJsonObject(i);
-					System.out.println("name = " + obj.getAsString("name"));
-					System.out.println("url = " + obj.getAsString("url"));
-				}
-			}
-
-			@Override
-			public void onFailure(String message) {
-				Log.e(TAG, "fail");
-				Log.e(TAG, message);
-			}
-		});
 	}
 
 	private void testEditUserInfo() {

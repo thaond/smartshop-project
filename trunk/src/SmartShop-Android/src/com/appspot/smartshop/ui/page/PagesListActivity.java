@@ -1,5 +1,12 @@
 package com.appspot.smartshop.ui.page;
 
+import java.util.List;
+import java.util.Set;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +25,11 @@ import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.mock.MockPage;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
+import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 
 public class PagesListActivity extends Activity {
 	public static final String TAG = "[PagesListActivity]";
@@ -30,20 +41,28 @@ public class PagesListActivity extends Activity {
 	public static final int PAGES_OF_USER = 1;
 	public static final int ALL_PAGES = 2;
 	
+	private static PagesListActivity instance = null;
+	
 	private int pagesListMode = PAGE_MOST_VIEW;
 	private int pagesListType = ALL_PAGES;
 	
-	private Page[] arrPages = null;
+	private List<Page> pages = null;
 	
 	private ListView listPages;
 	private PageAdapter adapter;
 
 	private EditText txtSearch;
+	
+	public static PagesListActivity getInstance() {
+		return instance;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pages_list);
+		
+		instance = this;
 		
 		// type of pages list
 		Bundle bundle = getIntent().getExtras();
@@ -98,14 +117,19 @@ public class PagesListActivity extends Activity {
 		// TODO (condorhero01): request pages list based on query string
 		String query = txtSearch.getText().toString();
 		Log.d(TAG, "query = " + query);
+		
+		url = String.format(URLConstant.GET_PAGES_BY_QUERY, query);
+		loadPagesList();
 	}
 
+	private SimpleAsyncTask task;
+	private String url = null;
 	protected void loadPagesList() {
-		new SimpleAsyncTask(this, new DataLoader() {
-			
+		task = new SimpleAsyncTask(this, new DataLoader() {
+
 			@Override
 			public void updateUI() {
-				adapter = new PageAdapter(PagesListActivity.this, 0, arrPages);
+				adapter = new PageAdapter(PagesListActivity.this, 0, pages);
 				listPages.setAdapter(adapter);
 			}
 			
@@ -113,21 +137,41 @@ public class PagesListActivity extends Activity {
 			public void loadData() {
 				switch (pagesListType) {
 				case PAGES_OF_CATEGORIES:
-					// TODO (condorhero01): request pages list of categories
 					break;
 					
 				case PAGES_OF_USER:
-					// TODO (condorhero01): request pages list of Global.username
-					
+					url = String.format(URLConstant.GET_PAGES_OF_USER, Global.username);
 					break;
 					
 				case ALL_PAGES:
-					// TODO (condorhero01): request all pages
-					
+					// TODO all pages url
 					break;
 				}
-				arrPages = MockPage.getPages();
+				
+				RestClient.getData(url, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+						JSONArray arr = json.getJSONArray("pages");
+//						pages = Global.gsonWithHour.fromJson(arr.toString(), Page.getType());
+						pages = Utils.gson.fromJson(arr.toString(), Page.getType());
+						Log.d(TAG, "load " + pages.size() + " pages");
+					}
+					
+					@Override
+					public void onFailure(String message) {
+						task.cancel(true);
+					}
+				});
 			}
-		}).execute();
+		});
+		
+		task.execute();
+	}
+	
+	public void searchByCategories(Set<String> categories) {
+		// TODO append category id to request pages 
+		
+		pagesListType = PAGES_OF_CATEGORIES;
 	}
 }

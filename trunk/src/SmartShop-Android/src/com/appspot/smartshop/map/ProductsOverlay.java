@@ -75,8 +75,9 @@ public class ProductsOverlay extends Overlay{
 		if (e.getAction() == MotionEvent.ACTION_DOWN) {
 			GeoPoint touchPoint = mapView.getProjection().fromPixels((int) e.getX(), (int) e.getY());
 			for (ProductInfo productInfo : products) {
-				double distance = Math.sqrt(Math.pow(touchPoint.getLatitudeE6() - productInfo.lat, 2) 
-						+ Math.pow(touchPoint.getLongitudeE6() - productInfo.lng, 2));
+				double distance = 
+					Math.sqrt(Math.pow(touchPoint.getLatitudeE6() - productInfo.lat * 1E6, 2) 
+						+ Math.pow(touchPoint.getLongitudeE6() - productInfo.lng * 1E6, 2));
 				if (distance < 1000) {
 					Intent intent = new Intent(context, ViewSingleProduct.class);
 					intent.putExtra(Global.PRODUCT_INFO, productInfo);

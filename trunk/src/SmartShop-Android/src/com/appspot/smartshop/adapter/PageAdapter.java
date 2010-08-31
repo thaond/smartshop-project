@@ -1,5 +1,7 @@
 package com.appspot.smartshop.adapter;
 
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -21,6 +23,12 @@ public class PageAdapter extends ArrayAdapter<Page> {
 	private Context context;
 
 	public PageAdapter(Context context, int textViewResourceId, Page[] objects) {
+		super(context, textViewResourceId, objects);
+		inflater = LayoutInflater.from(context);
+		this.context = context;
+	}
+	
+	public PageAdapter(Context context, int textViewResourceId, List<Page> objects) {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
 		this.context = context;

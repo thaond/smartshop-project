@@ -1,6 +1,11 @@
 package com.appspot.smartshop.ui.comment;
 
+import java.util.LinkedList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
 import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
@@ -25,6 +30,8 @@ import com.appspot.smartshop.mock.MockComments;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
@@ -33,6 +40,8 @@ import com.google.gson.JsonParser;
 
 public class ViewCommentsActivity extends Activity {
 	public static final String TAG = "[ViewCommentsActivity]";
+	
+	public static final String COMMENTS_PARAM = "{type:\"%s\",type_id:%d}";
 
 	private CommentAdapter adapter;
 	private ListView listComments;
@@ -70,23 +79,51 @@ public class ViewCommentsActivity extends Activity {
 		});
 		
 		// list comments
+		adapter = new CommentAdapter(ViewCommentsActivity.this, 0, new LinkedList<Comment>());
 		listComments = (ListView) findViewById(R.id.listComments);
 		
 		// load comments
-		new SimpleAsyncTask(this, new DataLoader() {
+		loadComments();
+	}
+
+	private SimpleAsyncTask task;
+	private void loadComments() {
+		task = new SimpleAsyncTask(this, new DataLoader() {
 			
 			@Override
 			public void loadData() {
-				// TODO (condorhero01): load list comments based on id of page or product
-				comments = MockComments.getInstance();
-				adapter = new CommentAdapter(ViewCommentsActivity.this, 0, comments);
+				String param = String.format(COMMENTS_PARAM, type, id);
+				
+				RestClient.postData(URLConstant.GET_COMMENTS, param, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+						JSONArray arr = json.getJSONArray("comments");
+						if (arr == null || arr.length() == 0) {
+							Log.d(TAG, "no comment found");
+							task.hasData = false;
+							task.message = json.getString(URLConstant.MESSAGE);
+							return;
+						}
+						
+						comments = Global.gsonWithHour.fromJson(arr.toString(), Comment.getType());
+						Log.d(TAG, "found " + comments.size() + " comment(s)");
+					}
+					
+					@Override
+					public void onFailure(String message) {
+						task.cancel(true);
+					}
+				});
 			}
 
 			@Override
 			public void updateUI() {
+				adapter = new CommentAdapter(ViewCommentsActivity.this, 0, comments);
 				listComments.setAdapter(adapter);
 			}
-		}).execute();
+		});
+		task.execute();
 	}
 
 	protected void showAddNewCommentDialog() {
@@ -113,33 +150,49 @@ public class ViewCommentsActivity extends Activity {
 		dialog.show();
 	}
 
+	private Comment comment;
 	protected void addNewComment() {
-		String url = URLConstant.ADD_NEW_COMMENT;
 		// create comment
-		String content = txtComment.getText().toString();
+		final String content = txtComment.getText().toString();
 		if (content.trim().equals("")) {
 			onAddNewCommentFailure();
 			return;
 		}
 		
-		final Comment comment = new Comment();
-		comment.content = content;
-		comment.username = Global.username;
-		comment.type_id = id;
-		comment.type = type;
-		Log.d(TAG, "user " + comment.username + ", comment = " + comment.content
-				+ " type_id = " + comment.type_id + ", type = " + type);
-		
-		String param = Utils.gson.toJson(comment);
-		HttpService.postResource(url, param, false, new ServiceCallback() {
+		task = new SimpleAsyncTask(this, new DataLoader() {
 			
 			@Override
-			public void onSuccess(JsonObject result) {
-				
+			public void updateUI() {
+				// TODO not show new comment when adapter.size() = 1
 				adapter.addNewComment(comment);
 				dialog.cancel();
 			}
+			
+			@Override
+			public void loadData() {
+				comment = new Comment();
+				comment.content = content;
+				comment.username = Global.username;
+				comment.type_id = id;
+				comment.type = type;
+				
+				String param = Global.gsonWithHour.toJson(comment);
+				Log.d(TAG, param);
+				
+				RestClient.postData(URLConstant.ADD_NEW_COMMENT, param, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+					}
+					
+					@Override
+					public void onFailure(String message) {
+						task.cancel(true);
+					}
+				});
+			}
 		});
+		task.execute();
 	}
 	
 	private void onAddNewCommentFailure() {
