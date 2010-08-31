@@ -20,6 +20,7 @@ import com.beoui.geocell.model.Point;
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class SearchProductPromixity extends BaseRestfulService {
 	private final static Logger log = Logger
@@ -61,6 +62,8 @@ public class SearchProductPromixity extends BaseRestfulService {
 		for (Product product : objects) {
 			productArray.add(gson.toJsonTree(product));
 		}
-		return productArray.toString();
+		JsonObject jsonReturn = new JsonObject();
+		jsonReturn.add("products", productArray);
+		return jsonReturn.toString();
 	}
 }
