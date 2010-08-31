@@ -1,28 +1,25 @@
 package com.appspot.smartshop;
 
-import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
-import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
+import java.util.Set;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.URLUtil;
 import android.widget.TabHost;
 import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 
-import com.appspot.smartshop.mock.MockCategory;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.product.ProductsListActivity;
-import com.appspot.smartshop.ui.product.SearchByCategoryActivity;
 import com.appspot.smartshop.ui.user.LoginActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
+import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.Global;
-import com.appspot.smartshop.utils.URLConstant;
-import com.google.gson.JsonObject;
+import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 
 public class MainActivity extends TabActivity {
 	public static final String TAG = "[MainActivity]";
@@ -68,11 +65,9 @@ public class MainActivity extends TabActivity {
 				if (tabId.equals(TAB_LIST_PRODUCTS)) {
 					Log.d(TAG, "tab products");
 					type = PRODUCT;
-					loadProductsList();
 				} else if (tabId.equals(TAB_LIST_PAGES)) {
 					Log.d(TAG, "tab pages");
 					type = PAGE;
-					loadPagesList();
 				}
 			}
 		});
@@ -80,13 +75,6 @@ public class MainActivity extends TabActivity {
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
 		}
-	}
-
-	protected void loadPagesList() {
-		// TODO (condorhero01): request pages list
-	}
-
-	protected void loadProductsList() {
 	}
 
 	public static final int MENU_LOGIN = 0;
@@ -137,13 +125,32 @@ public class MainActivity extends TabActivity {
 			break;
 
 		case MENU_SEARCH_BY_CATEGORIES:
-			intent = new Intent(this, SearchByCategoryActivity.class);
-			intent.putExtra(Global.TYPE, type);
-			intent.putExtra(Global.CATEGORY_INFO, MockCategory.getInstance());
-			startActivity(intent);
+//			intent = new Intent(this, SearchByCategoryActivity.class);
+//			intent.putExtra(Global.TYPE, type);
+//			intent.putExtra(Global.CATEGORY_INFO, MockCategory.getInstance());
+//			startActivity(intent);
+			CategoriesDialog.showCategoriesDialog(this, new CategoriesDialogListener() {
+				
+				@Override
+				public void onCategoriesDialogClose(Set<String> categories) {
+					if (type.equals(PRODUCT)) {
+						ProductsListActivity.getInstance().searchByCategories(categories);
+					} else if (type.equals(PAGE)) {
+						PagesListActivity.getInstance().searchByCategories(categories);
+					}
+				}
+			});
 			break;
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		System.out.println("here");
+		if (resultCode == RESULT_OK) {
+			System.out.println(data.getExtras().get(Global.SELECTED_CATEGORIES));
+		}
 	}
 }

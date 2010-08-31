@@ -1,5 +1,6 @@
 package com.appspot.smartshop.test;
 
+import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +36,7 @@ import com.google.android.maps.MapActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 public class TestActivity extends MapActivity {
 	public static final String TAG = "TestActivity";
@@ -45,7 +47,12 @@ public class TestActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		Global.application = this;
-		testLogin(); // TODO (condorhero01): place test function here
+		testGetCurrentLocation(); // TODO (condorhero01): place test function here
+	}
+	
+	void testHttpGet() {
+		String content = HttpRequest.get(URLConstant.GET_PRODUCTS).content;
+		System.out.println(content);
 	}
 	
 	void testGetCurrentLocation() {

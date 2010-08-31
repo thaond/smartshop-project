@@ -23,7 +23,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.aetrion.flickr.activity.Item;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.utils.Global;
 

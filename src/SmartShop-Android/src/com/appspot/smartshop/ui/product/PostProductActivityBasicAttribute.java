@@ -1,11 +1,13 @@
 package com.appspot.smartshop.ui.product;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -19,15 +21,22 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.map.DirectionListActivity;
-import com.appspot.smartshop.map.DirectionResult;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
-import com.appspot.smartshop.map.SearchProductsOnMapActivity;
+import com.appspot.smartshop.map.MapDialog.UserLocationListener;
+import com.appspot.smartshop.utils.CategoriesDialog;
+import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.SimpleAsyncTask;
+import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 import com.google.android.maps.GeoPoint;
 
 public class PostProductActivityBasicAttribute extends Activity {
+	public static final String TAG = "[PostProductActivityBasicAttribute]";
+	
 	public static final int PICK_CATEGORIES = 0;
 	public TextView lblNameOfProduct;
 	public TextView lblPriceOfProduct;
@@ -48,16 +57,14 @@ public class PostProductActivityBasicAttribute extends Activity {
 	public Button btnChooseCategory;
 	public Button btnTagOnMap;
 
-	public ProductInfo productInfo = null;
+	public ProductInfo productInfo = new ProductInfo();;
 	private CheckBox chVat;
-	public ArrayList<String> childSelected;
 	private EditText txtDescription;
-	private int lat, lng;
+	private double lat, lng;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		childSelected = new ArrayList<String>();
 		setContentView(R.layout.post_basic_product_attribute);
 
 		// set up labelWidth and textWidth
@@ -92,14 +99,17 @@ public class PostProductActivityBasicAttribute extends Activity {
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtAddressOfProduct);
 		txtDescriptionOfProduct = (EditText) findViewById(R.id.txtDescription);
 		txtDescriptionOfProduct.setHeight(labelWidth);
+		
+		// buttons
 		btnChooseCategory = (Button) findViewById(R.id.btnChooseCategory);
 		btnChooseCategory.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				sendRequestToCategoryDialog();
+				chooseCategories();
 			}
 		});
+		
 		btnTagOnMap = (Button) findViewById(R.id.btnTagOnMap);
 		btnTagOnMap.setOnClickListener(new OnClickListener() {
 			
@@ -108,10 +118,7 @@ public class PostProductActivityBasicAttribute extends Activity {
 				tagOnMap();
 			}
 		});
-
-		// set up check box
-
-		chVat = (CheckBox) findViewById(R.id.checkBoxIsVAT);
+		
 		btnOK = (Button) findViewById(R.id.btnXong);
 		btnOK.setOnClickListener(new OnClickListener() {
 
@@ -119,25 +126,8 @@ public class PostProductActivityBasicAttribute extends Activity {
 			public void onClick(View v) {
 				postNewProduct();
 			}
-
-			private void postNewProduct() {
-				// TODO condohero01: user has finished posting product, put it
-				// in database
-				// remember to get currently time (post date)
-				productInfo = new ProductInfo();
-				productInfo.datePost = new Date();
-				productInfo.description = txtDescription.getText().toString();
-				productInfo.isVAT = chVat.isChecked();
-				productInfo.lat = lat;
-				productInfo.lng = lng;
-				productInfo.name = txtNameProduct.getText().toString();
-				productInfo.origin = txtOriginOfProduct.getText().toString();
-				productInfo.price = Double.parseDouble(txtPriceOfProduct
-						.getText().toString());
-				productInfo.quantity = Integer.parseInt(txtQuantityOfProduct
-						.getText().toString());
-			}
 		});
+		
 		btnCancel = (Button) findViewById(R.id.btnCancel);
 		btnCancel.setOnClickListener(new OnClickListener() {
 
@@ -146,55 +136,83 @@ public class PostProductActivityBasicAttribute extends Activity {
 				finish();
 			}
 		});
-
-		// TODO get lat, lng of product
-
-		// TODO get description of product
-
-		// setup data for text field if in edit/view product info mode
-		// TODO:(condohero01) check whether the user has logined or not to post
-		// product
-		Bundle bundle = getIntent().getExtras();
-		if (bundle != null) {
-			productInfo = (ProductInfo) bundle.get(Global.PRODUCT_INFO);
-
-			txtNameProduct.setText(productInfo.name);
-			txtPriceOfProduct.setText("" + productInfo.price);
-			txtQuantityOfProduct.setText("" + productInfo.quantity);
-			txtWarrantyOfProduct.setText(productInfo.warranty);
-			txtOriginOfProduct.setText(productInfo.origin);
-			txtAddressOfProduct.setText(productInfo.address);
-			if (productInfo.isVAT == true) {
-				chVat.setChecked(true);
-			} else {
-				chVat.setChecked(false);
+		
+		// vat check box
+		chVat = (CheckBox) findViewById(R.id.checkBoxIsVAT);
+	}
+	
+	private SimpleAsyncTask task;
+	private void postNewProduct() {
+		// setup product info
+		productInfo.datePost = new Date();
+		productInfo.description = txtDescription.getText().toString();
+		productInfo.isVAT = chVat.isChecked();
+		productInfo.lat = lat;
+		productInfo.lng = lng;
+		productInfo.name = txtNameProduct.getText().toString();
+		productInfo.origin = txtOriginOfProduct.getText().toString();
+		productInfo.price = Double.parseDouble(txtPriceOfProduct
+				.getText().toString());
+		productInfo.quantity = Integer.parseInt(txtQuantityOfProduct
+				.getText().toString());
+		productInfo.lat = lat;
+		productInfo.lng = lng;
+		productInfo.datePost = new Date();
+		productInfo.description = txtDescriptionOfProduct.getText().toString();
+		// TODO attribute of categories
+		
+		// post new product
+		task = new SimpleAsyncTask(this, new DataLoader() {
+			
+			@Override
+			public void updateUI() {
 			}
-		}
+			
+			@Override
+			public void loadData() {
+				String param = Global.gsonWithHour.toJson(productInfo);
+				
+				RestClient.postData(URLConstant.POST_PRODUCT, param, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+					}
+					
+					@Override
+					public void onFailure(String message) {
+						task.cancel(true);
+					}
+				});
+			}
+		});
+		task.execute();
+	}
+
+	protected void chooseCategories() {
+		CategoriesDialog.showCategoriesDialog(this, new CategoriesDialogListener() {
+			
+			@Override
+			public void onCategoriesDialogClose(Set<String> categories) {
+				productInfo.setCategoryKeys = categories;
+			}
+		});
 	}
 
 	protected void tagOnMap() {
-		//TODO:(condohero01) show Map Dialog
-		
-	}
+		String location = txtAddressOfProduct.getText().toString();
 
-	protected void sendRequestToCategoryDialog() {
-		Intent intent = new Intent(PostProductActivityBasicAttribute.this,CategoryDialogActivity.class);
-		intent.putExtra(Global.SELECTED_CATEGORIES,childSelected);
-		startActivityForResult(intent, PICK_CATEGORIES);
-	}
+		MapDialog.createLocationDialog(this,
+				MapService.locationToGeopoint(location),
+				new UserLocationListener() {
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == PICK_CATEGORIES) {
-			if (resultCode == RESULT_OK) {
-					childSelected = data.getStringArrayListExtra(Global.SELECTED_CATEGORIES);
-					for(int i =0;i<childSelected.size();i++){
-						Log.d("TAG",childSelected.get(i));
+					@Override
+					public void processUserLocation(GeoPoint point) {
+						if (point != null) {
+							lat = (double)point.getLatitudeE6() / 1E6;
+							lng = (double)point.getLongitudeE6() / 1E6;
+						}
+						Log.d(TAG, "product location = " + lat + ", " + lng);
 					}
-					TextView txtChoose = (TextView) findViewById(R.id.txtChoose);
-					txtChoose.setText("Đã chọn xong");
-			}
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	};
+				}).show();
+	}
 }

@@ -1,6 +1,10 @@
 package com.appspot.smartshop.ui.page;
 
 import java.util.Date;
+import java.util.Set;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,9 +16,15 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.Page;
+import com.appspot.smartshop.utils.CategoriesDialog;
+import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.SimpleAsyncTask;
+import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
-import com.google.gson.Gson;
+import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 
 public class PageActivity extends Activity {
 	public static final String TAG = "[PageActivity]";
@@ -26,6 +36,7 @@ public class PageActivity extends Activity {
 	private TextView txtName;
 	private TextView txtContent;
 	private int mode;
+	private SimpleAsyncTask task;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +54,6 @@ public class PageActivity extends Activity {
 		} else {
 			mode = EDIT_MODE;
 			
-			// TODO (condorhero01): get data from intent to fill in page object
 			page = (Page) bundle.get(Global.PAGE);
 			txtName.setText(page.name);
 			txtContent.setText(page.content);
@@ -58,18 +68,7 @@ public class PageActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				switch (mode) {
-				case CREATE_MODE:
-					createPage();
-					break;
-					
-				case EDIT_MODE:
-					editPage();
-					break;
-					
-				default:
-					break;
-				}
+				processPage();
 			}
 		});
 		
@@ -81,28 +80,75 @@ public class PageActivity extends Activity {
 				finish();
 			}
 		});
+		
+		Button btnCategories = (Button) findViewById(R.id.btnCategories);
+		if (mode == EDIT_MODE) {
+			btnCategories.setEnabled(false);
+		}
+		btnCategories.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				choosePageCategories();
+			}
+		});
 	}
 
-	protected void editPage() {
-		// set attributes for page
-		page.content = txtContent.getText().toString();
-		page.name = txtName.getText().toString();
-		page.date_post = new Date();
-		
-		// TODO (condorhero01): request to server to update page
-		Log.d(TAG, Utils.gson.toJson(page));
+	protected void choosePageCategories() {
+		CategoriesDialog.showCategoriesDialog(this, new CategoriesDialogListener() {
+			
+			@Override
+			public void onCategoriesDialogClose(Set<String> categories) {
+				page.setCategoryKeys = categories;
+			}
+		});
 	}
-
-	protected void createPage() {
-		page = new Page();
+	
+	private String url = "";
+	protected void processPage() {
+		switch (mode) {
+		case CREATE_MODE:
+			url = URLConstant.CREATE_PAGE; 
+			break;
+			
+		case EDIT_MODE:
+			url = URLConstant.EDIT_PAGE;
+			break;
+		}
 		
-		// set attributes for page
-		page.content = txtContent.getText().toString();
-		page.name = txtName.getText().toString();
-		page.date_post = new Date();
-		page.username = Global.username;
-		
-		// TODO (condorhero01): request to server to create new page
-		Log.d(TAG, Utils.gson.toJson(page));
+		task = new SimpleAsyncTask(this, new DataLoader() {
+			
+			@Override
+			public void updateUI() {
+			}
+			
+			@Override
+			public void loadData() {
+				page = new Page();
+				
+				// set attributes for page
+				page.content = txtContent.getText().toString();
+				page.name = txtName.getText().toString();
+				page.date_post = new Date();
+				page.username = Global.username;
+				
+				String param = Global.gsonWithHour.toJson(page);
+				Log.d(TAG, param);
+				
+				RestClient.postData(url, param, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+						Log.d(TAG, json.toString());
+					}
+					
+					@Override
+					public void onFailure(String message) {
+						task.cancel(true);
+					}
+				});
+			}
+		});
+		task.execute();
 	}
 }

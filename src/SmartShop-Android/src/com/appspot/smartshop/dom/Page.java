@@ -1,11 +1,13 @@
 package com.appspot.smartshop.dom;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import org.apache.http.entity.SerializableEntity;
+import com.google.gson.reflect.TypeToken;
 
 public class Page implements Serializable {
 	public String name = null;
@@ -18,6 +20,8 @@ public class Page implements Serializable {
 	public int page_view;
 	
 	public Set<String> setCategoryKeys;
+	public Set<String> fts;
+	public Set<Long> setProductIDs;
 
 	public Page(String name, String content, String linkThumbnail,
 			int pageView, Date datePost, Date lastModified, String username,
@@ -34,6 +38,11 @@ public class Page implements Serializable {
 
 	public Page() {
 		setCategoryKeys = new HashSet<String>();
+		setProductIDs = new HashSet<Long>();
+		fts = new HashSet<String>();
 	}
 
+	public static Type getType() {
+		return new TypeToken<List<Page>>() {}.getType();
+	}
 }

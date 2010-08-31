@@ -1,8 +1,12 @@
 package com.appspot.smartshop.dom;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
+
+import com.google.gson.reflect.TypeToken;
 
 public class UserInfo implements Serializable {
 	public String username = null;
@@ -39,5 +43,9 @@ public class UserInfo implements Serializable {
 				+ password + ", phone=" + phone + ", setFriendsUsername="
 				+ setFriendsUsername + ", sum_star=" + sum_star + ", type="
 				+ type + ", username=" + username + "]";
+	}
+	
+	public static Type getType() {
+		return new TypeToken<List<UserInfo>>() {}.getType();
 	}
 }

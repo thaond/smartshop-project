@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,8 @@ import com.appspot.smartshop.utils.Global;
 public class SearchByCategoryActivity extends Activity {
 	public static final String TAG = "[SearchByCategoryActivity]";
 	
+	public static final int CATEGORIES = 0;
+	
 	ExpandableListAdapter mAdapter;
 	private String type;
 	private LinkedList<String> selectedCategories = new LinkedList<String>();
@@ -54,7 +57,7 @@ public class SearchByCategoryActivity extends Activity {
 			}
 		});
 		
-		// get categories info
+		// TODO get categories info
 		Bundle bundle = getIntent().getExtras();
 		CategoryInfo categoryInfo = (CategoryInfo) bundle.get(Global.CATEGORY_INFO);
 		String[] groups = categoryInfo.parentCategory;
@@ -67,11 +70,35 @@ public class SearchByCategoryActivity extends Activity {
 	}
 
 	protected void searchCategories() {
-		// TODO request products or pages list based on selected cat_id
+		String cats = "";
+		for (String cat : selectedCategories) {
+			cats += cat;
+		}
 		Log.d(TAG, "type of request = " + type);
-		Log.d(TAG, "sub cats = " + selectedCategories.toString());
+		Log.d(TAG, "sub cats = " + cats);
 		
-		finish();
+		Intent intent = new Intent(Global.PAGES_LIST_ACTIVITY);
+		
+		switch (selectedCategories.size()) {
+		case 0:
+			return;
+			
+		case 1:
+			intent.putExtra(Global.SELECTED_CATEGORIES, cats);
+			setResult(RESULT_OK, intent);
+			startActivityForResult(intent, RESULT_OK);
+//			if (getParent() == null) {
+//			    setResult(RESULT_OK, intent);
+//			} else {
+//			    getParent().setResult(Activity.RESULT_OK, intent);
+//			}
+
+//			finish();
+			break;
+		default:
+			
+			break;
+		}
 	}
 
 	class MyExpandableListAdapter extends BaseExpandableListAdapter {

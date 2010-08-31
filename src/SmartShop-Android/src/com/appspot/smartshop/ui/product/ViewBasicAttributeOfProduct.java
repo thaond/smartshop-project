@@ -20,13 +20,15 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.DirectionListActivity;
 import com.appspot.smartshop.map.MyLocation;
+import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.map.MyLocation.LocationResult;
+import com.appspot.smartshop.map.MyLocationListener.MyLocationCallback;
 import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.Global;
-import com.appspot.smartshop.utils.Utils;
+import com.google.android.maps.GeoPoint;
 
 public class ViewBasicAttributeOfProduct extends Activity {
 	public static final String TAG = "[ViewBasicAttributeOfProduct]";
@@ -173,22 +175,42 @@ public class ViewBasicAttributeOfProduct extends Activity {
 	}
 
 	protected void findDirectionToProduct() {
+		// TODO loading when find direction
+		Log.d(TAG, "find direction to product");
 		final Intent intent = new Intent(this, DirectionListActivity.class);
-		MyLocation myLocation = MyLocation.getInstance();
-		myLocation.getLocation(this, new LocationResult() {
+//		MyLocation myLocation = MyLocation.getInstance();
+		new MyLocationListener(this, new MyLocationCallback() {
 			
 			@Override
-			public void gotLocation(Location location) {
-				Log.d(TAG, "current location = " + location.getLatitude()+ ", " + location.getLongitude());
+			public void onSuccess(GeoPoint point) {
+				Log.d(TAG, "current location = " + point);
 				
-				intent.putExtra("lat1", location.getLatitude());
-				intent.putExtra("lng1", location.getLongitude());
-				intent.putExtra("lat2", (double)productInfo.lat / 1E6);
-				intent.putExtra("lng2", (double)productInfo.lng / 1E6);
+				intent.putExtra("lat1", (double) point.getLatitudeE6() / 1E6);
+				intent.putExtra("lng1", (double) point.getLongitudeE6() / 1E6);
+				intent.putExtra("lat2", (double)productInfo.lat);
+				intent.putExtra("lng2", (double)productInfo.lng);
 				
 				startActivity(intent);
 			}
-		});
+			
+			@Override
+			public void onFailure() {
+			}
+		}).getCurrentLocation();
+//		myLocation.getLocation(this, new LocationResult() {
+//			
+//			@Override
+//			public void gotLocation(Location location) {
+//				Log.d(TAG, "current location = " + location.getLatitude()+ ", " + location.getLongitude());
+//				
+//				intent.putExtra("lat1", location.getLatitude());
+//				intent.putExtra("lng1", location.getLongitude());
+//				intent.putExtra("lat2", (double)productInfo.lat / 1E6);
+//				intent.putExtra("lng2", (double)productInfo.lng / 1E6);
+//				
+//				startActivity(intent);
+//			}
+//		});
 	}
 
 	protected void showComment() {

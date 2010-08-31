@@ -75,7 +75,6 @@
 	<string name="tagOnMap">Đánh dấu trên bản đồ</string>
 	<!-- View Product Form -->
 	<string name="userName">Username</string>
-	<string name="pageView">Số lượt xem</string>
 	
 	<!-- Dialog -->
 	<string name="btnShowDirectionOnMap">Xem trên bản đồ</string>
@@ -89,6 +88,8 @@
 	<string name="page_view">Lượt xem:</string>
 	<string name="lblViewComment">Xem bình luận</string>
 	<string name="lblViewUser">Xem thông tin người đăng</string>
+	<string name="pageView">Số lượt xem</string>
+	<string name="hintEnterPagesName">Nhập tên trang cần tìm</string>
 
 	<!-- User products list -->
 	<string name="lblInterestedProducts">Ưa thích</string>

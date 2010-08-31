@@ -1,6 +1,7 @@
 package com.appspot.smartshop.utils;
 
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 
 import android.content.Context;
 import android.graphics.Bitmap;
