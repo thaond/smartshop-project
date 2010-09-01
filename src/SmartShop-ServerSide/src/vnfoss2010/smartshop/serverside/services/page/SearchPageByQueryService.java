@@ -17,10 +17,10 @@ import com.google.gson.JsonObject;
  * 
  * @author VoMinhTam
  */
-public class SearchPageService extends BaseRestfulService {
+public class SearchPageByQueryService extends BaseRestfulService {
 	PageServiceImpl db = PageServiceImpl.getInstance();
 
-	public SearchPageService(String serviceName) {
+	public SearchPageByQueryService(String serviceName) {
 		super(serviceName);
 	}
 
