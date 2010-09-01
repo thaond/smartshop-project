@@ -49,12 +49,15 @@ public class GetListPageByCriteriaService extends BaseRestfulService {
 
 		String criterias = getParameter("criterias", params, json);
 
-		String[] arr = criterias.split(",");
-		int[] criteriaIDs = new int[arr.length];
-		for (int i = 0; i < criteriaIDs.length; i++) {
-			criteriaIDs[i] = Integer.parseInt(arr[i].trim());
+		int[] criteriaIDs = null;
+		if (criterias != null) {
+			String[] arr = criterias.split(",");
+			criteriaIDs = new int[arr.length];
+			for (int i = 0; i < criteriaIDs.length; i++) {
+				criteriaIDs[i] = Integer.parseInt(arr[i].trim());
+			}
 		}
-
+		
 		String cat_keys = getParameter("cat_keys", params, json);
 
 		Global.log(log, "Cat keys : " + cat_keys);

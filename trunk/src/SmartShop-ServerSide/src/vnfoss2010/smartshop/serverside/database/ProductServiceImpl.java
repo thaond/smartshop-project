@@ -330,7 +330,8 @@ public class ProductServiceImpl {
 					break;
 				}
 			}
-			
+		} else {
+			query = " order by date_post desc ";
 		}
 		
 		switch (status) {

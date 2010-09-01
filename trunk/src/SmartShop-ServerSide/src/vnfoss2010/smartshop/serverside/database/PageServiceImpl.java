@@ -249,38 +249,43 @@ public class PageServiceImpl {
 		ServiceResult<List<Page>> result = new ServiceResult<List<Page>>();
 
 		String query = "";
-		for (int criteria : criterias) {
-			switch (criteria) {
-			case 0:
-				query += ("date_post asc ");
-				break;
+		if (criterias != null) {
+			query = " order by ";
+			for (int criteria : criterias) {
+				switch (criteria) {
+				case 0:
+					query += ("date_post asc ");
+					break;
 
-			case 1:
-				query += ("date_post desc ");
-				break;
+				case 1:
+					query += ("date_post desc ");
+					break;
 
-			case 2:
-				query += ("last_modified asc ");
-				break;
+				case 2:
+					query += ("last_modified asc ");
+					break;
 
-			case 3:
-				query += ("last_modified desc ");
-				break;
+				case 3:
+					query += ("last_modified desc ");
+					break;
 
-			case 4:
-				query += ("page_view asc ");
-				break;
+				case 4:
+					query += ("page_view asc ");
+					break;
 
-			case 5:
-				query += ("page_view desc ");
-				break;
+				case 5:
+					query += ("page_view desc ");
+					break;
 
-			default:
-				break;
+				default:
+					break;
+				}
 			}
+		} else {
+			query = " order by date_post desc ";
 		}
 
-		query = "select from " + Page.class.getName() + " order by " + query
+		query = "select from " + Page.class.getName() + query
 				+ ((maximum == 0) ? "" : (" limit " + maximum));
 
 		Global.log(log, query);
