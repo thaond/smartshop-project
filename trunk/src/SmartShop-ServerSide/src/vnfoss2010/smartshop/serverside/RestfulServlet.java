@@ -59,7 +59,7 @@ import vnfoss2010.smartshop.serverside.services.page.EditPageService;
 import vnfoss2010.smartshop.serverside.services.page.GetListPageByCriteriaService;
 import vnfoss2010.smartshop.serverside.services.page.GetPageService;
 import vnfoss2010.smartshop.serverside.services.page.GetPagesByUsernameService;
-import vnfoss2010.smartshop.serverside.services.page.SearchPageService;
+import vnfoss2010.smartshop.serverside.services.page.SearchPageByQueryService;
 import vnfoss2010.smartshop.serverside.services.page.TagProductToPageService;
 import vnfoss2010.smartshop.serverside.services.page.UntagProductFromPageService;
 import vnfoss2010.smartshop.serverside.services.product.EditProductService;
@@ -179,7 +179,7 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("tag-product-to-page", TagProductToPageService.class);
 		mServices.put("untag-product-to-page",
 				UntagProductFromPageService.class);
-		mServices.put("page-search", SearchPageService.class);
+		mServices.put("page-search", SearchPageByQueryService.class);
 		mServices.put("page-search-criteria",
 				GetListPageByCriteriaService.class);
 		mServices.put("page-get-by-username", GetPagesByUsernameService.class);
