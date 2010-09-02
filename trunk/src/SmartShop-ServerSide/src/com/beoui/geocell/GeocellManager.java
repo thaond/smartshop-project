@@ -15,6 +15,10 @@ import javax.jdo.Query;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
+import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.database.entity.Product;
+import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
+
 import com.beoui.geocell.comparator.LocationComparableTuple;
 import com.beoui.geocell.model.BoundingBox;
 import com.beoui.geocell.model.CostFunction;
@@ -252,6 +256,8 @@ public class GeocellManager {
 			Point center, int maxResults, double maxDistance,
 			Class<T> entityClass, GeocellQuery baseQuery,
 			PersistenceManager pm, int maxGeocellResolution) {
+		if (maxResults == 0)
+			maxResults = Integer.MAX_VALUE;
 		List<LocationComparableTuple<T>> results = new ArrayList<LocationComparableTuple<T>>();
 
 		Validate.isTrue(maxGeocellResolution <= MAX_GEOCELL_RESOLUTION,
@@ -449,7 +455,8 @@ public class GeocellManager {
 					+ closestPossibleNextResultDist
 					+ " away, current farthest is "
 					+ currentFarthestReturnableResultDist + " dist");
-		}
+		}// end while
+
 		List<T> result = new ArrayList<T>();
 		for (Tuple<T, Double> entry : results.subList(0, Math.min(maxResults,
 				results.size()))) {
@@ -652,20 +659,22 @@ public class GeocellManager {
 
 			// If the currently max_results'th closest item is closer than any
 			// of the next test geocells, we're done searching.
-			double currentFarthestReturnableResultDist = GeocellUtils.distance(
-					center, results.get(maxResults - 1).getFirst()
-							.getLocation());
-			if (closestPossibleNextResultDist >= currentFarthestReturnableResultDist) {
-				logger.log(Level.FINE, "DONE next result at least "
+			if (maxResults > 0) {
+				double currentFarthestReturnableResultDist = GeocellUtils
+						.distance(center, results.get(maxResults - 1)
+								.getFirst().getLocation());
+				if (closestPossibleNextResultDist >= currentFarthestReturnableResultDist) {
+					logger.log(Level.FINE, "DONE next result at least "
+							+ closestPossibleNextResultDist
+							+ " away, current farthest is "
+							+ currentFarthestReturnableResultDist + " dist");
+					break;
+				}
+				logger.log(Level.FINE, "next result at least "
 						+ closestPossibleNextResultDist
 						+ " away, current farthest is "
 						+ currentFarthestReturnableResultDist + " dist");
-				break;
 			}
-			logger.log(Level.FINE, "next result at least "
-					+ closestPossibleNextResultDist
-					+ " away, current farthest is "
-					+ currentFarthestReturnableResultDist + " dist");
 		}
 		List<T> result = new ArrayList<T>();
 		for (Tuple<T, Double> entry : results.subList(0, Math.min(maxResults,
@@ -679,6 +688,300 @@ public class GeocellManager {
 				+ " results.");
 		return result;
 	}
+
+	/**
+	 * Enhance proximityFetchNew with query strring, allow to search in fts
+	 * column
+	 * 
+	 * @author VoMinhTam
+	 */
+	public static final <T extends LocationCapable, SearchCapable> List<T> proximityFetchWithQuery(
+			Point center, int maxResults, double maxDistance,
+			String queryString, Class<T> entityClass, PersistenceManager pm,
+			int maxGeocellResolution) {
+		StringBuffer queryBuffer = new StringBuffer();
+		StringBuffer declareParametersBuffer = new StringBuffer();
+		List<Object> parametersForSearch = new ArrayList<Object>();
+		if (queryString != null) {
+			// Prepare to search
+			Set<String> queryTokens = SearchJanitorUtils
+					.getTokensForIndexingOrQuery(queryString,
+							Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+			int parameterCounter = 0;
+			parametersForSearch.addAll(queryTokens);
+			while (parameterCounter < queryTokens.size()) {
+
+				queryBuffer.append("fts == param" + parameterCounter);
+				declareParametersBuffer.append("String param"
+						+ parameterCounter);
+
+				if (parameterCounter + 1 < queryTokens.size()) {
+					queryBuffer.append(" && ");
+					declareParametersBuffer.append(", ");
+				}
+				parameterCounter++;
+			}
+			// ///////
+		}
+
+		GeocellQuery baseQuery = new GeocellQuery(queryBuffer.toString(),
+				declareParametersBuffer.toString(), parametersForSearch);
+		return proximityFetch(center, maxResults, maxDistance, entityClass,
+				baseQuery, pm, maxGeocellResolution);
+	}
+
+	/**
+	 * Enhance proximityFetchNew with query strring, allow to search in fts
+	 * column
+	 * 
+	 * @author VoMinhTam
+	 */
+	// @SuppressWarnings("unchecked")
+	// public static final <T extends LocationCapable, SearchCapable> List<T>
+	// proximityFetchWithQuery(
+	// Point center, int maxResults, double maxDistance,
+	// String queryString, Class<T> entityClass, GeocellQuery baseQuery,
+	// PersistenceManager pm, int maxGeocellResolution) {
+	// List<LocationComparableTuple<T>> results = new
+	// ArrayList<LocationComparableTuple<T>>();
+	//
+	// Validate.isTrue(maxGeocellResolution <= MAX_GEOCELL_RESOLUTION,
+	// "Invalid max resolution parameter. Must be inferior to ",
+	// MAX_GEOCELL_RESOLUTION);
+	//
+	// // The current search geocell containing the lat,lon.
+	// String curContainingGeocell = GeocellUtils.compute(center,
+	// maxGeocellResolution);
+	//
+	// // Set of already searched cells
+	// Set<String> searchedCells = new HashSet<String>();
+	//
+	// /*
+	// * The currently-being-searched geocells. NOTES: Start with max
+	// * possible. Must always be of the same resolution. Must always form a
+	// * rectangular region. One of these must be equal to the
+	// * cur_containing_geocell.
+	// */
+	// List<String> curGeocells = new ArrayList<String>();
+	// curGeocells.add(curContainingGeocell);
+	// double closestPossibleNextResultDist = 0;
+	//
+	// /*
+	// * Assumes both a and b are lists of (entity, dist) tuples, *sorted by
+	// * dist*. NOTE: This is an in-place merge, and there are guaranteed no
+	// * duplicates in the resulting list.
+	// */
+	//
+	// int noDirection[] = { 0, 0 };
+	// List<Tuple<int[], Double>> sortedEdgesDistances = Arrays
+	// .asList(new Tuple<int[], Double>(noDirection, 0d));
+	//
+	// while (!curGeocells.isEmpty()) {
+	// closestPossibleNextResultDist = sortedEdgesDistances.get(0)
+	// .getSecond();
+	// if (maxDistance > 0 && closestPossibleNextResultDist > maxDistance) {
+	// break;
+	// }
+	//
+	// Set<String> curTempUnique = new HashSet<String>(curGeocells);
+	// curTempUnique.removeAll(searchedCells);
+	// List<String> curGeocellsUnique = new ArrayList<String>(
+	// curTempUnique);
+	//
+	// // Prepare to search
+	// StringBuffer queryBuffer = new StringBuffer();
+	// // queryBuffer
+	// // .append("SELECT FROM " + Product.class.getName() + " WHERE ");
+	// Set<String> queryTokens = SearchJanitorUtils
+	// .getTokensForIndexingOrQuery(queryString,
+	// Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+	// List<Object> parametersForSearch = new ArrayList<Object>(
+	// queryTokens);
+	// StringBuffer declareParametersBuffer = new StringBuffer();
+	// int parameterCounter = 0;
+	//
+	// while (parameterCounter < queryTokens.size()) {
+	//
+	// queryBuffer.append("fts == param" + parameterCounter);
+	// declareParametersBuffer.append("String param"
+	// + parameterCounter);
+	//
+	// if (parameterCounter + 1 < queryTokens.size()) {
+	// queryBuffer.append(" && ");
+	// declareParametersBuffer.append(", ");
+	// }
+	// parameterCounter++;
+	// }
+	// // ///////
+	//
+	// // Run query on the next set of geocells.
+	// // String and =
+	// // baseQuery.getBaseQuery().toUpperCase().contains("WHERE") ? " && "
+	// // : " ";
+	// String and = baseQuery.getBaseQuery() != null
+	// && baseQuery.getBaseQuery().trim().length() != 0 ? " && "
+	// : " ";
+	// Query query = pm.newQuery(entityClass, baseQuery.getBaseQuery()
+	// + and + "geocellsP.contains(geocells) && " + queryBuffer);
+	//
+	// List<T> newResultEntities = new ArrayList<T>();
+	// if (baseQuery.getDeclaredParameters() == null
+	// || baseQuery.getDeclaredParameters().trim().length() == 0) {
+	// query.declareParameters("String geocellsP , " +
+	// declareParametersBuffer.toString());
+	// log.log(Level.SEVERE, "Declare: "
+	// + declareParametersBuffer.toString());
+	// parametersForSearch.add(0, curGeocellsUnique);
+	// newResultEntities = (List<T>) query
+	// .executeWithArray(parametersForSearch.toArray());
+	// // newResultEntities = (List<T>) query.execute(curGeocellsUnique);
+	// }
+	// // else {
+	// // query.declareParameters(baseQuery.getDeclaredParameters()
+	// // + ", String geocellsP , "
+	// // + declareParametersBuffer.toString());
+	// // newResultEntities = (List<T>) query.execute(baseQuery
+	// // .getParameters(), curGeocells);
+	// // }
+	//
+	// logger.log(Level.SEVERE, "fetch complete for: "
+	// + StringUtils.join(curGeocellsUnique, ", "));
+	//
+	// searchedCells.addAll(curGeocells);
+	//
+	// // Begin storing distance from the search result entity to the
+	// // search center along with the search result itself, in a tuple.
+	// List<LocationComparableTuple<T>> newResults = new
+	// ArrayList<LocationComparableTuple<T>>();
+	// for (T entity : newResultEntities) {
+	// newResults.add(new LocationComparableTuple<T>(entity,
+	// GeocellUtils.distance(center, entity.getLocation())));
+	// }
+	// // TODO (Alex) we can optimize here. Sort is needed only if
+	// // new_results.size() > max_results.
+	// Collections.sort(newResults);
+	// newResults = newResults.subList(0, Math.min(maxResults, newResults
+	// .size()));
+	//
+	// // Merge new_results into results
+	// for (LocationComparableTuple<T> tuple : newResults) {
+	// // contains method will check if entity in tuple have same key
+	// if (!results.contains(tuple)) {
+	// results.add(tuple);
+	// }
+	// }
+	//
+	// Collections.sort(results);
+	// results = results.subList(0, Math.min(maxResults, results.size()));
+	//
+	// sortedEdgesDistances = GeocellUtils.distanceSortedEdges(
+	// curGeocells, center);
+	//
+	// if (results.size() == 0 || curGeocells.size() == 4) {
+	// /*
+	// * Either no results (in which case we optimize by not looking
+	// * at adjacents, go straight to the parent) or we've searched 4
+	// * adjacent geocells, in which case we should now search the
+	// * parents of those geocells.
+	// */
+	// curContainingGeocell = curContainingGeocell.substring(0, Math
+	// .max(curContainingGeocell.length() - 1, 0));
+	// if (curContainingGeocell.length() == 0) {
+	// break; // Done with search, we've searched everywhere.
+	// }
+	// List<String> oldCurGeocells = new ArrayList<String>(curGeocells);
+	// curGeocells.clear();
+	// for (String cell : oldCurGeocells) {
+	// if (cell.length() > 0) {
+	// String newCell = cell.substring(0, cell.length() - 1);
+	// if (!curGeocells.contains(newCell)) {
+	// curGeocells.add(newCell);
+	// }
+	// }
+	// }
+	// if (curGeocells.size() == 0) {
+	// break; // Done with search, we've searched everywhere.
+	// }
+	// } else if (curGeocells.size() == 1) {
+	// // Get adjacent in one direction.
+	// // TODO(romannurik): Watch for +/- 90 degree latitude edge case
+	// // geocells.
+	// int nearestEdge[] = sortedEdgesDistances.get(0).getFirst();
+	// curGeocells.add(GeocellUtils.adjacent(curGeocells.get(0),
+	// nearestEdge));
+	// } else if (curGeocells.size() == 2) {
+	// // Get adjacents in perpendicular direction.
+	// int nearestEdge[] = GeocellUtils.distanceSortedEdges(
+	// Arrays.asList(curContainingGeocell), center).get(0)
+	// .getFirst();
+	// int[] perpendicularNearestEdge = { 0, 0 };
+	// if (nearestEdge[0] == 0) {
+	// // Was vertical, perpendicular is horizontal.
+	// for (Tuple<int[], Double> edgeDistance : sortedEdgesDistances) {
+	// if (edgeDistance.getFirst()[0] != 0) {
+	// perpendicularNearestEdge = edgeDistance.getFirst();
+	// break;
+	// }
+	// }
+	// } else {
+	// // Was horizontal, perpendicular is vertical.
+	// for (Tuple<int[], Double> edgeDistance : sortedEdgesDistances) {
+	// if (edgeDistance.getFirst()[0] == 0) {
+	// perpendicularNearestEdge = edgeDistance.getFirst();
+	// break;
+	// }
+	// }
+	// }
+	// List<String> tempCells = new ArrayList<String>();
+	// for (String cell : curGeocells) {
+	// tempCells.add(GeocellUtils.adjacent(cell,
+	// perpendicularNearestEdge));
+	// }
+	// curGeocells.addAll(tempCells);
+	// }
+	//
+	// // We don't have enough items yet, keep searching.
+	// if (results.size() < maxResults) {
+	// logger.log(Level.FINE, results.size()
+	// + " results found but want " + maxResults
+	// + " results, continuing search.");
+	// continue;
+	// }
+	//
+	// logger.log(Level.FINE, results.size() + " results found.");
+	//
+	// // If the currently max_results'th closest item is closer than any
+	// // of the next test geocells, we're done searching.
+	// if (maxResults > 0) {
+	// double currentFarthestReturnableResultDist = GeocellUtils
+	// .distance(center, results.get(maxResults - 1)
+	// .getFirst().getLocation());
+	// if (closestPossibleNextResultDist >= currentFarthestReturnableResultDist)
+	// {
+	// logger.log(Level.FINE, "DONE next result at least "
+	// + closestPossibleNextResultDist
+	// + " away, current farthest is "
+	// + currentFarthestReturnableResultDist + " dist");
+	// break;
+	// }
+	// logger.log(Level.FINE, "next result at least "
+	// + closestPossibleNextResultDist
+	// + " away, current farthest is "
+	// + currentFarthestReturnableResultDist + " dist");
+	// }
+	// }
+	// List<T> result = new ArrayList<T>();
+	// for (Tuple<T, Double> entry : results.subList(0, Math.min(maxResults,
+	// results.size()))) {
+	// if (maxDistance == 0 || entry.getSecond() < maxDistance) {
+	// result.add(entry.getFirst());
+	// }
+	// }
+	// logger.log(Level.INFO, "Proximity query looked in "
+	// + searchedCells.size() + " geocells and found " + result.size()
+	// + " results.");
+	// return result;
+	// }
 
 	/**
 	 * 

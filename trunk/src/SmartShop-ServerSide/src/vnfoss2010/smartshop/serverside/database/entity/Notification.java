@@ -26,7 +26,7 @@ public class Notification {
 
 	@Persistent
 	@Exclude 
-	private String username;
+	private String username; 
 
 	public Notification() {
 	}

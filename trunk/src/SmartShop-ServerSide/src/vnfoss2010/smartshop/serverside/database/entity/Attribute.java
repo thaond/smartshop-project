@@ -20,7 +20,7 @@ public class Attribute {
 	private String name;  
 
 	@Persistent
-	private String value;
+	private String value; 
 
 	@Persistent
 	private String username;

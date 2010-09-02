@@ -32,7 +32,6 @@ public class GetListProductByCriteriaInCategoryService extends
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		JSONObject json = null;
-		Gson gson = new Gson();
 		try {
 			json = new JSONObject(content);
 		} catch (Exception e) {
@@ -74,7 +73,7 @@ public class GetListProductByCriteriaInCategoryService extends
 		jsonReturn.addProperty("message", result.getMessage());
 
 		if (result.isOK()) {
-			jsonReturn.add("products", gson.toJsonTree(result.getResult()));
+			jsonReturn.add("products", Global.gsonWithDate.toJsonTree(result.getResult()));
 		}
 
 		Global.log(log, jsonReturn.toString());

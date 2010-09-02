@@ -1,4 +1,4 @@
-package vnfoss2010.smartshop.serverside.database;
+package vnfoss2010.smartshop.serverside.utils;
 
 import java.io.IOException;
 import java.io.StringReader;

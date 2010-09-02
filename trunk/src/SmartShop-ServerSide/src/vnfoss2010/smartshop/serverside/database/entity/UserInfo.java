@@ -13,11 +13,12 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.utils.SearchCapable;
 
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
-public class UserInfo implements Serializable {
+public class UserInfo implements Serializable, SearchCapable {
 	private static final long serialVersionUID = 1L;
 
 	@PrimaryKey
@@ -35,7 +36,7 @@ public class UserInfo implements Serializable {
 	@Persistent
 	private String last_name;
 
-	@Persistent
+	@Persistent 
 	private String phone;
 
 	@Persistent

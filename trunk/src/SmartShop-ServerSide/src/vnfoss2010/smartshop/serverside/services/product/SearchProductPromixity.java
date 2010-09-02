@@ -43,14 +43,26 @@ public class SearchProductPromixity extends BaseRestfulService {
 				.parseDouble(getParameterWithThrow("lng", params, json)));
 		Double maxDistance = Double.parseDouble(getParameterWithThrow(
 				"distance", params, json));
+
+		int limit = 0;
+		try {
+			limit = Integer.parseInt(getParameter("limit", params, json));
+		} catch (Exception e) {
+		}
+
+		String q = getParameter("q", params, json);
+
+		log.log(Level.SEVERE, "Query: " + q);
+
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		List<Object> pa = new ArrayList<Object>();
 		GeocellQuery baseQuery = new GeocellQuery(" ", " ", pa);
 
 		List<Product> objects = null;
 		try {
-			objects = GeocellManager.proximityFetch(center, 40, maxDistance,
-					Product.class, baseQuery, pm);
+			objects = GeocellManager.proximityFetchWithQuery(center, limit,
+					maxDistance, q, Product.class, pm,
+					GeocellManager.MAX_GEOCELL_RESOLUTION);
 		} catch (Exception e) {
 			// We catch excption here because we have not configured the
 			// PersistentManager (and so the queries won't work)
