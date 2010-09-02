@@ -94,8 +94,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		// TODO Load image of product from internet
 		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
 		Bitmap imageOfProduct = getBitmapFromURL(url);
-		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct, convertView
-				.getWidth(), convertView.getHeight(), true);
+		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,imageOfProduct.getWidth(), imageOfProduct.getHeight(), true);
 		holder.image.setImageBitmap(imageOfProduct);
 		// go to product detail
 		convertView.setOnClickListener(new OnClickListener() {
