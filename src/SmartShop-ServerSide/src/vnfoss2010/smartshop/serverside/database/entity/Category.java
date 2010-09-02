@@ -23,7 +23,7 @@ public class Category {
 
 	@Exclude
 	@Persistent 
-	private List<Long> listPages;
+	private List<Long> listPages; 
 	
 	@Exclude
 	@Persistent

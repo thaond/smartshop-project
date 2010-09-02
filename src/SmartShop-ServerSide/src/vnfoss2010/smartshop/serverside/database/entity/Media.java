@@ -18,7 +18,7 @@ public class Media {
 	@Persistent
 	private String link; 
 	
-	@Persistent
+	@Persistent 
 	private String mime_type; 
 	
 	@Persistent

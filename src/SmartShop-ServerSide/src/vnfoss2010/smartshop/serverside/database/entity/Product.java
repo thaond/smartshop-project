@@ -12,7 +12,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
+import vnfoss2010.smartshop.serverside.utils.SearchCapable;
 
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
-public class Product implements LocationCapable { 
+public class Product implements LocationCapable, SearchCapable { 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;  
@@ -37,7 +37,7 @@ public class Product implements LocationCapable {
 	@Persistent
 	private int quantity;
 
-	@Persistent
+	@Persistent 
 	private Date date_post;
 
 	@Persistent
@@ -73,6 +73,7 @@ public class Product implements LocationCapable {
 	
 	@Persistent
 	private Set<Long> setPagesID;
+	
 	@Persistent
 	private Set<String> setCategoryKeys;
 

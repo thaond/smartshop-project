@@ -20,7 +20,7 @@ public class Comment {
 	private String type; 
 
 	@Persistent
-	private long type_id;
+	private long type_id; 
 
 	@Persistent
 	private String username;

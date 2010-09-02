@@ -29,7 +29,7 @@ public class UserSubcribeProduct implements LocationCapable {
 	@Persistent
 	private String description;
 	@Persistent
-	private boolean isActive = true;
+	private boolean isActive = true; 
 	@Persistent
 	private Date date;
 	@Persistent

@@ -9,17 +9,19 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import vnfoss2010.smartshop.serverside.utils.SearchCapable;
+
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
-public class Page {
+public class Page implements SearchCapable{
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
 
 	@Persistent
 	private String name;
-
+ 
 	@Persistent
 	private String content;
 
