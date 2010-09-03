@@ -105,7 +105,7 @@ public class StringUtils {
     }
     
     public static boolean isEmptyOrNull(String txt) {
-		return (txt == null || txt.equals("")) ? true : false;
+		return (txt == null || txt.trim().equals("")) ? true : false;
 	}
     
 } 

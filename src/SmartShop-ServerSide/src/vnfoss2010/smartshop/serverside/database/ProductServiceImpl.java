@@ -295,42 +295,66 @@ public class ProductServiceImpl {
 			int maximum, int[] criterias, int status, String q,
 			String username, String... cat_keys) {
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
-
+		StringBuilder where = new StringBuilder();
+		StringBuilder orderBy = new StringBuilder();
 		String query = "";
+		List<Object> listParameters = new ArrayList<Object>();
+
+		switch (status) {
+		case 0:// List all products (both sold and non-sold)
+			break;
+
+		case 1:
+			where.append("quantity>0 ");
+			orderBy.append("quantity desc ");
+
+			break;
+
+		case 2:
+			where.append("quantity==0 ");
+			orderBy.append("quantity desc ");
+			// query = "select from " + Product.class.getName()
+			// + " where (quantity==0 %s) " + query
+			// + ((maximum == 0) ? "" : (" limit " + maximum));
+			break;
+
+		default:
+			break;
+		}
+
 		if (criterias != null) {
-			query = " order by ";
 			for (int criteria : criterias) {
 				switch (criteria) {
 				case 0:
-					query += ("date_post asc ");
+					orderBy.append("date_post asc ");
 					break;
 
 				case 1:
-					query += ("date_post desc ");
+					orderBy.append("date_post desc ");
 					break;
 
 				case 2:
-					query += ("price asc ");
+					orderBy.append("price asc ");
 					break;
 
 				case 3:
-					query += ("price desc ");
+					orderBy.append("price desc ");
 					break;
 
 				case 4:
-					query += ("product_view asc ");
+					orderBy.append("product_view asc ");
 					break;
 
 				case 5:
-					query += ("product_view desc ");
+					orderBy.append("product_view desc ");
 					break;
 
 				case 6:
-					query += ("quantity asc ");
+					orderBy.append("quantity asc ");
 					break;
 
 				case 7:
-					query += ("quantity desc ");
+					orderBy.append("quantity desc ");
 					break;
 
 				default:
@@ -338,30 +362,7 @@ public class ProductServiceImpl {
 				}
 			}
 		} else {
-			query = " order by date_post desc ";
-		}
-
-		switch (status) {
-		case 0:// List all products (both sold and non-sold)
-			query = "select from " + Product.class.getName()
-					+ "where (true %s) " + query
-					+ ((maximum == 0) ? "" : (" limit " + maximum));
-			break;
-
-		case 1:
-			query = "select from " + Product.class.getName()
-					+ " where (quantity>0 %s) " + query
-					+ ((maximum == 0) ? "" : (" limit " + maximum));
-			break;
-
-		case 2:
-			query = "select from " + Product.class.getName()
-					+ " where (quantity==0 %s) " + query
-					+ ((maximum == 0) ? "" : (" limit " + maximum));
-			break;
-
-		default:
-			break;
+			orderBy.append("date_post desc ");
 		}
 
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -369,38 +370,64 @@ public class ProductServiceImpl {
 		List<Product> listProducts = null;
 
 		if (StringUtils.isEmptyOrNull(q)) {
-			queryObj = pm.newQuery(String.format(query, ""));
 			if (!StringUtils.isEmptyOrNull(username)) {
 				if (cat_keys != null) {
-					queryObj.setFilter("setCategoryKeys.contains(catKey)");
-					queryObj.setFilter("username==us");
-					queryObj.declareParameters("String catKey, String us");
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("setCategoryKeys.contains(catKey) && username==us ");
+					listParameters.add(Arrays.asList(cat_keys));
+					listParameters.add(username);
 
-					log.log(Level.SEVERE, Arrays.toString(cat_keys) + "");
-					listProducts = (List<Product>) queryObj.execute(Arrays
-							.asList(cat_keys), username);
+					query = "select from " + Product.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("String catKey, String us");
+					listProducts = (List<Product>) queryObj
+							.executeWithArray(listParameters.toArray());
 				} else {
-					queryObj.setFilter("username==us");
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("username==us ");
+					listParameters.add(username);
+
+					query = "select from " + Product.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+					queryObj = pm.newQuery(query);
 					queryObj.declareParameters("String us");
-					listProducts = (List<Product>) queryObj.execute(username);
+
+					listProducts = (List<Product>) queryObj
+							.executeWithArray(listParameters.toArray());
 				}
-			} else {
+			} else { // end if q>username
 				// Duplicate
 				if (cat_keys != null) {
-					queryObj.setFilter("setCategoryKeys.contains(catKey)");
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("setCategoryKeys.contains(catKey) ");
+					query = "select from " + Product.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+					queryObj = pm.newQuery(query);
 					queryObj.declareParameters("String catKey");
-					log.log(Level.SEVERE, Arrays.toString(cat_keys) + "");
-					listProducts = (List<Product>) queryObj.execute(Arrays
-							.asList(cat_keys));
+					listParameters.add(Arrays.asList(cat_keys));
+					listProducts = (List<Product>) queryObj
+							.executeWithArray(listParameters.toArray());
 				} else {
-					log.log(Level.SEVERE, "query = " + query);
-					// Fix bug: The first sort property must be the same as the
-					// property to which the inequality filter is applied
-					query = query.replace("order by ", "order by quantity desc ");
-					listProducts = (List<Product>) pm.newQuery(query).execute();
+					query = "select from " + Product.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+					queryObj = pm.newQuery(query);
+					listProducts = (List<Product>) queryObj.execute();
 				}
-			}
-		} else {
+			}// end else q>username
+		} else {// end if q
 			// Prepare to search
 			StringBuffer queryBuffer = new StringBuffer();
 			Set<String> queryTokens = SearchJanitorUtils
@@ -423,50 +450,98 @@ public class ProductServiceImpl {
 				parameterCounter++;
 			}
 			// //////
-			query = String.format(query, " && " + queryBuffer);
-			queryObj = pm.newQuery(query);
-			
 			if (!StringUtils.isEmptyOrNull(username)) {
 				if (cat_keys != null) {
-					queryObj.setFilter("setCategoryKeys.contains(catKey)");
-					queryObj.setFilter("username==us");
-					queryObj.declareParameters("String catKey, String us" + declareParametersBuffer.toString());
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("setCategoryKeys.contains(catKey) && username==us && ");
+					where.append(queryBuffer.toString());
 
-					log.log(Level.SEVERE, "tam " + Arrays.toString(cat_keys) + "");
-					parametersForSearch.add(0, Arrays.asList(cat_keys));
-					parametersForSearch.add(1, username);
-//					listProducts = (List<Product>) queryObj.execute(Arrays
-//							.asList(cat_keys), username, parametersForSearch.toArray());
-					
-					log.log(Level.SEVERE, "Tam query = " + query);
-					log.log(Level.SEVERE, "Tam decleare = " + declareParametersBuffer.toString());
-					log.log(Level.SEVERE, "Tam search = " + Arrays.toString(parametersForSearch.toArray()));
-					listProducts = (List<Product>) queryObj.executeWithArray(parametersForSearch.toArray());
+					listParameters.add(Arrays.asList(cat_keys));
+					listParameters.add(username);
+					//listParameters.add(parametersForSearch.toArray());
+					for (Object str : parametersForSearch)
+						listParameters.add(str);
+
+					query = "select from " + Product.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("String catKey, String us"
+							+ declareParametersBuffer.toString());
+
+					listProducts = (List<Product>) queryObj
+							.executeWithArray(listParameters.toArray());
 
 				} else {
-					queryObj.setFilter("username==us");
-					queryObj.declareParameters("String us"  + declareParametersBuffer.toString());
-					listProducts = (List<Product>) queryObj.execute(username);
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("username==us && ");
+					where.append(queryBuffer.toString());
+
+					listParameters.add(username);
+					//listParameters.add(parametersForSearch.toArray());
+					for (Object str : parametersForSearch)
+						listParameters.add(str);
+
+					query = "select from " + Product.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("String us"
+							+ declareParametersBuffer.toString());
+
+					listProducts = (List<Product>) queryObj
+							.executeWithArray(listParameters.toArray());
 				}
 			} else {
 				// Duplicate
 				if (cat_keys != null) {
-					queryObj.setFilter("setCategoryKeys.contains(catKey)");
-					queryObj.declareParameters("String catKey" + declareParametersBuffer.toString());
-					log.log(Level.SEVERE, Arrays.toString(cat_keys) + "");
-					listProducts = (List<Product>) queryObj.execute(Arrays
-							.asList(cat_keys));
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("setCategoryKeys.contains(catKey) && ");
+					where.append(queryBuffer.toString());
+
+					listParameters.add(Arrays.asList(cat_keys));
+					//listParameters.add(parametersForSearch.toArray());
+					for (Object str : parametersForSearch)
+						listParameters.add(str);
+
+					query = "select from " + Product.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("String catKey"
+							+ declareParametersBuffer.toString());
+
+					listProducts = (List<Product>) queryObj
+							.executeWithArray(listParameters.toArray());
 				} else {
-					log.log(Level.SEVERE, "query = " + query);
-					// Fix bug: The first sort property must be the same as the
-					// property to which the inequality filter is applied
-					query = query.replace("order by ", "order by quantity desc ");
-					Query querySpec = pm.newQuery(query);
-					querySpec.declareParameters(declareParametersBuffer.toString());
-					listProducts = (List<Product>) querySpec.execute();
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append(queryBuffer.toString());
+					//listParameters.add(parametersForSearch.toArray());
+					for (Object str : parametersForSearch)
+						listParameters.add(str);
+
+					query = "select from " + Product.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("true && "
+							+ declareParametersBuffer.toString());
+
+					listProducts = (List<Product>) queryObj
+							.executeWithArray(listParameters.toArray());
 				}
 			}
-		}
+		}// end else q
 
 		if (listProducts.size() > 0) {
 			result.setOK(true);
