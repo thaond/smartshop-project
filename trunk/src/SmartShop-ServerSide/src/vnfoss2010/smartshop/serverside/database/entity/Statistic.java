@@ -6,4 +6,4 @@ import javax.jdo.annotations.PersistenceCapable;
 public class Statistic {
 
 }
-  
+   

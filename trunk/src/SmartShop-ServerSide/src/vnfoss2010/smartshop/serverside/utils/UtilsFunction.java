@@ -1,5 +1,10 @@
 package vnfoss2010.smartshop.serverside.utils;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import vnfoss2010.smartshop.serverside.map.direction.GeoPoint;
 
 /**
@@ -90,6 +95,34 @@ public class UtilsFunction {
 		double d = distance(latCenter1, lonCenter1, lat2, lon2);
 		
 		return (d>r)?false:true;
+	}
+	
+	/**
+	 * Overcome the problem of Set's serilization of datastore GAE
+	 * @param originSet Set instance which is obtained from datastore
+	 * @return a copy of <code>orginSet</code>, but can be serizabled
+	 * @author tamvo
+	 */
+	public static <T> Set<T> cloneSet(Set<T> originSet) {
+		Set<T> result = null;
+		if (originSet != null) {
+			result = new HashSet<T>();
+			for (T t : originSet) {
+				result.add(t);
+			}
+		}
+		return result;
+	}
+	
+	public static <T> List<T> cloneList(List<T> originList) {
+		List<T> result = null;
+		if (originList != null) {
+			result = new ArrayList<T>();
+			for (T t : originList) {
+				result.add(t);
+			}
+		}
+		return result;
 	}
 	
 	public static void main(String[] args) {

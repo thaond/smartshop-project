@@ -1,6 +1,6 @@
 package vnfoss2010.smartshop.serverside.database;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -20,12 +20,11 @@ import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
+import vnfoss2010.smartshop.serverside.utils.StringUtils;
 
 import com.beoui.geocell.GeocellManager;
 import com.beoui.geocell.model.GeocellQuery;
 import com.beoui.geocell.model.Point;
-import com.google.appengine.api.datastore.DatastoreNeedIndexException;
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
 
 public class ProductServiceImpl {
 	private static ProductServiceImpl instance;
@@ -46,7 +45,8 @@ public class ProductServiceImpl {
 	 */
 	public ServiceResult<Long> insertProduct(Product product) {
 		preventSQLInjProduct(product);
-		ProductServiceImpl.updateFTSStuffForProduct(product);
+		// ProductServiceImpl.updateFTSStuffForProduct(product);
+		product.updateFTS();
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -55,9 +55,13 @@ public class ProductServiceImpl {
 					.getString("cannot_handle_with_null"));
 		}
 
+		log.log(Level.SEVERE, "Before: " + product.toString());
+
 		try {
 			// pm.flush();
 			product = pm.makePersistent(product);
+			log.log(Level.SEVERE, "After: " + product.toString());
+
 			if (product == null) {
 				result.setMessage(Global.messages
 						.getString("insert_product_fail"));
@@ -81,7 +85,8 @@ public class ProductServiceImpl {
 	public ServiceResult<Long> insertProduct(Product product,
 			List<String> listCategories, List<Attribute> listAttributes) {
 		preventSQLInjProduct(product);
-		ProductServiceImpl.updateFTSStuffForProduct(product);
+		// ProductServiceImpl.updateFTSStuffForProduct(product);
+		product.updateFTS();
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		if (product == null) {
@@ -287,7 +292,8 @@ public class ProductServiceImpl {
 	 */
 	@SuppressWarnings("unchecked")
 	public ServiceResult<List<Product>> getListProductByCriteriaInCategories(
-			int maximum, int[] criterias, int status, String... cat_keys) {
+			int maximum, int[] criterias, int status, String q,
+			String username, String... cat_keys) {
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
 
 		String query = "";
@@ -334,43 +340,132 @@ public class ProductServiceImpl {
 		} else {
 			query = " order by date_post desc ";
 		}
-		
+
 		switch (status) {
 		case 0:// List all products (both sold and non-sold)
-			query = "select from " + Product.class.getName() 
-					+ query + ((maximum == 0) ? "" : (" limit " + maximum));
+			query = "select from " + Product.class.getName()
+					+ "where (true %s) " + query
+					+ ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
 
 		case 1:
 			query = "select from " + Product.class.getName()
-					+ " where (quantity>0) " + query
+					+ " where (quantity>0 %s) " + query
 					+ ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
 
 		case 2:
 			query = "select from " + Product.class.getName()
-					+ " where (quantity==0) " + query
+					+ " where (quantity==0 %s) " + query
 					+ ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
 
 		default:
 			break;
 		}
-		
-		Global.log(log, query);
+
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-
-		Query queryObj = pm.newQuery(query);
-		queryObj.setFilter("setCategoryKeys.contains(catKey)");
-		queryObj.declareParameters("String catKey");
-
+		Query queryObj = null;
 		List<Product> listProducts = null;
-		if (cat_keys != null) {
-			log.log(Level.SEVERE, Arrays.toString(cat_keys) +"");
-			listProducts = (List<Product>) queryObj.execute(Arrays
-					.asList(cat_keys));
+
+		if (StringUtils.isEmptyOrNull(q)) {
+			queryObj = pm.newQuery(String.format(query, ""));
+			if (!StringUtils.isEmptyOrNull(username)) {
+				if (cat_keys != null) {
+					queryObj.setFilter("setCategoryKeys.contains(catKey)");
+					queryObj.setFilter("username==us");
+					queryObj.declareParameters("String catKey, String us");
+
+					log.log(Level.SEVERE, Arrays.toString(cat_keys) + "");
+					listProducts = (List<Product>) queryObj.execute(Arrays
+							.asList(cat_keys), username);
+				} else {
+					queryObj.setFilter("username==us");
+					queryObj.declareParameters("String us");
+					listProducts = (List<Product>) queryObj.execute(username);
+				}
+			} else {
+				// Duplicate
+				if (cat_keys != null) {
+					queryObj.setFilter("setCategoryKeys.contains(catKey)");
+					queryObj.declareParameters("String catKey");
+					log.log(Level.SEVERE, Arrays.toString(cat_keys) + "");
+					listProducts = (List<Product>) queryObj.execute(Arrays
+							.asList(cat_keys));
+				} else {
+					log.log(Level.SEVERE, "query = " + query);
+					// Fix bug: The first sort property must be the same as the
+					// property to which the inequality filter is applied
+					query = query.replace("order by ", "order by quantity desc ");
+					listProducts = (List<Product>) pm.newQuery(query).execute();
+				}
+			}
 		} else {
-			listProducts = (List<Product>) pm.newQuery(query).execute();
+			// Prepare to search
+			StringBuffer queryBuffer = new StringBuffer();
+			Set<String> queryTokens = SearchJanitorUtils
+					.getTokensForIndexingOrQuery(q,
+							Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+			List<Object> parametersForSearch = new ArrayList<Object>(
+					queryTokens);
+			StringBuffer declareParametersBuffer = new StringBuffer(", ");
+			int parameterCounter = 0;
+
+			while (parameterCounter < queryTokens.size()) {
+				queryBuffer.append("fts == param" + parameterCounter);
+				declareParametersBuffer.append("String param"
+						+ parameterCounter);
+
+				if (parameterCounter + 1 < queryTokens.size()) {
+					queryBuffer.append(" && ");
+					declareParametersBuffer.append(", ");
+				}
+				parameterCounter++;
+			}
+			// //////
+			query = String.format(query, " && " + queryBuffer);
+			queryObj = pm.newQuery(query);
+			
+			if (!StringUtils.isEmptyOrNull(username)) {
+				if (cat_keys != null) {
+					queryObj.setFilter("setCategoryKeys.contains(catKey)");
+					queryObj.setFilter("username==us");
+					queryObj.declareParameters("String catKey, String us" + declareParametersBuffer.toString());
+
+					log.log(Level.SEVERE, "tam " + Arrays.toString(cat_keys) + "");
+					parametersForSearch.add(0, Arrays.asList(cat_keys));
+					parametersForSearch.add(1, username);
+//					listProducts = (List<Product>) queryObj.execute(Arrays
+//							.asList(cat_keys), username, parametersForSearch.toArray());
+					
+					log.log(Level.SEVERE, "Tam query = " + query);
+					log.log(Level.SEVERE, "Tam decleare = " + declareParametersBuffer.toString());
+					log.log(Level.SEVERE, "Tam search = " + Arrays.toString(parametersForSearch.toArray()));
+					listProducts = (List<Product>) queryObj.executeWithArray(parametersForSearch.toArray());
+
+				} else {
+					queryObj.setFilter("username==us");
+					queryObj.declareParameters("String us"  + declareParametersBuffer.toString());
+					listProducts = (List<Product>) queryObj.execute(username);
+				}
+			} else {
+				// Duplicate
+				if (cat_keys != null) {
+					queryObj.setFilter("setCategoryKeys.contains(catKey)");
+					queryObj.declareParameters("String catKey" + declareParametersBuffer.toString());
+					log.log(Level.SEVERE, Arrays.toString(cat_keys) + "");
+					listProducts = (List<Product>) queryObj.execute(Arrays
+							.asList(cat_keys));
+				} else {
+					log.log(Level.SEVERE, "query = " + query);
+					// Fix bug: The first sort property must be the same as the
+					// property to which the inequality filter is applied
+					query = query.replace("order by ", "order by quantity desc ");
+					Query querySpec = pm.newQuery(query);
+					querySpec.declareParameters(declareParametersBuffer.toString());
+					listProducts = (List<Product>) querySpec.execute();
+				}
+			}
 		}
 
 		if (listProducts.size() > 0) {
@@ -390,66 +485,21 @@ public class ProductServiceImpl {
 
 	public ServiceResult<List<Product>> searchProductLike(String queryString) {
 		queryString = DatabaseUtils.preventSQLInjection(queryString);
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		StringBuffer queryBuffer = new StringBuffer();
-		queryBuffer
-				.append("SELECT FROM " + Product.class.getName() + " WHERE ");
-		Set<String> queryTokens = SearchJanitorUtils
-				.getTokensForIndexingOrQuery(queryString,
-						Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
-		List<String> parametersForSearch = new ArrayList<String>(queryTokens);
-		StringBuffer declareParametersBuffer = new StringBuffer();
-		int parameterCounter = 0;
-
-		while (parameterCounter < queryTokens.size()) {
-
-			queryBuffer.append("fts == param" + parameterCounter);
-			declareParametersBuffer.append("String param" + parameterCounter);
-
-			if (parameterCounter + 1 < queryTokens.size()) {
-				queryBuffer.append(" && ");
-				declareParametersBuffer.append(", ");
-			}
-			parameterCounter++;
-		}
-
-		Query query = pm.newQuery(queryBuffer.toString());
-		query.declareParameters(declareParametersBuffer.toString());
 
 		List<Product> listProducts = null;
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
 
-		try {
-			listProducts = (List<Product>) query
-					.executeWithArray(parametersForSearch.toArray());
+		listProducts = DatabaseUtils.searchByQuery(queryString, Product.class);
 
-			// TODO return basic information
-			if (listProducts.size() > 0) {
-				result.setResult(listProducts);
-				result.setOK(true);
-				result.setMessage(Global.messages
-						.getString("search_product_by_query_successfully"));
-			} else {
-				result.setOK(false);
-				result.setMessage(Global.messages
-						.getString("search_product_by_query_fail"));
-			}
-		} catch (DatastoreTimeoutException e) {
-			log.severe(e.getMessage());
-			log.severe("datastore timeout at: " + queryString);// +
+		if (listProducts.size() > 0) {
+			result.setResult(listProducts);
+			result.setOK(true);
+			result.setMessage(Global.messages
+					.getString("search_product_by_query_successfully"));
+		} else {
 			result.setOK(false);
-			result.setMessage(Global.messages.getString("have_problem"));
-			// " - timestamp: "
-			// +
-			// discreteTimestamp);
-		} catch (DatastoreNeedIndexException e) {
-			log.severe(e.getMessage());
-			log.severe("datastore need index exception at: " + queryString);// +
-			result.setOK(false);
-			result.setMessage(Global.messages.getString("have_problem"));
-			// " - timestamp: "
-			// +
-			// discreteTimestamp);
+			result.setMessage(Global.messages
+					.getString("search_product_by_query_fail"));
 		}
 
 		return result;
@@ -523,9 +573,9 @@ public class ProductServiceImpl {
 				pm.close();
 			} catch (Exception ex) {
 				result.setOK(false);
-				result.setMessage(String
-						.format(Global.messages
-						.getString("get_list_buyed_product_by_username_fail"), username));
+				result.setMessage(String.format(Global.messages
+						.getString("get_list_buyed_product_by_username_fail"),
+						username));
 				log.log(Level.SEVERE, ex.getMessage(), ex);
 			}
 		}
@@ -574,15 +624,19 @@ public class ProductServiceImpl {
 					result.setOK(true);
 					result
 							.setMessage(String
-									.format(Global.messages
-									.getString("get_list_selled_product_by_username_successfully"), username));
+									.format(
+											Global.messages
+													.getString("get_list_selled_product_by_username_successfully"),
+											username));
 					result.setResult(listProducts);
 				} else {
 					result.setOK(false);
 					result
 							.setMessage(String
-									.format(Global.messages
-									.getString("get_list_selled_product_by_username_fail"), username));
+									.format(
+											Global.messages
+													.getString("get_list_selled_product_by_username_fail"),
+											username));
 				}
 			}
 		} catch (Exception ex) {
@@ -596,9 +650,9 @@ public class ProductServiceImpl {
 				pm.close();
 			} catch (Exception ex) {
 				result.setOK(false);
-				result.setMessage(String
-						.format(Global.messages
-						.getString("get_list_selled_product_by_username_fail"), username));
+				result.setMessage(String.format(Global.messages
+						.getString("get_list_selled_product_by_username_fail"),
+						username));
 				log.log(Level.SEVERE, ex.getMessage(), ex);
 			}
 		}
@@ -623,21 +677,25 @@ public class ProductServiceImpl {
 			query.setFilter("id == produtId");
 			query.declareParameters("Long productId");
 
-			List<Product> listProducts = (List<Product>) query
-					.execute(userInfo.getListInteredProduct());
+			List<Product> listProducts = (List<Product>) query.execute(userInfo
+					.getListInteredProduct());
 			if (listProducts.size() > 0) {
 				result.setOK(true);
 				result
 						.setMessage(String
-								.format(Global.messages
-								.getString("get_list_interested_product_by_username_successfully"), username));
+								.format(
+										Global.messages
+												.getString("get_list_interested_product_by_username_successfully"),
+										username));
 				result.setResult(listProducts);
 			} else {
 				result.setOK(false);
 				result
 						.setMessage(String
-								.format(Global.messages
-								.getString("get_list_interested_product_by_username_fail"), username));
+								.format(
+										Global.messages
+												.getString("get_list_interested_product_by_username_fail"),
+										username));
 			}
 		} else {
 			result.setMessage(Global.messages.getString("not_found") + " "
@@ -648,10 +706,9 @@ public class ProductServiceImpl {
 			pm.close();
 		} catch (Exception ex) {
 			result.setOK(false);
-			result
-					.setMessage(String
-							.format(Global.messages
-							.getString("get_list_interested_product_by_username_fail"), username));
+			result.setMessage(String.format(Global.messages
+					.getString("get_list_interested_product_by_username_fail"),
+					username));
 			log.log(Level.SEVERE, ex.getMessage(), ex);
 		}
 
@@ -729,32 +786,6 @@ public class ProductServiceImpl {
 		}
 
 		return result;
-	}
-
-	public static void updateFTSStuffForProduct(Product product) {
-
-		Global.log(log, "Product " + product);
-
-		StringBuffer sb = new StringBuffer();
-		sb.append(product.getName() + " " + product.getAddress());
-
-		for (Attribute att : product.getAttributeSets()) {
-			sb.append(att.getName() + " ");
-		}
-
-		Global.log(log, "StringBuffer" + sb.toString());
-
-		Set<String> new_ftsTokens = SearchJanitorUtils
-				.getTokensForIndexingOrQuery(sb.toString(),
-						Global.MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX);
-
-		Global.log(log, new_ftsTokens.toString());
-		Set<String> ftsTokens = product.getFts();
-		ftsTokens.clear();
-
-		for (String token : new_ftsTokens) {
-			ftsTokens.add(token);
-		}
 	}
 
 	public static void preventSQLInjProduct(Product product) {

@@ -18,14 +18,14 @@ import vnfoss2010.smartshop.serverside.utils.SearchCapable;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
-public class UserInfo implements Serializable, SearchCapable {
+public class UserInfo extends SearchCapable implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private String username; 
-  
-	@Persistent 
+	private String username;
+
+	@Persistent
 	private String password;
 
 	private String old_password;
@@ -36,7 +36,7 @@ public class UserInfo implements Serializable, SearchCapable {
 	@Persistent
 	private String last_name;
 
-	@Persistent 
+	@Persistent
 	private String phone;
 
 	@Persistent
@@ -80,9 +80,11 @@ public class UserInfo implements Serializable, SearchCapable {
 
 	@Persistent
 	private Set<String> setFriendsUsername;
+
 	@Exclude
 	@Persistent
 	private List<Long> listSubcribeProduct;
+
 	public List<Long> getListSubcribeProduct() {
 		return listSubcribeProduct;
 	}
@@ -205,7 +207,7 @@ public class UserInfo implements Serializable, SearchCapable {
 	/**
 	 * @param firstName
 	 *            the first_name to set
-	 */ 
+	 */
 	public void setFirst_name(String firstName) {
 		first_name = firstName;
 	}
@@ -531,6 +533,11 @@ public class UserInfo implements Serializable, SearchCapable {
 	 */
 	public List<Long> getListInteredProduct() {
 		return listInteredProduct;
+	}
+	
+	@Override
+	public String getTokenString() {
+		return getUsername() + " " + getFirst_name() + " " + getLast_name();
 	}
 
 	public static void main(String[] args) {

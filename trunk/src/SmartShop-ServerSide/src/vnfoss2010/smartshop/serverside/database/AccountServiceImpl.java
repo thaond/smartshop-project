@@ -3,7 +3,6 @@ package vnfoss2010.smartshop.serverside.database;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,10 +18,7 @@ import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Media;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
-import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
 
-import com.google.appengine.api.datastore.DatastoreNeedIndexException;
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
@@ -62,7 +58,8 @@ public class AccountServiceImpl {
 	// USERINFO
 	public ServiceResult<Void> insertUserInfo(UserInfo userInfo) {
 		preventSQLInjUserInfo(userInfo);
-		AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
+		userInfo.updateFTS();
+		// AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -72,12 +69,12 @@ public class AccountServiceImpl {
 			return result;
 		}
 
-//		if (userInfo.getPassword() == null
-//				|| userInfo.getPassword().length() < 6) {
-//			result.setMessage(Global.messages
-//					.getString("password_length_at_least_6_characters"));
-//			return result;
-//		}
+		// if (userInfo.getPassword() == null
+		// || userInfo.getPassword().length() < 6) {
+		// result.setMessage(Global.messages
+		// .getString("password_length_at_least_6_characters"));
+		// return result;
+		// }
 
 		try {
 			UserInfo tmp = null;
@@ -227,7 +224,8 @@ public class AccountServiceImpl {
 
 					pm.refresh(tmp);
 					result.setOK(true);
-					result.setMessage(Global.messages.getString("edit_profile_successfully"));
+					result.setMessage(Global.messages
+							.getString("edit_profile_successfully"));
 				}
 			}
 		} catch (Exception ex) {
@@ -258,7 +256,8 @@ public class AccountServiceImpl {
 				if (userInfo == null || userInfo.getUsername() == null) {
 					continue;
 				}
-				AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
+				// AccountServiceImpl.updateFTSStuffForUserInfo(userInfo);
+				userInfo.updateFTS();
 				userInfo.setPassword(DatabaseUtils.md5(userInfo.getPassword()));
 				pm.makePersistent(userInfo);
 			} // end for loop
@@ -483,74 +482,29 @@ public class AccountServiceImpl {
 
 	public ServiceResult<List<UserInfo>> searchUsernamesLike(String queryString) {
 		queryString = DatabaseUtils.preventSQLInjection(queryString);
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		StringBuffer queryBuffer = new StringBuffer();
-		queryBuffer.append("SELECT FROM " + UserInfo.class.getName()
-				+ " WHERE ");
-		Set<String> queryTokens = SearchJanitorUtils
-				.getTokensForIndexingOrQuery(queryString,
-						Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
-		List<String> parametersForSearch = new ArrayList<String>(queryTokens);
-		StringBuffer declareParametersBuffer = new StringBuffer();
-		int parameterCounter = 0;
-
-		while (parameterCounter < queryTokens.size()) {
-
-			queryBuffer.append("fts == param" + parameterCounter);
-			declareParametersBuffer.append("String param" + parameterCounter);
-
-			if (parameterCounter + 1 < queryTokens.size()) {
-				queryBuffer.append(" && ");
-				declareParametersBuffer.append(", ");
-			}
-			parameterCounter++;
-		}
-
-		Query query = pm.newQuery(queryBuffer.toString());
-		query.declareParameters(declareParametersBuffer.toString());
-
 		List<UserInfo> listUserInfos = null;
 		ServiceResult<List<UserInfo>> result = new ServiceResult<List<UserInfo>>();
 
-		try {
-			listUserInfos = (List<UserInfo>) query
-					.executeWithArray(parametersForSearch.toArray());
+		listUserInfos = DatabaseUtils
+				.searchByQuery(queryString, UserInfo.class);
 
-			if (listUserInfos.size() > 0) {
-				result.setResult(new ArrayList<UserInfo>());
-				for (UserInfo userInfo : listUserInfos) {
-					// Just return basic information
-					result.getResult().add(
-							new UserInfo(userInfo.getUsername(), userInfo
-									.getFirst_name(), userInfo.getLast_name()));
-				}
-				result.setMessage(Global.messages
-						.getString("search_username_successfully"));
-				result.setOK(true);
-			} else {
-				result.setOK(false);
-				result.setMessage(Global.messages
-						.getString("search_username_fail"));
+		if (listUserInfos.size() > 0) {
+			result.setResult(new ArrayList<UserInfo>());
+			for (UserInfo userInfo : listUserInfos) {
+				// Just return basic information
+				result.getResult().add(
+						new UserInfo(userInfo.getUsername(), userInfo
+								.getFirst_name(), userInfo.getLast_name()));
 			}
-
-		} catch (DatastoreTimeoutException e) {
-			log.severe(e.getMessage());
-			log.severe("datastore timeout at: " + queryString);// +
+			result.setMessage(Global.messages
+					.getString("search_username_successfully"));
+			result.setOK(true);
+		} else {
 			result.setOK(false);
-			result.setMessage(Global.messages.getString("have_problem"));
-			// " - timestamp: "
-			// +
-			// discreteTimestamp);
-		} catch (DatastoreNeedIndexException e) {
-			log.severe(e.getMessage());
-			log.severe("datastore need index exception at: " + queryString);// +
-			result.setOK(false);
-			result.setMessage(Global.messages.getString("have_problem"));
-			// " - timestamp: "
-			// +
-			// discreteTimestamp);
+			result
+					.setMessage(Global.messages
+							.getString("search_username_fail"));
 		}
-
 		return result;
 	}
 
@@ -788,20 +742,4 @@ public class AccountServiceImpl {
 	}
 
 	final int DURATION_IN_S = 60 * 60 * 24; // duration remembering login: 1 day
-
-	public static void updateFTSStuffForUserInfo(UserInfo userInfo) {
-		StringBuffer sb = new StringBuffer();
-		sb.append(userInfo.getUsername() + " " + userInfo.getFirst_name() + " "
-				+ userInfo.getLast_name());
-		Set<String> new_ftsTokens = SearchJanitorUtils
-				.getTokensForIndexingOrQuery(sb.toString(),
-						Global.MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX);
-		Set<String> ftsTokens = userInfo.getFts();
-		ftsTokens.clear();
-
-		for (String token : new_ftsTokens) {
-			ftsTokens.add(token);
-		}
-	}
-
 }

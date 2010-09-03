@@ -3,14 +3,33 @@ package vnfoss2010.smartshop.serverside.database;
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.CleanResults;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 
+import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.utils.SearchCapable;
+import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
+
+import com.google.appengine.api.datastore.DatastoreNeedIndexException;
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
+
+/**
+ * This class provides functions which 're useful for the database
+ * @author VoMinhTam
+ */
 public class DatabaseUtils {
 
 	private final static Logger log = Logger.getLogger(DatabaseUtils.class
@@ -108,5 +127,56 @@ public class DatabaseUtils {
 		}
 		return cr.getCleanHTML(); // some custom function
 	}
+	
+	/**
+	 * Search any searchable entity (a class must be extends {@link SearchCapable}
+	 * @return List of records that fit the query string
+	 */
+	public static <T extends SearchCapable> List<T> searchByQuery(String queryString, Class<T> entity){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		StringBuffer queryBuffer = new StringBuffer();
+		queryBuffer.append("SELECT FROM " + entity.getName()
+				+ " WHERE ");
+		Set<String> queryTokens = SearchJanitorUtils
+				.getTokensForIndexingOrQuery(queryString,
+						Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+		List<String> parametersForSearch = new ArrayList<String>(queryTokens);
+		StringBuffer declareParametersBuffer = new StringBuffer();
+		int parameterCounter = 0;
 
+		while (parameterCounter < queryTokens.size()) {
+
+			queryBuffer.append("fts == param" + parameterCounter);
+			declareParametersBuffer.append("String param" + parameterCounter);
+
+			if (parameterCounter + 1 < queryTokens.size()) {
+				queryBuffer.append(" && ");
+				declareParametersBuffer.append(", ");
+			}
+			parameterCounter++;
+		}
+
+		Query query = pm.newQuery(queryBuffer.toString());
+		query.declareParameters(declareParametersBuffer.toString());
+
+		List<T> list = null;
+		try {
+			list = (List<T>) query
+					.executeWithArray(parametersForSearch.toArray());
+		} catch (DatastoreTimeoutException e) {
+			log.severe(e.getMessage());
+			log.severe("datastore timeout at: " + queryString);
+		} catch (DatastoreNeedIndexException e) {
+			log.severe(e.getMessage());
+			log.severe("datastore need index exception at: " + queryString);
+		}
+
+		List<T> result = UtilsFunction.cloneList(list);
+		try {
+			pm.close();
+		} catch (Exception e) {
+		}
+		
+		return result;
+	}
 }

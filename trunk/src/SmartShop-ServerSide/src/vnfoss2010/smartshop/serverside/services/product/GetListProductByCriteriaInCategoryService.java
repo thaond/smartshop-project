@@ -14,7 +14,6 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.utils.StringUtils;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class GetListProductByCriteriaInCategoryService extends
@@ -49,7 +48,7 @@ public class GetListProductByCriteriaInCategoryService extends
 			status = Integer.parseInt(getParameter("status", params, json));
 		} catch (Exception e) {
 		}
-
+		
 		int[] criteriaIDs = null;
 		if (criterias != null) {
 			String[] arr = criterias.split(",");
@@ -59,13 +58,25 @@ public class GetListProductByCriteriaInCategoryService extends
 			}
 		}
 
-		String cat_keys = getParameter("cat_keys", params, json);
+		String username = null;
+		try {
+			username = getParameter("username", params, json);
+		} catch (Exception e) {
+		}
 
+		String cat_keys = getParameter("cat_keys", params, json);
 		Global.log(log, "Cat keys : " + cat_keys);
+		
+		//Query
+		String q = null;
+		try {
+			q = getParameter("q", params, json);
+		} catch (Exception e) {
+		}
 
 		ServiceResult<List<Product>> result = dbProduct
 				.getListProductByCriteriaInCategories(maximum, criteriaIDs,
-						status, StringUtils.isEmptyOrNull(cat_keys) ? null
+						status, q, username, StringUtils.isEmptyOrNull(cat_keys) ? null
 								: cat_keys.split(","));
 		JsonObject jsonReturn = new JsonObject();
 

@@ -23,7 +23,7 @@ public class Notification {
 
 	@Persistent
 	private boolean isNew;
-
+ 
 	@Persistent
 	@Exclude 
 	private String username; 

@@ -14,7 +14,7 @@ import vnfoss2010.smartshop.serverside.utils.SearchCapable;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
-public class Page implements SearchCapable{
+public class Page extends SearchCapable{
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
@@ -26,8 +26,8 @@ public class Page implements SearchCapable{
 	private String content;
 
 	@Persistent
-	private String link_thumbnail;
-
+	private String link_thumbnail; 
+ 
 	@Persistent
 	private int page_view;
 
@@ -46,6 +46,7 @@ public class Page implements SearchCapable{
 
 	@Persistent
 	private Set<String> setCategoryKeys;
+	
 	@Persistent
 	private Set<Long> setProductIDs;
 
@@ -271,5 +272,10 @@ public class Page implements SearchCapable{
 	 */
 	public Set<String> getFts() {
 		return fts;
+	}
+	
+	@Override
+	public String getTokenString() {
+		return getName() + " " + getContent();
 	}
 }

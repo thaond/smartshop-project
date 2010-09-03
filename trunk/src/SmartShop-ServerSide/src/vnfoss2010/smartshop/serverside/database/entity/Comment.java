@@ -18,12 +18,13 @@ public class Comment {
 
 	@Persistent
 	private String type; 
-
+ 
 	@Persistent
 	private long type_id; 
 
 	@Persistent
 	private String username;
+	
 	@Persistent
 	private Date date_post; 
 

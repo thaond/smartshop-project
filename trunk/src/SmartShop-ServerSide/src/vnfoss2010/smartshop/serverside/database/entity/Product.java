@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
-public class Product implements LocationCapable, SearchCapable { 
+public class Product extends SearchCapable implements LocationCapable{ 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;  
@@ -30,7 +30,7 @@ public class Product implements LocationCapable, SearchCapable {
 
 	@Persistent
 	private double price;
-
+ 
 	@Persistent
 	private boolean is_vat;
 
@@ -82,7 +82,7 @@ public class Product implements LocationCapable, SearchCapable {
 	private List<Attribute> attributeSets;
 
 	@Exclude
-	@Persistent
+	@Persistent 
 	private List<String> geocells;
 
 	public Set<Long> getSetPagesID() {
@@ -398,18 +398,6 @@ public class Product implements LocationCapable, SearchCapable {
 		return date_post;
 	}
 
-	public static void main(String[] args) {
-		Product product = new Product();
-		product = new Product("Nec Monitor", 123, false, 2, "12 month",
-				"China", "Binh Tan", 10.11, 106.123, "Man hình rất xịn" , 3, "tamvo");
-
-		product.getSetCategoryKeys().add("comp");
-
-		Gson gson = new Gson();
-		String json = gson.toJson(product);
-		System.out.println(json);
-	}
-
 	/**
 	 * @param fts 
 	 *            the fts to set
@@ -473,4 +461,22 @@ public class Product implements LocationCapable, SearchCapable {
 	public List<String> getListBuyers() {
 		return listBuyers;
 	}
+	
+	@Override
+	public String getTokenString() {
+		return getName() + " " + getAddress();
+	}
+	
+	public static void main(String[] args) {
+		Product product = new Product();
+		product = new Product("Nec Monitor", 123, false, 2, "12 month",
+				"China", "Binh Tan", 10.11, 106.123, "Man hình rất xịn" , 3, "tamvo");
+
+		product.getSetCategoryKeys().add("comp");
+
+		Gson gson = new Gson();
+		String json = gson.toJson(product);
+		System.out.println(json);
+	}
+
 }

@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
 
 public abstract class Global {
 	public static String HOST_NAME = "http://localhost:8888";
@@ -44,6 +45,7 @@ public abstract class Global {
 	public static final Gson gsonWithDate = new GsonBuilder().setDateFormat(
 			NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
 			.create();
+	public static final JsonParser jsonParser = new JsonParser();
 	
 	private static Logger log = Logger.getLogger(Global.class.getName());
 

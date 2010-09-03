@@ -18,12 +18,12 @@ public class Category {
 	@Persistent 
 	private String name;
 	
-	@Persistent
+	@Persistent 
 	private String parent_id;  
 
 	@Exclude
 	@Persistent 
-	private List<Long> listPages; 
+	private List<Long> listPages;  
 	
 	@Exclude
 	@Persistent
