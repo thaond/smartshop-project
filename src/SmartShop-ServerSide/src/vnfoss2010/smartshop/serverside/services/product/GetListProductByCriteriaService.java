@@ -59,7 +59,20 @@ public class GetListProductByCriteriaService extends BaseRestfulService {
 			criteriaIDs[i] = Integer.parseInt(arr[i].trim());
 		}
 		
-		ServiceResult<List<Product>> result  = dbProduct.getListProductByCriteriaInCategories(maximum, criteriaIDs, status);
+		String username = null;
+		try {
+			username = getParameter("username", params, json);
+		} catch (Exception e) {
+		}
+		
+		//Query
+		String q = null;
+		try {
+			q = getParameter("q", params, json);
+		} catch (Exception e) {
+		}
+		
+		ServiceResult<List<Product>> result  = dbProduct.getListProductByCriteriaInCategories(maximum, criteriaIDs, status , q, username);
 		JsonObject jsonReturn = new JsonObject();
 		
 		jsonReturn.addProperty("errCode", result.isOK() ? 0 : 1);

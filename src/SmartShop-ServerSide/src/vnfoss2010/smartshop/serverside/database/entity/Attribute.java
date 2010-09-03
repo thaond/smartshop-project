@@ -18,10 +18,10 @@ public class Attribute {
 
 	@Persistent
 	private String name;  
-
+ 
 	@Persistent
 	private String value; 
-
+ 
 	@Persistent
 	private String username;
 	

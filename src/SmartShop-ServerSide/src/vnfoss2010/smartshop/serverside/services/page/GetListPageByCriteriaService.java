@@ -61,9 +61,15 @@ public class GetListPageByCriteriaService extends BaseRestfulService {
 		String cat_keys = getParameter("cat_keys", params, json);
 
 		Global.log(log, "Cat keys : " + cat_keys);
+		
+		String username = null;
+		try {
+			username = getParameter("username", params, json);
+		} catch (Exception e) {
+		}
 
 		ServiceResult<List<Page>> result = dbProduct.getListPageByCriteria(
-				maximum, criteriaIDs,
+				maximum, criteriaIDs,username,
 				StringUtils.isEmptyOrNull(cat_keys) ? null : cat_keys
 						.split(","));
 		JsonObject jsonReturn = new JsonObject();

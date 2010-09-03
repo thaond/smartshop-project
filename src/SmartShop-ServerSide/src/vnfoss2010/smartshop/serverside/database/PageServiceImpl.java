@@ -1,9 +1,8 @@
 package vnfoss2010.smartshop.serverside.database;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOObjectNotFoundException;
@@ -16,10 +15,7 @@ import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
-import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
-
-import com.google.appengine.api.datastore.DatastoreNeedIndexException;
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
+import vnfoss2010.smartshop.serverside.utils.StringUtils;
 
 public class PageServiceImpl {
 	private static PageServiceImpl instance;
@@ -60,7 +56,8 @@ public class PageServiceImpl {
 	}
 
 	public ServiceResult<Long> insertPage(Page page) {
-		updateFTSStuffForPage(page);
+		// updateFTSStuffForPage(page);
+		page.updateFTS();
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
@@ -181,64 +178,20 @@ public class PageServiceImpl {
 
 	public ServiceResult<List<Page>> searchPageLike(String queryString) {
 		queryString = DatabaseUtils.preventSQLInjection(queryString);
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		StringBuffer queryBuffer = new StringBuffer();
-		queryBuffer.append("SELECT FROM " + Page.class.getName() + " WHERE ");
-		Set<String> queryTokens = SearchJanitorUtils
-				.getTokensForIndexingOrQuery(queryString,
-						Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
-		List<String> parametersForSearch = new ArrayList<String>(queryTokens);
-		StringBuffer declareParametersBuffer = new StringBuffer();
-		int parameterCounter = 0;
-
-		while (parameterCounter < queryTokens.size()) {
-			queryBuffer.append("fts == param" + parameterCounter);
-			declareParametersBuffer.append("String param" + parameterCounter);
-
-			if (parameterCounter + 1 < queryTokens.size()) {
-				queryBuffer.append(" && ");
-				declareParametersBuffer.append(", ");
-			}
-			parameterCounter++;
-		}
-
-		Query query = pm.newQuery(queryBuffer.toString());
-		query.declareParameters(declareParametersBuffer.toString());
 
 		List<Page> listPages = null;
 		ServiceResult<List<Page>> result = new ServiceResult<List<Page>>();
 
-		try {
-			listPages = (List<Page>) query.executeWithArray(parametersForSearch
-					.toArray());
-
-			// TODO return basic information
-			if (listPages.size() > 0) {
-				result.setResult(listPages);
-				result.setOK(true);
-				result.setMessage(Global.messages
-						.getString("search_page_by_query_successfully"));
-			} else {
-				result.setOK(false);
-				result.setMessage(Global.messages
-						.getString("search_page_by_query_fail"));
-			}
-		} catch (DatastoreTimeoutException e) {
-			log.severe(e.getMessage());
-			log.severe("datastore timeout at: " + queryString);// +
+		listPages = DatabaseUtils.searchByQuery(queryString, Page.class);
+		if (listPages.size() > 0) {
+			result.setResult(listPages);
+			result.setOK(true);
+			result.setMessage(Global.messages
+					.getString("search_page_by_query_successfully"));
+		} else {
 			result.setOK(false);
-			result.setMessage(Global.messages.getString("have_problem"));
-			// " - timestamp: "
-			// +
-			// discreteTimestamp);
-		} catch (DatastoreNeedIndexException e) {
-			log.severe(e.getMessage());
-			log.severe("datastore need index exception at: " + queryString);// +
-			result.setOK(false);
-			result.setMessage(Global.messages.getString("have_problem"));
-			// " - timestamp: "
-			// +
-			// discreteTimestamp);
+			result.setMessage(Global.messages
+					.getString("search_page_by_query_fail"));
 		}
 
 		return result;
@@ -246,7 +199,7 @@ public class PageServiceImpl {
 
 	@SuppressWarnings("unchecked")
 	public ServiceResult<List<Page>> getListPageByCriteria(int maximum,
-			int[] criterias, String... cat_keys) {
+			int[] criterias, String username, String... cat_keys) {
 		ServiceResult<List<Page>> result = new ServiceResult<List<Page>>();
 
 		String query = "";
@@ -294,13 +247,38 @@ public class PageServiceImpl {
 
 		Query queryObj = pm.newQuery(query);
 		queryObj.setFilter("setCategoryKeys.contains(catKey)");
-		queryObj.declareParameters("String catKey");
 
 		List<Page> listPages = null;
-		if (cat_keys != null) {
-			listPages = (List<Page>) queryObj.execute(Arrays.asList(cat_keys));
+		if (!StringUtils.isEmptyOrNull(username)) {
+			if (cat_keys != null) {
+				queryObj.setFilter("setCategoryKeys.contains(catKey)");
+				queryObj.setFilter("username==us");
+				queryObj.declareParameters("String catKey, String us");
+
+				log.log(Level.SEVERE, Arrays.toString(cat_keys) + "");
+				listPages = (List<Page>) queryObj.execute(Arrays
+						.asList(cat_keys), username);
+			} else {
+				queryObj.setFilter("username==us");
+				queryObj.declareParameters("String us");
+				listPages = (List<Page>) queryObj.execute(username);
+			}
 		} else {
-			listPages = (List<Page>) pm.newQuery(query).execute();
+			// Duplicate
+			if (cat_keys != null) {
+				queryObj.setFilter("setCategoryKeys.contains(catKey)");
+				queryObj.declareParameters("String catKey");
+				log.log(Level.SEVERE, Arrays.toString(cat_keys) + "");
+				listPages = (List<Page>) queryObj.execute(Arrays
+						.asList(cat_keys));
+			} else {
+				log.log(Level.SEVERE, "query = " + query);
+				// Fix bug: The first sort property must be the same as the
+				// property to which the inequality filter is applied
+				// query = query.replace("order by ",
+				// "order by quantity desc ");
+				listPages = (List<Page>) queryObj.execute();
+			}
 		}
 
 		if (listPages.size() > 0) {
@@ -369,22 +347,6 @@ public class PageServiceImpl {
 	public static void preventSQLInjPage(Page page) {
 		page.setName(DatabaseUtils.preventSQLInjection(page.getName()));
 		page.setContent(DatabaseUtils.preventSQLInjection(page.getContent()));
-	}
-
-	public static void updateFTSStuffForPage(Page page) {
-		StringBuffer sb = new StringBuffer();
-		sb.append(page.getName() + " " + page.getContent());
-
-		Set<String> new_ftsTokens = SearchJanitorUtils
-				.getTokensForIndexingOrQuery(sb.toString(),
-						Global.MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX);
-
-		Set<String> ftsTokens = page.getFts();
-		ftsTokens.clear();
-
-		for (String token : new_ftsTokens) {
-			ftsTokens.add(token);
-		}
 	}
 
 	public static PageServiceImpl getInstance() {
