@@ -13,6 +13,8 @@ import vnfoss2010.smartshop.serverside.database.PMF;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+import vnfoss2010.smartshop.serverside.utils.StringUtils;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 import com.beoui.geocell.GeocellManager;
 import com.beoui.geocell.model.GeocellQuery;
@@ -51,6 +53,8 @@ public class SearchProductPromixity extends BaseRestfulService {
 		}
 
 		String q = getParameter("q", params, json);
+		if (!StringUtils.isEmptyOrNull(q))
+			q = UtilsFunction.removeViSign(q);
 
 		log.log(Level.SEVERE, "Query: " + q);
 

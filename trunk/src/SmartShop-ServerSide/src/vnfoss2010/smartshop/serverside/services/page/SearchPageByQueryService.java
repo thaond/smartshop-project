@@ -8,6 +8,7 @@ import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
@@ -33,7 +34,8 @@ public class SearchPageByQueryService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 		
-		String query = getParameter("q", params, json);
+		String query = getParameterWithThrow("q", params, json);
+		query = UtilsFunction.removeViSign(query);
 
 		JsonObject jsonReturn = new JsonObject();
 		Gson gson = new Gson();
