@@ -6,7 +6,6 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,8 +32,9 @@ import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
 
-public class PostProductActivityBasicAttribute extends Activity {
+public class ProductBasicAttributeActivity extends MapActivity {
 	public static final String TAG = "[PostProductActivityBasicAttribute]";
 	
 	public static final int PICK_CATEGORIES = 0;
@@ -59,7 +59,6 @@ public class PostProductActivityBasicAttribute extends Activity {
 
 	public ProductInfo productInfo = new ProductInfo();;
 	private CheckBox chVat;
-	private EditText txtDescription;
 	private double lat, lng;
 
 	@Override
@@ -145,7 +144,7 @@ public class PostProductActivityBasicAttribute extends Activity {
 	private void postNewProduct() {
 		// setup product info
 		productInfo.datePost = new Date();
-		productInfo.description = txtDescription.getText().toString();
+		productInfo.description = txtDescriptionOfProduct.getText().toString();
 		productInfo.isVAT = chVat.isChecked();
 		productInfo.lat = lat;
 		productInfo.lng = lng;
@@ -159,7 +158,11 @@ public class PostProductActivityBasicAttribute extends Activity {
 		productInfo.lng = lng;
 		productInfo.datePost = new Date();
 		productInfo.description = txtDescriptionOfProduct.getText().toString();
+		productInfo.username = Global.username;
+		productInfo.warranty = txtWarrantyOfProduct.getText().toString();
+		productInfo.address = txtAddressOfProduct.getText().toString();
 		// TODO attribute of categories
+		productInfo.setAttributes = ProductUserDefinedAttributeActivity.setAttributes;
 		
 		// post new product
 		task = new SimpleAsyncTask(this, new DataLoader() {
@@ -171,6 +174,7 @@ public class PostProductActivityBasicAttribute extends Activity {
 			@Override
 			public void loadData() {
 				String param = Global.gsonWithHour.toJson(productInfo);
+				Log.d(TAG, param);
 				
 				RestClient.postData(URLConstant.POST_PRODUCT, param, new JSONParser() {
 					
@@ -214,5 +218,10 @@ public class PostProductActivityBasicAttribute extends Activity {
 						Log.d(TAG, "product location = " + lat + ", " + lng);
 					}
 				}).show();
+	}
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		return false;
 	}
 }

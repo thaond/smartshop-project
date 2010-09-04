@@ -18,6 +18,7 @@ public class LocationOverlay extends Overlay {
 	
 	@Override
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+		System.out.println("draw");
 		super.draw(canvas, mapView, shadow);
 		
 		if (point == null) {

@@ -17,10 +17,10 @@ public class PostProductActivity extends TabActivity {
 		// basicIntent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
 		tabHost.addTab(tabHost.newTabSpec("Basic").setIndicator(
 				"Thông tin cơ bản").setContent(
-				new Intent(this, PostProductActivityBasicAttribute.class)));
+				new Intent(this, ProductBasicAttributeActivity.class)));
 		tabHost.addTab(tabHost.newTabSpec("Advance").setIndicator(
 				"Thông tin chi tiết").setContent(
-				new Intent(this, PostProductActivityUserDefine.class)));
+				new Intent(this, ProductUserDefinedAttributeActivity.class)));
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
 		}

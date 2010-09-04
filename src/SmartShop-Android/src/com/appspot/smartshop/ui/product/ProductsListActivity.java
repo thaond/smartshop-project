@@ -1,8 +1,6 @@
 package com.appspot.smartshop.ui.product;
 
-import java.lang.reflect.Type;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -30,7 +28,6 @@ import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 import com.google.android.maps.MapActivity;
-import com.google.gson.reflect.TypeToken;
 
 public class ProductsListActivity extends MapActivity {
 	public static final String TAG = "[ProductsListActivity]";
@@ -42,8 +39,6 @@ public class ProductsListActivity extends MapActivity {
 	private CheckBox chMostUpdate, chCheapest, chMostView;
 	private ListView listView;
 	private ProductAdapter productAdapter;
-	
-	private int productsMode = NEWEST_PRODUCTS;
 	
 	private LinkedList<ProductInfo> products;
 	private EditText txtSearch;
@@ -93,98 +88,42 @@ public class ProductsListActivity extends MapActivity {
 		listView = (ListView) findViewById(R.id.listViewProductAfterSearch);
 		productAdapter = new ProductAdapter(this, R.layout.product_list_item,
 				new LinkedList<ProductInfo>());
-		loadProductsList();
+		loadProductsList();	
 	}
 
-	protected void searchProductsByQuery(final String query) {
-		new SimpleAsyncTask(this, new DataLoader() {
-			
-			@Override
-			public void updateUI() {
-				productAdapter = new ProductAdapter(
-						ProductsListActivity.this, R.layout.product_list_item, products);
-				listView.setAdapter(productAdapter);
-			}
-			
-			@Override
-			public void loadData() {
-				String url = String.format(URLConstant.GET_PRODUCTS_BY_QUERY, query);
-				
-				RestClient.getData(url, new JSONParser() {
-					
-					@Override
-					public void onSuccess(JSONObject json) throws JSONException {
-						JSONArray arr = json.getJSONArray("products");
-						if (arr == null) {
-							task.hasData = false;
-							task.message = json.getString(URLConstant.MESSAGE);
-							return;
-						}
-						products = Global.gsonWithHour.fromJson(arr.toString(), ProductInfo.getType());
-						System.out.println(products);
-					}
-					
-					@Override
-					public void onFailure(String message) {
-						
-					}
-				});
-			}
-		}).execute();
+	protected void searchProductsByQuery(String query) {
+		url = String.format(URLConstant.GET_PRODUCTS_BY_QUERY, query);
+		loadData();
 	}
 
 	private SimpleAsyncTask task = null;
 	private String url;
 	protected void loadProductsList() {
-		task = new SimpleAsyncTask(this, new DataLoader() {
-			
-			@Override
-			public void updateUI() {
-				productAdapter = new ProductAdapter(
-						ProductsListActivity.this, R.layout.product_list_item, products);
-				listView.setAdapter(productAdapter);
-			}
-			
-			@Override
-			public void loadData() {
-				// determine what criteria is used to search products
-				String criteria = "";
-				if (chMostUpdate.isChecked()) {
-					criteria += "1,";
-				}
-				if (chCheapest.isChecked()) {
-					criteria += "2,";
-				}
-				if (chMostView.isChecked()) {
-					criteria += "4,";
-				}
-				
-				// construct url
-				url = null;
-				if (!criteria.equals("")) {
-					criteria = criteria.substring(0, criteria.length() - 1);
-					url = String.format(URLConstant.GET_PRODUCTS_BY_CRITERIA, criteria);
-				} else {
-					url = URLConstant.GET_PRODUCTS;
-				}
-				
-				RestClient.getData(url, new JSONParser() {
-					
-					@Override
-					public void onSuccess(JSONObject json) throws JSONException {
-						JSONArray arr = json.getJSONArray("products");
-						products = Global.gsonWithHour.fromJson(arr.toString(), ProductInfo.getType());
-						Log.d(TAG, "load " + products.size() + " products");
-					}
-					
-					@Override
-					public void onFailure(String message) {
-						task.cancel(true);
-					}
-				});
-			}
-		});
-		task.execute();
+		constructUrl();
+		loadData();
+	}
+
+	private void constructUrl() {
+		// determine what criteria is used to search products
+		String criteria = "";
+		if (chMostUpdate.isChecked()) {
+			criteria += "1,";
+		}
+		if (chCheapest.isChecked()) {
+			criteria += "2,";
+		}
+		if (chMostView.isChecked()) {
+			criteria += "4,";
+		}
+		
+		// construct url
+		url = null;
+		if (!criteria.equals("")) {
+			criteria = criteria.substring(0, criteria.length() - 1);
+			url = String.format(URLConstant.GET_PRODUCTS_BY_CRITERIA, criteria);
+		} else {
+			url = URLConstant.GET_PRODUCTS;
+		}
 	}
 	
 	public void searchByCategories(final Set<String> categories) {
@@ -192,6 +131,16 @@ public class ProductsListActivity extends MapActivity {
 			return;
 		}
 		
+		constructUrl();
+		url += "&cat_keys=";
+		for (String cat : categories) {
+			url += cat + ",";
+		}
+		
+		loadData();
+	}
+	
+	private void loadData() {
 		task = new SimpleAsyncTask(this, new DataLoader() {
 			
 			@Override
@@ -203,11 +152,6 @@ public class ProductsListActivity extends MapActivity {
 			
 			@Override
 			public void loadData() {
-				url += "&cat_keys=";
-				for (String cat : categories) {
-					url += cat + ",";
-				}
-				
 				RestClient.getData(url, new JSONParser() {
 					
 					@Override

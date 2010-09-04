@@ -47,7 +47,27 @@ public class TestActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		Global.application = this;
-		testGetCurrentLocation(); // TODO (condorhero01): place test function here
+		// TODO (condorhero01): place test function here
+		testGetCurrentLocation(); 
+	}
+	
+	void testSearchByLocation() {
+		String url = URLConstant.GET_PRODUCTS_BY_LOCATION;
+		String param = String.format("{lat:%f,lng:%f,distance:%d}", 10.777268, 106.6563, 100000);
+		
+		RestClient.postData(url, param, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				System.out.println(json.toString());
+				JSONArray arr = new JSONArray(json.toString());
+				System.out.println(arr.get(0));
+			}
+			
+			@Override
+			public void onFailure(String message) {
+			}
+		});
 	}
 	
 	void testHttpGet() {
@@ -57,10 +77,6 @@ public class TestActivity extends MapActivity {
 	
 	void testGetCurrentLocation() {
 		new MyLocationListener(this, new MyLocationCallback() {
-			
-			public void onGetCurrentLocation(GeoPoint point) {
-				Log.d(TAG, "current location is " + point);
-			}
 
 			@Override
 			public void onFailure() {
@@ -68,9 +84,8 @@ public class TestActivity extends MapActivity {
 
 			@Override
 			public void onSuccess(GeoPoint point) {
-				Log.d(TAG, "current location is " + point);
 			}
-		}).getCurrentLocation();
+		}).findCurrentLocation();
 	}
 	
 	void testMyLocation() {

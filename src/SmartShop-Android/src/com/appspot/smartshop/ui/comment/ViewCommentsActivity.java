@@ -59,6 +59,7 @@ public class ViewCommentsActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG, "view comment");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_comments);
 		
@@ -70,6 +71,9 @@ public class ViewCommentsActivity extends Activity {
 		
 		// add new comment
 		Button btnAddComment = (Button) findViewById(R.id.btnAddComment);
+		if (!Global.isLogin) {
+			btnAddComment.setVisibility(View.GONE);
+		}
 		btnAddComment.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -79,7 +83,7 @@ public class ViewCommentsActivity extends Activity {
 		});
 		
 		// list comments
-		adapter = new CommentAdapter(ViewCommentsActivity.this, 0, new LinkedList<Comment>());
+		adapter = new CommentAdapter(this, 0, new LinkedList<Comment>());
 		listComments = (ListView) findViewById(R.id.listComments);
 		
 		// load comments
@@ -163,7 +167,6 @@ public class ViewCommentsActivity extends Activity {
 			
 			@Override
 			public void updateUI() {
-				// TODO not show new comment when adapter.size() = 1
 				adapter.addNewComment(comment);
 				dialog.cancel();
 			}
@@ -177,12 +180,12 @@ public class ViewCommentsActivity extends Activity {
 				comment.type = type;
 				
 				String param = Global.gsonWithHour.toJson(comment);
-				Log.d(TAG, param);
 				
 				RestClient.postData(URLConstant.ADD_NEW_COMMENT, param, new JSONParser() {
 					
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
+						// TODO add comment fail
 					}
 					
 					@Override

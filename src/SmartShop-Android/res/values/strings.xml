@@ -44,6 +44,7 @@
 	<string name="lblUpdate">Cập nhật</string>
 	<string name="lblCancel">Thoát</string>
 	<string name="lblOk">OK</string>
+	<string name="errCannotFindCurrentLocation">Không tìm được vị trí hiện tại</string>
 
 	<!-- User login -->
 	<string name="lblLogin">Đăng nhập</string>
@@ -73,8 +74,11 @@
 	<string name="chooseCategory">Chọn danh mục cho sản phẩm</string>
 	<string name="select">Chọn</string>
 	<string name="tagOnMap">Đánh dấu trên bản đồ</string>
+	
 	<!-- View Product Form -->
 	<string name="userName">Username</string>
+	<string name="product_basic_info">Thông tin sản phẩm</string>
+	<string name="product_user_defined_info">Thông tin bổ sung</string>
 	
 	<!-- Dialog -->
 	<string name="btnShowDirectionOnMap">Xem trên bản đồ</string>
@@ -150,5 +154,9 @@
 	
 	<!-- Upload -->
 	<string name="cant_upload_image_try_again">Không thể upload hình ảnh. Bạn muốn thử lại không?</string>
+	
+	<!-- Post product's attribute -->
+	<string name="attr_name">Tên:</string>
+	<string name="attr_value">Giá trị:</string>
 	
 </resources>

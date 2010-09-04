@@ -39,31 +39,17 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.product.PostProductActivityBasicAttribute"
+		<activity android:name=".ui.product.ProductBasicAttributeActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="PostProductBasicAttribute"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.product.PostProductActivityUserDefine"
+		<activity android:name=".ui.product.ProductUserDefinedAttributeActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="PostProductUserDefine"></action>
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ui.product.SearchProductActivity"
-			android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="SearchProduct"></action>
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ui.product.SearchByCategoryActivity"
-			android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="SearchByCategory"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
@@ -94,21 +80,21 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.product.ViewSingleProduct"
+		<activity android:name=".ui.product.ViewProductActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="ViewSingle"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.product.ViewBasicAttributeOfProduct"
+		<activity android:name=".ui.product.ViewProductBasicAttributeActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="ViewBasicAttributeOfProduct"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.product.ViewAdvanceAttributeOfProduct"
+		<activity android:name=".ui.product.ViewProductUserDefinedAttributeActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="ViewAdvanceAttributeOfProduct"></action>
@@ -179,6 +165,15 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		
+		<activity android:name=".map.DirectionOnMapActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
 	</application>
 
 	<uses-sdk android:minSdkVersion="4" />

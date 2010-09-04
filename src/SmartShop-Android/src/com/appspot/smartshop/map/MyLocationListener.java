@@ -6,20 +6,23 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.appspot.smartshop.map.MyLocation.GetLastLocationTimer;
+import com.appspot.smartshop.utils.DataLoader;
+import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.google.android.maps.GeoPoint;
 
 public class MyLocationListener implements LocationListener {
 	public static final String TAG = "[MyLocationListener]";
-	private static final int NUM_OF_REQUEST = 10;
+	private static final int NUM_OF_REQUEST = 10;	// TODO num of request current location
 	
 	private Context context;
 	private MyLocationCallback callback;
 	public GeoPoint point;
 	private LocationManager locationManager;
-	private boolean requestLocation = false;
+	private boolean findingLocation = false;
 
 	public MyLocationListener(Context context, MyLocationCallback callback) {
 		this.context = context;
@@ -29,17 +32,24 @@ public class MyLocationListener implements LocationListener {
 		locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 	
-	public void getCurrentLocation() {
-		new Thread() {
-			public void run() {
-				requestLocation = true;
+	public void findCurrentLocation() {
+		
+		new SimpleAsyncTask("Find current location...", context, new DataLoader() {
+			
+			@Override
+			public void updateUI() {
+			}
+			
+			@Override
+			public void loadData() {
+				findingLocation = true;
 				Log.d(TAG, "start get current location info");
 				for (int i = 1; i <= NUM_OF_REQUEST; ++i) {
 					Log.d(TAG, "try get location " + i);
 					if (point != null) {
 						callback.onSuccess(point);
-						Log.d(TAG, "get current location success");
-						requestLocation = false;
+						Log.d(TAG, "get current location success " + point);
+						findingLocation = false;
 						return;
 					}
 					
@@ -48,30 +58,32 @@ public class MyLocationListener implements LocationListener {
 					} catch (InterruptedException e) {}
 				}
 				Log.d(TAG, "cannot find current location info");
-				Log.d(TAG, "find last location");
 				
+				Log.d(TAG, "find last location");
 				Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 				if (lastLocation != null) {
-					Log.d(TAG, "last location found");
-					callback.onSuccess(new GeoPoint(
+					GeoPoint point = new GeoPoint(
 							(int) (lastLocation.getLatitude() * 1E6), 
-							(int) (lastLocation.getLongitude() * 1E6)));
+							(int) (lastLocation.getLongitude() * 1E6));
+					Log.d(TAG, "last location found " + point);
+					callback.onSuccess(point);
 				} else {
 					Log.d(TAG, "cannot find last location");
 					callback.onFailure();
 				}
-				requestLocation = false;
-			};
-		}.start();
+				findingLocation = false;
+			}
+		}).execute();
 	}
 	
 	@Override
 	public void onLocationChanged(Location loc) {
 		Log.d(TAG, "onLocationChanged");
 		point = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc.getLongitude() * 1E6));
-		if (callback != null && !requestLocation) {
-			callback.onSuccess(point);
-		}
+//		if (callback != null && !findingLocation) {
+//			callback.onSuccess(point);
+//		}
+		callback.onSuccess(point);
 	}
 
 	@Override

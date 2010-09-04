@@ -25,6 +25,7 @@ public class DirectionOverlay extends Overlay {
 
 	@Override
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+		System.out.println("direction overlay draw");
 		super.draw(canvas, mapView, shadow);
 		
 		if (paint == null) {

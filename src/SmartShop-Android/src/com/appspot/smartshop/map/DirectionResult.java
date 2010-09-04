@@ -1,5 +1,7 @@
 package com.appspot.smartshop.map;
 
+import java.io.Serializable;
+
 import com.google.android.maps.GeoPoint;
 
 public class DirectionResult {

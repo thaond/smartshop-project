@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.MapDialog;
-import com.appspot.smartshop.ui.product.ViewSingleProduct;
+import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
@@ -101,7 +101,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(context, ViewSingleProduct.class);
+				Intent intent = new Intent(context, ViewProductActivity.class);
 				intent.putExtra(Global.PRODUCT_INFO, productInfo);
 
 				context.startActivity(intent);

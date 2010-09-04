@@ -14,20 +14,27 @@ import android.view.MotionEvent;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.ui.product.ViewSingleProduct;
+import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.utils.Global;
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 public class ProductsOverlay extends Overlay{
 	public static final float NO_RADIUS = 0.0f;
+	public static final float LATITUDE_TO_METER = 111200F;
+	public static final float LONGTITUDE_TO_METER = 71470F;
+	
+	private static final Bitmap STAR_ICON = BitmapFactory.decodeResource(
+			Global.application.getResources(), R.drawable.star);
 	
 	public LinkedList<ProductInfo> products;
 	public GeoPoint center;
-	public float radius = NO_RADIUS;
 	private Paint paint;
 	private Context context;
+
+	private MapController mapController;
 	
 	public ProductsOverlay(Context context) {
 		this.context = context;
@@ -36,10 +43,11 @@ public class ProductsOverlay extends Overlay{
 	@Override
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		super.draw(canvas, mapView, shadow);
+		System.out.println("map draw");
 		
 		if (paint == null) {
 			paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-			paint.setStrokeWidth(5.0f);
+			paint.setStrokeWidth(4.0f);
 		}
 		
 		// center of map
@@ -51,14 +59,6 @@ public class ProductsOverlay extends Overlay{
 			canvas.drawBitmap(bmp, centerScreen.x, centerScreen.y, null);
 		}
 		
-		// draw radius
-		if (radius != NO_RADIUS) {
-			// TODO (condorhero01): calculate radius based on screen width and screen height
-			paint.setColor(Color.parseColor("#ffcccc"));
-			float screenRadius = mapView.getProjection().metersToEquatorPixels(radius);
-			canvas.drawCircle(centerScreen.x, centerScreen.y, screenRadius, paint);
-		}
-		
 		// found products
 		paint.setColor(Color.BLUE);
 		for (ProductInfo productInfo : products) {
@@ -66,7 +66,8 @@ public class ProductsOverlay extends Overlay{
 			mapView.getProjection().toPixels(
 					new GeoPoint((int) (productInfo.lat * 1E6), (int) (productInfo.lng  * 1E6)), screenPoint);
 			
-			canvas.drawPoint(screenPoint.x, screenPoint.y, paint);
+//			canvas.drawPoint(screenPoint.x, screenPoint.y, paint);
+			canvas.drawBitmap(STAR_ICON, screenPoint.x, screenPoint.y, null);
 		}
 	}
 	
@@ -74,18 +75,24 @@ public class ProductsOverlay extends Overlay{
 	public boolean onTouchEvent(MotionEvent e, MapView mapView) {
 		if (e.getAction() == MotionEvent.ACTION_DOWN) {
 			GeoPoint touchPoint = mapView.getProjection().fromPixels((int) e.getX(), (int) e.getY());
+			double minDistance = Double.MAX_VALUE;
+			int index = 0;
+			int touchIndex = 0;
 			for (ProductInfo productInfo : products) {
 				double distance = 
 					Math.sqrt(Math.pow(touchPoint.getLatitudeE6() - productInfo.lat * 1E6, 2) 
 						+ Math.pow(touchPoint.getLongitudeE6() - productInfo.lng * 1E6, 2));
-				if (distance < 1000) {
-					Intent intent = new Intent(context, ViewSingleProduct.class);
-					intent.putExtra(Global.PRODUCT_INFO, productInfo);
-					
-					context.startActivity(intent);
-					break;
+				if (distance < minDistance) {
+					minDistance = distance;
+					touchIndex = index;
 				}
+				
+				index++;
 			}
+			
+			Intent intent = new Intent(context, ViewProductActivity.class);
+			intent.putExtra(Global.PRODUCT_INFO, products.get(touchIndex));
+			context.startActivity(intent);
 			
 			return true;
 		}
