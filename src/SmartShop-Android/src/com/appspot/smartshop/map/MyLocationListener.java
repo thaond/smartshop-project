@@ -32,9 +32,10 @@ public class MyLocationListener implements LocationListener {
 		locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 	
+	private SimpleAsyncTask task;
 	public void findCurrentLocation() {
 		
-		new SimpleAsyncTask(Global.application.getString(R.string.finding_your_current_location), 
+		task = new SimpleAsyncTask(Global.application.getString(R.string.finding_your_current_location), 
 				context, new DataLoader() {
 			
 			@Override
@@ -70,11 +71,13 @@ public class MyLocationListener implements LocationListener {
 					callback.onSuccess(point);
 				} else {
 					Log.d(TAG, "cannot find last location");
-					callback.onFailure();
+					task.hasData = false;
+					task.message = context.getString(R.string.errCannotFindCurrentLocation);
 				}
 				findingLocation = false;
 			}
-		}).execute();
+		});
+		task.execute();
 	}
 	
 	@Override
@@ -101,10 +104,5 @@ public class MyLocationListener implements LocationListener {
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-	}
-
-	public interface MyLocationCallback {
-		void onSuccess(GeoPoint point);
-		void onFailure();
 	}
 }
