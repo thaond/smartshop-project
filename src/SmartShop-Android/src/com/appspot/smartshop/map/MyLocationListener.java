@@ -6,11 +6,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.appspot.smartshop.map.MyLocation.GetLastLocationTimer;
+import com.appspot.smartshop.R;
 import com.appspot.smartshop.utils.DataLoader;
+import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.google.android.maps.GeoPoint;
 
@@ -34,7 +34,8 @@ public class MyLocationListener implements LocationListener {
 	
 	public void findCurrentLocation() {
 		
-		new SimpleAsyncTask("Find current location...", context, new DataLoader() {
+		new SimpleAsyncTask(Global.application.getString(R.string.finding_your_current_location), 
+				context, new DataLoader() {
 			
 			@Override
 			public void updateUI() {

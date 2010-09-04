@@ -50,6 +50,7 @@ import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 import com.appspot.smartshop.utils.capture.ImageCaptureActivity;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -131,9 +132,7 @@ public class UserActivity extends MapActivity {
 		setContentView(R.layout.user);
 
 		// label width
-		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE))
-				.getDefaultDisplay();
-		int width = display.getWidth();
+		int width = Utils.getScreenWidth();
 		int labelWidth = (int) (width * 0.4);
 		int textWidth = width - labelWidth;
 
@@ -197,6 +196,7 @@ public class UserActivity extends MapActivity {
 			mode = EDIT_USER_PROFILE;
 			userInfo = (UserInfo) bundle.get(Global.USER_INFO);
 
+			// fill user info to form
 			txtUsername.setText(userInfo.username);
 			txtPassword.setText(userInfo.password);
 			txtConfirm.setText(userInfo.password);
@@ -248,6 +248,7 @@ public class UserActivity extends MapActivity {
 						DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface arg0, int arg1) {
+								// TODO AndroidFileBrowser activity
 								Intent intent = new Intent(UserActivity.this,
 										AndroidFileBrowser.class);
 								intent
@@ -610,34 +611,34 @@ public class UserActivity extends MapActivity {
 			break;
 		}
 
-		Log.d(TAG, Global.gsonDateWithoutHour.toJson(userInfo));
+//		Log.d(TAG, Global.gsonDateWithoutHour.toJson(userInfo));
 		RestClient.postData(URLConstant.REGISTER, Global.gsonDateWithoutHour
 				.toJson(userInfo), new JSONParser() {
 
 			@Override
 			public void onFailure(String message) {
-				Log.e(TAG, message);
+//				Log.e(TAG, message);
 			}
 
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
-				int errCode = json.getInt("errCode");
-				String message = json.getString("message");
-				switch (errCode) {
-				case Global.SUCCESS:
-					Toast.makeText(UserActivity.this, message,
-							Toast.LENGTH_SHORT).show();
-					Global.intent.setAction(Global.LOGIN_ACTIVITY);
-					startActivity(Global.intent);
-
-					break;
-
-				default:
-					Toast.makeText(UserActivity.this, message,
-							Toast.LENGTH_SHORT).show();
-					Global.isLogin = false;
-					break;
-				}
+//				int errCode = json.getInt("errCode");
+//				String message = json.getString("message");
+//				switch (errCode) {
+//				case Global.SUCCESS:
+//					Toast.makeText(UserActivity.this, message,
+//							Toast.LENGTH_SHORT).show();
+//					Global.intent.setAction(Global.LOGIN_ACTIVITY);
+//					startActivity(Global.intent);
+//
+//					break;
+//
+//				default:
+//					Toast.makeText(UserActivity.this, message,
+//							Toast.LENGTH_SHORT).show();
+//					Global.isLogin = false;
+//					break;
+//				}
 			}
 		});
 	}

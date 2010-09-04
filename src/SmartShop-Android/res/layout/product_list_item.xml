@@ -15,11 +15,10 @@
 			android:layout_height="wrap_content" android:orientation="horizontal">
 			<TextView android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:id="@+id/txtProductPrice"
-				android:text="Price" android:paddingRight="100px"/>
+				android:text="Price" android:paddingRight="100px" />
 			<TextView android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:id="@+id/txtDatePost"
-				android:text="@string/datePost"/>
-				
+	android:layout_height="wrap_content" android:id="@+id/txtDatePost" />
+
 		</LinearLayout>
 
 		<TextView android:layout_width="fill_parent"

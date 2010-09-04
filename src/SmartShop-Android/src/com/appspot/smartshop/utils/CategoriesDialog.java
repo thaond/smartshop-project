@@ -86,7 +86,6 @@ public class CategoriesDialog {
 				dialog = dialogBuilder.create(); 
 				
 				dialog.show();
-				Log.d("Test", "after show");
 			}
 			
 			@Override
@@ -120,6 +119,8 @@ public class CategoriesDialog {
 			
 			@Override
 			public void onFailure(String message) {
+				task.hasData = false;
+				task.message = message;
 				task.cancel(true);
 			}
 		});

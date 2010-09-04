@@ -108,6 +108,8 @@ public class SearchProductsOnMapActivity extends MapActivity {
 			
 			@Override
 			public void onFailure() {
+				Toast.makeText(SearchProductsOnMapActivity.this, 
+						getString(R.string.errCannotFindCurrentLocation), Toast.LENGTH_SHORT).show();
 			}
 		}).findCurrentLocation();
 		
@@ -161,6 +163,11 @@ public class SearchProductsOnMapActivity extends MapActivity {
 						JSONArray arr = json.getJSONArray("products");
 						productsOverlay.products = Global.gsonWithHour.fromJson(arr.toString(), ProductInfo.getType());
 						Log.d(TAG, "found " + arr.length() + " product(s)");
+						if (productsOverlay.products.size() == 0) {
+							task.hasData = false;
+							task.message = getString(R.string.warnNoProductFound);
+							return;
+						}
 						
 						mapController.animateTo(productsOverlay.center);
 						int spanLat = (int) (2 * (radius / LATITUDE_TO_METER) * 1E6);

@@ -135,19 +135,20 @@ public class PageActivity extends Activity {
 				page.name = txtName.getText().toString();
 				page.date_post = new Date();
 				page.username = Global.username;
+				page.page_view++;
 				
 				String param = Global.gsonWithHour.toJson(page);
-				Log.d(TAG, param);
 				
 				RestClient.postData(url, param, new JSONParser() {
 					
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
-						Log.d(TAG, json.toString());
 					}
 					
 					@Override
 					public void onFailure(String message) {
+						task.hasData = false;
+						task.message = message;
 						task.cancel(true);
 					}
 				});

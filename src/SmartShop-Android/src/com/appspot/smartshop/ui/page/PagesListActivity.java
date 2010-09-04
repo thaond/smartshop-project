@@ -103,7 +103,8 @@ public class PagesListActivity extends Activity {
 			loadPagesList();
 		} else {
 			Log.d(TAG, "query = " + query);
-			url = String.format(URLConstant.GET_PAGES_BY_QUERY, query);
+			constructUrl();
+			url += "&query=" + query;
 			loadData();
 		}
 	}
@@ -155,7 +156,8 @@ public class PagesListActivity extends Activity {
 		}
 		
 		if (type == PAGES_OF_USER) {
-			url = String.format(URLConstant.GET_PAGES_OF_USER, username);
+			url += "&user" + username;
+//			url = String.format(URLConstant.GET_PAGES_OF_USER, username);
 		}
 	}
 	
@@ -175,12 +177,14 @@ public class PagesListActivity extends Activity {
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
 						JSONArray arr = json.getJSONArray("pages");
-						pages = Utils.gson.fromJson(arr.toString(), Page.getType());
+						pages = Global.gsonWithHour.fromJson(arr.toString(), Page.getType());
 						Log.d(TAG, "load " + pages.size() + " pages");
 					}
 					
 					@Override
 					public void onFailure(String message) {
+						task.hasData = false;
+						task.message = message;
 						task.cancel(true);
 					}
 				});

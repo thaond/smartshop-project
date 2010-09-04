@@ -15,6 +15,8 @@ public class ViewProductActivity extends TabActivity {
 	public static final String PRODUCT_BASIC_INFO = "basic";
 	public static final String PRODUCT_USER_DEFINED_INFO = "user_defined";
 	
+	protected static Boolean canEditProductInfo = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "view product");
@@ -22,7 +24,9 @@ public class ViewProductActivity extends TabActivity {
 		final TabHost tabHost = getTabHost();
 		
 		// get product info from intent
-		ProductInfo productInfo = (ProductInfo) getIntent().getExtras().get(Global.PRODUCT_INFO);
+		Bundle bundle = getIntent().getExtras();
+		ProductInfo productInfo = (ProductInfo) bundle.get(Global.PRODUCT_INFO);
+		canEditProductInfo = bundle.getBoolean(Global.CAN_EDIT_PRODUCT_INFO);
 		Log.d(TAG, Global.gsonWithHour.toJson(productInfo));
 		
 		// two tabs
@@ -32,7 +36,7 @@ public class ViewProductActivity extends TabActivity {
 				getString(R.string.product_basic_info)).setContent(intent));
 		
 		intent = new Intent(this, ViewProductUserDefinedAttributeActivity.class);
-		ViewProductUserDefinedAttributeActivity.setAttributes = productInfo.setAttributes;
+		ViewProductUserDefinedAttributeActivity.setAttributes = productInfo.attributeSets;
 		Log.d(TAG, "attribute set = " + ViewProductUserDefinedAttributeActivity.setAttributes);
 		tabHost.addTab(tabHost.newTabSpec(PRODUCT_USER_DEFINED_INFO).setIndicator(
 				getString(R.string.product_user_defined_info)).setContent(intent));

@@ -96,6 +96,64 @@ public class MapDialog {
 		return dialog;
 	}
 	
+	public static AlertDialog createProductLocationDialog(String address, Context context, 
+			GeoPoint point) {
+		// setup view
+		if (inflater == null) {
+			inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+		if (view == null) {
+			view = inflater.inflate(R.layout.map_dialog, null);
+			mapView = (MapView) view.findViewById(R.id.mapview);
+		}
+		
+		// setting for map view
+		mapView = (MapView) view.findViewById(R.id.mapview);
+
+		// overlay
+		List<Overlay> listOfOverlays = mapView.getOverlays();
+		listOfOverlays.clear();
+		locationOverlay = new LocationOverlay();
+		locationOverlay.point = point;
+		locationOverlay.clickable = false;
+		listOfOverlays.add(locationOverlay);
+		
+		// controller
+		mapController = mapView.getController();
+		if (point != null) {
+			mapController.setCenter(point);
+		}
+		mapController.setZoom(17);
+
+		// redraw the whole view
+		mapView.invalidate();
+		
+		// dialog title
+		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
+		txtTitle.setText(address);
+		
+		// listener 
+		Button btnOk = (Button) view.findViewById(R.id.btnOk);
+		btnOk.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dialog.cancel();
+			}
+		});
+
+		// create dialog
+		dialogBuilder = new AlertDialog.Builder(context);
+		ViewGroup parent = ((ViewGroup) view.getParent());
+		if (parent != null) {
+			parent.removeView(view);
+		}
+		dialogBuilder.setView(view);
+		
+		dialog = dialogBuilder.create(); 
+		return dialog;
+	}
+	
 	public static AlertDialog createDirectionOnMapDialog(final Activity activity, 
 			DirectionResult directionResult) {
 		

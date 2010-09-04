@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.Page;
+import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.utils.Global;
 
@@ -66,9 +67,14 @@ public class PageAdapter extends ArrayAdapter<Page> {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(context, ViewPageActivity.class);
-				intent.putExtra(Global.PAGE, page);
+				Intent intent = null;
+				if (Global.isLogin && page.username == Global.username) {
+					intent = new Intent(context, PageActivity.class);
+				} else {
+					intent = new Intent(context, ViewPageActivity.class);
+				}
 				
+				intent.putExtra(Global.PAGE, page);
 				context.startActivity(intent);
 			}
 		};

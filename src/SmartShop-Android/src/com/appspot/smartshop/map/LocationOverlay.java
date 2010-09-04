@@ -15,6 +15,7 @@ import com.google.android.maps.Overlay;
 public class LocationOverlay extends Overlay {
 	public static final int OVERLAY_WIDTH = 32; 
 	public GeoPoint point;
+	public boolean clickable = true;
 	
 	@Override
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
@@ -35,6 +36,10 @@ public class LocationOverlay extends Overlay {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent e, MapView mapView) {
+		if (!clickable) {
+			return false;
+		}
+		
 		point = mapView.getProjection().fromPixels(
 				(int) e.getX() - OVERLAY_WIDTH / 2, (int) e.getY() - OVERLAY_WIDTH / 2);
 		mapView.invalidate();

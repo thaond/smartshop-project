@@ -29,7 +29,9 @@ public class ViewProductUserDefinedAttributeActivity extends Activity {
 		setContentView(R.layout.product_user_defined_attribute);
 		
 		Button btnAddNewAttribute = (Button) findViewById(R.id.btnAddAttribute);
-		btnAddNewAttribute.setVisibility(View.GONE);
+		if (ViewProductActivity.canEditProductInfo != null && ViewProductActivity.canEditProductInfo == true) {
+			btnAddNewAttribute.setVisibility(View.GONE);
+		}
 		
 		listAttributes = (ListView) findViewById(R.id.listAttributes);
 		adapter = new AttributeAdapter(this, 0, new LinkedList<Attribute>(setAttributes));

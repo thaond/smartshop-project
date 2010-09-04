@@ -26,7 +26,7 @@ public class ProductInfo implements Serializable {
 	public String username = null;
 	public Set<Long> setPagesId;
 	public Set<String> setCategoryKeys;
-	public Set<Attribute> setAttributes;
+	public Set<Attribute> attributeSets;
 	public ProductInfo(String name, double price, String description){
 		this.name = name;
 		this.price = price;
@@ -40,7 +40,7 @@ public class ProductInfo implements Serializable {
 				+ isVAT + ", lat=" + lat + ", lng=" + lng + ", name=" + name
 				+ ", origin=" + origin + ", price=" + price + ", product_view="
 				+ product_view + ", quantity=" + quantity + ", setAttributes="
-				+ setAttributes + ", setCategoryKeys=" + setCategoryKeys
+				+ attributeSets + ", setCategoryKeys=" + setCategoryKeys
 				+ ", setPagesId=" + setPagesId + ", username=" + username
 				+ ", warranty=" + warranty + "]";
 	}

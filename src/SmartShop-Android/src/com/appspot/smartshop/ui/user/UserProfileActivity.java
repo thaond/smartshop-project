@@ -19,11 +19,14 @@ public class UserProfileActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		username = getIntent().getExtras().getString(Global.USER_NAME);
+		Bundle bundle = getIntent().getExtras();
+		username = bundle.getString(Global.USER_NAME);
+		Boolean canEditProfile = bundle.getBoolean(Global.CAN_EDIT_USER_PROFILE); 
 		Log.d(TAG, "profile of " + username);
+		Log.d(TAG, "can edit profile = " + canEditProfile);
 		
 		ListView list = getListView();
-		if (Global.isLogin) {
+		if (canEditProfile != null && canEditProfile == true) {
 			list.setAdapter(new CurrentUserProfileAdapter(this));
 		} else {
 			list.setAdapter(new ViewUserProfileAdapter(this, username));

@@ -56,6 +56,7 @@ public class ProductsListActivity extends MapActivity {
 		
 		// search field
 		txtSearch = (EditText) findViewById(R.id.txtSearch);
+		
 		Button btnSearch = (Button) findViewById(R.id.btnSearch);
 		btnSearch.setOnClickListener(new OnClickListener() {
 			
@@ -69,6 +70,7 @@ public class ProductsListActivity extends MapActivity {
 				}
 			}
 		});
+		
 		Button btnSearchOnMap = (Button) findViewById(R.id.btnSearchOnMap);
 		btnSearchOnMap.setOnClickListener(new OnClickListener() {
 			
@@ -157,18 +159,14 @@ public class ProductsListActivity extends MapActivity {
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
 						JSONArray arr = json.getJSONArray("products");
-						if (arr == null || arr.length() == 0) {
-							task.hasData = false;
-							task.message = json.getString(URLConstant.MESSAGE);
-							return;
-						}
-						
 						products = Global.gsonWithHour.fromJson(arr.toString(), ProductInfo.getType());
 						Log.d(TAG, "load " + products.size() + " products");
 					}
 					
 					@Override
 					public void onFailure(String message) {
+						task.hasData = false;
+						task.message = message;
 						task.cancel(true);
 					}
 				});

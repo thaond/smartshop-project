@@ -71,18 +71,13 @@
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 
-		<LinearLayout android:orientation="horizontal"
+		<LinearLayout android:orientation="horizontal" android:layout_gravity="right"
 			android:layout_width="fill_parent" android:layout_height="wrap_content">
 			<Button android:id="@+id/btnChooseCategory" android:text="@string/select"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-			<TextView android:text="@string/chooseCategory" android:id="@+id/txtChoose"
 				android:layout_width="wrap_content" android:layout_height="wrap_content" />
-		</LinearLayout>
-		<LinearLayout android:orientation="horizontal"
-			android:layout_width="fill_parent" android:layout_height="wrap_content">
-			<Button android:id="@+id/btnXong" android:text="Xong"
+			<Button android:id="@+id/btnXong" android:text="@string/lblOk"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-			<Button android:id="@+id/btnCancel" android:text="Thoát"
+			<Button android:id="@+id/btnCancel" android:text="@string/lblCancel"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 		</LinearLayout>
 	</LinearLayout>
