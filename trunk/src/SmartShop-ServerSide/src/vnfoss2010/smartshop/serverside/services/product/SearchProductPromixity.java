@@ -20,8 +20,6 @@ import com.beoui.geocell.GeocellManager;
 import com.beoui.geocell.model.GeocellQuery;
 import com.beoui.geocell.model.Point;
 import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class SearchProductPromixity extends BaseRestfulService {
@@ -73,13 +71,17 @@ public class SearchProductPromixity extends BaseRestfulService {
 			e.printStackTrace();
 			return e.toString();
 		}
-		Gson gson = Global.gsonDateWithoutHour;
-		JsonArray productArray = new JsonArray();
-		for (Product product : objects) {
-			productArray.add(gson.toJsonTree(product));
-		}
+		
 		JsonObject jsonReturn = new JsonObject();
-		jsonReturn.add("products", productArray);
+		if (objects!=null){
+			//Success
+			jsonReturn.addProperty("errCode", 0);
+			jsonReturn.addProperty("message", Global.messages.getString("search_product_successfully"));
+			jsonReturn.add("products", Global.gsonWithDate.toJsonTree(objects));
+		}else{
+			jsonReturn.addProperty("errCode", 1);
+			jsonReturn.addProperty("message", Global.messages.getString("search_product_fail"));
+		}
 		return jsonReturn.toString();
 	}
 }
