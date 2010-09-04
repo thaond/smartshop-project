@@ -421,8 +421,7 @@ public class PageServiceImpl {
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 
 					queryObj = pm.newQuery(query);
-					queryObj.declareParameters("true && "
-							+ declareParametersBuffer.toString());
+					queryObj.declareParameters(declareParametersBuffer.toString());
 
 					listPages = (List<Page>) queryObj
 							.executeWithArray(listParameters.toArray());
