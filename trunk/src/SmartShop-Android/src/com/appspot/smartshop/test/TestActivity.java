@@ -1,6 +1,5 @@
 package com.appspot.smartshop.test;
 
-import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,10 +22,10 @@ import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.map.MyLocation;
+import com.appspot.smartshop.map.MyLocationCallback;
 import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
 import com.appspot.smartshop.map.MyLocation.LocationResult;
-import com.appspot.smartshop.map.MyLocationListener.MyLocationCallback;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
@@ -35,8 +34,6 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
 public class TestActivity extends MapActivity {
 	public static final String TAG = "TestActivity";
@@ -77,10 +74,6 @@ public class TestActivity extends MapActivity {
 	
 	void testGetCurrentLocation() {
 		new MyLocationListener(this, new MyLocationCallback() {
-
-			@Override
-			public void onFailure() {
-			}
 
 			@Override
 			public void onSuccess(GeoPoint point) {

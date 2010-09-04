@@ -1,26 +1,21 @@
 package com.appspot.smartshop.ui.product;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.map.DirectionListActivity;
+import com.appspot.smartshop.map.MyLocationCallback;
 import com.appspot.smartshop.map.MyLocationListener;
-import com.appspot.smartshop.map.MyLocationListener.MyLocationCallback;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.Global;
@@ -160,33 +155,11 @@ public class ViewProductBasicAttributeActivity extends Activity {
 	protected void findDirectionToProduct() {
 		Log.d(TAG, "find direction to product");
 		new MyLocationListener(this, new MyLocationCallback() {
-			
+
 			@Override
 			public void onSuccess(GeoPoint point) {
-				Log.d(TAG, "current location of product = " + point);
-				if (point == null) {
-					Log.d(TAG, "cannot find current location of product");
-					Toast.makeText(ViewProductBasicAttributeActivity.this, 
-							getString(R.string.errCannotFindCurrentLocation),
-							Toast.LENGTH_SHORT).show();
-					return;
-				}
-				
-				Intent intent = new Intent(ViewProductBasicAttributeActivity.this, DirectionListActivity.class);
-				intent.putExtra("lat1", (double) point.getLatitudeE6() / 1E6);
-				intent.putExtra("lng1", (double) point.getLongitudeE6() / 1E6);
-				intent.putExtra("lat2", (double)productInfo.lat);
-				intent.putExtra("lng2", (double)productInfo.lng);
-				
-				startActivity(intent);
 			}
 			
-			@Override
-			public void onFailure() {
-				Toast.makeText(ViewProductBasicAttributeActivity.this, 
-						getString(R.string.errCannotFindCurrentLocation),
-						Toast.LENGTH_SHORT).show();
-			}
 		}).findCurrentLocation();
 	}
 

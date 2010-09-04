@@ -7,9 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,14 +15,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.map.MyLocation.LocationResult;
-import com.appspot.smartshop.map.MyLocationListener.MyLocationCallback;
-import com.appspot.smartshop.mock.MockProduct;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -104,12 +97,6 @@ public class SearchProductsOnMapActivity extends MapActivity {
 					Message message = handler.obtainMessage();
 					handler.sendMessage(message);
 				}
-			}
-			
-			@Override
-			public void onFailure() {
-				Toast.makeText(SearchProductsOnMapActivity.this, 
-						getString(R.string.errCannotFindCurrentLocation), Toast.LENGTH_SHORT).show();
 			}
 		}).findCurrentLocation();
 		
