@@ -4,7 +4,6 @@ import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -19,6 +18,16 @@ import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 
 import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.database.entity.Attribute;
+import vnfoss2010.smartshop.serverside.database.entity.Category;
+import vnfoss2010.smartshop.serverside.database.entity.Comment;
+import vnfoss2010.smartshop.serverside.database.entity.Media;
+import vnfoss2010.smartshop.serverside.database.entity.Notification;
+import vnfoss2010.smartshop.serverside.database.entity.Page;
+import vnfoss2010.smartshop.serverside.database.entity.Product;
+import vnfoss2010.smartshop.serverside.database.entity.Statistic;
+import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
+import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
 import vnfoss2010.smartshop.serverside.utils.SearchCapable;
 import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
 import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
@@ -28,6 +37,7 @@ import com.google.appengine.api.datastore.DatastoreTimeoutException;
 
 /**
  * This class provides functions which 're useful for the database
+ * 
  * @author VoMinhTam
  */
 public class DatabaseUtils {
@@ -127,16 +137,18 @@ public class DatabaseUtils {
 		}
 		return cr.getCleanHTML(); // some custom function
 	}
-	
+
 	/**
-	 * Search any searchable entity (a class must be extends {@link SearchCapable}
+	 * Search any searchable entity (a class must be extends
+	 * {@link SearchCapable}
+	 * 
 	 * @return List of records that fit the query string
 	 */
-	public static <T extends SearchCapable> List<T> searchByQuery(String queryString, Class<T> entity){
+	public static <T extends SearchCapable> List<T> searchByQuery(
+			String queryString, Class<T> entity) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		StringBuffer queryBuffer = new StringBuffer();
-		queryBuffer.append("SELECT FROM " + entity.getName()
-				+ " WHERE ");
+		queryBuffer.append("SELECT FROM " + entity.getName() + " WHERE ");
 		Set<String> queryTokens = SearchJanitorUtils
 				.getTokensForIndexingOrQuery(queryString,
 						Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
@@ -161,8 +173,8 @@ public class DatabaseUtils {
 
 		List<T> list = null;
 		try {
-			list = (List<T>) query
-					.executeWithArray(parametersForSearch.toArray());
+			list = (List<T>) query.executeWithArray(parametersForSearch
+					.toArray());
 		} catch (DatastoreTimeoutException e) {
 			log.severe(e.getMessage());
 			log.severe("datastore timeout at: " + queryString);
@@ -176,7 +188,48 @@ public class DatabaseUtils {
 			pm.close();
 		} catch (Exception e) {
 		}
-		
+
 		return result;
+	}
+
+	public static boolean deleteAllDatabase() {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		try {
+			Query query = pm.newQuery(Attribute.class);
+			query.deletePersistentAll();
+
+			query = pm.newQuery(Category.class);
+			query.deletePersistentAll();
+
+			query = pm.newQuery(Comment.class);
+			query.deletePersistentAll();
+
+			query = pm.newQuery(Media.class);
+			query.deletePersistentAll();
+
+			query = pm.newQuery(Notification.class);
+			query.deletePersistentAll();
+
+			query = pm.newQuery(Page.class);
+			query.deletePersistentAll();
+
+			query = pm.newQuery(Product.class);
+			query.deletePersistentAll();
+
+			query = pm.newQuery(Statistic.class);
+			query.deletePersistentAll();
+
+			query = pm.newQuery(UserInfo.class);
+			query.deletePersistentAll();
+
+			query = pm.newQuery(UserSubcribeProduct.class);
+			query.deletePersistentAll();
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

@@ -63,81 +63,81 @@ public class SampleData {
 		
 		Product product;
 		product = new Product("Laptop D830", 1000, false, 2, "12 month",
-				"China", "Đường Lý Thường Kiệt", 10.777268,106.6563, "Mới 100%" , 3, "tam");
+				"China", "Đường Lý Thường Kiệt", 10.777268,106.6563, "Mới 100%" , 3,new Date(), "tam");
 		product.getSetCategoryKeys().add("laptop");
 		products.add(product);
 		
 		product = new Product("Bàn phím BenQ", 20, false, 2, "12 month",
-				"China", "Đường Cách Mạng Tháng 8", 10.785636,106.667114, "Bàn phím gõ rất mềm mại" , 3, "duc");
+				"China", "Đường Cách Mạng Tháng 8", 10.785636,106.667114, "Bàn phím gõ rất mềm mại" , 3,new Date(), "duc");
 		product.getSetCategoryKeys().add("accessories_desktop");
 		products.add(product);
 		
 		product = new Product("Headphone Sonic", 3, false, 2, "6 month",
-				"China", "Đường Cách Mạng Tháng 8", 10.785636,106.667114, "Tai nghe chất lượng tuyệt đỉnh" , 3, "nghia");
+				"China", "Đường Cách Mạng Tháng 8", 10.785636,106.667114, "Tai nghe chất lượng tuyệt đỉnh" , 3,new Date(), "nghia");
 		product.getSetCategoryKeys().add("accessories_desktop");
 		product.getSetCategoryKeys().add("accessories_laptop");
 		products.add(product);
 		
 		product = new Product("Mouse Misumi", 7, false, 2, "12 month",
-				"China", "Đường Lạc Long Quân", 10.783528,106.650828, "Chuột không sợ mèo" , 3, "hieu");
+				"China", "Đường Lạc Long Quân", 10.783528,106.650828, "Chuột không sợ mèo" , 3,new Date(), "hieu");
 		product.getSetCategoryKeys().add("laptop");
 		products.add(product);
 		
 		product = new Product("Bàn Hòa Phát", 200, false, 2, "12 month",
-				"China", "Đường Tân kì tân quý", 10.79803,106.615659, "Bàn làm việc chất lượng tuyệt vời" , 3, "nghia");
+				"China", "Đường Tân kì tân quý", 10.79803,106.615659, "Bàn làm việc chất lượng tuyệt vời" , 3,new Date(), "nghia");
 		product.getSetCategoryKeys().add("laptop");
 		products.add(product);
 		
 		/* Mobile sample */
 		product = new Product("Nokia 6670", 1000, false, 2, "12 month",
-				"China", "Tân Hòa Đông", 10.764789,106.618749, "Chất lượng vượt thời gian" , 3, "tam");
+				"China", "Tân Hòa Đông", 10.764789,106.618749, "Chất lượng vượt thời gian" , 3,new Date(), "tam");
 		product.getSetCategoryKeys().add("mobile_pda_sub");
 		products.add(product);
 		
 		product = new Product("Samsung wave", 3000, false, 2, "12 month",
-				"China", "Tân Hòa Đông", 10.764789,106.618749, "Chất lượng vượt thời gian" , 3, "tam");
+				"China", "Tân Hòa Đông", 10.764789,106.618749, "Chất lượng vượt thời gian" , 3,new Date(), "tam");
 		product.getSetCategoryKeys().add("mobile_pda_sub");
 		products.add(product);
 		
 		product = new Product("Nokia 1110", 1000, false, 2, "12 month",
-				"China", "Đường Hòa Bình", 10.770059,106.632653, "Chất lượng vượt thời gian" , 3, "duc");
+				"China", "Đường Hòa Bình", 10.770059,106.632653, "Chất lượng vượt thời gian" , 3,new Date(), "duc");
 		product.getSetCategoryKeys().add("mobile_pda_sub");
 		products.add(product);
 		
 		product = new Product("Android G1", 1000, false, 2, "12 month",
-				"China", "Trường Chinh", 10.831394,106.622547, "Chất lượng vượt thời gian" , 3, "hieu");
+				"China", "Trường Chinh", 10.831394,106.622547, "Chất lượng vượt thời gian" , 3,new Date(), "hieu");
 		product.getSetCategoryKeys().add("mobile_pda_sub");
 		products.add(product);
 		
 		/* accessories sample */
 		product = new Product("Sạc Nokia", 1000, false, 2, "12 month",
-				"China", "Tân Hòa Đông", 10.764789,106.618749, "Chất lượng vượt thời gian" , 3, "tam");
+				"China", "Tân Hòa Đông", 10.764789,106.618749, "Chất lượng vượt thời gian" , 3,new Date(), "tam");
 		product.getSetCategoryKeys().add("mobile_accessories");
 		products.add(product);
 		
 		product = new Product("Sạc Samsung wave", 3000, false, 2, "12 month",
-				"China", "Tân Hòa Đông", 10.764789,106.618749, "Chất lượng vượt thời gian" , 3, "tam");
+				"China", "Tân Hòa Đông", 10.764789,106.618749, "Chất lượng vượt thời gian" , 3,new Date(), "tam");
 		product.getSetCategoryKeys().add("mobile_accessories");
 		products.add(product);
 		
 		product = new Product("Sạc Nokia 1110", 1000, false, 2, "12 month",
-				"China", "Đường Hòa Bình", 10.770059,106.632653, "Chất lượng vượt thời gian" , 3, "duc");
+				"China", "Đường Hòa Bình", 10.770059,106.632653, "Chất lượng vượt thời gian" , 3,new Date(), "duc");
 		product.getSetCategoryKeys().add("mobile_accessories");
 		products.add(product);
 		
 		product = new Product("Sạc Android G1", 1000, false, 2, "12 month",
-				"China", "Trường Chinh", 10.831394,106.622547, "Chất lượng vượt thời gian" , 3, "hieu");
+				"China", "Trường Chinh", 10.831394,106.622547, "Chất lượng vượt thời gian" , 3,new Date(), "hieu");
 		product.getSetCategoryKeys().add("mobile_accessories");
 		products.add(product);
 		
 		/* Laptop */
 		product = new Product("sony vaio CW23 ", 1200, false, 2, "12 month",
-				"China", "Đường Quang Trung", 10.841553,106.644005, "Man hình rất xịn" , 3, "tamvo");
+				"China", "Đường Quang Trung", 10.841553,106.644005, "Man hình rất xịn" , 3,new Date(), "tamvo");
 		product.getSetCategoryKeys().add("laptop");
 		products.add(product);
 		
 		product = new Product("sony vaio  F115", 1000, false, 2, "12 month",
-				"China", "Binh Tan", 10.777268,106.6563, "Man hình rất xịn" , 3, "tamvo");
+				"China", "Binh Tan", 10.777268,106.6563, "Man hình rất xịn" , 3,new Date(), "tamvo");
 		product.getSetCategoryKeys().add("laptop");
 		products.add(product);
 		
