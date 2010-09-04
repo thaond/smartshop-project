@@ -25,7 +25,7 @@ public class UserSubcribeProduct implements LocationCapable {
 	private Double lat;
 	
 	@Persistent
-	private Double lng;
+	private Double lng; 
 	
 	@Persistent
 	private Double radius;

@@ -18,7 +18,7 @@ public class Comment {
 
 	@Persistent
 	private String type; 
- 
+  
 	@Persistent
 	private long type_id; 
 

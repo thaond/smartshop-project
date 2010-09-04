@@ -12,11 +12,11 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.utils.SearchCapable;
 
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
-import com.google.gson.Gson;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
@@ -30,7 +30,7 @@ public class Product extends SearchCapable implements LocationCapable{
 
 	@Persistent
 	private double price;
- 
+  
 	@Persistent
 	private boolean is_vat;
 
@@ -98,12 +98,12 @@ public class Product extends SearchCapable implements LocationCapable{
 	}
 
 	public Product() {
-		this("", 0, false, 0, "", "", "", 0, 0, "", 0, "");
+		this("", 0, false, 0, "", "", "", 0, 0, "", 0, null, "");
 	}
 
 	public Product(String name, double price, boolean isVat, int quantity,
 			String warranty, String origin, String address, double lat,
-			double lng, String description, int view, String username) {
+			double lng, String description, int view, Date date_post, String username) {
 		this.name = name;
 		this.price = price;
 		is_vat = isVat;
@@ -115,6 +115,7 @@ public class Product extends SearchCapable implements LocationCapable{
 		this.lng = lng;
 		this.description = description;
 		this.product_view = view;
+		this.date_post = date_post;
 		this.username = username;
 
 		setCategoryKeys = new HashSet<String>();
@@ -470,12 +471,10 @@ public class Product extends SearchCapable implements LocationCapable{
 	public static void main(String[] args) {
 		Product product = new Product();
 		product = new Product("Nec Monitor", 123, false, 2, "12 month",
-				"China", "Binh Tan", 10.11, 106.123, "Man hình rất xịn" , 3, "tamvo");
+				"China", "Binh Tan", 10.11, 106.123, "Man hình rất xịn" , 3, new Date(), "tamvo");
+		product.getSetCategoryKeys().add("laptop");
 
-		product.getSetCategoryKeys().add("comp");
-
-		Gson gson = new Gson();
-		String json = gson.toJson(product);
+		String json = Global.gsonWithDate.toJson(product);
 		System.out.println(json);
 	}
 

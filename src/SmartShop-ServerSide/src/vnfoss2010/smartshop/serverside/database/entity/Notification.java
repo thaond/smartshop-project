@@ -20,7 +20,7 @@ public class Notification {
 
 	@Persistent
 	private Date date; 
-
+ 
 	@Persistent
 	private boolean isNew;
  
