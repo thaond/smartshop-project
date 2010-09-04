@@ -1,8 +1,9 @@
 package vnfoss2010.smartshop.serverside.database;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOObjectNotFoundException;
@@ -15,6 +16,7 @@ import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
+import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
 import vnfoss2010.smartshop.serverside.utils.StringUtils;
 
 public class PageServiceImpl {
@@ -199,36 +201,47 @@ public class PageServiceImpl {
 
 	@SuppressWarnings("unchecked")
 	public ServiceResult<List<Page>> getListPageByCriteria(int maximum,
-			int[] criterias, String username, String... cat_keys) {
+			int[] criterias, String username, String q, String... cat_keys) {
 		ServiceResult<List<Page>> result = new ServiceResult<List<Page>>();
 
+		StringBuilder where = new StringBuilder();
+		StringBuilder orderBy = new StringBuilder();
 		String query = "";
+		List<Object> listParameters = new ArrayList<Object>();
+
 		if (criterias != null) {
-			query = " order by ";
 			for (int criteria : criterias) {
 				switch (criteria) {
 				case 0:
-					query += ("date_post asc ");
+					orderBy.append("date_post asc ");
 					break;
 
 				case 1:
-					query += ("date_post desc ");
+					orderBy.append("date_post desc ");
 					break;
 
 				case 2:
-					query += ("last_modified asc ");
+					orderBy.append("price asc ");
 					break;
 
 				case 3:
-					query += ("last_modified desc ");
+					orderBy.append("price desc ");
 					break;
 
 				case 4:
-					query += ("page_view asc ");
+					orderBy.append("product_view asc ");
 					break;
 
 				case 5:
-					query += ("page_view desc ");
+					orderBy.append("product_view desc ");
+					break;
+
+				case 6:
+					orderBy.append("quantity asc ");
+					break;
+
+				case 7:
+					orderBy.append("quantity desc ");
 					break;
 
 				default:
@@ -236,50 +249,186 @@ public class PageServiceImpl {
 				}
 			}
 		} else {
-			query = " order by date_post desc ";
+			orderBy.append("date_post desc ");
 		}
 
-		query = "select from " + Page.class.getName() + query
-				+ ((maximum == 0) ? "" : (" limit " + maximum));
-
-		Global.log(log, query);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-
-		Query queryObj = pm.newQuery(query);
-		queryObj.setFilter("setCategoryKeys.contains(catKey)");
-
+		Query queryObj = null;
 		List<Page> listPages = null;
-		if (!StringUtils.isEmptyOrNull(username)) {
-			if (cat_keys != null) {
-				queryObj.setFilter("setCategoryKeys.contains(catKey)");
-				queryObj.setFilter("username==us");
-				queryObj.declareParameters("String catKey, String us");
 
-				log.log(Level.SEVERE, Arrays.toString(cat_keys) + "");
-				listPages = (List<Page>) queryObj.execute(Arrays
-						.asList(cat_keys), username);
-			} else {
-				queryObj.setFilter("username==us");
-				queryObj.declareParameters("String us");
-				listPages = (List<Page>) queryObj.execute(username);
+		if (StringUtils.isEmptyOrNull(q)) {
+			if (!StringUtils.isEmptyOrNull(username)) {
+				if (cat_keys != null) {
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("setCategoryKeys.contains(catKey) && username==us ");
+					listParameters.add(Arrays.asList(cat_keys));
+					listParameters.add(username);
+
+					query = "select from " + Page.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("String catKey, String us");
+					listPages = (List<Page>) queryObj
+							.executeWithArray(listParameters.toArray());
+				} else {
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("username==us ");
+					listParameters.add(username);
+
+					query = "select from " + Page.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("String us");
+
+					listPages = (List<Page>) queryObj
+							.executeWithArray(listParameters.toArray());
+				}
+			} else { // end if q>username
+				// Duplicate
+				if (cat_keys != null) {
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("setCategoryKeys.contains(catKey) ");
+					query = "select from " + Page.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("String catKey");
+					listParameters.add(Arrays.asList(cat_keys));
+					listPages = (List<Page>) queryObj
+							.executeWithArray(listParameters.toArray());
+				} else {
+					query = "select from " + Page.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+					queryObj = pm.newQuery(query);
+					listPages = (List<Page>) queryObj.execute();
+				}
+			}// end else q>username
+		} else {// end if q
+			// Prepare to search
+			StringBuffer queryBuffer = new StringBuffer();
+			Set<String> queryTokens = SearchJanitorUtils
+					.getTokensForIndexingOrQuery(q,
+							Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+			List<Object> parametersForSearch = new ArrayList<Object>(
+					queryTokens);
+			StringBuffer declareParametersBuffer = new StringBuffer(", ");
+			int parameterCounter = 0;
+
+			while (parameterCounter < queryTokens.size()) {
+				queryBuffer.append("fts == param" + parameterCounter);
+				declareParametersBuffer.append("String param"
+						+ parameterCounter);
+
+				if (parameterCounter + 1 < queryTokens.size()) {
+					queryBuffer.append(" && ");
+					declareParametersBuffer.append(", ");
+				}
+				parameterCounter++;
 			}
-		} else {
-			// Duplicate
-			if (cat_keys != null) {
-				queryObj.setFilter("setCategoryKeys.contains(catKey)");
-				queryObj.declareParameters("String catKey");
-				log.log(Level.SEVERE, Arrays.toString(cat_keys) + "");
-				listPages = (List<Page>) queryObj.execute(Arrays
-						.asList(cat_keys));
+			// //////
+			if (!StringUtils.isEmptyOrNull(username)) {
+				if (cat_keys != null) {
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("setCategoryKeys.contains(catKey) && username==us && ");
+					where.append(queryBuffer.toString());
+
+					listParameters.add(Arrays.asList(cat_keys));
+					listParameters.add(username);
+					//listParameters.add(parametersForSearch.toArray());
+					for (Object str : parametersForSearch)
+						listParameters.add(str);
+
+					query = "select from " + Page.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("String catKey, String us"
+							+ declareParametersBuffer.toString());
+
+					listPages = (List<Page>) queryObj
+							.executeWithArray(listParameters.toArray());
+
+				} else {
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("username==us && ");
+					where.append(queryBuffer.toString());
+
+					listParameters.add(username);
+					//listParameters.add(parametersForSearch.toArray());
+					for (Object str : parametersForSearch)
+						listParameters.add(str);
+
+					query = "select from " + Page.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("String us"
+							+ declareParametersBuffer.toString());
+
+					listPages = (List<Page>) queryObj
+							.executeWithArray(listParameters.toArray());
+				}
 			} else {
-				log.log(Level.SEVERE, "query = " + query);
-				// Fix bug: The first sort property must be the same as the
-				// property to which the inequality filter is applied
-				// query = query.replace("order by ",
-				// "order by quantity desc ");
-				listPages = (List<Page>) queryObj.execute();
+				// Duplicate
+				if (cat_keys != null) {
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append("setCategoryKeys.contains(catKey) && ");
+					where.append(queryBuffer.toString());
+
+					listParameters.add(Arrays.asList(cat_keys));
+					//listParameters.add(parametersForSearch.toArray());
+					for (Object str : parametersForSearch)
+						listParameters.add(str);
+
+					query = "select from " + Page.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("String catKey"
+							+ declareParametersBuffer.toString());
+
+					listPages = (List<Page>) queryObj
+							.executeWithArray(listParameters.toArray());
+				} else {
+					if (!StringUtils.isEmptyOrNull(where.toString()))
+						where.append(" && ");
+					where.append(queryBuffer.toString());
+					//listParameters.add(parametersForSearch.toArray());
+					for (Object str : parametersForSearch)
+						listParameters.add(str);
+
+					query = "select from " + Page.class.getName()
+							+ " where (" + where.toString() + ") order by "
+							+ orderBy.toString()
+							+ ((maximum == 0) ? "" : (" limit " + maximum));
+
+					queryObj = pm.newQuery(query);
+					queryObj.declareParameters("true && "
+							+ declareParametersBuffer.toString());
+
+					listPages = (List<Page>) queryObj
+							.executeWithArray(listParameters.toArray());
+				}
 			}
-		}
+		}// end else q
 
 		if (listPages.size() > 0) {
 			result.setOK(true);
