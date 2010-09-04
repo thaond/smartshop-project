@@ -70,7 +70,6 @@ public class UtilsFunction {
 	 * @return
 	 */
 	public GeoPoint midpoint(double lat1, double lon1, double lat2, double lon2) {
-		double dLat = deg2rad(lat2 - lat1);
 		double dLon = deg2rad(lon2 - lon1);
 		double Bx = Math.cos(lat2) * Math.cos(dLon);
 		double By = Math.cos(lat2) * Math.sin(dLon);
@@ -123,6 +122,21 @@ public class UtilsFunction {
 			}
 		}
 		return result;
+	}
+	
+	public static String removeViSign(String str){
+		String vietSign = "aáàảãạăắằẳẵặâấầẩẫậAÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬeéèẻẽẹêếềểễệEÉÈẺẼẸÊẾỀỂỄỆiíìỉĩịIÍÌỈĨỊoóòỏõọôốồổỗộơớờởỡợOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢuúùủũụưứừửữựUÚÙỦŨỤƯỨỪỬỮỰyýỳỷỹỵYÝỲỶỸỴdđDĐ";
+		String vietNoSign = "aaaaaaaaaaaaaaaaaaAAAAAAAAAAAAAAAAAAeeeeeeeeeeeeEEEEEEEEEEEEiiiiiiIIIIIIooooooooooooooooooOOOOOOOOOOOOOOOOOOuuuuuuuuuuuuUUUUUUUUUUUUyyyyyyYYYYYYddDD";
+		
+		for (int i = 0; i < str.length(); i++) {
+            for (int j = 0; j < 148; j++) {
+                //str = str.replaceAll(String.valueOf(arrJavaString.charAt(j)), String.valueOf(vietSign.charAt(j)));
+                str = str.replaceAll(String.valueOf(vietSign.charAt(j)), String.valueOf(vietNoSign.charAt(j)));
+
+            }
+        }
+		
+		return str;
 	}
 	
 	public static void main(String[] args) {

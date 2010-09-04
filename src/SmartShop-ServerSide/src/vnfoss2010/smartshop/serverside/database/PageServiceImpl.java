@@ -307,7 +307,7 @@ public class PageServiceImpl {
 							.executeWithArray(listParameters.toArray());
 				} else {
 					query = "select from " + Page.class.getName()
-							+ " where (" + where.toString() + ") order by "
+							+ (StringUtils.isEmptyOrNull(where.toString())? "" : " where (" + where.toString() + ")" )+ " order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 					queryObj = pm.newQuery(query);
