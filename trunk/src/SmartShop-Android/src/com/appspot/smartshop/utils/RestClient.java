@@ -97,6 +97,7 @@ public class RestClient {
 
 		try {
 			JSONObject json = new JSONObject(result);
+			Log.d(TAG, json.toString());
 			jsonParser.onSuccess(json);
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -140,6 +141,7 @@ public class RestClient {
 
 		try {
 			JSONObject json = new JSONObject(result);
+			Log.d(TAG, json.toString());
 			jsonParser.onSuccess(json);
 		} catch (JSONException e) {
 			e.printStackTrace();

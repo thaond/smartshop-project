@@ -31,7 +31,7 @@ public class MainActivity extends TabActivity {
 	public static final String PRODUCT = "product";
 	public static final String PAGE = "page";
 
-	private String type = PRODUCT;
+	private String type = PRODUCT;	
 
 	private TabHost tabHost;
 
@@ -52,10 +52,11 @@ public class MainActivity extends TabActivity {
 
 		// Pages tab
 		intent = new Intent(this, PagesListActivity.class);
-		intent.putExtra(Global.PAGES_LIST_TYPE,
-				PagesListActivity.ALL_PAGES);
 		tabHost.addTab(tabHost.newTabSpec(TAB_LIST_PAGES).setIndicator(
 				getString(R.string.tab_list_pages)).setContent(intent));
+		
+		// current tab is products list
+		tabHost.setCurrentTab(0);	
 
 		// listeners
 		tabHost.setOnTabChangedListener(new OnTabChangeListener() {
@@ -125,10 +126,6 @@ public class MainActivity extends TabActivity {
 			break;
 
 		case MENU_SEARCH_BY_CATEGORIES:
-//			intent = new Intent(this, SearchByCategoryActivity.class);
-//			intent.putExtra(Global.TYPE, type);
-//			intent.putExtra(Global.CATEGORY_INFO, MockCategory.getInstance());
-//			startActivity(intent);
 			CategoriesDialog.showCategoriesDialog(this, new CategoriesDialogListener() {
 				
 				@Override

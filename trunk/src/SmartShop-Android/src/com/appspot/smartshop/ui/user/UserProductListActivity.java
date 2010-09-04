@@ -1,9 +1,6 @@
 package com.appspot.smartshop.ui.user;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,14 +16,12 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.mock.MockProduct;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
-import com.google.gson.reflect.TypeToken;
 
 public class UserProductListActivity extends Activity {
 	
@@ -38,6 +33,8 @@ public class UserProductListActivity extends Activity {
 	
 	private int productsListType = INTERESTED_PRODUCTS; 
 	
+	private String username;
+	
 	private ProductAdapter adapter;
 	private ListView listProducts;
 	
@@ -47,6 +44,8 @@ public class UserProductListActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_product_list);
+		
+		username = getIntent().getExtras().getString(Global.PRODUCTS_OF_USER);
 		
 		// radio buttons
 		RadioButton rbInterestedProducts = (RadioButton) findViewById(R.id.rbInterestedProducts);
@@ -98,6 +97,22 @@ public class UserProductListActivity extends Activity {
 
 	private SimpleAsyncTask task;
 	protected void loadProductsList() {
+		// construct url
+		switch (productsListType) {
+		case INTERESTED_PRODUCTS:
+			url = String.format(URLConstant.GET_INTERESTED_PRODUCTS_OF_USER, username);
+			break;
+			
+		case BUYED_PRODUCTS:
+			url = String.format(URLConstant.GET_BUYED_PRODUCTS_OF_USER, username);
+			break;
+			
+		case SELLED_PRODUCTS:
+			url = String.format(URLConstant.GET_SELLED_PRODUCTS_OF_USER, username);
+			break;
+		}
+		
+		// load data
 		task = new SimpleAsyncTask(this, new DataLoader() {
 			
 			@Override
@@ -109,20 +124,6 @@ public class UserProductListActivity extends Activity {
 			
 			@Override
 			public void loadData() {
-				switch (productsListType) {
-				case INTERESTED_PRODUCTS:
-					url = String.format(URLConstant.GET_INTERESTED_PRODUCTS_OF_USER, Global.username);
-					break;
-					
-				case BUYED_PRODUCTS:
-					url = String.format(URLConstant.GET_BUYED_PRODUCTS_OF_USER, Global.username);
-					break;
-					
-				case SELLED_PRODUCTS:
-					url = String.format(URLConstant.GET_SELLED_PRODUCTS_OF_USER, Global.username);
-					break;
-				}
-				
 				RestClient.getData(url, new JSONParser() {
 					
 					@Override

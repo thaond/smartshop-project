@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.appspot.smartshop.map.DirectionListActivity;
+import com.appspot.smartshop.map.SearchProductsOnMapActivity;
 import com.appspot.smartshop.mock.MockCategory;
 import com.appspot.smartshop.mock.MockPage;
 import com.appspot.smartshop.mock.MockUserInfo;
@@ -23,9 +24,7 @@ import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.product.PostProductActivity;
-import com.appspot.smartshop.ui.product.SearchByCategoryActivity;
-import com.appspot.smartshop.ui.product.SearchProductActivity;
-import com.appspot.smartshop.ui.product.ViewSingleProduct;
+import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
@@ -80,13 +79,19 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testUserProfile();
+		testSearchProductsOnMap();
 	}
 
 	protected void test2() {
+		testGmapIntent();
 	}
 
 	protected void test3() {
+	}
+	
+	void testSearchProductsOnMap() {
+		Intent intent = new Intent(this, SearchProductsOnMapActivity.class);
+		startActivity(intent);
 	}
 
 	void testCategoriesDialog() {
@@ -155,16 +160,15 @@ public class HomeActivity extends Activity {
 
 	private void testDirectionList() {
 		double lat1, lat2, lng1, lng2;
-		lat1 = 10.781189;
-		lng1 = 106.6513;
-		lat2 = 10.77769;
-		lng2 = 106.660978;
+		lat1 = 10.751662;
+		lng1 = 106.659386;
+		lat2 = 10.77055;
+		lng2 = 106.658399;
 		Intent intent = new Intent(this, DirectionListActivity.class);
 		intent.putExtra("lat1", lat1);
 		intent.putExtra("lat2", lat2);
 		intent.putExtra("lng1", lng1);
 		intent.putExtra("lng2", lng2);
-		Log.d(TAG, "before startActivity(intent)");
 		startActivity(intent);
 	}
 
@@ -174,31 +178,19 @@ public class HomeActivity extends Activity {
 	}
 
 	private void testGmapIntent() {
-		String url = "http://maps.google.com/maps?saddr=10.775495,106.661181&daddr=10.76072,106.661021";
+		String url = "http://maps.google.com/maps?saddr=10.775495,106.661181&daddr=10.76072,106.661021&language=vi";
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 		startActivity(intent);
 	}
 
 	private void testViewProduct() {
-		Intent intent = new Intent(this, ViewSingleProduct.class);
+		Intent intent = new Intent(this, ViewProductActivity.class);
 		startActivity(intent);
 	}
 
 	private void testPostProduct() {
+		Global.application = this;
 		Intent intent = new Intent(this, PostProductActivity.class);
 		startActivity(intent);
-	}
-
-	private void searchByEnterQuery() {
-		Intent intent = new Intent(this, SearchProductActivity.class);
-		startActivity(intent);
-	}
-
-	private void searchByCategory() {
-		Intent intent = new Intent(this, SearchByCategoryActivity.class);
-		intent.putExtra(Global.CATEGORY_INFO, MockCategory.getInstance());
-		intent.putExtra(Global.TYPE, MainActivity.PRODUCT);
-		startActivity(intent);
-
 	}
 }

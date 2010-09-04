@@ -75,7 +75,7 @@ public class CategoryDialogActivity extends Activity {
 
 	protected void getSelectedCategories() {
 		Intent intent = new Intent(CategoryDialogActivity.this,
-				PostProductActivityBasicAttribute.class);
+				ProductBasicAttributeActivity.class);
 		intent.putExtra(Global.SELECTED_CATEGORIES, selectedCategories);
 		setResult(RESULT_OK, intent);
 		finish();

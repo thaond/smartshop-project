@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,11 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.Page;
+import com.appspot.smartshop.dom.UserInfo;
+import com.appspot.smartshop.mock.MockUserInfo;
+import com.appspot.smartshop.ui.product.ViewProductBasicAttributeActivity;
+import com.appspot.smartshop.ui.user.UserActivity;
+import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -32,7 +38,7 @@ public class PageActivity extends Activity {
 	private static final int EDIT_MODE = 1;
 	private static final int CREATE_MODE = 0;
 
-	private Page page;
+	private Page page = new Page();
 	private TextView txtName;
 	private TextView txtContent;
 	private int mode;
@@ -124,8 +130,6 @@ public class PageActivity extends Activity {
 			
 			@Override
 			public void loadData() {
-				page = new Page();
-				
 				// set attributes for page
 				page.content = txtContent.getText().toString();
 				page.name = txtName.getText().toString();

@@ -71,7 +71,6 @@ import java.util.Map;
  */
 public final class Gson {
 
-  //TODO(inder): get rid of all the registerXXX methods and take all such parameters in the
   // constructor instead. At the minimum, mark those methods private.
 
   private static final String NULL_STRING = "null";

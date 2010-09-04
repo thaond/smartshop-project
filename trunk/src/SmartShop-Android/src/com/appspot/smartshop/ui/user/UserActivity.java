@@ -708,10 +708,17 @@ public class UserActivity extends MapActivity {
 	}
 
 	protected void tagAddressOnMap() {
-		String location = txtAddress.getText().toString();
+		GeoPoint point = null;
+		if (Global.isLogin) {
+			point = new GeoPoint((int) (Global.userInfo.lat * 1E6), (int) (Global.userInfo.lng * 1E6));
+		} else if (userInfo != null) {
+			point = new GeoPoint((int) (userInfo.lat * 1E6), (int) (userInfo.lng * 1E6));
+		} else {
+			String location = txtAddress.getText().toString();
+			point = MapService.locationToGeopoint(location);
+		}
 
-		MapDialog.createLocationDialog(this,
-				MapService.locationToGeopoint(location),
+		MapDialog.createLocationDialog(this, point,
 				new UserLocationListener() {
 
 					@Override

@@ -17,6 +17,8 @@ public class SimpleAsyncTask extends AsyncTask<Void, Void, Void> {
 	
 	public boolean hasData = true;
 	public String message = null;
+	
+	private String loadingMessage = Global.application.getString(R.string.loading);
 
 	public SimpleAsyncTask(Context context, DataLoader dataLoader) {
 		this.dataLoader = dataLoader;
@@ -25,10 +27,15 @@ public class SimpleAsyncTask extends AsyncTask<Void, Void, Void> {
 		dialog.setCancelable(false);
 		dialog.setCanceledOnTouchOutside(false);
 	}
+	
+	public SimpleAsyncTask(String loadingMessage, Context context, DataLoader dataLoader) {
+		this(context, dataLoader);
+		this.loadingMessage = loadingMessage;
+	}
 
 	protected void onPreExecute() {
 		Log.d(TAG, "onPreExec");
-		dialog.setMessage(Global.application.getString(R.string.loading));
+		dialog.setMessage(loadingMessage);
 		dialog.show();
 	};
 

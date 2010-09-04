@@ -14,6 +14,7 @@ import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
+import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.Global;
 
 public class ViewPageActivity extends Activity {
@@ -54,6 +55,25 @@ public class ViewPageActivity extends Activity {
 				viewComment();
 			}
 		});
+		
+		Button btnViewUserInfo = (Button) findViewById(R.id.viewUserInfo);
+		btnViewUserInfo.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				viewUserProfile();
+			}
+		});
+	}
+	
+	protected void viewUserProfile() {
+		Intent intent = new Intent(this, UserProfileActivity.class);
+		intent.putExtra(Global.USER_NAME, page.username);
+		if (Global.isLogin && Global.username.equals(page.username)) {
+			intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
+		}
+		
+		startActivity(intent);
 	}
 
 	protected void viewComment() {

@@ -3,7 +3,6 @@ package com.appspot.smartshop.ui.product;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -14,48 +13,46 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.DirectionListActivity;
-import com.appspot.smartshop.map.MyLocation;
 import com.appspot.smartshop.map.MyLocationListener;
-import com.appspot.smartshop.map.MyLocation.LocationResult;
 import com.appspot.smartshop.map.MyLocationListener.MyLocationCallback;
-import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
-import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.Global;
 import com.google.android.maps.GeoPoint;
 
-public class ViewBasicAttributeOfProduct extends Activity {
+public class ViewProductBasicAttributeActivity extends Activity {
 	public static final String TAG = "[ViewBasicAttributeOfProduct]";
 	
-	public TextView lblNameOfProduct;
-	public TextView lblPriceOfProduct;
-	public TextView lblQuantityOfProduct;
-	public TextView lblWarrantyOfProduct;
-	public TextView lblOriginOfProduct;
-	public TextView lblAddressOfProduct;
-	public TextView lblPageViewOfProduct;
+	private TextView lblNameOfProduct;
+	private TextView lblPriceOfProduct;
+	private TextView lblQuantityOfProduct;
+	private TextView lblWarrantyOfProduct;
+	private TextView lblOriginOfProduct;
+	private TextView lblAddressOfProduct;
+	private TextView lblPageViewOfProduct;
 
-	public EditText txtNameProduct;
-	public EditText txtPriceOfProduct;
-	public EditText txtQuantityOfProduct;
-	public EditText txtWarrantyOfProduct;
-	public EditText txtOriginOfProduct;
-	public EditText txtAddressOfProduct;
-	public EditText txtPageViewOfProduct;
+	private EditText txtNameProduct;
+	private EditText txtPriceOfProduct;
+	private EditText txtQuantityOfProduct;
+	private EditText txtWarrantyOfProduct;
+	private EditText txtOriginOfProduct;
+	private EditText txtAddressOfProduct;
+	private EditText txtPageViewOfProduct;
 
-	public Button btnViewComment;
-	public Button btnViewUserInfo;
+	private Button btnViewComment;
+	private Button btnViewUserInfo;
 
-	public ProductInfo productInfo = null;
+	protected static ProductInfo productInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG, "view basic info of product");
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.view_basic_attribute_of_product);
 		
@@ -69,7 +66,7 @@ public class ViewBasicAttributeOfProduct extends Activity {
 		lblNameOfProduct = (TextView) findViewById(R.id.viewNameOfProduct);
 		lblNameOfProduct.setWidth(labelWidth);
 		txtNameProduct = (EditText) findViewById(R.id.txtViewNameOfProduct);
-		txtNameProduct.setFilters(Global.uneditableInputFilters);
+		
 		lblPriceOfProduct = (TextView) findViewById(R.id.viewPriceOfProduct);
 		lblPriceOfProduct.setWidth(labelWidth);
 		txtPriceOfProduct = (EditText) findViewById(R.id.txtViewPriceOfProduct);
@@ -99,10 +96,7 @@ public class ViewBasicAttributeOfProduct extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ViewBasicAttributeOfProduct.this, ViewCommentsActivity.class);
-				intent.putExtra(Global.ID_OF_COMMENTS, productInfo.id);
-				intent.putExtra(Global.TYPE_OF_COMMENTS, MainActivity.PRODUCT);
-				startActivity(intent);
+				showComment();
 			}
 		});
 		
@@ -111,47 +105,22 @@ public class ViewBasicAttributeOfProduct extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ViewBasicAttributeOfProduct.this, UserActivity.class);
-				intent.putExtra(Global.USER_INFO, MockUserInfo.getUser(productInfo.username));
-				intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
-				
-				startActivity(intent);
+				viewUserProfile();
 			}
 		});
 		
 		// set up check box
 		final CheckBox chVat = (CheckBox) findViewById(R.id.viewCheckBoxIsVAT);
 		
-		// setup data for text field if in edit/view product info mode
-		Bundle bundle = getIntent().getExtras();
-		if (bundle != null) {
-			productInfo = (ProductInfo) bundle.get(Global.PRODUCT_INFO);
-			
-			txtNameProduct.setText(productInfo.name);
-			txtPriceOfProduct.setText("" + productInfo.price);
-			txtQuantityOfProduct.setText("" + productInfo.quantity);
-			txtWarrantyOfProduct.setText(productInfo.warranty);
-			txtOriginOfProduct.setText(productInfo.origin);
-			txtAddressOfProduct.setText(productInfo.address);
-			
-			if (productInfo.isVAT == true) {
-				chVat.setChecked(true);
-			} else {
-				chVat.setChecked(false);
-			}
-			
-			boolean canEditProductInfo = bundle.getBoolean(Global.CAN_EDIT_PRODUCT_INFO);
-			if (!canEditProductInfo) {
-				txtNameProduct.setFilters(Global.uneditableInputFilters);
-				txtPriceOfProduct.setFilters(Global.uneditableInputFilters);
-				txtQuantityOfProduct.setFilters(Global.uneditableInputFilters);
-				txtWarrantyOfProduct.setFilters(Global.uneditableInputFilters);
-				txtOriginOfProduct.setFilters(Global.uneditableInputFilters);
-				txtAddressOfProduct.setFilters(Global.uneditableInputFilters);
-				txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
-			}
-
-		}
+		// fill data of product to form
+		txtNameProduct.setText(productInfo.name);
+		txtPriceOfProduct.setText("" + productInfo.price);
+		txtQuantityOfProduct.setText("" + productInfo.quantity);
+		txtWarrantyOfProduct.setText(productInfo.warranty);
+		txtOriginOfProduct.setText(productInfo.origin);
+		txtAddressOfProduct.setText(productInfo.address);
+		txtPageViewOfProduct.setText(productInfo.product_view + "");
+		chVat.setChecked(productInfo.isVAT);
 		
 		btnViewUserInfo.setOnClickListener(new OnClickListener() {
 			
@@ -177,14 +146,19 @@ public class ViewBasicAttributeOfProduct extends Activity {
 	protected void findDirectionToProduct() {
 		// TODO loading when find direction
 		Log.d(TAG, "find direction to product");
-		final Intent intent = new Intent(this, DirectionListActivity.class);
-//		MyLocation myLocation = MyLocation.getInstance();
 		new MyLocationListener(this, new MyLocationCallback() {
 			
 			@Override
 			public void onSuccess(GeoPoint point) {
 				Log.d(TAG, "current location = " + point);
+				if (point == null) {
+					Toast.makeText(ViewProductBasicAttributeActivity.this, 
+							getString(R.string.errCannotFindCurrentLocation),
+							Toast.LENGTH_SHORT).show();
+					return;
+				}
 				
+				Intent intent = new Intent(ViewProductBasicAttributeActivity.this, DirectionListActivity.class);
 				intent.putExtra("lat1", (double) point.getLatitudeE6() / 1E6);
 				intent.putExtra("lng1", (double) point.getLongitudeE6() / 1E6);
 				intent.putExtra("lat2", (double)productInfo.lat);
@@ -196,32 +170,22 @@ public class ViewBasicAttributeOfProduct extends Activity {
 			@Override
 			public void onFailure() {
 			}
-		}).getCurrentLocation();
-//		myLocation.getLocation(this, new LocationResult() {
-//			
-//			@Override
-//			public void gotLocation(Location location) {
-//				Log.d(TAG, "current location = " + location.getLatitude()+ ", " + location.getLongitude());
-//				
-//				intent.putExtra("lat1", location.getLatitude());
-//				intent.putExtra("lng1", location.getLongitude());
-//				intent.putExtra("lat2", (double)productInfo.lat / 1E6);
-//				intent.putExtra("lng2", (double)productInfo.lng / 1E6);
-//				
-//				startActivity(intent);
-//			}
-//		});
+		}).findCurrentLocation();
 	}
 
 	protected void showComment() {
-		Intent intent = new Intent(this, ViewCommentsActivity.class);
-		intent.putExtra(Global.ID_OF_COMMENTS, Global.username);
+		Intent intent = new Intent(ViewProductBasicAttributeActivity.this, ViewCommentsActivity.class);
+		intent.putExtra(Global.ID_OF_COMMENTS, productInfo.id);
+		intent.putExtra(Global.TYPE_OF_COMMENTS, MainActivity.PRODUCT);
 		startActivity(intent);
 	}
 
 	protected void viewUserProfile() {
 		Intent intent = new Intent(this, UserProfileActivity.class);
 		intent.putExtra(Global.USER_NAME, productInfo.username);
+		if (Global.isLogin && Global.username.equals(productInfo.username)) {
+			intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
+		}
 		
 		startActivity(intent);
 	}

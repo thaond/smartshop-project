@@ -10,8 +10,8 @@
 		android:textStyle="bold"/>
 
 	<com.google.android.maps.MapView
-		android:id="@+id/mapview" android:layout_width="250dip"
-		android:layout_height="250dip" android:clickable="true"
+		android:id="@+id/mapview" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:clickable="true"
 		android:apiKey="@string/mapApiKey" />
 
 	<Button android:layout_width="50dip" android:layout_height="wrap_content"

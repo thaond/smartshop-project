@@ -12,16 +12,16 @@
 			android:layout_height="wrap_content" android:id="@+id/btnSearch" />
 	</LinearLayout>
 	
-	<RadioGroup android:layout_width="fill_parent" android:layout_height="wrap_content"
+	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:orientation="horizontal">
 	
-		<RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:id="@+id/rbPageMostView" android:text="@string/page_most_view"/>
+		<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:id="@+id/chPageMostView" android:text="@string/page_most_view"/>
 			
-		<RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:id="@+id/rbPageMostUpdate" android:text="@string/page_most_update"/>
+		<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:id="@+id/chPageMostUpdate" android:text="@string/page_most_update"/>
 		
-	</RadioGroup>
+	</LinearLayout>
 	
 	<ListView android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:id="@+id/listPages" />

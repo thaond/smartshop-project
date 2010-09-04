@@ -25,12 +25,9 @@ public class Global {
 	 * User
 	 */
 	public static String username = MockUserInfo.getInstance().username;
-	public static boolean isLogin = false;
-	public static UserInfo userInfo = new UserInfo();
+	public static boolean isLogin = false;	// TODO for test
+	public static UserInfo userInfo = MockUserInfo.getInstance();	// TODO for test
 	//TODO (tam -> duc) Test, remove username, isLogin. B/c we check whether userInfo isn't equals null to know user have logined or not
-	static{
-		userInfo.username = "tam";
-	}
 
 	/*
 	 * Misc
@@ -66,18 +63,23 @@ public class Global {
 	 */
 	public static final String USER_INFO = "user_info";
 	public static final String CAN_EDIT_USER_PROFILE = "can_edit_user_profile";
-	public static final String USER_PRODUCT_LIST_TYPE = "product_list_type";
+	
+	public static final String PRODUCTS_OF_USER = "products_of_user";
 
 	public static final String PRODUCT_INFO = "product_info";
 	public static final String CAN_EDIT_PRODUCT_INFO = "can_edit_product_info";
 
-	public static final String PRODUCT_LIST_TYPE = "product_list_type";
 	public static final String PAGE = "page";
+	public static final String PAGES_TYPE = "pages_type";
+	public static final String PAGES_OF_USER = "pages_of_user";
+	
+	public static final String PRODUCTS_TYPE = "products_ype";
+	public static final String USER_NAME = "user_name";
+	public static final String TYPE = "type";
+	
 	public static final String ID_OF_COMMENTS = "id_of_comments";
 	public static final String TYPE_OF_COMMENTS = "type_of_comments";
-	public static final String USER_NAME = "user_name";
-	public static final String PAGES_LIST_TYPE = "pages_list_type";
-	public static final String TYPE = "type";
+	
 	public static final String CATEGORY_INFO = "category_info";
 	public static final String SELECTED_CATEGORIES = "selected_categories";
 	

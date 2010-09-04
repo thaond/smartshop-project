@@ -1,6 +1,7 @@
 package com.appspot.smartshop.ui.user;
 
-import com.appspot.smartshop.adapter.UserProfileAdapter;
+import com.appspot.smartshop.adapter.CurrentUserProfileAdapter;
+import com.appspot.smartshop.adapter.ViewUserProfileAdapter;
 import com.appspot.smartshop.utils.Global;
 
 import android.app.ListActivity;
@@ -22,6 +23,10 @@ public class UserProfileActivity extends ListActivity {
 		Log.d(TAG, "profile of " + username);
 		
 		ListView list = getListView();
-		list.setAdapter(new UserProfileAdapter(this));
+		if (Global.isLogin) {
+			list.setAdapter(new CurrentUserProfileAdapter(this));
+		} else {
+			list.setAdapter(new ViewUserProfileAdapter(this, username));
+		}
 	}
 }
