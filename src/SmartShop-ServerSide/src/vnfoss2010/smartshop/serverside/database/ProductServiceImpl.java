@@ -880,7 +880,7 @@ public class ProductServiceImpl {
 						+ queryBuffer.toString()
 						+ " && listBuyers.contains(us)) order by date_post DESC"
 						+ ((limit == 0) ? "" : (" limit " + limit));
-				declareParametersBuffer.append(", id == produtId");
+				declareParametersBuffer.append(", Long productId");
 
 				log.log(Level.SEVERE, query);
 				queryObject = pm.newQuery(query);
@@ -929,7 +929,7 @@ public class ProductServiceImpl {
 	}
 
 	public ServiceResult<List<Product>> getListProductFromUsername(
-			String username) {
+			String username, String q, int limit) {
 		username = DatabaseUtils.preventSQLInjection(username);
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -954,13 +954,62 @@ public class ProductServiceImpl {
 			result.setMessage(Global.messages.getString("not_found") + " "
 					+ username);
 		} else {
-			Query query = pm.newQuery(Page.class);
-			query.setFilter("username == us");
-			query.declareParameters("String us");
-			query.setOrdering("date_post DESC");
-			List<Product> listProducts = (List<Product>) query
-					.execute(username);
+			if (limit==0)
+				limit = Integer.MAX_VALUE;
+	
+			Query queryObject;
+			List<Product> listProducts;
 
+			if (StringUtils.isEmptyOrNull(q)) {
+				// Query here
+				Query query = pm.newQuery(Product.class);
+				query.setFilter("username == us");
+				query.declareParameters("String us");
+				query.setOrdering("date_post DESC");
+				listProducts = (List<Product>) query
+						.execute(username);
+			} else {
+				// Prepare to search
+				StringBuffer queryBuffer = new StringBuffer();
+				Set<String> queryTokens = SearchJanitorUtils
+						.getTokensForIndexingOrQuery(q,
+								Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+				List<Object> parametersForSearch = new ArrayList<Object>(
+						queryTokens);
+				StringBuffer declareParametersBuffer = new StringBuffer();
+				int parameterCounter = 0;
+
+				while (parameterCounter < queryTokens.size()) {
+					queryBuffer.append("fts == param" + parameterCounter);
+					declareParametersBuffer.append("String param"
+							+ parameterCounter);
+
+					if (parameterCounter + 1 < queryTokens.size()) {
+						queryBuffer.append(" && ");
+						declareParametersBuffer.append(", ");
+					}
+					parameterCounter++;
+				}
+				// //////
+
+				String query = "select from "
+						+ Product.class.getName()
+						+ " where ("
+						+ queryBuffer.toString()
+						+ " && username == us) order by date_post DESC"
+						+ ((limit == 0) ? "" : (" limit " + limit));
+				declareParametersBuffer.append(", String us");
+
+				log.log(Level.SEVERE, query);
+				queryObject = pm.newQuery(query);
+				queryObject.declareParameters(declareParametersBuffer
+						.toString());
+				parametersForSearch.add(username);
+
+				listProducts = (List<Product>) queryObject
+						.executeWithArray(parametersForSearch.toArray());
+			}
+			
 			if (listProducts.size() > 0) {
 				result.setOK(true);
 				result.setMessage(String.format(Global.messages
