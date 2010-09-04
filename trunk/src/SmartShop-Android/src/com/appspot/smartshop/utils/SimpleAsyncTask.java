@@ -50,8 +50,7 @@ public class SimpleAsyncTask extends AsyncTask<Void, Void, Void> {
 		Log.d(TAG, "onPostExec");
 		if (!hasData) {
 			dialog.dismiss();
-			Toast.makeText(context, message, 
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		dataLoader.updateUI();

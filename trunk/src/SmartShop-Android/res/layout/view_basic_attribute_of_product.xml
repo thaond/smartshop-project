@@ -25,7 +25,7 @@
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
 			<CheckBox android:id="@+id/viewCheckBoxIsVAT"
-				android:editable="false" android:layout_width="wrap_content"
+				android:enabled="false" android:layout_width="wrap_content"
 				android:layout_height="wrap_content" />
 			<TextView android:id="@+id/txtViewIsVATInPostProductForm"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -54,8 +54,8 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/originOfProduct" />
 			<EditText android:id="@+id/txtViewOriginOfProduct"
-				android:editable="false" android:layout_width="fill_parent"
-				android:layout_height="wrap_content" />
+				android:editable="false"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
@@ -63,8 +63,8 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/addressOfProduct" />
 			<EditText android:id="@+id/txtViewAddressOfProduct"
-				android:editable="false" android:layout_width="fill_parent"
-				android:layout_height="wrap_content" />
+				android:editable="false"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
@@ -72,8 +72,8 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/pageView" />
 			<EditText android:id="@+id/txtViewPageViewOfProduct"
-				android:editable="false" android:layout_width="fill_parent"
-				android:layout_height="wrap_content" />
+				android:editable="false"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_width="wrap_content" android:layout_height="wrap_content">

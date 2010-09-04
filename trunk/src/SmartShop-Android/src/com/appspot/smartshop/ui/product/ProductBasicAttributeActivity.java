@@ -30,12 +30,13 @@ import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
 public class ProductBasicAttributeActivity extends MapActivity {
-	public static final String TAG = "[PostProductActivityBasicAttribute]";
+	public static final String TAG = "[ProductBasicAttributeActivity]";
 	
 	public static final int PICK_CATEGORIES = 0;
 	public TextView lblNameOfProduct;
@@ -67,9 +68,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		setContentView(R.layout.post_basic_product_attribute);
 
 		// set up labelWidth and textWidth
-		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE))
-				.getDefaultDisplay();
-		int width = display.getWidth();
+		int width = Utils.getScreenWidth();
 		int labelWidth = (int) (width * 0.25);
 
 		// set up TextView and EditText
@@ -161,8 +160,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		productInfo.username = Global.username;
 		productInfo.warranty = txtWarrantyOfProduct.getText().toString();
 		productInfo.address = txtAddressOfProduct.getText().toString();
-		// TODO attribute of categories
-		productInfo.setAttributes = ProductUserDefinedAttributeActivity.setAttributes;
+		productInfo.attributeSets = ProductUserDefinedAttributeActivity.setAttributes;
 		
 		// post new product
 		task = new SimpleAsyncTask(this, new DataLoader() {

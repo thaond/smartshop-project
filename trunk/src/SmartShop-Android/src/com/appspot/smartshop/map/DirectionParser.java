@@ -6,8 +6,10 @@ import org.json.JSONObject;
 import com.appspot.smartshop.utils.JSONParser;
 import com.google.gson.JsonObject;
 
-public class DirectionParser implements JSONParser {
+public class DirectionParser extends JSONParser {
 	public DirectionResult result = new DirectionResult();
+	
+	public int jsonType = JSONParser.GOOGLE_DIRECTION_JSON;
 
 	@Override
 	public void onFailure(String message) {

@@ -19,9 +19,11 @@ import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserInfo;
+import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 import com.google.gson.JsonObject;
 
@@ -74,36 +76,38 @@ public class LoginActivity extends Activity {
 		});
 	}
 
+	private SimpleAsyncTask task;
 	protected void login() {
 		String username = txtUsername.getText().toString();
 		String pass = txtPassword.getText().toString();
-		String url = String.format(URLConstant.LOGIN, username, pass);
+		final String url = String.format(URLConstant.LOGIN, username, pass);
 		
-		RestClient.getData(url, new JSONParser() {
+		task = new SimpleAsyncTask(getString(R.string.loading_when_login), this, new DataLoader() {
 			
 			@Override
-			public void onSuccess(JSONObject json) throws JSONException {
-				int errCode = json.getInt("errCode");
-				String message = json.getString("message");
-				switch (errCode) {
-				case Global.SUCCESS:
-					Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-					Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
-					Global.isLogin = true;
-					finish();
-					break;
-
-				default:
-					Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-					Global.isLogin = false;
-					break;
-				}
+			public void updateUI() {
 			}
 			
 			@Override
-			public void onFailure(String message) {
-				// TODO process when login fail
+			public void loadData() {
+				RestClient.getData(url, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+						Global.isLogin = true;
+						Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
+					}
+					
+					@Override
+					public void onFailure(String message) {
+						task.hasData = false;
+						task.message = message;
+						task.cancel(true);
+					}
+				});
 			}
 		});
+		
+		task.execute();
 	}
 }

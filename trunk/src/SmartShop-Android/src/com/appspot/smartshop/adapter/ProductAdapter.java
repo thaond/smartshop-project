@@ -3,7 +3,6 @@ package com.appspot.smartshop.adapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -11,8 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,16 +19,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.utils.Global;
-import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
 
 public class ProductAdapter extends ArrayAdapter<ProductInfo> {
+	public static final String TAG = "[ProductAdapter]";
 
 	private Context context;
 	private LayoutInflater inflater;
@@ -64,12 +62,10 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			holder = new ViewHolder();
 			holder.image = (ImageView) convertView.findViewById(R.id.image);
 			holder.btnMap = (Button) convertView.findViewById(R.id.btnMap);
-			holder.txtDescription = (TextView) convertView
-					.findViewById(R.id.txtDescription);
-			holder.txtName = (TextView) convertView
-					.findViewById(R.id.txtProductName);
-			holder.txtPrice = (TextView) convertView
-					.findViewById(R.id.txtProductPrice);
+			holder.txtDescription = (TextView) convertView.findViewById(R.id.txtDescription);
+			holder.txtName = (TextView) convertView.findViewById(R.id.txtProductName);
+			holder.txtPrice = (TextView) convertView.findViewById(R.id.txtProductPrice);
+			holder.txtDatePost = (TextView) convertView.findViewById(R.id.txtDatePost);
 
 			convertView.setTag(holder);
 		} else {
@@ -80,29 +76,49 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		holder.txtName.setText(productInfo.name);
 		holder.txtPrice.setText("" + productInfo.price);
 		holder.txtDescription.setText(productInfo.description);
+		// TODO date post of product
+		if (productInfo.datePost != null) {
+			holder.txtDatePost.setText(Global.dfTimeStamp.format(productInfo.datePost));
+		}
 		holder.btnMap.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO (condorhero01): can product has no lat, lng?
-				MapDialog.createLocationDialog(
-						context,
-						new GeoPoint((int) (productInfo.lat * 1E6),
-								(int) (productInfo.lng * 1E6)), null).show();
+				if (productInfo.lat == 0 && productInfo.lng == 0) {
+					Log.d(TAG, "product has no lat, long");
+					Toast.makeText(context, context.getString(R.string.warnProductHasNoAddress), 
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Log.d(TAG, "show location of product");
+					MapDialog.createProductLocationDialog(productInfo.address,
+							context,
+							new GeoPoint((int) (productInfo.lat * 1E6),
+									(int) (productInfo.lng * 1E6))).show();
+				}
 			}
 		});
-		// TODO Load image of product from internet
-		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
-		Bitmap imageOfProduct = getBitmapFromURL(url);
-		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,imageOfProduct.getWidth(), imageOfProduct.getHeight(), true);
-		holder.image.setImageBitmap(imageOfProduct);
+		
+//		// TODO Load image of product from internet
+//		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
+//		Bitmap imageOfProduct = getBitmapFromURL(url);
+//		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,imageOfProduct.getWidth(), imageOfProduct.getHeight(), true);
+//		holder.image.setImageBitmap(imageOfProduct);
+		// TODO sample image
+		holder.image.setBackgroundResource(R.drawable.icon);
+		
 		// go to product detail
 		convertView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				Log.d(TAG, "view detail of product");
 				Intent intent = new Intent(context, ViewProductActivity.class);
 				intent.putExtra(Global.PRODUCT_INFO, productInfo);
+				if (productInfo.username.equals(Global.username)) {
+					// TODO allow edit product when username Global.username
+					Log.d(TAG, "can edit product profile");
+					intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
+				}
 
 				context.startActivity(intent);
 			}
@@ -132,6 +148,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		TextView txtName;
 		TextView txtPrice;
 		TextView txtDescription;
+		TextView txtDatePost;
 		Button btnMap;
 	}
 }

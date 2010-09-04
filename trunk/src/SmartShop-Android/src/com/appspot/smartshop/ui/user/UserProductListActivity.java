@@ -45,6 +45,7 @@ public class UserProductListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_product_list);
 		
+		// get username
 		username = getIntent().getExtras().getString(Global.PRODUCTS_OF_USER);
 		
 		// radio buttons
@@ -87,12 +88,13 @@ public class UserProductListActivity extends Activity {
 		
 		// products listview
 		listProducts = (ListView) findViewById(R.id.listUserProducts);
-		if (products != null) {
-			adapter = new ProductAdapter(this, R.layout.product_list_item, products);
-			listProducts.setAdapter(adapter);
-		} else {
-			loadProductsList();
-		}
+		loadProductsList();
+//		if (products != null) {
+//			adapter = new ProductAdapter(this, R.layout.product_list_item, products);
+//			listProducts.setAdapter(adapter);
+//		} else {
+//			loadProductsList();
+//		}
 	}
 
 	private SimpleAsyncTask task;
@@ -129,16 +131,12 @@ public class UserProductListActivity extends Activity {
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
 						JSONArray arr = json.getJSONArray("products");
-						if (arr == null || arr.length() == 0) {
-							task.hasData = false;
-							task.message = json.getString(URLConstant.MESSAGE);
-							return;
-						}
 						products = Global.gsonWithHour.fromJson(arr.toString(), ProductInfo.getType());
 					}
 					
 					@Override
 					public void onFailure(String message) {
+						task.cancel(true);
 					}
 				});
 			}

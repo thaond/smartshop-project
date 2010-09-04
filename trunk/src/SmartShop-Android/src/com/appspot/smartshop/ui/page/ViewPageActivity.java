@@ -47,6 +47,7 @@ public class ViewPageActivity extends Activity {
 		TextView txtPageView = (TextView) findViewById(R.id.txtPageView);
 		txtPageView.setText(getString(R.string.page_view) + " " + page.page_view);
 		
+		// Buttons
 		Button btnViewComment = (Button) findViewById(R.id.btnViewComment);
 		btnViewComment.setOnClickListener(new OnClickListener() {
 			

@@ -7,9 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
-import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,17 +23,12 @@ import android.widget.Toast;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.CommentAdapter;
 import com.appspot.smartshop.dom.Comment;
-import com.appspot.smartshop.mock.MockComments;
-import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
-import com.appspot.smartshop.utils.Utils;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class ViewCommentsActivity extends Activity {
 	public static final String TAG = "[ViewCommentsActivity]";
@@ -71,14 +63,16 @@ public class ViewCommentsActivity extends Activity {
 		
 		// add new comment
 		Button btnAddComment = (Button) findViewById(R.id.btnAddComment);
-		if (!Global.isLogin) {
-			btnAddComment.setVisibility(View.GONE);
-		}
 		btnAddComment.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				showAddNewCommentDialog();
+				if (!Global.isLogin) {
+					Toast.makeText(ViewCommentsActivity.this,
+							getString(R.string.warn_must_login_to_post_comment), Toast.LENGTH_SHORT).show();
+				} else {
+					showAddNewCommentDialog();
+				}
 			}
 		});
 		
@@ -103,15 +97,12 @@ public class ViewCommentsActivity extends Activity {
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
 						JSONArray arr = json.getJSONArray("comments");
-						if (arr == null || arr.length() == 0) {
-							Log.d(TAG, "no comment found");
-							task.hasData = false;
-							task.message = json.getString(URLConstant.MESSAGE);
-							return;
-						}
-						
 						comments = Global.gsonWithHour.fromJson(arr.toString(), Comment.getType());
 						Log.d(TAG, "found " + comments.size() + " comment(s)");
+						if (comments.size() == 0) {
+							task.hasData = false;
+							task.message = getString(R.string.warn_has_no_comment);
+						}
 					}
 					
 					@Override

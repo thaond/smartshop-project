@@ -5,24 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
 
+import com.appspot.smartshop.R;
+
 public class PostProductActivity extends TabActivity {
+	public static final String PRODUCT_BASIC_INFO = "basic";
+	public static final String PRODUCT_USER_DEFINED_INFO = "user_defined";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final TabHost tabHost = getTabHost();
 
-		// Intent basicIntent = new Intent(this,
-		// PostProductActivityBasicAttribute.class);
-		// basicIntent.putExtra(Global.PRODUCT_INFO,MockProductInfo.getInstance());
-		// basicIntent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
-		tabHost.addTab(tabHost.newTabSpec("Basic").setIndicator(
-				"Thông tin cơ bản").setContent(
-				new Intent(this, ProductBasicAttributeActivity.class)));
-		tabHost.addTab(tabHost.newTabSpec("Advance").setIndicator(
-				"Thông tin chi tiết").setContent(
-				new Intent(this, ProductUserDefinedAttributeActivity.class)));
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
 		}
+		
+		tabHost.addTab(tabHost.newTabSpec(PRODUCT_BASIC_INFO).setIndicator(
+				getString(R.string.product_basic_info)).setContent(
+				new Intent(this, ProductBasicAttributeActivity.class)));
+		tabHost.addTab(tabHost.newTabSpec(PRODUCT_USER_DEFINED_INFO).setIndicator(
+				getString(R.string.product_user_defined_info)).setContent(
+				new Intent(this, ProductUserDefinedAttributeActivity.class)));
 	}
 }

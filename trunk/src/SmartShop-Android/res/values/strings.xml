@@ -44,17 +44,20 @@
 	<string name="lblUpdate">Cập nhật</string>
 	<string name="lblCancel">Thoát</string>
 	<string name="lblOk">OK</string>
-	<string name="errCannotFindCurrentLocation">Không tìm được vị trí hiện tại</string>
+	<string name="errServer">Lỗi hệ thống</string>
 
 	<!-- User login -->
 	<string name="lblLogin">Đăng nhập</string>
 	<string name="errMustLoginToViewProfile">Bạn chưa đăng nhập</string>
+	<string name="loading_when_login">Đang kết nối...</string>
 
-	<!-- Map service error -->
+	<!-- Map service-->
 	<string name="errGetLocation">Lỗi kết nối</string>
 	<string name="errCantGetLocation">Không tìm được địa chỉ bạn vừa chọn</string>
 	<string name="errCantGetDirection">Không tìm được đường giữa hai vị trí trên</string>
 	<string name="errGetDirection">Lỗi kết nối</string>
+	<string name="errCannotFindCurrentLocation">Không tìm được vị trí hiện tại</string>
+	<string name="finding_your_current_location">Đang xác định vị trí hiện tại của bạn</string>
 
 	<!-- Post Product Form -->
 	<string name="nameOfProduct">Tên</string>
@@ -79,6 +82,7 @@
 	<string name="userName">Username</string>
 	<string name="product_basic_info">Thông tin sản phẩm</string>
 	<string name="product_user_defined_info">Thông tin bổ sung</string>
+	<string name="warnProductHasNoAddress">Không có thông tin địa chỉ của sản phẩm</string>
 	
 	<!-- Dialog -->
 	<string name="btnShowDirectionOnMap">Xem trên bản đồ</string>
@@ -126,10 +130,13 @@
 	<string name="btnSearchProductsOnMap">Tìm</string>
 	<string name="errorSearchProductsOnMapQueryEmpty">Nhập vào mặt hàng cần tìm kiếm</string>
 	<string name="errorSearchProductsOnMapRadius">Nhập vào bán kính hợp lệ</string>
+	<string name="warnNoProductFound">Không tìm thấy sản phẩm nào</string>
 
-	<!-- Comment dialog -->
+	<!-- Comment -->
 	<string name="add_new_comment">Thêm bình luận</string>
 	<string name="errEmptyComment">Bạn chưa nhập nội dung</string>
+	<string name="warn_must_login_to_post_comment">Bạn phải đăng nhập trước</string>
+	<string name="warn_has_no_comment">Hiện chưa có bình luận nào</string>
 	
 	<!-- Search by categories -->
 	<string name="search_by_categories">Tìm theo mục</string>

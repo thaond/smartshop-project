@@ -24,10 +24,11 @@ import com.appspot.smartshop.map.MyLocationListener.MyLocationCallback;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
 
 public class ViewProductBasicAttributeActivity extends Activity {
-	public static final String TAG = "[ViewBasicAttributeOfProduct]";
+	public static final String TAG = "[ViewProductBasicAttributeActivity]";
 	
 	private TextView lblNameOfProduct;
 	private TextView lblPriceOfProduct;
@@ -50,6 +51,10 @@ public class ViewProductBasicAttributeActivity extends Activity {
 
 	protected static ProductInfo productInfo;
 
+	private TextView txtUsername;
+
+	private CheckBox chVat;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "view basic info of product");
@@ -57,9 +62,7 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		this.setContentView(R.layout.view_basic_attribute_of_product);
 		
 		// set up labelWidth and textWidth
-		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE))
-				.getDefaultDisplay();
-		int width = display.getWidth();
+		int width = Utils.getScreenWidth();
 		int labelWidth = (int) (width * 0.25);
 		
 		// set up TextView and EditText
@@ -89,6 +92,11 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		lblPageViewOfProduct = (TextView) findViewById(R.id.viewPageViewOfProduct);
 		lblPageViewOfProduct.setWidth(labelWidth);
 		txtPageViewOfProduct = (EditText) findViewById(R.id.txtViewPageViewOfProduct);
+		
+		txtUsername = (TextView) findViewById(R.id.txtUsername);
+		
+		// VAT checbox
+		chVat = (CheckBox) findViewById(R.id.viewCheckBoxIsVAT);
 
 		// buttons
 		btnViewComment = (Button) findViewById(R.id.viewComment);
@@ -109,19 +117,6 @@ public class ViewProductBasicAttributeActivity extends Activity {
 			}
 		});
 		
-		// set up check box
-		final CheckBox chVat = (CheckBox) findViewById(R.id.viewCheckBoxIsVAT);
-		
-		// fill data of product to form
-		txtNameProduct.setText(productInfo.name);
-		txtPriceOfProduct.setText("" + productInfo.price);
-		txtQuantityOfProduct.setText("" + productInfo.quantity);
-		txtWarrantyOfProduct.setText(productInfo.warranty);
-		txtOriginOfProduct.setText(productInfo.origin);
-		txtAddressOfProduct.setText(productInfo.address);
-		txtPageViewOfProduct.setText(productInfo.product_view + "");
-		chVat.setChecked(productInfo.isVAT);
-		
 		btnViewUserInfo.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -139,19 +134,38 @@ public class ViewProductBasicAttributeActivity extends Activity {
 			}
 		});
 		
-		TextView txtUsername = (TextView) findViewById(R.id.txtUsername);
+
+		// fill data of product to form
+		txtNameProduct.setText(productInfo.name);
+		txtPriceOfProduct.setText("" + productInfo.price);
+		txtQuantityOfProduct.setText("" + productInfo.quantity);
+		txtWarrantyOfProduct.setText(productInfo.warranty);
+		txtOriginOfProduct.setText(productInfo.origin);
+		txtAddressOfProduct.setText(productInfo.address);
+		txtPageViewOfProduct.setText(productInfo.product_view + "");
 		txtUsername.setText(productInfo.username);
+		chVat.setChecked(productInfo.isVAT);
+		
+		// don't allow edit product info
+		txtNameProduct.setFilters(Global.uneditableInputFilters);
+		txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
+		txtQuantityOfProduct.setFilters(Global.uneditableInputFilters);
+		txtWarrantyOfProduct.setFilters(Global.uneditableInputFilters);
+		txtOriginOfProduct.setFilters(Global.uneditableInputFilters);
+		txtAddressOfProduct.setFilters(Global.uneditableInputFilters);
+		txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
+		
 	}
 
 	protected void findDirectionToProduct() {
-		// TODO loading when find direction
 		Log.d(TAG, "find direction to product");
 		new MyLocationListener(this, new MyLocationCallback() {
 			
 			@Override
 			public void onSuccess(GeoPoint point) {
-				Log.d(TAG, "current location = " + point);
+				Log.d(TAG, "current location of product = " + point);
 				if (point == null) {
+					Log.d(TAG, "cannot find current location of product");
 					Toast.makeText(ViewProductBasicAttributeActivity.this, 
 							getString(R.string.errCannotFindCurrentLocation),
 							Toast.LENGTH_SHORT).show();
@@ -169,11 +183,15 @@ public class ViewProductBasicAttributeActivity extends Activity {
 			
 			@Override
 			public void onFailure() {
+				Toast.makeText(ViewProductBasicAttributeActivity.this, 
+						getString(R.string.errCannotFindCurrentLocation),
+						Toast.LENGTH_SHORT).show();
 			}
 		}).findCurrentLocation();
 	}
 
 	protected void showComment() {
+		Log.d(TAG, "show comments of product " + productInfo.id);
 		Intent intent = new Intent(ViewProductBasicAttributeActivity.this, ViewCommentsActivity.class);
 		intent.putExtra(Global.ID_OF_COMMENTS, productInfo.id);
 		intent.putExtra(Global.TYPE_OF_COMMENTS, MainActivity.PRODUCT);
@@ -184,6 +202,7 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		Intent intent = new Intent(this, UserProfileActivity.class);
 		intent.putExtra(Global.USER_NAME, productInfo.username);
 		if (Global.isLogin && Global.username.equals(productInfo.username)) {
+			Log.d(TAG, "can edit user profile");
 			intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
 		}
 		
