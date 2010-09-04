@@ -35,7 +35,6 @@ public class GetListPageByCriteriaService extends BaseRestfulService {
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		JSONObject json = null;
-		Gson gson = new Gson();
 		try {
 			json = new JSONObject(content);
 		} catch (Exception e) {
@@ -84,7 +83,7 @@ public class GetListPageByCriteriaService extends BaseRestfulService {
 		jsonReturn.addProperty("message", result.getMessage());
 
 		if (result.isOK()) {
-			jsonReturn.add("pages", gson.toJsonTree(result.getResult()));
+			jsonReturn.add("pages", Global.gsonWithDate.toJsonTree(result.getResult()));
 		}
 
 		Global.log(log, jsonReturn.toString());

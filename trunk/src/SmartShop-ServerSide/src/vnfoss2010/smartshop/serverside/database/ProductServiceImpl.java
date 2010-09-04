@@ -420,7 +420,7 @@ public class ProductServiceImpl {
 							.executeWithArray(listParameters.toArray());
 				} else {
 					query = "select from " + Product.class.getName()
-							+ " where (" + where.toString() + ") order by "
+							+ (StringUtils.isEmptyOrNull(where.toString())? "" : " where (" + where.toString() + ")" )+ " order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 					queryObj = pm.newQuery(query);
