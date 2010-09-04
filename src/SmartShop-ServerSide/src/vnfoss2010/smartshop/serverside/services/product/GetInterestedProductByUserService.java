@@ -11,6 +11,7 @@ import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.JsonObject;
@@ -40,8 +41,16 @@ public class GetInterestedProductByUserService extends BaseRestfulService {
 			limit = Integer.parseInt(getParameter("limit", params, json));
 		} catch (Exception e) {
 		}
+
+		//Query
+		String q = null;
+		try {
+			q = getParameter("q", params, json);
+			q = UtilsFunction.removeViSign(q);
+		} catch (Exception e) {
+		}
 		
-		ServiceResult<List<Product>> productResult = dbProduct.getListInterestedProductsByUsername(username, limit);
+		ServiceResult<List<Product>> productResult = dbProduct.getListInterestedProductsByUsername(username, q, limit);
 
 		JsonObject jsonReturn = new JsonObject();
 
