@@ -20,7 +20,7 @@ public class Category {
 	
 	@Persistent 
 	private String parent_id;  
-
+ 
 	@Exclude
 	@Persistent 
 	private List<Long> listPages;  

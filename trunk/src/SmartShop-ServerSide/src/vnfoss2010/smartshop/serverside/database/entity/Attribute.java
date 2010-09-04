@@ -17,7 +17,7 @@ public class Attribute {
 	private String key_cat; 
 
 	@Persistent
-	private String name;  
+	private String name;   
  
 	@Persistent
 	private String value; 

@@ -24,7 +24,7 @@ public class Page extends SearchCapable{
  
 	@Persistent
 	private String content;
-
+ 
 	@Persistent
 	private String link_thumbnail; 
  

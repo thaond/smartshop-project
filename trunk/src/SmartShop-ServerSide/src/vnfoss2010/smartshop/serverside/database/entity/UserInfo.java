@@ -25,7 +25,7 @@ public class UserInfo extends SearchCapable implements Serializable{
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private String username;
 
-	@Persistent
+	@Persistent 
 	private String password;
 
 	private String old_password;
