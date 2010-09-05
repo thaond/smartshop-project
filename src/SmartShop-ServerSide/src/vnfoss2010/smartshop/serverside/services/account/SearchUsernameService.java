@@ -3,6 +3,7 @@ package vnfoss2010.smartshop.serverside.services.account;
 import java.util.List;
 import java.util.Map;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
@@ -32,14 +33,13 @@ public class SearchUsernameService extends BaseRestfulService {
 		String query = getParameter("q", params, json);
 
 		JsonObject jsonReturn = new JsonObject();
-		Gson gson = new Gson();
 
 		ServiceResult<List<UserInfo>> result = db.searchUsernamesLike(query);
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());
 			
-			jsonReturn.add("userinfos", gson.toJsonTree(result.getResult()));
+			jsonReturn.add("userinfos", Global.gsonDateWithoutHour.toJsonTree(result.getResult()));
 		} else {
 			jsonReturn.addProperty("errCode", 1);
 			jsonReturn.addProperty("message", result.getMessage());

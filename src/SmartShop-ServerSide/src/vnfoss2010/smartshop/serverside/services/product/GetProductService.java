@@ -15,7 +15,6 @@ import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class GetProductService extends BaseRestfulService {
@@ -43,7 +42,6 @@ public class GetProductService extends BaseRestfulService {
 		ServiceResult<Product> productResult = dbProduct.findProduct(id);
 
 		JsonObject jsonReturn = new JsonObject();
-		Gson gson = new Gson();
 
 		if (productResult.isOK() == false) {
 			jsonReturn.addProperty("errCode", 1);
@@ -65,8 +63,8 @@ public class GetProductService extends BaseRestfulService {
 				jsonReturn.addProperty("errCode", 1);
 				jsonReturn.addProperty("message", Global.messages
 						.getString("find_product_successfully"));
-				jsonReturn.add("listCategories", gson.toJsonTree(categoryList));
-				jsonReturn.add("product", gson.toJsonTree(product));
+				jsonReturn.add("listCategories", Global.gsonWithDate.toJsonTree(categoryList));
+				jsonReturn.add("product", Global.gsonWithDate.toJsonTree(product));
 			}
 		}
 
