@@ -1,6 +1,9 @@
 package vnfoss2010.smartshop.serverside.services.parser.vatgia;
 
+import java.net.URLEncoder;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +21,10 @@ import vnfoss2010.smartshop.serverside.utils.StringUtils;
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.JsonObject;
 
-public class ProductInforService extends BaseRestfulService{
+public class ProductInfoService extends BaseRestfulService{
+	private final static Logger log = Logger.getLogger(ProductInfoService.class
+			.getName());
+	
 	//Sammple URL: http://m.vatgia.com/6087/541022/cảm-ứng-o2-xda-diamond-pro.html
 	private static final String REGEX_NAME_PRODUCT = "<h1>(.+?)</h1>.+?<img src=\"(.+?)\"";
 	private static final String REGEX_NAME_INFO_CO = "<div class=\"pro_estore_name\">(.+?)</div><div class=\"pro_estore_price\"><span class=\"pro_price\">(.+?)</span>&nbsp;<span class=\"pro_price_usd\">(.+?)</span><div class=\"pro_price_width\">(.+?)</div></div><div><(.+?)<div class=\"pro_estore_information\">(.+?)</div>";
@@ -26,7 +32,7 @@ public class ProductInforService extends BaseRestfulService{
 	private static final String REGEX_EACH_CO_INFO = "<b>(.+?)</b>(.+?)<br />";
 	private static final String REGEX_ATT_PRODUCT = "(<tr class=\"title\"><td colspan=\"[0-9]\">(.+?)</td></tr><tr>)? ?(<td class=\"name\">(.+?)</td><td class=\"value\">(.+?)</td>)+";
 
-	public ProductInforService(String serviceName) {
+	public ProductInfoService(String serviceName) {
 		super(serviceName);
 	}
 
@@ -41,8 +47,9 @@ public class ProductInforService extends BaseRestfulService{
 		}
 		
 		String url = getParameterWithThrow("url", params, json);
-//		String url = "http://m.vatgia.com/6087/541022/cảm-ứng-o2-xda-diamond-pro.html";
-		String result = HttpRequest.get(url).content;
+		
+		log.log(Level.SEVERE, url);
+		String result = HttpRequest.get(URLEncoder.encode(url,"UTF-8").replaceAll("%2F", "/").replaceAll("%3A", ":")).content;
 
 		if (!StringUtils.isEmptyOrNull(result)){
 			// Init pattern
@@ -81,7 +88,7 @@ public class ProductInforService extends BaseRestfulService{
 			}
 			
 			//Get product specification
-			url = url.replaceAll("([0-9]+/[0-9]+/)", "$1thong_so_ky_thuat/");
+			url = URLEncoder.encode(url.replaceAll("([0-9]+/[0-9]+/)", "$1thong_so_ky_thuat/"),"UTF-8").replaceAll("%2F", "/").replaceAll("%3A", ":");
 			result = HttpRequest.get(url).content;
 			// Get list group and attribute
 			matcher = patAttProduct.matcher(result);
@@ -120,7 +127,7 @@ public class ProductInforService extends BaseRestfulService{
 	}
 	
 	public static void main(String[] args) throws RestfulException, Exception {
-		ProductInforService p = new ProductInforService("asd");
+		ProductInfoService p = new ProductInfoService("asd");
 		
 		System.out.println(p.process(null, null));
 	}
