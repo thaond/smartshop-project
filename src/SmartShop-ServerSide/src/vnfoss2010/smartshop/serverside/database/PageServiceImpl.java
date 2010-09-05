@@ -39,14 +39,15 @@ public class PageServiceImpl {
 			if (page == null) {
 				result.setOK(false);
 				result.setMessage(Global.messages
-						.getString("khong tim thay page"));
+						.getString("no_page_found"));
 			} else {
-				result.setMessage("Tim thay page");
+				result.setMessage(Global.messages.getString("page_found"));
 				result.setOK(true);
 				result.setResult(page);
 			}
 		} catch (Exception e) {
-			result.setMessage("khong tim thay page " + e.getMessage());
+			e.printStackTrace();
+			result.setMessage(Global.messages.getString("find_page_fail"));
 		} finally {
 			try {
 				pm.close();
@@ -65,15 +66,15 @@ public class PageServiceImpl {
 		try {
 			page = pm.makePersistent(page);
 			if (page == null) {
-				result.setMessage("khong the insert page");
+				result.setMessage(Global.messages.getString("insert_page_fail"));
 			} else {
 				result.setResult(page.getId());
-				result.setMessage("insert page thanh cong");
+				result.setMessage(Global.messages.getString("insert_page_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage("khong the insert page " + e.getMessage());
+			result.setMessage(Global.messages.getString("insert_page_fail"));
 		} finally {
 			try {
 				pm.close();
@@ -93,16 +94,16 @@ public class PageServiceImpl {
 			page = pm.getObjectById(Page.class, pageID);
 			product = pm.getObjectById(Product.class, productID);
 			if (page == null || product == null) {
-				result.setMessage("Khong the tim thay page hay product");
+				result.setMessage(Global.messages.getString("no_page_or_product"));
 			} else {
 				page.getSetProduct().add(productID);
 				product.getSetPagesID().add(pageID);
 				result.setOK(true);
-				result.setMessage("Tag product to page thanh cong");
+				result.setMessage(Global.messages.getString("tag_product_into_page_successfully"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage("khong the insert page " + e.getMessage());
+			result.setMessage(Global.messages.getString("tag_product_into_page_fail"));
 		} finally {
 			try {
 				pm.close();
@@ -122,16 +123,16 @@ public class PageServiceImpl {
 			page = pm.getObjectById(Page.class, pageID);
 			product = pm.getObjectById(Product.class, productID);
 			if (page == null || product == null) {
-				result.setMessage("Khong the tim thay page hay product");
+				result.setMessage(Global.messages.getString("no_page_or_product"));
 			} else {
 				page.getSetProduct().remove(productID);
 				product.getSetPagesID().remove(pageID);
 				result.setOK(true);
-				result.setMessage("Tag product to page thanh cong");
+				result.setMessage(Global.messages.getString("untag_product_into_page_successfully"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage("khong the insert page " + e.getMessage());
+			result.setMessage(Global.messages.getString("untag_product_into_page_fail"));
 		} finally {
 			try {
 				pm.close();
@@ -151,7 +152,7 @@ public class PageServiceImpl {
 			page = pm.getObjectById(Page.class, editPage.getId());
 			if (page == null) {
 				result.setOK(false);
-				result.setMessage("Khong tim thay page");
+				result.setMessage(Global.messages.getString("no_page_found"));
 			} else {
 				page.setContent(editPage.getContent());
 				page.setDate_post(editPage.getDate_post());
@@ -162,10 +163,10 @@ public class PageServiceImpl {
 				page.setSetCategoryKeys(editPage.getSetCategoryKeys());
 				page.setSetProduct(editPage.getSetProduct());
 				result.setOK(true);
-				result.setMessage("Update thanh cong");
+				result.setMessage(Global.messages.getString("update_page_successfully"));
 			}
 		} catch (Exception e) {
-			result.setMessage("exception " + e.getMessage());
+			result.setMessage(Global.messages.getString("update_page_fail"));
 			result.setOK(false);
 			e.printStackTrace();
 		} finally {
@@ -433,12 +434,12 @@ public class PageServiceImpl {
 			result.setOK(true);
 			result
 					.setMessage(Global.messages
-							.getString("search_product_by_criteria_in_cat_successfully"));
+							.getString("search_page_by_criteria_successfully"));
 			result.setResult(listPages);
 		} else {
 			result.setOK(false);
 			result.setMessage(Global.messages
-					.getString("search_product_by_criteria_in_cat_fail"));
+					.getString("search_page_by_criteria_fail"));
 		}
 
 		return result;
