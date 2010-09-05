@@ -1,5 +1,6 @@
 package vnfoss2010.smartshop.serverside.map.direction;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.net.HttpRequest;
 
 import com.google.gson.Gson;
@@ -13,9 +14,8 @@ public class TestDirection {
 	public static void main(String[] args) {
 		String result = HttpRequest.get(String.format(GET_DIRECTION_URL, "Chicago,IL", "Los+Angeles,CA")).content;
 		
-		Gson gson = new Gson();
-		Direction direction = gson.fromJson(result, Direction.class);
+		Direction direction = Global.gsonWithDate.fromJson(result, Direction.class);
 		
-		System.out.println(gson.toJson(direction));
+		System.out.println(Global.gsonWithDate.toJson(direction));
 	}
 }

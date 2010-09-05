@@ -54,7 +54,6 @@ public class GetBuyedProductByUserService extends BaseRestfulService {
 		ServiceResult<List<Product>> productResult = dbProduct.getListBuyedProductsByUsername(username, q, limit);
 
 		JsonObject jsonReturn = new JsonObject();
-		Gson gson = new Gson();
 
 		jsonReturn.addProperty("errCode", productResult.isOK()?0:1);
 		jsonReturn.addProperty("message", productResult.getMessage());

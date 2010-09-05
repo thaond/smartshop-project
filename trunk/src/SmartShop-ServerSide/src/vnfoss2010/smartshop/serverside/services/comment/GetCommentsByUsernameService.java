@@ -3,16 +3,14 @@ package vnfoss2010.smartshop.serverside.services.comment;
 import java.util.List;
 import java.util.Map;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.CommentServiceImpl;
-import vnfoss2010.smartshop.serverside.database.PageServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Comment;
-import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 /**
@@ -38,14 +36,13 @@ public class GetCommentsByUsernameService extends BaseRestfulService {
 		String username = getParameter("username", params, json);
 
 		JsonObject jsonReturn = new JsonObject();
-		Gson gson = new Gson();
 
 		ServiceResult<List<Comment>> result = db.getListPageFromUsername(username);
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());
 			
-			jsonReturn.add("comments", gson.toJsonTree(result.getResult()));
+			jsonReturn.add("comments", Global.gsonWithDate.toJsonTree(result.getResult()));
 		} else {
 			jsonReturn.addProperty("errCode", 1);
 			jsonReturn.addProperty("message", result.getMessage());

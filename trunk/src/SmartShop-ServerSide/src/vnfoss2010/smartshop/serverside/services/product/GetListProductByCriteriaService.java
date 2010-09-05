@@ -14,7 +14,6 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 @Deprecated
@@ -35,7 +34,6 @@ public class GetListProductByCriteriaService extends BaseRestfulService {
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		JSONObject json = null;
-		Gson gson = new Gson();
 		try {
 			json = new JSONObject(content);
 		} catch (Exception e) {
@@ -81,7 +79,7 @@ public class GetListProductByCriteriaService extends BaseRestfulService {
 		jsonReturn.addProperty("message", result.getMessage());
 		
 		if (result.isOK()){
-			jsonReturn.add("products", gson.toJsonTree(result.getResult()));
+			jsonReturn.add("products", Global.gsonWithDate.toJsonTree(result.getResult()));
 		}
 		
 		Global.log(log, jsonReturn.toString());

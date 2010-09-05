@@ -48,7 +48,6 @@ public class GetListPageByCriteriaService extends BaseRestfulService {
 		}
 
 		String criterias = getParameter("criterias", params, json);
-
 		int[] criteriaIDs = null;
 		if (criterias != null) {
 			String[] arr = criterias.split(",");
@@ -61,7 +60,6 @@ public class GetListPageByCriteriaService extends BaseRestfulService {
 		String cat_keys = getParameter("cat_keys", params, json);
 
 		Global.log(log, "Cat keys : " + cat_keys);
-
 		String username = null;
 		try {
 			username = getParameter("username", params, json);

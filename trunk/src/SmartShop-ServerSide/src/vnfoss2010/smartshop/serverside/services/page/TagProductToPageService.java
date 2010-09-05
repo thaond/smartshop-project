@@ -2,14 +2,13 @@ package vnfoss2010.smartshop.serverside.services.page;
 
 import java.util.Map;
 
-import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.JsonObject;
-
 import vnfoss2010.smartshop.serverside.database.PageServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
-import vnfoss2010.smartshop.serverside.services.exception.MissingParameterException;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+
+import com.google.appengine.repackaged.org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 public class TagProductToPageService extends BaseRestfulService {
 	private PageServiceImpl dbPage = PageServiceImpl.getInstance();

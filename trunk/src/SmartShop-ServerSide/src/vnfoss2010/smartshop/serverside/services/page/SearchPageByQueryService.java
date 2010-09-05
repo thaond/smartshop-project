@@ -3,6 +3,7 @@ package vnfoss2010.smartshop.serverside.services.page;
 import java.util.List;
 import java.util.Map;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.PageServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
@@ -38,14 +39,12 @@ public class SearchPageByQueryService extends BaseRestfulService {
 		query = UtilsFunction.removeViSign(query);
 
 		JsonObject jsonReturn = new JsonObject();
-		Gson gson = new Gson();
-
 		ServiceResult<List<Page>> result = db.searchPageLike(query);
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());
 			
-			jsonReturn.add("pages", gson.toJsonTree(result.getResult()));
+			jsonReturn.add("pages", Global.gsonWithDate.toJsonTree(result.getResult()));
 		} else {
 			jsonReturn.addProperty("errCode", 1);
 			jsonReturn.addProperty("message", result.getMessage());

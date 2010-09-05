@@ -34,7 +34,6 @@ public class GetPageService extends BaseRestfulService {
 			json = new JSONObject(content);
 		} catch (Exception e) {
 		}
-		Gson gson = Global.gsonDateWithoutHour;
 		Long id = Long.parseLong(getParameterWithThrow("id", params, json));
 
 		ServiceResult<Page> pageResult = dbPage.findPage(id);
@@ -45,10 +44,10 @@ public class GetPageService extends BaseRestfulService {
 					.findCategories(pageResult.getResult().getSetCategoryKeys());
 			if (categoriesResult.isOK()) {
 				jsonReturn.addProperty("errCode", 0);
-				jsonReturn.add("categories", gson.toJsonTree(categoriesResult
+				jsonReturn.add("categories", Global.gsonWithDate.toJsonTree(categoriesResult
 						.getResult()));
 				pageResult.getResult().setSetCategoryKeys(null);
-				jsonReturn.add("page", gson.toJsonTree(pageResult.getResult()));
+				jsonReturn.add("page", Global.gsonWithDate.toJsonTree(pageResult.getResult()));
 			} else {
 				jsonReturn.addProperty("errCode", 1);
 				serviceResult = categoriesResult;

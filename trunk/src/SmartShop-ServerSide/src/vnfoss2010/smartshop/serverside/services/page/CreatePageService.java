@@ -26,9 +26,7 @@ public class CreatePageService extends BaseRestfulService {
 			throws Exception, RestfulException {
 		JSONObject jsonReturn = new JSONObject();
 
-		Gson gson;
-		gson = Global.gsonWithDate;
-		Page page = gson.fromJson(content, Page.class);
+		Page page = Global.gsonWithDate.fromJson(content, Page.class);
 		ServiceResult<Long> result = dbPage.insertPage(page);
 		if (result.isOK()) {
 			jsonReturn.put("errCode", 0);
