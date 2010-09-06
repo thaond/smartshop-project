@@ -24,6 +24,7 @@ import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.product.PostProductActivity;
+import com.appspot.smartshop.ui.product.SearchVatgiaActivity;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
@@ -79,7 +80,7 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testSearchProductsOnMap();
+		testSearchVatgia();
 	}
 
 	protected void test2() {
@@ -87,6 +88,11 @@ public class HomeActivity extends Activity {
 	}
 
 	protected void test3() {
+	}
+	
+	void testSearchVatgia() {
+		Intent intent = new Intent(this, SearchVatgiaActivity.class);
+		startActivity(intent);
 	}
 	
 	void testSearchProductsOnMap() {

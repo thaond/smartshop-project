@@ -168,4 +168,7 @@
 	<string name="attr_name">Tên:</string>
 	<string name="attr_value">Giá trị:</string>
 	
+	<!-- Vatgia products -->
+	<string name="num_of_stores">Có %d cửa hàng</string>
+	
 </resources>

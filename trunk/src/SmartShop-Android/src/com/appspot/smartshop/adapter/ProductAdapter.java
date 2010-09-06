@@ -113,8 +113,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 				Log.d(TAG, "view detail of product");
 				Intent intent = new Intent(context, ViewProductActivity.class);
 				intent.putExtra(Global.PRODUCT_INFO, productInfo);
-				if (productInfo.username.equals(Global.username)) {
-					// TODO allow edit product when username Global.username
+				if (Global.isLogin && productInfo.username.equals(Global.username)) {
 					Log.d(TAG, "can edit product profile");
 					intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
 				}
@@ -124,22 +123,6 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		});
 
 		return convertView;
-	}
-
-	public static Bitmap getBitmapFromURL(String src) {
-		try {
-			URL url = new URL(src);
-			HttpURLConnection connection = (HttpURLConnection) url
-					.openConnection();
-			connection.setDoInput(true);
-			connection.connect();
-			InputStream input = connection.getInputStream();
-			Bitmap myBitmap = BitmapFactory.decodeStream(input);
-			return myBitmap;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	static class ViewHolder {
