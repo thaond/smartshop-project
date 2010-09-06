@@ -72,9 +72,7 @@ public class PagesListActivity extends Activity {
 			type = bundle.getInt(Global.PAGES_TYPE);
 			if (type == PAGES_OF_USER) {
 				username = bundle.getString(Global.PAGES_OF_USER);
-			} else {
-				username = Global.username;
-			}
+			} 
 		}
 		
 		// search field
