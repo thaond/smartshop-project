@@ -86,6 +86,9 @@
 			<Button android:id="@+id/btnFindDirectionToProduct"
 				android:layout_width="48dip" android:layout_height="48dip"
 				android:background="@drawable/map_icon" />
+			<Button android:id="@+id/btnEditProduct" text="@string/lblUpdate"
+				android:layout_width="48dip" android:layout_height="48dip"
+				/>
 		</LinearLayout>
 	</LinearLayout>
 </ScrollView>

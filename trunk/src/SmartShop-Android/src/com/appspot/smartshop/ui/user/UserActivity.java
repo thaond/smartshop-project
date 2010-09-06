@@ -206,7 +206,7 @@ public class UserActivity extends MapActivity {
 			txtAddress.setText(userInfo.address);
 			txtPhoneNumber.setText(userInfo.phone);
 			txtBirthday.setText(Global.df.format(userInfo.birthday));
-			// TODO (condorhero01): display avatar
+			// TODO (vo.mita.ov): display avatar of user
 
 			// some fields of user info must be uneditable
 			txtUsername.setFilters(Global.uneditableInputFilters);
@@ -340,7 +340,6 @@ public class UserActivity extends MapActivity {
 			txtOldPassword.setVisibility(TextView.GONE);
 		}
 
-		// TODO (condorhero01): set filters for text fields to prevent wrong
 		// input value
 		txtUsername.setFilters(Global.usernameInputFilters);
 		txtFirstName.setFilters(Global.usernameInputFilters);
@@ -562,7 +561,7 @@ public class UserActivity extends MapActivity {
 		userInfo.birthday = new Date(mYear, mMonth, mDay);
 		userInfo.lat = lat;
 		userInfo.lng = lng;
-		// TODO (condorhero01): get avatar link of user
+		// TODO (vo.mita.ov): get avatar link of user
 	}
 
 	protected void registerNewUser() {

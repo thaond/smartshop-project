@@ -50,6 +50,13 @@ public class SearchProductsOnMapActivity extends MapActivity {
 		@Override
 		public void handleMessage(Message msg) {
 			System.out.println("update map");
+			
+			GeoPoint point = (GeoPoint) msg.obj;
+			String currentLocation = String.format(getString(R.string.your_current_location), 
+					(double) point.getLongitudeE6() / 1E6,
+					(double) point.getLatitudeE6() / 1E6);
+			Toast.makeText(SearchProductsOnMapActivity.this, 
+					currentLocation, Toast.LENGTH_SHORT).show();
 			mapView.invalidate();
 		}
 	};
@@ -95,6 +102,7 @@ public class SearchProductsOnMapActivity extends MapActivity {
 					
 					// update map
 					Message message = handler.obtainMessage();
+					message.obj = point;
 					handler.sendMessage(message);
 				}
 			}
@@ -138,6 +146,14 @@ public class SearchProductsOnMapActivity extends MapActivity {
 			
 			@Override
 			public void loadData() {
+				if (productsOverlay.center == null) {
+					task.hasData = false;
+					task.message = getString(R.string.errCannotFindCurrentLocation);
+					task.cancel(true);
+					
+					return;
+				}
+				
 				// TODO ensure that center not null
 				double lat = (double)productsOverlay.center.getLatitudeE6() / 1E6;
 				double lng = (double)productsOverlay.center.getLongitudeE6() / 1E6;
@@ -164,6 +180,8 @@ public class SearchProductsOnMapActivity extends MapActivity {
 					
 					@Override
 					public void onFailure(String message) {
+						task.hasData = false;
+						task.message = message;
 						task.cancel(true);
 					}
 				});

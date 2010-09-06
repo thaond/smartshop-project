@@ -127,7 +127,6 @@ public class MapService {
 	}
 	
 	public static GeoPoint locationToGeopoint(String locationName) {
-		// TODO (condorhero01): change to geocoder from server
 		Geocoder geocoder = new Geocoder(Global.application);
 		try {
 			Log.d(TAG, "Find address of " + locationName);

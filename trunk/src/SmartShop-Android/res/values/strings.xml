@@ -59,6 +59,7 @@
 	<string name="errGetDirection">Lỗi kết nối</string>
 	<string name="errCannotFindCurrentLocation">Không tìm được vị trí hiện tại</string>
 	<string name="finding_your_current_location">Đang xác định vị trí hiện tại của bạn</string>
+	<string name="your_current_location">Vị trí hiện tại của bạn là (%f, %f)</string>
 
 	<!-- Post Product Form -->
 	<string name="nameOfProduct">Tên</string>
