@@ -103,7 +103,7 @@ public class ViewCommentsActivity extends Activity {
 							task.hasData = false;
 							task.message = getString(R.string.warn_has_no_comment);
 						}
-					}
+					}	
 					
 					@Override
 					public void onFailure(String message) {
@@ -136,6 +136,7 @@ public class ViewCommentsActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				addNewComment();
+				
 			}
 		});
 		
@@ -159,6 +160,7 @@ public class ViewCommentsActivity extends Activity {
 			@Override
 			public void updateUI() {
 				adapter.addNewComment(comment);
+				listComments.setAdapter(adapter);
 				dialog.cancel();
 			}
 			
