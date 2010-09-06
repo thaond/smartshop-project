@@ -13,7 +13,7 @@
 				android:layout_centerVertical="true" android:id="@+id/lblUsername" />
 
 			<EditText android:layout_height="wrap_content" android:id="@+id/txtUsername"
-				android:layout_alignParentRight="true" android:layout_width="wrap_content" />
+				android:layout_width="wrap_content" />
 
 		</LinearLayout>
 
@@ -160,7 +160,8 @@
 				android:layout_centerVertical="true" android:id="@+id/lblAvatar" />
 
 			<EditText android:layout_height="wrap_content" android:id="@+id/txtAvatar"
-				android:layout_weight="1" android:layout_width="20dip" android:editable="false"/>
+				android:layout_weight="1" android:layout_width="20dip"
+				android:editable="false" />
 
 			<Button android:layout_height="wrap_content" android:id="@+id/btnBrowser"
 				android:layout_alignParentRight="true" android:layout_width="wrap_content"

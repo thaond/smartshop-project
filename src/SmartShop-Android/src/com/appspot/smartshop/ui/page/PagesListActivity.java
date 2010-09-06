@@ -156,8 +156,7 @@ public class PagesListActivity extends Activity {
 		}
 		
 		if (type == PAGES_OF_USER) {
-			url += "&user" + username;
-//			url = String.format(URLConstant.GET_PAGES_OF_USER, username);
+			url += "&username=" + username;
 		}
 	}
 	

@@ -10,11 +10,10 @@ public class URLConstant {
 
 	/************************ URL ***************************************/
 	
-	public static final String GET_PRODUCTS_BY_QUERY = HOST + "/api/asd/product-search/?q=%s";
 	public static final String POST_PRODUCT = HOST + "/api/asd/registerproduct/";
+	public static final String GET_PRODUCTS_BY_QUERY = HOST + "/api/asd/product-search/?q=%s";
 	public static final String GET_PRODUCTS = HOST + "/api/asd/product-search-criteria-cat/?status=1";;
 	public static final String GET_PRODUCTS_BY_CRITERIA = HOST + "/api/asd/product-search-criteria-cat/?status=0&criterias=%s";
-	public static final String GET_PRODUCTS_BY_CATEGORIES = HOST + "/api/asd/product-search-criteria-cat/?status=0&criterias=%s&cat_keys=%s";
 	public static final String GET_PRODUCTS_BY_LOCATION = HOST + "/api/asd/searchproductproximity/";
 	
 	public static final String CREATE_PAGE = HOST + "/api/asd/create-page/";

@@ -9,7 +9,11 @@ import com.google.gson.JsonObject;
 public class DirectionParser extends JSONParser {
 	public DirectionResult result = new DirectionResult();
 	
-	public int jsonType = JSONParser.GOOGLE_DIRECTION_JSON;
+//	protected int jsonType = JSONParser.GOOGLE_DIRECTION_JSON;
+	
+	public DirectionParser() {
+		jsonType = JSONParser.GOOGLE_DIRECTION_JSON;
+	}
 
 	@Override
 	public void onFailure(String message) {

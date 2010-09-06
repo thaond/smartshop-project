@@ -32,6 +32,7 @@
 	<string name="lblPhoneNumber">Số điện thoại:</string>
 	<string name="lblAvatar">Hình đại diện:</string>
 	<string name="lblRegister">Đăng ký</string>
+	<string name="warn_must_enter_address">Bạn chưa nhập địa chỉ</string>
 	
 	<!-- Validate user -->
 	<string name="username_longer_6_chars">Tên đăng nhập phải nhiều hơn 6 kí tự</string>
