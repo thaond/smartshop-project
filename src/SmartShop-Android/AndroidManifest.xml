@@ -6,7 +6,7 @@
 		<uses-library android:name="com.google.android.maps" />
 		<activity android:name=".HomeActivity" android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+				<action android:name="Home" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
@@ -138,7 +138,7 @@
 		</activity>
 		<activity android:name=".MainActivity" android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="Main"></action>
+				<action android:name="android.intent.action.MAIN"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
