@@ -77,14 +77,14 @@ public class SearchKeywordService extends BaseRestfulService {
 				matcher = patEachResult.matcher(pageContent);
 				while (matcher.find()) {
 					JsonObject jsonObject = new JsonObject();
-					jsonObject.addProperty("image", matcher.group(1));
-					jsonObject.addProperty("imageBlank", matcher.group(2));
+					jsonObject.addProperty("imageThumbnail", matcher.group(1));
+					jsonObject.addProperty("imageBlankThumbnail", matcher.group(2));
 					jsonObject.addProperty("urlListShop",
 							URL_VAT_GIA + matcher.group(3));
 					jsonObject.addProperty("productName", matcher.group(4));
 					jsonObject.addProperty("priceVND", matcher.group(5));
 					jsonObject.addProperty("numOfStore", matcher.group(6));
-					jsonObject.addProperty("categoryPage", URL_VAT_GIA
+					jsonObject.addProperty("categoryPageURL", URL_VAT_GIA
 							+ matcher.group(7));
 					jsonObject.addProperty("categoryName", matcher.group(8));
 					jsonArray.add(jsonObject);
