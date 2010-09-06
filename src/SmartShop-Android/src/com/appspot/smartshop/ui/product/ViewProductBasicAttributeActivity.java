@@ -1,5 +1,7 @@
 package com.appspot.smartshop.ui.product;
 
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -151,6 +153,26 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		txtAddressOfProduct.setFilters(Global.uneditableInputFilters);
 		txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
 		
+		// TODO show image of product
+		
+		Button btnEditProduct = (Button) findViewById(R.id.btnEditProduct);
+		
+		// if user can edit product info
+		if (ViewProductActivity.canEditProductInfo) {
+			btnEditProduct.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					updateProductInfo();
+				}
+			});
+		} else {
+			btnEditProduct.setVisibility(View.GONE);
+		}
+	}
+
+	protected void updateProductInfo() {
+		Log.d(TAG, "not implement yet");
 	}
 
 	protected void findDirectionToProduct() {

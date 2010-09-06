@@ -33,8 +33,6 @@ public class ProductsOverlay extends Overlay{
 	public GeoPoint center;
 	private Paint paint;
 	private Context context;
-
-	private MapController mapController;
 	
 	public ProductsOverlay(Context context) {
 		this.context = context;

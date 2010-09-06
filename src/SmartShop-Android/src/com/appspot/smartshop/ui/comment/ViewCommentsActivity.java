@@ -178,11 +178,12 @@ public class ViewCommentsActivity extends Activity {
 					
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
-						// TODO add comment fail
 					}
 					
 					@Override
 					public void onFailure(String message) {
+						task.hasData = false;
+						task.message = message;
 						task.cancel(true);
 					}
 				});

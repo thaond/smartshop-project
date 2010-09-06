@@ -96,6 +96,7 @@ public class LoginActivity extends Activity {
 					public void onSuccess(JSONObject json) throws JSONException {
 						Global.isLogin = true;
 						Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
+						Global.username = Global.userInfo.username;
 						
 						finish();
 					}
