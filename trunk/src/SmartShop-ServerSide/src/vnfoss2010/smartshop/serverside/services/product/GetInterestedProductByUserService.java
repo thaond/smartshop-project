@@ -58,7 +58,7 @@ public class GetInterestedProductByUserService extends BaseRestfulService {
 		jsonReturn.addProperty("message", productResult.getMessage());
 		
 		if (productResult.isOK() == true) {
-			jsonReturn.add("products", Global.gsonDateWithoutHour.toJsonTree(productResult.getResult()));
+			jsonReturn.add("products", Global.gsonWithDate.toJsonTree(productResult.getResult()));
 		}
 
 		Global.log(log, jsonReturn.toString());
