@@ -11,7 +11,7 @@ public class MockProductInfo {
 		productInfo.price = 50000;
 		productInfo.isVAT = true;
 		productInfo.quantity = 2;
-		productInfo.datePost = new Date(2010, 12, 12);
+		productInfo.date_post = new Date(2010, 12, 12);
 		productInfo.warranty = "Việt Nam";
 		productInfo.origin = "USA";
 		productInfo.address = "268 Lý Thường Kiệt P7 Q10 HCM";

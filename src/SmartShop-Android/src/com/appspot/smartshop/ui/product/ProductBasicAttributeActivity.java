@@ -142,7 +142,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 	private SimpleAsyncTask task;
 	private void postNewProduct() {
 		// setup product info
-		productInfo.datePost = new Date();
+		productInfo.date_post = new Date();
 		productInfo.description = txtDescriptionOfProduct.getText().toString();
 		productInfo.isVAT = chVat.isChecked();
 		productInfo.lat = lat;
@@ -155,7 +155,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 				.getText().toString());
 		productInfo.lat = lat;
 		productInfo.lng = lng;
-		productInfo.datePost = new Date();
+		productInfo.date_post = new Date();
 		productInfo.description = txtDescriptionOfProduct.getText().toString();
 		productInfo.username = Global.username;
 		productInfo.warranty = txtWarrantyOfProduct.getText().toString();
