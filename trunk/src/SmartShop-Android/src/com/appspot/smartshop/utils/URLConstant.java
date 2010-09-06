@@ -36,5 +36,5 @@ public class URLConstant {
 	public static final String GET_CHILD_CATEGORIES = HOST + "/api/asd/category-get-sub/?parent_id=%s";
 	
 	/********* Image Hosting */
-	public static final String HOST_IMG = HOST + "/testupload/myupload.php?username=%s";
+	public static final String HOST_IMG = "http://10.0.2.2/testupload/myupload.php?username=%s";
 }
