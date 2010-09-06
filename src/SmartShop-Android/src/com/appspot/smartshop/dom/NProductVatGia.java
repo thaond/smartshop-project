@@ -9,8 +9,9 @@ public class NProductVatGia {
 
 	public int numOfResults;
 	public int numOfPages;
-	String imageThumbnail, imageBlankThumbnail, urlListShop, productName,
-			priceVND, numOfStore, categoryPageURL, categoryName;
+	public int numOfStore;
+	public String imageThumbnail, imageBlankThumbnail, urlListShop, productName,
+			priceVND, categoryPageURL, categoryName;
 	
 	public NProductVatGia() {}
 	

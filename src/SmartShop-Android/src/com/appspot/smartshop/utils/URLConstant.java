@@ -35,6 +35,8 @@ public class URLConstant {
 	public static final String GET_PARENT_CATEGORIES = HOST + "/api/asd/category-get-sub/";
 	public static final String GET_CHILD_CATEGORIES = HOST + "/api/asd/category-get-sub/?parent_id=%s";
 	
+	public static final String GET_VATGIA_PRODUCTS = HOST + "/api/asd/parser-vatgia-keyword/?keyword=%s&page=%d";
+	
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/myupload.php?username=%s";
 }
