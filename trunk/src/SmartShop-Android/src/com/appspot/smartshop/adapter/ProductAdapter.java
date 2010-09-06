@@ -76,8 +76,6 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		holder.txtName.setText(productInfo.name);
 		holder.txtPrice.setText("" + productInfo.price);
 		holder.txtDescription.setText(productInfo.description);
-		// TODO date post of product
-		System.out.println("date post = " + productInfo.date_post);
 		if (productInfo.date_post != null) {
 			holder.txtDatePost.setText(Global.dfFull.format(productInfo.date_post));
 		}

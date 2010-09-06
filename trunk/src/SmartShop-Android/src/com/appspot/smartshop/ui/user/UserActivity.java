@@ -219,14 +219,18 @@ public class UserActivity extends MapActivity {
 			if (!(canEditUserProfile != null && canEditUserProfile == true)) {
 				Log.d(TAG, "view user profile");
 				mode = VIEW_USER_PROFILE;
-				txtPassword.setFilters(Global.uneditableInputFilters);
-				txtConfirm.setFilters(Global.uneditableInputFilters);
+				txtPassword.setVisibility(View.GONE);
+				txtConfirm.setVisibility(View.GONE);
+				lblPassword.setVisibility(View.GONE);
+				lblConfirm.setVisibility(View.GONE);
+				
 				txtFirstName.setFilters(Global.uneditableInputFilters);
 				txtLastName.setFilters(Global.uneditableInputFilters);
 				txtAddress.setFilters(Global.uneditableInputFilters);
+			} else {
+				Log.d(TAG, "edit user profile");
 			}
 
-			Log.d(TAG, "edit user profile");
 		}
 
 		/********************************** Listeners *******************************/
@@ -716,8 +720,14 @@ public class UserActivity extends MapActivity {
 			point = new GeoPoint((int) (userInfo.lat * 1E6), (int) (userInfo.lng * 1E6));
 		} else {
 			String location = txtAddress.getText().toString();
+			if (location == null || location.trim().equals("")) {
+				Toast.makeText(this, getString(R.string.warn_must_enter_address), 
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 			point = MapService.locationToGeopoint(location);
 		}
+		Log.d(TAG, "user point = " + point);
 
 		MapDialog.createLocationDialog(this, point,
 				new UserLocationListener() {

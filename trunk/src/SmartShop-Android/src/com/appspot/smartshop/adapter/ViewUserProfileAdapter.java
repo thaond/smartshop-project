@@ -102,6 +102,7 @@ public class ViewUserProfileAdapter extends BaseAdapter {
 	private SimpleAsyncTask task;
 	protected void getUserProfile() {
 		// view profile of other user
+		System.out.println("context = null "+ (context == null));
 		task = new SimpleAsyncTask(context, new DataLoader() {
 			
 			@Override

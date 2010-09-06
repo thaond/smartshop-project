@@ -94,7 +94,9 @@ public class ProductsListActivity extends MapActivity {
 	}
 
 	protected void searchProductsByQuery(String query) {
-		url = String.format(URLConstant.GET_PRODUCTS_BY_QUERY, query);
+		constructUrl();
+		url += "&q=" + query;
+		
 		loadData();
 	}
 

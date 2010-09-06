@@ -74,6 +74,10 @@ public class ProductsOverlay extends Overlay{
 	@Override
 	public boolean onTouchEvent(MotionEvent e, MapView mapView) {
 		if (e.getAction() == MotionEvent.ACTION_DOWN) {
+			if (products == null || products.size() == 0) {
+				return false;
+			}
+			
 			GeoPoint touchPoint = mapView.getProjection().fromPixels((int) e.getX(), (int) e.getY());
 			double minDistance = Double.MAX_VALUE;
 			int index = 0;
