@@ -538,8 +538,7 @@ public class ProductServiceImpl {
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 
 					queryObj = pm.newQuery(query);
-					queryObj.declareParameters("true && "
-							+ declareParametersBuffer.toString());
+					queryObj.declareParameters(declareParametersBuffer.toString());
 
 					listProducts = (List<Product>) queryObj
 							.executeWithArray(listParameters.toArray());
