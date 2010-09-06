@@ -52,45 +52,45 @@ public class SampleDataNghia {
 		page.getSetCategoryKeys().add("computer_other");
 		pages.add(page);
 
-		page = new Page("Can mua iphone", "", "Can mua iphone 3g chua unlock",myRandom.nextInt(), new Date(110,10,23), new Date(110,6,7), "duc");
+		page = new Page("Can mua iphone", "", "Can mua iphone 3g chua unlock",Math.abs(myRandom.nextInt()%1000), new Date(110,10,23), new Date(110,6,7), "duc");
 		page.getSetCategoryKeys().add("mobile_pda");
 		pages.add(page);
 		
-		page = new Page("Can mua headphone bose", "", "Can mua headphone bose gia tu 1.5tr den 2tr", myRandom.nextInt(), new Date(110,1,3), new Date(110,26,3), "hieu");
+		page = new Page("Can mua headphone bose", "", "Can mua headphone bose gia tu 1.5tr den 2tr", Math.abs(myRandom.nextInt()%1000), new Date(110,1,3), new Date(110,26,3), "hieu");
 		page.getSetCategoryKeys().add("computer_other");
 		pages.add(page);
 		
-		page = new Page("Can mua chuot logitech", "", "Can mua chuot logitech xin sll", myRandom.nextInt(), new Date(110,1,23), new Date(110,10,3), "loi");
+		page = new Page("Can mua chuot logitech", "", "Can mua chuot logitech xin sll", Math.abs(myRandom.nextInt()%1000), new Date(110,1,23), new Date(110,10,3), "loi");
 		page.getSetCategoryKeys().add("office_device");
 		pages.add(page);
 		
-		page = new Page("Can mua man hinh LCD samsung", "", "Can mua man hinh LCD Samsung o Q6", myRandom.nextInt(), new Date(110,1,8), new Date(110,10,2), "nghia");
+		page = new Page("Can mua man hinh LCD samsung", "", "Can mua man hinh LCD Samsung o Q6", Math.abs(myRandom.nextInt()%1000), new Date(110,1,8), new Date(110,10,2), "nghia");
 		page.getSetCategoryKeys().add("office_device");
 		page.getSetCategoryKeys().add("desktop");
 		page.getSetCategoryKeys().add("accessories_desktop");
 		pages.add(page);
 				
-		page = new Page("Can mua o cung di dong", "", "Can mua o cung di dong 500GB gia 2tr", myRandom.nextInt(), new Date(110,3,23), new Date(110,9,23), "loi");
+		page = new Page("Can mua o cung di dong", "", "Can mua o cung di dong 500GB gia 2tr", Math.abs(myRandom.nextInt()%1000), new Date(110,3,23), new Date(110,9,23), "loi");
 		page.getSetCategoryKeys().add("computer_other");
 		pages.add(page);
 		
-		page = new Page("Can mua o cung di dong", "", "Can mua o cung di dong 500GB gia 2tr", myRandom.nextInt(), new Date(110,3,23), new Date(110,9,23), "loi");
+		page = new Page("Can mua o cung di dong", "", "Can mua o cung di dong 500GB gia 2tr", Math.abs(myRandom.nextInt()%1000), new Date(110,3,23), new Date(110,9,23), "loi");
 		page.getSetCategoryKeys().add("computer_other");
 		pages.add(page);
 		
-		page = new Page("Can mua o tai phone Nokia", "", "Can mua tai phone Nokia gia 100k", myRandom.nextInt(), new Date(110,3,23), new Date(110,9,23), "loi");
+		page = new Page("Can mua o tai phone Nokia", "", "Can mua tai phone Nokia gia 100k", Math.abs(myRandom.nextInt()%1000), new Date(110,3,23), new Date(110,9,23), "loi");
 		page.getSetCategoryKeys().add("accessories_desktop");
 		pages.add(page);
 		
-		page = new Page("Can mua bo tan nhiet", "", "Can mua bo tan nhiet gia 1tr", myRandom.nextInt(), new Date(110,3,23), new Date(110,9,23), "loi");
+		page = new Page("Can mua bo tan nhiet", "", "Can mua bo tan nhiet gia 1tr", Math.abs(myRandom.nextInt()%1000), new Date(110,3,23), new Date(110,9,23), "loi");
 		page.getSetCategoryKeys().add("computer_other");
 		pages.add(page);
 		
-		page = new Page("Can mua RAM laptop", "", "Can mua RAM laptop gia 2tr", myRandom.nextInt(), new Date(110,3,23), new Date(110,9,23), "loi");
+		page = new Page("Can mua RAM laptop", "", "Can mua RAM laptop gia 2tr", Math.abs(myRandom.nextInt()%1000), new Date(110,3,23), new Date(110,9,23), "loi");
 		page.getSetCategoryKeys().add("computer_other");
 		pages.add(page);
 		
-		page = new Page("Can mua Mouse", "", "Can mua Mouse gia 200k", myRandom.nextInt(), new Date(110,3,23), new Date(110,9,23), "loi");
+		page = new Page("Can mua Mouse", "", "Can mua Mouse gia 200k", Math.abs(myRandom.nextInt()%1000), new Date(110,3,23), new Date(110,9,23), "loi");
 		page.getSetCategoryKeys().add("computer_other");
 		pages.add(page);
 		
