@@ -141,6 +141,16 @@ public class SampleData {
 		product.getSetCategoryKeys().add("laptop");
 		products.add(product);
 		
+		product = new Product("HP Envy", 2000, false, 2, "12 month",
+				"USA", "Tan Binh", 10.777268,106.6563, "Màn hình 3D" , 3,new Date(110,2,3), "hieu");
+		product.getSetCategoryKeys().add("laptop");
+		products.add(product);
+		
+		product = new Product("HP Pavillon", 7000, false, 2, "12 month",
+				"China", "Q3", 10.777268,106.6563, "Man hình rất xịn" , 3,new Date(110,1,2), "duc");
+		product.getSetCategoryKeys().add("laptop");
+		products.add(product);
+		
 		return products;
 	}
 	
