@@ -1,5 +1,6 @@
 package com.appspot.smartshop.ui.product;
 
+import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -66,7 +67,7 @@ public class ProductsListActivity extends MapActivity {
 				if (query == null || query.trim().equals("")) {
 					loadProductsList();
 				} else {
-					searchProductsByQuery(query);
+					searchProductsByQuery(URLEncoder.encode(query));
 				}
 			}
 		});

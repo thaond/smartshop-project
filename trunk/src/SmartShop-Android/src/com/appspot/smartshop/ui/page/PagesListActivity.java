@@ -1,5 +1,6 @@
 package com.appspot.smartshop.ui.page;
 
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Set;
 
@@ -102,9 +103,8 @@ public class PagesListActivity extends Activity {
 		if (query == null || query.trim().equals("")) {
 			loadPagesList();
 		} else {
-			Log.d(TAG, "query = " + query);
 			constructUrl();
-			url += "&query=" + query;
+			url += "&query=" + URLEncoder.encode(query);
 			loadData();
 		}
 	}

@@ -1,5 +1,6 @@
 package com.appspot.smartshop.ui.user;
 
+import java.net.URLEncoder;
 import java.util.LinkedList;
 
 import org.json.JSONArray;
@@ -8,7 +9,11 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -57,6 +62,7 @@ public class UserProductListActivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					productsListType = INTERESTED_PRODUCTS;
+					constructUrl();
 					loadProductsList();
 				}
 			}
@@ -69,6 +75,7 @@ public class UserProductListActivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					productsListType = BUYED_PRODUCTS;
+					constructUrl();
 					loadProductsList();
 				}
 			}
@@ -81,6 +88,7 @@ public class UserProductListActivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					productsListType = SELLED_PRODUCTS;
+					constructUrl();
 					loadProductsList();
 				}
 			}
@@ -89,16 +97,28 @@ public class UserProductListActivity extends Activity {
 		// products listview
 		listProducts = (ListView) findViewById(R.id.listUserProducts);
 		loadProductsList();
-//		if (products != null) {
-//			adapter = new ProductAdapter(this, R.layout.product_list_item, products);
-//			listProducts.setAdapter(adapter);
-//		} else {
-//			loadProductsList();
-//		}
+		
+		// search fields
+		txtSearch = (EditText) findViewById(R.id.txtSearch);
+		Button btnSearch = (Button) findViewById(R.id.btnSearch);
+		btnSearch.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				searchProductsByQuery();
+			}
+		});
 	}
 
-	private SimpleAsyncTask task;
-	protected void loadProductsList() {
+	protected void searchProductsByQuery() {
+		String query = URLEncoder.encode(txtSearch.getText().toString());
+		
+		constructUrl();
+		url += "&q=" + query;
+		loadProductsList();
+	}
+	
+	private void constructUrl() {
 		// construct url
 		switch (productsListType) {
 		case INTERESTED_PRODUCTS:
@@ -113,7 +133,11 @@ public class UserProductListActivity extends Activity {
 			url = String.format(URLConstant.GET_SELLED_PRODUCTS_OF_USER, username);
 			break;
 		}
-		
+	}
+
+	private SimpleAsyncTask task;
+	private EditText txtSearch;
+	protected void loadProductsList() {
 		// load data
 		task = new SimpleAsyncTask(this, new DataLoader() {
 			
