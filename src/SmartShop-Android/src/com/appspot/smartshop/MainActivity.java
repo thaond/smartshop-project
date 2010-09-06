@@ -120,6 +120,9 @@ public class MainActivity extends TabActivity {
 				intent = new Intent(MainActivity.this,
 						UserProfileActivity.class);
 				intent.putExtra(Global.USER_NAME, Global.username);
+				if (Global.isLogin) {
+					intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
+				}
 				startActivity(intent);
 			}
 
