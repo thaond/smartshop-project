@@ -35,7 +35,7 @@ public class GetSubCategoriesService extends BaseRestfulService{
 		
 		JsonObject jsonReturn = new JsonObject();
 		jsonReturn.addProperty("message", result.getMessage());
-		jsonReturn.addProperty("errCode", result.isOK());
+		jsonReturn.addProperty("errCode", result.isOK()?0:1);
 		
 		if (result.isOK()){
 			jsonReturn.add("categories", Global.gsonDateWithoutHour.toJsonTree(result.getResult()));
