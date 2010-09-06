@@ -566,7 +566,6 @@ public class UserActivity extends MapActivity {
 	}
 
 	protected void registerNewUser() {
-		String err = "";
 		// if (StringUtils.isEmptyOrNull(err = getErrorMessage())) {
 		collectUserInfo();
 

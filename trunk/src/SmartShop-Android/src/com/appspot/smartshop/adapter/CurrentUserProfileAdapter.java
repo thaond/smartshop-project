@@ -92,6 +92,7 @@ public class CurrentUserProfileAdapter extends BaseAdapter {
 						Log.d(TAG, "view pages of current user " + Global.username);
 						intent = new Intent(context, PagesListActivity.class);
 						intent.putExtra(Global.PAGES_TYPE, PagesListActivity.PAGES_OF_USER);
+						intent.putExtra(Global.PAGES_OF_USER, Global.username);
 						context.startActivity(intent);
 						break;
 						
