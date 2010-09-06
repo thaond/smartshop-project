@@ -1,7 +1,5 @@
 package com.appspot.smartshop.ui.product;
 
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,8 +48,9 @@ public class ViewProductBasicAttributeActivity extends Activity {
 	protected static ProductInfo productInfo;
 
 	private TextView txtUsername;
-
+	
 	private CheckBox chVat;
+	public boolean canEdit;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,21 +143,14 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		txtUsername.setText(productInfo.username);
 		chVat.setChecked(productInfo.isVAT);
 		
-		// don't allow edit product info
-		txtNameProduct.setFilters(Global.uneditableInputFilters);
-		txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
-		txtQuantityOfProduct.setFilters(Global.uneditableInputFilters);
-		txtWarrantyOfProduct.setFilters(Global.uneditableInputFilters);
-		txtOriginOfProduct.setFilters(Global.uneditableInputFilters);
-		txtAddressOfProduct.setFilters(Global.uneditableInputFilters);
-		txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
-		
+		Bundle bundle = getIntent().getExtras();
+		canEdit = bundle.getBoolean(Global.CAN_EDIT_PRODUCT_INFO);
 		// TODO show image of product
 		
 		Button btnEditProduct = (Button) findViewById(R.id.btnEditProduct);
 		
 		// if user can edit product info
-		if (ViewProductActivity.canEditProductInfo) {
+		if (canEdit) {
 			btnEditProduct.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -167,12 +159,28 @@ public class ViewProductBasicAttributeActivity extends Activity {
 				}
 			});
 		} else {
+			txtNameProduct.setFilters(Global.uneditableInputFilters);
+			txtPriceOfProduct.setFilters(Global.uneditableInputFilters);
+			txtQuantityOfProduct.setFilters(Global.uneditableInputFilters);
+			txtWarrantyOfProduct.setFilters(Global.uneditableInputFilters);
+			txtOriginOfProduct.setFilters(Global.uneditableInputFilters);
+			txtAddressOfProduct.setFilters(Global.uneditableInputFilters);
+			txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
 			btnEditProduct.setVisibility(View.GONE);
 		}
 	}
 
+
 	protected void updateProductInfo() {
 		Log.d(TAG, "not implement yet");
+		ProductInfo newProduct = new ProductInfo();
+		newProduct.name = txtNameProduct.getText().toString();
+		newProduct.price = Double.parseDouble(txtPriceOfProduct.getText().toString());
+		newProduct.quantity = Integer.parseInt(txtQuantityOfProduct.getText().toString());
+		newProduct.warranty = txtWarrantyOfProduct.getText().toString();
+		newProduct.origin = txtOriginOfProduct.getText().toString();
+		newProduct.address = txtAddressOfProduct.getText().toString();
+		//TODO: UPDATE PRODUCT
 	}
 
 	protected void findDirectionToProduct() {
