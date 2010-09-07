@@ -7,6 +7,7 @@ import android.widget.TabHost;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.URLConstant;
 
 public class VatgiaTabActivity extends TabActivity{
 	public static final String TAG = "[VatgiaTabActivity]";
@@ -19,7 +20,8 @@ public class VatgiaTabActivity extends TabActivity{
 		super.onCreate(savedInstanceState);
 		
 		// url of listshop
-		VatgiaCompaniesActivity.url = getIntent().getExtras().getString(Global.VATGIA_URL_LIST_SHOP);
+		String urlListShop = getIntent().getExtras().getString(Global.VATGIA_URL_LIST_SHOP); 
+		VatgiaCompaniesActivity.url = urlListShop;
 		
 		tabHost = getTabHost();
 		Intent intent;
