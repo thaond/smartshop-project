@@ -25,14 +25,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -92,7 +89,7 @@ public class UserActivity extends MapActivity {
 	private TextView lblPhoneNumber;
 	private EditText txtPhoneNumber;
 	private TextView lblAvatar;
-	// private EditText txtAvatar;
+	private EditText txtAvatar;
 	private TextView lblBirthday;
 	private Button btnPhoto;
 	private Button btnBrowser;
@@ -172,10 +169,10 @@ public class UserActivity extends MapActivity {
 		txtAddress = (EditText) findViewById(R.id.txtAddress);
 		txtAddress.setWidth(textWidth);
 
-		// lblAvatar = (TextView) findViewById(R.id.lblAvatar);
-		// lblAvatar.setWidth(labelWidth);
-		// txtAvatar = (EditText) findViewById(R.id.txtAvatar);
-		// txtAvatar.setWidth(textWidth);
+		lblAvatar = (TextView) findViewById(R.id.lblAvatar);
+		lblAvatar.setWidth(labelWidth);
+		txtAvatar = (EditText) findViewById(R.id.txtAvatar);
+		txtAvatar.setWidth(textWidth);
 
 		lblPhoneNumber = (TextView) findViewById(R.id.lblPhoneNumber);
 		lblPhoneNumber.setWidth(labelWidth);
@@ -223,7 +220,7 @@ public class UserActivity extends MapActivity {
 				txtConfirm.setVisibility(View.GONE);
 				lblPassword.setVisibility(View.GONE);
 				lblConfirm.setVisibility(View.GONE);
-				
+
 				txtFirstName.setFilters(Global.uneditableInputFilters);
 				txtLastName.setFilters(Global.uneditableInputFilters);
 				txtAddress.setFilters(Global.uneditableInputFilters);
@@ -252,7 +249,6 @@ public class UserActivity extends MapActivity {
 						DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface arg0, int arg1) {
-								// TODO AndroidFileBrowser activity
 								Intent intent = new Intent(UserActivity.this,
 										AndroidFileBrowser.class);
 								intent
@@ -409,7 +405,9 @@ public class UserActivity extends MapActivity {
 							e.printStackTrace();
 						}
 					}
+					txtAvatar.setText(file.getName());
 				}
+				
 			}
 			break;
 
@@ -423,6 +421,7 @@ public class UserActivity extends MapActivity {
 						inputStreamAvatar = new ByteArrayInputStream(arrBytes);
 						fileName = Global.dfTimeStamp.format(new Date())
 								+ ".jpg";
+						txtAvatar.setText(fileName);
 					}
 				}
 			}
@@ -561,86 +560,94 @@ public class UserActivity extends MapActivity {
 		userInfo.birthday = new Date(mYear, mMonth, mDay);
 		userInfo.lat = lat;
 		userInfo.lng = lng;
-		// TODO (vo.mita.ov): get avatar link of user
 	}
 
 	protected void registerNewUser() {
 		// if (StringUtils.isEmptyOrNull(err = getErrorMessage())) {
 		collectUserInfo();
 
-		String response = doFileUpload();
+		if (StringUtils.isEmptyOrNull(userInfo.avatarLink)) {
+			String response = doFileUpload();
 
-		String[] data = response.split(":");
-		int errCode = -1;
-		try {
-			errCode = Integer.parseInt(data[0]);
-		} catch (Exception e) {
+			String[] data = response.split(":");
+			int errCode = -1;
+			try {
+				errCode = Integer.parseInt(data[0]);
+			} catch (Exception e) {
+			}
+			switch (errCode) {
+			case 0:
+				// Upload successfully
+				userInfo.avatarLink = data[1];
+				break;
+
+			case 1:
+				Toast.makeText(this, data[1], Toast.LENGTH_SHORT);
+				break;
+
+			default:
+				DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+						registerNewUser();
+					}
+				};
+				DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+						inputStreamAvatar = null;
+						fileName = null;
+					}
+				};
+
+				// Show an Alert with the ButtonListeners we created
+				AlertDialog ad = new AlertDialog.Builder(this).setTitle(
+						getString(R.string.notice)).setMessage(
+						getString(R.string.cant_upload_image_try_again))
+						.setPositiveButton(getString(R.string.yes),
+								okButtonListener).setNegativeButton(
+								getString(R.string.no), cancelButtonListener)
+						.create();
+				ad.show();
+				break;
+			}
 		}
-		switch (errCode) {
-		case 0:
-			// Upload successfully
-			userInfo.avatarLink = data[1];
-			break;
 
-		case 1:
-			Toast.makeText(this, data[1], Toast.LENGTH_SHORT);
-			break;
-
-		default:
-			DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface arg0, int arg1) {
-					registerNewUser();
-				}
-			};
-			DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface arg0, int arg1) {
-					inputStreamAvatar = null;
-					fileName = null;
-				}
-			};
-
-			// Show an Alert with the ButtonListeners we created
-			AlertDialog ad = new AlertDialog.Builder(this).setTitle(
-					getString(R.string.notice)).setMessage(
-					getString(R.string.cant_upload_image_try_again))
-					.setPositiveButton(getString(R.string.yes),
-							okButtonListener).setNegativeButton(
-							getString(R.string.no), cancelButtonListener)
-					.create();
-			ad.show();
-			break;
-		}
-
-//		Log.d(TAG, Global.gsonDateWithoutHour.toJson(userInfo));
+		// Log.d(TAG, Global.gsonDateWithoutHour.toJson(userInfo));
 		RestClient.postData(URLConstant.REGISTER, Global.gsonDateWithoutHour
 				.toJson(userInfo), new JSONParser() {
 
 			@Override
 			public void onFailure(String message) {
-//				Log.e(TAG, message);
+				Log.e(TAG, message);
 			}
 
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
-//				int errCode = json.getInt("errCode");
-//				String message = json.getString("message");
-//				switch (errCode) {
-//				case Global.SUCCESS:
-//					Toast.makeText(UserActivity.this, message,
-//							Toast.LENGTH_SHORT).show();
-//					Global.intent.setAction(Global.LOGIN_ACTIVITY);
-//					startActivity(Global.intent);
-//
-//					break;
-//
-//				default:
-//					Toast.makeText(UserActivity.this, message,
-//							Toast.LENGTH_SHORT).show();
-//					Global.isLogin = false;
-//					break;
-//				}
+				int errCode = json.getInt("errCode");
+				String message = json.getString("message");
+				switch (errCode) {
+				case Global.SUCCESS:
+					Toast.makeText(UserActivity.this, message,
+							Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(UserActivity.this,
+							LoginActivity.class);
+					startActivity(intent);
+
+					break;
+
+				case Global.ERROR:
+					Toast.makeText(UserActivity.this, message,
+							Toast.LENGTH_SHORT).show();
+					Global.isLogin = false;
+
+				default:
+					Toast.makeText(UserActivity.this,
+							getString(R.string.err_register_message),
+							Toast.LENGTH_SHORT).show();
+					Global.isLogin = false;
+					break;
+				}
 			}
 		});
 	}
@@ -713,13 +720,16 @@ public class UserActivity extends MapActivity {
 	protected void tagAddressOnMap() {
 		GeoPoint point = null;
 		if (Global.isLogin) {
-			point = new GeoPoint((int) (Global.userInfo.lat * 1E6), (int) (Global.userInfo.lng * 1E6));
+			point = new GeoPoint((int) (Global.userInfo.lat * 1E6),
+					(int) (Global.userInfo.lng * 1E6));
 		} else if (userInfo != null) {
-			point = new GeoPoint((int) (userInfo.lat * 1E6), (int) (userInfo.lng * 1E6));
+			point = new GeoPoint((int) (userInfo.lat * 1E6),
+					(int) (userInfo.lng * 1E6));
 		} else {
 			String location = txtAddress.getText().toString();
 			if (location == null || location.trim().equals("")) {
-				Toast.makeText(this, getString(R.string.warn_must_enter_address), 
+				Toast.makeText(this,
+						getString(R.string.warn_must_enter_address),
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
@@ -727,20 +737,19 @@ public class UserActivity extends MapActivity {
 		}
 		Log.d(TAG, "user point = " + point);
 
-		MapDialog.createLocationDialog(this, point,
-				new UserLocationListener() {
+		MapDialog.createLocationDialog(this, point, new UserLocationListener() {
 
-					@Override
-					public void processUserLocation(GeoPoint point) {
-						if (mode == REGISTER_USER || mode == EDIT_USER_PROFILE) {
-							if (point != null) {
-								lat = point.getLatitudeE6();
-								lng = point.getLongitudeE6();
-							}
-							Log.d(TAG, "user location = " + point);
-						}
+			@Override
+			public void processUserLocation(GeoPoint point) {
+				if (mode == REGISTER_USER || mode == EDIT_USER_PROFILE) {
+					if (point != null) {
+						lat = point.getLatitudeE6();
+						lng = point.getLongitudeE6();
 					}
-				}).show();
+					Log.d(TAG, "user location = " + point);
+				}
+			}
+		}).show();
 	}
 
 	@Override
