@@ -62,30 +62,28 @@ public class SampleData {
 		ArrayList<Product> products = new ArrayList<Product>();
 		
 		Product product;
-		product = new Product("Laptop D830", 1000, false, 2, "12 month",
-				"China", "Đường Lý Thường Kiệt", 10.761018,106.654902, "Mới 100%" , 3,new Date(110, 8, 12) , "tam");
-		product.getSetCategoryKeys().add("laptop");
+		product = new Product("Billiards - Bar - Coffee Inter", 7, false, 2, "12 month",
+				"Việt Nam", "708, Lê Hồng Phong, P.12, Q.10, HCM", 10.774344,106.671703, "Billiards - Bar - Coffee Inter" , 3,new Date(110,1,1), "hieu");
+		product.getSetCategoryKeys().add("coffee");
+		products.add(product);
+		product = new Product("Đen & Trắng Coffee", 1000, false, 2, "12 month",
+				"Việt Nam", "47, Tú Xương, P.7, Q.3", 10.779698,106.68535, "Không gian yên tĩnh" , 3,new Date(110, 8, 12) , "tam");
+		product.getSetCategoryKeys().add("coffee");
 		products.add(product);
 		
-		product = new Product("Bàn phím BenQ", 20, false, 2, "12 month",
-				"China", "Đường Cách Mạng Tháng 8", 10.785636,106.667114, "Bàn phím gõ rất mềm mại" , 3,new Date(110,7,5), "duc");
-		product.getSetCategoryKeys().add("accessories_desktop");
+		product = new Product("Coffee World", 20, false, 2, "12 month",
+				"China", "Võ Văn Tần, 6th Ward, Saigon", 10.776494,106.689985, "Phục vụ chu đáo" , 3,new Date(110,7,5), "duc");
+		product.getSetCategoryKeys().add("coffee");
 		products.add(product);
 		
-		product = new Product("Headphone Sonic", 3, false, 2, "6 month",
-				"China", "Đường Cách Mạng Tháng 8", 10.785636,106.667114, "Tai nghe chất lượng tuyệt đỉnh" , 3,new Date(110,4,3), "nghia");
-		product.getSetCategoryKeys().add("accessories_desktop");
-		product.getSetCategoryKeys().add("accessories_laptop");
+		product = new Product("New Pearl", 3, false, 2, "6 month",
+				"China", "205 Pham Ngu Lao, Phạm Ngũ Lão, District 1", 10.770213,106.693118, "Giá cả phải chăng" , 3,new Date(110,4,3), "nghia");
+		product.getSetCategoryKeys().add("coffee");
 		products.add(product);
 		
-		product = new Product("Mouse Misumi", 7, false, 2, "12 month",
-				"China", "Đường Lạc Long Quân", 10.783528,106.650828, "Chuột không sợ mèo" , 3,new Date(110,1,1), "hieu");
-		product.getSetCategoryKeys().add("laptop");
-		products.add(product);
-		
-		product = new Product("Bàn Hòa Phát", 200, false, 2, "12 month",
-				"China", "Đường Tân kì tân quý", 10.79803,106.615659, "Bàn làm việc chất lượng tuyệt vời" , 3,new Date(110,2,3), "nghia");
-		product.getSetCategoryKeys().add("laptop");
+		product = new Product("Fruit shake", 200, false, 2, "12 month",
+				"China", "72 Nguyen Cu Trinh, Ho Chi Minh City", 10.765322,106.689942, "Không gian sang trọng, quý phái" , 3,new Date(110,2,3), "nghia");
+		product.getSetCategoryKeys().add("coffee");
 		products.add(product);
 		
 		/* Mobile sample */
