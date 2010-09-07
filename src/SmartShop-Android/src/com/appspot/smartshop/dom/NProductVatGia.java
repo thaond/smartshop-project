@@ -10,12 +10,12 @@ public class NProductVatGia {
 	public int numOfResults;
 	public int numOfPages;
 	public int numOfStore;
-	public String imageThumbnail, imageBlankThumbnail, urlListShop, productName,
-			priceVND, categoryPageURL, categoryName;
+	public String imageThumbnail, imageBlankThumbnail, urlListShop,
+			productName, priceVND, categoryPageURL, categoryName;
 	
 	public NProductVatGia() {}
 	
-	public static Type getType()  {
+	public static Type getType() {
 		return new TypeToken<List<NProductVatGia>>() {}.getType();
 	}
 }

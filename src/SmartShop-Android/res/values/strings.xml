@@ -137,6 +137,8 @@
 	<string name="tab_list_pages">Bài viết</string>
 	<string name="tab_search_products">Tìm kiếm SP</string>
 	<string name="tab_search_on_map">Bản đồ</string>
+	<string name="tab_smartshop_products">SmartShop</string>
+	<string name="tab_vatgia_products">Những trang khác</string>
 
 	<!-- Search products on map -->
 	<string name="btnSearchProductsOnMap">Tìm</string>
@@ -180,5 +182,7 @@
 	
 	<!-- Vatgia products -->
 	<string name="num_of_stores">Có %d cửa hàng</string>
+	<string name="tab_vatgia_companies">So sánh giá</string>
+	<string name="tab_vatgia_product_detail">Thông tin kĩ thuật</string>
 	
 </resources>

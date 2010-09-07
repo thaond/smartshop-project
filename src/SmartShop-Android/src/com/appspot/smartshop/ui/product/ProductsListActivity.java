@@ -11,23 +11,33 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.SearchProductsOnMapActivity;
+import com.appspot.smartshop.ui.page.PagesListActivity;
+import com.appspot.smartshop.ui.user.LoginActivity;
+import com.appspot.smartshop.ui.user.UserActivity;
+import com.appspot.smartshop.ui.user.UserProfileActivity;
+import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 import com.google.android.maps.MapActivity;
 
 public class ProductsListActivity extends MapActivity {
@@ -129,6 +139,33 @@ public class ProductsListActivity extends MapActivity {
 		} else {
 			url = URLConstant.GET_PRODUCTS;
 		}
+	}
+	
+	public static final int MENU_SEARCH_BY_CATEGORIES = 3;
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_SEARCH_BY_CATEGORIES, 0,
+				getString(R.string.search_by_categories)).setIcon(
+				R.drawable.category);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+		case MENU_SEARCH_BY_CATEGORIES:
+			CategoriesDialog.showCategoriesDialog(this, new CategoriesDialogListener() {
+				
+				@Override
+				public void onCategoriesDialogClose(Set<String> categories) {
+					searchByCategories(categories);
+				}
+			});
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 	
 	public void searchByCategories(final Set<String> categories) {

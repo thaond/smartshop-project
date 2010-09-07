@@ -80,8 +80,9 @@ public class Global {
 	public static final String BYTE_ARRAY_INTENT_ID = "byte_array";
 	public static final String FILTER_FILE = "filter";
 	
-	public static final String LOGIN_LAST_ACTIVITY = "last";
+	public static final String VATGIA_URL_LIST_SHOP = "vatgia_url_list_shop";
 	
+	public static final String LOGIN_LAST_ACTIVITY = "last";
 	/*
 	 * ACTIVITY ACTION NAME
 	 */

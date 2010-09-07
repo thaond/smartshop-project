@@ -11,6 +11,8 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -25,6 +27,7 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.PageAdapter;
 import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.mock.MockPage;
+import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -32,6 +35,7 @@ import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
+import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 
 public class PagesListActivity extends Activity {
 	public static final String TAG = "[PagesListActivity]";
@@ -118,6 +122,33 @@ public class PagesListActivity extends Activity {
 		
 		constructUrl();
 		loadData();
+	}
+	
+	public static final int MENU_SEARCH_BY_CATEGORIES = 3;
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_SEARCH_BY_CATEGORIES, 0,
+				getString(R.string.search_by_categories)).setIcon(
+				R.drawable.category);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+		case MENU_SEARCH_BY_CATEGORIES:
+			CategoriesDialog.showCategoriesDialog(this, new CategoriesDialogListener() {
+				
+				@Override
+				public void onCategoriesDialogClose(Set<String> categories) {
+					searchByCategories(categories);
+				}
+			});
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 	
 	public void searchByCategories(Set<String> categories) {

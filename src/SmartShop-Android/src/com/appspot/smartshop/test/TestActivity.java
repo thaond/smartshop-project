@@ -13,6 +13,7 @@ import org.json.JSONTokener;
 
 import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
 import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,8 @@ import com.appspot.smartshop.map.MyLocationCallback;
 import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
 import com.appspot.smartshop.map.MyLocation.LocationResult;
+import com.appspot.smartshop.ui.product.vatgia.VatgiaCompaniesActivity;
+import com.appspot.smartshop.ui.product.vatgia.VatgiaProductDetailActivity;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
@@ -45,7 +48,17 @@ public class TestActivity extends MapActivity {
 
 		Global.application = this;
 		// TODO (condorhero01): place test function here
-		testGetCurrentLocation(); 
+		testVatgiaCompanies(); 
+	}
+	
+	void testVatgiaCompanies() {
+		Intent intent = new Intent(this, VatgiaCompaniesActivity.class);
+		startActivity(intent);
+	}
+	
+	void testVatgiaProductDetail() {
+		Intent intent = new Intent(this, VatgiaProductDetailActivity.class);
+		startActivity(intent);
 	}
 	
 	void testSearchByLocation() {

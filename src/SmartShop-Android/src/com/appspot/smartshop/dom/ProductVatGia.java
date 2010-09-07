@@ -1,12 +1,13 @@
 package com.appspot.smartshop.dom;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.LinkedList;
 
-public class ProductVatGia {
+public class ProductVatGia implements Serializable {
 	public String name;
 	public String thumbnail;
-	public ArrayList<Company> listCo = new ArrayList<Company>();
-	public ArrayList<Group> listGroup = new ArrayList<Group>();
+	public LinkedList<Company> listCo = new LinkedList<Company>();
+	public LinkedList<Group> listGroup = new LinkedList<Group>();
 
 	public ProductVatGia(String name, String thumbnail) {
 		super();

@@ -1,6 +1,8 @@
 package com.appspot.smartshop.dom;
 
-public class Pair {
+import java.io.Serializable;
+
+public class Pair implements Serializable {
 	public String name;
 	public String value;
 
