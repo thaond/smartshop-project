@@ -18,6 +18,7 @@ import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Media;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
+import vnfoss2010.smartshop.serverside.utils.StringUtils;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -165,7 +166,7 @@ public class AccountServiceImpl {
 
 	public ServiceResult<Void> editProfile(UserInfo userInfo) {
 		// Prevent SQL Injection
-		preventSQLInjUserInfo(userInfo);
+//		preventSQLInjUserInfo(userInfo);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
@@ -191,20 +192,20 @@ public class AccountServiceImpl {
 				result.setMessage(userInfo.getUsername() + " "
 						+ Global.messages.getString("doesnot_exist"));
 			} else {
-				if (userInfo.getPassword() != null
-						&& userInfo.getPassword().toString().length() > 0
+				if (!StringUtils.isEmptyOrNull(tmp.getOld_password())
 						&& !tmp.getPassword().equals(
 								DatabaseUtils.md5(userInfo.getOld_password()))) {
 					// Intent to change password
 					result.setMessage(Global.messages
 							.getString("password_doesnot_match"));
-				} else if (userInfo.getPassword() == null
-						|| userInfo.getPassword().length() < 6) {
-					result
-							.setMessage(Global.messages
-									.getString("password_length_at_least_6_characters"));
-					return result;
-				} else {
+				} 
+//				else if (StringUtils.isEmptyOrNull(tmp.getPassword())) {
+//					result
+//							.setMessage(Global.messages
+//									.getString("password_length_at_least_6_characters"));
+//					return result;
+//				} 
+				else {
 					if (userInfo.getPassword().length() > 0) {
 						tmp.setPassword(DatabaseUtils.md5(userInfo
 								.getPassword()));
@@ -225,7 +226,7 @@ public class AccountServiceImpl {
 					pm.refresh(tmp);
 					result.setOK(true);
 					result.setMessage(Global.messages
-							.getString("edit_profile_successfully"));
+							.getString("edit_profile_successfully")); 
 				}
 			}
 		} catch (Exception ex) {
