@@ -20,24 +20,25 @@ import com.beoui.geocell.model.Point;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
-public class Product extends SearchCapable implements LocationCapable{ 
+public class Product extends SearchCapable implements LocationCapable,
+		Cloneable {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;  
+	private Long id;
 
-	@Persistent 
-	private String name; 
+	@Persistent
+	private String name;
 
 	@Persistent
 	private double price;
-  
+
 	@Persistent
 	private boolean is_vat;
 
 	@Persistent
 	private int quantity;
 
-	@Persistent 
+	@Persistent
 	private Date date_post;
 
 	@Persistent
@@ -54,10 +55,10 @@ public class Product extends SearchCapable implements LocationCapable{
 
 	@Persistent
 	private double lng;
-	
+
 	@Persistent
 	private String description;
-	
+
 	@Persistent
 	private int product_view;
 
@@ -70,10 +71,10 @@ public class Product extends SearchCapable implements LocationCapable{
 	@Exclude
 	@Persistent
 	private Set<String> fts;
-	
+
 	@Persistent
 	private Set<Long> setPagesID;
-	
+
 	@Persistent
 	private Set<String> setCategoryKeys;
 
@@ -82,7 +83,7 @@ public class Product extends SearchCapable implements LocationCapable{
 	private List<Attribute> attributeSets;
 
 	@Exclude
-	@Persistent 
+	@Persistent
 	private List<String> geocells;
 
 	public Set<Long> getSetPagesID() {
@@ -103,7 +104,8 @@ public class Product extends SearchCapable implements LocationCapable{
 
 	public Product(String name, double price, boolean isVat, int quantity,
 			String warranty, String origin, String address, double lat,
-			double lng, String description, int view, Date date_post, String username) {
+			double lng, String description, int view, Date date_post,
+			String username) {
 		this.name = name;
 		this.price = price;
 		is_vat = isVat;
@@ -400,7 +402,7 @@ public class Product extends SearchCapable implements LocationCapable{
 	}
 
 	/**
-	 * @param fts 
+	 * @param fts
 	 *            the fts to set
 	 */
 	public void setFts(Set<String> fts) {
@@ -415,7 +417,8 @@ public class Product extends SearchCapable implements LocationCapable{
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -436,21 +439,24 @@ public class Product extends SearchCapable implements LocationCapable{
 	}
 
 	/**
-	 * @param productView the product_view to set
+	 * @param productView
+	 *            the product_view to set
 	 */
 	public void setProduct_view(int productView) {
 		product_view = productView;
 	}
 
 	/**
-	 * @param setPagesID the setPagesID to set
+	 * @param setPagesID
+	 *            the setPagesID to set
 	 */
 	public void setSetPagesID(Set<Long> setPagesID) {
 		this.setPagesID = setPagesID;
 	}
 
 	/**
-	 * @param listBuyers the listBuyers to set
+	 * @param listBuyers
+	 *            the listBuyers to set
 	 */
 	public void setListBuyers(List<String> listBuyers) {
 		this.listBuyers = listBuyers;
@@ -462,16 +468,25 @@ public class Product extends SearchCapable implements LocationCapable{
 	public List<String> getListBuyers() {
 		return listBuyers;
 	}
-	
+
 	@Override
 	public String getTokenString() {
 		return getName() + " " + getAddress();
 	}
-	
+
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			return null;
+		}
+	}
+
 	public static void main(String[] args) {
 		Product product = new Product();
 		product = new Product("Nec Monitor", 123, false, 2, "12 month",
-				"China", "Binh Tan", 10.11, 106.123, "Man hình rất xịn" , 3, new Date(), "tamvo");
+				"China", "Binh Tan", 10.11, 106.123, "Man hình rất xịn", 3,
+				new Date(), "tamvo");
 		product.getSetCategoryKeys().add("laptop");
 
 		String json = Global.gsonWithDate.toJson(product);

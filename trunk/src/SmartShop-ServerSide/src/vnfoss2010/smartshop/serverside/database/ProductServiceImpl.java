@@ -16,7 +16,6 @@ import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
-import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
@@ -313,9 +312,6 @@ public class ProductServiceImpl {
 		case 2:
 			where.append("quantity==0 ");
 			orderBy.append("quantity desc ");
-			// query = "select from " + Product.class.getName()
-			// + " where (quantity==0 %s) " + query
-			// + ((maximum == 0) ? "" : (" limit " + maximum));
 			break;
 
 		default:
@@ -367,7 +363,7 @@ public class ProductServiceImpl {
 
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query queryObj = null;
-		List<Product> listProducts = null;
+		List<Long> listIds = null;
 
 		if (StringUtils.isEmptyOrNull(q)) {
 			if (!StringUtils.isEmptyOrNull(username)) {
@@ -379,13 +375,13 @@ public class ProductServiceImpl {
 					listParameters.add(Arrays.asList(cat_keys));
 					listParameters.add(username);
 
-					query = "select from " + Product.class.getName()
+					query = "select id from " + Product.class.getName()
 							+ " where (" + where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 					queryObj = pm.newQuery(query);
 					queryObj.declareParameters("String catKey, String us");
-					listProducts = (List<Product>) queryObj
+					listIds = (List<Long>) queryObj
 							.executeWithArray(listParameters.toArray());
 				} else {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
@@ -393,7 +389,7 @@ public class ProductServiceImpl {
 					where.append("username==us ");
 					listParameters.add(username);
 
-					query = "select from " + Product.class.getName()
+					query = "select id from " + Product.class.getName()
 							+ " where (" + where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
@@ -401,7 +397,7 @@ public class ProductServiceImpl {
 					queryObj = pm.newQuery(query);
 					queryObj.declareParameters("String us");
 
-					listProducts = (List<Product>) queryObj
+					listIds = (List<Long>) queryObj
 							.executeWithArray(listParameters.toArray());
 				}
 			} else { // end if q>username
@@ -410,24 +406,24 @@ public class ProductServiceImpl {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
 					where.append("setCategoryKeys.contains(catKey) ");
-					query = "select from " + Product.class.getName()
+					query = "select id from " + Product.class.getName()
 							+ " where (" + where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 					queryObj = pm.newQuery(query);
 					queryObj.declareParameters("String catKey");
 					listParameters.add(Arrays.asList(cat_keys));
-					listProducts = (List<Product>) queryObj
+					listIds = (List<Long>) queryObj
 							.executeWithArray(listParameters.toArray());
 				} else {
-					query = "select from "
+					query = "select id from "
 							+ Product.class.getName()
 							+ (StringUtils.isEmptyOrNull(where.toString()) ? ""
 									: " where (" + where.toString() + ")")
 							+ " order by " + orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 					queryObj = pm.newQuery(query);
-					listProducts = (List<Product>) queryObj.execute();
+					listIds = (List<Long>) queryObj.execute();
 				}
 			}// end else q>username
 		} else {// end if q
@@ -467,7 +463,7 @@ public class ProductServiceImpl {
 					for (Object str : parametersForSearch)
 						listParameters.add(str);
 
-					query = "select from " + Product.class.getName()
+					query = "select id from " + Product.class.getName()
 							+ " where (" + where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
@@ -475,7 +471,7 @@ public class ProductServiceImpl {
 					queryObj.declareParameters("String catKey, String us"
 							+ declareParametersBuffer.toString());
 
-					listProducts = (List<Product>) queryObj
+					listIds = (List<Long>) queryObj
 							.executeWithArray(listParameters.toArray());
 
 				} else {
@@ -489,7 +485,7 @@ public class ProductServiceImpl {
 					for (Object str : parametersForSearch)
 						listParameters.add(str);
 
-					query = "select from " + Product.class.getName()
+					query = "select id from " + Product.class.getName()
 							+ " where (" + where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
@@ -498,7 +494,7 @@ public class ProductServiceImpl {
 					queryObj.declareParameters("String us"
 							+ declareParametersBuffer.toString());
 
-					listProducts = (List<Product>) queryObj
+					listIds = (List<Long>) queryObj
 							.executeWithArray(listParameters.toArray());
 				}
 			} else {
@@ -514,7 +510,7 @@ public class ProductServiceImpl {
 					for (Object str : parametersForSearch)
 						listParameters.add(str);
 
-					query = "select from " + Product.class.getName()
+					query = "select id from " + Product.class.getName()
 							+ " where (" + where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
@@ -522,7 +518,7 @@ public class ProductServiceImpl {
 					queryObj.declareParameters("String catKey"
 							+ declareParametersBuffer.toString());
 
-					listProducts = (List<Product>) queryObj
+					listIds = (List<Long>) queryObj
 							.executeWithArray(listParameters.toArray());
 				} else {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
@@ -532,7 +528,7 @@ public class ProductServiceImpl {
 					for (Object str : parametersForSearch)
 						listParameters.add(str);
 
-					query = "select from " + Product.class.getName()
+					query = "select id from " + Product.class.getName()
 							+ " where (" + where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
@@ -540,18 +536,31 @@ public class ProductServiceImpl {
 					queryObj = pm.newQuery(query);
 					queryObj.declareParameters(declareParametersBuffer.toString());
 
-					listProducts = (List<Product>) queryObj
+					listIds = (List<Long>) queryObj
 							.executeWithArray(listParameters.toArray());
 				}
 			}
 		}// end else q
 
-		if (listProducts.size() > 0) {
+//		Product p = pm.getObjectById(Product.class, listIds.get(0));
+//		log.log(Level.SEVERE, p +"");
+		
+		
+		
+		if (listIds.size() > 0) {
 			result.setOK(true);
 			result
 					.setMessage(Global.messages
 							.getString("search_product_by_criteria_in_cat_successfully"));
-			result.setResult(listProducts);
+			
+//			List<Product> listProducts = new ArrayList<Product>();
+//			for (int i=0;i<listIds.size();i++){
+//				Product product = pm.getObjectById(Product.class, listIds.get(i));
+//				product.getAttributeSets();
+//				listProducts.add(product);
+//			}
+			
+			result.setResult(getListProductFromIds(listIds));
 		} else {
 			result.setOK(false);
 			result.setMessage(Global.messages
@@ -1053,5 +1062,17 @@ public class ProductServiceImpl {
 		product.setName(DatabaseUtils.preventSQLInjection(product.getName()));
 		product.setAddress(DatabaseUtils.preventSQLInjection(product
 				.getAddress()));
+	}
+	
+	private List<Product> getListProductFromIds(List<Long> listIds){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		List<Product> listProducts = new ArrayList<Product>();
+		for (Long i : listIds){
+			Product product = pm.getObjectById(Product.class, i);
+			product.getAttributeSets();
+			listProducts.add(product);
+		}
+		
+		return listProducts;
 	}
 }

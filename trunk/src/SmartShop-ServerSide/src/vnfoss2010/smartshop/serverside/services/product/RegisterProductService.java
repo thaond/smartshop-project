@@ -2,6 +2,7 @@ package vnfoss2010.smartshop.serverside.services.product;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.Global;
@@ -41,6 +42,8 @@ public class RegisterProductService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 		Product product = Global.gsonWithDate.fromJson(content, Product.class);
+		log.log(Level.SEVERE, product+"");
+		
 		ServiceResult<Set<Category>> listCategories = dbcat
 				.findCategories(product.getSetCategoryKeys());
 		if (listCategories.isOK() == false) {
