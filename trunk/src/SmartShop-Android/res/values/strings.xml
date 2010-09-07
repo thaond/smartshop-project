@@ -26,13 +26,23 @@
 	<string name="btnTagAddressOnMap">Đánh dấu trên bản đồ</string>
 	<string name="btnViewAddressOnMap">Xem trên bản đồ</string>
 	<string name="titleChoooseUserLoction">Chọn địa chỉ của bạn</string>
-	<string name="hintChangeUserLocation">Click vào bản đồ để thay đổi địa chỉ của bạn
-	</string>
+	<string name="hintChangeUserLocation">Click vào bản đồ để thay đổi địa chỉ của bạn</string>
+	
+	<string name="username">Tên đăng nhập:</string>
+	<string name="name">Tên:</string>
+	<string name="lastname">Họ:</string>
+	<string name="email">Email:</string>
+	<string name="birthday">Ngày sinh:</string>
+	<string name="address">Địa chỉ:</string>
+	<string name="tel">Số điện thoại:</string>
+	<string name="edit_profile">Sửa thông tin</string>
+	
 	<string name="tooltipAddressHint">(vd: 268 Lý Thường Kiệt quận 10 HCM)</string>
 	<string name="lblPhoneNumber">Số điện thoại:</string>
 	<string name="lblAvatar">Hình đại diện:</string>
 	<string name="lblRegister">Đăng ký</string>
 	<string name="warn_must_enter_address">Bạn chưa nhập địa chỉ</string>
+	<string name="err_register_message">Có lỗi trong quá trình đăng ký</string>
 	
 	<!-- Validate user -->
 	<string name="username_longer_6_chars">Tên đăng nhập phải nhiều hơn 6 kí tự</string>

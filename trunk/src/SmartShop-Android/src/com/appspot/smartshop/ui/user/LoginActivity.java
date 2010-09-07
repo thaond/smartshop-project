@@ -3,10 +3,9 @@ package com.appspot.smartshop.ui.user;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
-import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
@@ -15,8 +14,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.utils.DataLoader;
@@ -24,8 +23,8 @@ import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
+import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
-import com.google.gson.JsonObject;
 
 public class LoginActivity extends Activity {
 	public static final String TAG = "LoginActivity";
@@ -34,6 +33,7 @@ public class LoginActivity extends Activity {
 	private EditText txtUsername;
 	private TextView lblPassword;
 	private EditText txtPassword;
+	private String lastActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,8 @@ public class LoginActivity extends Activity {
 				finish();
 			}
 		});
+		
+		lastActivity = getIntent().getStringExtra(Global.LOGIN_LAST_ACTIVITY);
 	}
 
 	private SimpleAsyncTask task;
@@ -98,7 +100,15 @@ public class LoginActivity extends Activity {
 						Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
 						Global.username = Global.userInfo.username;
 						
-						finish();
+						if (StringUtils.isEmptyOrNull(lastActivity)){
+							Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+							startActivity(intent);
+						}else{
+							if (lastActivity.equals(Global.VIEW_PROFILE_ACTIVITY)){
+								Intent intent = new Intent(LoginActivity.this, ViewProfileActivity.class);
+								startActivity(intent);
+							}
+						}
 					}
 					
 					@Override
