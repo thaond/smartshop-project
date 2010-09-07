@@ -159,13 +159,20 @@ public class ViewProductBasicAttributeActivity extends Activity {
 				}
 			});
 		} else {
-			txtNameProduct.setFilters(Global.uneditableInputFilters);
-			txtPriceOfProduct.setFilters(Global.uneditableInputFilters);
-			txtQuantityOfProduct.setFilters(Global.uneditableInputFilters);
-			txtWarrantyOfProduct.setFilters(Global.uneditableInputFilters);
-			txtOriginOfProduct.setFilters(Global.uneditableInputFilters);
-			txtAddressOfProduct.setFilters(Global.uneditableInputFilters);
-			txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
+			Utils.setEditableEditText(txtNameProduct, false);
+			Utils.setEditableEditText(txtPriceOfProduct, false);
+			Utils.setEditableEditText(txtQuantityOfProduct, false);
+			Utils.setEditableEditText(txtWarrantyOfProduct, false);
+			Utils.setEditableEditText(txtOriginOfProduct, false);
+			Utils.setEditableEditText(txtAddressOfProduct, false);
+			
+//			txtNameProduct.setFilters(Global.uneditableInputFilters);
+//			txtPriceOfProduct.setFilters(Global.uneditableInputFilters);
+//			txtQuantityOfProduct.setFilters(Global.uneditableInputFilters);
+//			txtWarrantyOfProduct.setFilters(Global.uneditableInputFilters);
+//			txtOriginOfProduct.setFilters(Global.uneditableInputFilters);
+//			txtAddressOfProduct.setFilters(Global.uneditableInputFilters);
+//			txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
 			btnEditProduct.setVisibility(View.GONE);
 		}
 	}

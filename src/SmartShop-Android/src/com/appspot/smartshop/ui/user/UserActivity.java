@@ -172,7 +172,7 @@ public class UserActivity extends MapActivity {
 		txtAvatar = (EditText) findViewById(R.id.txtAvatar);
 		txtAvatar.setWidth(textWidth);
 
-		lblPhoneNumber = (TextView) findViewById(R.id.lblPhoneNumber); 
+		lblPhoneNumber = (TextView) findViewById(R.id.lblPhoneNumber);
 		lblPhoneNumber.setWidth(labelWidth);
 		txtPhoneNumber = (EditText) findViewById(R.id.txtPhoneNumber);
 		txtPhoneNumber.setWidth(textWidth);
@@ -185,6 +185,11 @@ public class UserActivity extends MapActivity {
 		btnPhoto = (Button) findViewById(R.id.btnPhoto);
 		btnBrowser = (Button) findViewById(R.id.btnBrowser);
 
+		lblOldPassword = (TextView) findViewById(R.id.lblOldPassword);
+		lblOldPassword.setWidth(labelWidth);
+		txtOldPassword = (EditText) findViewById(R.id.txtOldPassword);
+		txtOldPassword.setWidth(textWidth);
+
 		btnBrowser.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -195,9 +200,7 @@ public class UserActivity extends MapActivity {
 						public void onClick(DialogInterface arg0, int arg1) {
 							Intent intent = new Intent(UserActivity.this,
 									AndroidFileBrowser.class);
-							intent
-									.putExtra(Global.FILTER_FILE,
-											imageFilter);
+							intent.putExtra(Global.FILTER_FILE, imageFilter);
 							intent.setAction(Global.FILE_BROWSER_ACTIVITY);
 							startActivityForResult(intent, FILE_BROWSER_ID);
 						}
@@ -209,8 +212,7 @@ public class UserActivity extends MapActivity {
 					};
 
 					// Show an Alert with the ButtonListeners we created
-					AlertDialog ad = new AlertDialog.Builder(
-							UserActivity.this)
+					AlertDialog ad = new AlertDialog.Builder(UserActivity.this)
 							.setTitle(getString(R.string.notice))
 							.setMessage(
 									getString(R.string.do_you_want_to_change_avatar))
@@ -250,8 +252,7 @@ public class UserActivity extends MapActivity {
 					};
 
 					// Show an Alert with the ButtonListeners we created
-					AlertDialog ad = new AlertDialog.Builder(
-							UserActivity.this)
+					AlertDialog ad = new AlertDialog.Builder(UserActivity.this)
 							.setTitle(getString(R.string.notice))
 							.setMessage(
 									getString(R.string.do_you_want_to_change_avatar))
@@ -277,8 +278,8 @@ public class UserActivity extends MapActivity {
 
 			// fill user info to form
 			txtUsername.setText(userInfo.username);
-			txtPassword.setText(userInfo.password);
-			txtConfirm.setText(userInfo.password);
+//			txtPassword.setText(userInfo.password);
+//			txtConfirm.setText(userInfo.password);
 			txtFirstName.setText(userInfo.first_name);
 			txtLastName.setText(userInfo.last_name);
 			txtEmail.setText(userInfo.email);
@@ -287,10 +288,8 @@ public class UserActivity extends MapActivity {
 			txtBirthday.setText(Global.df.format(userInfo.birthday));
 
 			// some fields of user info must be uneditable
-			txtUsername.setFilters(Global.uneditableInputFilters);
-			txtEmail.setFilters(Global.uneditableInputFilters);
-			txtPhoneNumber.setFilters(Global.uneditableInputFilters);
-
+			Utils.setEditableEditText(txtUsername, false);
+			Utils.setEditableEditText(txtFirstName, true);
 			txtBirthday.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -298,16 +297,23 @@ public class UserActivity extends MapActivity {
 					showDialog(DATE_DIALOG_ID);
 				}
 			});
+
+			lblOldPassword.setVisibility(View.VISIBLE);
+			txtOldPassword.setVisibility(View.VISIBLE);
+			lblPassword.setVisibility(View.VISIBLE);
+			txtPassword.setVisibility(View.VISIBLE);
+			lblConfirm.setVisibility(View.VISIBLE);
+			txtConfirm.setVisibility(View.VISIBLE);
+		}else{
+			lblOldPassword.setVisibility(View.GONE);
+			txtOldPassword.setVisibility(View.GONE);
+			lblPassword.setVisibility(View.GONE);
+			txtPassword.setVisibility(View.GONE);
+			lblConfirm.setVisibility(View.GONE);
+			txtConfirm.setVisibility(View.GONE);
 		}
 
 		/********************************** Listeners *******************************/
-		if (mode == REGISTER_USER) {
-			lblOldPassword = (TextView) findViewById(R.id.lblOldPassword);
-			lblOldPassword.setVisibility(TextView.GONE);
-			txtOldPassword = (EditText) findViewById(R.id.txtOldPassword);
-			txtOldPassword.setVisibility(TextView.GONE);
-		}
-
 		// input value
 		txtUsername.setFilters(Global.usernameInputFilters);
 		txtFirstName.setFilters(Global.usernameInputFilters);
@@ -532,11 +538,12 @@ public class UserActivity extends MapActivity {
 		// if (StringUtils.isEmptyOrNull(err = getErrorMessage())) {
 		collectUserInfo();
 
-		if (StringUtils.isEmptyOrNull(userInfo.avatarLink) && inputStreamAvatar!=null) {
+		if (StringUtils.isEmptyOrNull(userInfo.avatarLink)
+				&& inputStreamAvatar != null) {
 			String response = doFileUpload();
 
-			Log.e("Upload" , response);
-			String[] data = response.split(":");
+			Log.e("Upload", response);
+			String[] data = response.split(";");
 			int errCode = -1;
 			try {
 				errCode = Integer.parseInt(data[0]);
@@ -621,33 +628,39 @@ public class UserActivity extends MapActivity {
 
 	protected void editUserProfile() {
 		String err = "";
-		if (StringUtils.isEmptyOrNull(err = getErrorMessage())) {
-			collectUserInfo();
-			HttpService.postResource(URLConstant.EDIT_PROFILE,
-					Global.gsonDateWithoutHour.toJson(userInfo), true,
-					new ServiceCallback(this) {
+		// if (StringUtils.isEmptyOrNull(err = getErrorMessage())) {
+		collectUserInfo();
+		
+		Log.d(TAG, userInfo +"");
+		RestClient.postData(URLConstant.EDIT_PROFILE, Global.gsonDateWithoutHour.toJson(userInfo), new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				int errCode = Integer.parseInt(json
+						.get("errCode").toString());
+				String message = json.get("message").toString();
+				switch (errCode) {
+				case Global.SUCCESS:
+					Toast.makeText(UserActivity.this, message,
+							Toast.LENGTH_SHORT).show();
+					break;
 
-						@Override
-						public void onSuccess(JsonObject json) {
-							int errCode = Integer.parseInt(json
-									.getAsString("errCode"));
-							String message = json.getAsString("message");
-							switch (errCode) {
-							case Global.SUCCESS:
-								Toast.makeText(UserActivity.this, message,
-										Toast.LENGTH_SHORT).show();
-								break;
-
-							default:
-								Toast.makeText(UserActivity.this, message,
-										Toast.LENGTH_SHORT).show();
-								break;
-							}
-						}
-					});
-		} else {
-			Toast.makeText(UserActivity.this, err, Toast.LENGTH_SHORT).show();
-		}
+				default:
+					Toast.makeText(UserActivity.this, message,
+							Toast.LENGTH_SHORT).show();
+					break;
+				}
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				Toast.makeText(UserActivity.this, message,
+						Toast.LENGTH_SHORT).show();
+			}
+		});
+		// } else {
+		// Toast.makeText(UserActivity.this, err, Toast.LENGTH_SHORT).show();
+		// }
 	}
 
 	protected Dialog onCreateDialog(int id) {

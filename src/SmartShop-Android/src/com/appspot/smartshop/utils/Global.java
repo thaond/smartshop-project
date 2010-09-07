@@ -49,13 +49,6 @@ public class Global {
 	public static DateFormat dfFull = new SimpleDateFormat(
 			NORMAL_DATE_WITH_HOUR);
 	public static DateFormat dfTimeStamp = new SimpleDateFormat("yyyyMMddHHmmssSS");
-	public static InputFilter[] uneditableInputFilters = new InputFilter[] { new InputFilter() {
-		public CharSequence filter(CharSequence src, int start, int end,
-				Spanned dst, int dstart, int dend) {
-			return src.length() < 1 ? dst.subSequence(dstart, dend) : "";
-		}
-	} };
-
 	public static InputFilter[] usernameInputFilters = new InputFilter[] { new UsernameFilterGMail() };
 
 	/*

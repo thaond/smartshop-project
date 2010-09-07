@@ -1,6 +1,5 @@
 package com.appspot.smartshop.adapter;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
@@ -13,9 +12,7 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.Attribute;
-import com.appspot.smartshop.ui.product.ProductUserDefinedAttributeActivity;
 import com.appspot.smartshop.ui.product.ViewProductUserDefinedAttributeActivity;
-import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.Utils;
 
 public class AttributeAdapter extends ArrayAdapter<Attribute> {
@@ -58,8 +55,8 @@ public class AttributeAdapter extends ArrayAdapter<Attribute> {
 		holder.txtName.setText(attr.name);
 		holder.txtValue.setText(attr.value);
 		if(ViewProductUserDefinedAttributeActivity.canEdit==false){
-			holder.txtName.setFilters(Global.uneditableInputFilters);
-			holder.txtValue.setFilters(Global.uneditableInputFilters);
+			Utils.setEditableEditText(holder.txtValue, false);
+//			holder.txtValue.setFilters(Global.uneditableInputFilters);
 		}
 		
 		return convertView;
