@@ -3,15 +3,12 @@ package com.appspot.smartshop.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.Display;
@@ -65,5 +62,12 @@ public class Utils {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public static void createOKDialog(Context context, String title,
+			String text, DialogInterface.OnClickListener clickListener) {
+		AlertDialog ad = new AlertDialog.Builder(context).setPositiveButton("OK",
+				clickListener).setTitle(title).setMessage(text).create();
+		ad.show();
 	}
 }

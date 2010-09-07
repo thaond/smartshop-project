@@ -56,7 +56,7 @@ public class MainActivity extends TabActivity {
 				getString(R.string.tab_list_pages)).setContent(intent));
 		
 		// current tab is products list
-		tabHost.setCurrentTab(0);	
+		tabHost.setCurrentTab(0);	 
 
 		// listeners
 		tabHost.setOnTabChangedListener(new OnTabChangeListener() {

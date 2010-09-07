@@ -18,8 +18,8 @@ import android.widget.TextView;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.ui.page.PagesListActivity;
-import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProductListActivity;
+import com.appspot.smartshop.ui.user.ViewProfileActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -120,11 +120,11 @@ public class ViewUserProfileAdapter extends BaseAdapter {
 						UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(
 								json.get("userinfo").toString(), UserInfo.class);
 						
-						Intent intent = new Intent(context, UserActivity.class);
+						Intent intent = new Intent(context, ViewProfileActivity.class);
 						intent.putExtra(Global.USER_INFO, userInfo);
 						context.startActivity(intent);
 					}
-					
+					 
 					@Override
 					public void onFailure(String message) {
 					}

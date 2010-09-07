@@ -64,10 +64,8 @@ public class UserActivity extends MapActivity {
 
 	public static final int REGISTER_USER = 0;
 	public static final int EDIT_USER_PROFILE = 1;
-	public static final int VIEW_USER_PROFILE = 2;
 
 	static final int DATE_DIALOG_ID = 0;
-
 	private int mode = REGISTER_USER;
 
 	private TextView lblUsername;
@@ -174,7 +172,7 @@ public class UserActivity extends MapActivity {
 		txtAvatar = (EditText) findViewById(R.id.txtAvatar);
 		txtAvatar.setWidth(textWidth);
 
-		lblPhoneNumber = (TextView) findViewById(R.id.lblPhoneNumber);
+		lblPhoneNumber = (TextView) findViewById(R.id.lblPhoneNumber); 
 		lblPhoneNumber.setWidth(labelWidth);
 		txtPhoneNumber = (EditText) findViewById(R.id.txtPhoneNumber);
 		txtPhoneNumber.setWidth(textWidth);
@@ -186,6 +184,90 @@ public class UserActivity extends MapActivity {
 
 		btnPhoto = (Button) findViewById(R.id.btnPhoto);
 		btnBrowser = (Button) findViewById(R.id.btnBrowser);
+
+		btnBrowser.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (inputStreamAvatar != null) {
+					DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							Intent intent = new Intent(UserActivity.this,
+									AndroidFileBrowser.class);
+							intent
+									.putExtra(Global.FILTER_FILE,
+											imageFilter);
+							intent.setAction(Global.FILE_BROWSER_ACTIVITY);
+							startActivityForResult(intent, FILE_BROWSER_ID);
+						}
+					};
+					DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+						}
+					};
+
+					// Show an Alert with the ButtonListeners we created
+					AlertDialog ad = new AlertDialog.Builder(
+							UserActivity.this)
+							.setTitle(getString(R.string.notice))
+							.setMessage(
+									getString(R.string.do_you_want_to_change_avatar))
+							.setPositiveButton(getString(R.string.yes),
+									okButtonListener).setNegativeButton(
+									getString(R.string.no),
+									cancelButtonListener).create();
+					ad.show();
+				} else {
+					Intent intent = new Intent(UserActivity.this,
+							AndroidFileBrowser.class);
+					intent.setAction(Global.FILE_BROWSER_ACTIVITY);
+					intent.putExtra(Global.FILTER_FILE, imageFilter);
+					startActivityForResult(intent, FILE_BROWSER_ID);
+				}
+			}
+		});
+
+		btnPhoto.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (inputStreamAvatar != null) {
+					DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							Intent intent = new Intent(UserActivity.this,
+									ImageCaptureActivity.class);
+							intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
+							startActivityForResult(intent, IMAGE_CAPTURE_ID);
+						}
+					};
+					DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+						}
+					};
+
+					// Show an Alert with the ButtonListeners we created
+					AlertDialog ad = new AlertDialog.Builder(
+							UserActivity.this)
+							.setTitle(getString(R.string.notice))
+							.setMessage(
+									getString(R.string.do_you_want_to_change_avatar))
+							.setPositiveButton(getString(R.string.yes),
+									okButtonListener).setNegativeButton(
+									getString(R.string.no),
+									cancelButtonListener).create();
+					ad.show();
+				} else {
+					Intent intent = new Intent(UserActivity.this,
+							ImageCaptureActivity.class);
+					intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
+					startActivityForResult(intent, IMAGE_CAPTURE_ID);
+				}
+			}
+		});
 
 		// setup data for text field if in edit/view user profile mode
 		Bundle bundle = getIntent().getExtras();
@@ -203,36 +285,12 @@ public class UserActivity extends MapActivity {
 			txtAddress.setText(userInfo.address);
 			txtPhoneNumber.setText(userInfo.phone);
 			txtBirthday.setText(Global.df.format(userInfo.birthday));
-			// TODO (vo.mita.ov): display avatar of user
 
 			// some fields of user info must be uneditable
 			txtUsername.setFilters(Global.uneditableInputFilters);
 			txtEmail.setFilters(Global.uneditableInputFilters);
 			txtPhoneNumber.setFilters(Global.uneditableInputFilters);
 
-			// not allow to edit text when in VIEW_USER_PROFILE MODE
-			Boolean canEditUserProfile = bundle
-					.getBoolean(Global.CAN_EDIT_USER_PROFILE);
-			if (!(canEditUserProfile != null && canEditUserProfile == true)) {
-				Log.d(TAG, "view user profile");
-				mode = VIEW_USER_PROFILE;
-				txtPassword.setVisibility(View.GONE);
-				txtConfirm.setVisibility(View.GONE);
-				lblPassword.setVisibility(View.GONE);
-				lblConfirm.setVisibility(View.GONE);
-
-				txtFirstName.setFilters(Global.uneditableInputFilters);
-				txtLastName.setFilters(Global.uneditableInputFilters);
-				txtAddress.setFilters(Global.uneditableInputFilters);
-			} else {
-				Log.d(TAG, "edit user profile");
-			}
-
-		}
-
-		/********************************** Listeners *******************************/
-		// allow change birthday in register and view profile mode
-		if (mode != VIEW_USER_PROFILE) {
 			txtBirthday.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -240,96 +298,10 @@ public class UserActivity extends MapActivity {
 					showDialog(DATE_DIALOG_ID);
 				}
 			});
-
-			btnBrowser.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					if (inputStreamAvatar != null) {
-						DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-								Intent intent = new Intent(UserActivity.this,
-										AndroidFileBrowser.class);
-								intent
-										.putExtra(Global.FILTER_FILE,
-												imageFilter);
-								intent.setAction(Global.FILE_BROWSER_ACTIVITY);
-								startActivityForResult(intent, FILE_BROWSER_ID);
-							}
-						};
-						DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-							}
-						};
-
-						// Show an Alert with the ButtonListeners we created
-						AlertDialog ad = new AlertDialog.Builder(
-								UserActivity.this)
-								.setTitle(getString(R.string.notice))
-								.setMessage(
-										getString(R.string.do_you_want_to_change_avatar))
-								.setPositiveButton(getString(R.string.yes),
-										okButtonListener).setNegativeButton(
-										getString(R.string.no),
-										cancelButtonListener).create();
-						ad.show();
-					} else {
-						Intent intent = new Intent(UserActivity.this,
-								AndroidFileBrowser.class);
-						intent.setAction(Global.FILE_BROWSER_ACTIVITY);
-						intent.putExtra(Global.FILTER_FILE, imageFilter);
-						startActivityForResult(intent, FILE_BROWSER_ID);
-					}
-				}
-			});
-
-			btnPhoto.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					if (inputStreamAvatar != null) {
-						DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-								Intent intent = new Intent(UserActivity.this,
-										ImageCaptureActivity.class);
-								intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
-								startActivityForResult(intent, IMAGE_CAPTURE_ID);
-							}
-						};
-						DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-							}
-						};
-
-						// Show an Alert with the ButtonListeners we created
-						AlertDialog ad = new AlertDialog.Builder(
-								UserActivity.this)
-								.setTitle(getString(R.string.notice))
-								.setMessage(
-										getString(R.string.do_you_want_to_change_avatar))
-								.setPositiveButton(getString(R.string.yes),
-										okButtonListener).setNegativeButton(
-										getString(R.string.no),
-										cancelButtonListener).create();
-						ad.show();
-					} else {
-						Intent intent = new Intent(UserActivity.this,
-								ImageCaptureActivity.class);
-						intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
-						startActivityForResult(intent, IMAGE_CAPTURE_ID);
-					}
-				}
-			});
-		} else {
-			btnBrowser.setVisibility(TextView.GONE);
-			btnPhoto.setVisibility(TextView.GONE);
 		}
 
-		if (mode != EDIT_USER_PROFILE) {
+		/********************************** Listeners *******************************/
+		if (mode == REGISTER_USER) {
 			lblOldPassword = (TextView) findViewById(R.id.lblOldPassword);
 			lblOldPassword.setVisibility(TextView.GONE);
 			txtOldPassword = (EditText) findViewById(R.id.txtOldPassword);
@@ -359,8 +331,6 @@ public class UserActivity extends MapActivity {
 					editUserProfile();
 					break;
 
-				case VIEW_USER_PROFILE:
-					break;
 				}
 			}
 		});
@@ -375,9 +345,6 @@ public class UserActivity extends MapActivity {
 		});
 
 		Button btnTagAddressOnMap = (Button) findViewById(R.id.btnTagAddressOnMap);
-		if (mode != REGISTER_USER) {
-			btnTagAddressOnMap.setText(getString(R.string.btnViewAddressOnMap));
-		}
 		btnTagAddressOnMap.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -407,7 +374,7 @@ public class UserActivity extends MapActivity {
 					}
 					txtAvatar.setText(file.getName());
 				}
-				
+
 			}
 			break;
 
@@ -546,7 +513,6 @@ public class UserActivity extends MapActivity {
 
 	private void collectUserInfo() {
 		userInfo = new UserInfo();
-
 		// update user info
 		userInfo.username = txtUsername.getText().toString();
 		userInfo.oldPassword = txtOldPassword.getText().toString();
@@ -566,9 +532,10 @@ public class UserActivity extends MapActivity {
 		// if (StringUtils.isEmptyOrNull(err = getErrorMessage())) {
 		collectUserInfo();
 
-		if (StringUtils.isEmptyOrNull(userInfo.avatarLink)) {
+		if (StringUtils.isEmptyOrNull(userInfo.avatarLink) && inputStreamAvatar!=null) {
 			String response = doFileUpload();
 
+			Log.e("Upload" , response);
 			String[] data = response.split(":");
 			int errCode = -1;
 			try {

@@ -44,7 +44,7 @@ public class Global {
 			NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
 			.create();
 	public static Activity application = null; // point to HomeActivity
-	public static Intent intent = new Intent();
+//	public static Intent intent = new Intent();
 	public static DateFormat df = new SimpleDateFormat(NORMAL_DATE);
 	public static DateFormat dfFull = new SimpleDateFormat(
 			NORMAL_DATE_WITH_HOUR);
@@ -87,6 +87,8 @@ public class Global {
 	public static final String BYTE_ARRAY_INTENT_ID = "byte_array";
 	public static final String FILTER_FILE = "filter";
 	
+	public static final String LOGIN_LAST_ACTIVITY = "last";
+	
 	/*
 	 * ACTIVITY ACTION NAME
 	 */
@@ -115,4 +117,5 @@ public class Global {
 	public static final String UPLOAD_ACTIVITY = "Upload";
 	public static final String FILE_BROWSER_ACTIVITY = "FileBrowser";
 	public static final String IMAGE_CAPURE_ACTIVITY = "ImageCapture";
+	public static final String VIEW_PROFILE_ACTIVITY = "ViewProfile";
 }
