@@ -11,8 +11,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 
@@ -69,5 +72,26 @@ public class Utils {
 		AlertDialog ad = new AlertDialog.Builder(context).setPositiveButton("OK",
 				clickListener).setTitle(title).setMessage(text).create();
 		ad.show();
+	}
+	
+	public static void setEditableEditText(EditText editText, boolean isEditable){
+		if (!isEditable) {
+			editText.setFilters(new InputFilter[] { new InputFilter() {
+				@Override
+				public CharSequence filter(CharSequence source, int start,
+						int end, Spanned dest, int dstart, int dend) {
+					return source.length() < 1 ? dest.subSequence(dstart, dend)
+							: "";
+				}
+			} });
+		} else {
+			editText.setFilters(new InputFilter[] { new InputFilter() {
+				@Override
+				public CharSequence filter(CharSequence source, int start,
+						int end, Spanned dest, int dstart, int dend) {
+					return null;
+				}
+			} });
+		}
 	}
 }

@@ -73,17 +73,17 @@ public class ViewProfileActivity extends Activity {
 	}
 
 	private void viewProfile() {
-		userInfo.avatarLink = "http://localhost/uploads/tam1234/a.jpg";
+//		userInfo.avatarLink = "http://10.0.2.2/uploads/tam1234/a.jpg";
 		if (StringUtils.isEmptyOrNull(userInfo.avatarLink)) {
 			imgAvatar.setBackgroundDrawable(drawableNoAvatar);
 		} else {
 			try {
-				Bitmap imageOfProduct = Utils
+				Bitmap bitmapAvatar = Utils
 						.getBitmapFromURL(userInfo.avatarLink);
-				imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,
-						imageOfProduct.getWidth(), imageOfProduct.getHeight(),
+				bitmapAvatar = Bitmap.createScaledBitmap(bitmapAvatar,
+						150, 150,
 						true);
-				imgAvatar.setImageBitmap(imageOfProduct);
+				imgAvatar.setImageBitmap(bitmapAvatar);
 			} catch (Exception e) {
 				e.printStackTrace();
 				imgAvatar.setBackgroundDrawable(drawableNoAvatar);
