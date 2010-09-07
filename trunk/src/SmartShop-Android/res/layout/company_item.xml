@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:scrollbars="vertical">
+
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="wrap_content" android:layout_height="wrap_content">
+		<TextView android:id="@+id/nameOfCompany"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:textColor="#C40000" android:text="aaaaaaaaaaaa" />
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/txtPrice" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/priceOfProduct" />
+			<EditText android:id="@+id/price" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>
