@@ -2,6 +2,7 @@ package com.appspot.smartshop.map;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -70,25 +71,29 @@ public class MapService {
 				JSONArray arrSteps = firstLeg.getJSONArray("steps");
 				int len = arrSteps.length();
 				result.instructions = new String[len];
-				result.points = new GeoPoint[len + 1];
+//				result.points = new GeoPoint[len + 1];
+				result.points = new LinkedList<GeoPoint>();
 				JSONObject leg = null;
-				JSONObject location = null;
+//				JSONObject location = null;
 				
 				// get instructions
 				for (int i = 0; i < len; ++i) {
 					leg = arrSteps.getJSONObject(i);
-					location = leg.getJSONObject("start_location");
+//					location = leg.getJSONObject("start_location");
+					String encoded = leg.getJSONObject("polyline").getString("points");
+					result.points.addAll(decodePoly(encoded));
+					
 					
 					result.instructions[i] = leg.getString("html_instructions");
-					result.points[i] = new GeoPoint(
-							(int) (location.getDouble("lat") * 1E6),
-							(int) (location.getDouble("lng") * 1E6));
+//					result.points[i] = new GeoPoint(
+//							(int) (location.getDouble("lat") * 1E6),
+//							(int) (location.getDouble("lng") * 1E6));
 				}
 				
-				location = leg.getJSONObject("end_location");
-				result.points[len] = new GeoPoint(
-						(int) (location.getDouble("lat") * 1E6),
-						(int) (location.getDouble("lng") * 1E6));
+//				location = leg.getJSONObject("end_location");
+//				result.points[len] = new GeoPoint(
+//						(int) (location.getDouble("lat") * 1E6),
+//						(int) (location.getDouble("lng") * 1E6));
 				
 				// distance and duration info
 				JSONObject distance = firstLeg.getJSONObject("distance");
@@ -115,15 +120,15 @@ public class MapService {
 		return directionParser.result;
 	}
 	
-	private List<GeoPoint> decodePoly(String points) {
+	private static List<GeoPoint> decodePoly(String encoded) {
 	    List<GeoPoint> poly = new ArrayList<GeoPoint>();
-	    int index = 0, len = points.length();
+	    int index = 0, len = encoded.length();
 	    int lat = 0, lng = 0;
 
 	    while (index < len) {
 	        int b, shift = 0, result = 0;
 	        do {
-	            b = points.charAt(index++) - 63;
+	            b = encoded.charAt(index++) - 63;
 	            result |= (b & 0x1f) << shift;
 	            shift += 5;
 	        } while (b >= 0x20);
@@ -133,7 +138,7 @@ public class MapService {
 	        shift = 0;
 	        result = 0;
 	        do {
-	            b = points.charAt(index++) - 63;
+	            b = encoded.charAt(index++) - 63;
 	            result |= (b & 0x1f) << shift;
 	            shift += 5;
 	        } while (b >= 0x20);

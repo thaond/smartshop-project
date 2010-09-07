@@ -1,17 +1,14 @@
 package com.appspot.smartshop.map;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import java.util.List;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
-import android.view.MotionEvent;
 
-import com.appspot.smartshop.R;
-import com.appspot.smartshop.utils.Global;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
@@ -20,7 +17,7 @@ public class DirectionOverlay extends Overlay {
 	public static final int DIRECTION_COLOR = Color.CYAN;
 	public static final int ARROW_SIZE = 5;
 	
-	public GeoPoint[] points;
+	public List<GeoPoint> points;
 	private static Paint paint;
 
 	@Override
@@ -37,11 +34,11 @@ public class DirectionOverlay extends Overlay {
 		}
 		
 		// ---translate the GeoPoint to screen pixels---
-		int len = points.length;
+		int len = points.size();
 		Point[] screenPoints = new Point[len];
 		for (int i = 0; i < len; ++i){
 			screenPoints[i] = new Point();
-			mapView.getProjection().toPixels(points[i], screenPoints[i]);
+			mapView.getProjection().toPixels(points.get(i), screenPoints[i]);
 		}
 		
 		for (int i = 0; i < len - 1; ++i) {

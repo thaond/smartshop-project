@@ -206,7 +206,8 @@ public class MapDialog {
 		mapController.animateTo(center);
 		mapController.zoomToSpan(maxLat - minLat, maxLong - minLong);
 
-		// redraw mao
+		// redraw map
+		mapView.setBuiltInZoomControls(true);
 		mapView.invalidate();
 		
 		// listener 
