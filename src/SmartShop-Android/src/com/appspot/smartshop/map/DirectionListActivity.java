@@ -62,8 +62,6 @@ public class DirectionListActivity extends MapActivity {
 						
 						@Override
 						public void onClick(View v) {
-//							MapDialog.createDirectionOnMapDialog(
-//									DirectionListActivity.this, directionResult).show();
 							Intent intent = new Intent(DirectionListActivity.this, DirectionOnMapActivity.class);
 							DirectionOnMapActivity.directionResult = directionResult;
 							startActivity(intent);

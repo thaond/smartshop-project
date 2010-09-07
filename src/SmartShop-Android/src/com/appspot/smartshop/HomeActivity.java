@@ -80,7 +80,7 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testSearchVatgia();
+		testDirectionList();
 	}
 
 	protected void test2() {
@@ -166,10 +166,10 @@ public class HomeActivity extends Activity {
 
 	private void testDirectionList() {
 		double lat1, lat2, lng1, lng2;
-		lat1 = 10.751662;
-		lng1 = 106.659386;
-		lat2 = 10.77055;
-		lng2 = 106.658399;
+		lat1 = 10.754499;
+		lng1 = 106.640582;
+		lat2 = 10.83527;
+		lng2 = 106.620069;
 		Intent intent = new Intent(this, DirectionListActivity.class);
 		intent.putExtra("lat1", lat1);
 		intent.putExtra("lat2", lat2);

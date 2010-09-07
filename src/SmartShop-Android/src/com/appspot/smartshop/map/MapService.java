@@ -1,6 +1,7 @@
 package com.appspot.smartshop.map;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -15,8 +16,6 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.RestClient;
 import com.google.android.maps.GeoPoint;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 public class MapService {
 	public static final String TAG = "[MapService]";
@@ -91,16 +90,6 @@ public class MapService {
 						(int) (location.getDouble("lat") * 1E6),
 						(int) (location.getDouble("lng") * 1E6));
 				
-//				for (int k = 0; k < arrRoutes.length(); ++k) {
-//					JSONArray arrLegs = arrRoutes.getJSONObject(k).getJSONArray("legs");
-//					for (int i = 0; i < arrLegs.length(); ++i) {
-//						JSONArray arrSteps = arrLegs.getJSONObject(i).getJSONArray("steps");
-//						for (int j = 0; j < arrSteps.length(); ++j) {
-//							String instruction = arrSteps.getJSONObject(j).getString("html_instructions");
-//						}
-//					}
-//				}
-				
 				// distance and duration info
 				JSONObject distance = firstLeg.getJSONObject("distance");
 				if (distance != null) {
@@ -125,6 +114,40 @@ public class MapService {
 		RestClient.getData(url, directionParser);
 		return directionParser.result;
 	}
+	
+	private List<GeoPoint> decodePoly(String points) {
+	    List<GeoPoint> poly = new ArrayList<GeoPoint>();
+	    int index = 0, len = points.length();
+	    int lat = 0, lng = 0;
+
+	    while (index < len) {
+	        int b, shift = 0, result = 0;
+	        do {
+	            b = points.charAt(index++) - 63;
+	            result |= (b & 0x1f) << shift;
+	            shift += 5;
+	        } while (b >= 0x20);
+	        int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+	        lat += dlat;
+
+	        shift = 0;
+	        result = 0;
+	        do {
+	            b = points.charAt(index++) - 63;
+	            result |= (b & 0x1f) << shift;
+	            shift += 5;
+	        } while (b >= 0x20);
+	        int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+	        lng += dlng;
+
+	        GeoPoint p = new GeoPoint((int) (((double) lat / 1E5) * 1E6),
+	             (int) (((double) lng / 1E5) * 1E6));
+	        poly.add(p);
+	    }
+
+	    return poly;
+	}
+
 	
 	public static GeoPoint locationToGeopoint(String locationName) {
 		Geocoder geocoder = new Geocoder(Global.application);

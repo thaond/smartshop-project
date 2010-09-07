@@ -36,7 +36,7 @@ public class ViewProductActivity extends TabActivity {
 		
 		intent = new Intent(this, ViewProductUserDefinedAttributeActivity.class);
 		intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, false);
-		ViewProductUserDefinedAttributeActivity.setAttributes.clear();
+//		ViewProductUserDefinedAttributeActivity.setAttributes.clear();
 		ViewProductUserDefinedAttributeActivity.setAttributes = productInfo.attributeSets;
 		Log.d(TAG, "attribute set = " + ViewProductUserDefinedAttributeActivity.setAttributes);
 		tabHost.addTab(tabHost.newTabSpec(PRODUCT_USER_DEFINED_INFO).setIndicator(
