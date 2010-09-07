@@ -11,7 +11,6 @@ import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.net.HttpRequest;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
-import vnfoss2010.smartshop.serverside.services.parser.vatgia.dom.AttributeVatGia;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.dom.Company;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.dom.Group;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.dom.Pair;
@@ -108,10 +107,10 @@ public class ProductInfoService extends BaseRestfulService{
 							product.listGroup.add(group);
 						}
 					}
-					group.list.add(new AttributeVatGia(name, value));
+					group.listAtt.add(new Pair(name, value));
 				} else {
 					Group group = new Group(groupName);
-					group.list.add(new AttributeVatGia(name, value));
+					group.listAtt.add(new Pair(name, value));
 					product.listGroup.add(group);
 				}
 			}

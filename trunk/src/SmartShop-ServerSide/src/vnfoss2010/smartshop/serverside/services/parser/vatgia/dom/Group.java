@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Group {
 	public String name;
-	public List<AttributeVatGia> list = new ArrayList<AttributeVatGia>();
+	public List<Pair> listAtt = new ArrayList<Pair>();
 
 	public Group(String name) {
 		this.name = name;
@@ -16,6 +16,6 @@ public class Group {
 
 	@Override
 	public String toString() {
-		return "Group [name=" + name + ", list=" + list + "]";
+		return "Group [name=" + name + ", list=" + listAtt + "]";
 	}
 }
