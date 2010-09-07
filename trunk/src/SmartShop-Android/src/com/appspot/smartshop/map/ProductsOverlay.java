@@ -28,11 +28,13 @@ public class ProductsOverlay extends Overlay{
 	
 	private static final Bitmap STAR_ICON = BitmapFactory.decodeResource(
 			Global.application.getResources(), R.drawable.star);
+	private static final int CIRCLE_COLOR = Color.parseColor("#83A6A800");
 	
 	public LinkedList<ProductInfo> products;
 	public GeoPoint center;
 	private Paint paint;
 	private Context context;
+	public float radius = NO_RADIUS;
 	
 	public ProductsOverlay(Context context) {
 		this.context = context;
@@ -55,6 +57,13 @@ public class ProductsOverlay extends Overlay{
 			Bitmap bmp = BitmapFactory.decodeResource(
 					Global.application.getResources(), R.drawable.home);
 			canvas.drawBitmap(bmp, centerScreen.x, centerScreen.y, null);
+			
+			// draw circle
+			if (radius != NO_RADIUS) {
+				float realRadius = mapView.getProjection().metersToEquatorPixels(radius);
+				paint.setColor(CIRCLE_COLOR);
+				canvas.drawCircle(centerScreen.x, centerScreen.y, realRadius, paint);
+			}
 		}
 		
 		// found products

@@ -138,6 +138,8 @@ public class SearchProductsOnMapActivity extends MapActivity {
 			return;
 		}
 		
+		productsOverlay.radius = radius;
+		
 		task = new SimpleAsyncTask(this, new DataLoader() {
 			
 			@Override
