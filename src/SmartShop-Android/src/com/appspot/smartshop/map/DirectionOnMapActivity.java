@@ -28,6 +28,7 @@ public class DirectionOnMapActivity extends MapActivity {
 		
 		// setup view
 		mapView = (MapView) findViewById(R.id.mapview);
+		mapView.setBuiltInZoomControls(true);
 			
 		// overlay
 		List<Overlay> listOfOverlays = mapView.getOverlays();
