@@ -1,11 +1,11 @@
 package com.appspot.smartshop.dom;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+import java.util.LinkedList;
 
-public class Group {
+public class Group implements Serializable  {
 	public String name;
-	public List<Pair> listAtt = new ArrayList<Pair>();
+	public LinkedList<Pair> listAtt = new LinkedList<Pair>();
 
 	public Group(String name) {
 		this.name = name;

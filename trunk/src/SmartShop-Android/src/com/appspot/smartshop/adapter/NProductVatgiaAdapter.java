@@ -3,6 +3,7 @@ package com.appspot.smartshop.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.NProductVatGia;
+import com.appspot.smartshop.ui.product.vatgia.VatgiaTabActivity;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.Utils;
 
@@ -23,11 +25,13 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 	public static final int IMAGE_WIDTH = 50;
 	public static final int IMAGE_HEIGHT = 50;
 	private LayoutInflater inflater;
+	private Context context;
 	
 	public NProductVatgiaAdapter(Context context, int textViewResourceId,
 			List<NProductVatGia> objects) {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
+		this.context = context;
 	}
 
 	@Override
@@ -65,8 +69,9 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 			
 			@Override
 			public void onClick(View v) {
-				// TODO (condorhero01): go to list shop of product
-				String listShopUrl = item.urlListShop;
+				Intent intent = new Intent(context, VatgiaTabActivity.class);
+				intent.putExtra(Global.VATGIA_URL_LIST_SHOP, item.urlListShop);
+				context.startActivity(intent);
 			}
 		});
 

@@ -94,10 +94,6 @@ public class UserProductListActivity extends Activity {
 			}
 		});
 		
-		// products listview
-		listProducts = (ListView) findViewById(R.id.listUserProducts);
-		loadProductsList();
-		
 		// search fields
 		txtSearch = (EditText) findViewById(R.id.txtSearch);
 		Button btnSearch = (Button) findViewById(R.id.btnSearch);
@@ -108,6 +104,11 @@ public class UserProductListActivity extends Activity {
 				searchProductsByQuery();
 			}
 		});
+		
+		// products listview
+		listProducts = (ListView) findViewById(R.id.listUserProducts);
+		constructUrl();
+		loadProductsList();
 	}
 
 	protected void searchProductsByQuery() {

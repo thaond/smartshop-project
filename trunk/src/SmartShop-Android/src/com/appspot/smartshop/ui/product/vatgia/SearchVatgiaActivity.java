@@ -1,4 +1,4 @@
-package com.appspot.smartshop.ui.product;
+package com.appspot.smartshop.ui.product.vatgia;
 
 import java.net.URLEncoder;
 import java.security.KeyStore.LoadStoreParameter;
