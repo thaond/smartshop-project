@@ -62,6 +62,7 @@ import vnfoss2010.smartshop.serverside.services.page.GetPagesByUsernameService;
 import vnfoss2010.smartshop.serverside.services.page.SearchPageByQueryService;
 import vnfoss2010.smartshop.serverside.services.page.TagProductToPageService;
 import vnfoss2010.smartshop.serverside.services.page.UntagProductFromPageService;
+import vnfoss2010.smartshop.serverside.services.parser.vatgia.NProductInfoService;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.ProductInfoService;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.SearchKeywordService;
 import vnfoss2010.smartshop.serverside.services.product.EditProductService;
@@ -224,6 +225,7 @@ public class RestfulServlet extends HttpServlet {
 		
 		//parser
 		mServices.put("parser-vatgia-each-product", ProductInfoService.class);
+		mServices.put("parser-vatgia-each-product-n", NProductInfoService.class);
 		mServices.put("parser-vatgia-keyword", SearchKeywordService.class);
 	}
 }
