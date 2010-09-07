@@ -38,8 +38,7 @@ public class PageServiceImpl {
 			page = pm.getObjectById(Page.class, id);
 			if (page == null) {
 				result.setOK(false);
-				result.setMessage(Global.messages
-						.getString("no_page_found"));
+				result.setMessage(Global.messages.getString("no_page_found"));
 			} else {
 				result.setMessage(Global.messages.getString("page_found"));
 				result.setOK(true);
@@ -69,7 +68,8 @@ public class PageServiceImpl {
 				result.setMessage(Global.messages.getString("insert_page_fail"));
 			} else {
 				result.setResult(page.getId());
-				result.setMessage(Global.messages.getString("insert_page_successfully"));
+				result.setMessage(Global.messages
+						.getString("insert_page_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
@@ -94,16 +94,19 @@ public class PageServiceImpl {
 			page = pm.getObjectById(Page.class, pageID);
 			product = pm.getObjectById(Product.class, productID);
 			if (page == null || product == null) {
-				result.setMessage(Global.messages.getString("no_page_or_product"));
+				result.setMessage(Global.messages
+						.getString("no_page_or_product"));
 			} else {
 				page.getSetProduct().add(productID);
 				product.getSetPagesID().add(pageID);
 				result.setOK(true);
-				result.setMessage(Global.messages.getString("tag_product_into_page_successfully"));
+				result.setMessage(Global.messages
+						.getString("tag_product_into_page_successfully"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage(Global.messages.getString("tag_product_into_page_fail"));
+			result.setMessage(Global.messages
+					.getString("tag_product_into_page_fail"));
 		} finally {
 			try {
 				pm.close();
@@ -123,16 +126,19 @@ public class PageServiceImpl {
 			page = pm.getObjectById(Page.class, pageID);
 			product = pm.getObjectById(Product.class, productID);
 			if (page == null || product == null) {
-				result.setMessage(Global.messages.getString("no_page_or_product"));
+				result.setMessage(Global.messages
+						.getString("no_page_or_product"));
 			} else {
 				page.getSetProduct().remove(productID);
 				product.getSetPagesID().remove(pageID);
 				result.setOK(true);
-				result.setMessage(Global.messages.getString("untag_product_into_page_successfully"));
+				result.setMessage(Global.messages
+						.getString("untag_product_into_page_successfully"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage(Global.messages.getString("untag_product_into_page_fail"));
+			result.setMessage(Global.messages
+					.getString("untag_product_into_page_fail"));
 		} finally {
 			try {
 				pm.close();
@@ -163,7 +169,8 @@ public class PageServiceImpl {
 				page.setSetCategoryKeys(editPage.getSetCategoryKeys());
 				page.setSetProduct(editPage.getSetProduct());
 				result.setOK(true);
-				result.setMessage(Global.messages.getString("update_page_successfully"));
+				result.setMessage(Global.messages
+						.getString("update_page_successfully"));
 			}
 		} catch (Exception e) {
 			result.setMessage(Global.messages.getString("update_page_fail"));
@@ -266,8 +273,8 @@ public class PageServiceImpl {
 					listParameters.add(Arrays.asList(cat_keys));
 					listParameters.add(username);
 
-					query = "select from " + Page.class.getName()
-							+ " where (" + where.toString() + ") order by "
+					query = "select from " + Page.class.getName() + " where ("
+							+ where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 					queryObj = pm.newQuery(query);
@@ -280,8 +287,8 @@ public class PageServiceImpl {
 					where.append("username==us ");
 					listParameters.add(username);
 
-					query = "select from " + Page.class.getName()
-							+ " where (" + where.toString() + ") order by "
+					query = "select from " + Page.class.getName() + " where ("
+							+ where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 
@@ -297,8 +304,8 @@ public class PageServiceImpl {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
 					where.append("setCategoryKeys.contains(catKey) ");
-					query = "select from " + Page.class.getName()
-							+ " where (" + where.toString() + ") order by "
+					query = "select from " + Page.class.getName() + " where ("
+							+ where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 					queryObj = pm.newQuery(query);
@@ -307,9 +314,11 @@ public class PageServiceImpl {
 					listPages = (List<Page>) queryObj
 							.executeWithArray(listParameters.toArray());
 				} else {
-					query = "select from " + Page.class.getName()
-							+ (StringUtils.isEmptyOrNull(where.toString())? "" : " where (" + where.toString() + ")" )+ " order by "
-							+ orderBy.toString()
+					query = "select from "
+							+ Page.class.getName()
+							+ (StringUtils.isEmptyOrNull(where.toString()) ? ""
+									: " where (" + where.toString() + ")")
+							+ " order by " + orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 					queryObj = pm.newQuery(query);
 					listPages = (List<Page>) queryObj.execute();
@@ -347,12 +356,12 @@ public class PageServiceImpl {
 
 					listParameters.add(Arrays.asList(cat_keys));
 					listParameters.add(username);
-					//listParameters.add(parametersForSearch.toArray());
+					// listParameters.add(parametersForSearch.toArray());
 					for (Object str : parametersForSearch)
 						listParameters.add(str);
 
-					query = "select from " + Page.class.getName()
-							+ " where (" + where.toString() + ") order by "
+					query = "select from " + Page.class.getName() + " where ("
+							+ where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 					queryObj = pm.newQuery(query);
@@ -369,12 +378,12 @@ public class PageServiceImpl {
 					where.append(queryBuffer.toString());
 
 					listParameters.add(username);
-					//listParameters.add(parametersForSearch.toArray());
+					// listParameters.add(parametersForSearch.toArray());
 					for (Object str : parametersForSearch)
 						listParameters.add(str);
 
-					query = "select from " + Page.class.getName()
-							+ " where (" + where.toString() + ") order by "
+					query = "select from " + Page.class.getName() + " where ("
+							+ where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 
@@ -394,12 +403,12 @@ public class PageServiceImpl {
 					where.append(queryBuffer.toString());
 
 					listParameters.add(Arrays.asList(cat_keys));
-					//listParameters.add(parametersForSearch.toArray());
+					// listParameters.add(parametersForSearch.toArray());
 					for (Object str : parametersForSearch)
 						listParameters.add(str);
 
-					query = "select from " + Page.class.getName()
-							+ " where (" + where.toString() + ") order by "
+					query = "select from " + Page.class.getName() + " where ("
+							+ where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 					queryObj = pm.newQuery(query);
@@ -412,17 +421,18 @@ public class PageServiceImpl {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
 					where.append(queryBuffer.toString());
-					//listParameters.add(parametersForSearch.toArray());
+					// listParameters.add(parametersForSearch.toArray());
 					for (Object str : parametersForSearch)
 						listParameters.add(str);
 
-					query = "select from " + Page.class.getName()
-							+ " where (" + where.toString() + ") order by "
+					query = "select from " + Page.class.getName() + " where ("
+							+ where.toString() + ") order by "
 							+ orderBy.toString()
 							+ ((maximum == 0) ? "" : (" limit " + maximum));
 
 					queryObj = pm.newQuery(query);
-					queryObj.declareParameters(declareParametersBuffer.toString());
+					queryObj.declareParameters(declareParametersBuffer
+							.toString());
 
 					listPages = (List<Page>) queryObj
 							.executeWithArray(listParameters.toArray());
@@ -432,9 +442,8 @@ public class PageServiceImpl {
 
 		if (listPages.size() > 0) {
 			result.setOK(true);
-			result
-					.setMessage(Global.messages
-							.getString("search_page_by_criteria_successfully"));
+			result.setMessage(Global.messages
+					.getString("search_page_by_criteria_successfully"));
 			result.setResult(listPages);
 		} else {
 			result.setOK(false);
@@ -484,8 +493,9 @@ public class PageServiceImpl {
 				result.setResult(listPages);
 			} else {
 				result.setOK(false);
-				result.setMessage(String.format(Global.messages
-						.getString("get_pages_by_username_fail"), username));
+				result.setMessage(String.format(
+						Global.messages.getString("get_pages_by_username_fail"),
+						username));
 			}
 		}
 		pm.close();
