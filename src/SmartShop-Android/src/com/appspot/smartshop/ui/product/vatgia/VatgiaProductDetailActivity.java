@@ -73,7 +73,7 @@ public class VatgiaProductDetailActivity extends Activity {
 					index++;
 				}
 			}
-		});
+		}).execute();
 		
 	}
 	

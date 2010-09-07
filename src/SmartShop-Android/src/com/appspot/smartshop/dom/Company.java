@@ -36,10 +36,10 @@ public class Company implements Serializable {
 	public String getExtraInfo() {
 		String extraInfo = "";
 		for (Pair pair : listProInfos) {
-			extraInfo += String.format("<b>%s</br> : %s<br />", pair.name, pair.value);
+			extraInfo += String.format("<b>%s</br> %s<br />", pair.name, pair.value);
 		}
 		for (Pair pair : listCoInfos) {
-			extraInfo += String.format("<b>%s</br> : %s<br />", pair.name, pair.value);
+			extraInfo += String.format("<b>%s</br> %s<br />", pair.name, pair.value);
 		}
 		
 		return extraInfo;

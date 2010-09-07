@@ -18,6 +18,7 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.NProductVatGia;
 import com.appspot.smartshop.ui.product.vatgia.VatgiaTabActivity;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
 
 public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
@@ -70,7 +71,8 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(context, VatgiaTabActivity.class);
-				intent.putExtra(Global.VATGIA_URL_LIST_SHOP, item.urlListShop);
+				String url = String.format(URLConstant.GET_DETAIL_OF_VATGIA_PRODUCT, item.urlListShop);
+				intent.putExtra(Global.VATGIA_URL_LIST_SHOP, url);
 				context.startActivity(intent);
 			}
 		});
