@@ -18,11 +18,12 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 public class SearchKeywordService extends BaseRestfulService {
 	private final static Logger log = Logger
 			.getLogger(SearchKeywordService.class.getName());
-	private String URL_VAT_GIA = "http://m.vatgia.com";
-	private String URL_VAT_GIA_SEARCH = "http://m.vatgia.com/quicksearch.php?&";
-	private String REGEX_NUM_RESULTS = "container_content.+?<b.+?>(.+?)<";
-	private String REGEX_NUM_PAGE = "Trang cu.+?page=(.+?)\"";
-	private String REGEX_EACH_RESULT = "pro_picture.+?src=\"(.+?)\".+?src='(.+?)'.+?href=\"(.+?)\">(.+?)<.+?price\">(.+?)<.+?estore\">.+?<b>(.+?)</b>.+?</div>.+?href=\"(.+?)\">(.+?)<";
+	private static final String URL_VAT_GIA = "http://m.vatgia.com";
+	private static final String URL_VAT_GIA_THONG_SO = "thong_so_ky_thuat";
+	private static final String URL_VAT_GIA_SEARCH = "http://m.vatgia.com/quicksearch.php?&";
+	private static final String REGEX_NUM_RESULTS = "container_content.+?<b.+?>(.+?)<";
+	private static final String REGEX_NUM_PAGE = "Trang cu.+?page=(.+?)\"";
+	private static final String REGEX_EACH_RESULT = "pro_picture.+?src=\"(.+?)\".+?src='(.+?)'.+?href=\"(.+?)\">(.+?)<.+?price\">(.+?)<.+?estore\">.+?<b>(.+?)</b>.+?</div>.+?href=\"(.+?)\">(.+?)<";
 
 	public SearchKeywordService(String serviceName) {
 		super(serviceName);
@@ -78,9 +79,15 @@ public class SearchKeywordService extends BaseRestfulService {
 				while (matcher.find()) {
 					JsonObject jsonObject = new JsonObject();
 					jsonObject.addProperty("imageThumbnail", matcher.group(1));
-					jsonObject.addProperty("imageBlankThumbnail", matcher.group(2));
-					jsonObject.addProperty("urlListShop",
-							URL_VAT_GIA + matcher.group(3));
+					jsonObject.addProperty("imageBlankThumbnail",
+							matcher.group(2));
+					String urlListShop = matcher.group(3);
+					int lastIndex = urlListShop.lastIndexOf("/");
+					urlListShop = urlListShop.substring(0, lastIndex) + "/"
+							+ URL_VAT_GIA_THONG_SO
+							+ urlListShop.substring(lastIndex);
+					jsonObject.addProperty("urlListShop", URL_VAT_GIA
+							+ urlListShop);
 					jsonObject.addProperty("productName", matcher.group(4));
 					jsonObject.addProperty("priceVND", matcher.group(5));
 					jsonObject.addProperty("numOfStore", matcher.group(6));
