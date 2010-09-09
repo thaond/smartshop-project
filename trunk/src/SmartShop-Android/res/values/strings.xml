@@ -100,7 +100,7 @@
 	<string name="btnShowDirectionOnMap">Xem trên bản đồ</string>
 
 	<!-- Map API key -->
-	<string name="mapApiKey">0oXkvY2tUcbGM8-BK6Myjp770et8Obv5A2PjqnQ</string>
+	<string name="mapApiKey">0owYtUX-1osulbhBvIzWUnfdpYAgOTOwy2gP_Vw</string>
 
 	<!-- Page -->
 	<string name="page_name">Tên:</string>
@@ -184,5 +184,11 @@
 	<string name="num_of_stores">Có %d cửa hàng</string>
 	<string name="tab_vatgia_companies">So sánh giá</string>
 	<string name="tab_vatgia_product_detail">Thông tin kĩ thuật</string>
+	<!-- Subcribe -->
+	<string name="lblSubscribe">Đăng ký nhận thông tin sản phẩm</string>
+	<string name="btnSubcribe">Đăng ký</string>
+	<string name="lblSubscribeEmail">Email</string>
+	<string name="lblSubscribeMobile">Mobile</string>
+	<string name="lblAgree">Đồng ý</string>
 	
 </resources>

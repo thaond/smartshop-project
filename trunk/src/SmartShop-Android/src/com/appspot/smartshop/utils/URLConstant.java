@@ -37,6 +37,7 @@ public class URLConstant {
 	
 	public static final String GET_VATGIA_PRODUCTS = HOST + "/api/asd/parser-vatgia-keyword/?keyword=%s&page=%d";
 	public static final String GET_DETAIL_OF_VATGIA_PRODUCT = HOST + "/api/asd/parser-vatgia-each-product/?url=%s";
+	public static final String ADD_NEW_SUBCRIBE = HOST + "/api/asd/create-subcribe/";
 	
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/myupload.php?username=%s";
