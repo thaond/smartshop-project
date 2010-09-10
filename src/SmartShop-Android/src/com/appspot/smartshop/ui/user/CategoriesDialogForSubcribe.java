@@ -77,7 +77,7 @@ public class CategoriesDialogForSubcribe {
 			@Override
 			public void onClick(View v) {
 				CategoriesDialogForSubcribe.listener.onCategoriesDialogClose(setSelectedCategories);
-				addNewSubcribe();
+					
 				dialog.dismiss();
 			}
 			private UserSubcribeProduct userSubcribeProduct;
@@ -88,14 +88,16 @@ public class CategoriesDialogForSubcribe {
 					return;
 				}
 				userSubcribeProduct = new UserSubcribeProduct();
-				userSubcribeProduct.userName = Global.USER_NAME;
+				userSubcribeProduct.userName = "nghia";
 				userSubcribeProduct.date = new Date(89, 1, 1);
-				userSubcribeProduct.lat = 10.792265*1E5;
-				userSubcribeProduct.lng = 106.65556*1E5;
+				userSubcribeProduct.lat = 49.0;
+				userSubcribeProduct.lng = 49.0;
 				userSubcribeProduct.isActive = true;
 				userSubcribeProduct.description = "tim tre lac";
 				userSubcribeProduct.radius = 100.0;
 				List<String> list = new LinkedList<String>();
+				list.add("lap");
+				list.add("soft");
 				userSubcribeProduct.categoryList = list;
 				
 				String param = new Gson().toJson(userSubcribeProduct);
