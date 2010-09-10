@@ -20,6 +20,7 @@ import android.util.Log;
 
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserInfo;
+import com.appspot.smartshop.dom.UserSubcribeProduct;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.map.MyLocation;
@@ -48,7 +49,37 @@ public class TestActivity extends MapActivity {
 
 		Global.application = this;
 		// TODO (condorhero01): place test function here
-		testVatgiaCompanies(); 
+		testSubcribeProduct(); 
+	}
+	
+	void testSubcribeProduct() {
+		UserSubcribeProduct userSubcribeProduct = new UserSubcribeProduct();
+		userSubcribeProduct.userName = "nghia";
+		userSubcribeProduct.date = new Date(89, 1, 1);
+		userSubcribeProduct.lat = 49.0;
+		userSubcribeProduct.lng = 49.0;
+		userSubcribeProduct.isActive = true;
+		userSubcribeProduct.description = "tim tre lac";
+		userSubcribeProduct.radius = 100.0;
+		List<String> list = new LinkedList<String>();
+		list.add("lap");
+		list.add("soft");
+		userSubcribeProduct.categoryList = list;
+		
+		String param = Global.gsonDateWithoutHour.toJson(userSubcribeProduct);
+		
+		RestClient.postData(URLConstant.ADD_NEW_SUBCRIBE, param, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				System.out.println(json.toString());
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				System.out.println(message);
+			}
+		});
 	}
 	
 	void testVatgiaCompanies() {

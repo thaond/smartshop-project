@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -101,7 +102,7 @@ public class LoginActivity extends Activity {
 						Global.username = Global.userInfo.username;
 						
 						if (StringUtils.isEmptyOrNull(lastActivity)){
-							Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+							Intent intent = new Intent(LoginActivity.this, SmartShopActivity.class);
 							startActivity(intent);
 						}else{
 							if (lastActivity.equals(Global.VIEW_PROFILE_ACTIVITY)){
