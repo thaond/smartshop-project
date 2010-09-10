@@ -1,6 +1,12 @@
 package com.appspot.smartshop;
 
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
 import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
@@ -15,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.appspot.smartshop.dom.UserSubcribeProduct;
 import com.appspot.smartshop.map.DirectionListActivity;
 import com.appspot.smartshop.map.SearchProductsOnMapActivity;
 import com.appspot.smartshop.mock.MockCategory;
@@ -34,6 +41,7 @@ import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 

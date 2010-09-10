@@ -36,7 +36,7 @@ public class URLConstant {
 	public static final String GET_CHILD_CATEGORIES = HOST + "/api/asd/category-get-sub/?parent_id=%s";
 	
 	public static final String GET_VATGIA_PRODUCTS = HOST + "/api/asd/parser-vatgia-keyword/?keyword=%s&page=%d";
-	public static final String GET_DETAIL_OF_VATGIA_PRODUCT = HOST + "/api/asd/parser-vatgia-each-product/?url=%s";
+	public static final String GET_DETAIL_OF_VATGIA_PRODUCT = HOST + "/api/asd/parser-vatgia-each-product-n/?url=%s";
 	public static final String ADD_NEW_SUBCRIBE = HOST + "/api/asd/create-subcribe/";
 	
 	/********* Image Hosting */

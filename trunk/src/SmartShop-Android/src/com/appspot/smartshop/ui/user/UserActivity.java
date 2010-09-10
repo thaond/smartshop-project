@@ -13,12 +13,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.anddev.android.filebrowser.AndroidFileBrowser;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
+import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -40,7 +42,6 @@ import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
-import com.appspot.smartshop.ui.user.CategoriesDialogForSubcribe.CategoriesDialogForSubcribeListener;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
@@ -90,8 +91,6 @@ public class UserActivity extends MapActivity {
 	private TextView lblBirthday;
 	private Button btnPhoto;
 	private Button btnBrowser;
-	private Button btnSubcribe;
-	private TextView lblSubscribe;
 
 	private EditText txtBirthday;
 
@@ -190,18 +189,6 @@ public class UserActivity extends MapActivity {
 		lblOldPassword.setWidth(labelWidth);
 		txtOldPassword = (EditText) findViewById(R.id.txtOldPassword);
 		txtOldPassword.setWidth(textWidth);
-		
-		btnSubcribe = (Button) findViewById(R.id.btnSubcribe);
-		lblSubscribe = (TextView) findViewById(R.id.lblSubcribe);
-		btnSubcribe.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showCategoryForSubcribe();
-				
-			}
-		});
-		
 
 		btnBrowser.setOnClickListener(new OnClickListener() {
 
@@ -320,10 +307,10 @@ public class UserActivity extends MapActivity {
 		}else{
 			lblOldPassword.setVisibility(View.GONE);
 			txtOldPassword.setVisibility(View.GONE);
-			lblPassword.setVisibility(View.GONE);
-			txtPassword.setVisibility(View.GONE);
-			lblConfirm.setVisibility(View.GONE);
-			txtConfirm.setVisibility(View.GONE);
+//			lblPassword.setVisibility(View.GONE);
+//			txtPassword.setVisibility(View.GONE);
+//			lblConfirm.setVisibility(View.GONE);
+//			txtConfirm.setVisibility(View.GONE);
 		}
 
 		/********************************** Listeners *******************************/
@@ -369,16 +356,6 @@ public class UserActivity extends MapActivity {
 			@Override
 			public void onClick(View v) {
 				tagAddressOnMap();
-			}
-		});
-	}
-
-	protected void showCategoryForSubcribe() {
-		CategoriesDialogForSubcribe.showCategoriesDialog(this, new CategoriesDialogForSubcribeListener() {
-			@Override
-			public void onCategoriesDialogClose(Set<String> categories) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 	}
