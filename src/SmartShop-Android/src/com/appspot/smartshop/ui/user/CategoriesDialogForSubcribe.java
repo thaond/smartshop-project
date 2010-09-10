@@ -2,6 +2,8 @@ package com.appspot.smartshop.ui.user;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -35,9 +37,9 @@ import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
+import com.google.gson.Gson;
 
 public class CategoriesDialogForSubcribe {
-
 	private static Builder dialogBuilder;
 	private static AlertDialog dialog;
 	private static LayoutInflater inflater;
@@ -91,14 +93,20 @@ public class CategoriesDialogForSubcribe {
 				userSubcribeProduct.lat = 10.792265*1E5;
 				userSubcribeProduct.lng = 106.65556*1E5;
 				userSubcribeProduct.isActive = true;
-				userSubcribeProduct.description = setSelectedCategories.toString();
+				userSubcribeProduct.description = "tim tre lac";
 				userSubcribeProduct.radius = 100.0;
-				String param = Global.gsonWithHour.toJson(userSubcribeProduct);
+				List<String> list = new LinkedList<String>();
+				userSubcribeProduct.categoryList = list;
+				
+				String param = new Gson().toJson(userSubcribeProduct);
+				
 				RestClient.postData(URLConstant.ADD_NEW_SUBCRIBE, param, new JSONParser() {
 					
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
-						// TODO Auto-generated method stub
+						int errCode = json.getInt("errCode");
+						String message = json.getString("message");
+						Log.d("CategoriesDialogForSubcribe", message);
 						
 					}
 					
@@ -114,7 +122,7 @@ public class CategoriesDialogForSubcribe {
 			}
 			private void onAddNewSubcribeFailure() {
 		        Builder alertBuilder = new Builder(context);
-		        alertBuilder.setMessage("Đăng ký nhận sản phẩm không thành công");
+		        alertBuilder.setMessage("Đăng ký nhận sản phẩm không thành công");	
 		        alertBuilder.create().show();
 				dialog.cancel();
 			}
