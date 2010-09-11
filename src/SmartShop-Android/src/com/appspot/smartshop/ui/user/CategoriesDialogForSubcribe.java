@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -55,7 +56,7 @@ public class CategoriesDialogForSubcribe {
 	private static String[][] children;
 	private static CheckBox checkBoxEmail;
 	private static CheckBox checkBoxMobile;
-	
+	private static String url = "";
 	private static SimpleAsyncTask task;
 
 	public static void showCategoriesDialog(final Context context, CategoriesDialogForSubcribeListener listener) {
@@ -77,9 +78,11 @@ public class CategoriesDialogForSubcribe {
 			@Override
 			public void onClick(View v) {
 				CategoriesDialogForSubcribe.listener.onCategoriesDialogClose(setSelectedCategories);
-					
+				addNewSubcribe();
 				dialog.dismiss();
-			}
+			}	
+
+			
 			private UserSubcribeProduct userSubcribeProduct;
 			private void addNewSubcribe() {
 				if(setSelectedCategories.toString().equals("")){
@@ -87,39 +90,50 @@ public class CategoriesDialogForSubcribe {
 					onAddNewSubcribeFailure();
 					return;
 				}
-				userSubcribeProduct = new UserSubcribeProduct();
-				userSubcribeProduct.userName = "nghia";
-				userSubcribeProduct.date = new Date(89, 1, 1);
-				userSubcribeProduct.lat = 49.0;
-				userSubcribeProduct.lng = 49.0;
-				userSubcribeProduct.isActive = true;
-				userSubcribeProduct.description = "tim tre lac";
-				userSubcribeProduct.radius = 100.0;
-				List<String> list = new LinkedList<String>();
-				list.add("lap");
-				list.add("soft");
-				userSubcribeProduct.categoryList = list;
-				
-				String param = new Gson().toJson(userSubcribeProduct);
-				
-				RestClient.postData(URLConstant.ADD_NEW_SUBCRIBE, param, new JSONParser() {
+				if(Global.isLogin){
+					url = URLConstant.EDIT_SUBCRIBE;
+				}else{
+					url = URLConstant.ADD_NEW_SUBCRIBE;
+				}
+				task = (SimpleAsyncTask) new SimpleAsyncTask(context, new DataLoader() {
 					
 					@Override
-					public void onSuccess(JSONObject json) throws JSONException {
-						int errCode = json.getInt("errCode");
-						String message = json.getString("message");
-						Log.d("CategoriesDialogForSubcribe", message);
-						
+					public void updateUI() {
 					}
 					
 					@Override
-					public void onFailure(String message) {
-						task.hasData = false;
-						task.message = message;
-						task.cancel(true);
+					public void loadData() {
+						userSubcribeProduct = new UserSubcribeProduct();
+						userSubcribeProduct.userName = "nghia";
+						userSubcribeProduct.date = new Date(89, 1, 1);
+						userSubcribeProduct.lat = 49.0;
+						userSubcribeProduct.lng = 49.0;
+						userSubcribeProduct.isActive = true;
+						userSubcribeProduct.description = "tim tre lac";
+						userSubcribeProduct.radius = 100.0;
+						if(Global.isLogin){
+							userSubcribeProduct.id = new Long(123);
+						}
+						List<String> list = new LinkedList<String>();
+						list.add("lap");
+						list.add("soft");
+						userSubcribeProduct.categoryList = list;
 						
+						String param = Global.gsonDateWithoutHour.toJson(userSubcribeProduct);
+						
+						RestClient.postData(url, param, new JSONParser() {
+							@Override
+							public void onSuccess(JSONObject json) throws JSONException {
+								System.out.println(json.toString());
+							}
+							@Override
+							public void onFailure(String message) {
+								System.out.println(message);
+							}
+						});	
 					}
-				});
+				}).execute();
+				
 				
 			}
 			private void onAddNewSubcribeFailure() {
