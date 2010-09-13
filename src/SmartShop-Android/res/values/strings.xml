@@ -129,6 +129,7 @@
 	<string name="user_products_list">Danh sách mặt hàng</string>
 	<string name="add_new_page">Đăng bài viết mới</string>
 	<string name="post_new_product">Đăng mặt hàng mới</string>
+	<string name="view_notifications">Xem thông báo</string>
 
 	<!-- Main form -->
 	<string name="btnLogin">Đăng nhập</string>
@@ -202,6 +203,9 @@
 	<string name="warn_email_receiver_empty">Chưa nhập người nhận</string>
 	<string name="warn_email_sender_wrong_format">Email sai định dạng</string>
 	<string name="warn_email_content_empty">Chưa nhập nội dung</string>
+	<!-- Notification -->
+	<string name="date">Ngày : </string>
+	<string name="warn_no_notification">Không có thông báo nào</string>
 	
 	<!-- Search products on map -->
 	<string name="my_current_location">Vị trí của tôi</string>

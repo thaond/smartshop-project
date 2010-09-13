@@ -17,14 +17,15 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
-		<activity android:name=".ui.user.ViewProfileActivity" android:label="@string/app_name">
+
+		<activity android:name=".ui.user.ViewProfileActivity"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".ui.user.LoginActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -173,22 +174,24 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<!-- File chooser Activity -->
-		<activity android:name="org.anddev.android.filebrowser.AndroidFileBrowser" android:label="@string/app_name">
+		<activity android:name="org.anddev.android.filebrowser.AndroidFileBrowser"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="FileBrowser" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
-		<activity android:name="com.appspot.smartshop.utils.capture.ImageCaptureActivity" android:label="@string/app_name">
+
+		<activity android:name="com.appspot.smartshop.utils.capture.ImageCaptureActivity"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="ImageCapture" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".map.DirectionOnMapActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -196,7 +199,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name="org.anddev.android.filebrowser.AndroidFileBrowser"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -204,7 +207,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".ui.product.vatgia.SearchVatgiaActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -212,15 +215,14 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
-		<activity android:name=".SmartShopActivity"
-			android:label="@string/app_name">
+
+		<activity android:name=".SmartShopActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".ui.product.SearchProductsTabActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -228,7 +230,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".ui.product.vatgia.VatgiaProductDetailActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -236,7 +238,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".ui.product.vatgia.VatgiaCompaniesActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -244,7 +246,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".ui.product.vatgia.VatgiaTabActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -252,7 +254,14 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+		<activity android:name=".ui.user.ViewNotificationsActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
 		<activity android:name=".ui.user.SendEmailToAdminActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -273,7 +282,7 @@
 
 	<uses-sdk android:minSdkVersion="4" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.CAMERA"/> 
+	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />

@@ -45,7 +45,7 @@ public class URLConstant {
 	
 	public static final String SEND_EMAIL_TO_ADMIN = HOST + "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s";
 	public static final String SEND_EMAIL = HOST + "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&to=%s";
-	
+	public static final String GET_NOTIFICATIONS = HOST + "/api/asd/noti-get-by/" ;
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/myupload.php?username=%s";
 }
