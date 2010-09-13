@@ -20,6 +20,7 @@ import com.appspot.smartshop.ui.product.SearchProductsTabActivity;
 import com.appspot.smartshop.ui.user.LoginActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
+import com.appspot.smartshop.ui.user.ViewNotificationsActivity;
 import com.appspot.smartshop.utils.Global;
 
 public class MainAdapter extends BaseAdapter {
@@ -40,7 +41,8 @@ public class MainAdapter extends BaseAdapter {
 				R.drawable.user_pages_list,
 				R.drawable.login,
 				R.drawable.register,
-				R.drawable.user_profile
+				R.drawable.user_profile,
+				R.drawable.notifications
 		};
 		
 		text = new String[] {
@@ -49,6 +51,7 @@ public class MainAdapter extends BaseAdapter {
 				context.getString(R.string.lblLogin),
 				context.getString(R.string.lblRegister),
 				context.getString(R.string.user_profile),
+				context.getString(R.string.view_notifications)
 		};
 	}
 
@@ -133,6 +136,10 @@ public class MainAdapter extends BaseAdapter {
 			intent = new Intent(context, UserProfileActivity.class);
 			intent.putExtra(Global.USER_NAME, Global.username);
 			intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
+			break;
+		case R.drawable.notifications:
+			Log.d(TAG, "notifications");
+			intent = new Intent(context,ViewNotificationsActivity.class);
 			break;
 		}
 		
