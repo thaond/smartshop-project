@@ -1,30 +1,19 @@
 package com.appspot.smartshop;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
 import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.appspot.smartshop.dom.UserSubcribeProduct;
 import com.appspot.smartshop.map.DirectionListActivity;
 import com.appspot.smartshop.map.SearchProductsOnMapActivity;
-import com.appspot.smartshop.mock.MockCategory;
 import com.appspot.smartshop.mock.MockPage;
 import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.page.PageActivity;
@@ -33,17 +22,14 @@ import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.product.PostProductActivity;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.ui.product.vatgia.SearchVatgiaActivity;
+import com.appspot.smartshop.ui.user.SendEmailActivity;
 import com.appspot.smartshop.ui.user.SendEmailToAdminActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.Global;
-import com.appspot.smartshop.utils.JSONParser;
-import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class HomeActivity extends Activity {
@@ -93,10 +79,15 @@ public class HomeActivity extends Activity {
 	}
 
 	protected void test2() {
-		testGmapIntent();
+		testSendEmail();
 	}
 
 	protected void test3() {
+	}
+	
+	void testSendEmail() {
+		Intent intent = new Intent(this, SendEmailActivity.class);
+		startActivity(intent);
 	}
 	
 	void testSendEmailToAdmin() {
