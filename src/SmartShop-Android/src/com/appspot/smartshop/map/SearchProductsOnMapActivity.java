@@ -7,10 +7,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,6 +25,7 @@ import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -79,6 +86,7 @@ public class SearchProductsOnMapActivity extends MapActivity {
 		
 		// map view
 		mapView = (MapView) findViewById(R.id.mapview);
+		mapView.setBuiltInZoomControls(true);
 
 		// overlay
 		List<Overlay> listOfOverlays = mapView.getOverlays();
@@ -92,7 +100,7 @@ public class SearchProductsOnMapActivity extends MapActivity {
 		mapController.setZoom(16);
 		
 		// location listener
-		new MyLocationListener(this, new MyLocationCallback() {
+		myLocationListener = new MyLocationListener(this, new MyLocationCallback() {
 			
 			@Override
 			public void onSuccess(GeoPoint point) {
@@ -106,7 +114,8 @@ public class SearchProductsOnMapActivity extends MapActivity {
 					handler.sendMessage(message);
 				}
 			}
-		}).findCurrentLocation();
+		});
+		myLocationListener.findCurrentLocation();
 		
 		// search button
 		Button btnSearch = (Button) findViewById(R.id.btnSearch);
@@ -192,4 +201,75 @@ public class SearchProductsOnMapActivity extends MapActivity {
 		task.execute();
 	}
 
+	public static final int MENU_CURRENT_LOCATION = 0;
+	public static final int MENU_SEARCH_LOCATION = 1;
+	private MyLocationListener myLocationListener;
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_CURRENT_LOCATION, 0, getString(R.string.my_current_location));
+		menu.add(0, MENU_SEARCH_LOCATION, 0, getString(R.string.search_location));
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case MENU_CURRENT_LOCATION:
+			myLocationListener.findCurrentLocation();
+			break;
+			
+		case MENU_SEARCH_LOCATION:
+			openSearchLocationDialog();
+			break;
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
+
+	private LayoutInflater inflater;
+	private Builder dialogBuilder;
+	private AlertDialog dialog;
+	private void openSearchLocationDialog() {
+		if (inflater == null) {
+			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+		View view = inflater.inflate(R.layout.search_location_dialog, null);
+		
+		// Edit text
+		final EditText txtSearch = (EditText) view.findViewById(R.id.txtSearch);
+		
+		// search button
+		Button btnSearch = (Button) view.findViewById(R.id.btnSearch);
+		btnSearch.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String query = txtSearch.getText().toString();
+				if (query == null || query.trim().equals("")) {
+					Toast.makeText(SearchProductsOnMapActivity.this, 
+							getString(R.string.warn_search_location_empty), Toast.LENGTH_SHORT).show();
+				} else {
+					searchLocation(query.trim());
+				}
+			}
+		});
+		
+		dialogBuilder = new AlertDialog.Builder(this);
+		dialogBuilder.setView(view);
+		dialog = dialogBuilder.create(); 
+		
+		dialog.show();
+	}
+	
+	private void searchLocation(String query) {
+		GeoPoint point = MapService.locationToGeopoint(query);
+		if (point == null) {
+			Toast.makeText(this, getString(R.string.warn_cannot_find_search_location), 
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		mapController.setCenter(point);
+		productsOverlay.center = point;
+	}
 }
