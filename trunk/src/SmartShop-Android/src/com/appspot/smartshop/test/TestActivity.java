@@ -49,10 +49,40 @@ public class TestActivity extends MapActivity {
 
 		Global.application = this;
 		// TODO (condorhero01): place test function here
-		testSubcribeProduct(); 
+		testGetProductInSubRange();
 	}
-	
+
+	private static final int CREATE_SUBCRIBE = 0;
+	private static final int EDIT_SUBCRIBE = 1;
+	private int mode = EDIT_SUBCRIBE;
+	private String url = "";
+	//test get product in sub range
+	public String COMMENTS_PARAM = "{id:%d}";
+	void testGetProductInSubRange(){
+		int id = 1;
+		String param = String.format(COMMENTS_PARAM,id);
+		RestClient.postData(URLConstant.GET_PRODUCT_IN_SUB_RANGE, param, new JSONParser() {
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				System.out.println(json.toString());
+			}
+			@Override
+			public void onFailure(String message) {
+				System.out.println(message);
+				
+			}
+		});
+		
+	}
 	void testSubcribeProduct() {
+		switch (mode) {
+		case CREATE_SUBCRIBE:
+			url = URLConstant.ADD_NEW_SUBCRIBE;
+			break;
+		case EDIT_SUBCRIBE:
+			url = URLConstant.EDIT_SUBCRIBE;
+			break;
+		}
 		UserSubcribeProduct userSubcribeProduct = new UserSubcribeProduct();
 		userSubcribeProduct.userName = "nghia";
 		userSubcribeProduct.date = new Date(89, 1, 1);
@@ -65,57 +95,58 @@ public class TestActivity extends MapActivity {
 		list.add("lap");
 		list.add("soft");
 		userSubcribeProduct.categoryList = list;
-		
+
 		String param = Global.gsonDateWithoutHour.toJson(userSubcribeProduct);
-		
-		RestClient.postData(URLConstant.ADD_NEW_SUBCRIBE, param, new JSONParser() {
-			
-			@Override
-			public void onSuccess(JSONObject json) throws JSONException {
-				System.out.println(json.toString());
-			}
-			
-			@Override
-			public void onFailure(String message) {
-				System.out.println(message);
-			}
-		});
+
+		RestClient.postData(url, param,
+				new JSONParser() {
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+						System.out.println(json.toString());
+					}
+
+					@Override
+					public void onFailure(String message) {
+						System.out.println(message);
+					}
+				});
 	}
-	
+
 	void testVatgiaCompanies() {
 		Intent intent = new Intent(this, VatgiaCompaniesActivity.class);
 		startActivity(intent);
 	}
-	
+
 	void testVatgiaProductDetail() {
 		Intent intent = new Intent(this, VatgiaProductDetailActivity.class);
 		startActivity(intent);
 	}
-	
+
 	void testSearchByLocation() {
 		String url = URLConstant.GET_PRODUCTS_BY_LOCATION;
-		String param = String.format("{lat:%f,lng:%f,distance:%d}", 10.777268, 106.6563, 100000);
-		
+		String param = String.format("{lat:%f,lng:%f,distance:%d}", 10.777268,
+				106.6563, 100000);
+
 		RestClient.postData(url, param, new JSONParser() {
-			
+
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
 				System.out.println(json.toString());
 				JSONArray arr = new JSONArray(json.toString());
 				System.out.println(arr.get(0));
 			}
-			
+
 			@Override
 			public void onFailure(String message) {
 			}
 		});
 	}
-	
+
 	void testHttpGet() {
 		String content = HttpRequest.get(URLConstant.GET_PRODUCTS).content;
 		System.out.println(content);
 	}
-	
+
 	void testGetCurrentLocation() {
 		new MyLocationListener(this, new MyLocationCallback() {
 
@@ -124,38 +155,39 @@ public class TestActivity extends MapActivity {
 			}
 		}).findCurrentLocation();
 	}
-	
+
 	void testMyLocation() {
 		MyLocation myLocation = MyLocation.getInstance();
 		myLocation.getLocation(this, new LocationResult() {
-			
+
 			@Override
 			public void gotLocation(Location location) {
-				Log.d(TAG, "current location = " + location.getLatitude()+ ", " + location.getLongitude());
+				Log.d(TAG, "current location = " + location.getLatitude()
+						+ ", " + location.getLongitude());
 			}
 		});
 	}
-	
+
 	void testHttpPost() {
 		String url = "http://10.0.2.2:8888/api/asd/registerproduct/";
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 		String value = "{\"name\":\"Dell D630\",\"price\":123.0,\"is_vat\":true, \"quantity\":2,\"warranty\":\"12 month\",\"origin\":\"China\", \"address\":\"Binh Tan\",\"lat\":10.11,\"lng\":106.123,\"username\":\"tam\",\"setPagesId\":[],\"setCategoryKeys\":[\"lap\",\"soft\"],\"attributeSets\":[{\"key_cat\":\"lap\",\"name\":\"Camera3\",\"value\":\"1.3MP\",\"username\":\"tam\"},{\"key_cat\":\"lap\",\"name\":\"Camera4\",\"value\":\"1.3MP\",\"username\":\"tam\"}]}";
 		params.add(new BasicNameValuePair("", value));
-		
-//		RestClient.postData(url, value, new JSONParser() {
-//			
-//			@Override
-//			public void onSuccess(JSONObject json) throws JSONException {
-//				System.out.println(json);
-//			}
-//			
-//			@Override
-//			public void onFailure(String message) {
-//				System.out.println(message);
-//			}
-//		});
-	}
 
+		// RestClient.postData(url, value, new JSONParser() {
+		//			
+		// @Override
+		// public void onSuccess(JSONObject json) throws JSONException {
+		// System.out.println(json);
+		// }
+		//			
+		// @Override
+		// public void onFailure(String message) {
+		// System.out.println(message);
+		// }
+		// });
+	}
+	
 	void testGson4() {
 		UserInfo userInfo = new UserInfo();
 		userInfo.birthday = new Date(2010, 8, 11); // month = 8 means September
@@ -178,7 +210,7 @@ public class TestActivity extends MapActivity {
 
 	void testGson2() {
 		Foo foo = new Foo(); // must have assignment field = null to
-								// non-primitive field
+		// non-primitive field
 		foo.username = "foo";
 		String json = new Gson().toJson(foo);
 
@@ -342,55 +374,57 @@ public class TestActivity extends MapActivity {
 
 	void testRestClient() {
 		String url = "http://search.twitter.com/trends.json";
-//		RestClient.getData(url, new JSONParser() {
-//
-//			@Override
-//			public void onSuccess(JSONObject json) throws JSONException {
-//				System.out.println("as_of = " + json.getString("as_of"));
-//				JSONArray arrTrends = json.getJSONArray("trends");
-//				int len = arrTrends.length();
-//				JSONObject obj = null;
-//				for (int i = 0; i < len; ++i) {
-//					obj = arrTrends.getJSONObject(i);
-//					System.out.println("name = " + obj.getString("name"));
-//					System.out.println("url = " + obj.getString("url"));
-//				}
-//
-//			}
-//
-//			@Override
-//			public void onFailure(String message) {
-//				Log.e(TAG, "fail");
-//				Log.e(TAG, message);
-//			}
-//		});
+		// RestClient.getData(url, new JSONParser() {
+		//
+		// @Override
+		// public void onSuccess(JSONObject json) throws JSONException {
+		// System.out.println("as_of = " + json.getString("as_of"));
+		// JSONArray arrTrends = json.getJSONArray("trends");
+		// int len = arrTrends.length();
+		// JSONObject obj = null;
+		// for (int i = 0; i < len; ++i) {
+		// obj = arrTrends.getJSONObject(i);
+		// System.out.println("name = " + obj.getString("name"));
+		// System.out.println("url = " + obj.getString("url"));
+		// }
+		//
+		// }
+		//
+		// @Override
+		// public void onFailure(String message) {
+		// Log.e(TAG, "fail");
+		// Log.e(TAG, message);
+		// }
+		// });
 	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-	
-	private void testLogin(){
-		HttpService.getResource(String.format(URLConstant.LOGIN, "tam", "dflsdj"), true, new ServiceCallback() {
-			
+
+	private void testLogin() {
+		HttpService.getResource(String.format(URLConstant.LOGIN, "tam",
+				"dflsdj"), true, new ServiceCallback() {
+
 			@Override
 			public void onUpdating() {
-				
+
 			}
-			
+
 			@Override
 			public void onEndUpdating() {
 			}
-			
+
 			@Override
 			public void onSuccess(JsonObject json) {
 				String errCode = json.getAsString("errCode");
 				Log.d(TAG, "errCode: " + errCode);
-				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo"), UserInfo.class);
+				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(json
+						.get("userinfo"), UserInfo.class);
 				Log.d(TAG, "UserInfo: " + userInfo);
 			}
-			
+
 			@Override
 			public void onFailure(Exception ex) {
 				ex.printStackTrace();
