@@ -39,9 +39,9 @@ public class URLConstant {
 	public static final String GET_DETAIL_OF_VATGIA_PRODUCT = HOST + "/api/asd/parser-vatgia-each-product-n/?url=%s";
 	
 	public static final String ADD_NEW_SUBCRIBE = HOST + "/api/asd/create-subcribe/";
-	// TODO url constants
-	public static final String EDIT_SUBCRIBE = "";
-	public static final String GET_PRODUCT_IN_SUB_RANGE = "";
+	public static final String EDIT_SUBCRIBE = HOST + "/api/asd/edit-subcribe/";
+	public static final String GET_PRODUCT_IN_SUB_RANGE = HOST + "/api/asd/get-products-in-sub-range/";
+
 	
 	public static final String SEND_EMAIL_TO_ADMIN = HOST + "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s";
 	public static final String SEND_EMAIL = HOST + "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&to=%s";
