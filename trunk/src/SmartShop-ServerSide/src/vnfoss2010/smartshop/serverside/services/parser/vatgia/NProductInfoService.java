@@ -90,6 +90,10 @@ public class NProductInfoService extends BaseRestfulService {
 					String attValue = matcher.group(5);
 					attValue = attValue.replaceAll("&bull; ", "")
 							.replaceAll("<br>- ", ";").replaceAll("<br>", ";");
+					if (groupProAtt == null) {
+						groupProAtt = new Group("Thông tin khác");
+						product.listGroup.add(groupProAtt);
+					}
 					groupProAtt.listAtt.add(new Pair(attName, attValue));
 				}
 
@@ -163,8 +167,10 @@ public class NProductInfoService extends BaseRestfulService {
 					for (String phone : set) {
 						phones += phone + "-";
 					}
-					company.listCoInfos.add(new Pair("Phone", phones.substring(
-							0, phones.length() - 1)));
+					if (!phones.equals("")) {
+						company.listCoInfos.add(new Pair("Phone", phones
+								.substring(0, phones.length() - 1)));
+					}
 					// jsonObject.add("phones",
 					// Global.gsonWithDate.toJsonTree(set));
 
@@ -183,6 +189,7 @@ public class NProductInfoService extends BaseRestfulService {
 						Global.messages.getString("cant_get_from_url"));
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			jsonReturn.addProperty("errCode", 1);
 			jsonReturn.addProperty("message", "exception " + e.getMessage());
 		}
