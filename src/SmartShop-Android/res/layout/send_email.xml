@@ -26,6 +26,18 @@
 			android:layout_width="wrap_content" />
 
 	</LinearLayout>
+	
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:paddingRight="10dip">
+
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/email_receiver"
+			android:layout_centerVertical="true" android:id="@+id/lblReceiver" />
+
+		<EditText android:layout_height="wrap_content" android:id="@+id/txtReceiver"
+			android:layout_width="wrap_content" />
+
+	</LinearLayout>
 
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:text="@string/email_content"

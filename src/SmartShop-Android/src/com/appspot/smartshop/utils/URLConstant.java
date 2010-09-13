@@ -43,7 +43,8 @@ public class URLConstant {
 	public static final String EDIT_SUBCRIBE = "";
 	public static final String GET_PRODUCT_IN_SUB_RANGE = "";
 	
-	public static final String SEND_EMAIL_TO_ADMIN = "http://localhost:8888/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s";
+	public static final String SEND_EMAIL_TO_ADMIN = HOST + "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s";
+	public static final String SEND_EMAIL = HOST + "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&to=%s";
 	
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/myupload.php?username=%s";
