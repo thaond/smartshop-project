@@ -142,11 +142,6 @@ public class TestActivity extends MapActivity {
 		});
 	}
 
-	void testHttpGet() {
-		String content = HttpRequest.get(URLConstant.GET_PRODUCTS).content;
-		System.out.println(content);
-	}
-
 	void testGetCurrentLocation() {
 		new MyLocationListener(this, new MyLocationCallback() {
 

@@ -75,7 +75,7 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testSendEmailToAdmin();
+		testSearchProductsOnMap();
 	}
 
 	protected void test2() {
