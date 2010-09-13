@@ -33,6 +33,7 @@ import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.product.PostProductActivity;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.ui.product.vatgia.SearchVatgiaActivity;
+import com.appspot.smartshop.ui.user.SendEmailToAdminActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
@@ -88,7 +89,7 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testDirectionList();
+		testSendEmailToAdmin();
 	}
 
 	protected void test2() {
@@ -96,6 +97,11 @@ public class HomeActivity extends Activity {
 	}
 
 	protected void test3() {
+	}
+	
+	void testSendEmailToAdmin() {
+		Intent intent = new Intent(this, SendEmailToAdminActivity.class);
+		startActivity(intent);
 	}
 	
 	void testSearchVatgia() {

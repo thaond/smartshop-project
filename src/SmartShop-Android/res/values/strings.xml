@@ -191,4 +191,14 @@
 	<string name="lblSubscribeMobile">Mobile</string>
 	<string name="lblAgree">Đồng ý</string>
 	
+	<!-- Send email to admin -->
+	<string name="email_title">Tiêu đề</string>
+	<string name="email_sender">Người gửi</string>
+	<string name="email_content">Nội dung:</string>
+	<string name="send_email">Gửi</string>
+	<string name="warn_email_title_empty">Chưa nhập tiêu đề</string>
+	<string name="warn_email_sender_empty">Chưa nhập người gửi</string>
+	<string name="warn_email_sender_wrong_format">Email sai định dạng</string>
+	<string name="warn_email_content_empty">Chưa nhập nội dung</string>
+	
 </resources>
