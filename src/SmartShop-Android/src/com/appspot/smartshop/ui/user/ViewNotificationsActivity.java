@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.appspot.smartshop.adapter.NotificationAdapter;
 import com.appspot.smartshop.dom.Notification;
+import com.appspot.smartshop.mock.MockNotification;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -38,9 +39,10 @@ public class ViewNotificationsActivity extends Activity{
 		Log.d(TAG, "view notifications");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.notification);
-		adapter = new NotificationAdapter(this, 0, new LinkedList<Notification>());
+		adapter = new NotificationAdapter(this, 0, MockNotification.getInstance());
+		listView = (ListView) findViewById(R.id.listNotification);
 		listView.setAdapter(adapter);
-		loadNotifications();
+//		loadNotifications();
 	}
 	public SimpleAsyncTask task;
 	private void loadNotifications() {
