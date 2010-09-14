@@ -14,6 +14,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +28,8 @@ public class RestClient {
 	public static final String TAG = "[RestClient]";
 	public static JSONParser jsonParser = null;
 	private static HttpClient httpClient;
+	public static int CONNECTION_TIMEOUT = 5000;
+	public static int SOCKET_TIMEOUT = 5000;
 
 	private static String convertStreamToString(InputStream is) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -53,7 +58,11 @@ public class RestClient {
 		jsonParser = parser;
 
 		if (httpClient == null) {
-			httpClient = new DefaultHttpClient();
+			HttpParams httpParameters = new BasicHttpParams();
+			HttpConnectionParams.setConnectionTimeout(httpParameters, CONNECTION_TIMEOUT);
+			HttpConnectionParams.setSoTimeout(httpParameters, SOCKET_TIMEOUT);
+
+			httpClient = new DefaultHttpClient(httpParameters);
 		}
 		
 		HttpPost httpPost = new HttpPost(url);
@@ -141,7 +150,11 @@ public class RestClient {
 		jsonParser = parser;
 
 		if (httpClient == null) {
-			httpClient = new DefaultHttpClient();
+			HttpParams httpParameters = new BasicHttpParams();
+			HttpConnectionParams.setConnectionTimeout(httpParameters, CONNECTION_TIMEOUT);
+			HttpConnectionParams.setSoTimeout(httpParameters, SOCKET_TIMEOUT);
+
+			httpClient = new DefaultHttpClient(httpParameters);
 		}
 		HttpGet httpGet = new HttpGet(url);
 		HttpResponse response = null;

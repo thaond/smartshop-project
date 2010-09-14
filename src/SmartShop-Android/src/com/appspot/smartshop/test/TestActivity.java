@@ -1,10 +1,18 @@
 package com.appspot.smartshop.test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +57,25 @@ public class TestActivity extends MapActivity {
 
 		Global.application = this;
 		// TODO (condorhero01): place test function here
-		testGetProductInSubRange();
+		testRequest();
+	}
+	
+	void testRequest() {
+		System.out.println("start request");
+		
+		RestClient.getData(URLConstant.GET_PARENT_CATEGORIES, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				System.out.println(message);
+			}
+		});
+		
+		System.out.println("finish request");
 	}
 
 	private static final int CREATE_SUBCRIBE = 0;
