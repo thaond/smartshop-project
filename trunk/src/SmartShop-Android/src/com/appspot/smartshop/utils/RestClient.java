@@ -28,8 +28,8 @@ public class RestClient {
 	public static final String TAG = "[RestClient]";
 	public static JSONParser jsonParser = null;
 	private static HttpClient httpClient;
-	public static int CONNECTION_TIMEOUT = 5000;
-	public static int SOCKET_TIMEOUT = 5000;
+	public static int CONNECTION_TIMEOUT = 10000;
+	public static int SOCKET_TIMEOUT = 30000;
 
 	private static String convertStreamToString(InputStream is) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));

@@ -20,8 +20,6 @@ import org.anddev.android.filebrowser.AndroidFileBrowser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
-import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;

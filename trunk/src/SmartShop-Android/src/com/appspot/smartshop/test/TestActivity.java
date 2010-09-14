@@ -19,8 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
-import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -424,34 +422,6 @@ public class TestActivity extends MapActivity {
 		return false;
 	}
 
-	private void testLogin() {
-		HttpService.getResource(String.format(URLConstant.LOGIN, "tam",
-				"dflsdj"), true, new ServiceCallback() {
-
-			@Override
-			public void onUpdating() {
-
-			}
-
-			@Override
-			public void onEndUpdating() {
-			}
-
-			@Override
-			public void onSuccess(JsonObject json) {
-				String errCode = json.getAsString("errCode");
-				Log.d(TAG, "errCode: " + errCode);
-				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(json
-						.get("userinfo"), UserInfo.class);
-				Log.d(TAG, "UserInfo: " + userInfo);
-			}
-
-			@Override
-			public void onFailure(Exception ex) {
-				ex.printStackTrace();
-			}
-		});
-	}
 }
 
 class Foo {

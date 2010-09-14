@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.dom.UserInfo;
