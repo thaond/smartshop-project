@@ -248,6 +248,7 @@ public class SearchProductsOnMapActivity extends MapActivity {
 				if (query == null || query.trim().equals("")) {
 					Toast.makeText(SearchProductsOnMapActivity.this, 
 							getString(R.string.warn_search_location_empty), Toast.LENGTH_SHORT).show();
+					dialog.dismiss();
 				} else {
 					searchLocation(query.trim());
 				}
@@ -266,10 +267,12 @@ public class SearchProductsOnMapActivity extends MapActivity {
 		if (point == null) {
 			Toast.makeText(this, getString(R.string.warn_cannot_find_search_location), 
 					Toast.LENGTH_SHORT).show();
+			dialog.dismiss();
 			return;
 		}
 		
 		mapController.setCenter(point);
 		productsOverlay.center = point;
+		dialog.dismiss();
 	}
 }
