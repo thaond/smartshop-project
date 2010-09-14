@@ -11,8 +11,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.map.DirectionListActivity;
 import com.appspot.smartshop.map.MyLocationCallback;
@@ -221,7 +221,7 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		Log.d(TAG, "show comments of product " + productInfo.id);
 		Intent intent = new Intent(ViewProductBasicAttributeActivity.this, ViewCommentsActivity.class);
 		intent.putExtra(Global.ID_OF_COMMENTS, productInfo.id);
-		intent.putExtra(Global.TYPE_OF_COMMENTS, MainActivity.PRODUCT);
+		intent.putExtra(Global.TYPE_OF_COMMENTS, SmartShopActivity.PRODUCT);
 		startActivity(intent);
 	}
 

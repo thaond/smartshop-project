@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
-import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 
 import android.content.Context;
 import android.content.Intent;

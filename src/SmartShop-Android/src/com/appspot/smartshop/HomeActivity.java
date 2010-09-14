@@ -2,8 +2,6 @@ package com.appspot.smartshop;
 
 import java.util.Set;
 
-import sv.skunkworks.showtimes.lib.asynchronous.HttpService;
-import sv.skunkworks.showtimes.lib.asynchronous.ServiceCallback;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -111,17 +109,6 @@ public class HomeActivity extends Activity {
 			@Override
 			public void onCategoriesDialogClose(Set<String> categories) {
 				System.out.println(categories);
-			}
-		});
-	}
-	
-	void testLoadProductsList() {
-		String url = URLConstant.GET_PRODUCTS_BY_CRITERIA;
-		HttpService.getResource(url, false, new ServiceCallback(this) {
-
-			@Override
-			public void onSuccess(JsonObject jsonObject) {
-				System.out.println(jsonObject);
 			}
 		});
 	}

@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 public class SmartShopActivity extends ListActivity {
+	
+	public static final String PRODUCT = "product";
+	public static final String PAGE = "page";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.appspot.smartshop.MainActivity;
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
@@ -80,7 +80,7 @@ public class ViewPageActivity extends Activity {
 	protected void viewComment() {
 		Intent intent = new Intent(this, ViewCommentsActivity.class);
 		intent.putExtra(Global.ID_OF_COMMENTS, page.id);
-		intent.putExtra(Global.TYPE_OF_COMMENTS, MainActivity.PAGE);
+		intent.putExtra(Global.TYPE_OF_COMMENTS, SmartShopActivity.PAGE);
 		
 		startActivity(intent);
 	}
