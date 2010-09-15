@@ -19,6 +19,7 @@ import vnfoss2010.smartshop.serverside.services.test.DeleteUserInfosService;
 import vnfoss2010.smartshop.serverside.services.test.InsertAllSampleDataService;
 import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
 import vnfoss2010.smartshop.serverside.services.test.InsertPageService;
+import vnfoss2010.smartshop.serverside.services.test.InsertSampleNotificationService;
 import vnfoss2010.smartshop.serverside.services.test.InsertSampleProductService;
 import vnfoss2010.smartshop.serverside.services.test.InsertUserInfosService;
 import vnfoss2010.smartshop.serverside.services.test.TestProductAtt;
@@ -85,6 +86,7 @@ public class TestServlet extends HttpServlet {
 		mServices.put("insert-page", InsertPageService.class);
 		mServices.put("insert-cats", InsertCategoryService.class);
 		mServices.put("insert-products", InsertSampleProductService.class);
+		mServices.put("insert-notifications", InsertSampleNotificationService.class);
 		mServices.put("delete-database", DeleteDatabaseService.class);
 		mServices.put("insert-all-sample-data", InsertAllSampleDataService.class);
 		

@@ -36,7 +36,7 @@ public class NotificationServiceImpl {
 
 			if (n == null) {
 				result.setMessage(Global.messages
-						.getString("insert_nofitification_successfully"));
+						.getString("insert_nofitification_fail"));
 			} else {
 				result.setResult(n.getId());
 				result.setMessage(Global.messages

@@ -45,7 +45,7 @@ public class SendSMSService extends BaseRestfulService {
 	private static final String ADV_URL				= "http://www.mobifone.com.vn/web/vn/sms/";
 	private static final String ADV_REFERER			= "http://www.mobifone.com.vn/web/vn/";
 	
-	private Logger log = Logger.getLogger("Server");
+	private static Logger log = Logger.getLogger("Server");
 	
 	/*
 	 * For Debug
@@ -56,7 +56,7 @@ public class SendSMSService extends BaseRestfulService {
 	/*
 	 * Save Session
 	 */
-	public void saveSession(String username, String jsessionid)
+	public static void saveSession(String username, String jsessionid)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -103,7 +103,7 @@ public class SendSMSService extends BaseRestfulService {
 	/*
 	 * Delete Session
 	 */
-	public String getJSessionId(String username)
+	public static String getJSessionId(String username)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -135,7 +135,7 @@ public class SendSMSService extends BaseRestfulService {
 	/*
 	 * Send Message
 	 */
-	public boolean sendSms(String username, String password, String toPhone, String message)
+	public static boolean sendSms(String username, String password, String toPhone, String message)
 	{
 		if(sendSms(username, password, toPhone, message, ROUTE_ID1))
 			return true;
@@ -146,7 +146,7 @@ public class SendSMSService extends BaseRestfulService {
 	/*
 	 * Send Message
 	 */
-	public boolean sendSms(String username, String password, String toPhone, String message, String routeID)
+	public static boolean sendSms(String username, String password, String toPhone, String message, String routeID)
 	{
 		boolean result = false;
 		try {
@@ -319,7 +319,7 @@ public class SendSMSService extends BaseRestfulService {
 			if (sendSms(userName, password, toPhone, message))
 			{
 				jsonReturn.addProperty("errCode", 0);
-				jsonReturn.addProperty("message", Global.messages.getString("lack_para"));
+				jsonReturn.addProperty("message", Global.messages.getString("send_sms_successfully"));
 			}
 			else
 			{

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOObjectNotFoundException;
@@ -237,11 +238,11 @@ public class PageServiceImpl {
 					break;
 
 				case 4:
-					orderBy.append("product_view asc ");
+					orderBy.append("page_view asc ");
 					break;
 
 				case 5:
-					orderBy.append("product_view desc ");
+					orderBy.append("page_view desc ");
 					break;
 
 				case 6:

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import vnfoss2010.smartshop.serverside.database.entity.Category;
+import vnfoss2010.smartshop.serverside.database.entity.Notification;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 
@@ -150,6 +151,27 @@ public class SampleData {
 		products.add(product);
 		
 		return products;
+	}
+	
+	public static ArrayList<Notification> getSampleNotifications(){
+		ArrayList<Notification> a = new ArrayList<Notification>();
+		
+		a.add(new Notification("Thông báo số 1", new Date(), true, "", 0L, "tam"));
+		a.add(new Notification("loi đã add bạn vào friend", new Date(), true, "", 0L, "tam"));
+		
+		a.add(new Notification("Thông báo số 1", new Date(), true, "", 0L, "nghia"));
+		a.add(new Notification("loi đã add bạn vào friend", new Date(), true, "", 0L, "nghia"));
+		
+		a.add(new Notification("Thông báo số 1", new Date(), true, "", 0L, "duc"));
+		a.add(new Notification("loi đã add bạn vào friend", new Date(), true, "", 0L, "duc"));
+		
+		a.add(new Notification("Thông báo số 1", new Date(), true, "", 0L, "loi"));
+		a.add(new Notification("loi đã add bạn vào friend", new Date(), true, "", 0L, "loi"));
+		
+		a.add(new Notification("Thông báo số 1", new Date(), true, "", 0L, "hieu"));
+		a.add(new Notification("loi đã add bạn vào friend", new Date(), true, "", 0L, "hieu"));
+		
+		return a;
 	}
 	
 //	public static ArrayList<Page> getSamplePages(){

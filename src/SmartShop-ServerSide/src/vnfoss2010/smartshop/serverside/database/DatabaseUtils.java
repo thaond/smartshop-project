@@ -219,7 +219,7 @@ public class DatabaseUtils {
 
 			query = pm.newQuery(Statistic.class);
 			query.deletePersistentAll();
-
+			
 			query = pm.newQuery(UserInfo.class);
 			query.deletePersistentAll();
 

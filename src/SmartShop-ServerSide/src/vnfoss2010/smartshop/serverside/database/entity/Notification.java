@@ -14,6 +14,12 @@ public class Notification {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
+	
+	@Persistent
+	private String type;
+	
+	@Persistent
+	private Long type_id;
 
 	@Persistent
 	private String content;
@@ -36,6 +42,19 @@ public class Notification {
 		this.date = date;
 		this.setUsername(username);
 		this.isNew = false;
+	}
+	
+	/**
+	 * Full constructor
+	 */
+	public Notification(String content, Date date, boolean isNew,
+			String type, Long typeId, String username) {
+		this.content = content;
+		this.date = date;
+		this.isNew = isNew;
+		this.type = type;
+		this.type_id = typeId;
+		this.username = username;
 	}
 
 	/**
@@ -111,5 +130,33 @@ public class Notification {
 	 */
 	public boolean isNew() {
 		return isNew;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @param typeId the typeId to set
+	 */
+	public void setTypeId(Long typeId) {
+		this.type_id = typeId;
+	}
+
+	/**
+	 * @return the typeId
+	 */
+	public Long getTypeId() {
+		return type_id;
 	}
 }
