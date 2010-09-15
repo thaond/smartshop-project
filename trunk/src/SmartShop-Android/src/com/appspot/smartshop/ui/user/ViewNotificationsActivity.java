@@ -28,12 +28,13 @@ import android.widget.ListView;
 public class ViewNotificationsActivity extends Activity{
 	public static final String TAG = "[ViewNotificationsActivity]";
 	public static final String NOTIFICATIONS_PARAM = "{username:\"%s\",type_id:%d}";
+	public static final String MARK_AS_READ = "{username:\"%s\"}";
 	public NotificationAdapter adapter;
 	public ListView listView;
 	public LayoutInflater inflater;
 	public List<Notification> notifications;
 	public long id;
-	public String username = "loi";
+	public String username = Global.USER_NAME;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "view notifications");
@@ -43,6 +44,37 @@ public class ViewNotificationsActivity extends Activity{
 		listView = (ListView) findViewById(R.id.listNotification);
 		listView.setAdapter(adapter);
 //		loadNotifications();
+		//markAsRead();
+	}
+	private void markAsRead() {
+		task = new SimpleAsyncTask(this, new DataLoader() {
+			
+			@Override
+			public void updateUI() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void loadData() {
+			String param = String.format(MARK_AS_READ, username);
+				RestClient.postData(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS, param, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+						Log.d(TAG, json.toString());
+						
+					}
+					
+					@Override
+					public void onFailure(String message) {
+						Log.d(TAG,message);
+						
+					}
+				});
+			}
+		});
+		
 	}
 	public SimpleAsyncTask task;
 	private void loadNotifications() {
