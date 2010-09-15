@@ -38,17 +38,17 @@ public class SampleDataNghia {
 		Page page ;
 		Random myRandom = new Random();
 		
-		page = new Page("Can mua ban phim game", "", "Can mua ban phim game xin", 100, new Date(110,3,2), new Date(110,2,3), "tam");
+		page = new Page("Can mua ban phim game", "", "Can mua ban phim game xin", 1, new Date(110,3,2), new Date(110,2,3), "tam");
 		page.getSetCategoryKeys().add("accessories_desktop");
 		page.getSetCategoryKeys().add("computer");
 		page.getSetCategoryKeys().add("desktop");
 		pages.add(page);
 		
-		page = new Page("Can mua laptop", "", "Can mua lap top dell core i7",20, new Date(110,6,7), new Date(110,11,12), "nghia");
+		page = new Page("Can mua laptop", "", "Can mua lap top dell core i7",12, new Date(110,6,7), new Date(110,11,12), "nghia");
 		page.getSetCategoryKeys().add("laptop");
 		pages.add(page);
 		
-		page = new Page("Can mua loa bose", "", "Can mua loa bose xin gia duoi 5tr", 100, new Date(110,5,6), new Date(110,4,9), "tam");
+		page = new Page("Can mua loa bose", "", "Can mua loa bose xin gia duoi 5tr", 14, new Date(110,5,6), new Date(110,4,9), "tam");
 		page.getSetCategoryKeys().add("computer_other");
 		pages.add(page);
 

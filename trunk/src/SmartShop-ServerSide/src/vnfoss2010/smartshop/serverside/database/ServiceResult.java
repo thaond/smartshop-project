@@ -79,4 +79,13 @@ public class ServiceResult<ResultType>{
 	public void setResult(ResultType result) {
 		this.result = result;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ServiceResult [isOK=" + isOK + ", message=" + message
+				+ ", result=" + result + "]";
+	}
 }

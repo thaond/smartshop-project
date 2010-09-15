@@ -435,9 +435,9 @@ public class AccountServiceImpl {
 		return result;
 	}
 
-	public ServiceResult<Boolean> isExist(String username) {
+	public ServiceResult<Void> isExist(String username) {
 		username = DatabaseUtils.preventSQLInjection(username);
-		ServiceResult<Boolean> result = new ServiceResult<Boolean>();
+		ServiceResult<Void> result = new ServiceResult<Void>();
 
 		if (username == null || username.equals("")) {
 			result.setMessage(Global.messages
@@ -457,16 +457,17 @@ public class AccountServiceImpl {
 				isNotFound = true;
 			}
 			if (isNotFound || userInfo == null) {
-				result.setResult(false);
+				result.setOK(false);
 				result.setMessage(Global.messages
 						.getString("username_not_exist"));
 			} else {
 				// Exist this username in the datastore
-				result.setResult(true);
+				result.setOK(true);
 				result.setMessage(Global.messages
 						.getString("username_already_exist"));
 			}
 		} catch (Exception ex) {
+			result.setOK(false);
 			result.setMessage(Global.messages.getString("have_problem"));
 			ex.printStackTrace();
 			// log.log(Level.SEVERE, s, ex);

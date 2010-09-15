@@ -75,6 +75,8 @@ import vnfoss2010.smartshop.serverside.services.product.GetSelledProductByUserSe
 import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductPromixity;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductService;
+import vnfoss2010.smartshop.serverside.services.sms.SendSMSService;
+import vnfoss2010.smartshop.serverside.services.sms.SendSMSToService;
 import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
 import vnfoss2010.smartshop.serverside.services.test.InsertPageService;
 import vnfoss2010.smartshop.serverside.services.test.InsertSampleProductService;
@@ -212,6 +214,10 @@ public class RestfulServlet extends HttpServlet {
 		// mail
 		mServices.put("mail-send-to-admin", SendEmailToAdminService.class);
 		mServices.put("mail-send", SendEmailService.class);
+		
+		//sms
+		mServices.put("sms-send-from-to", SendSMSService.class);
+		mServices.put("sms-send-to", SendSMSToService.class);
 
 		// user subcribe
 		mServices.put("create-subcribe", CreateSubcribeProduct.class);

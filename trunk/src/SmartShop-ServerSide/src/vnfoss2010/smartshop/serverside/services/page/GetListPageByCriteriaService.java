@@ -15,7 +15,6 @@ import vnfoss2010.smartshop.serverside.utils.StringUtils;
 import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 /**
@@ -58,8 +57,6 @@ public class GetListPageByCriteriaService extends BaseRestfulService {
 		}
 
 		String cat_keys = getParameter("cat_keys", params, json);
-
-		Global.log(log, "Cat keys : " + cat_keys);
 		String username = null;
 		try {
 			username = getParameter("username", params, json);

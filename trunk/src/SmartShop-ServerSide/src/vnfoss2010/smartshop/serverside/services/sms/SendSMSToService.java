@@ -27,19 +27,17 @@ public class SendSMSToService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 		
-		SendSMSService sendSMSService = new SendSMSService("");
-		
 		String userName = "0938365140";
-		String password = "reborn";
+		String password = "tamvominh";
 		String toPhone = getParameterWithThrow("toPhone", params, json);
 		String message = getParameterWithThrow("message", params, json);
 
 		if(userName!=null && password!=null && toPhone!=null && message!=null)
 		{
-			if (sendSMSService.sendSms(userName, password, toPhone, message))
+			if (SendSMSService.sendSms(userName, password, toPhone, message))
 			{
 				jsonReturn.addProperty("errCode", 0);
-				jsonReturn.addProperty("message", Global.messages.getString("lack_para"));
+				jsonReturn.addProperty("message", Global.messages.getString("send_sms_successfully"));
 			}
 			else
 			{
