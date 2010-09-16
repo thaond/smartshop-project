@@ -88,7 +88,9 @@ public class TestActivity extends MapActivity {
 		RestClient.postData(URLConstant.GET_PRODUCT_IN_SUB_RANGE, param, new JSONParser() {
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
+				
 				System.out.println(json.toString());
+				
 			}
 			@Override
 			public void onFailure(String message) {
@@ -108,7 +110,7 @@ public class TestActivity extends MapActivity {
 			break;
 		}
 		UserSubcribeProduct userSubcribeProduct = new UserSubcribeProduct();
-		userSubcribeProduct.userName = "nghia";
+		userSubcribeProduct.userName = Global.USER_NAME;
 		userSubcribeProduct.date = new Date(89, 1, 1);
 		userSubcribeProduct.lat = 49.0;
 		userSubcribeProduct.lng = 49.0;

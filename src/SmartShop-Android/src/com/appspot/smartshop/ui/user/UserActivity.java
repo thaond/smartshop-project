@@ -13,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -373,7 +374,7 @@ public class UserActivity extends MapActivity {
 		CategoriesDialogForSubcribe.showCategoriesDialog(this, new CategoriesDialogForSubcribeListener() {
 			
 			@Override
-			public void onCategoriesDialogClose(Set<String> categories) {
+			public void onCategoriesDialogClose(List<String> categories) {
 				
 			}
 		});

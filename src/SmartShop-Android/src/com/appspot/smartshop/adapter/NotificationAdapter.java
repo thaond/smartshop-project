@@ -23,6 +23,8 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 	private LayoutInflater inflater;
 	public AlertDialog dialog = null;
 	public String detail;
+	public Notification notification;
+	public ViewHolder holder;
 	public NotificationAdapter(Context context, int resource,
 			List<Notification> objects) {
 		super(context, resource, objects);
@@ -30,11 +32,9 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		
 		if (convertView == null) {
-			holder = new ViewHolder();
-			
 			convertView = inflater.inflate(R.layout.notification_item, null);
 			holder = new ViewHolder();
 			holder.chBoxIsRead = (CheckBox) convertView
@@ -50,50 +50,45 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		Notification notification = getItem(position);
+		notification = getItem(position);
 		Log.d(TAG, notification.content);
 		Log.d(TAG, holder.txtDate.toString());
 		detail = notification.content;
 		holder.txtDate.setText(notification.date.toLocaleString());
 		holder.chBoxIsRead.setChecked(notification.isNew);
-		holder.txtContent.setText(notification.content.substring(0, notification.content.length()/2));
+		holder.txtContent.setText(notification.content.substring(0, notification.content.length()/2)+"...");
 		holder.btnDetail.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				showDetailOfNotification();
+				if (inflater == null) {
+					inflater = LayoutInflater.from(getContext());
+				}
+				View view = inflater
+						.inflate(R.layout.view_detail_of_notification, null);
+				notification = getItem(position);
+				// comment content
+				EditText txtNotification = (EditText) view
+						.findViewById(R.id.txtNotification);
+				txtNotification.setText(notification.content);
+				Button btnOk = (Button) view.findViewById(R.id.btnOut);
+				
+				btnOk.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						dialog.cancel();
+
+					}
+				});
+				AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+				builder.setView(view);
+				dialog = builder.create();
+				dialog.show();
 			}
 		});
 		return convertView;
 
-	}
-
-	protected void showDetailOfNotification() {
-		// inflater
-		if (inflater == null) {
-			inflater = LayoutInflater.from(getContext());
-		}
-		View view = inflater
-				.inflate(R.layout.view_detail_of_notification, null);
-
-		// comment content
-		EditText txtNotification = (EditText) view
-				.findViewById(R.id.txtNotification);
-		txtNotification.setText(detail);
-		Button btnOk = (Button) view.findViewById(R.id.btnOut);
-
-		btnOk.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				dialog.cancel();
-
-			}
-		});
-		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-		builder.setView(view);
-		dialog = builder.create();
-		dialog.show();
 	}
 
 	static class ViewHolder {
