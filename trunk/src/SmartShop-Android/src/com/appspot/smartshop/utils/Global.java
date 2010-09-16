@@ -25,6 +25,8 @@ public class Global {
 	 * User
 	 */
 	public static String username = MockUserInfo.getInstance().username;
+	public static Double lat = MockUserInfo.getInstance().lat;
+	public static Double lng = MockUserInfo.getInstance().lng;
 	public static boolean isLogin = false;	// TODO for test
 	public static UserInfo userInfo = MockUserInfo.getInstance();	// TODO for test
 	//TODO (tam -> duc) Test, remove username, isLogin. B/c we check whether userInfo isn't equals null to know user have logined or not
@@ -69,6 +71,8 @@ public class Global {
 	public static final String PRODUCTS_TYPE = "products_ype";
 	public static final String USER_NAME = "user_name";
 	public static final String TYPE = "type";
+	public static final String LAT_OF_USER = "lat";
+	public static final String LONG_OF_USER ="lng";
 	
 	public static final String ID_OF_COMMENTS = "id_of_comments";
 	public static final String TYPE_OF_COMMENTS = "type_of_comments";

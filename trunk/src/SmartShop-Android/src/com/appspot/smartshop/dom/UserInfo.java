@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class UserInfo implements Serializable {
 	public String username = null;
+	public Long userId = null;
 	public String password = null;
 	public String oldPassword = null;
 	public String first_name = null;

@@ -1,5 +1,6 @@
 package com.appspot.smartshop.ui.user;
 
+import org.apache.commons.logging.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,6 +100,9 @@ public class LoginActivity extends Activity {
 						Global.isLogin = true;
 						Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
 						Global.username = Global.userInfo.username;
+						Global.lat = Global.userInfo.lat;
+						Global.lng = Global.userInfo.lng;
+						System.out.println(Global.username);
 						
 						if (StringUtils.isEmptyOrNull(lastActivity)){
 							Intent intent = new Intent(LoginActivity.this, SmartShopActivity.class);

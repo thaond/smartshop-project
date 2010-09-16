@@ -1,6 +1,5 @@
 package com.appspot.smartshop.ui.user;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -34,7 +33,7 @@ public class ViewNotificationsActivity extends Activity{
 	public LayoutInflater inflater;
 	public List<Notification> notifications;
 	public long id;
-	public String username = Global.USER_NAME;
+	public String username = Global.username;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "view notifications");
@@ -42,39 +41,25 @@ public class ViewNotificationsActivity extends Activity{
 		setContentView(R.layout.notification);
 		adapter = new NotificationAdapter(this, 0, MockNotification.getInstance());
 		listView = (ListView) findViewById(R.id.listNotification);
-		listView.setAdapter(adapter);
-//		loadNotifications();
-		//markAsRead();
+//		listView.setAdapter(adapter);
+		loadNotifications();
 	}
 	private void markAsRead() {
-		task = new SimpleAsyncTask(this, new DataLoader() {
+		Log.d(TAG, "MARK AS READ CALLED");
+		String param = String.format(MARK_AS_READ, username);
+		RestClient.postData(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS, param, new JSONParser() {
 			
 			@Override
-			public void updateUI() {
-				// TODO Auto-generated method stub
+			public void onSuccess(JSONObject json) throws JSONException {
+				Log.d(TAG, json.toString());
 				
 			}
-			
 			@Override
-			public void loadData() {
-			String param = String.format(MARK_AS_READ, username);
-				RestClient.postData(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS, param, new JSONParser() {
-					
-					@Override
-					public void onSuccess(JSONObject json) throws JSONException {
-						Log.d(TAG, json.toString());
-						
-					}
-					
-					@Override
-					public void onFailure(String message) {
-						Log.d(TAG,message);
-						
-					}
-				});
+			public void onFailure(String message) {
+				Log.d(TAG,message);
+				
 			}
 		});
-		
 	}
 	public SimpleAsyncTask task;
 	private void loadNotifications() {
@@ -90,6 +75,7 @@ public class ViewNotificationsActivity extends Activity{
 			@Override
 			public void loadData() {
 				String param = String.format(NOTIFICATIONS_PARAM,username,1);
+				Log.d(TAG, param);
 				RestClient.postData(URLConstant.GET_NOTIFICATIONS, param, new JSONParser() {
 					
 					@Override
@@ -100,6 +86,8 @@ public class ViewNotificationsActivity extends Activity{
 						if(notifications.size()==0){
 							task.hasData = false;
 							task.message = getString(R.string.warn_no_notification);
+						}else{
+							markAsRead();
 						}
 					}
 					
