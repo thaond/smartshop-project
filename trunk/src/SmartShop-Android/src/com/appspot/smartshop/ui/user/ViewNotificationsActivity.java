@@ -83,18 +83,20 @@ public class ViewNotificationsActivity extends Activity{
 						JSONArray arr = json.getJSONArray("notifications");
 						notifications = Global.gsonWithHour.fromJson(arr.toString()	, Notification.getType());
 						Log.d(TAG, "found " + notifications.size() + " notification(s)");
-						if(notifications.size()==0){
-							task.hasData = false;
-							task.message = getString(R.string.warn_no_notification);
-						}else{
-							markAsRead();
-						}
+						markAsRead();
+//						if(notifications.size()==0){
+//							task.hasData = false;
+//							task.message = getString(R.string.warn_no_notification);
+//						}else{
+//							markAsRead();
+//						}
 					}
 					
 					@Override
 					public void onFailure(String message) {
+						task.hasData = false;
+						task.message = getString(R.string.warn_no_notification);
 						task.cancel(true);
-						
 					}
 				});
 			}

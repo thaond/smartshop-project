@@ -24,6 +24,7 @@ import com.appspot.smartshop.ui.user.SendEmailActivity;
 import com.appspot.smartshop.ui.user.SendEmailToAdminActivity;
 import com.appspot.smartshop.ui.user.UserActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
+import com.appspot.smartshop.ui.user.ViewProfileActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.URLConstant;
@@ -73,7 +74,7 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testSearchProductsOnMap();
+		testViewProfile();
 	}
 
 	protected void test2() {
@@ -81,6 +82,11 @@ public class HomeActivity extends Activity {
 	}
 
 	protected void test3() {
+	}
+	
+	void testViewProfile() {
+		Intent intent = new Intent(this, ViewProfileActivity.class);
+		startActivity(intent);
 	}
 	
 	void testSendEmail() {

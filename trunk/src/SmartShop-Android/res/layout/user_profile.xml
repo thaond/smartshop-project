@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:orientation="vertical">
+
+	<ImageView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/imgAvatar"
+		android:src="@drawable/no_avatar" android:layout_gravity="center_horizontal"></ImageView>
+	<ListView android:layout_height="wrap_content" android:id="@+id/listInfo"
+		android:layout_width="fill_parent"></ListView>
+
+	<TableLayout android:layout_height="fill_parent"
+		android:layout_width="fill_parent" android:paddingLeft="10dip">
+
+		<TableRow>
+			<Button android:id="@+id/btnPages" android:layout_width="48dip"
+				android:layout_height="48dip" android:background="@drawable/user_pages_list"
+				android:soundEffectsEnabled="true" />
+			<Button android:id="@+id/btnProducts" android:layout_width="48dip"
+				android:layout_height="48dip" android:background="@drawable/user_products_list"
+				android:soundEffectsEnabled="true" />
+			<Button android:id="@+id/btnAddNewPage" android:layout_width="48dip"
+				android:layout_height="48dip" android:background="@drawable/add_new_page"
+				android:soundEffectsEnabled="true" />
+			<Button android:id="@+id/btnPostNewProduct" android:layout_width="48dip"
+				android:layout_height="48dip" android:background="@drawable/post_new_product"
+				android:soundEffectsEnabled="true" />
+			<Button android:id="@+id/btnEditUserInfo" android:layout_width="48dip"
+				android:layout_height="48dip" android:background="@drawable/user_info"
+				android:soundEffectsEnabled="true" />
+			<Button android:id="@+id/btnSubcribe" android:layout_width="48dip"
+				android:layout_height="48dip" android:background="@drawable/subcribe"
+				android:soundEffectsEnabled="true" />
+		</TableRow>
+
+	</TableLayout>
+</LinearLayout>

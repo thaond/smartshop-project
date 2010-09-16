@@ -54,8 +54,8 @@ public class TestActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		Global.application = this;
-		// TODO (condorhero01): place test function here
-		testRequest();
+		// TODO place test function here
+		testUserLocationDialog();
 	}
 	
 	void testRequest() {
@@ -258,7 +258,7 @@ public class TestActivity extends MapActivity {
 				"166/17 phạm phú thứ quận 6 hcm",
 				"43 vương văn huống quận bình tân hcm", "tào lao",
 				"ffsdfsdfdsfsfs", "new york" };
-		GeoPoint point = MapService.locationToGeopoint(locations[0]);
+		GeoPoint point = MapService.locationToGeopoint(locations[1]);
 		MapDialog.createLocationDialog(this, point, new UserLocationListener() {
 
 			@Override
