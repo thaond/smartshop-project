@@ -26,10 +26,15 @@ public class ProductsOverlay extends Overlay{
 	public static final float LATITUDE_TO_METER = 111200F;
 	public static final float LONGTITUDE_TO_METER = 71470F;
 	
+	public static final int SEARCH_NEARBY_CURRENT_LOCATION = 0;
+	public static final int SEARCH_NEARBY_LOCATION = 1;
+	
 	private static final Bitmap STAR_ICON = BitmapFactory.decodeResource(
 			Global.application.getResources(), R.drawable.star);
 	private static final int CIRCLE_COLOR = Color.parseColor("#83A6A800");
+	private static final int OVERLAY_WIDTH = 32; 
 	
+	public int mode = SEARCH_NEARBY_CURRENT_LOCATION;
 	public LinkedList<ProductInfo> products;
 	public GeoPoint center;
 	private Paint paint;
@@ -43,7 +48,7 @@ public class ProductsOverlay extends Overlay{
 	@Override
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		super.draw(canvas, mapView, shadow);
-		System.out.println("map draw");
+		System.out.println("[PRODUCTS OVERLAY DRAW]");
 		
 		if (paint == null) {
 			paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -81,31 +86,45 @@ public class ProductsOverlay extends Overlay{
 	@Override
 	public boolean onTouchEvent(MotionEvent e, MapView mapView) {
 		if (e.getAction() == MotionEvent.ACTION_DOWN) {
-			if (products == null || products.size() == 0) {
-				return false;
-			}
-			
-			GeoPoint touchPoint = mapView.getProjection().fromPixels((int) e.getX(), (int) e.getY());
-			double minDistance = Double.MAX_VALUE;
-			int index = 0;
-			int touchIndex = 0;
-			for (ProductInfo productInfo : products) {
-				double distance = 
-					Math.sqrt(Math.pow(touchPoint.getLatitudeE6() - productInfo.lat * 1E6, 2) 
-						+ Math.pow(touchPoint.getLongitudeE6() - productInfo.lng * 1E6, 2));
-				if (distance < minDistance) {
-					minDistance = distance;
-					touchIndex = index;
+			switch (mode) {
+			case SEARCH_NEARBY_CURRENT_LOCATION:
+				if (products == null || products.size() == 0) {
+					return false;
 				}
 				
-				index++;
+				GeoPoint touchPoint = mapView.getProjection().fromPixels((int) e.getX(), (int) e.getY());
+				double minDistance = Double.MAX_VALUE;
+				int index = 0;
+				int touchIndex = 0;
+				for (ProductInfo productInfo : products) {
+					double distance = 
+						Math.sqrt(Math.pow(touchPoint.getLatitudeE6() - productInfo.lat * 1E6, 2) 
+							+ Math.pow(touchPoint.getLongitudeE6() - productInfo.lng * 1E6, 2));
+					if (distance < minDistance) {
+						minDistance = distance;
+						touchIndex = index;
+					}
+					
+					index++;
+				}
+				
+				Intent intent = new Intent(context, ViewProductActivity.class);
+				intent.putExtra(Global.PRODUCT_INFO, products.get(touchIndex));
+				context.startActivity(intent);
+				
+				return true;
+				
+			case SEARCH_NEARBY_LOCATION:
+				radius = NO_RADIUS;
+				center = mapView.getProjection().fromPixels(
+						(int) e.getX() - OVERLAY_WIDTH / 2, (int) e.getY() - OVERLAY_WIDTH / 2);
+				mapView.invalidate();
+				break;
+				
+			default:
+				
+				break;
 			}
-			
-			Intent intent = new Intent(context, ViewProductActivity.class);
-			intent.putExtra(Global.PRODUCT_INFO, products.get(touchIndex));
-			context.startActivity(intent);
-			
-			return true;
 		}
 		
 		return false;

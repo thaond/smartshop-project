@@ -53,6 +53,8 @@ public class SearchProductsOnMapActivity extends MapActivity {
 
 	private MapController mapController;
 	
+	private static final int SHOW_LOCATION = 1;
+	private static final int DONT_SHOW_LOCATION = 0;
 	private Handler handler = new Handler () {
 		@Override
 		public void handleMessage(Message msg) {
@@ -62,8 +64,10 @@ public class SearchProductsOnMapActivity extends MapActivity {
 			String currentLocation = String.format(getString(R.string.your_current_location), 
 					(double) point.getLongitudeE6() / 1E6,
 					(double) point.getLatitudeE6() / 1E6);
-			Toast.makeText(SearchProductsOnMapActivity.this, 
-					currentLocation, Toast.LENGTH_SHORT).show();
+			if (msg.what == SHOW_LOCATION) {
+				Toast.makeText(SearchProductsOnMapActivity.this, 
+						currentLocation, Toast.LENGTH_SHORT).show();
+			}
 			mapView.invalidate();
 		}
 	};
@@ -104,6 +108,7 @@ public class SearchProductsOnMapActivity extends MapActivity {
 			
 			@Override
 			public void onSuccess(GeoPoint point) {
+				productsOverlay.mode = ProductsOverlay.SEARCH_NEARBY_CURRENT_LOCATION;
 				if (point != null) {
 					mapController.setCenter(point);
 					productsOverlay.center = point;
@@ -111,6 +116,7 @@ public class SearchProductsOnMapActivity extends MapActivity {
 					// update map
 					Message message = handler.obtainMessage();
 					message.obj = point;
+					message.what = SHOW_LOCATION;
 					handler.sendMessage(message);
 				}
 			}
@@ -180,6 +186,13 @@ public class SearchProductsOnMapActivity extends MapActivity {
 						if (productsOverlay.products.size() == 0) {
 							task.hasData = false;
 							task.message = getString(R.string.warnNoProductFound);
+							
+							// update map
+							productsOverlay.radius = ProductsOverlay.NO_RADIUS;
+							Message message = handler.obtainMessage();
+							message.obj = productsOverlay.center;
+							message.what = DONT_SHOW_LOCATION;
+							handler.sendMessage(message);
 							return;
 						}
 						
@@ -215,10 +228,12 @@ public class SearchProductsOnMapActivity extends MapActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_CURRENT_LOCATION:
+			productsOverlay.mode = ProductsOverlay.SEARCH_NEARBY_CURRENT_LOCATION;
 			myLocationListener.findCurrentLocation();
 			break;
 			
 		case MENU_SEARCH_LOCATION:
+			productsOverlay.mode = ProductsOverlay.SEARCH_NEARBY_LOCATION;
 			openSearchLocationDialog();
 			break;
 		}

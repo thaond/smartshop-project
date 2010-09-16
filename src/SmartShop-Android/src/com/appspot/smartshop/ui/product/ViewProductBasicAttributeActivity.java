@@ -190,9 +190,10 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		//TODO: UPDATE PRODUCT
 	}
 
+	private MyLocationListener myLocationListener;
 	protected void findDirectionToProduct() {
 		Log.d(TAG, "find direction to product");
-		new MyLocationListener(this, new MyLocationCallback() {
+		myLocationListener = new MyLocationListener(this, new MyLocationCallback() {
 
 			@Override
 			public void onSuccess(GeoPoint point) {
@@ -214,7 +215,14 @@ public class ViewProductBasicAttributeActivity extends Activity {
 				startActivity(intent);
 			}
 			
-		}).findCurrentLocation();
+		});
+		myLocationListener.findCurrentLocation();
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		myLocationListener.removeUpdates();
 	}
 
 	protected void showComment() {

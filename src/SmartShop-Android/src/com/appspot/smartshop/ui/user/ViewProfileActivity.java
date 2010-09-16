@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,17 +36,36 @@ public class ViewProfileActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.view_profile);
+//		setContentView(R.layout.view_profile);
+		setContentView(R.layout.user_profile);
 
+		// avatar and user basic info
 		drawableNoAvatar = getResources().getDrawable(R.drawable.no_avatar);
 		adapter = new ProfileAdapter(ViewProfileActivity.this,
 				R.layout.view_profile_list_item);
 		imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
 		listInfos = (ListView) findViewById(R.id.listInfo);
 		listInfos.setAdapter(adapter);
+		
+		// user function buttons
+		Button btnPages = (Button) findViewById(R.id.btnPages);
+		Button btnProducts = (Button) findViewById(R.id.btnProducts);
+		Button btnAddNewPage = (Button) findViewById(R.id.btnAddNewPage);
+		Button btnPostNewProduct = (Button) findViewById(R.id.btnPostNewProduct);
+		Button btnSubcribe = (Button) findViewById(R.id.btnSubcribe);
+		Button btnUserInfo = (Button) findViewById(R.id.btnEditUserInfo);
 
+		// view user info
 		Bundle tmp = getIntent().getExtras();
 		if (tmp != null) {
+			// don't show buttons
+			btnPages.setVisibility(View.GONE);
+			btnProducts.setVisibility(View.GONE);
+			btnAddNewPage.setVisibility(View.GONE);
+			btnPostNewProduct.setVisibility(View.GONE);
+			btnSubcribe.setVisibility(View.GONE);
+			btnUserInfo.setVisibility(View.GONE);
+			
 			// View other profile
 			isOwn = false;
 			userInfo = (UserInfo) tmp.get(Global.USER_INFO);

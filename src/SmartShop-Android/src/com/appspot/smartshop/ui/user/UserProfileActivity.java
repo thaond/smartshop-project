@@ -1,13 +1,14 @@
 package com.appspot.smartshop.ui.user;
 
-import com.appspot.smartshop.adapter.CurrentUserProfileAdapter;
-import com.appspot.smartshop.adapter.ViewUserProfileAdapter;
-import com.appspot.smartshop.utils.Global;
-
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+
+import com.appspot.smartshop.R;
+import com.appspot.smartshop.adapter.CurrentUserProfileAdapter;
+import com.appspot.smartshop.adapter.ViewUserProfileAdapter;
+import com.appspot.smartshop.utils.Global;
 
 public class UserProfileActivity extends ListActivity {
 	
@@ -18,6 +19,7 @@ public class UserProfileActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.user_profile);
 		
 		Bundle bundle = getIntent().getExtras();
 		username = bundle.getString(Global.USER_NAME);

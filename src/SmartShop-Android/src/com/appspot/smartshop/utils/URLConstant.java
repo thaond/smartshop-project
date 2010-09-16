@@ -16,7 +16,7 @@ public class URLConstant {
 	public static final String GET_PRODUCTS_BY_LOCATION = HOST + "/api/asd/searchproductproximity/";
 	
 	public static final String CREATE_PAGE = HOST + "/api/asd/create-page/";
-	public static final String EDIT_PAGE = HOST + "/api/asd/edit-page/";
+	public static final String EDIT_PAGE = HOST + "/api/asd/page-edit/";
 	public static final String GET_PAGES_OF_USER = HOST + "/api/asd/page-get-by-username/?username=%s";
 	public static final String GET_PAGES = HOST + "/api/asd/page-search-criteria/?status=1";
 	public static final String GET_PAGES_BY_CRITERIA = HOST + "/api/asd/page-search-criteria/?status=1&criteria=%s";
