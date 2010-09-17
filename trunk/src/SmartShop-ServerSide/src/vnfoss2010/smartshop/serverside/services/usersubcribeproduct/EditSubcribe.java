@@ -10,7 +10,7 @@ import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 
 public class EditSubcribe extends BaseRestfulService {
-	UserSubcribeProductImpl dbSubcribe = UserSubcribeProductImpl.instance();
+	UserSubcribeProductImpl dbSubcribe = UserSubcribeProductImpl.getInstance();
 
 	public EditSubcribe(String serviceName) {
 		super(serviceName);

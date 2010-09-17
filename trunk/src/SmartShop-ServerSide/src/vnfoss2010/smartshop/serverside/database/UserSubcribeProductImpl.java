@@ -1,17 +1,21 @@
 package vnfoss2010.smartshop.serverside.database;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.swing.text.html.StyleSheet.ListPainter;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
+import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
+import vnfoss2010.smartshop.serverside.utils.StringUtils;
 
 import com.beoui.geocell.GeocellManager;
 import com.beoui.geocell.model.GeocellQuery;
@@ -19,6 +23,7 @@ import com.beoui.geocell.model.Point;
 
 public class UserSubcribeProductImpl {
 	private static UserSubcribeProductImpl instance;
+	private AccountServiceImpl dbAccount = AccountServiceImpl.getInstance();
 	static Logger log = Logger.getLogger(UserSubcribeProductImpl.class
 			.getName());
 
@@ -31,20 +36,20 @@ public class UserSubcribeProductImpl {
 			subcribe = pm.getObjectById(UserSubcribeProduct.class, id);
 			if (subcribe == null) {
 				result.setOK(false);
-				result.setMessage("Khong tim thay subcribe");
+				result.setMessage(Global.messages
+						.getString("no_found_subscribe"));
 			} else {
-				result.setMessage("Tim thay subcribe");
 				result.setOK(true);
 				result.setResult(subcribe);
+				result.setMessage(Global.messages
+						.getString("get_subscribe_successfully"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage("exception " + e.getMessage());
 		} finally {
 			try {
 				pm.close();
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 
 		}
@@ -65,21 +70,18 @@ public class UserSubcribeProductImpl {
 			// pm.flush();
 			userSubcribeProduct = pm.makePersistent(userSubcribeProduct);
 			if (userSubcribeProduct == null) {
-				result.setMessage("insert subcribe fail");
+				result.setMessage(Global.messages
+						.getString("insert_subscribe_fail"));
 			} else {
 				result.setResult(userSubcribeProduct.getId());
-				result.setMessage("insert subcribe success");
+				result.setMessage(Global.messages
+						.getString("insert_subscribe_successfully"));
 				result.setOK(true);
 			}
 		} catch (Exception e) {
-			result.setOK(false);
-			result.setMessage("Exception " + e.getMessage());
-		} finally {
-			try {
-				pm.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			e.printStackTrace();
+			result.setMessage(Global.messages
+					.getString("insert_subscribe_fail"));
 		}
 		return result;
 	}
@@ -96,28 +98,98 @@ public class UserSubcribeProductImpl {
 		// GeocellQuery<String> baseQuery = new GeocellQuery<String>(
 		// "setCategoryKeys.contains(catKey" + i + ")",
 		// "String catKey" + i, Arrays.asList(pa.get(i)));
-
-		GeocellQuery<String> baseQuery = new GeocellQuery<String>(
-				"setCategoryKeys.contains(catKey)", "String catKey", pa);
 		// }
 
 		List<Product> listProduct = null;
+		GeocellQuery baseQuery = null;
+		if (StringUtils.isEmptyOrNull(subcribe.getKeyword())) {
+			baseQuery = new GeocellQuery<String>(
+					"setCategoryKeys.contains(catKey)", "String catKey", pa);
+		} else {
+			// Prepare to search
+			StringBuffer queryBuffer = new StringBuffer();
+			Set<String> queryTokens = SearchJanitorUtils
+					.getTokensForIndexingOrQuery(subcribe.getKeyword(),
+							Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+			List<Object> parametersForSearch = new ArrayList<Object>(
+					queryTokens);
+			StringBuffer declareParametersBuffer = new StringBuffer();
+			int parameterCounter = 0;
+
+			while (parameterCounter < queryTokens.size()) {
+				queryBuffer.append("fts == param" + parameterCounter);
+				declareParametersBuffer.append("String param"
+						+ parameterCounter);
+
+				if (parameterCounter + 1 < queryTokens.size()) {
+					queryBuffer.append(" && ");
+					declareParametersBuffer.append(", ");
+				}
+				parameterCounter++;
+			}
+			// //////
+
+			if (pa.isEmpty()) {
+				baseQuery = new GeocellQuery(queryBuffer.toString(),
+						declareParametersBuffer.toString(), parametersForSearch);
+			} else {
+				parametersForSearch.add(0, pa);
+				log.log(Level.SEVERE, parametersForSearch + " " + queryBuffer.toString() + " " + declareParametersBuffer.toString());
+				baseQuery = new GeocellQuery(
+						"setCategoryKeys.contains(catKey) && "
+								+ queryBuffer.toString(), "String catKey, "
+								+ declareParametersBuffer.toString(),
+						parametersForSearch);
+			}
+		}
+
 		try {
-			listProduct = GeocellManager.proximityFetch(center, 40,
-					maxDistance, Product.class, baseQuery, pm);
+			listProduct = GeocellManager.proximityFetchNew(center, 40,
+					maxDistance, Product.class, baseQuery, pm, GeocellManager.MAX_GEOCELL_RESOLUTION);
 			if (listProduct != null) {
 				result.setOK(true);
 				result.setResult(listProduct);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			result.setOK(false);
-			result.setMessage("Exception " + e.getMessage());
-		} finally {
-			try {
-				pm.close();
-			} catch (Exception e) {
-				e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public ServiceResult<List<Product>> getSubscribeProductByUsername(
+			String username) {
+		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
+		List<Product> list = new ArrayList<Product>();
+		ServiceResult<List<UserSubcribeProduct>> resultSub = getUserSubscribeProductByUsername(
+				username, null, null, 1);
+		if (resultSub.isOK()) {
+			for (UserSubcribeProduct subscribe : resultSub.getResult()) {
+				ServiceResult<List<Product>> tmp = searchProductInSubcribeRange(subscribe);
+				if (tmp.isOK()) {
+					list.addAll(tmp.getResult());
+				}
 			}
+
+			if (list.isEmpty()) {
+				result.setOK(false);
+				result.setMessage(String.format(Global.messages
+						.getString("no_found_subscribe_product_by_username"),
+						username));
+			} else {
+				result.setOK(true);
+				result.setResult(list);
+				result
+						.setMessage(String
+								.format(
+										Global.messages
+												.getString("get_subscribe_product_by_username_successfully"),
+										username));
+			}
+		} else {
+			result.setMessage(resultSub.getMessage());
+			result.setOK(false);
 		}
 
 		return result;
@@ -125,32 +197,107 @@ public class UserSubcribeProductImpl {
 
 	public ServiceResult<List<UserSubcribeProduct>> findActiveSubcribe() {
 		ServiceResult<List<UserSubcribeProduct>> result = new ServiceResult<List<UserSubcribeProduct>>();
-		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
-			String queryStr = "SELECT FROM "
-					+ UserSubcribeProduct.class.getName()
-					+ " where isActive == true";
-
-			Query query = pm.newQuery(queryStr);
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(UserSubcribeProduct.class);
+			query.setFilter("isActive == true");
 			List<UserSubcribeProduct> listSub = (List<UserSubcribeProduct>) query
 					.execute(query);
-			if (listSub == null) {
+			if (listSub == null || listSub.size() == 0) {
 				result.setOK(false);
-				result.setMessage("Tim subcribe co loi");
+				result.setMessage(Global.messages
+						.getString("no_found_subscribe"));
 			} else {
 				result.setOK(true);
 				result.setResult(listSub);
+				result.setMessage(Global.messages
+						.getString("get_list_subscribe_successfully"));
 			}
 		} catch (Exception e) {
-			result.setOK(false);
-			result.setMessage("Exception " + e.getMessage());
-		} finally {
-			try {
-				pm.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			e.printStackTrace();
 		}
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param username
+	 * @param mode
+	 *            <ul>
+	 *            <li>mode = 0: Get all {@link UserSubcribeProduct} of username
+	 *            <li>mode = 1: Get active {@link UserSubcribeProduct} of
+	 *            username
+	 *            <li>mode = 2: Get inactive {@link UserSubcribeProduct} of
+	 *            username
+	 *            </ul>
+	 * @return
+	 */
+	public ServiceResult<List<UserSubcribeProduct>> getUserSubscribeProductByUsername(
+			String username, Date fromDate, Date toDate, int mode) {
+		ServiceResult<List<UserSubcribeProduct>> result = new ServiceResult<List<UserSubcribeProduct>>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		if (dbAccount.isExist(username).isOK()) {
+			Query query = pm.newQuery(UserSubcribeProduct.class);
+			if (fromDate != null || toDate != null)
+				query.declareImports("import java.util.Date");
+			switch (mode) {
+			case 0:
+				query.setFilter("username == us"
+						+ (fromDate == null ? "" : " && date >= fromDate")
+						+ (toDate == null ? "" : " && date <= toDate"));
+				break;
+
+			case 1:
+				query.setFilter("username == us && isActive == true"
+						+ (fromDate == null ? "" : " && date >= fromDate")
+						+ (toDate == null ? "" : " && date <= toDate"));
+				break;
+
+			case 2:
+				query.setFilter("username == us && isActive == false"
+						+ (fromDate == null ? "" : " && date >= fromDate")
+						+ (toDate == null ? "" : " && date <= toDate"));
+				break;
+
+			default:
+				break;
+			}
+
+			query.declareParameters("String us"
+					+ (fromDate == null ? "" : ", Date fromDate")
+					+ (toDate == null ? "" : ", Date toDate"));
+			List<Object> listParameters = new ArrayList<Object>();
+			listParameters.add(username);
+			if (fromDate != null) {
+				listParameters.add(fromDate);
+			}
+			if (toDate != null) {
+				listParameters.add(toDate);
+			}
+			List<UserSubcribeProduct> list = (List<UserSubcribeProduct>) query
+					.executeWithArray(listParameters.toArray());
+
+			if (list == null || list.size() == 0) {
+				result.setOK(false);
+				result.setMessage(Global.messages
+						.getString("no_found_subscribe"));
+			} else {
+				result.setOK(true);
+				result.setResult(list);
+				result
+						.setMessage(String
+								.format(
+										Global.messages
+												.getString("get_list_subscribe_by_username_successfully"),
+										username));
+			}
+		} else {
+			result.setOK(false);
+			result.setMessage(Global.messages.getString("not_found") + " "
+					+ username);
+		}
+
 		return result;
 	}
 
@@ -160,11 +307,12 @@ public class UserSubcribeProductImpl {
 		PersistenceManager pm = null;
 		try {
 			pm = PMF.get().getPersistenceManager();
-			subcribe = pm.getObjectById(UserSubcribeProduct.class,
-					editSubcribe.getId());
+			subcribe = pm.getObjectById(UserSubcribeProduct.class, editSubcribe
+					.getId());
 			if (subcribe == null) {
 				result.setOK(false);
-				result.setMessage("Khong tim thay page");
+				result.setMessage(Global.messages
+						.getString("no_found_subscribe"));
 			} else {
 				subcribe.setActive(editSubcribe.isActive());
 				subcribe.setCategoryList(editSubcribe.getCategoryList());
@@ -175,11 +323,14 @@ public class UserSubcribeProductImpl {
 				subcribe.setLng(editSubcribe.getLng());
 				subcribe.setRadius(editSubcribe.getRadius());
 				result.setOK(true);
-				result.setMessage("Update thanh cong");
+				result.setMessage(Global.messages
+						.getString("edit_subscribe_successfully"));
 			}
 		} catch (Exception e) {
-			result.setMessage("Exception " + e.getMessage());
+			e.printStackTrace();
+			result.setMessage(Global.messages.getString("edit_subscribe_fail"));
 			result.setOK(false);
+			e.printStackTrace();
 		} finally {
 			try {
 				pm.close();
@@ -191,13 +342,13 @@ public class UserSubcribeProductImpl {
 	}
 
 	public ServiceResult<List<UserSubcribeProduct>> findSubcribe(
-			String userName, Date fromDate, Date toDate) {
+			String username, Date fromDate, Date toDate) {
 		ServiceResult<List<UserSubcribeProduct>> result = new ServiceResult<List<UserSubcribeProduct>>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			String queryStr = "select from "
 					+ UserSubcribeProduct.class.getName()
-					+ " where userName == us"
+					+ " where username == us"
 					+ (fromDate == null ? "" : " && date >= fromDate")
 					+ (toDate == null ? "" : " && date <= toDate");
 			Query query = pm.newQuery(queryStr);
@@ -206,7 +357,7 @@ public class UserSubcribeProductImpl {
 					+ (toDate == null ? "" : ", Date toDate"));
 			query.declareImports("import java.util.Date");
 			List<Object> listParameters = new ArrayList<Object>();
-			listParameters.add(userName);
+			listParameters.add(username);
 			if (fromDate != null) {
 				listParameters.add(fromDate);
 			}
@@ -240,7 +391,7 @@ public class UserSubcribeProductImpl {
 		return result;
 	}
 
-	public static UserSubcribeProductImpl instance() {
+	public static UserSubcribeProductImpl getInstance() {
 		if (instance == null) {
 			instance = new UserSubcribeProductImpl();
 		}

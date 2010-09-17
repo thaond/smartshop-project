@@ -14,7 +14,7 @@ import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 public class GetSubcribe extends BaseRestfulService {
 	private static UserSubcribeProductImpl dbSub = UserSubcribeProductImpl
-			.instance();
+			.getInstance();
 
 	public GetSubcribe(String serviceName) {
 		super(serviceName);
@@ -39,8 +39,8 @@ public class GetSubcribe extends BaseRestfulService {
 			}
 
 			jsonReturn.addProperty("errCode", 0);
-			jsonReturn.add("subcribe",
-					Global.gsonWithDate.toJsonTree(serviceResult.getResult()));
+			jsonReturn.add("subcribe", Global.gsonWithDate
+					.toJsonTree(serviceResult.getResult()));
 			jsonReturn.addProperty("message", serviceResult.getMessage());
 		} catch (Exception e) {
 			jsonReturn.addProperty("errCode", 1);

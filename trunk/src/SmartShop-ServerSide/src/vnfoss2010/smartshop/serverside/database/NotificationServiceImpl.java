@@ -1,6 +1,7 @@
 package vnfoss2010.smartshop.serverside.database;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
@@ -131,14 +132,12 @@ public class NotificationServiceImpl {
 
 		if (dbAccount.isExist(username).isOK()) {
 			Query query = pm.newQuery(Notification.class);
-			query.setFilter("username == us");
+			query.setFilter("username == us && isNew == true");
 			query.declareParameters("String us");
-			query.setFilter("isNew == true");
 			List<Notification> list = (List<Notification>) query.execute(username);
 			for (Notification n : list){
 				n.setNew(false);
 			}
-			pm.refreshAll(list);
 			
 			result.setOK(true);
 			result.setMessage(Global.messages.getString("mark_as_read_successfully"));

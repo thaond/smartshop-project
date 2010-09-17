@@ -40,25 +40,35 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	private Date date;
 
 	@Persistent
-	private String userName;
+	@Exclude
+	private String username;
 
 	@Persistent
 	private List<String> categoryList;
 
-	@Exclude
 	@Persistent
+	private String q;
+	
+	@Persistent
+	private int type_notification;
+	
+	@Persistent
+	@Exclude
 	private List<String> geocells;
 
 	public UserSubcribeProduct() {
 	}
 
-	public UserSubcribeProduct(String userName, Double lat, Double lng,
-			boolean isActive, String description) {
+	public UserSubcribeProduct(String userName, Double lat, Double lng, Double radius,  
+			boolean isActive, String description, String keyword, int type) {
 		this.lat = lat;
 		this.lng = lng;
+		this.radius = radius;
 		this.description = description;
 		this.isActive = isActive;
-		this.userName = userName;
+		this.username = userName;
+		this.q = keyword;
+		this.type_notification = type;
 		categoryList = new ArrayList<String>();
 	}
 
@@ -103,11 +113,11 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	}
 
 	public String getUserName() {
-		return userName;
+		return username;
 	}
 
 	public void setUserID(String userName) {
-		this.userName = userName;
+		this.username = userName;
 	}
 
 	public String getDescription() {
@@ -147,6 +157,46 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	@Override
 	public Point getLocation() {
 		return new Point(lat, lng);
+	}
+
+	/**
+	 * @param keyword the keyword to set
+	 */
+	public void setKeyword(String keyword) {
+		this.q = keyword;
+	}
+
+	/**
+	 * @return the keyword
+	 */
+	public String getKeyword() {
+		return q;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "UserSubcribeProduct [categoryList=" + categoryList + ", date="
+				+ date + ", description=" + description + ", geocells="
+				+ geocells + ", id=" + id + ", isActive=" + isActive
+				+ ", keyword=" + q + ", lat=" + lat + ", lng=" + lng
+				+ ", radius=" + radius + ", userName=" + username + "]";
+	}
+
+	/**
+	 * @param type_notification the type_notification to set
+	 */
+	public void setType_notification(int type_notification) {
+		this.type_notification = type_notification;
+	}
+
+	/**
+	 * @return the type_notification
+	 */
+	public int getType_notification() {
+		return type_notification;
 	}
 
 	public Object clone() {

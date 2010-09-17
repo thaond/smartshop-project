@@ -13,10 +13,12 @@ import vnfoss2010.smartshop.serverside.database.NotificationServiceImpl;
 import vnfoss2010.smartshop.serverside.database.PageServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
+import vnfoss2010.smartshop.serverside.database.UserSubcribeProductImpl;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Notification;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
+import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.test.SampleData;
@@ -145,6 +147,13 @@ public class InsertAllSampleDataService extends BaseRestfulService {
 		ArrayList<Notification> nots = SampleData.getSampleNotifications();
 		for (Notification no : nots){
 			dbNo.insertNotification(no);
+		}
+		
+		//Insert sample user subscribe 
+		UserSubcribeProductImpl dbUserSub = UserSubcribeProductImpl.getInstance();
+		ArrayList<UserSubcribeProduct> userSubs = SampleData.getSampleUserSubcribeProducts();
+		for (UserSubcribeProduct u : userSubs){
+			dbUserSub.insertSubcribe(u);
 		}
 		return "Done";
 	}

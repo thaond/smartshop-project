@@ -8,20 +8,17 @@ import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.UserSubcribeProductImpl;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
-import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-public class GetProductInSubcribeRange extends BaseRestfulService {
+public class GetProductInSubcribeRangeByUsername extends BaseRestfulService {
 	ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
 	UserSubcribeProductImpl dbSubcribe = UserSubcribeProductImpl.getInstance();
 
-	public GetProductInSubcribeRange(String serviceName) {
+	public GetProductInSubcribeRangeByUsername(String serviceName) {
 		super(serviceName);
 	}
 
@@ -34,28 +31,16 @@ public class GetProductInSubcribeRange extends BaseRestfulService {
 			json = new JSONObject(content);
 		} catch (Exception ex) {
 		}
-		Long subID = Long.parseLong(getParameterWithThrow("id", params, json));
-
-		ServiceResult<UserSubcribeProduct> searchResult = dbSubcribe
-				.findSubcribe(subID);
-		if (searchResult.isOK()) {
-			ServiceResult<List<Product>> result = dbSubcribe
-					.searchProductInSubcribeRange(searchResult.getResult());
-			if (result.isOK()) {
-				Gson gson = Global.gsonDateWithoutHour;
-				JsonArray productArray = new JsonArray();
-				for (Product product : result.getResult()) {
-					productArray.add(gson.toJsonTree(product));
-				}
-				jsonReturn.addProperty("errCode", 0);
-				jsonReturn.add("products", productArray);
-			} else {
-				jsonReturn.addProperty("errCode", 1);
-				jsonReturn.addProperty("message", result.getMessage());
-			}
-		} else {
-			jsonReturn.addProperty("errCode", 1);
-			jsonReturn.addProperty("message", searchResult.getMessage());
+		String username = getParameterWithThrow("username", params, json);
+		
+		ServiceResult<List<Product>> result = dbSubcribe.getSubscribeProductByUsername(username);
+		if (result.isOK()){
+			jsonReturn.addProperty("errCode", 0);
+			jsonReturn.addProperty("message", result.getMessage());
+			jsonReturn.add("products", Global.gsonWithDate.toJsonTree(result.getResult()));
+		}else{
+			jsonReturn.addProperty("errCode", 0);
+			jsonReturn.addProperty("message", result.getMessage());
 		}
 		return jsonReturn.toString();
 	}
