@@ -3,17 +3,13 @@ package vnfoss2010.smartshop.serverside.test;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Random;
-
-import org.datanucleus.store.appengine.Utils;
 
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
-import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 public class SampleDataNghia {
 	public static ArrayList<UserInfo> getSampleListUserInfos() {

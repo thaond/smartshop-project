@@ -17,7 +17,7 @@ import com.google.gson.JsonObject;
 
 public class FindUserSubcribes extends BaseRestfulService {
 	AccountServiceImpl dbAccount = AccountServiceImpl.getInstance();
-	UserSubcribeProductImpl dbSub = UserSubcribeProductImpl.instance();
+	UserSubcribeProductImpl dbSub = UserSubcribeProductImpl.getInstance();
 
 	public FindUserSubcribes(String serviceName) {
 		super(serviceName);

@@ -2,10 +2,6 @@ package vnfoss2010.smartshop.serverside.services.usersubcribeproduct;
 
 import java.util.Map;
 
-import com.beoui.geocell.GeocellManager;
-import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.JsonObject;
-
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.UserSubcribeProductImpl;
@@ -13,8 +9,11 @@ import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
+import com.beoui.geocell.GeocellManager;
+import com.google.appengine.repackaged.org.json.JSONObject;
+
 public class CreateSubcribeProduct extends BaseRestfulService {
-	UserSubcribeProductImpl dbUserSubcribe = UserSubcribeProductImpl.instance();
+	UserSubcribeProductImpl dbUserSubcribe = UserSubcribeProductImpl.getInstance();
 
 	public CreateSubcribeProduct(String serviceName) {
 		super(serviceName);

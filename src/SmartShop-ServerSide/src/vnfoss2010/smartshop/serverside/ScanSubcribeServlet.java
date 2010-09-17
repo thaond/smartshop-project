@@ -3,6 +3,7 @@ package vnfoss2010.smartshop.serverside;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -23,7 +24,7 @@ public class ScanSubcribeServlet extends HttpServlet {
 	private static Logger log = Logger.getLogger(ScanSubcribeServlet.class
 			.getName());
 	AccountServiceImpl dbAccount = AccountServiceImpl.getInstance();
-	UserSubcribeProductImpl dbSubcribe = UserSubcribeProductImpl.instance();
+	UserSubcribeProductImpl dbSubcribe = UserSubcribeProductImpl.getInstance();
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
@@ -45,6 +46,8 @@ public class ScanSubcribeServlet extends HttpServlet {
 		try {
 			ServiceResult<List<UserSubcribeProduct>> searchSubsResult = dbSubcribe
 					.findActiveSubcribe();
+			
+			log.log(Level.SEVERE, searchSubsResult + "");
 			if (searchSubsResult.isOK()) {
 				for (UserSubcribeProduct subcribe : searchSubsResult
 						.getResult()) {
