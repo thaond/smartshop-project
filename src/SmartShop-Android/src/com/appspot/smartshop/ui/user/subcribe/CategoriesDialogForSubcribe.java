@@ -1,4 +1,4 @@
-package com.appspot.smartshop.ui.user;
+package com.appspot.smartshop.ui.user.subcribe;
 
 import java.util.Calendar;
 import java.util.Date;
