@@ -21,7 +21,6 @@ import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.product.ViewProductBasicAttributeActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
-import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;

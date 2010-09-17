@@ -14,7 +14,6 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
-import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.utils.Global;
 

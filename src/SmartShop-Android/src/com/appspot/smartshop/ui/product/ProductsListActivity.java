@@ -28,7 +28,6 @@ import com.appspot.smartshop.map.SearchProductsOnMapActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.user.LoginActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
-import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
