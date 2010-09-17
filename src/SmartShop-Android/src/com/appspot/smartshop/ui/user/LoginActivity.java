@@ -27,6 +27,7 @@ import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.adapter.NotificationAdapter;
 import com.appspot.smartshop.dom.MyNotification;
 import com.appspot.smartshop.dom.UserInfo;
+import com.appspot.smartshop.ui.user.notification.ViewNotificationsActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
