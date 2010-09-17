@@ -18,8 +18,7 @@ import com.appspot.smartshop.map.DirectionListActivity;
 import com.appspot.smartshop.map.MyLocationCallback;
 import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
-import com.appspot.smartshop.ui.user.UserProfileActivity;
-import com.appspot.smartshop.ui.user.ViewProfileActivity;
+import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
@@ -235,7 +234,7 @@ public class ViewProductBasicAttributeActivity extends Activity {
 	}
 
 	protected void viewUserProfile() {
-		Intent intent = new Intent(this, ViewProfileActivity.class);
+		Intent intent = new Intent(this, ViewUserInfoActivity.class);
 		intent.putExtra(Global.USER_NAME, productInfo.username);
 		if (Global.isLogin && Global.username.equals(productInfo.username)) {
 			Log.d(TAG, "can edit user profile");
