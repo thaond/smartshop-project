@@ -15,6 +15,7 @@ import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
+import com.appspot.smartshop.ui.user.ViewProfileActivity;
 import com.appspot.smartshop.utils.Global;
 
 public class ViewPageActivity extends Activity {
@@ -68,7 +69,7 @@ public class ViewPageActivity extends Activity {
 	}
 	
 	protected void viewUserProfile() {
-		Intent intent = new Intent(this, UserProfileActivity.class);
+		Intent intent = new Intent(this, ViewProfileActivity.class);
 		intent.putExtra(Global.USER_NAME, page.username);
 		if (Global.isLogin && Global.username.equals(page.username)) {
 			intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
