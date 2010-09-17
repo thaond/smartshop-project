@@ -1,9 +1,13 @@
 package vnfoss2010.smartshop.serverside.database;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.swing.text.html.StyleSheet.ListPainter;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
@@ -15,6 +19,8 @@ import com.beoui.geocell.model.Point;
 
 public class UserSubcribeProductImpl {
 	private static UserSubcribeProductImpl instance;
+	static Logger log = Logger.getLogger(UserSubcribeProductImpl.class
+			.getName());
 
 	public ServiceResult<UserSubcribeProduct> findSubcribe(Long id) {
 		ServiceResult<UserSubcribeProduct> result = new ServiceResult<UserSubcribeProduct>();
@@ -27,6 +33,7 @@ public class UserSubcribeProductImpl {
 				result.setOK(false);
 				result.setMessage("Khong tim thay subcribe");
 			} else {
+				result.setMessage("Tim thay subcribe");
 				result.setOK(true);
 				result.setResult(subcribe);
 			}
@@ -37,6 +44,7 @@ public class UserSubcribeProductImpl {
 			try {
 				pm.close();
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
 		}
@@ -64,8 +72,14 @@ public class UserSubcribeProductImpl {
 				result.setOK(true);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage("insert product fail " + e.getMessage());
+			result.setOK(false);
+			result.setMessage("Exception " + e.getMessage());
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -96,8 +110,14 @@ public class UserSubcribeProductImpl {
 				result.setResult(listProduct);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			result.setOK(false);
+			result.setMessage("Exception " + e.getMessage());
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		return result;
@@ -105,11 +125,12 @@ public class UserSubcribeProductImpl {
 
 	public ServiceResult<List<UserSubcribeProduct>> findActiveSubcribe() {
 		ServiceResult<List<UserSubcribeProduct>> result = new ServiceResult<List<UserSubcribeProduct>>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			String queryStr = "SELECT FROM "
-					+ UserSubcribeProduct.class.getName() + " where isActive == true";
-			
-			PersistenceManager pm = PMF.get().getPersistenceManager();
+					+ UserSubcribeProduct.class.getName()
+					+ " where isActive == true";
+
 			Query query = pm.newQuery(queryStr);
 			List<UserSubcribeProduct> listSub = (List<UserSubcribeProduct>) query
 					.execute(query);
@@ -121,7 +142,14 @@ public class UserSubcribeProductImpl {
 				result.setResult(listSub);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			result.setOK(false);
+			result.setMessage("Exception " + e.getMessage());
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -132,8 +160,8 @@ public class UserSubcribeProductImpl {
 		PersistenceManager pm = null;
 		try {
 			pm = PMF.get().getPersistenceManager();
-			subcribe = pm.getObjectById(UserSubcribeProduct.class, editSubcribe
-					.getId());
+			subcribe = pm.getObjectById(UserSubcribeProduct.class,
+					editSubcribe.getId());
 			if (subcribe == null) {
 				result.setOK(false);
 				result.setMessage("Khong tim thay page");
@@ -150,9 +178,58 @@ public class UserSubcribeProductImpl {
 				result.setMessage("Update thanh cong");
 			}
 		} catch (Exception e) {
-			result.setMessage("exception " + e.getMessage());
+			result.setMessage("Exception " + e.getMessage());
 			result.setOK(false);
-			e.printStackTrace();
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	public ServiceResult<List<UserSubcribeProduct>> findSubcribe(
+			String userName, Date fromDate, Date toDate) {
+		ServiceResult<List<UserSubcribeProduct>> result = new ServiceResult<List<UserSubcribeProduct>>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			String queryStr = "select from "
+					+ UserSubcribeProduct.class.getName()
+					+ " where userName == us"
+					+ (fromDate == null ? "" : " && date >= fromDate")
+					+ (toDate == null ? "" : " && date <= toDate");
+			Query query = pm.newQuery(queryStr);
+			query.declareParameters("String us"
+					+ (fromDate == null ? "" : ", Date fromDate")
+					+ (toDate == null ? "" : ", Date toDate"));
+			query.declareImports("import java.util.Date");
+			List<Object> listParameters = new ArrayList<Object>();
+			listParameters.add(userName);
+			if (fromDate != null) {
+				listParameters.add(fromDate);
+			}
+			if (toDate != null) {
+				listParameters.add(toDate);
+			}
+			Global.log(log, "message " + query);
+			Global.log(log, "message " + listParameters.toArray()[0]);
+			Object queryResult = query.executeWithArray(listParameters
+					.toArray());
+			Global.log(log, "message " + queryResult);
+			List<UserSubcribeProduct> list = (List<UserSubcribeProduct>) queryResult;
+			if (list == null) {
+				result.setOK(false);
+				result.setMessage("Khong the tim");
+			} else {
+				result.setResult(list);
+				result.setOK(true);
+				result.setMessage("Tim thanh cong");
+			}
+		} catch (Exception e) {
+			result.setMessage("Exception " + e.getMessage());
+			result.setOK(false);
 		} finally {
 			try {
 				pm.close();

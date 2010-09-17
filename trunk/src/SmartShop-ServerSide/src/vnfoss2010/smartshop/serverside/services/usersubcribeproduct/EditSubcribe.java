@@ -20,7 +20,7 @@ public class EditSubcribe extends BaseRestfulService {
 			throws Exception,
 			vnfoss2010.smartshop.serverside.services.exception.RestfulException {
 		JsonObject jsonResult = new JsonObject();
-		UserSubcribeProduct subcribe = Global.gsonDateWithoutHour.fromJson(content,
+		UserSubcribeProduct subcribe = Global.gsonWithDate.fromJson(content,
 				UserSubcribeProduct.class);
 		subcribe.setGeocells(GeocellManager.generateGeoCell(subcribe
 				.getLocation()));

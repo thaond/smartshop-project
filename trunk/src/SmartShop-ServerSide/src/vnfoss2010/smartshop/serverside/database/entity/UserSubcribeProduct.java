@@ -14,37 +14,37 @@ import com.beoui.geocell.model.Point;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
-public class UserSubcribeProduct implements LocationCapable {
+public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
-	
+
 	@Persistent
 	private Double lat;
-	
+
 	@Persistent
-	private Double lng; 
-	
+	private Double lng;
+
 	@Persistent
 	private Double radius;
-	
+
 	@Persistent
 	private String description;
-	
+
 	@Persistent
 	private boolean isActive = true;
-	
+
 	@Persistent
 	private Date date;
-	
+
 	@Persistent
 	private String userName;
-	
+
 	@Persistent
 	private List<String> categoryList;
-	
+
 	@Exclude
 	@Persistent
 	private List<String> geocells;
@@ -147,5 +147,13 @@ public class UserSubcribeProduct implements LocationCapable {
 	@Override
 	public Point getLocation() {
 		return new Point(lat, lng);
+	}
+
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			return null;
+		}
 	}
 }

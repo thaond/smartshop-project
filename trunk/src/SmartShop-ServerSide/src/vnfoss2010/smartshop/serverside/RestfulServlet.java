@@ -84,6 +84,8 @@ import vnfoss2010.smartshop.serverside.services.test.InsertUserInfosService;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.CreateSubcribeProduct;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.EditSubcribe;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetProductInSubcribeRange;
+import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.FindUserSubcribes;
+import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetSubcribe;
 
 /**
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
@@ -129,8 +131,9 @@ public class RestfulServlet extends HttpServlet {
 				throw new UndefinedServiceException(serviceName);
 			}
 
-			String r = service.getConstructor(String.class).newInstance(
-					serviceName).process(req.getParameterMap(), content);
+			String r = service.getConstructor(String.class)
+					.newInstance(serviceName)
+					.process(req.getParameterMap(), content);
 
 			// response
 			writer.print(r);
@@ -152,8 +155,8 @@ public class RestfulServlet extends HttpServlet {
 		mServices.put("account-search", SearchUsernameService.class);
 		mServices.put("account-addfriend", AddFriendsService.class);
 		mServices.put("account-getuser", GetUserInfoService.class);
-		
-		//category
+
+		// category
 		mServices.put("category-get-all", GetAllCategoriesService.class);
 		mServices.put("category-get-sub", GetSubCategoriesService.class);
 
@@ -221,17 +224,21 @@ public class RestfulServlet extends HttpServlet {
 
 		// user subcribe
 		mServices.put("create-subcribe", CreateSubcribeProduct.class);
-		mServices.put("get-products-in-sub-range", GetProductInSubcribeRange.class);
+		mServices.put("get-products-in-sub-range",
+				GetProductInSubcribeRange.class);
 		mServices.put("edit-subcribe", EditSubcribe.class);
-		
+		mServices.put("find-subcribes", FindUserSubcribes.class);
+		mServices.put("get-subcribe", GetSubcribe.class);
+
 		mServices.put("sampledata-cat", InsertCategoryService.class);
 		mServices.put("sampledata-product", InsertSampleProductService.class);
 		mServices.put("sampledata-user", InsertUserInfosService.class);
 		mServices.put("sampledata-page", InsertPageService.class);
-		
-		//parser
+
+		// parser
 		mServices.put("parser-vatgia-each-product", ProductInfoService.class);
-		mServices.put("parser-vatgia-each-product-n", NProductInfoService.class);
+		mServices
+				.put("parser-vatgia-each-product-n", NProductInfoService.class);
 		mServices.put("parser-vatgia-keyword", SearchKeywordService.class);
 	}
 }
