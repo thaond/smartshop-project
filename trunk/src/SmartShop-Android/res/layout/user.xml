@@ -3,7 +3,7 @@
 	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:orientation="vertical">
-
+		
 		<!-- User name -->
 		<LinearLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:paddingRight="10dip">
@@ -157,32 +157,24 @@
 
 			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:text="@string/lblAvatar"
-				android:layout_centerVertical="true" android:id="@+id/lblAvatar" />
+				android:layout_gravity="center_vertical" android:id="@+id/lblAvatar" />
 
-			<EditText android:layout_height="wrap_content" android:id="@+id/txtAvatar"
-				android:layout_weight="1" android:layout_width="20dip"
-				android:editable="false" />
-
+			<ImageView android:layout_height="100dip" android:id="@+id/imgAvatar"
+				android:layout_width="100dip" android:background="@drawable/no_avatar" />
+				
 			<Button android:layout_height="wrap_content" android:id="@+id/btnBrowser"
-				android:layout_alignParentRight="true" android:layout_width="wrap_content"
+				android:layout_width="wrap_content" android:layout_toLeftOf="@+id/btnPhoto"
 				android:background="@drawable/browser" />
 
 			<Button android:layout_height="wrap_content" android:id="@+id/btnPhoto"
 				android:layout_alignParentRight="true" android:layout_width="wrap_content"
 				android:background="@drawable/photo" />
 		</LinearLayout>
-		<!-- Subscribe -->
-		<LinearLayout android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:orientation="horizontal">
-			<Button android:id="@+id/btnSubcribe" android:text="@string/btnSubcribe"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-			<TextView android:id="@+id/lblSubcribe" android:text="@string/lblSubscribe"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-		</LinearLayout>
+
 		<!-- Register button -->
 		<LinearLayout android:layout_width="wrap_content"
 			android:paddingRight="10dip" android:layout_height="wrap_content"
-			android:layout_gravity="right">
+			android:layout_gravity="center_horizontal">
 
 			<Button android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:text="@string/lblRegister"

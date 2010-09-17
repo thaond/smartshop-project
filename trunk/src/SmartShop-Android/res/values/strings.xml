@@ -45,10 +45,10 @@
 	<string name="err_register_message">Có lỗi trong quá trình đăng ký</string>
 	
 	<!-- Validate user -->
-	<string name="username_longer_6_chars">Tên đăng nhập phải nhiều hơn 6 kí tự</string>
-	<string name="password_longer_6_chars">Mật khẩu phải nhiều hơn 6 kí tự</string>
+	<string name="username_invalid">Nhập tên đăng nhập </string>
+	<string name="password_invalid">Nhập mật khẩu </string>
 	<string name="password_not_match">Mật khẩu và xác nhận không trùng nhau</string>
-	<string name="first_name_longer_6_chars">Tên phải nhiều hơn 6 kí tự</string>
+	<string name="first_name_invalid">Nhập tên</string>
 	<string name="email_invalid">Email không hợp lệ</string>
 
 	<!-- General labels -->

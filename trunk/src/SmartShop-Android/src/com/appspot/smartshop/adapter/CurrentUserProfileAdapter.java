@@ -24,9 +24,9 @@ import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.product.PostProductActivity;
-import com.appspot.smartshop.ui.user.UserActivity;
+import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.ui.user.UserProductListActivity;
-import com.appspot.smartshop.ui.user.ViewProfileActivity;
+import com.appspot.smartshop.ui.user.ViewUserProfileActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -126,7 +126,7 @@ public class CurrentUserProfileAdapter extends BaseAdapter {
 //		Intent intent = new Intent(context, UserActivity.class);
 //		intent.putExtra(Global.USER_INFO, Global.userInfo);
 //		intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
-		Intent intent = new Intent(context, ViewProfileActivity.class);
+		Intent intent = new Intent(context, ViewUserProfileActivity.class);
 		context.startActivity(intent);
 	}
 

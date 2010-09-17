@@ -16,9 +16,8 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.product.SearchProductsTabActivity;
 import com.appspot.smartshop.ui.user.LoginActivity;
-import com.appspot.smartshop.ui.user.UserActivity;
-import com.appspot.smartshop.ui.user.UserProfileActivity;
-import com.appspot.smartshop.ui.user.ViewNotificationsActivity;
+import com.appspot.smartshop.ui.user.RegisterUserActivity;
+import com.appspot.smartshop.ui.user.ViewUserProfileActivity;
 import com.appspot.smartshop.utils.Global;
 
 public class MainAdapter extends BaseAdapter {
@@ -35,36 +34,30 @@ public class MainAdapter extends BaseAdapter {
 		inflater = LayoutInflater.from(context);
 		if (!Global.isLogin) {
 			icons = new int[] { 
-//					R.drawable.notifications,
 					R.drawable.user_products_list, 
 					R.drawable.user_pages_list,
 					R.drawable.login, 
 					R.drawable.register,
-					R.drawable.user_profile,
-
 			};
 
 			text = new String[] {
-//					context.getString(R.string.view_notifications),
 					context.getString(R.string.user_products_list),
 					context.getString(R.string.user_pages_list),
 					context.getString(R.string.lblLogin),
 					context.getString(R.string.lblRegister),
-					context.getString(R.string.user_profile),
-
 			};
 		} else {
-			icons = new int[] { R.drawable.notifications,
-					R.drawable.user_products_list, R.drawable.user_pages_list,
+			icons = new int[] { 
+					R.drawable.user_products_list, 
+					R.drawable.user_pages_list,
 					R.drawable.user_profile,
-
 			};
 
 			text = new String[] {
-					context.getString(R.string.view_notifications),
 					context.getString(R.string.user_products_list),
 					context.getString(R.string.user_pages_list),
-					context.getString(R.string.user_profile), };
+					context.getString(R.string.user_profile), 
+			};
 		}
 	}
 
@@ -108,38 +101,27 @@ public class MainAdapter extends BaseAdapter {
 
 		switch (icons[position]) {
 		case R.drawable.user_pages_list:
-			Log.d(TAG, "view pages list ");
+			Log.d(TAG, "[VIEW PAGES LIST]");
 			intent = new Intent(context, PagesListActivity.class);
 			break;
 
 		case R.drawable.user_products_list:
-			Log.d(TAG, "view products list");
+			Log.d(TAG, "[VIEW PRODUCTS LIST]");
 			intent = new Intent(context, SearchProductsTabActivity.class);
 			break;
 
 		case R.drawable.login:
-			Log.d(TAG, "login");
+			Log.d(TAG, "[LOGIN]");
 			intent = new Intent(context, LoginActivity.class);
 			break;
 
 		case R.drawable.register:
-			Log.d(TAG, "register");
-			intent = new Intent(context, UserActivity.class);
+			Log.d(TAG, "[REGISTER]");
+			intent = new Intent(context, RegisterUserActivity.class);
 			break;
 
 		case R.drawable.user_profile:
-			// if (!Global.isLogin) {
-			// Toast.makeText(context,
-			// context.getString(R.string.errMustLoginToViewProfile),
-			// Toast.LENGTH_SHORT).show();
-			// } else {
-			// intent = new Intent(context, UserProfileActivity.class);
-			// intent.putExtra(Global.USER_NAME, Global.username);
-			// if (Global.isLogin) {
-			// intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
-			// }
-			// }
-
+			Log.d(TAG, "[VIEW USER PROFILE]");
 			if (!Global.isLogin) {
 				Toast.makeText(context,
 						context.getString(R.string.errMustLoginToViewProfile),
@@ -147,13 +129,9 @@ public class MainAdapter extends BaseAdapter {
 				return;
 			}
 
-			intent = new Intent(context, UserProfileActivity.class);
+			intent = new Intent(context, ViewUserProfileActivity.class);
 			intent.putExtra(Global.USER_NAME, Global.username);
 			intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
-			break;
-		case R.drawable.notifications:
-			Log.d(TAG, "notifications");
-			intent = new Intent(context, ViewNotificationsActivity.class);
 			break;
 		}
 

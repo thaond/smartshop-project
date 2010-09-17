@@ -22,9 +22,9 @@ import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.ui.product.vatgia.SearchVatgiaActivity;
 import com.appspot.smartshop.ui.user.SendEmailActivity;
 import com.appspot.smartshop.ui.user.SendEmailToAdminActivity;
-import com.appspot.smartshop.ui.user.UserActivity;
+import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.ui.user.UserProfileActivity;
-import com.appspot.smartshop.ui.user.ViewProfileActivity;
+import com.appspot.smartshop.ui.user.ViewUserProfileActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.URLConstant;
@@ -85,7 +85,7 @@ public class HomeActivity extends Activity {
 	}
 	
 	void testViewProfile() {
-		Intent intent = new Intent(this, ViewProfileActivity.class);
+		Intent intent = new Intent(this, ViewUserProfileActivity.class);
 		startActivity(intent);
 	}
 	
@@ -150,14 +150,14 @@ public class HomeActivity extends Activity {
 	}
 
 	private void testEditUserInfo() {
-		Intent intent = new Intent(this, UserActivity.class);
+		Intent intent = new Intent(this, ViewUserInfoActivity.class);
 		intent.putExtra(Global.USER_INFO, MockUserInfo.getInstance());
 		intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
 		startActivity(intent);
 	}
 
 	private void testViewUserInfo() {
-		Intent intent = new Intent(this, UserActivity.class);
+		Intent intent = new Intent(this, ViewUserInfoActivity.class);
 		intent.putExtra(Global.USER_INFO, MockUserInfo.getInstance());
 		startActivity(intent);
 	}
@@ -177,7 +177,7 @@ public class HomeActivity extends Activity {
 	}
 
 	private void testRegisterForm() {
-		Intent intent = new Intent(this, UserActivity.class);
+		Intent intent = new Intent(this, ViewUserInfoActivity.class);
 		startActivity(intent);
 	}
 
