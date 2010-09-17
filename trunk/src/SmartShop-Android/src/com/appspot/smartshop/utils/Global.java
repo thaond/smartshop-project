@@ -116,4 +116,6 @@ public class Global {
 	public static final String FILE_BROWSER_ACTIVITY = "FileBrowser";
 	public static final String IMAGE_CAPURE_ACTIVITY = "ImageCapture";
 	public static final String VIEW_PROFILE_ACTIVITY = "ViewProfile";
+	public static final String TITLE_NOTIFICATION = "TitleNotification";
+	public static final String CONTENT_NOTIFICATION = "ContentNotification";
 }
