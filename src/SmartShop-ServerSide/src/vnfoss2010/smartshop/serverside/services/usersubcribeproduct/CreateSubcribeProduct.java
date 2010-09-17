@@ -24,7 +24,7 @@ public class CreateSubcribeProduct extends BaseRestfulService {
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		JSONObject jsonReturn = new JSONObject();
-		UserSubcribeProduct subcribe = Global.gsonDateWithoutHour.fromJson(
+		UserSubcribeProduct subcribe = Global.gsonWithDate.fromJson(
 				content, UserSubcribeProduct.class);
 		String message = "";
 		if (subcribe.getLat() == null || subcribe.getLng() == null) {
