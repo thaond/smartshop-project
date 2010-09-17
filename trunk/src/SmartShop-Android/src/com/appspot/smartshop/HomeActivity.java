@@ -21,7 +21,6 @@ import com.appspot.smartshop.ui.product.PostProductActivity;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.ui.product.vatgia.SearchVatgiaActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
-import com.appspot.smartshop.ui.user.UserProfileActivity;
 import com.appspot.smartshop.ui.user.ViewUserProfileActivity;
 import com.appspot.smartshop.ui.user.email.SendEmailActivity;
 import com.appspot.smartshop.ui.user.email.SendEmailToAdminActivity;
@@ -117,13 +116,6 @@ public class HomeActivity extends Activity {
 				System.out.println(categories);
 			}
 		});
-	}
-
-	private void testUserProfile() {
-		Intent intent = new Intent(this, UserProfileActivity.class);
-//		intent.putExtra(Global.USER_NAME, Global.username);
-		intent.putExtra(Global.USER_NAME, "duc");
-		startActivity(intent);
 	}
 
 	private void testEditPage() {
