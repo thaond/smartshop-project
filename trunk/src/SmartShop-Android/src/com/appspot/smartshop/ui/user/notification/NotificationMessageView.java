@@ -1,4 +1,4 @@
-package com.appspot.smartshop.ui.user;
+package com.appspot.smartshop.ui.user.notification;
 
 import android.app.Activity;
 import android.app.NotificationManager;

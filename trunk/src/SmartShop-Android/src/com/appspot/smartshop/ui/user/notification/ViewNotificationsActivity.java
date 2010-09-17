@@ -1,4 +1,4 @@
-package com.appspot.smartshop.ui.user;
+package com.appspot.smartshop.ui.user.notification;
 
 import java.util.List;
 
