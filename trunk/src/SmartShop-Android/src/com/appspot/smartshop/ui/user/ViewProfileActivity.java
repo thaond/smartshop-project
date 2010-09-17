@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -19,6 +21,10 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserInfo;
+import com.appspot.smartshop.ui.page.PageActivity;
+import com.appspot.smartshop.ui.page.PagesListActivity;
+import com.appspot.smartshop.ui.product.PostProductActivity;
+import com.appspot.smartshop.ui.product.SearchProductsTabActivity;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.MyArrayAdapter;
 import com.appspot.smartshop.utils.ObjectPool;
@@ -26,6 +32,8 @@ import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.Utils;
 
 public class ViewProfileActivity extends Activity {
+	public static final String TAG = "[ViewProfileActivity]";
+	
 	private ListView listInfos;
 	private ImageView imgAvatar;
 	private Drawable drawableNoAvatar;
@@ -57,7 +65,7 @@ public class ViewProfileActivity extends Activity {
 
 		// view user info
 		Bundle tmp = getIntent().getExtras();
-		if (tmp != null) {
+		if (tmp != null && tmp.get(Global.USER_INFO) != null) {
 			// don't show buttons
 			btnPages.setVisibility(View.GONE);
 			btnProducts.setVisibility(View.GONE);
@@ -89,6 +97,67 @@ public class ViewProfileActivity extends Activity {
 			// View my profile
 			userInfo = Global.userInfo;
 			viewProfile();
+			
+			// set listener for buttons
+			btnPages.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Log.d(TAG, "view pages of current user " + Global.username);
+					Intent intent = new Intent(ViewProfileActivity.this, PagesListActivity.class);
+					intent.putExtra(Global.PAGES_TYPE, PagesListActivity.PAGES_OF_USER);
+					intent.putExtra(Global.PAGES_OF_USER, Global.username);
+					startActivity(intent);
+				}
+			});
+			
+			btnProducts.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Log.d(TAG, "view products of current user " + Global.username);
+					Intent intent = new Intent(ViewProfileActivity.this, UserProductListActivity.class);
+					intent.putExtra(Global.PRODUCTS_OF_USER, Global.username);
+					startActivity(intent);
+				}
+			});
+			
+			btnAddNewPage.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Log.d(TAG, "create new page");
+					Intent intent = new Intent(ViewProfileActivity.this, PageActivity.class);
+					startActivity(intent);
+				}
+			});
+			
+			btnPostNewProduct.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Log.d(TAG, "create new product");
+					Intent intent = new Intent(ViewProfileActivity.this, PostProductActivity.class);
+					startActivity(intent);
+				}
+			});
+			
+			btnSubcribe.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO subcribe products
+				}
+			});
+			
+			btnUserInfo.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO go to UserActivity to view detail of user, can edit these info
+					// display avatar of user
+				}
+			});
 		}
 	}
 
