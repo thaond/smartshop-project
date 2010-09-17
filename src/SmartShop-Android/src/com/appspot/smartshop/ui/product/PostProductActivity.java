@@ -26,9 +26,5 @@ public class PostProductActivity extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec(PRODUCT_USER_DEFINED_INFO).setIndicator(
 				getString(R.string.product_user_defined_info)).setContent(
 				new Intent(this, ProductUserDefinedAttributeActivity.class)));
-		// set up size for tab
-		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
-			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
-		}
 	}
 }
