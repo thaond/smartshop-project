@@ -11,10 +11,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.anddev.android.filebrowser.AndroidFileBrowser;
@@ -29,20 +26,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.MapDialog;
-import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
-import com.appspot.smartshop.ui.user.CategoriesDialogForSubcribe.CategoriesDialogForSubcribeListener;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
@@ -52,22 +50,17 @@ import com.appspot.smartshop.utils.Utils;
 import com.appspot.smartshop.utils.capture.ImageCaptureActivity;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.gson.JsonObject;
 
-public class UserActivity extends MapActivity {
-	public static final String TAG = "[UserActivity]";
+public class ViewUserInfoActivity extends MapActivity {
+	public static final String TAG = "[ViewUserInfoActivity]";
 
 	private static final String PATTERN_EMAIL = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	private static final String PATTERN_LONGER_6 = "^[_A-Za-z0-9-]{6}[_A-Za-z0-9-]*";
-
+	
 	private static final int FILE_BROWSER_ID = 0;
 	private static final int IMAGE_CAPTURE_ID = 1;
 
-	public static final int REGISTER_USER = 0;
-	public static final int EDIT_USER_PROFILE = 1;
-
 	static final int DATE_DIALOG_ID = 0;
-	private int mode = REGISTER_USER;
 
 	private TextView lblUsername;
 	private EditText txtUsername;
@@ -88,12 +81,8 @@ public class UserActivity extends MapActivity {
 	private TextView lblPhoneNumber;
 	private EditText txtPhoneNumber;
 	private TextView lblAvatar;
-	private EditText txtAvatar;
+	private ImageView txtAvatar;
 	private TextView lblBirthday;
-	private Button btnPhoto;
-	private Button btnBrowser;
-	private Button btnSubcribe;
-
 	private EditText txtBirthday;
 
 	private int mYear;
@@ -171,8 +160,7 @@ public class UserActivity extends MapActivity {
 
 		lblAvatar = (TextView) findViewById(R.id.lblAvatar);
 		lblAvatar.setWidth(labelWidth);
-		txtAvatar = (EditText) findViewById(R.id.txtAvatar);
-		txtAvatar.setWidth(textWidth);
+		txtAvatar = (ImageView) findViewById(R.id.imgAvatar);
 
 		lblPhoneNumber = (TextView) findViewById(R.id.lblPhoneNumber);
 		lblPhoneNumber.setWidth(labelWidth);
@@ -183,23 +171,89 @@ public class UserActivity extends MapActivity {
 		lblBirthday.setWidth(labelWidth);
 		txtBirthday = (EditText) findViewById(R.id.txtBirthday);
 		txtBirthday.setWidth(textWidth);
-
-		btnPhoto = (Button) findViewById(R.id.btnPhoto);
-		btnBrowser = (Button) findViewById(R.id.btnBrowser);
+		txtBirthday.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					showDialog(DATE_DIALOG_ID);
+					return true;
+				}
+				
+				return false;
+			}
+		});
 
 		lblOldPassword = (TextView) findViewById(R.id.lblOldPassword);
 		lblOldPassword.setWidth(labelWidth);
 		txtOldPassword = (EditText) findViewById(R.id.txtOldPassword);
 		txtOldPassword.setWidth(textWidth);
-		btnSubcribe = (Button) findViewById(R.id.btnSubcribe);
-		btnSubcribe.setOnClickListener(new OnClickListener() {
-			
+
+		// setup data for text field if in edit/view user profile mode
+		Bundle bundle = getIntent().getExtras();
+		userInfo = (UserInfo) bundle.get(Global.USER_INFO);
+
+		// fill user info to form
+		txtUsername.setText(userInfo.username);
+		txtFirstName.setText(userInfo.first_name);
+		txtLastName.setText(userInfo.last_name);
+		txtEmail.setText(userInfo.email);
+		txtAddress.setText(userInfo.address);
+		txtPhoneNumber.setText(userInfo.phone);
+		txtBirthday.setText(Global.df.format(userInfo.birthday));
+
+		// some fields of user info must be uneditable
+		Utils.setEditableEditText(txtUsername, false);
+		Utils.setEditableEditText(txtFirstName, true);
+		txtBirthday.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-				showCategoryForSubcribe();
-				
+				showDialog(DATE_DIALOG_ID);
 			}
 		});
+
+		lblOldPassword.setVisibility(View.VISIBLE);
+		txtOldPassword.setVisibility(View.VISIBLE);
+		lblPassword.setVisibility(View.VISIBLE);
+		txtPassword.setVisibility(View.VISIBLE);
+		lblConfirm.setVisibility(View.VISIBLE);
+		txtConfirm.setVisibility(View.VISIBLE);
+
+		/********************************** Buttons ********************************/
+		// Register button
+		Button btnRegister = (Button) findViewById(R.id.btnRegister);
+		btnRegister.setText(getString(R.string.lblUpdate));
+		btnRegister.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				editUserProfile();
+			}
+		});
+
+		// Cancel button
+		Button btnCancel = (Button) findViewById(R.id.btnCancel);
+		btnCancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+
+		// Tag address on map button
+		Button btnTagAddressOnMap = (Button) findViewById(R.id.btnTagAddressOnMap);
+		btnTagAddressOnMap.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				tagAddressOnMap();
+			}
+		});
+		
+		// Browser sdcard button
+		Button btnBrowser = (Button) findViewById(R.id.btnBrowser);
 		btnBrowser.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -208,7 +262,7 @@ public class UserActivity extends MapActivity {
 					DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface arg0, int arg1) {
-							Intent intent = new Intent(UserActivity.this,
+							Intent intent = new Intent(ViewUserInfoActivity.this,
 									AndroidFileBrowser.class);
 							intent.putExtra(Global.FILTER_FILE, imageFilter);
 							intent.setAction(Global.FILE_BROWSER_ACTIVITY);
@@ -222,7 +276,7 @@ public class UserActivity extends MapActivity {
 					};
 
 					// Show an Alert with the ButtonListeners we created
-					AlertDialog ad = new AlertDialog.Builder(UserActivity.this)
+					AlertDialog ad = new AlertDialog.Builder(ViewUserInfoActivity.this)
 							.setTitle(getString(R.string.notice))
 							.setMessage(
 									getString(R.string.do_you_want_to_change_avatar))
@@ -232,7 +286,7 @@ public class UserActivity extends MapActivity {
 									cancelButtonListener).create();
 					ad.show();
 				} else {
-					Intent intent = new Intent(UserActivity.this,
+					Intent intent = new Intent(ViewUserInfoActivity.this,
 							AndroidFileBrowser.class);
 					intent.setAction(Global.FILE_BROWSER_ACTIVITY);
 					intent.putExtra(Global.FILTER_FILE, imageFilter);
@@ -241,6 +295,8 @@ public class UserActivity extends MapActivity {
 			}
 		});
 
+		// photo button
+		Button btnPhoto = (Button) findViewById(R.id.btnPhoto);
 		btnPhoto.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -249,7 +305,7 @@ public class UserActivity extends MapActivity {
 					DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface arg0, int arg1) {
-							Intent intent = new Intent(UserActivity.this,
+							Intent intent = new Intent(ViewUserInfoActivity.this,
 									ImageCaptureActivity.class);
 							intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
 							startActivityForResult(intent, IMAGE_CAPTURE_ID);
@@ -262,7 +318,7 @@ public class UserActivity extends MapActivity {
 					};
 
 					// Show an Alert with the ButtonListeners we created
-					AlertDialog ad = new AlertDialog.Builder(UserActivity.this)
+					AlertDialog ad = new AlertDialog.Builder(ViewUserInfoActivity.this)
 							.setTitle(getString(R.string.notice))
 							.setMessage(
 									getString(R.string.do_you_want_to_change_avatar))
@@ -272,113 +328,13 @@ public class UserActivity extends MapActivity {
 									cancelButtonListener).create();
 					ad.show();
 				} else {
-					Intent intent = new Intent(UserActivity.this,
+					Intent intent = new Intent(ViewUserInfoActivity.this,
 							ImageCaptureActivity.class);
 					intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
 					startActivityForResult(intent, IMAGE_CAPTURE_ID);
 				}
 			}
 		});
-
-		// setup data for text field if in edit/view user profile mode
-		Bundle bundle = getIntent().getExtras();
-		if (bundle != null) {
-			mode = EDIT_USER_PROFILE;
-			userInfo = (UserInfo) bundle.get(Global.USER_INFO);
-
-			// fill user info to form
-			txtUsername.setText(userInfo.username);
-//			txtPassword.setText(userInfo.password);
-//			txtConfirm.setText(userInfo.password);
-			txtFirstName.setText(userInfo.first_name);
-			txtLastName.setText(userInfo.last_name);
-			txtEmail.setText(userInfo.email);
-			txtAddress.setText(userInfo.address);
-			txtPhoneNumber.setText(userInfo.phone);
-			txtBirthday.setText(Global.df.format(userInfo.birthday));
-
-			// some fields of user info must be uneditable
-			Utils.setEditableEditText(txtUsername, false);
-			Utils.setEditableEditText(txtFirstName, true);
-			txtBirthday.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					showDialog(DATE_DIALOG_ID);
-				}
-			});
-
-			lblOldPassword.setVisibility(View.VISIBLE);
-			txtOldPassword.setVisibility(View.VISIBLE);
-			lblPassword.setVisibility(View.VISIBLE);
-			txtPassword.setVisibility(View.VISIBLE);
-			lblConfirm.setVisibility(View.VISIBLE);
-			txtConfirm.setVisibility(View.VISIBLE);
-		}else{
-			lblOldPassword.setVisibility(View.GONE);
-			txtOldPassword.setVisibility(View.GONE);
-//			lblPassword.setVisibility(View.GONE);
-//			txtPassword.setVisibility(View.GONE);
-//			lblConfirm.setVisibility(View.GONE);
-//			txtConfirm.setVisibility(View.GONE);
-		}
-
-		/********************************** Listeners *******************************/
-		// input value
-		txtUsername.setFilters(Global.usernameInputFilters);
-		txtFirstName.setFilters(Global.usernameInputFilters);
-		txtLastName.setFilters(Global.usernameInputFilters);
-
-		// buttons
-		Button btnRegister = (Button) findViewById(R.id.btnRegister);
-		if (mode != REGISTER_USER) {
-			btnRegister.setText(getString(R.string.lblUpdate));
-		}
-		btnRegister.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				switch (mode) {
-				case REGISTER_USER:
-					registerNewUser();
-					break;
-
-				case EDIT_USER_PROFILE:
-					editUserProfile();
-					break;
-
-				}
-			}
-		});
-
-		Button btnCancel = (Button) findViewById(R.id.btnCancel);
-		btnCancel.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-
-		Button btnTagAddressOnMap = (Button) findViewById(R.id.btnTagAddressOnMap);
-		btnTagAddressOnMap.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				tagAddressOnMap();
-			}
-		});
-	}
-
-	protected void showCategoryForSubcribe() {
-		CategoriesDialogForSubcribe.showCategoriesDialog(this, new CategoriesDialogForSubcribeListener() {
-			
-			@Override
-			public void onCategoriesDialogClose(List<String> categories) {
-				
-			}
-		});
-		
 	}
 
 	@Override
@@ -399,7 +355,9 @@ public class UserActivity extends MapActivity {
 							e.printStackTrace();
 						}
 					}
-					txtAvatar.setText(file.getName());
+					
+					// TODO display image choosen from sdcard
+//					txtAvatar.setText(file.getName())
 				}
 
 			}
@@ -415,7 +373,9 @@ public class UserActivity extends MapActivity {
 						inputStreamAvatar = new ByteArrayInputStream(arrBytes);
 						fileName = Global.dfTimeStamp.format(new Date())
 								+ ".jpg";
-						txtAvatar.setText(fileName);
+						
+						// TODO display image from sdcard
+//						txtAvatar.setText(fileName);
 					}
 				}
 			}
@@ -554,13 +514,47 @@ public class UserActivity extends MapActivity {
 		userInfo.lat = lat;
 		userInfo.lng = lng;
 	}
+	
+	private String getErrorMessage() {
+		String result = null;
 
-	protected void registerNewUser() {
-		// if (StringUtils.isEmptyOrNull(err = getErrorMessage())) {
+		if (StringUtils.isEmptyOrNull(txtUsername.getText().toString())) {
+			result = getString(R.string.username_invalid);
+		} 
+		else if (StringUtils.isEmptyOrNull(txtPassword.getText().toString())) {
+			result = getString(R.string.password_invalid);
+		} 
+		else if (StringUtils.isEmptyOrNull(txtConfirm.getText().toString())
+				|| !txtPassword.getText().toString().equals(txtConfirm.getText().toString())) {
+			result = getString(R.string.password_not_match);
+		} 
+		else if (StringUtils.isEmptyOrNull(txtFirstName.getText().toString())) {
+			result = getString(R.string.first_name_invalid);
+		} 
+		else if (StringUtils.isEmptyOrNull(txtEmail.getText().toString())
+				|| !Pattern.matches(PATTERN_EMAIL, txtEmail.getText().toString())) {
+			result = getString(R.string.email_invalid);
+		}
+
+		if (result != null) {
+			Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+		}
+		
+		return result;
+	}
+
+	protected void editUserProfile() {
+		// some fields are invalid
+		String errorMsg = getErrorMessage();
+		Log.d(TAG, "[validate form] " + errorMsg);
+		if (errorMsg != null) {
+			return;
+		}
+		
 		collectUserInfo();
-
-		if (StringUtils.isEmptyOrNull(userInfo.avatarLink)
-				&& inputStreamAvatar != null) {
+		
+		// TODO (vo.mita.ov): upload avatar of user
+		if (StringUtils.isEmptyOrNull(userInfo.avatarLink) && inputStreamAvatar != null) {
 			String response = doFileUpload();
 
 			Log.e("Upload", response);
@@ -584,7 +578,7 @@ public class UserActivity extends MapActivity {
 				DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
-						registerNewUser();
+						// TODO (vo.mita.ov)
 					}
 				};
 				DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
@@ -607,53 +601,11 @@ public class UserActivity extends MapActivity {
 				break;
 			}
 		}
-
-		// Log.d(TAG, Global.gsonDateWithoutHour.toJson(userInfo));
-		RestClient.postData(URLConstant.REGISTER, Global.gsonDateWithoutHour
-				.toJson(userInfo), new JSONParser() {
-
-			@Override
-			public void onFailure(String message) {
-				Log.e(TAG, message);
-			}
-
-			@Override
-			public void onSuccess(JSONObject json) throws JSONException {
-				int errCode = json.getInt("errCode");
-				String message = json.getString("message");
-				switch (errCode) {
-				case Global.SUCCESS:
-					Toast.makeText(UserActivity.this, message,
-							Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent(UserActivity.this,
-							LoginActivity.class);
-					startActivity(intent);
-
-					break;
-
-				case Global.ERROR:
-					Toast.makeText(UserActivity.this, message,
-							Toast.LENGTH_SHORT).show();
-					Global.isLogin = false;
-
-				default:
-					Toast.makeText(UserActivity.this,
-							getString(R.string.err_register_message),
-							Toast.LENGTH_SHORT).show();
-					Global.isLogin = false;
-					break;
-				}
-			}
-		});
-	}
-
-	protected void editUserProfile() {
-		String err = "";
-		// if (StringUtils.isEmptyOrNull(err = getErrorMessage())) {
-		collectUserInfo();
 		
-		Log.d(TAG, userInfo +"");
-		RestClient.postData(URLConstant.EDIT_PROFILE, Global.gsonDateWithoutHour.toJson(userInfo), new JSONParser() {
+		// edit user profile
+		Log.d(TAG, userInfo + "");
+		RestClient.postData(URLConstant.EDIT_PROFILE, Global.gsonDateWithoutHour.toJson(userInfo), 
+				new JSONParser() {
 			
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
@@ -662,12 +614,12 @@ public class UserActivity extends MapActivity {
 				String message = json.get("message").toString();
 				switch (errCode) {
 				case Global.SUCCESS:
-					Toast.makeText(UserActivity.this, message,
+					Toast.makeText(ViewUserInfoActivity.this, message,
 							Toast.LENGTH_SHORT).show();
 					break;
 
 				default:
-					Toast.makeText(UserActivity.this, message,
+					Toast.makeText(ViewUserInfoActivity.this, message,
 							Toast.LENGTH_SHORT).show();
 					break;
 				}
@@ -675,31 +627,20 @@ public class UserActivity extends MapActivity {
 			
 			@Override
 			public void onFailure(String message) {
-				Toast.makeText(UserActivity.this, message,
+				Toast.makeText(ViewUserInfoActivity.this, message,
 						Toast.LENGTH_SHORT).show();
 			}
 		});
-		// } else {
-		// Toast.makeText(UserActivity.this, err, Toast.LENGTH_SHORT).show();
-		// }
 	}
 
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DATE_DIALOG_ID:
-			if (mode == REGISTER_USER) {
-				Calendar cal = Calendar.getInstance();
-				mDay = cal.get(Calendar.DAY_OF_MONTH);
-				mMonth = cal.get(Calendar.MONTH);
-				mYear = cal.get(Calendar.YEAR) - 18;
-			} else {
-				mDay = userInfo.birthday.getDate();
-				mMonth = userInfo.birthday.getMonth();
-				mYear = userInfo.birthday.getYear() + 1900;
-			}
+			mDay = userInfo.birthday.getDate();
+			mMonth = userInfo.birthday.getMonth();
+			mYear = userInfo.birthday.getYear() + 1900;
 
-			return new DatePickerDialog(this, mDateSetListener, mYear, mMonth,
-					mDay);
+			return new DatePickerDialog(this, mDateSetListener, mYear, mMonth, mDay);
 		}
 
 		return null;
@@ -720,35 +661,18 @@ public class UserActivity extends MapActivity {
 
 	protected void tagAddressOnMap() {
 		GeoPoint point = null;
-		if (Global.isLogin) {
-			point = new GeoPoint((int) (Global.userInfo.lat * 1E6),
-					(int) (Global.userInfo.lng * 1E6));
-		} else if (userInfo != null) {
-			point = new GeoPoint((int) (userInfo.lat * 1E6),
-					(int) (userInfo.lng * 1E6));
-		} else {
-			String location = txtAddress.getText().toString();
-			if (location == null || location.trim().equals("")) {
-				Toast.makeText(this,
-						getString(R.string.warn_must_enter_address),
-						Toast.LENGTH_SHORT).show();
-				return;
-			}
-			point = MapService.locationToGeopoint(location);
-		}
+		point = new GeoPoint((int) (Global.userInfo.lat * 1E6), (int) (Global.userInfo.lng * 1E6));
 		Log.d(TAG, "user point = " + point);
 
 		MapDialog.createLocationDialog(this, point, new UserLocationListener() {
 
 			@Override
 			public void processUserLocation(GeoPoint point) {
-				if (mode == REGISTER_USER || mode == EDIT_USER_PROFILE) {
-					if (point != null) {
-						lat = point.getLatitudeE6();
-						lng = point.getLongitudeE6();
-					}
-					Log.d(TAG, "user location = " + point);
+				if (point != null) {
+					lat = point.getLatitudeE6();
+					lng = point.getLongitudeE6();
 				}
+				Log.d(TAG, "user location = " + point);
 			}
 		}).show();
 	}
@@ -756,32 +680,5 @@ public class UserActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
-	}
-
-	private String getErrorMessage() {
-		String result = null;
-
-		if (StringUtils.isEmptyOrNull(txtUsername.getText().toString())
-				|| !Pattern.matches(PATTERN_LONGER_6, txtUsername.getText()
-						.toString()))
-			result = getString(R.string.username_longer_6_chars);
-		else if (StringUtils.isEmptyOrNull(txtPassword.getText().toString())
-				|| !Pattern.matches(PATTERN_LONGER_6, txtPassword.getText()
-						.toString()))
-			result = getString(R.string.password_longer_6_chars);
-		else if (StringUtils.isEmptyOrNull(txtConfirm.getText().toString())
-				|| !txtPassword.getText().toString().equals(
-						txtConfirm.getText().toString()))
-			result = getString(R.string.password_not_match);
-		else if (StringUtils.isEmptyOrNull(txtFirstName.getText().toString())
-				|| !Pattern.matches(PATTERN_LONGER_6, txtFirstName.getText()
-						.toString()))
-			result = getString(R.string.first_name_longer_6_chars);
-		else if (StringUtils.isEmptyOrNull(txtEmail.getText().toString())
-				|| !Pattern.matches(PATTERN_EMAIL, txtEmail.getText()
-						.toString()))
-			result = getString(R.string.email_invalid);
-
-		return result;
 	}
 }

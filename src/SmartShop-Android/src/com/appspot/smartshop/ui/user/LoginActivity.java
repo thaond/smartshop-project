@@ -120,7 +120,7 @@ public class LoginActivity extends Activity {
 							startActivity(intent);
 						}else{
 							if (lastActivity.equals(Global.VIEW_PROFILE_ACTIVITY)){
-								Intent intent = new Intent(LoginActivity.this, ViewProfileActivity.class);
+								Intent intent = new Intent(LoginActivity.this, ViewUserProfileActivity.class);
 								startActivity(intent);
 							}
 						}
