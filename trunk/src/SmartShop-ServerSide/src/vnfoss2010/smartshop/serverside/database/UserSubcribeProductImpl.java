@@ -16,6 +16,7 @@ import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
 import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
 import vnfoss2010.smartshop.serverside.utils.StringUtils;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 import com.beoui.geocell.GeocellManager;
 import com.beoui.geocell.model.GeocellQuery;
@@ -105,6 +106,10 @@ public class UserSubcribeProductImpl {
 		if (StringUtils.isEmptyOrNull(subcribe.getKeyword())) {
 			baseQuery = new GeocellQuery<String>(
 					"setCategoryKeys.contains(catKey)", "String catKey", pa);
+
+			listProduct = GeocellManager.proximityFetchNew(center, 40,
+					maxDistance, Product.class, baseQuery, pm,
+					GeocellManager.MAX_GEOCELL_RESOLUTION);
 		} else {
 			// Prepare to search
 			StringBuffer queryBuffer = new StringBuffer();
@@ -132,20 +137,33 @@ public class UserSubcribeProductImpl {
 			if (pa.isEmpty()) {
 				baseQuery = new GeocellQuery(queryBuffer.toString(),
 						declareParametersBuffer.toString(), parametersForSearch);
+
+				listProduct = GeocellManager.proximityFetchNew(center, 40,
+						maxDistance, Product.class, baseQuery, pm,
+						GeocellManager.MAX_GEOCELL_RESOLUTION);
+
 			} else {
-				parametersForSearch.add(0, pa);
-				log.log(Level.SEVERE, parametersForSearch + " " + queryBuffer.toString() + " " + declareParametersBuffer.toString());
-				baseQuery = new GeocellQuery(
-						"setCategoryKeys.contains(catKey) && "
-								+ queryBuffer.toString(), "String catKey, "
-								+ declareParametersBuffer.toString(),
-						parametersForSearch);
+				// parametersForSearch.add(0, pa);
+				baseQuery = new GeocellQuery(queryBuffer.toString(),
+						declareParametersBuffer.toString(), parametersForSearch);
+
+				listProduct = GeocellManager.proximityFetchNew(center, 40,
+						maxDistance, Product.class, baseQuery, pm,
+						GeocellManager.MAX_GEOCELL_RESOLUTION);
+				if (!listProduct.isEmpty()) {
+					ArrayList<Product> tmp = new ArrayList<Product>();
+					for (Product product : listProduct) {
+						if (UtilsFunction.intersection(
+								product.getSetCategoryKeys(), pa).isEmpty()) {
+							tmp.add(product);
+						}
+					}
+					listProduct.removeAll(tmp);
+				}
 			}
 		}
 
 		try {
-			listProduct = GeocellManager.proximityFetchNew(center, 40,
-					maxDistance, Product.class, baseQuery, pm, GeocellManager.MAX_GEOCELL_RESOLUTION);
 			if (listProduct != null) {
 				result.setOK(true);
 				result.setResult(listProduct);

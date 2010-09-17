@@ -2,6 +2,7 @@ package vnfoss2010.smartshop.serverside.utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -138,6 +139,30 @@ public class UtilsFunction {
 		
 		return str;
 	}
+	
+    /**
+     * Returns a new list containing all elements that are contained in
+     * both given lists.
+     *
+     * @param list1  the first list
+     * @param list2  the second list
+     * @return  the intersection of those two lists
+     * @throws NullPointerException if either list is null
+     */
+    public static List intersection(final Set list1, final List list2) {
+        final ArrayList result = new ArrayList();
+        final Iterator iterator = list2.iterator();
+
+        while (iterator.hasNext()) {
+            final Object o = iterator.next();
+
+            if (list1.contains(o)) {
+                result.add(o);
+            }
+        }
+
+        return result;
+    }
 	
 	public static void main(String[] args) {
 		System.out.println(distance(50, 50, 51, 50));
