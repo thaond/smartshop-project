@@ -3,7 +3,7 @@ package com.appspot.smartshop.adapter;
 import java.util.List;
 
 import com.appspot.smartshop.R;
-import com.appspot.smartshop.dom.Notification;
+import com.appspot.smartshop.dom.MyNotification;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,15 +18,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class NotificationAdapter extends ArrayAdapter<Notification> {
+public class NotificationAdapter extends ArrayAdapter<MyNotification> {
 	public static final String TAG = "[NotificationAdapter]";
 	private LayoutInflater inflater;
 	public AlertDialog dialog = null;
 	public String detail;
-	public Notification notification;
+	public MyNotification notification;
 	public ViewHolder holder;
 	public NotificationAdapter(Context context, int resource,
-			List<Notification> objects) {
+			List<MyNotification> objects) {
 		super(context, resource, objects);
 		inflater = LayoutInflater.from(context);
 	}

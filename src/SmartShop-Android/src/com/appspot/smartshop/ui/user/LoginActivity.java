@@ -1,13 +1,19 @@
 package com.appspot.smartshop.ui.user;
 
-import org.apache.commons.logging.Log;
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,6 +24,8 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
+import com.appspot.smartshop.adapter.NotificationAdapter;
+import com.appspot.smartshop.dom.MyNotification;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -29,12 +37,14 @@ import com.appspot.smartshop.utils.URLConstant;
 
 public class LoginActivity extends Activity {
 	public static final String TAG = "LoginActivity";
-	
+	public static final String PARAM_NOFITICATION = "{username:\"%s\",type_id:%d}";
 	private TextView lblUsername;
 	private EditText txtUsername;
 	private TextView lblPassword;
 	private EditText txtPassword;
 	private String lastActivity;
+	public static String charTicker = "Bạn có %d thông báo mới";
+	public List<MyNotification> notifications;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +115,7 @@ public class LoginActivity extends Activity {
 						System.out.println(Global.username);
 						
 						if (StringUtils.isEmptyOrNull(lastActivity)){
+							
 							Intent intent = new Intent(LoginActivity.this, SmartShopActivity.class);
 							startActivity(intent);
 						}else{
@@ -122,9 +133,65 @@ public class LoginActivity extends Activity {
 						task.cancel(true);
 					}
 				});
+				loadNotifications();
 			}
 		});
 		
 		task.execute();
 	}
+	public void loadNotifications() {
+		String param = String.format(PARAM_NOFITICATION, Global.username, 1);
+		Log.d(TAG, param);
+		RestClient.postData(URLConstant.GET_NOTIFICATIONS, param,
+				new JSONParser() {
+
+					@Override
+					public void onSuccess(JSONObject json)
+							throws JSONException {
+						JSONArray arr = json
+								.getJSONArray("notifications");
+						notifications = Global.gsonWithHour.fromJson(
+								arr.toString(), MyNotification
+										.getType());
+						Log.d(TAG, "found " + notifications.size()
+								+ " notification(s)");
+						if (notifications.size() == 0) {
+							task.hasData = false;
+							task.message = getString(R.string.warn_no_notification);
+						} else {
+//							markAsRead();
+							CharSequence title;
+							CharSequence content;
+							for(int i = 0 ; i< notifications.size();i++){
+								title = notifications.get(i).date.toLocaleString();
+								content = notifications.get(i).content;
+								generateNotification(notifications.size(),i,title, content);
+							}
+						}
+					}
+
+					@Override
+					public void onFailure(String message) {
+						task.cancel(true);
+
+					}
+				});
+	}
+
+	public void generateNotification(int numOfNewNotification,int notificatioinID,CharSequence charTitle, CharSequence charContent) {
+		NotificationManager myNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		long when = System.currentTimeMillis();
+		charTicker = String.format(charTicker, numOfNewNotification);
+		Notification notification = new Notification(
+				android.R.drawable.btn_star_big_on, charTicker, when);
+		Context context = getApplicationContext();
+		Intent notificationIntent = new Intent(this,
+				ViewNotificationsActivity.class);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+				notificationIntent, 0);
+		notification.setLatestEventInfo(context, charTitle, charContent,
+				contentIntent);
+		myNotificationManager.notify(notificatioinID, notification);
+	}
+
 }
