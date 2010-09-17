@@ -263,7 +263,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".ui.user.SendEmailToAdminActivity"
+		<activity android:name=".ui.user.email.SendEmailToAdminActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
@@ -271,7 +271,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".ui.user.SendEmailActivity"
+		<activity android:name=".ui.user.email.SendEmailActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />

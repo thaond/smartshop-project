@@ -1,4 +1,4 @@
-package com.appspot.smartshop.ui.user;
+package com.appspot.smartshop.ui.user.email;
 
 import java.net.URLEncoder;
 
