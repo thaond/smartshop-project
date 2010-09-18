@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.adapter.NotificationAdapter;
-import com.appspot.smartshop.dom.MyNotification;
+import com.appspot.smartshop.dom.SmartshopNotification;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.ui.user.notification.ViewNotificationsActivity;
 import com.appspot.smartshop.utils.DataLoader;
@@ -45,7 +45,7 @@ public class LoginActivity extends Activity {
 	private EditText txtPassword;
 	private String lastActivity;
 	public static String charTicker = "Bạn có %d thông báo mới";
-	public List<MyNotification> notifications;
+	public List<SmartshopNotification> notifications;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +152,7 @@ public class LoginActivity extends Activity {
 						JSONArray arr = json
 								.getJSONArray("notifications");
 						notifications = Global.gsonWithHour.fromJson(
-								arr.toString(), MyNotification
+								arr.toString(), SmartshopNotification
 										.getType());
 						Log.d(TAG, "found " + notifications.size()
 								+ " notification(s)");
@@ -174,7 +174,6 @@ public class LoginActivity extends Activity {
 					@Override
 					public void onFailure(String message) {
 						task.cancel(true);
-
 					}
 				});
 	}

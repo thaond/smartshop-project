@@ -6,17 +6,17 @@ import java.util.List;
 
 import android.util.Log;
 
-import com.appspot.smartshop.dom.MyNotification;
+import com.appspot.smartshop.dom.SmartshopNotification;
 
 public class MockNotification {
 	public static final String TAG = "[MockNotification]";
 	public static final int NUM_OF_NOTIFICATION = 10;
 
-	public static List<MyNotification> getInstance() {
+	public static List<SmartshopNotification> getInstance() {
 		Log.d(TAG, "MockNotification has created");
-		List<MyNotification> list = new LinkedList<MyNotification>();
+		List<SmartshopNotification> list = new LinkedList<SmartshopNotification>();
 		for (int i = 0; i < NUM_OF_NOTIFICATION; i++) {
-			MyNotification notification = new MyNotification("Co " + i
+			SmartshopNotification notification = new SmartshopNotification("Co " + i
 					+ "  san pham may tinh hop voi nhu cau cua ban", new Date(
 					89, 11, 11), "loi");
 			list.add(notification);

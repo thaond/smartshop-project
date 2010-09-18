@@ -6,17 +6,17 @@ import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 
-public class MyNotification {
+public class SmartshopNotification {
 	public Long id;
 	public String content;
 	public Date date;
 	public boolean isNew;
 	public String username;
 
-	public MyNotification() {
+	public SmartshopNotification() {
 	}
 
-	public MyNotification(String content, Date date, String username) {
+	public SmartshopNotification(String content, Date date, String username) {
 		this.content = content;
 		this.date = date;
 		this.username = username;
@@ -24,7 +24,7 @@ public class MyNotification {
 	}
 
 	public static Type getType() {
-		return new TypeToken<List<MyNotification>>() {
+		return new TypeToken<List<SmartshopNotification>>() {
 		}.getType();
 	}
 }
