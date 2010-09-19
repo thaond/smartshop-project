@@ -43,10 +43,10 @@ public class GetUserSubscribeProductByUsername extends BaseRestfulService {
 		
 		Date fromDate = null, toDate = null;
 		if (fromDateStr != null) {
-			fromDate = Global.dfFull.parse(fromDateStr);
+			fromDate = Global.df.parse(fromDateStr);
 		}
 		if (toDateStr != null) {
-			toDate = Global.dfFull.parse(toDateStr);
+			toDate = Global.df.parse(toDateStr);
 		}
 		if (fromDate != null && toDate != null && fromDate.after(toDate)) {
 			throw new Exception(Global.messages.getString("invalid_date_format"));
