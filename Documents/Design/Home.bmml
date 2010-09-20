@@ -1,0 +1,63 @@
+<mockup version="1.0" skin="sketch" measuredW="1045" measuredH="648" mockupW="838" mockupH="563">
+  <controls>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="197" y="75" w="838" h="563" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Canvas" x="836" y="222" w="190" h="149" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1"/>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Canvas" x="203" y="146" w="817" h="67" measuredW="100" measuredH="70" zOrder="2" locked="false" isInGroup="-1"/>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Canvas" x="212" y="222" w="195" h="352" measuredW="100" measuredH="70" zOrder="3" locked="false" isInGroup="-1"/>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Canvas" x="414" y="223" w="403" h="385" measuredW="100" measuredH="70" zOrder="4" locked="false" isInGroup="-1"/>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Canvas" x="836" y="401" w="190" h="197" measuredW="100" measuredH="70" zOrder="5" locked="false" isInGroup="-1"/>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Canvas" x="419" y="410" w="393" h="180" measuredW="100" measuredH="70" zOrder="6" locked="false" isInGroup="-1"/>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Image" x="463" y="160" w="542" h="38" measuredW="577" measuredH="60" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>../../../../../../../../C%3A/Users/VoMinhTam/Desktop/search.PNG</src>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Canvas" x="419" y="230" w="393" h="180" measuredW="100" measuredH="70" zOrder="8" locked="false" isInGroup="-1"/>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Label" x="743" y="590" w="-1" h="-1" measuredW="66" measuredH="25" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1%20%202%20%203%20%3E</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Label" x="888" y="188" w="-1" h="-1" measuredW="117" measuredH="25" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Tim%20kiem%20nang%20cao</text>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::Image" x="212" y="226" w="194" h="344" measuredW="235" measuredH="445" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>../../../../../../../../C%3A/Users/VoMinhTam/Desktop/category.PNG</src>
+      </controlProperties>
+    </control>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::Image" x="421" y="230" w="388" h="180" measuredW="808" measuredH="259" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>../../../../../../../../C%3A/Users/VoMinhTam/Desktop/head.PNG</src>
+      </controlProperties>
+    </control>
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::Label" x="203" y="148" w="-1" h="-1" measuredW="32" measuredH="25" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Logo</text>
+      </controlProperties>
+    </control>
+    <control controlID="17" controlTypeID="com.balsamiq.mockups::Image" x="836" y="222" w="184" h="149" measuredW="211" measuredH="133" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./Resource/login.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="18" controlTypeID="com.balsamiq.mockups::Image" x="839" y="391" w="-1" h="-1" measuredW="183" measuredH="199" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./Resource/ads.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="19" controlTypeID="com.balsamiq.mockups::Label" x="421" y="410" w="-1" h="-1" measuredW="121" measuredH="25" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>San%20pham%20moi%20nhat</text>
+      </controlProperties>
+    </control>
+    <control controlID="20" controlTypeID="com.balsamiq.mockups::Image" x="421" y="435" w="388" h="155" measuredW="587" measuredH="322" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/list%2520product.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
