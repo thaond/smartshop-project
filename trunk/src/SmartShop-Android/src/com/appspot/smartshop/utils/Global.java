@@ -2,12 +2,10 @@ package com.appspot.smartshop.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.text.LoginFilter.UsernameFilterGMail;
 
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.mock.MockUserInfo;
@@ -20,16 +18,15 @@ public class Global {
 	 * Update interval
 	 */
 	public static int UPDATE_INTERVAL = 60000;
+	public static boolean isStop = false;
 
 	/*
 	 * User
 	 */
-	public static String username = MockUserInfo.getInstance().username;
-	public static Double lat = MockUserInfo.getInstance().lat;
-	public static Double lng = MockUserInfo.getInstance().lng;
-	public static boolean isLogin = false;	// TODO for test
-	public static UserInfo userInfo = MockUserInfo.getInstance();	// TODO for test
-	//TODO (tam -> duc) Test, remove username, isLogin. B/c we check whether userInfo isn't equals null to know user have logined or not
+	// TODO test 
+	public static String username = "duc";
+	public static boolean isLogin = false;	
+	public static UserInfo userInfo = null;
 
 	/*
 	 * Misc
@@ -46,12 +43,17 @@ public class Global {
 			NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
 			.create();
 	public static Activity application = null; // point to HomeActivity
-//	public static Intent intent = new Intent();
 	public static DateFormat df = new SimpleDateFormat(NORMAL_DATE);
 	public static DateFormat dfFull = new SimpleDateFormat(
 			NORMAL_DATE_WITH_HOUR);
 	public static DateFormat dfTimeStamp = new SimpleDateFormat("yyyyMMddHHmmssSS");
-	public static InputFilter[] usernameInputFilters = new InputFilter[] { new UsernameFilterGMail() };
+	
+	// (key_cat, name) of categories
+	public static HashMap<String, String> mapParentCategories = new HashMap<String, String>();
+	public static HashMap<String, String> mapChildrenCategories = new HashMap<String, String>();
+	
+	// (key_cat, child categories)
+	public static LinkedList<String[]> listCategories = new LinkedList<String[]>();
 
 	/*
 	 * Intent key

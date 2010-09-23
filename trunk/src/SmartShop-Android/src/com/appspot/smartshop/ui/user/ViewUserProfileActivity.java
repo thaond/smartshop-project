@@ -26,8 +26,6 @@ import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.product.PostProductActivity;
-import com.appspot.smartshop.ui.user.subcribe.CategoriesDialogForSubcribe;
-import com.appspot.smartshop.ui.user.subcribe.CategoriesDialogForSubcribe.CategoriesDialogForSubcribeListener;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.MyArrayAdapter;
 import com.appspot.smartshop.utils.ObjectPool;
@@ -170,14 +168,6 @@ public class ViewUserProfileActivity extends Activity {
 	}
 	
 	protected void showCategoryForSubcribe() {
-		CategoriesDialogForSubcribe.showCategoriesDialog(this, new CategoriesDialogForSubcribeListener() {
-			
-			@Override
-			public void onCategoriesDialogClose(List<String> categories) {
-				
-			}
-		});
-		
 	}
 
 	private void viewProfile() {

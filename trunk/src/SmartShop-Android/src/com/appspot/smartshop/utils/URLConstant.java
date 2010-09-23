@@ -41,12 +41,15 @@ public class URLConstant {
 	public static final String ADD_NEW_SUBCRIBE = HOST + "/api/asd/create-subcribe/";
 	public static final String EDIT_SUBCRIBE = HOST + "/api/asd/edit-subcribe/";
 	public static final String GET_PRODUCT_IN_SUB_RANGE = HOST + "/api/asd/get-products-in-sub-range/";
-
 	
 	public static final String SEND_EMAIL_TO_ADMIN = HOST + "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s";
 	public static final String SEND_EMAIL = HOST + "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&to=%s";
+	
 	public static final String GET_NOTIFICATIONS = HOST + "/api/asd/noti-get-by/" ;
 	public static final String MARK_AS_READ_ALL_NOTIFICATIONS = HOST + "/api/asd/noti-mark-as-read/";
+	
+	public static final String GET_USER_SUBCRIBES = HOST + "/api/asd/get-subscribe-by-user/?username=%s&mode=0";
+	
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/myupload.php?username=%s";
 }

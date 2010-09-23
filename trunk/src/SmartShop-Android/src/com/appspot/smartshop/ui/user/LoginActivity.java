@@ -37,7 +37,7 @@ import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
 
 public class LoginActivity extends Activity {
-	public static final String TAG = "LoginActivity";
+	public static final String TAG = "[LoginActivity]";
 	public static final String PARAM_NOFITICATION = "{username:\"%s\",type_id:%d}";
 	private TextView lblUsername;
 	private EditText txtUsername;
@@ -111,9 +111,6 @@ public class LoginActivity extends Activity {
 						Global.isLogin = true;
 						Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
 						Global.username = Global.userInfo.username;
-						Global.lat = Global.userInfo.lat;
-						Global.lng = Global.userInfo.lng;
-						System.out.println(Global.username);
 						
 						if (StringUtils.isEmptyOrNull(lastActivity)){
 							
@@ -186,7 +183,7 @@ public class LoginActivity extends Activity {
 				android.R.drawable.btn_star_big_on, charTicker, when);
 		Context context = getApplicationContext();
 		Intent notificationIntent = new Intent(this,
-				ViewNotificationsActivity.class);
+				SmartShopActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
 				notificationIntent, 0);
 		notification.setLatestEventInfo(context, charTitle, charContent,

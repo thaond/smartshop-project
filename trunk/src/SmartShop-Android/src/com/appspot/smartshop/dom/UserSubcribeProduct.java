@@ -1,7 +1,10 @@
 package com.appspot.smartshop.dom;
 
+import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
+
+import com.google.gson.reflect.TypeToken;
 
 public class UserSubcribeProduct {
 	public Long id;
@@ -12,7 +15,13 @@ public class UserSubcribeProduct {
 	public boolean isActive = true;
 	public Date date;
 	public String userName;
+	public String q;
 	public List<String> categoryList;
+	public boolean isNew;
 
 	public UserSubcribeProduct(){};
+	
+	public static Type getType() {
+		return new TypeToken<List<UserSubcribeProduct>>() {}.getType();
+	}
 }

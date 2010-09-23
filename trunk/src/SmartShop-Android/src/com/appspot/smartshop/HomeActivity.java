@@ -24,6 +24,7 @@ import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.ui.user.ViewUserProfileActivity;
 import com.appspot.smartshop.ui.user.email.SendEmailActivity;
 import com.appspot.smartshop.ui.user.email.SendEmailToAdminActivity;
+import com.appspot.smartshop.ui.user.subcribe.UserSubcribeListActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.URLConstant;
@@ -73,7 +74,7 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testViewProfile();
+		testSubcribeList();
 	}
 
 	protected void test2() {
@@ -81,6 +82,11 @@ public class HomeActivity extends Activity {
 	}
 
 	protected void test3() {
+	}
+	
+	void testSubcribeList() {
+		Intent intent = new Intent(this, UserSubcribeListActivity.class);
+		startActivity(intent);
 	}
 	
 	void testViewProfile() {
