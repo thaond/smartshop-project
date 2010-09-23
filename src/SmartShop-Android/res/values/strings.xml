@@ -212,4 +212,7 @@
 	<string name="search_location">Tìm kiếm</string>
 	<string name="warn_search_location_empty">Nhập vào địa điểm cần tìm</string>
 	<string name="warn_cannot_find_search_location">Không tìm thấy địa điểm vừa nhập</string>
+	
+	<string name="init_data">Đang nạp dữ liệu...</string>
+	<string name="no_category">Chưa phân danh mục</string>
 </resources>

@@ -57,24 +57,6 @@ public class TestActivity extends MapActivity {
 		// TODO place test function here
 		testUserLocationDialog();
 	}
-	
-	void testRequest() {
-		System.out.println("start request");
-		
-		RestClient.getData(URLConstant.GET_PARENT_CATEGORIES, new JSONParser() {
-			
-			@Override
-			public void onSuccess(JSONObject json) throws JSONException {
-			}
-			
-			@Override
-			public void onFailure(String message) {
-				System.out.println(message);
-			}
-		});
-		
-		System.out.println("finish request");
-	}
 
 	private static final int CREATE_SUBCRIBE = 0;
 	private static final int EDIT_SUBCRIBE = 1;
