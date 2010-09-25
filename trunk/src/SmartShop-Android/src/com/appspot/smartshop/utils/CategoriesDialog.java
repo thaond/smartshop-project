@@ -148,7 +148,7 @@ public class CategoriesDialog {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (isChecked) {
 						String subCategory = txtView.getText().toString();
-						setSelectedCategories.add(Global.mapChildrenCategories.get(subCategory));
+						setSelectedCategories.add(Global.mapChildrenCategoriesName.get(subCategory));
 					}
 				}
 			});

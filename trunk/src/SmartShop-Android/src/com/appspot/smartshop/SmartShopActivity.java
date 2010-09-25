@@ -1,5 +1,7 @@
 package com.appspot.smartshop;
 
+import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +22,7 @@ import com.appspot.smartshop.utils.NotifyingService;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 
 public class SmartShopActivity extends ListActivity {
 	public static final String TAG = "[SmartShopActivity]";
@@ -48,6 +51,13 @@ public class SmartShopActivity extends ListActivity {
 			
 			@Override
 			public void updateUI() {
+				CategoriesDialog.showCategoriesDialog(SmartShopActivity.this, new CategoriesDialogListener() {
+					
+					@Override
+					public void onCategoriesDialogClose(Set<String> categories) {
+						System.out.println(categories);
+					}
+				});
 			}
 			
 			@Override
@@ -104,6 +114,7 @@ public class SmartShopActivity extends ListActivity {
 						temp[k] = name;
 						
 						Global.mapChildrenCategories.put(key_cat, name);
+						Global.mapChildrenCategoriesName.put(name, key_cat);
 					}
 					
 					Global.listCategories.add(temp);

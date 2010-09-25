@@ -52,6 +52,9 @@ public class Global {
 	public static HashMap<String, String> mapParentCategories = new HashMap<String, String>();
 	public static HashMap<String, String> mapChildrenCategories = new HashMap<String, String>();
 	
+	// (name, key_cat) of categories
+	public static HashMap<String, String> mapChildrenCategoriesName = new HashMap<String, String>();
+	
 	// (key_cat, child categories)
 	public static LinkedList<String[]> listCategories = new LinkedList<String[]>();
 
