@@ -52,6 +52,8 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	@Persistent
 	private int type_notification;
 	
+	private boolean isNew;
+	
 	@Persistent
 	@Exclude
 	private List<String> geocells;
@@ -206,5 +208,19 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 		} catch (CloneNotSupportedException e) {
 			return null;
 		}
+	}
+
+	/**
+	 * @param isNew the isNew to set
+	 */
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+
+	/**
+	 * @return the isNew
+	 */
+	public boolean isNew() {
+		return isNew;
 	}
 }

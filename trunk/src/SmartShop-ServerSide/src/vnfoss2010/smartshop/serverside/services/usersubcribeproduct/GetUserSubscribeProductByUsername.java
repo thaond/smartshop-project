@@ -38,22 +38,27 @@ public class GetUserSubscribeProductByUsername extends BaseRestfulService {
 			mode = Integer.parseInt(getParameter("mode", params, json));
 		} catch (Exception e) {
 		}
-		String fromDateStr = getParameter("fromDate", params, json);
-		String toDateStr = getParameter("toDate", params, json);
-		
-		Date fromDate = null, toDate = null;
-		if (fromDateStr != null) {
-			fromDate = Global.df.parse(fromDateStr);
-		}
-		if (toDateStr != null) {
-			toDate = Global.df.parse(toDateStr);
-		}
-		if (fromDate != null && toDate != null && fromDate.after(toDate)) {
-			throw new Exception(Global.messages.getString("invalid_date_format"));
+//		String fromDateStr = getParameter("fromDate", params, json);
+//		String toDateStr = getParameter("toDate", params, json);
+//		
+//		Date fromDate = null, toDate = null;
+//		if (fromDateStr != null) {
+//			fromDate = Global.df.parse(fromDateStr);
+//		}
+//		if (toDateStr != null) {
+//			toDate = Global.df.parse(toDateStr);
+//		}
+//		if (fromDate != null && toDate != null && fromDate.after(toDate)) {
+//			throw new Exception(Global.messages.getString("invalid_date_format"));
+//		}
+		Date lastUpdate = null;
+		try {
+			lastUpdate = Global.dfFull.parse(getParameter("lastUpdate", params, json));
+		} catch (Exception e) {
 		}
 		
 		ServiceResult<List<UserSubcribeProduct>> result = dbSubcribe
-				.getUserSubscribeProductByUsername(username, fromDate, toDate, mode);
+				.getUserSubscribeProductByUsernameEnhanced(username, mode, lastUpdate);
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());

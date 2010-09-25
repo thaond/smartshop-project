@@ -3,7 +3,6 @@ package vnfoss2010.smartshop.serverside.services.usersubcribeproduct;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.Global;
@@ -11,7 +10,6 @@ import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.UserSubcribeProductImpl;
 import vnfoss2010.smartshop.serverside.database.dom.Subscribe_ListProduct;
-import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
