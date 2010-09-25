@@ -54,7 +54,11 @@ public class UserSubcribeAdapter extends ArrayAdapter<UserSubcribeProduct> {
 		String categoriesList = "";
 		if (item.categoryList.size() > 0) {
 			for (String cat : item.categoryList) {
-				categoriesList += cat + " ,";
+				String catName = Global.mapParentCategories.get(cat);
+				if (catName == null) {
+					catName = Global.mapChildrenCategories.get(cat);
+				}
+				categoriesList += catName + " ,";
 			}
 			categoriesList = categoriesList.substring(0, categoriesList.length() - 1);
 		} else {

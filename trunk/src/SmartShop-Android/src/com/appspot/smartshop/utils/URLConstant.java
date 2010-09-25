@@ -49,6 +49,7 @@ public class URLConstant {
 	public static final String MARK_AS_READ_ALL_NOTIFICATIONS = HOST + "/api/asd/noti-mark-as-read/";
 	
 	public static final String GET_USER_SUBCRIBES = HOST + "/api/asd/get-subscribe-by-user/?username=%s&mode=0";
+	public static final String GET_PRODUCTS_OF_SUBCRIBE = HOST + "/api/asd/get-products-in-sub-range/?id=%d";
 	
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/myupload.php?username=%s";

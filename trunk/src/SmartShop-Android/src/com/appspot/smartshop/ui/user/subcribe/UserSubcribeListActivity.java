@@ -88,5 +88,6 @@ public class UserSubcribeListActivity extends Activity {
 
 	protected void addNewSubcribe() {
 		// TODO add new subcribe
+		Log.d(TAG, "[ADD NEW SUBCRIBE]");
 	}
 }
