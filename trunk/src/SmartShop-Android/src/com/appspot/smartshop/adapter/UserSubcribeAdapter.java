@@ -3,6 +3,7 @@ package com.appspot.smartshop.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserSubcribeProduct;
+import com.appspot.smartshop.ui.user.subcribe.CreateSubcribeActivity;
 import com.appspot.smartshop.utils.Global;
 
 public class UserSubcribeAdapter extends ArrayAdapter<UserSubcribeProduct> {
@@ -45,7 +47,7 @@ public class UserSubcribeAdapter extends ArrayAdapter<UserSubcribeProduct> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		UserSubcribeProduct item = getItem(position);
+		final UserSubcribeProduct item = getItem(position);
 		holder.chActive.setChecked(item.isActive);
 		// TODO show date of subcribe
 //		holder.txtDate.setText(Global.dfFull.format(item.date));
@@ -72,6 +74,10 @@ public class UserSubcribeAdapter extends ArrayAdapter<UserSubcribeProduct> {
 			public void onClick(View v) {
 				// TODO listener for edit subcribe
 				Log.d(TAG, "[EDIT SUBCRIBE]");
+				
+				Intent intent = new Intent(getContext(), CreateSubcribeActivity.class);
+				intent.putExtra(Global.SUBCRIBE_INFO, item);
+				getContext().startActivity(intent);
 			}
 		});
 		

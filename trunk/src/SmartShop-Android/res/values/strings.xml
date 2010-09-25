@@ -220,6 +220,9 @@
 	<string name="subcribe_sms">SMS</string>
 	<string name="subcribe_email">Email</string>
 	<string name="subcribe_categories">Chọn danh mục</string>
+	<string name="register_subcribe">Đăng ký</string>
+	<string name="subcribe_active">Kích hoạt</string>
+	<string name="subcribe_update">Cập nhật</string>
 	
 	<string name="missing_subcribe_location">Bạn chưa chọn địa điểm</string>
 </resources>

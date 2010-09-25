@@ -1,12 +1,13 @@
 package com.appspot.smartshop.dom;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 
-public class UserSubcribeProduct {
+public class UserSubcribeProduct implements Serializable{
 	public static final int EMAIL_NOTIFICATION = 1;
 	public static final int SMS_NOTIFICCATION = 2;
 	public static final int EMAIL_AND_SMS_NOTIFICATION = 3;
@@ -21,7 +22,6 @@ public class UserSubcribeProduct {
 	public String userName;
 	public String q;
 	public List<String> categoryList;
-	public boolean isNew;
 	public int type_notification;
 
 	public UserSubcribeProduct(){};

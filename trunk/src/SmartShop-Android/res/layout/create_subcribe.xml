@@ -3,6 +3,10 @@
 	android:layout_width="fill_parent" android:layout_height="wrap_content"
 	android:orientation="vertical">
 
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/txtDate"
+		android:layout_gravity="center_horizontal" />
+
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="horizontal">
 		<EditText android:layout_width="fill_parent"
@@ -12,16 +16,18 @@
 			android:id="@+id/txtRadius" android:paddingRight="10dip" />
 		<Button android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/btnSubcribe"
-			android:text="@string/btnSearchProductsOnMap" />
+			android:text="@string/register_subcribe" />
 	</LinearLayout>
 
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_gravity="right" android:layout_height="wrap_content">
+		<CheckBox android:layout_width="wrap_content" android:text="@string/subcribe_active"
+			android:layout_height="wrap_content" android:id="@+id/chActive" />
 		<CheckBox android:layout_width="wrap_content" android:text="@string/subcribe_email"
 			android:layout_height="wrap_content" android:id="@+id/chEmail" />
 		<CheckBox android:layout_width="wrap_content" android:text="@string/subcribe_sms"
-			android:layout_height="wrap_content" android:id="@+id/chSms" 
-			android:paddingRight="10dip"/>
+			android:layout_height="wrap_content" android:id="@+id/chSms"
+			android:paddingRight="10dip" />
 		<Button android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/btnCategories"
 			android:background="@drawable/category" />

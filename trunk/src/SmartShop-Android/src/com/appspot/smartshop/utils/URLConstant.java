@@ -38,10 +38,6 @@ public class URLConstant {
 	public static final String GET_VATGIA_PRODUCTS = HOST + "/api/asd/parser-vatgia-keyword/?keyword=%s&page=%d";
 	public static final String GET_DETAIL_OF_VATGIA_PRODUCT = HOST + "/api/asd/parser-vatgia-each-product-n/?url=%s";
 	
-	public static final String ADD_NEW_SUBCRIBE = HOST + "/api/asd/create-subcribe/";
-	public static final String EDIT_SUBCRIBE = HOST + "/api/asd/edit-subcribe/";
-	public static final String GET_PRODUCT_IN_SUB_RANGE = HOST + "/api/asd/get-products-in-sub-range/";
-	
 	public static final String SEND_EMAIL_TO_ADMIN = HOST + "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s";
 	public static final String SEND_EMAIL = HOST + "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&to=%s";
 	
@@ -51,6 +47,7 @@ public class URLConstant {
 	public static final String GET_USER_SUBCRIBES = HOST + "/api/asd/get-subscribe-by-user/?username=%s&mode=0";
 	public static final String GET_PRODUCTS_OF_SUBCRIBE = HOST + "/api/asd/get-products-in-sub-range/?id=%d";
 	public static final String CREATE_SUBCRIBE = HOST + "/api/asd/create-subcribe/";
+	public static final String EDIT_SUBCRIBE = HOST + "/api/asd/edit-subcribe/";
 	
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/myupload.php?username=%s";
