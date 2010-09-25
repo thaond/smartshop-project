@@ -23,7 +23,7 @@ public class Global {
 	/*
 	 * User
 	 */
-	// TODO test 
+	// TODO mock username
 	public static String username = "duc";
 	public static boolean isLogin = false;	
 	public static UserInfo userInfo = null;
