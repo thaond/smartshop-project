@@ -7,6 +7,10 @@ import java.util.List;
 import com.google.gson.reflect.TypeToken;
 
 public class UserSubcribeProduct {
+	public static final int EMAIL_NOTIFICATION = 1;
+	public static final int SMS_NOTIFICCATION = 2;
+	public static final int EMAIL_AND_SMS_NOTIFICATION = 3;
+	
 	public Long id;
 	public Double lat;
 	public Double lng;
