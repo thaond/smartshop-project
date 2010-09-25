@@ -219,40 +219,40 @@ public class SampleData {
 		ArrayList<UserSubcribeProduct> a = new ArrayList<UserSubcribeProduct>();
 
 		a.add(new UserSubcribeProduct("tam", 10.776854, 106.690548, 10000D,
-				true, "Mô tả", "Coffee", 1));
+				true, new Date(), "Mô tả", "Coffee", 1));
 		UserSubcribeProduct u = new UserSubcribeProduct("tam", 10.764789,
-				106.618749, 10000D, true, "Mô tả", "nokia", 1);
+				106.618749, 10000D, true, new Date(), "Mô tả", "nokia", 1);
 		u.getCategoryList().add("mobile_pda_sub");
 		a.add(u);
 		a.add(new UserSubcribeProduct("tam", 10.776854, 106.690548, 10000D,
-				false, "Mô tả", "nokia", 1));
+				false, new Date(), "Mô tả", "nokia", 1));
 
 		a.add(new UserSubcribeProduct("duc", 10.776854, 106.690548, 10000D,
-				true, "Mô tả", "Coffee", 1));
+				true, new Date(), "Mô tả", "Coffee", 1));
 		u = new UserSubcribeProduct("duc", 10.764789, 106.618749, 10000D, true,
-				"Mô tả", "nokia", 1);
+				new Date(), "Mô tả", "nokia", 1);
 		u.getCategoryList().add("mobile_pda_sub");
 		a.add(u);
 		a.add(new UserSubcribeProduct("duc", 10.776854, 106.690548, 10000D,
-				false, "Mô tả", "nokia", 1));
+				false, new Date(), "Mô tả", "nokia", 1));
 
 		a.add(new UserSubcribeProduct("nghia", 10.776854, 106.690548, 10000D,
-				true, "Mô tả", "Coffee", 1));
+				true, new Date(), "Mô tả", "Coffee", 1));
 		u = new UserSubcribeProduct("nghia", 10.764789, 106.618749, 10000D,
-				true, "Mô tả", "nokia", 1);
+				true, new Date(), "Mô tả", "nokia", 1);
 		u.getCategoryList().add("mobile_pda_sub");
 		a.add(u);
 		a.add(new UserSubcribeProduct("nghia", 10.776854, 106.690548, 10000D,
-				false, "Mô tả", "nokia", 1));
+				false, new Date(), "Mô tả", "nokia", 1));
 
 		a.add(new UserSubcribeProduct("loi", 10.776854, 106.690548, 10000D,
-				true, "Mô tả", "Coffee", 1));
+				true, new Date(), "Mô tả", "Coffee", 1));
 		u = new UserSubcribeProduct("loi", 10.764789, 106.618749, 10000D, true,
-				"Mô tả", "nokia", 1);
+				new Date(), "Mô tả", "nokia", 1);
 		u.getCategoryList().add("mobile_pda_sub");
 		a.add(u);
 		a.add(new UserSubcribeProduct("loi", 10.776854, 106.690548, 10000D,
-				false, "Mô tả", "nokia", 1));
+				false, new Date(), "Mô tả", "nokia", 1));
 
 		return a;
 	}

@@ -1,5 +1,6 @@
 package vnfoss2010.smartshop.serverside.services.usersubcribeproduct;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -35,12 +36,29 @@ public class GetProductInSubcribeRange extends BaseRestfulService {
 		} catch (Exception ex) {
 		}
 		Long subID = Long.parseLong(getParameterWithThrow("id", params, json));
+		long fromRecord = 0;
+		try {
+			fromRecord = Long.parseLong(getParameter("from", params, json));
+		} catch (Exception e) {
+		}
+		
+		long toRecord = 0;
+		try {
+			toRecord = Long.parseLong(getParameter("to", params, json));
+		} catch (Exception e) {
+		}
+		
+		Date lastUpdate = null;
+		try {
+			lastUpdate = Global.dfFull.parse(getParameter("lastUpdate", params, json));
+		} catch (Exception e) {
+		}
 
 		ServiceResult<UserSubcribeProduct> searchResult = dbSubcribe
 				.findSubcribe(subID);
 		if (searchResult.isOK()) {
 			ServiceResult<List<Product>> result = dbSubcribe
-					.searchProductInSubcribeRange(searchResult.getResult());
+					.searchProductInSubcribeRange(searchResult.getResult(), fromRecord, toRecord, lastUpdate);
 			if (result.isOK()) {
 				Gson gson = Global.gsonDateWithoutHour;
 				JsonArray productArray = new JsonArray();

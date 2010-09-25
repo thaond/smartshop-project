@@ -3,6 +3,7 @@ package vnfoss2010.smartshop.serverside.services.map;
 import java.util.Map;
 
 import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.map.geocoder.GoogleGeocoder;
 import vnfoss2010.smartshop.serverside.map.geocoder.YahooPlaceFinder;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
@@ -37,7 +38,7 @@ public class GeocoderService extends BaseRestfulService{
 				if (s.equals("yahoo"))
 					jsonReturn.add("yahoo", Global.gsonDateWithoutHour.toJsonTree(YahooPlaceFinder.geocode(adr, country)));
 				if (s.equals("google"))
-					jsonReturn.add("google", Global.gsonDateWithoutHour.toJsonTree(YahooPlaceFinder.geocode(adr, country)));
+					jsonReturn.add("google", Global.gsonDateWithoutHour.toJsonTree(GoogleGeocoder.geocode(adr, country)));
 			}
 		}else{
 			jsonReturn.add("yahoo", Global.gsonDateWithoutHour.toJsonTree(YahooPlaceFinder.geocode(adr, country)));

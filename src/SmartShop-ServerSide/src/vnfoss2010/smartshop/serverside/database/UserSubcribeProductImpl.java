@@ -1,19 +1,20 @@
 package vnfoss2010.smartshop.serverside.database;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.database.dom.Subscribe_ListProduct;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
+import vnfoss2010.smartshop.serverside.utils.Predicate;
 import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
 import vnfoss2010.smartshop.serverside.utils.StringUtils;
 import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
@@ -32,9 +33,11 @@ public class UserSubcribeProductImpl {
 		ServiceResult<UserSubcribeProduct> result = new ServiceResult<UserSubcribeProduct>();
 		UserSubcribeProduct subcribe = null;
 		PersistenceManager pm = null;
-		try {
 			pm = PMF.get().getPersistenceManager();
-			subcribe = pm.getObjectById(UserSubcribeProduct.class, id);
+			try {
+				subcribe = pm.getObjectById(UserSubcribeProduct.class, id);
+			} catch (JDOObjectNotFoundException e) {
+			}
 			if (subcribe == null) {
 				result.setOK(false);
 				result.setMessage(Global.messages
@@ -45,15 +48,10 @@ public class UserSubcribeProductImpl {
 				result.setMessage(Global.messages
 						.getString("get_subscribe_successfully"));
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
 			try {
 				pm.close();
 			} catch (Exception e) {
 			}
-
-		}
 		return result;
 	}
 
@@ -88,13 +86,16 @@ public class UserSubcribeProductImpl {
 	}
 
 	public ServiceResult<List<Product>> searchProductInSubcribeRange(
-			UserSubcribeProduct subcribe) {
+			UserSubcribeProduct subcribe, long fromRecord, long toRecord,
+			final Date lastUpdate) {
 		Point center = subcribe.getLocation();
 		Double maxDistance = subcribe.getRadius();
 
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		List<String> pa = subcribe.getCategoryList();
+		// List<Object> para = new ArrayList<Object>();
+		// para.add(subcribe.getCategoryList());
 		// for (int i = 0; i < pa.size(); i++) {
 		// GeocellQuery<String> baseQuery = new GeocellQuery<String>(
 		// "setCategoryKeys.contains(catKey" + i + ")",
@@ -103,9 +104,30 @@ public class UserSubcribeProductImpl {
 
 		List<Product> listProduct = null;
 		GeocellQuery baseQuery = null;
+
+		Predicate<Product> isLargerDatePost = new Predicate<Product>() {
+
+			@Override
+			public boolean apply(Product type) {
+				if (lastUpdate == null
+						|| type.getDate_post().compareTo(lastUpdate) > 0) {
+					return true;
+				}
+				return false;
+			}
+		};
+
 		if (StringUtils.isEmptyOrNull(subcribe.getKeyword())) {
-			baseQuery = new GeocellQuery<String>(
-					"setCategoryKeys.contains(catKey)", "String catKey", pa);
+			String where = "setCategoryKeys.contains(catKey)";
+			String decleare = "String catKey";
+			// if (lastUpdate!=null){
+			// baseQuery.setDeclearedImports("import java.util.Date");
+			// where = where + " && date_post>last";
+			// decleare = decleare + ", Date last";
+			// para.add(lastUpdate);
+			// }
+			baseQuery = new GeocellQuery<String>(where, decleare, pa);
+			baseQuery.setRange(fromRecord, toRecord);
 
 			listProduct = GeocellManager.proximityFetchNew(center, 40,
 					maxDistance, Product.class, baseQuery, pm,
@@ -135,8 +157,16 @@ public class UserSubcribeProductImpl {
 			// //////
 
 			if (pa.isEmpty()) {
+				// String importStr = null;
+				// if (lastUpdate!=null){
+				// queryBuffer.append(" && date_post>last");
+				// importStr = "import java.util.Date";
+				// declareParametersBuffer.append(", Date last");
+				// parametersForSearch.add(lastUpdate);
+				// }
 				baseQuery = new GeocellQuery(queryBuffer.toString(),
 						declareParametersBuffer.toString(), parametersForSearch);
+				baseQuery.setRange(fromRecord, toRecord);
 
 				listProduct = GeocellManager.proximityFetchNew(center, 40,
 						maxDistance, Product.class, baseQuery, pm,
@@ -144,8 +174,19 @@ public class UserSubcribeProductImpl {
 
 			} else {
 				// parametersForSearch.add(0, pa);
+				// String importStr = null;
+				// if (lastUpdate!=null){
+				// baseQuery.setDeclearedImports("import java.util.Date");
+				// queryBuffer.append(" && date_post>last");
+				// importStr = "import java.util.Date";
+				// declareParametersBuffer.append(", Date last");
+				// parametersForSearch.add(lastUpdate);
+				// }
+
 				baseQuery = new GeocellQuery(queryBuffer.toString(),
 						declareParametersBuffer.toString(), parametersForSearch);
+				// baseQuery.setDeclearedImports(importStr);
+				baseQuery.setRange(fromRecord, toRecord);
 
 				listProduct = GeocellManager.proximityFetchNew(center, 40,
 						maxDistance, Product.class, baseQuery, pm,
@@ -162,6 +203,11 @@ public class UserSubcribeProductImpl {
 				}
 			}
 		}
+		
+		if (lastUpdate != null) {
+			// filter
+			listProduct = UtilsFunction.filter(listProduct, isLargerDatePost);
+		}
 
 		try {
 			if (listProduct != null) {
@@ -176,17 +222,18 @@ public class UserSubcribeProductImpl {
 		return result;
 	}
 
-	public ServiceResult<List<Product>> getSubscribeProductByUsername(
-			String username) {
-		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
-		List<Product> list = new ArrayList<Product>();
+	public ServiceResult<List<Subscribe_ListProduct>> getSubscribeProductByUsername(
+			String username, long fromRecord, long toRecord, Date lastUpdate) {
+		ServiceResult<List<Subscribe_ListProduct>> result = new ServiceResult<List<Subscribe_ListProduct>>();
+		List<Subscribe_ListProduct> list = new ArrayList<Subscribe_ListProduct>();
 		ServiceResult<List<UserSubcribeProduct>> resultSub = getUserSubscribeProductByUsername(
 				username, null, null, 1);
 		if (resultSub.isOK()) {
 			for (UserSubcribeProduct subscribe : resultSub.getResult()) {
-				ServiceResult<List<Product>> tmp = searchProductInSubcribeRange(subscribe);
+				ServiceResult<List<Product>> tmp = searchProductInSubcribeRange(
+						subscribe, fromRecord, toRecord, lastUpdate);
 				if (tmp.isOK()) {
-					list.addAll(tmp.getResult());
+					list.add(new Subscribe_ListProduct(subscribe.getId(), tmp.getResult()));
 				}
 			}
 
@@ -287,10 +334,8 @@ public class UserSubcribeProductImpl {
 					+ (toDate == null ? "" : ", Date toDate"));
 			List<Object> listParameters = new ArrayList<Object>();
 			listParameters.add(username);
-			if (fromDate != null) {
+			if (fromDate != null && toDate != null) {
 				listParameters.add(fromDate);
-			}
-			if (toDate != null) {
 				listParameters.add(toDate);
 			}
 			List<UserSubcribeProduct> list = (List<UserSubcribeProduct>) query

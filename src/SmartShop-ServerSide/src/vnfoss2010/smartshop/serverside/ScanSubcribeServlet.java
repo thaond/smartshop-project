@@ -52,7 +52,7 @@ public class ScanSubcribeServlet extends HttpServlet {
 				for (UserSubcribeProduct subcribe : searchSubsResult
 						.getResult()) {
 					ServiceResult<List<Product>> searchProducts = dbSubcribe
-							.searchProductInSubcribeRange(subcribe);
+							.searchProductInSubcribeRange(subcribe, 0, 0, null);
 					if (searchProducts.isOK()) {
 						if (searchProducts.getResult().size() > 0) {
 							ServiceResult<UserInfo> searchUser = dbAccount
