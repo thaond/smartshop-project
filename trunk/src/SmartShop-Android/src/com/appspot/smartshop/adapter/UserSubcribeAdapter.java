@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserSubcribeProduct;
-import com.appspot.smartshop.ui.user.subcribe.CreateSubcribeActivity;
+import com.appspot.smartshop.ui.user.subcribe.SubcribeActivity;
 import com.appspot.smartshop.utils.Global;
 
 public class UserSubcribeAdapter extends ArrayAdapter<UserSubcribeProduct> {
@@ -49,8 +49,11 @@ public class UserSubcribeAdapter extends ArrayAdapter<UserSubcribeProduct> {
 		
 		final UserSubcribeProduct item = getItem(position);
 		holder.chActive.setChecked(item.isActive);
-		// TODO show date of subcribe
-//		holder.txtDate.setText(Global.dfFull.format(item.date));
+		if (item.date != null) {
+			holder.txtDate.setText(Global.dfFull.format(item.date));
+		} else {
+			holder.txtDate.setVisibility(View.GONE);
+		}
 		holder.txtQuery.setText(item.q);
 		
 		String categoriesList = "";
@@ -75,7 +78,7 @@ public class UserSubcribeAdapter extends ArrayAdapter<UserSubcribeProduct> {
 				// TODO listener for edit subcribe
 				Log.d(TAG, "[EDIT SUBCRIBE]");
 				
-				Intent intent = new Intent(getContext(), CreateSubcribeActivity.class);
+				Intent intent = new Intent(getContext(), SubcribeActivity.class);
 				intent.putExtra(Global.SUBCRIBE_INFO, item);
 				getContext().startActivity(intent);
 			}

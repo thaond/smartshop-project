@@ -13,7 +13,7 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.appspot.smartshop.adapter.MainAdapter;
-import com.appspot.smartshop.ui.user.subcribe.CreateSubcribeActivity;
+import com.appspot.smartshop.ui.user.subcribe.SubcribeActivity;
 import com.appspot.smartshop.ui.user.subcribe.UserSubcribeListActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;

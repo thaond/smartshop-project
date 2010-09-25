@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -89,5 +90,7 @@ public class UserSubcribeListActivity extends Activity {
 	protected void addNewSubcribe() {
 		// TODO add new subcribe
 		Log.d(TAG, "[ADD NEW SUBCRIBE]");
+		Intent intent = new Intent(this, SubcribeActivity.class);
+		startActivity(intent);
 	}
 }
