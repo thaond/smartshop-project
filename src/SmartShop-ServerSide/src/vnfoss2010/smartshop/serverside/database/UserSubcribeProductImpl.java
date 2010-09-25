@@ -227,7 +227,7 @@ public class UserSubcribeProductImpl {
 		ServiceResult<List<Subscribe_ListProduct>> result = new ServiceResult<List<Subscribe_ListProduct>>();
 		List<Subscribe_ListProduct> list = new ArrayList<Subscribe_ListProduct>();
 		ServiceResult<List<UserSubcribeProduct>> resultSub = getUserSubscribeProductByUsername(
-				username, null, null, 1);
+				username, null, null, 1, lastUpdate);
 		if (resultSub.isOK()) {
 			for (UserSubcribeProduct subscribe : resultSub.getResult()) {
 				ServiceResult<List<Product>> tmp = searchProductInSubcribeRange(
@@ -298,7 +298,7 @@ public class UserSubcribeProductImpl {
 	 * @return
 	 */
 	public ServiceResult<List<UserSubcribeProduct>> getUserSubscribeProductByUsername(
-			String username, Date fromDate, Date toDate, int mode) {
+			String username, Date fromDate, Date toDate, int mode, Date lastUpdate) {
 		ServiceResult<List<UserSubcribeProduct>> result = new ServiceResult<List<UserSubcribeProduct>>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -363,7 +363,28 @@ public class UserSubcribeProductImpl {
 
 		return result;
 	}
-
+	
+	
+	public ServiceResult<List<UserSubcribeProduct>> getUserSubscribeProductByUsernameEnhanced(
+			String username, int mode, Date lastUpdate) {
+		ServiceResult<List<UserSubcribeProduct>> result = getUserSubscribeProductByUsername(
+				username, null, null, 1, lastUpdate);
+		if (result.isOK()) {
+			for (UserSubcribeProduct subscribe : result.getResult()) {
+				ServiceResult<List<Product>> tmp = searchProductInSubcribeRange(
+						subscribe, 0, 0, lastUpdate);
+				if (tmp.isOK()) {
+					subscribe.setNew(true);
+				}
+			}
+		} else {
+			result.setMessage(result.getMessage());
+			result.setOK(false);
+		}
+		
+		return result;
+	}
+ 
 	public ServiceResult<Void> editSubcribe(UserSubcribeProduct editSubcribe) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		UserSubcribeProduct subcribe = null;
