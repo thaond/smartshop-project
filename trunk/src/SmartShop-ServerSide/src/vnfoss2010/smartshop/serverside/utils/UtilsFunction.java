@@ -1,6 +1,7 @@
 package vnfoss2010.smartshop.serverside.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -86,20 +87,24 @@ public class UtilsFunction {
 		double lat2 = Math.asin(Math.sin(lat1) * Math.cos(d / R)
 				+ Math.cos(lat1) * Math.sin(d / R) * Math.cos(bearing));
 		double lon2 = lon1
-				+ Math.atan2(Math.sin(bearing) * Math.sin(d / R) * Math.cos(lat1),
-						Math.cos(d / R) - Math.sin(lat1) * Math.sin(lat2));
+				+ Math.atan2(Math.sin(bearing) * Math.sin(d / R)
+						* Math.cos(lat1), Math.cos(d / R) - Math.sin(lat1)
+						* Math.sin(lat2));
 		return new GeoPoint(lat2, lon2);
 	}
-	
-	public static boolean isInsideCircle(double latCenter1, double lonCenter1, double r, double lat2, double lon2){
+
+	public static boolean isInsideCircle(double latCenter1, double lonCenter1,
+			double r, double lat2, double lon2) {
 		double d = distance(latCenter1, lonCenter1, lat2, lon2);
-		
-		return (d>r)?false:true;
+
+		return (d > r) ? false : true;
 	}
-	
+
 	/**
 	 * Overcome the problem of Set's serilization of datastore GAE
-	 * @param originSet Set instance which is obtained from datastore
+	 * 
+	 * @param originSet
+	 *            Set instance which is obtained from datastore
 	 * @return a copy of <code>orginSet</code>, but can be serizabled
 	 * @author tamvo
 	 */
@@ -113,7 +118,7 @@ public class UtilsFunction {
 		}
 		return result;
 	}
-	
+
 	public static <T> List<T> cloneList(List<T> originList) {
 		List<T> result = null;
 		if (originList != null) {
@@ -124,46 +129,67 @@ public class UtilsFunction {
 		}
 		return result;
 	}
-	
-	public static String removeViSign(String str){
+
+	public static String removeViSign(String str) {
 		String vietSign = "aáàảãạăắằẳẵặâấầẩẫậAÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬeéèẻẽẹêếềểễệEÉÈẺẼẸÊẾỀỂỄỆiíìỉĩịIÍÌỈĨỊoóòỏõọôốồổỗộơớờởỡợOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢuúùủũụưứừửữựUÚÙỦŨỤƯỨỪỬỮỰyýỳỷỹỵYÝỲỶỸỴdđDĐ";
 		String vietNoSign = "aaaaaaaaaaaaaaaaaaAAAAAAAAAAAAAAAAAAeeeeeeeeeeeeEEEEEEEEEEEEiiiiiiIIIIIIooooooooooooooooooOOOOOOOOOOOOOOOOOOuuuuuuuuuuuuUUUUUUUUUUUUyyyyyyYYYYYYddDD";
-		
-		for (int i = 0; i < str.length(); i++) {
-            for (int j = 0; j < 148; j++) {
-                //str = str.replaceAll(String.valueOf(arrJavaString.charAt(j)), String.valueOf(vietSign.charAt(j)));
-                str = str.replaceAll(String.valueOf(vietSign.charAt(j)), String.valueOf(vietNoSign.charAt(j)));
 
-            }
-        }
-		
+		for (int i = 0; i < str.length(); i++) {
+			for (int j = 0; j < 148; j++) {
+				// str = str.replaceAll(String.valueOf(arrJavaString.charAt(j)),
+				// String.valueOf(vietSign.charAt(j)));
+				str = str.replaceAll(String.valueOf(vietSign.charAt(j)), String
+						.valueOf(vietNoSign.charAt(j)));
+
+			}
+		}
+
 		return str;
 	}
-	
-    /**
-     * Returns a new list containing all elements that are contained in
-     * both given lists.
-     *
-     * @param list1  the first list
-     * @param list2  the second list
-     * @return  the intersection of those two lists
-     * @throws NullPointerException if either list is null
-     */
-    public static List intersection(final Set list1, final List list2) {
-        final ArrayList result = new ArrayList();
-        final Iterator iterator = list2.iterator();
 
-        while (iterator.hasNext()) {
-            final Object o = iterator.next();
+	/**
+	 * Returns a new list containing all elements that are contained in both
+	 * given lists.
+	 * 
+	 * @param list1
+	 *            the first list
+	 * @param list2
+	 *            the second list
+	 * @return the intersection of those two lists
+	 * @throws NullPointerException
+	 *             if either list is null
+	 */
+	public static List intersection(final Set list1, final List list2) {
+		final ArrayList result = new ArrayList();
+		final Iterator iterator = list2.iterator();
 
-            if (list1.contains(o)) {
-                result.add(o);
-            }
-        }
+		while (iterator.hasNext()) {
+			final Object o = iterator.next();
 
-        return result;
-    }
-	
+			if (list1.contains(o)) {
+				result.add(o);
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Filter collection <br>
+	 * Reference: <a href="http://stackoverflow.com/questions/122105/java-what-is-the-best-way-to-filter-a-collection"
+	 * >Stack Overflow</a>
+	 */
+	public static <T> List<T> filter(Collection<T> target,
+			Predicate<T> predicate) {
+		List<T> result = new ArrayList<T>();
+		for (T element : target) {
+			if (predicate.apply(element)) {
+				result.add(element);
+			}
+		}
+		return result;
+	}
+
 	public static void main(String[] args) {
 		System.out.println(distance(50, 50, 51, 50));
 	}

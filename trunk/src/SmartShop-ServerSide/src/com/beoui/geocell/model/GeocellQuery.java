@@ -31,11 +31,15 @@ public class GeocellQuery<T> {
 	 * (Optional) Declared parameters. Ex: "String lastNameParam"
 	 */
 	private String declaredParameters;
+	private String decleredImports;
 
 	/**
 	 * (Optional) List of parameters. Ex: Arrays.asList("Smith")
 	 */
 	private List<T> parameters;
+
+	private long fromRecord;
+	private long toRecord;
 
 	public GeocellQuery(String baseQuery, String declaredParameters,
 			List<T> parameters) {
@@ -55,6 +59,55 @@ public class GeocellQuery<T> {
 
 	public List<T> getParameters() {
 		return parameters;
+	}
+
+	/**
+	 * @param fromRecord
+	 *            the fromRecord to set
+	 */
+	public void setFromRecord(int fromRecord) {
+		this.fromRecord = fromRecord;
+	}
+
+	/**
+	 * @return the fromRecord
+	 */
+	public long getFromRecord() {
+		return fromRecord;
+	}
+
+	/**
+	 * @param toRecord
+	 *            the toRecord to set
+	 */
+	public void setToRecord(int toRecord) {
+		this.toRecord = toRecord;
+	}
+
+	/**
+	 * @return the toRecord
+	 */
+	public long getToRecord() {
+		return toRecord;
+	}
+	
+	public void setRange(long fromRecord, long toRecord){
+		this.fromRecord = fromRecord;
+		this.toRecord = toRecord;
+	}
+
+	/**
+	 * @param decleredImports the decleredImports to set
+	 */
+	public void setDeclearedImports(String decleredImports) {
+		this.decleredImports = decleredImports;
+	}
+
+	/**
+	 * @return the decleredImports
+	 */
+	public String getDecleredImports() {
+		return decleredImports;
 	}
 
 }

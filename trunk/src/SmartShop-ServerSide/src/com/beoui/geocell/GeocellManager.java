@@ -16,7 +16,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 import vnfoss2010.smartshop.serverside.Global;
-import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
 
 import com.beoui.geocell.comparator.LocationComparableTuple;
@@ -536,6 +535,14 @@ public class GeocellManager {
 			} else {
 				query.declareParameters(baseQuery.getDeclaredParameters()
 						+ ", String geocellsP");
+			}
+			
+			if (baseQuery.getDecleredImports()!=null && baseQuery.getDecleredImports().trim().length()>0){
+				query.declareImports(baseQuery.getDecleredImports());
+			}
+			
+			if (baseQuery.getToRecord()>0 && baseQuery.getToRecord()>baseQuery.getFromRecord()){
+				query.setRange(baseQuery.getFromRecord(), baseQuery.getToRecord());
 			}
 
 			List<T> newResultEntities;

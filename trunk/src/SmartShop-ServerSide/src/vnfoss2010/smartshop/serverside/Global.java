@@ -28,7 +28,7 @@ import com.google.gson.JsonParser;
 
 public abstract class Global {
 	public static String HOST_NAME = "http://localhost:8888";
-	public static final String NORMAL_DATE = "dd-MM-yyyy";
+	public static final String NORMAL_DATE = "dd/MM/yyyy";
 	public static final String NORMAL_DATE_WITH_HOUR = "dd/MM/yyyy hh:mm:ss";
 	public static DateFormat df = new SimpleDateFormat(NORMAL_DATE);
 	public static DateFormat dfFull = new SimpleDateFormat(

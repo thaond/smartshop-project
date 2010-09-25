@@ -60,12 +60,13 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	}
 
 	public UserSubcribeProduct(String userName, Double lat, Double lng, Double radius,  
-			boolean isActive, String description, String keyword, int type) {
+			boolean isActive, Date date, String description, String keyword, int type) {
 		this.lat = lat;
 		this.lng = lng;
 		this.radius = radius;
 		this.description = description;
 		this.isActive = isActive;
+		this.date = date;
 		this.username = userName;
 		this.q = keyword;
 		this.type_notification = type;

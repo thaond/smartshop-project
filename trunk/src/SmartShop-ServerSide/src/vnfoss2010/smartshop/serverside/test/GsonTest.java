@@ -25,6 +25,14 @@ public class GsonTest {
 		
 		System.out.println(i | j);
 		
+		Date d1 = new Date();
+		Date d2 = new Date();
+		d2.setMonth(3);
+		
+		System.out.println(d1);
+		System.out.println(d2);
+		System.out.println(d1.compareTo(d2));
+		
 	}
 	
 }
