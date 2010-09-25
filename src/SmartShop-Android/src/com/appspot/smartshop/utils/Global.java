@@ -94,6 +94,7 @@ public class Global {
 	public static final String LOGIN_LAST_ACTIVITY = "last";
 	
 	public static final String SUBCRIBE_ID = "subcribe_id";
+	public static final String SUBCRIBE_INFO = "subcribe_info";
 	/*
 	 * ACTIVITY ACTION NAME
 	 */

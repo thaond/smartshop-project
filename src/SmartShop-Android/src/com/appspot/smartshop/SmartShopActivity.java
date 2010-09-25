@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.appspot.smartshop.adapter.MainAdapter;
+import com.appspot.smartshop.ui.user.subcribe.CreateSubcribeActivity;
 import com.appspot.smartshop.ui.user.subcribe.UserSubcribeListActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
@@ -51,13 +52,9 @@ public class SmartShopActivity extends ListActivity {
 			
 			@Override
 			public void updateUI() {
-				CategoriesDialog.showCategoriesDialog(SmartShopActivity.this, new CategoriesDialogListener() {
-					
-					@Override
-					public void onCategoriesDialogClose(Set<String> categories) {
-						System.out.println(categories);
-					}
-				});
+				// TODO test related with categories dialog
+				Intent intent = new Intent(SmartShopActivity.this, UserSubcribeListActivity.class);
+				startActivity(intent);
 			}
 			
 			@Override

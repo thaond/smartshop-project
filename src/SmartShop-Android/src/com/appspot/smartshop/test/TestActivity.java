@@ -64,62 +64,6 @@ public class TestActivity extends MapActivity {
 	private String url = "";
 	//test get product in sub range
 	public String COMMENTS_PARAM = "{id:%d}";
-	void testGetProductInSubRange(){
-		int id = 1;
-		String param = String.format(COMMENTS_PARAM,id);
-		RestClient.postData(URLConstant.GET_PRODUCT_IN_SUB_RANGE, param, new JSONParser() {
-			@Override
-			public void onSuccess(JSONObject json) throws JSONException {
-				
-				System.out.println(json.toString());
-				
-			}
-			@Override
-			public void onFailure(String message) {
-				System.out.println(message);
-				
-			}
-		});
-		
-	}
-	void testSubcribeProduct() {
-		switch (mode) {
-		case CREATE_SUBCRIBE:
-			url = URLConstant.ADD_NEW_SUBCRIBE;
-			break;
-		case EDIT_SUBCRIBE:
-			url = URLConstant.EDIT_SUBCRIBE;
-			break;
-		}
-		UserSubcribeProduct userSubcribeProduct = new UserSubcribeProduct();
-		userSubcribeProduct.userName = Global.USER_NAME;
-		userSubcribeProduct.date = new Date(89, 1, 1);
-		userSubcribeProduct.lat = 49.0;
-		userSubcribeProduct.lng = 49.0;
-		userSubcribeProduct.isActive = true;
-		userSubcribeProduct.description = "tim tre lac";
-		userSubcribeProduct.radius = 100.0;
-		List<String> list = new LinkedList<String>();
-		list.add("lap");
-		list.add("soft");
-		userSubcribeProduct.categoryList = list;
-
-		String param = Global.gsonDateWithoutHour.toJson(userSubcribeProduct);
-
-		RestClient.postData(url, param,
-				new JSONParser() {
-					@Override
-					public void onSuccess(JSONObject json) throws JSONException {
-						System.out.println(json.toString());
-					}
-
-					@Override
-					public void onFailure(String message) {
-						System.out.println(message);
-					}
-				});
-	}
-
 	void testVatgiaCompanies() {
 		Intent intent = new Intent(this, VatgiaCompaniesActivity.class);
 		startActivity(intent);

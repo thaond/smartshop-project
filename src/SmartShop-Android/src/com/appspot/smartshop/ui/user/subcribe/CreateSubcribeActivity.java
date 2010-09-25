@@ -22,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appspot.smartshop.R;
@@ -118,16 +119,6 @@ public class CreateSubcribeActivity extends MapActivity {
 		});
 		myLocationListener.findCurrentLocation();
 		
-		// search button
-		Button btnSubcribe = (Button) findViewById(R.id.btnSubcribe);
-		btnSubcribe.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				subcribeProducts();
-			}
-		});
-		
 		// category button
 		Button btnCategory = (Button) findViewById(R.id.btnCategories);
 		btnCategory.setOnClickListener(new OnClickListener() {
@@ -138,7 +129,11 @@ public class CreateSubcribeActivity extends MapActivity {
 					
 					@Override
 					public void onCategoriesDialogClose(Set<String> categories) {
-						subcribe.categoryList = new LinkedList<String>(categories);
+						if (editMode) {
+							newSubcribe.categoryList = new LinkedList<String>(categories);
+						} else {
+							subcribe.categoryList = new LinkedList<String>(categories);
+						}
 					}
 				});
 			}
@@ -147,8 +142,139 @@ public class CreateSubcribeActivity extends MapActivity {
 		// checkboxes
 		chSms = (CheckBox) findViewById(R.id.chSms);
 		chEmail = (CheckBox) findViewById(R.id.chEmail);
-	}
+		chActive = (CheckBox) findViewById(R.id.chActive);
+		
+		// date
+		TextView txtDate = (TextView) findViewById(R.id.txtDate);
+		
+		/****************************** Get subcribe from intent *****************/
+		Bundle bundle = getIntent().getExtras();
+		if (bundle != null) {
+			editMode = true;
+			
+			subcribe = (UserSubcribeProduct) bundle.get(Global.SUBCRIBE_INFO);
+			
+			txtSearch.setText(subcribe.q);
+			txtRadius.setText(subcribe.radius + "");
+			txtDate.setText(Global.dfFull.format(subcribe.date));
+			chActive.setChecked(subcribe.isActive);
+			
+			CategoriesDialog.selectedCat = subcribe.categoryList;
+			
+			int notification = subcribe.type_notification;
+			switch (notification) {
+			case UserSubcribeProduct.EMAIL_AND_SMS_NOTIFICATION:
+				chEmail.setChecked(true);
+				chSms.setChecked(true);
+				break;
+				
+			case UserSubcribeProduct.EMAIL_NOTIFICATION:
+				chEmail.setChecked(true);
+				break;
+				
+			case UserSubcribeProduct.SMS_NOTIFICCATION:
+				chSms.setChecked(true);
+				break;
+			}
+		} else {
+			chActive.setVisibility(View.GONE);
+			txtDate.setVisibility(View.GONE);
+		}
+		
 
+		// subcribe button
+		Button btnSubcribe = (Button) findViewById(R.id.btnSubcribe);
+		if (editMode) {
+			btnSubcribe.setText(getString(R.string.subcribe_update));
+		}
+		btnSubcribe.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (editMode) {
+					updateSubcribe();
+				} else {
+					subcribeProducts();
+				}
+			}
+		});
+	}
+	private boolean editMode = false;
+	
+	protected void updateSubcribe() {
+		newSubcribe = new UserSubcribeProduct();
+		
+		// get subcribe query
+		String query = txtSearch.getText().toString();
+		newSubcribe.q = query;
+		
+		// get subcribe radius
+		try {
+			radius = Double.parseDouble(txtRadius.getText().toString());
+		} catch (NumberFormatException ex) {
+			Toast.makeText(this, getString(R.string.errorSearchProductsOnMapRadius), 
+					Toast.LENGTH_LONG).show();
+			return;
+		}
+		newSubcribe.radius = radius;
+		
+		// get subcribe lat, long
+		if (locationOverlay.point == null) {
+			Toast.makeText(this, getString(R.string.missing_subcribe_location), 
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+		newSubcribe.lat = (double)locationOverlay.point.getLatitudeE6() / 1E6;
+		newSubcribe.lng = (double)locationOverlay.point.getLongitudeE6() / 1E6;
+		
+		// other info of subcribe
+		newSubcribe.date = subcribe.date;
+		newSubcribe.isActive = chActive.isChecked();
+		newSubcribe.userName = Global.username;
+		boolean email = chEmail.isChecked();
+		boolean sms = chSms.isChecked();
+		if (email && sms) {
+			newSubcribe.type_notification = UserSubcribeProduct.EMAIL_AND_SMS_NOTIFICATION;
+		} else if (email) {
+			newSubcribe.type_notification = UserSubcribeProduct.EMAIL_NOTIFICATION;
+		} else if (sms) {
+			newSubcribe.type_notification = UserSubcribeProduct.SMS_NOTIFICCATION; 
+		}
+		
+		// create new subcribe
+		task = new SimpleAsyncTask(this, new DataLoader() {
+			
+			@Override
+			public void updateUI() {
+			}
+			
+			@Override
+			public void loadData() {
+				String param = Global.gsonWithHour.toJson(newSubcribe, UserSubcribeProduct.class);
+				
+				RestClient.postData(URLConstant.EDIT_SUBCRIBE, param, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+					}
+					
+					@Override
+					public void onFailure(String message) {
+						task.hasData = false;
+						task.message = message;
+						task.cancel(true);
+					}
+				});
+			}
+		});
+		task.execute();
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		CategoriesDialog.selectedCat.clear();
+	}
 	
 	private UserSubcribeProduct subcribe = new UserSubcribeProduct();
 	private SimpleAsyncTask task;
@@ -180,7 +306,6 @@ public class CreateSubcribeActivity extends MapActivity {
 		// other info of subcribe
 		subcribe.date = new Date();
 		subcribe.isActive = true;
-		subcribe.isNew = true;
 		subcribe.userName = Global.username;
 		boolean email = chEmail.isChecked();
 		boolean sms = chSms.isChecked();
@@ -252,6 +377,8 @@ public class CreateSubcribeActivity extends MapActivity {
 	private LocationOverlay locationOverlay;
 	private CheckBox chSms;
 	private CheckBox chEmail;
+	private CheckBox chActive;
+	private UserSubcribeProduct newSubcribe = new UserSubcribeProduct();
 	private void openSearchLocationDialog() {
 		if (inflater == null) {
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);

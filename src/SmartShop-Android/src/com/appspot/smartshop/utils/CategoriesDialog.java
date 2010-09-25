@@ -2,7 +2,10 @@ package com.appspot.smartshop.utils;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +44,7 @@ public class CategoriesDialog {
 	private static CategoriesDialogListener listener;
 	private static String[] groups;
 	private static String[][] children;
+	public static List<String> selectedCat = new LinkedList<String>();
 
 	public static void showCategoriesDialog(final Context context, CategoriesDialogListener listener) {
 		setSelectedCategories.clear();
@@ -139,9 +143,19 @@ public class CategoriesDialog {
 				boolean isLastChild, View convertView, ViewGroup parent) {
 			convertView = inflater.inflate(R.layout.child_category, null);
 			
+			// text view
 			final TextView txtView = (TextView) convertView.findViewById(R.id.txtchildCategory);
 			txtView.setText(children[groupPosition][childPosition]);
+			
+			// check box
+			String cat_key = Global.mapChildrenCategoriesName.get(
+					children[groupPosition][childPosition]);
 			final CheckBox chSubCategory = (CheckBox) convertView.findViewById(R.id.checkBox);
+			if (selectedCat.contains(cat_key)) {
+				chSubCategory.setChecked(true);
+			}
+			
+			// listener
 			chSubCategory.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				
 				@Override
