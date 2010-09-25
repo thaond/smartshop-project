@@ -302,7 +302,7 @@
 			</intent-filter>
 		</activity>
 		
-		<activity android:name=".ui.user.subcribe.CreateSubcribeActivity"
+		<activity android:name=".ui.user.subcribe.SubcribeActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />

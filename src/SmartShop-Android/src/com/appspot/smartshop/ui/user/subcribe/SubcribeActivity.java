@@ -45,7 +45,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
-public class CreateSubcribeActivity extends MapActivity {
+public class SubcribeActivity extends MapActivity {
 
 	public static final String TAG = "[CreateSubcribeActivity]";
 	public static final String POST_PARAM = "{lat:%f,lng:%f,distance:%f,limit:0,q:%s}";
@@ -125,7 +125,7 @@ public class CreateSubcribeActivity extends MapActivity {
 			
 			@Override
 			public void onClick(View v) {
-				CategoriesDialog.showCategoriesDialog(CreateSubcribeActivity.this, new CategoriesDialogListener() {
+				CategoriesDialog.showCategoriesDialog(SubcribeActivity.this, new CategoriesDialogListener() {
 					
 					@Override
 					public void onCategoriesDialogClose(Set<String> categories) {
@@ -396,7 +396,7 @@ public class CreateSubcribeActivity extends MapActivity {
 			public void onClick(View v) {
 				String query = txtSearch.getText().toString();
 				if (query == null || query.trim().equals("")) {
-					Toast.makeText(CreateSubcribeActivity.this, 
+					Toast.makeText(SubcribeActivity.this, 
 							getString(R.string.warn_search_location_empty), Toast.LENGTH_SHORT).show();
 					dialog.dismiss();
 				} else {

@@ -24,7 +24,7 @@ import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.ui.user.ViewUserProfileActivity;
 import com.appspot.smartshop.ui.user.email.SendEmailActivity;
 import com.appspot.smartshop.ui.user.email.SendEmailToAdminActivity;
-import com.appspot.smartshop.ui.user.subcribe.CreateSubcribeActivity;
+import com.appspot.smartshop.ui.user.subcribe.SubcribeActivity;
 import com.appspot.smartshop.ui.user.subcribe.ProductsListOfSubcribeActivity;
 import com.appspot.smartshop.ui.user.subcribe.UserSubcribeListActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
@@ -92,7 +92,7 @@ public class HomeActivity extends Activity {
 	}
 	
 	void testCreateSubcribe() {
-		Intent intent = new Intent(this, CreateSubcribeActivity.class);
+		Intent intent = new Intent(this, SubcribeActivity.class);
 		startActivity(intent);
 	}
 	
