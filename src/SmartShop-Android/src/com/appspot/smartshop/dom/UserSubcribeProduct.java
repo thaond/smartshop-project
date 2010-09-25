@@ -18,6 +18,7 @@ public class UserSubcribeProduct {
 	public String q;
 	public List<String> categoryList;
 	public boolean isNew;
+	public int type_notification;
 
 	public UserSubcribeProduct(){};
 	
