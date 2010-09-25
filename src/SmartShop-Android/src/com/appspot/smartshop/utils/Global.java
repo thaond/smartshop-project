@@ -89,6 +89,8 @@ public class Global {
 	public static final String VATGIA_URL_LIST_SHOP = "vatgia_url_list_shop";
 	
 	public static final String LOGIN_LAST_ACTIVITY = "last";
+	
+	public static final String SUBCRIBE_ID = "subcribe_id";
 	/*
 	 * ACTIVITY ACTION NAME
 	 */

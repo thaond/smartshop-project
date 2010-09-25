@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.appspot.smartshop.adapter.MainAdapter;
+import com.appspot.smartshop.ui.user.subcribe.UserSubcribeListActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -39,7 +40,7 @@ public class SmartShopActivity extends ListActivity {
 		
 		/**************************** Init data *********************************/
 		Log.d(TAG, "[START NOTIFICATION SERVICE]");
-		// TODO 
+		// TODO start service notification
 //		startService(new Intent(this, NotifyingService.class));
 		
 		Log.d(TAG, "[GET CATEGORIES LIST]");
@@ -47,8 +48,6 @@ public class SmartShopActivity extends ListActivity {
 			
 			@Override
 			public void updateUI() {
-				// TODO test
-				CategoriesDialog.showCategoriesDialog(SmartShopActivity.this, null);
 			}
 			
 			@Override
@@ -126,6 +125,7 @@ public class SmartShopActivity extends ListActivity {
 		
 		Log.d(TAG, "[STOP NOTIFICATION SERVICE]");
 		Global.isStop = true;
+		// TODO stop service notification
 //		stopService(new Intent(this, NotifyingService.class));
 	}
 }

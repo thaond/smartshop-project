@@ -171,7 +171,6 @@ public class SearchProductsOnMapActivity extends MapActivity {
 					return;
 				}
 				
-				// TODO ensure that center not null
 				double lat = (double)productsOverlay.center.getLatitudeE6() / 1E6;
 				double lng = (double)productsOverlay.center.getLongitudeE6() / 1E6;
 				String param = String.format(POST_PARAM, lat, lng, radius, query);
