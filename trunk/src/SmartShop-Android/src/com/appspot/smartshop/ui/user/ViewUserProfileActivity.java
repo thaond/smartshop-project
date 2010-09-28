@@ -26,6 +26,7 @@ import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.product.PostProductActivity;
+import com.appspot.smartshop.ui.user.subcribe.UserSubcribeListActivity;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.MyArrayAdapter;
 import com.appspot.smartshop.utils.ObjectPool;
@@ -150,7 +151,7 @@ public class ViewUserProfileActivity extends Activity {
 				public void onClick(View v) {
 					// TODO subcribe products
 					Log.d(TAG, "[SUBCRIBE PRODUCTS]");
-					showCategoryForSubcribe();
+					showSubcribeList();
 				}
 			});
 			
@@ -166,8 +167,10 @@ public class ViewUserProfileActivity extends Activity {
 			});
 		}
 	}
-	
-	protected void showCategoryForSubcribe() {
+
+	protected void showSubcribeList() {
+		Intent intent = new Intent(this, UserSubcribeListActivity.class);
+		startActivity(intent);
 	}
 
 	private void viewProfile() {

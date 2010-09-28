@@ -60,7 +60,6 @@ public class SubcribeActivity extends MapActivity {
 	private MapController mapController;
 	
 	private static final int SHOW_LOCATION = 1;
-	private static final int DONT_SHOW_LOCATION = 0;
 	private Handler handler = new Handler () {
 		@Override
 		public void handleMessage(Message msg) {
@@ -117,7 +116,8 @@ public class SubcribeActivity extends MapActivity {
 				}
 			}
 		});
-		myLocationListener.findCurrentLocation();
+		// TODO stop find current location on start SubcribeActivity
+//		myLocationListener.findCurrentLocation();
 		
 		// category button
 		Button btnCategory = (Button) findViewById(R.id.btnCategories);

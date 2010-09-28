@@ -23,6 +23,7 @@ public class UserSubcribeProduct implements Serializable{
 	public String q;
 	public List<String> categoryList;
 	public int type_notification;
+	public boolean isNew;
 
 	public UserSubcribeProduct(){};
 	
