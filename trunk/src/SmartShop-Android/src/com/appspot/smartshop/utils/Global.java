@@ -34,7 +34,7 @@ public class Global {
 	public static final int SUCCESS = 0;
 	public static final int ERROR = 1;
 	
-	public static final String NORMAL_DATE = "dd-MM-yyyy";
+	public static final String NORMAL_DATE = "dd/MM/yyyy";
 	public static final String NORMAL_DATE_WITH_HOUR = "dd/MM/yyyy hh:mm:ss";
 	public static final Gson gsonDateWithoutHour = new GsonBuilder()
 			.setDateFormat(NORMAL_DATE).excludeFieldsWithExcludeAnnotation()
