@@ -6,8 +6,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ListActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListView;
+
+import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.dom.UserSubcribeProduct;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -15,13 +25,10 @@ import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 
-import android.app.ListActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.ListView;
-
 public class ProductsListOfSubcribeActivity extends ListActivity {
 	public static final String TAG = "[ProductsListOfSubcribeActivity]";
+	
+	public static UserSubcribeProduct subcribe;
 
 	private ListView listProducts;
 	private long subcribeId;
@@ -74,5 +81,24 @@ public class ProductsListOfSubcribeActivity extends ListActivity {
 			}
 		});
 		task.execute();
+	}
+	
+	private static final int MENU_VIEW_SUBCRIBE_DETAIL = 0;
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_VIEW_SUBCRIBE_DETAIL, 0, getString(R.string.subcribe_detail));
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == MENU_VIEW_SUBCRIBE_DETAIL) {
+			Log.d(TAG, "[EDIT SUBCRIBE]");
+			
+			Intent intent = new Intent(this, SubcribeActivity.class);
+			intent.putExtra(Global.SUBCRIBE_INFO, subcribe);
+			startActivity(intent);
+		}
+		
+		return super.onOptionsItemSelected(item);
 	}
 }

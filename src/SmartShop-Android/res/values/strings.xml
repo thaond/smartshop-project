@@ -223,6 +223,7 @@
 	<string name="register_subcribe">Đăng ký</string>
 	<string name="subcribe_active">Kích hoạt</string>
 	<string name="subcribe_update">Cập nhật</string>
+	<string name="subcribe_detail">Chi tiết</string>
 	
 	<string name="missing_subcribe_location">Bạn chưa chọn địa điểm</string>
 </resources>

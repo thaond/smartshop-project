@@ -53,8 +53,8 @@ public class SmartShopActivity extends ListActivity {
 			@Override
 			public void updateUI() {
 				// TODO test related with categories dialog
-				Intent intent = new Intent(SmartShopActivity.this, UserSubcribeListActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(SmartShopActivity.this, UserSubcribeListActivity.class);
+//				startActivity(intent);
 			}
 			
 			@Override

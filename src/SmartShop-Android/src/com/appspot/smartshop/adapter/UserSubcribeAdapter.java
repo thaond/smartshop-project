@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserSubcribeProduct;
+import com.appspot.smartshop.ui.user.subcribe.ProductsListOfSubcribeActivity;
 import com.appspot.smartshop.ui.user.subcribe.SubcribeActivity;
 import com.appspot.smartshop.utils.Global;
 
@@ -76,10 +77,12 @@ public class UserSubcribeAdapter extends ArrayAdapter<UserSubcribeProduct> {
 			@Override
 			public void onClick(View v) {
 				// TODO listener for edit subcribe
-				Log.d(TAG, "[EDIT SUBCRIBE]");
+				Log.d(TAG, "[VIEW PRODUCTS OF SUBCRIBE]");
 				
-				Intent intent = new Intent(getContext(), SubcribeActivity.class);
-				intent.putExtra(Global.SUBCRIBE_INFO, item);
+				ProductsListOfSubcribeActivity.subcribe = item;
+				
+				Intent intent = new Intent(getContext(), ProductsListOfSubcribeActivity.class);
+				intent.putExtra(Global.SUBCRIBE_ID, item.id);
 				getContext().startActivity(intent);
 			}
 		});
