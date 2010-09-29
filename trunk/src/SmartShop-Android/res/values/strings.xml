@@ -223,7 +223,15 @@
 	<string name="register_subcribe">Đăng ký</string>
 	<string name="subcribe_active">Kích hoạt</string>
 	<string name="subcribe_update">Cập nhật</string>
+
 	<string name="subcribe_detail">Chi tiết</string>
 	
+
 	<string name="missing_subcribe_location">Bạn chưa chọn địa điểm</string>
+	<!-- Add Friend -->
+	<string name="hintFriendSearch">Nhập tên hay email</string>
+	<string name="addFriend">Kết bạn</string>
+	<string name="addFriendSuccess">Thêm danh sách bạn bè thành công</string>
+	<string name="addFriendFail">Thêm bạn bè thất bại, vui lòng thử lại</string>
+	
 </resources>

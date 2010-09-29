@@ -3,6 +3,7 @@ package com.appspot.smartshop.dom;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -48,5 +49,11 @@ public class UserInfo implements Serializable {
 	
 	public static Type getType() {
 		return new TypeToken<List<UserInfo>>() {}.getType();
+	}
+	public UserInfo (String firstName, String lastName, String email, String address){
+		this.first_name = firstName;
+		this.last_name = lastName;
+		this.email = email;
+		this.address = address;
 	}
 }
