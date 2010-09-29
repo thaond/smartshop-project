@@ -76,7 +76,6 @@ public class NotificationAdapter extends ArrayAdapter<SmartshopNotification> {
 					@Override
 					public void onClick(View v) {
 						dialog.cancel();
-
 					}
 				});
 				AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -86,7 +85,6 @@ public class NotificationAdapter extends ArrayAdapter<SmartshopNotification> {
 			}
 		});
 		return convertView;
-
 	}
 
 	static class ViewHolder {

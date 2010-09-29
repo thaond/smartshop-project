@@ -11,14 +11,16 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".ui.user.ViewUserInfoActivity" android:label="@string/app_name">
+		<activity android:name=".ui.user.ViewUserInfoActivity"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="User"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
-		<activity android:name=".ui.user.RegisterUserActivity" android:label="@string/app_name">
+
+		<activity android:name=".ui.user.RegisterUserActivity"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="User"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -278,14 +280,14 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-				<activity android:name=".ui.user.notification.NotificationMessageView"
+		<activity android:name=".ui.user.notification.NotificationMessageView"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".ui.user.subcribe.UserSubcribeListActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -293,7 +295,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".ui.user.subcribe.ProductsListOfSubcribeActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -301,7 +303,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".ui.user.subcribe.SubcribeActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -309,7 +311,14 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+		<activity android:name=".ui.user.AddFriendActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
 		<service android:name=".utils.NotifyingService" />
 	</application>
 
