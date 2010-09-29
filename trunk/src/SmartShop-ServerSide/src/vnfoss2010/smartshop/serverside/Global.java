@@ -46,7 +46,7 @@ public abstract class Global {
 			NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
 			.create();
 	public static final JsonParser jsonParser = new JsonParser();
-	
+
 	private static Logger log = Logger.getLogger(Global.class.getName());
 
 	public static final String[][] LANGUAGE = new String[][] {
