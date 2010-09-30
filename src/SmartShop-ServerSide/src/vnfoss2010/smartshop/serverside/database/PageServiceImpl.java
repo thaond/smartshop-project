@@ -21,7 +21,8 @@ import vnfoss2010.smartshop.serverside.utils.StringUtils;
 
 public class PageServiceImpl {
 	private static PageServiceImpl instance;
-
+	private static NotificationServiceImpl dbNoti = NotificationServiceImpl
+			.getInstance();
 	private final static Logger log = Logger.getLogger(ProductServiceImpl.class
 			.getName());
 
@@ -114,6 +115,14 @@ public class PageServiceImpl {
 				e.printStackTrace();
 			}
 		}
+		if (result.isOK()) {
+			ServiceResult<Void> notiResult = dbNoti.insertWhenUserTagToPage(
+					pageID, productID, true);
+			if (notiResult.isOK() == false) {
+				result.setMessage(result.getMessage()
+						+ ";Notification Exception:" + notiResult.getMessage());
+			}
+		}
 		return result;
 	}
 
@@ -144,6 +153,14 @@ public class PageServiceImpl {
 				pm.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+		}
+		if (result.isOK()) {
+			ServiceResult<Void> notiResult = dbNoti.insertWhenUserTagToPage(
+					pageID, productID, false);
+			if (notiResult.isOK() == false) {
+				result.setMessage(result.getMessage()
+						+ ";Notification Exception:" + notiResult.getMessage());
 			}
 		}
 		return result;

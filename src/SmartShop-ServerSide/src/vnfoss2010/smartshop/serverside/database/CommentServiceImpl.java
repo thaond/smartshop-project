@@ -20,6 +20,8 @@ public class CommentServiceImpl {
 	public static final String TYPE_PAGE = "page";
 	private static ProductServiceImpl dbProduct = ProductServiceImpl
 			.getInstance();
+	private static NotificationServiceImpl dbNoti = NotificationServiceImpl
+			.getInstance();
 	private static PageServiceImpl dbPage = PageServiceImpl.getInstance();
 
 	private static Logger log = Logger.getLogger(CommentServiceImpl.class
@@ -28,7 +30,7 @@ public class CommentServiceImpl {
 	public CommentServiceImpl() {
 		instance = this;
 	}
-	
+
 	public ServiceResult<Long> insertComment(Comment comment) {
 		ServiceResult<Long> result = new ServiceResult<Long>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -49,6 +51,14 @@ public class CommentServiceImpl {
 				pm.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+		}
+		if (result.isOK()) {
+			ServiceResult<Void> notiResult = dbNoti
+					.insertWhenUserComment(comment);
+			if (notiResult.isOK() == false) {
+				result.setMessage(result.getMessage() + ";Notification Exception:"
+						+ notiResult.getMessage());
 			}
 		}
 		return result;
@@ -128,7 +138,8 @@ public class CommentServiceImpl {
 			if (listComments.size() > 0) {
 				result.setOK(true);
 				result.setMessage(String.format(Global.messages
-						.getString("get_comments_by_username_successfully"), username));
+						.getString("get_comments_by_username_successfully"),
+						username));
 				result.setResult(listComments);
 			} else {
 				result.setOK(false);

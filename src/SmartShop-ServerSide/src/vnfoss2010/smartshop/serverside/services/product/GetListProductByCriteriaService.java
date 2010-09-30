@@ -72,7 +72,7 @@ public class GetListProductByCriteriaService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 		
-		ServiceResult<List<Product>> result  = dbProduct.getListProductByCriteriaInCategories(maximum, criteriaIDs, status , q, username);
+		ServiceResult<List<Product>> result  = dbProduct.getListProductByCriteriaInCategories(maximum, criteriaIDs, status , q, username,new double[]{0,0});
 		JsonObject jsonReturn = new JsonObject();
 		
 		jsonReturn.addProperty("errCode", result.isOK() ? 0 : 1);
