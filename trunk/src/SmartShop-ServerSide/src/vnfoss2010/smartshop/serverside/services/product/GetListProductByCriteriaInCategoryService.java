@@ -49,7 +49,16 @@ public class GetListProductByCriteriaInCategoryService extends
 			status = Integer.parseInt(getParameter("status", params, json));
 		} catch (Exception e) {
 		}
-		
+
+		String[] priceRangeStr;
+		double[] priceRange = new double[2];
+		try {
+			priceRangeStr = getParameter("pricerange", params, json).split(",");
+			priceRange[0] = Double.parseDouble(priceRangeStr[0]);
+			priceRange[1] = Double.parseDouble(priceRangeStr[1]);
+		} catch (Exception e) {
+		}
+
 		int[] criteriaIDs = null;
 		if (criterias != null) {
 			String[] arr = criterias.split(",");
@@ -67,8 +76,8 @@ public class GetListProductByCriteriaInCategoryService extends
 
 		String cat_keys = getParameter("cat_keys", params, json);
 		Global.log(log, "Cat keys : " + cat_keys);
-		
-		//Query
+
+		// Query
 		String q = null;
 		try {
 			q = getParameter("q", params, json);
@@ -77,16 +86,23 @@ public class GetListProductByCriteriaInCategoryService extends
 		}
 
 		ServiceResult<List<Product>> result = dbProduct
-				.getListProductByCriteriaInCategories(maximum, criteriaIDs,
-						status, q, username, StringUtils.isEmptyOrNull(cat_keys) ? null
-								: cat_keys.split(","));
+				.getListProductByCriteriaInCategories(
+						maximum,
+						criteriaIDs,
+						status,
+						q,
+						username,
+						priceRange,
+						StringUtils.isEmptyOrNull(cat_keys) ? null : cat_keys
+								.split(","));
 		JsonObject jsonReturn = new JsonObject();
 
 		jsonReturn.addProperty("errCode", result.isOK() ? 0 : 1);
 		jsonReturn.addProperty("message", result.getMessage());
 
 		if (result.isOK()) {
-			jsonReturn.add("products", Global.gsonWithDate.toJsonTree(result.getResult()));
+			jsonReturn.add("products",
+					Global.gsonWithDate.toJsonTree(result.getResult()));
 		}
 
 		Global.log(log, jsonReturn.toString());

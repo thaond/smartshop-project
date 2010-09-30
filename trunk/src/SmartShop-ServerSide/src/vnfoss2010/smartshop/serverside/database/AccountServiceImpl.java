@@ -29,6 +29,8 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class AccountServiceImpl {
 	private static final long serialVersionUID = 1L;
 	private static AccountServiceImpl instance;
+	private static NotificationServiceImpl dbNoti = NotificationServiceImpl
+			.getInstance();
 
 	public static UserService userService = UserServiceFactory.getUserService();
 	private final static Logger log = Logger.getLogger(AccountServiceImpl.class
@@ -166,7 +168,7 @@ public class AccountServiceImpl {
 
 	public ServiceResult<Void> editProfile(UserInfo userInfo) {
 		// Prevent SQL Injection
-//		preventSQLInjUserInfo(userInfo);
+		// preventSQLInjUserInfo(userInfo);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		ServiceResult<Void> result = new ServiceResult<Void>();
 
@@ -198,13 +200,13 @@ public class AccountServiceImpl {
 					// Intent to change password
 					result.setMessage(Global.messages
 							.getString("password_doesnot_match"));
-				} 
-//				else if (StringUtils.isEmptyOrNull(tmp.getPassword())) {
-//					result
-//							.setMessage(Global.messages
-//									.getString("password_length_at_least_6_characters"));
-//					return result;
-//				} 
+				}
+				// else if (StringUtils.isEmptyOrNull(tmp.getPassword())) {
+				// result
+				// .setMessage(Global.messages
+				// .getString("password_length_at_least_6_characters"));
+				// return result;
+				// }
 				else {
 					if (userInfo.getPassword().length() > 0) {
 						tmp.setPassword(DatabaseUtils.md5(userInfo
@@ -226,7 +228,7 @@ public class AccountServiceImpl {
 					pm.refresh(tmp);
 					result.setOK(true);
 					result.setMessage(Global.messages
-							.getString("edit_profile_successfully")); 
+							.getString("edit_profile_successfully"));
 				}
 			}
 		} catch (Exception ex) {
@@ -503,9 +505,7 @@ public class AccountServiceImpl {
 			result.setOK(true);
 		} else {
 			result.setOK(false);
-			result
-					.setMessage(Global.messages
-							.getString("search_username_fail"));
+			result.setMessage(Global.messages.getString("search_username_fail"));
 		}
 		return result;
 	}
@@ -513,6 +513,7 @@ public class AccountServiceImpl {
 	public ServiceResult<Void> addFriends(String username, String... friends) {
 		username = DatabaseUtils.preventSQLInjection(username);
 		ServiceResult<Void> result = new ServiceResult<Void>();
+		ArrayList<String> addedSuccessUName = new ArrayList<String>();
 
 		if (username == null || username.equals("")) {
 			result.setMessage(Global.messages
@@ -555,6 +556,7 @@ public class AccountServiceImpl {
 
 					userInfo.getSetFriendsUsername().add(
 							DatabaseUtils.preventSQLInjection(friends[i]));
+					addedSuccessUName.add(friends[i]);
 				}
 
 				result.setOK(true);
@@ -573,6 +575,17 @@ public class AccountServiceImpl {
 				Global.log(log, Arrays.toString(ex.getStackTrace()));
 				result.setMessage(Global.messages
 						.getString("add_list_friends_fail"));
+			}
+		}
+		if (result.isOK()) {
+			List<ServiceResult<Long>> notiResults = dbNoti
+					.insertWhenUserAddFriend(username, addedSuccessUName);
+			for (ServiceResult<Long> notiResult : notiResults) {
+				if (notiResult.isOK() == false) {
+					result.setMessage(result.getMessage()
+							+ ";Notification Exception:"
+							+ notiResult.getMessage());
+				}
 			}
 		}
 		return result;
@@ -611,9 +624,7 @@ public class AccountServiceImpl {
 
 			page = pm.makePersistent(page);
 			if (page == null) {
-				result
-						.setMessage(Global.messages
-								.getString("insert_page_fail"));
+				result.setMessage(Global.messages.getString("insert_page_fail"));
 			} else {
 				result.setResult(page.getId());
 				result.setMessage(Global.messages
@@ -722,10 +733,8 @@ public class AccountServiceImpl {
 				.getFirst_name()));
 		userInfo.setLast_name(DatabaseUtils.preventSQLInjection(userInfo
 				.getLast_name()));
-		userInfo.setPhone(DatabaseUtils
-				.preventSQLInjection(userInfo.getPhone()));
-		userInfo.setEmail(DatabaseUtils
-				.preventSQLInjection(userInfo.getEmail()));
+		userInfo.setPhone(DatabaseUtils.preventSQLInjection(userInfo.getPhone()));
+		userInfo.setEmail(DatabaseUtils.preventSQLInjection(userInfo.getEmail()));
 		userInfo.setAddress(DatabaseUtils.preventSQLInjection(userInfo
 				.getAddress()));
 		userInfo.setLang(DatabaseUtils.preventSQLInjection(userInfo.getLang()));
