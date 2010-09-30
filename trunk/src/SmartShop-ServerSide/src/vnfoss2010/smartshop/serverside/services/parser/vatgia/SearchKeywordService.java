@@ -41,8 +41,12 @@ public class SearchKeywordService extends BaseRestfulService {
 		try {
 			String keyword = getParameterWithThrow("keyword", params, json);
 			String pageNum = getParameter("page", params, json);
+			String priceFrom = getParameter("price_from", params, json);
+			String priceTo = getParameter("price_to", params, json);
 
 			String url = URL_VAT_GIA_SEARCH + "keyword=" + keyword
+					+ (priceFrom == null ? "" : "&price=" + priceFrom)
+					+ (priceTo == null ? "" : "&price_to=" + priceTo)
 					+ (pageNum == null ? "" : "&page=" + pageNum);
 			String pageContent = HttpRequest.get(URLEncoder
 					.encode(url, "UTF-8").replaceAll("%2F", "/")
