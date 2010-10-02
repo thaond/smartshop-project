@@ -47,22 +47,26 @@ public class SmartShopActivity extends ListActivity {
 		// TODO start service notification
 //		startService(new Intent(this, NotifyingService.class));
 		
-		Log.d(TAG, "[GET CATEGORIES LIST]");
-		task = new SimpleAsyncTask(getString(R.string.init_data), this, new DataLoader() {
-			
-			@Override
-			public void updateUI() {
-				// TODO test related with categories dialog
-//				Intent intent = new Intent(SmartShopActivity.this, UserSubcribeListActivity.class);
-//				startActivity(intent);
-			}
-			
-			@Override
-			public void loadData() {
-				getCategoriesList();
-			}
-		});
-		task.execute();
+		if (Global.mapParentCategories.size() != 0) {
+			Log.d(TAG, "[DONT NEED TO GET CATEGORIES LIST]");
+		} else {
+			Log.d(TAG, "[GET CATEGORIES LIST]");
+			task = new SimpleAsyncTask(getString(R.string.init_data), this, new DataLoader() {
+				
+				@Override
+				public void updateUI() {
+					// TODO test related with categories dialog
+//					Intent intent = new Intent(SmartShopActivity.this, UserSubcribeListActivity.class);
+//					startActivity(intent);
+				}
+				
+				@Override
+				public void loadData() {
+					getCategoriesList();
+				}
+			});
+			task.execute();
+		}
 	}
 	
 	private void getCategoriesList() {
