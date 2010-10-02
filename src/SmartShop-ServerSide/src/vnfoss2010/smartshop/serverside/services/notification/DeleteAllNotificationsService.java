@@ -14,10 +14,10 @@ import com.google.gson.JsonObject;
  * 
  * @author VoMinhTam
  */
-public class DeleteNotificationsService extends BaseRestfulService {
+public class DeleteAllNotificationsService extends BaseRestfulService {
 	private NotificationServiceImpl dbNotification = NotificationServiceImpl.getInstance();
 
-	public DeleteNotificationsService(String serviceName) {
+	public DeleteAllNotificationsService(String serviceName) {
 		super(serviceName);
 	}
 
@@ -30,11 +30,9 @@ public class DeleteNotificationsService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 		
-		String username = getParameter("username", params, json);
-
 		JsonObject jsonReturn = new JsonObject();
 
-		ServiceResult<Void> result = dbNotification.deleteAllNoticationsBy(username);
+		ServiceResult<Void> result = dbNotification.deletAllNotifications();
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());

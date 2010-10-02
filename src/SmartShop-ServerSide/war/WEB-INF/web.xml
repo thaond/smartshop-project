@@ -53,6 +53,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>UploadHandlerServlet</servlet-name>
 		<url-pattern>/upload</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GetAPIKeyService</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.GetAPIKeyService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetAPIKeyService</servlet-name>
+		<url-pattern>/signup</url-pattern>
+	</servlet-mapping>
+	
+	
 
 	<!--
 		Configuration file for UrlRewriteFilter http://tuckey.org/urlrewrite/

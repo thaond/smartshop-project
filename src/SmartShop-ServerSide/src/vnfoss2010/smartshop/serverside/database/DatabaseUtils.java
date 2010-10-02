@@ -4,6 +4,7 @@ import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 
 import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.database.entity.APIKey;
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Comment;
@@ -219,17 +221,44 @@ public class DatabaseUtils {
 
 			query = pm.newQuery(Statistic.class);
 			query.deletePersistentAll();
-			
+
 			query = pm.newQuery(UserInfo.class);
 			query.deletePersistentAll();
 
 			query = pm.newQuery(UserSubcribeProduct.class);
 			query.deletePersistentAll();
-			
+
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public static String registerAPIKey(String source) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		APIKey apiKey = new APIKey(source, new Date());
+		pm.makePersistent(apiKey);
+
+		try {
+			pm.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return UtilsFunction.encrypt(source);
+	}
+
+	public static APIKey getAPIKey(String source) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		APIKey apiKey = null;
+		try {
+			apiKey = (APIKey) pm.getObjectById(source);
+		} catch (Exception e) {
+		}
+		
+		return apiKey;
 	}
 }

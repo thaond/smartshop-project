@@ -1,6 +1,8 @@
 package vnfoss2010.smartshop.serverside.services.mail;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.mail.MailUtils;
