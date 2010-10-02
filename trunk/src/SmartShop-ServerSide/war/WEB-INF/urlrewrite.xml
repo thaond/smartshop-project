@@ -9,7 +9,7 @@
 <urlrewrite>
 	<rule>
 		<from>^/api/([^\\/]*)/([a-zA-Z_\-0-9]+)/$</from>
-		<to>/s?api=$1&amp;service=$2</to>
+		<to>/s?api=$1&amp;service=$2&amp;</to>
 	</rule>
 
 	<!-- Testing Rule -->

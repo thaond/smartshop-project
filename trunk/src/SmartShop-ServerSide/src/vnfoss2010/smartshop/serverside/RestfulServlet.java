@@ -20,13 +20,20 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import vnfoss2010.smartshop.serverside.authentication.SessionObject;
+import vnfoss2010.smartshop.serverside.database.DatabaseUtils;
+import vnfoss2010.smartshop.serverside.database.entity.APIKey;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.HelloService;
 import vnfoss2010.smartshop.serverside.services.account.AddFriendsService;
@@ -41,15 +48,18 @@ import vnfoss2010.smartshop.serverside.services.comment.CreateCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.DeleteCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.GetCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.GetCommentsByUsernameService;
+import vnfoss2010.smartshop.serverside.services.exception.InvalidAPIKeyException;
+import vnfoss2010.smartshop.serverside.services.exception.InvalidSessionException;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+import vnfoss2010.smartshop.serverside.services.exception.SessionExpiredException;
 import vnfoss2010.smartshop.serverside.services.exception.UndefinedServiceException;
 import vnfoss2010.smartshop.serverside.services.mail.SendEmailService;
 import vnfoss2010.smartshop.serverside.services.mail.SendEmailToAdminService;
 import vnfoss2010.smartshop.serverside.services.map.DirectionService;
 import vnfoss2010.smartshop.serverside.services.map.GeocoderService;
 import vnfoss2010.smartshop.serverside.services.map.ReserveGeocoderService;
+import vnfoss2010.smartshop.serverside.services.notification.DeleteAllNotificationsService;
 import vnfoss2010.smartshop.serverside.services.notification.DeleteNotificationsByUsernameService;
-import vnfoss2010.smartshop.serverside.services.notification.DeleteNotificationsService;
 import vnfoss2010.smartshop.serverside.services.notification.EditNotificationService;
 import vnfoss2010.smartshop.serverside.services.notification.GetNotificationsByUsernameService;
 import vnfoss2010.smartshop.serverside.services.notification.InsertNotificationService;
@@ -60,8 +70,6 @@ import vnfoss2010.smartshop.serverside.services.page.GetListPageByCriteriaServic
 import vnfoss2010.smartshop.serverside.services.page.GetPageService;
 import vnfoss2010.smartshop.serverside.services.page.GetPagesByUsernameService;
 import vnfoss2010.smartshop.serverside.services.page.SearchPageByQueryService;
-import vnfoss2010.smartshop.serverside.services.page.TagProductToPageService;
-import vnfoss2010.smartshop.serverside.services.page.UntagProductFromPageService;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.NProductInfoService;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.ProductInfoService;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.SearchKeywordService;
@@ -83,15 +91,14 @@ import vnfoss2010.smartshop.serverside.services.test.InsertSampleProductService;
 import vnfoss2010.smartshop.serverside.services.test.InsertUserInfosService;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.CreateSubcribeProduct;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.EditSubcribe;
+import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.FindUserSubcribes;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetProductInSubcribeRange;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetProductInSubcribeRangeByUsername;
-import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetUserSubscribeProductByUsername;
-import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.FindUserSubcribes;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetSubcribe;
+import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetUserSubscribeProductByUsername;
+import vnfoss2010.smartshop.serverside.utils.StringUtils;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
-/**
- * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
- */
 @SuppressWarnings("serial")
 public class RestfulServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -123,19 +130,47 @@ public class RestfulServlet extends HttpServlet {
 		PrintWriter writer = resp.getWriter();
 
 		try {
-			String apiKey = req.getParameter("api");
-			// TODO is this apiKey valid?
-
+			String api = req.getParameter("api");
 			String serviceName = req.getParameter("service");
 
-			Class<BaseRestfulService> service = mServices.get(serviceName);
-			if (service == null) {
-				throw new UndefinedServiceException(serviceName);
+			if (!Global.listAPIKeys.contains(api)){
+				APIKey apiKey = DatabaseUtils.getAPIKey(UtilsFunction.decrypt(api));
+				if (apiKey==null)
+					throw new InvalidAPIKeyException(serviceName);
+				else
+					Global.listAPIKeys.add(api);
 			}
 
-			String r = service.getConstructor(String.class)
-					.newInstance(serviceName)
-					.process(req.getParameterMap(), content);
+			String r;
+			Class<BaseRestfulService> service = unAuthorizedServices
+					.get(serviceName);
+			if (service == null) {
+				service = authorizedServices.get(serviceName);
+				if (service == null)
+					throw new UndefinedServiceException(serviceName);
+
+				// Check whether valid session or not
+				String sessionId = req.getParameter("session");
+				SessionObject so = StringUtils.isEmptyOrNull(sessionId) ? null
+						: UtilsFunction.getSessionObject(sessionId);
+				if (so == null) {
+					// Invalid session
+					throw new InvalidSessionException(serviceName);
+				} else if (new Date().getTime() - so.timeStamp > Global.SESSION_EXPRIED) {
+					// Session expired
+					throw new SessionExpiredException(serviceName);
+				}
+
+				Map hashMap = new HashMap(req.getParameterMap());
+				hashMap.put("username", new String[]{so.username});
+				r = service.getConstructor(String.class).newInstance(
+						serviceName).process(hashMap, content);
+				
+			}else{
+				r = service.getConstructor(String.class).newInstance(
+						serviceName).process(req.getParameterMap(), content);
+			}
+			
 
 			// response
 			writer.print(r);
@@ -147,102 +182,174 @@ public class RestfulServlet extends HttpServlet {
 		}
 	}
 
-	public static Hashtable<String, Class> mServices = new Hashtable<String, Class>();
+	public static Hashtable<String, Class> unAuthorizedServices = new Hashtable<String, Class>();
 	static {
-		// TODO: put RestfulService into mServices here using #putServiceMethods
-		mServices.put("hello", HelloService.class);
-		mServices.put("account-register", RegisterService.class);
-		mServices.put("account-editprofile", EditProfileService.class);
-		mServices.put("account-login", LoginService.class);
-		mServices.put("account-search", SearchUsernameService.class);
-		mServices.put("account-addfriend", AddFriendsService.class);
-		mServices.put("account-getuser", GetUserInfoService.class);
+		unAuthorizedServices.put("hello", HelloService.class);
+		unAuthorizedServices.put("account-register", RegisterService.class);
+		unAuthorizedServices.put("account-login", LoginService.class);
+		// unAuthorizedServices.put("account-addfriend",
+		// AddFriendsService.class);
+		unAuthorizedServices.put("account-search", SearchUsernameService.class);
+		unAuthorizedServices.put("account-getuser", GetUserInfoService.class);
+		// unAuthorizedServices.put("account-editprofile",
+		// EditProfileService.class);
 
 		// category
-		mServices.put("category-get-all", GetAllCategoriesService.class);
-		mServices.put("category-get-sub", GetSubCategoriesService.class);
+		unAuthorizedServices.put("category-get-all",
+				GetAllCategoriesService.class);
+		unAuthorizedServices.put("category-get-sub",
+				GetSubCategoriesService.class);
 
 		// product
-		mServices.put("registerproduct", RegisterProductService.class);
-		mServices.put("searchproductproximity", SearchProductPromixity.class);
-		mServices.put("get-product", GetProductService.class);
-		mServices.put("editproduct", EditProductService.class);
-		mServices.put("create-page", CreatePageService.class);
-		// mServices.put("product-search-criteria",
+		unAuthorizedServices.put("searchproductproximity",
+				SearchProductPromixity.class);
+		unAuthorizedServices.put("get-product", GetProductService.class);
+		// unAuthorizedServices.put("registerproduct",
+		// RegisterProductService.class);
+		// unAuthorizedServices.put("editproduct", EditProductService.class);
+
+		// page
+		// unAuthorizedServices.put("product-search-criteria",
 		// GetListProductByCriteriaService.class);
-		mServices.put("product-search-criteria-cat",
+		unAuthorizedServices.put("product-search-criteria-cat",
 				GetListProductByCriteriaInCategoryService.class);
-		mServices.put("product-search", SearchProductService.class);
-		mServices.put("product-get-buyed-product",
+		unAuthorizedServices.put("product-search", SearchProductService.class);
+		unAuthorizedServices.put("product-get-buyed-product",
 				GetBuyedProductByUserService.class);
-		mServices.put("product-get-selled-product",
+		unAuthorizedServices.put("product-get-selled-product",
 				GetSelledProductByUserService.class);
-		mServices.put("product-get-interested-product",
+		unAuthorizedServices.put("product-get-interested-product",
 				GetInterestedProductByUserService.class);
-		mServices.put("product-get-by-username",
+		unAuthorizedServices.put("product-get-by-username",
 				GetProductsByUsernameService.class);
 
 		// page
-		mServices.put("create-page", CreatePageService.class);
-		mServices.put("page-edit", EditPageService.class);
-		mServices.put("get-page", GetPageService.class);
-		mServices.put("tag-product-to-page", TagProductToPageService.class);
-		mServices.put("untag-product-to-page",
-				UntagProductFromPageService.class);
-		mServices.put("page-search", SearchPageByQueryService.class);
-		mServices.put("page-search-criteria",
+		unAuthorizedServices.put("get-page", GetPageService.class);
+		unAuthorizedServices.put("page-search", SearchPageByQueryService.class);
+		unAuthorizedServices.put("page-search-criteria",
 				GetListPageByCriteriaService.class);
-		mServices.put("page-get-by-username", GetPagesByUsernameService.class);
+		unAuthorizedServices.put("page-get-by-username",
+				GetPagesByUsernameService.class);
+		// unAuthorizedServices.put("create-page", CreatePageService.class);
+		// unAuthorizedServices.put("page-edit", EditPageService.class);
+		// unAuthorizedServices.put("tag-product-to-page",
+		// TagProductToPageService.class);
+		// unAuthorizedServices.put("untag-product-to-page",
+		// UntagProductFromPageService.class);
 
 		// comment
-		mServices.put("create-comment", CreateCommentService.class);
-		mServices.put("get-comment", GetCommentService.class);
-		mServices.put("delete-comment", DeleteCommentService.class);
-		mServices.put("comment-get-by-username",
+		// unAuthorizedServices.put("create-comment",
+		// CreateCommentService.class);
+		unAuthorizedServices.put("get-comment", GetCommentService.class);
+		// unAuthorizedServices.put("delete-comment",
+		// DeleteCommentService.class);
+		unAuthorizedServices.put("comment-get-by-username",
 				GetCommentsByUsernameService.class);
 
 		// notification
-		mServices.put("noti-insert", InsertNotificationService.class);
-		mServices.put("noti-delete-all-by",
-				DeleteNotificationsByUsernameService.class);
-		mServices.put("noti-delete-all", DeleteNotificationsService.class);
-		mServices.put("noti-edit", EditNotificationService.class);
-		mServices.put("noti-get-by", GetNotificationsByUsernameService.class);
-		mServices.put("noti-mark-as-read",
-				MarkAsReadNotificationsByUsernameService.class);
+		unAuthorizedServices
+				.put("noti-insert", InsertNotificationService.class);
+		// unAuthorizedServices.put("noti-delete-all-by",
+		// DeleteNotificationsByUsernameService.class);
+		unAuthorizedServices.put("noti-delete-all",
+				DeleteAllNotificationsService.class);
+		// unAuthorizedServices.put("noti-edit", EditNotificationService.class);
+		unAuthorizedServices.put("noti-get-by",
+				GetNotificationsByUsernameService.class);
+		// unAuthorizedServices.put("noti-mark-as-read",
+		// MarkAsReadNotificationsByUsernameService.class);
 
 		// map
-		mServices.put("map-geocoder", GeocoderService.class);
-		mServices.put("map-regeocoder", ReserveGeocoderService.class);
-		mServices.put("map-direction", DirectionService.class);
+		unAuthorizedServices.put("map-geocoder", GeocoderService.class);
+		unAuthorizedServices
+				.put("map-regeocoder", ReserveGeocoderService.class);
+		unAuthorizedServices.put("map-direction", DirectionService.class);
 
 		// mail
-		mServices.put("mail-send-to-admin", SendEmailToAdminService.class);
-		mServices.put("mail-send", SendEmailService.class);
-		
-		//sms
-		mServices.put("sms-send-from-to", SendSMSService.class);
-		mServices.put("sms-send-to", SendSMSToService.class);
+		// unAuthorizedServices.put("mail-send-to-admin",
+		// SendEmailToAdminService.class);
+		// unAuthorizedServices.put("mail-send", SendEmailService.class);
+
+		// sms
+		// unAuthorizedServices.put("sms-send-from-to", SendSMSService.class);
+		// unAuthorizedServices.put("sms-send-to", SendSMSToService.class);
 
 		// user subcribe
-		mServices.put("create-subcribe", CreateSubcribeProduct.class);
-		mServices.put("get-products-in-sub-range",
+		// unAuthorizedServices
+		// .put("create-subcribe", CreateSubcribeProduct.class);
+		unAuthorizedServices.put("get-products-in-sub-range",
 				GetProductInSubcribeRange.class);
-		mServices.put("edit-subcribe", EditSubcribe.class);
-		mServices.put("get-subscribe-by-user", GetUserSubscribeProductByUsername.class);
-		mServices.put("get-subscribe-product-by-user", GetProductInSubcribeRangeByUsername.class);
-		mServices.put("find-subcribes", FindUserSubcribes.class);
-		mServices.put("get-subcribe", GetSubcribe.class);
-		
-		mServices.put("sampledata-cat", InsertCategoryService.class);
-		mServices.put("sampledata-product", InsertSampleProductService.class);
-		mServices.put("sampledata-user", InsertUserInfosService.class);
-		mServices.put("sampledata-page", InsertPageService.class);
+		// unAuthorizedServices.put("edit-subcribe", EditSubcribe.class);
+		unAuthorizedServices.put("get-subscribe-by-user",
+				GetUserSubscribeProductByUsername.class);
+		unAuthorizedServices.put("get-subscribe-product-by-user",
+				GetProductInSubcribeRangeByUsername.class);
+		unAuthorizedServices.put("find-subcribes", FindUserSubcribes.class);
+		unAuthorizedServices.put("get-subcribe", GetSubcribe.class);
+
+		unAuthorizedServices.put("sampledata-cat", InsertCategoryService.class);
+		unAuthorizedServices.put("sampledata-product",
+				InsertSampleProductService.class);
+		unAuthorizedServices.put("sampledata-user",
+				InsertUserInfosService.class);
+		unAuthorizedServices.put("sampledata-page", InsertPageService.class);
 
 		// parser
-		mServices.put("parser-vatgia-each-product", ProductInfoService.class);
-		mServices
-				.put("parser-vatgia-each-product-n", NProductInfoService.class);
-		mServices.put("parser-vatgia-keyword", SearchKeywordService.class);
+		unAuthorizedServices.put("parser-vatgia-each-product",
+				ProductInfoService.class);
+		unAuthorizedServices.put("parser-vatgia-each-product-n",
+				NProductInfoService.class);
+		unAuthorizedServices.put("parser-vatgia-keyword",
+				SearchKeywordService.class);
+		
+		//other
+		unAuthorizedServices.put("get-api-key", GetAPIKeyService.class);
+	}
+
+	public static Hashtable<String, Class> authorizedServices = new Hashtable<String, Class>();
+	static {
+		authorizedServices.put("account-editprofile", EditProfileService.class);
+		authorizedServices.put("account-addfriend", AddFriendsService.class);
+
+		// product
+		authorizedServices.put("registerproduct", RegisterProductService.class);
+		authorizedServices.put("editproduct", EditProductService.class);
+
+		// page
+		authorizedServices.put("create-page", CreatePageService.class);
+		authorizedServices.put("page-edit", EditPageService.class);
+
+		// comment
+		authorizedServices.put("create-comment", CreateCommentService.class);
+		authorizedServices.put("get-comment", GetCommentService.class);
+		authorizedServices.put("delete-comment", DeleteCommentService.class);
+		authorizedServices.put("comment-get-by-username",
+				GetCommentsByUsernameService.class);
+
+		// notification
+		authorizedServices.put("noti-delete-all-by",
+				DeleteNotificationsByUsernameService.class);
+		authorizedServices.put("noti-edit", EditNotificationService.class);
+		authorizedServices.put("noti-mark-as-read",
+				MarkAsReadNotificationsByUsernameService.class);
+
+		// mail
+		authorizedServices.put("mail-send-to-admin",
+				SendEmailToAdminService.class);
+		authorizedServices.put("mail-send", SendEmailService.class);
+
+		// sms
+		authorizedServices.put("sms-send-from-to", SendSMSService.class);
+		authorizedServices.put("sms-send-to", SendSMSToService.class);
+
+		// user subcribe
+		authorizedServices.put("create-subcribe", CreateSubcribeProduct.class);
+		authorizedServices.put("edit-subcribe", EditSubcribe.class);
+
+		authorizedServices.put("sampledata-cat", InsertCategoryService.class);
+		authorizedServices.put("sampledata-product",
+				InsertSampleProductService.class);
+		authorizedServices.put("sampledata-user", InsertUserInfosService.class);
+		authorizedServices.put("sampledata-page", InsertPageService.class);
 	}
 }

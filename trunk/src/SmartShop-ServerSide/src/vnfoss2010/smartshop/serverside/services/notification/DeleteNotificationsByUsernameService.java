@@ -30,9 +30,11 @@ public class DeleteNotificationsByUsernameService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 		
+		String username = getParameter("username", params, json);
+
 		JsonObject jsonReturn = new JsonObject();
 
-		ServiceResult<Void> result = dbNotification.deletAllNotifications();
+		ServiceResult<Void> result = dbNotification.deleteAllNoticationsBy(username);
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());

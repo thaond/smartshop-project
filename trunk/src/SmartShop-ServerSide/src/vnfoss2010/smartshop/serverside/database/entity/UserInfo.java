@@ -74,6 +74,8 @@ public class UserInfo extends SearchCapable implements Serializable{
 
 	@Persistent
 	private int type;
+	
+	private String sessionId;
 
 	@Persistent
 	private List<Long> listInteredProduct;
@@ -547,6 +549,20 @@ public class UserInfo extends SearchCapable implements Serializable{
 
 		System.out.println(Global.gsonDateWithoutHour.toJson(newUser));
 
+	}
+
+	/**
+	 * @param sessionId the sessionId to set
+	 */
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	/**
+	 * @return the sessionId
+	 */
+	public String getSessionId() {
+		return sessionId;
 	}
 
 }

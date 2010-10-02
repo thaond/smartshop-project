@@ -2,6 +2,7 @@ package vnfoss2010.smartshop.serverside.database;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,12 +14,14 @@ import javax.jdo.Query;
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 
 import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.authentication.SessionObject;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Media;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.utils.StringUtils;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -327,10 +330,16 @@ public class AccountServiceImpl {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 *            in MD5 form
+	 * @return
+	 */
 	public ServiceResult<UserInfo> login(String username, String password) {
 		username = DatabaseUtils.preventSQLInjection(username);
-		password = DatabaseUtils.md5(DatabaseUtils
-				.preventSQLInjection(password));
+		password = DatabaseUtils.preventSQLInjection(password);// DatabaseUtils.md5
 
 		ServiceResult<UserInfo> result = new ServiceResult<UserInfo>();
 
@@ -358,6 +367,15 @@ public class AccountServiceImpl {
 						+ username);
 			} else {
 				if (userInfo.getPassword().equals(password)) {
+					//Store session here
+					String sessionId = UtilsFunction.getAlphaNumeric(32);
+					if (Global.mapSession.containsKey(username)){
+						((SessionObject)Global.mapSession.get(username)).set(username, sessionId, new Date().getTime());
+					}else{
+						Global.mapSession.put(username, new SessionObject(username, sessionId, new Date().getTime()));
+					}
+					userInfo.setSessionId(sessionId);
+					
 					result.setMessage(Global.messages
 							.getString("login_successfully"));
 					result.setResult(userInfo);
@@ -505,7 +523,9 @@ public class AccountServiceImpl {
 			result.setOK(true);
 		} else {
 			result.setOK(false);
-			result.setMessage(Global.messages.getString("search_username_fail"));
+			result
+					.setMessage(Global.messages
+							.getString("search_username_fail"));
 		}
 		return result;
 	}
@@ -624,7 +644,9 @@ public class AccountServiceImpl {
 
 			page = pm.makePersistent(page);
 			if (page == null) {
-				result.setMessage(Global.messages.getString("insert_page_fail"));
+				result
+						.setMessage(Global.messages
+								.getString("insert_page_fail"));
 			} else {
 				result.setResult(page.getId());
 				result.setMessage(Global.messages
@@ -733,8 +755,10 @@ public class AccountServiceImpl {
 				.getFirst_name()));
 		userInfo.setLast_name(DatabaseUtils.preventSQLInjection(userInfo
 				.getLast_name()));
-		userInfo.setPhone(DatabaseUtils.preventSQLInjection(userInfo.getPhone()));
-		userInfo.setEmail(DatabaseUtils.preventSQLInjection(userInfo.getEmail()));
+		userInfo.setPhone(DatabaseUtils
+				.preventSQLInjection(userInfo.getPhone()));
+		userInfo.setEmail(DatabaseUtils
+				.preventSQLInjection(userInfo.getEmail()));
 		userInfo.setAddress(DatabaseUtils.preventSQLInjection(userInfo
 				.getAddress()));
 		userInfo.setLang(DatabaseUtils.preventSQLInjection(userInfo.getLang()));

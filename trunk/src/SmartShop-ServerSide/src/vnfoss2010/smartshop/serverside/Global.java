@@ -17,10 +17,16 @@ package vnfoss2010.smartshop.serverside;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import vnfoss2010.smartshop.serverside.authentication.SessionObject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,6 +45,8 @@ public abstract class Global {
 	public static final String GOOGLE_APP_ID = "VFv3MmLV34EjL9IdhgJeiiS9024qwIYt6HwMOWwoIG69CZ0kJDyi2lHprgwSoAtnvg--";
 	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;
 	public static final int MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX = 200;
+	public static final long SESSION_EXPRIED = 30*60*1000;
+	
 	public static final Gson gsonDateWithoutHour = new GsonBuilder()
 			.setDateFormat(NORMAL_DATE).excludeFieldsWithExcludeAnnotation()
 			.create();
@@ -48,6 +56,8 @@ public abstract class Global {
 	public static final JsonParser jsonParser = new JsonParser();
 
 	private static Logger log = Logger.getLogger(Global.class.getName());
+	public static Map<String, SessionObject> mapSession = new HashMap<String, SessionObject>();
+	public static List<String> listAPIKeys = new ArrayList<String>();
 
 	public static final String[][] LANGUAGE = new String[][] {
 			{ "vi", "Ti\u1EBFng Vi\u1EC7t" }, { "en", "English" } };
