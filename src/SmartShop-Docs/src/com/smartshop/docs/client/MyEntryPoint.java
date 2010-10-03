@@ -1,9 +1,11 @@
 package com.smartshop.docs.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Text;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -16,73 +18,79 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.smartshop.docs.client.utils.ClientUtil;
 
-public class MyEntryPoint implements EntryPoint {
-
+public class MyEntryPoint implements EntryPoint{
 	@Override
 	public void onModuleLoad() {
 		RootPanel.get().add(new MainPanel());
+		
+		History.addValueChangeHandler(HistoryManager.getInstance());
+		History.fireCurrentHistoryState();
 	}
-	
+
 	void testImage() {
 		Image image = new Image("images/first.png");
 		RootPanel.get().add(image);
 	}
-	
+
 	void testMain() {
 		HorizontalSplitPanel main = new HorizontalSplitPanel();
 		main.setSplitPosition("300px");
-		
-		main.setLeftWidget(new MyTreePanel());
-		main.setRightWidget(MyContentPanel.getInstance());
-		
+
+		main.setLeftWidget(TreePanel.getInstance());
+		main.setRightWidget(ContentPanel.getInstance());
+
 		RootPanel.get().add(main);
 	}
-	
+
 	void testSplitPanel() {
 		HorizontalSplitPanel panel = new HorizontalSplitPanel();
 		panel.setSplitPosition("300px");
-		
+
 		panel.setLeftWidget(createTree());
 		panel.setRightWidget(new Button("right"));
-		
+
 		RootPanel.get().add(panel);
+
 	}
-	
+
 	void testContent() {
 		VerticalPanel panel = new VerticalPanel();
-		
+
 		Label label = new Label("This is a label");
 		label.getElement().getStyle().setBackgroundColor("blue");
 		label.getElement().getStyle().setFontSize(30.0, Unit.PX);
-		label.getElement().getStyle().setWidth(Window.getClientWidth(), Unit.PX);
-		
+		label.getElement().getStyle()
+				.setWidth(Window.getClientWidth(), Unit.PX);
+
 		HTML html = new HTML("The content");
-		
+
 		panel.add(label);
 		panel.add(html);
 		panel.add(label);
 		panel.add(html);
-		
+
 		RootPanel.get().add(panel);
 	}
-	
+
 	VerticalPanel createContentPanel() {
 		VerticalPanel panel = new VerticalPanel();
-		
+
 		Label label = new Label("This is a label");
 		label.getElement().getStyle().setBackgroundColor("blue");
 		label.getElement().getStyle().setFontSize(30.0, Unit.PX);
-		label.getElement().getStyle().setWidth(Window.getClientWidth() - 310, Unit.PX);
-		
+		label.getElement().getStyle().setWidth(Window.getClientWidth() - 310,
+				Unit.PX);
+
 		HTML html = new HTML("The content");
-		
+
 		panel.add(label);
 		panel.add(html);
-		
+
 		return panel;
 	}
-	
+
 	VerticalPanel createTree() {
 		VerticalPanel panel = new VerticalPanel();
 
@@ -115,7 +123,7 @@ public class MyEntryPoint implements EntryPoint {
 		// Add it to the root panel.
 		panel.add(label);
 		panel.add(t);
-		
+
 		return panel;
 	}
 
