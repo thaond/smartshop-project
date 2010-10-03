@@ -1,0 +1,26 @@
+<root>
+	<category>
+		<item>
+			<name>Introduction</name>
+			<token>intro</token>
+			<file>doc/introduction.html</file>
+		</item>
+
+		<item>
+			<name>Introduction</name>
+			<token>intro</token>
+			<file>doc/introduction.html</file>
+		</item>
+	</category>
+
+	<category>
+		Developer
+		<item>
+			<name>Account</name>
+			<token>intro</token>
+			<file>doc/introduction.html</file>
+			<item>
+			</item>
+		</item>
+	</category>
+</root>

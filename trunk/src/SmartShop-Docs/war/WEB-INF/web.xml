@@ -4,9 +4,21 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-  <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>SmartShop_Docs.html</welcome-file>
-  </welcome-file-list>
+
+	<!-- RPC configuration -->
+	<servlet>
+		<servlet-name>rpcserviceimpl</servlet-name>
+		<servlet-class>com.smartshop.docs.server.RPCServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rpcserviceimpl</servlet-name>
+		<url-pattern>/smartshop/util</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>SmartShop_Docs.html</welcome-file>
+	</welcome-file-list>
 
 </web-app>
