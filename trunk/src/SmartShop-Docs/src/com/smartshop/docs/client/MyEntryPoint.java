@@ -2,8 +2,6 @@ package com.smartshop.docs.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
@@ -18,7 +16,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.smartshop.docs.client.utils.ClientUtil;
 
 public class MyEntryPoint implements EntryPoint{
 	@Override
@@ -27,6 +24,7 @@ public class MyEntryPoint implements EntryPoint{
 		
 		History.addValueChangeHandler(HistoryManager.getInstance());
 		History.fireCurrentHistoryState();
+		
 	}
 
 	void testImage() {

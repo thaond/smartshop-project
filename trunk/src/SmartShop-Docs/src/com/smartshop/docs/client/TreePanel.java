@@ -20,36 +20,62 @@ public class TreePanel extends VerticalPanel {
 	}
 
 	private TreePanel() {
-		ItemNode itemIntro = new ItemNode("Giới thiệu", "intro", "/doc/introduction.html");
-		ItemNode itemOverview = new ItemNode("Tổng quan hệ thống", "overview", "/doc/overview.html");
-		ItemNode itemProductRoadMap = new ItemNode("Hướng phát triển", "roadmap", "/doc/product_roadmap.html");
-		
+		ItemNode itemIntro = new ItemNode("Giới thiệu", "intro",
+				"/doc/introduction.html");
+		ItemNode itemOverview = new ItemNode("Tổng quan hệ thống", "overview",
+				"/doc/overview.html");
+		ItemNode itemProductRoadMap = new ItemNode("Hướng phát triển",
+				"roadmap", "/doc/product_roadmap.html");
+		ItemNode itemSponsor = new ItemNode("Nhà tài trợ", "sponsor",
+				"/doc/sponsor.html");
+		ItemNode itemLicense = new ItemNode("Bản quyền", "license",
+				"/doc/license.html");
+
 		// 5. Ứng dụng Android
-		Tree tree = new Tree();
-		TreeItem treeAndroid = new TreeItem("Ứng dụng Android");
-		ItemNode itemIntroAnd = new ItemNode("Giới thiệu sản phẩm", "android-intro", "/doc/android-intro.html");
-		ItemNode itemDownload = new ItemNode("Download", "android-download", "/doc/android-download.html");
+		Tree treeAndroid = new Tree();
+		TreeItem rootAndroid = new TreeItem("Ứng dụng Android");
+		ItemNode itemIntroAnd = new ItemNode("Giới thiệu sản phẩm",
+				"android-intro", "/doc/android-intro.html");
+		ItemNode itemDownload = new ItemNode("Download", "android-download",
+				"/doc/android-download.html");
 		TreeItem itemGuide = new TreeItem("Hướng dẫn sử dụng");
 
-		treeAndroid.addItem(itemIntroAnd);
-		treeAndroid.addItem(itemDownload);
-		treeAndroid.addItem(itemGuide);
-		tree.addItem(treeAndroid);
+		rootAndroid.addItem(itemIntroAnd);
+		rootAndroid.addItem(itemDownload);
+		rootAndroid.addItem(itemGuide);
+		treeAndroid.addItem(rootAndroid);
 
-		// Add into map to manage history token
-		
-		ClientUtil.mapNode.put("intro", itemIntro);
-		ClientUtil.mapNode.put("overview", itemOverview);
-		ClientUtil.mapNode.put("roadmap", itemProductRoadMap);
+		// 6. Dành cho nhà phát triển
+		Tree treeDev = new Tree();
+		TreeItem rootDev = new TreeItem("Dành cho nhà phát triển");
+		ItemNode itemDevIntro = new ItemNode("Giới thiệu", "intro-dev",
+				"/doc/dev-intro.html");
+		ItemNode itemDevSignUp = new ItemNode("Đăng ký API Key", "dev-sign-up",
+				"/doc/signup_apikey.html");
 
-		HTML hr = new HTML("<hr/>");
-		hr.setWidth("300px");
-		
+		rootDev.addItem(itemDevIntro);
+		rootDev.addItem(itemDevSignUp);
+		treeDev.addItem(rootDev);
+
+		HTML hr1 = new HTML("<hr/>");
+		hr1.setWidth("300px");
+		HTML hr2 = new HTML("<hr/>");
+		hr2.setWidth("300px");
+		HTML hr3 = new HTML("<hr/>");
+		hr3.setWidth("300px");
+
 		add(itemIntro);
 		add(itemOverview);
-		add(hr);
-		add(tree);
-		add(hr);
+
+		add(hr1);
+		add(treeAndroid);
+		
+		add(hr2);
+		add(treeDev);
+
+		add(hr3);
 		add(itemProductRoadMap);
+		add(itemSponsor);
+		add(itemLicense);
 	}
 }
