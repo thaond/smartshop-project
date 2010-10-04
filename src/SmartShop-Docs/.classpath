@@ -109,5 +109,6 @@
 			<attribute name="javadoc_location" value="file:/D:/Programs%20File/eclipse/plugins/com.google.appengine.eclipse.sdkbundle.1.3.6_1.3.6.v201008132009/appengine-java-sdk-1.3.6/docs/javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt2swf-0.6.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

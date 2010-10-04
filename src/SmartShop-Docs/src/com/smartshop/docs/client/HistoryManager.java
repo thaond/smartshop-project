@@ -25,9 +25,11 @@ public class HistoryManager implements ValueChangeHandler<String> {
 	}
 	
 	private void onHistoryChange(String token){
+		if (token.equals(""))
+			token = "intro";
 		if (ClientUtil.mapNode.containsKey(token)) {
 			ItemNode itemNode = ClientUtil.mapNode.get(token);
-			ContentPanel.getInstance().showData(itemNode);
+			ContentPanel.getInstance().showData(itemNode, token.equals("intro"));
 		}
 	}
 

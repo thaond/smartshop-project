@@ -4,7 +4,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
+import com.smartshop.docs.client.utils.ClientUtil;
 
+/**
+ * 
+ * @author VoMinhTam
+ */
 public class ItemNode extends Anchor {
 	private String name;
 	private String token;
@@ -26,6 +31,9 @@ public class ItemNode extends Anchor {
 		});
 		
 		this.setStyleName("tree-node");
+		
+		//Put into history to manage
+		ClientUtil.mapNode.put(token, this);
 	}
 
 	/**

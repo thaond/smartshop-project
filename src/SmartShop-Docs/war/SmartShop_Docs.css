@@ -58,6 +58,12 @@ h1 {
 	right: 65px;
 }
 
-.tree-node{
+.tree-node {
 	padding-left: 20px;
+}
+
+.flash-intro {
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
 }
