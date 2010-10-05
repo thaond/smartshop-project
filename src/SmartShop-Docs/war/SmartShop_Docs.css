@@ -67,3 +67,16 @@ h1 {
 	margin-right: auto;
 	margin-left: auto;
 }
+
+.title{
+	text-transform: uppercase;
+	font-size: 30px;
+}
+
+.code {
+	background-color: #DEDEDE;
+	padding: 10px 0px 10px 30px;
+	border-style: solid;
+	border-width: thin;
+}
+

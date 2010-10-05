@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.smartshop.docs.client.utils.ClientUtil;
 
 public class TreePanel extends VerticalPanel {
 	private static TreePanel instance = null;
@@ -48,13 +47,16 @@ public class TreePanel extends VerticalPanel {
 		// 6. Dành cho nhà phát triển
 		Tree treeDev = new Tree();
 		TreeItem rootDev = new TreeItem("Dành cho nhà phát triển");
-		ItemNode itemDevIntro = new ItemNode("Giới thiệu", "intro-dev",
+		ItemNode itemDevIntro = new ItemNode("Giới thiệu", "dev-intro",
 				"/doc/dev-intro.html");
 		ItemNode itemDevSignUp = new ItemNode("Đăng ký API Key", "dev-sign-up",
 				"/doc/signup_apikey.html");
+		ItemNode itemUserAccount = new ItemNode("Thông tin tài khoản",
+				"dev-user-account", "/doc/dev-user-account.html");
 
 		rootDev.addItem(itemDevIntro);
 		rootDev.addItem(itemDevSignUp);
+		rootDev.addItem(itemUserAccount);
 		treeDev.addItem(rootDev);
 
 		HTML hr1 = new HTML("<hr/>");
@@ -69,7 +71,7 @@ public class TreePanel extends VerticalPanel {
 
 		add(hr1);
 		add(treeAndroid);
-		
+
 		add(hr2);
 		add(treeDev);
 

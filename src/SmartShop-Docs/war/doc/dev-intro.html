@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+	xmlns:v="urn:schemas-microsoft-com:vml"
+	xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<head>
+<meta http-equiv="Content-Language" content="en-us" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" rel="stylesheet" href="document.css">
+</head>
+<body>
+<p><span class="title">Giới thiệu về SmartShop Web Services
+API</span></p>
+<hr />
+<h2>Nội dung</h2>
+<ul>
+	<li>Giới thiệu</li>
+	<li>Web Services l&agrave; g&igrave;?</li>
+	<li>Xử l&yacute; kết quả trả về</li>
+</ul>
+<p />
+<h2>Giới thiệu</h2>
+<blockquote>
+<p>B&ecirc;n cạnh cung cấp ứng dụng ph&iacute;a người d&ugrave;ng
+tr&ecirc;n thiết bị di động (<a href="#android-intro" target="_blank">Android</a>).
+Hệ thống c&ograve;n cung cấp c&aacute;c <a
+	href="http://en.wikipedia.org/wiki/Web_service">Web Services</a> cho
+ph&eacute;p c&aacute;c nh&agrave; ph&aacute;t triển kh&aacute;c
+c&oacute; thể ph&aacute;t triển tr&ecirc;n những website hoắc nền tảng
+kh&aacute;c, hoặc cũng c&oacute; thể tận d&ugrave;ng những tiện
+&iacute;ch sẵn c&oacute; của SmartShop để triển khai tr&ecirc;n
+c&aacute;c ứng dụng về thương mại điện tử của m&igrave;nh. B&agrave;i
+hướng dẫn tập chỉ giới thiệu tổng quan về Web Services v&agrave;
+c&aacute;c th&ocirc;ng tin cần phải c&oacute; cho tất cả c&aacute;c
+service. Chi tiết cho từng loại service sẽ được giới thiệu trong
+c&aacute;c b&agrave;i viết sau.</p>
+</blockquote>
+
+<h2>Web Services l&agrave; g&igrave;?</h2>
+<blockquote>
+<p>Dịch vụ Web hay c&ograve;n c&oacute; t&ecirc;n gọi kh&aacute;c
+l&agrave; Web Services, l&agrave; những giao diện lập tr&igrave;nh ứng
+dụng (<a class="mw-redirect" title="Application programming interfaces"
+	href="http://en.wikipedia.org/wiki/Application_programming_interfaces">application
+programming interfaces</a>&nbsp;- API)&nbsp;cho ph&eacute;p người
+d&ugrave;ng hoặc c&aacute;c ứng dụng kh&aacute;c khai th&aacute;c
+c&aacute;c tiện &iacute;ch được cung cấp bởi server th&ocirc;ng qua giao
+thức HTTP (<a title="Hypertext Transfer Protocol"
+	href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">Hypertext
+Transfer Protocol</a>). Ch&iacute;nh v&igrave; thế m&agrave; Web Services
+c&oacute; c&aacute;c đặc điểm nổi bật như:&nbsp;C&aacute;c phần mềm được
+viết bởi những ng&ocirc;n ngữ lập tr&igrave;nh kh&aacute;c nhau
+v&agrave; chạy tr&ecirc;n những nền tảng kh&aacute;c nhau c&oacute; thể
+sử dụng dịch vụ Web để chuyển đổi dữ liệu th&ocirc;ng qua mạng Internet
+theo c&aacute;ch giao tiếp tương tự b&ecirc;n trong một m&aacute;y
+t&iacute;nh v&agrave; những phần mềm ph&iacute;a người d&ugrave;ng
+c&oacute; thể thực hiện những c&ocirc;ng việc phức tạp v&igrave; việc xử
+l&yacute; dữ liệu đ&atilde; do ph&iacute;a server đảm nhiệm.</p>
+<p>C&oacute; rất nhiều chuẩn Web Services được tổ chức&nbsp;World
+Wide Web Consortium (W3C) quy định (tham khảo th&ecirc;m
+tại&nbsp;http://www.w3.org/2002/ws/), nhưng trong hệ thống ch&uacute;ng
+t&ocirc;i chỉ sử dụng chuẩn RESTful&nbsp;Protocol Specification.
+C&aacute;c Web Services sử dụng lời gọi h&agrave;m HTTP v&agrave; gửi
+k&egrave;m c&aacute;c tham số, kết quả trả về sẽ dưới định dạng JSON.</p>
+<p>Một lời gọi Web Services ti&ecirc;u biểu sẽ c&oacute; dạng như
+sau:</p>
+<p class="code"><span style="white-space: pre;">http://smartshopviet.appspot.com/api/<em>&lt;api key&gt;</em>/<em>&lt;t&ecirc;n service&gt;</em>/?<em>&lt;c&aacute;c tham số&gt;</em></span></p>
+<p><span style="white-space: pre;"><em><span
+	style="font-style: normal; white-space: normal;">Trong
+đ&oacute;:&nbsp;</span></em></span></p>
+<ul>
+	<li><span style="white-space: pre;"><em><span
+		style="font-style: normal; white-space: normal;"><b>&lt;api
+	key&gt;</b>: M&atilde; ứng dụng bạn thực thi (để lấy m&atilde; ứng dụng xin
+	vui l&ograve;ng <a href="#dev-sign-up">đăng k&yacute;</a>)</span></em></span></li>
+	<li><b>&lt;t&ecirc;n service&gt;</b>: cho biết t&ecirc;n service bạn muốn
+	gọi.</li>
+</ul>
+<p>Đặc tả đầy đủ cho từng loại service sẽ được giới thiệu trong
+c&aacute;c b&agrave;i tiếp theo. Tuy nhi&ecirc;n, b&agrave;i hướng dẫn
+n&agrave;y hết sức cần thiết, gi&uacute;p bạn c&oacute; thể thiết lập
+một lời gọi h&agrave;m hợp lệ v&agrave; xử l&yacute; kết quả trả về.</p>
+<p><span class="style4"><span class="style4"><span
+	class="style6"><span class="style2">Bộ</span></span></span></span><span
+	class="style6"> API </span><span class="style5"> <span
+	class="style6"><span class="style2">n&agrave;y g</span></span></span><span
+	class="style6">ồ</span><span><span class="style6">m </span><span
+	class="style4"><span class="style6">c&aacute;c h&agrave;m
+c</span></span></span><span class="style6">ủa Smart-Shop-API đ&atilde; được điều chỉnh
+để tương </span> <span class="style5"> <span class="style6"><span
+	class="style2">th&iacute;ch v</span></span></span><span class="style6">ới </span><span
+	class="style5"> <span class="style4"><span class="style6"><span
+	class="style2">RESTful Protocol Specification. Do đ&oacute;, </span></span></span></span><span
+	class="style5"> <span class="style7"><span class="style2">dữ
+liệu trả về của Server v&agrave; dữ liệu gửi đi của Client phải ở dạng
+JSON.</span></span></span></p>
+</blockquote>
+
+<h2>Xử l&yacute; kết quả trả về</h2>
+<blockquote>
+</span></span></span></p>
+<p><span class="style5"><span class="style7"><span
+	class="style2">Kết quả trả về cho một lời gọi h&agrave;m hợp lệ
+sẽ c&oacute; dạng như sau:</span></span></span></p>
+<blockquote class="code">
+	{"errCode":0,<br/>
+	&nbsp;&nbsp;"message":"Đăng nhập th&agrave;nh c&ocirc;ng",
+	<blockquote>
+		"userinfo":{ <br/>
+		"username":"tam",<br/>
+		"first_name":"Tam",<br/>
+		"last_name":"Vo Minh",<br/>
+	</blockquote>
+	...}
+</blockquote>
+<p>Trong đ&oacute; c&aacute;c th&ocirc;ng số lưu c&oacute; trong tất
+cả c&aacute;c kết quả trả về của service gồm:</p>
+<ul>
+	<li><b>errCode</b>: M&atilde; kết quả trả về của Web Service (0:
+	th&agrave;nh c&ocirc;ng, 1: thất bại)</li>
+	<li><b>message</b>: Th&ocirc;ng điệp</li>
+</ul>
+</blockquote>
+</body>
+</html>
