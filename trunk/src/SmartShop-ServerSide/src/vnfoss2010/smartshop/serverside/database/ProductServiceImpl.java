@@ -174,7 +174,7 @@ public class ProductServiceImpl {
 			product = pm.getObjectById(Product.class, editProduct.getId());
 			if (product == null) {
 				result.setOK(false);
-				result.setMessage("Khong tim thay product");
+				result.setMessage(Global.messages.getString("no_found_product"));
 			} else {
 				product.setAddress(editProduct.getAddress());
 				product.setAttributeSets(editProduct.getAttributeSets());
@@ -188,10 +188,10 @@ public class ProductServiceImpl {
 				product.setSetCategoryKeys(editProduct.getSetCategoryKeys());
 				product.setGeocells(editProduct.getGeocells());
 				result.setOK(true);
-				result.setMessage("Update thanh cong");
+				result.setMessage(Global.messages.getString("update_product_successfully"));
 			}
 		} catch (Exception e) {
-			result.setMessage("exception " + e.getMessage());
+			result.setMessage(Global.messages.getString("update_product_fail") + " " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
