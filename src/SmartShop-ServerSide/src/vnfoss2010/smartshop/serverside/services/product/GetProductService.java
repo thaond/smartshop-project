@@ -60,7 +60,7 @@ public class GetProductService extends BaseRestfulService {
 				product.setSetCategoryKeys(null);
 				product.setGeocells(null);
 				Set<Category> categoryList = catsResult.getResult();
-				jsonReturn.addProperty("errCode", 1);
+				jsonReturn.addProperty("errCode", 0);
 				jsonReturn.addProperty("message", Global.messages
 						.getString("find_product_successfully"));
 				jsonReturn.add("listCategories", Global.gsonWithDate.toJsonTree(categoryList));
