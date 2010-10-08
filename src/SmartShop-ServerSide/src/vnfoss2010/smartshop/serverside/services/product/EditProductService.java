@@ -52,7 +52,7 @@ public class EditProductService extends BaseRestfulService {
 			jsonReturn.put("message", editResult.getMessage());
 		} else {
 			jsonReturn.put("errCode", 1);
-			jsonReturn.put("message", "Can't find category");
+			jsonReturn.put("message", listCategory.getMessage());
 		}
 
 		// return value;
