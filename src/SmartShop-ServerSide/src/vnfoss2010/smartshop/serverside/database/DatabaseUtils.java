@@ -255,7 +255,7 @@ public class DatabaseUtils {
 
 		APIKey apiKey = null;
 		try {
-			apiKey = (APIKey) pm.getObjectById(source);
+			apiKey = (APIKey) pm.getObjectById(APIKey.class, source);
 		} catch (Exception e) {
 		}
 		

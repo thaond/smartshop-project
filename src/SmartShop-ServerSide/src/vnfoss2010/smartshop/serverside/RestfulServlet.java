@@ -23,7 +23,6 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -60,7 +59,6 @@ import vnfoss2010.smartshop.serverside.services.map.GeocoderService;
 import vnfoss2010.smartshop.serverside.services.map.ReserveGeocoderService;
 import vnfoss2010.smartshop.serverside.services.notification.DeleteAllNotificationsService;
 import vnfoss2010.smartshop.serverside.services.notification.DeleteNotificationsByUsernameService;
-import vnfoss2010.smartshop.serverside.services.notification.EditNotificationService;
 import vnfoss2010.smartshop.serverside.services.notification.GetNotificationsByUsernameService;
 import vnfoss2010.smartshop.serverside.services.notification.InsertNotificationService;
 import vnfoss2010.smartshop.serverside.services.notification.MarkAsReadNotificationsByUsernameService;
@@ -134,7 +132,10 @@ public class RestfulServlet extends HttpServlet {
 			String serviceName = req.getParameter("service");
 
 			if (!Global.listAPIKeys.contains(api)){
-				APIKey apiKey = DatabaseUtils.getAPIKey(UtilsFunction.decrypt(api));
+				String decryptAPIKey = UtilsFunction.decrypt(api);
+				if (decryptAPIKey == null)
+					throw new InvalidAPIKeyException(serviceName);
+				APIKey apiKey = DatabaseUtils.getAPIKey(decryptAPIKey);
 				if (apiKey==null)
 					throw new InvalidAPIKeyException(serviceName);
 				else
@@ -241,8 +242,7 @@ public class RestfulServlet extends HttpServlet {
 		// unAuthorizedServices.put("create-comment",
 		// CreateCommentService.class);
 		unAuthorizedServices.put("get-comment", GetCommentService.class);
-		// unAuthorizedServices.put("delete-comment",
-		// DeleteCommentService.class);
+		unAuthorizedServices.put("delete-comment", DeleteCommentService.class);
 		unAuthorizedServices.put("comment-get-by-username",
 				GetCommentsByUsernameService.class);
 
@@ -321,7 +321,6 @@ public class RestfulServlet extends HttpServlet {
 
 		// comment
 		authorizedServices.put("create-comment", CreateCommentService.class);
-		authorizedServices.put("get-comment", GetCommentService.class);
 		authorizedServices.put("delete-comment", DeleteCommentService.class);
 		authorizedServices.put("comment-get-by-username",
 				GetCommentsByUsernameService.class);
@@ -329,7 +328,6 @@ public class RestfulServlet extends HttpServlet {
 		// notification
 		authorizedServices.put("noti-delete-all-by",
 				DeleteNotificationsByUsernameService.class);
-		authorizedServices.put("noti-edit", EditNotificationService.class);
 		authorizedServices.put("noti-mark-as-read",
 				MarkAsReadNotificationsByUsernameService.class);
 
