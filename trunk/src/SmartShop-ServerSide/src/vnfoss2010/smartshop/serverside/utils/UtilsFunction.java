@@ -1,7 +1,5 @@
 package vnfoss2010.smartshop.serverside.utils;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,9 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.authentication.SessionObject;
@@ -23,6 +19,12 @@ import vnfoss2010.smartshop.serverside.map.direction.GeoPoint;
  */
 public class UtilsFunction {
 	public static final int R = 6371; // km
+	private static final String PRIVATE_KEY = "SmartShopPrivateKey";
+	private static final StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+	static {
+		encryptor.setPassword(PRIVATE_KEY);
+		encryptor.setStringOutputType("hexadecimal");
+	}
 
 	private static double deg2rad(double deg) {
 		return (Math.PI / 180) * deg;
@@ -230,42 +232,22 @@ public class UtilsFunction {
 		return null;
 	}
 
-	public static String encrypt(String rawString){
+	public static String encrypt(String rawString) {
 		try {
-			byte[] encryptBytes = StringEncryptor.encrypt(rawString);
-			return StringEncryptor.toHex(encryptBytes);
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (BadPaddingException e) {
-			e.printStackTrace();
-		} catch (IllegalBlockSizeException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
-			e.printStackTrace();
+			return encryptor.encrypt(rawString);
+		} catch (Exception e) {
+			return null;
 		}
-		
-		return null;
 	}
-	
-	public static String decrypt(final String cryptString){
+
+	public static String decrypt(final String cryptString) {
 		try {
-			return StringEncryptor.decrypt(StringEncryptor.toArrayByte(cryptString));
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (BadPaddingException e) {
-			e.printStackTrace();
-		} catch (IllegalBlockSizeException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
-			e.printStackTrace();
+			return encryptor.decrypt(cryptString);
+		} catch (Exception e) {
+			return null;
 		}
-		return null;
 	}
-//	public static void main(String[] args) {
-//		System.out.println(distance(50, 50, 51, 50));
-//	}
+	// public static void main(String[] args) {
+	// System.out.println(distance(50, 50, 51, 50));
+	// }
 }

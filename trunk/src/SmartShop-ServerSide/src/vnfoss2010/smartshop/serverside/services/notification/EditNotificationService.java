@@ -22,8 +22,8 @@ public class EditNotificationService extends BaseRestfulService {
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		JSONObject jsonReturn = new JSONObject();
-		Notification page = Global.gsonWithDate.fromJson(content, Notification.class);
-		ServiceResult<Void> result = dbNotification.editNotification(page);
+		Notification not = Global.gsonWithDate.fromJson(content, Notification.class);
+		ServiceResult<Void> result = dbNotification.editNotification(not);
 		if (result.isOK()) {
 			jsonReturn.put("errCode", 0);
 		} else {
