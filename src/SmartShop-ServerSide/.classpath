@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/xercesImpl-gear.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/urlrewrite-3.2.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang-2.5.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jasypt-1.6.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
