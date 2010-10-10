@@ -9,12 +9,16 @@
 <p><span class="title">Thông tin tài khoản</span></p>
 <h2>Nội dung</h2>
 <ul>
-<li>Giới thiệu</li>
-<li>Đăng k&yacute; t&agrave;i khoản&nbsp;</li>
-<li>Sửa th&ocirc;ng tin t&agrave;i khoản</li>
+<li><a href="#introduction">Giới thiệu</a></li>
+<li><a href="#registerAccount">Đăng k&yacute; t&agrave;i khoản&nbsp;</a></li>
+<li><a href="#editUserInfo">Sửa th&ocirc;ng tin t&agrave;i khoản</a></li>
+<li><a href="#getUserInfo">Lấy th&ocirc;ng tin tài khoản</a></li>
+<li><a href="#login">Đăng nhập</a></li>
+<li><a href="#findFriend">Tìm bạn</a></li>
+<li><a href="#addFriend">Kết bạn</a></li>
 </ul>
 
-<h2>Giới thiệu</h2>
+<h2 id="introduction">Giới thiệu</h2>
 <blockquote>
 <p class="style1">C&aacute;c service trong hệ thống ph&acirc;n l&agrave;m 2 loại:</p>
 <p class="style1">C&aacute;c service cần x&aacute;c thực của th&agrave;nh vi&ecirc;n: l&agrave; c&aacute;c service chỉ c&oacute; th&agrave;nh vi&ecirc;n thực sự của hệ thống mới c&oacute; thể sử dụng, chẳng hạn bao gồm c&aacute;c service như đăng k&yacute; một sản phẩm mới, tạo trang th&ocirc;ng tin, đăng k&yacute; nhận th&ocirc;ng tin sản phẩm, ...</p>
@@ -22,10 +26,10 @@
 <p class="style1">Để tiện cho bạn theo d&otilde;i, ch&uacute;ng t&ocirc;i tạm k&iacute; hiệu * tr&ecirc;n c&aacute;c ti&ecirc;u đề cho c&aacute;c service cần sự x&aacute;c thực của th&agrave;nh vi&ecirc;n. Sự kh&aacute;c nhau về th&ocirc;ng số gọi h&agrave;m cũng như về chức năng sẽ được tr&igrave;nh b&agrave;y ngay sau đ&acirc;y. C&aacute;c th&agrave;nh vi&ecirc;n trong hệ thống c&oacute; thể l&agrave; người mua hoặc người b&aacute;n hoặc l&agrave; c&oacute; thể thực hiện cả 2 chức năng tr&ecirc;n.</p>
 </blockquote>
 
-<h2>Đăng k&yacute; t&agrave;i khoản&nbsp;</h2>
+<h2 id="registerAccount">Đăng k&yacute; t&agrave;i khoản&nbsp;</h2>
 <blockquote>
-<p>Để đăng k&yacute; t&agrave;i khoản mới, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng <a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a> tới địa chỉ:</p>
-<p class="code"><a href="http://smartshopviet.appspot.com/api/<api-key>/account-register/">http://smartshopviet.appspot.com/api/<api-key>/account-register/</a></p>
+<p>Để đăng k&yacute; t&agrave;i khoản mới, bạn c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng <a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a> tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<api-key>/account-register/">http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-register/</a></p>
 <p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
 <p class="code">
 {"username":"tamvo",<br/>
@@ -51,11 +55,103 @@
 <li><b>lat</b>, <b>lng</b>: Tọa độ địa chỉ của th&agrave;nh vi&ecirc;n. Th&ocirc;ng tin lat, lng v&agrave; address ho&agrave;n to&agrave;n độc lập với nhau. Tuy nhi&ecirc;n, ch&uacute;ng t&ocirc;i khuy&ecirc;n bạn n&ecirc;n cung cấp c&aacute;c th&ocirc;ng số n&agrave;y một c&aacute;ch ch&iacute;nh x&aacute;c để hỗ trợ cho bạn những dịch vụ ch&iacute;nh x&aacute;c hơn.</li>
 <li><b>avatarLink</b>: URL cho h&igrave;nh ảnh đại diện cho th&agrave;nh vi&ecirc;n.&nbsp;</li>
 </ul>
-<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp lệ của c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
 <p class="code">{"message":"T&ecirc;n đăng nhập đ&atilde; tồn tại","errCode":1}</p>
-<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục Giới thiệu</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục <a href="/doc/dev-intro.html">Giới thiệu</a></p>
 </blockquote>
-<h2>Sửa th&ocirc;ng tin t&agrave;i khoản</h2>
+<h2 id="editUserInfo">Sửa th&ocirc;ng tin t&agrave;i khoản</h2>
+<blockquote>
+<p>Để sửa thông tin tài khoản, bạn c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng
+<a href="http://en.wikipedia.org/wiki/GET_(HTTP)">GET</a> tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<api-key>/account-register/">http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-editprofile/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">
+{&quot;username&quot;:&quot;tamvo&quot;,<br/>
+&nbsp;&nbsp;&quot;password&quot;:&quot;QetERTYVB567jf56u&quot;,<br/>
+&nbsp;&nbsp;&quot;first_name&quot;:&quot;Tam&quot;,<br/>
+&nbsp;&nbsp;&quot;last_name&quot;:&quot;Vo Minh&quot;,<br/>
+&nbsp;&nbsp;&quot;phone&quot;:&quot;123123123&quot;,<br/>
+&nbsp;&nbsp;&quot;email&quot;:&quot;vo.mita.ov@gmail.com&quot;,<br/>
+&nbsp;&nbsp;&quot;birthday&quot;:&quot;22-01-1989&quot;,<br/>
+&nbsp;&nbsp;&quot;address&quot;:&quot;Binh Tan district&quot;,<br/>
+&nbsp;&nbsp;&quot;lat&quot;:10.213,&quot;lng&quot;:106.123123,<br/>
+&nbsp;&nbsp;&quot;avatarLink&quot;:&quot;&quot;,<br/>
+&nbsp;&nbsp;&quot;gmt&quot;:7.0,<br/>
+&nbsp;&nbsp;&quot;lang&quot;:&quot;vi&quot;,<br/>
+&nbsp;&nbsp;&quot;country&quot;:&quot;VietNam&quot;,}
+</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li>Ý nghĩa của các thông số tương tự như phần <a href="#registerAccount">Đăng ký tài khoản</a></li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp lệ của c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"message":"T&ecirc;n đăng nhập đ&atilde; tồn tại","errCode":1}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục <a href="/doc/dev-intro.html">Giới thiệu</a></p>
+</blockquote>
+<h2 id="getUserInfo">Lấy thông tin tài khoản:</h2>
+<blockquote style="height: 323px">
+<p>Để lấy thông tin tài khoản của user, bạn c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng
+<a href="http://en.wikipedia.org/wiki/GET_(HTTP)">GET</a> tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<api-key>/account-register/">
+http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-getuser/?username=USERNAME</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">
+USERNAME: là username của tài khoản mà bạn muốn lấy thông tin</p>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp lệ của c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{&quot;errCode&quot;:0,&quot;message&quot;:&quot;Đăng nhập thành công&quot;,&quot;userinfo&quot;:{&quot;username&quot;:&quot;tam&quot;,&quot;password&quot;:&quot;3eaf6c984c18d143e1c0a797779afea8&quot;,&quot;first_name&quot;:&quot;Tam&quot;,&quot;last_name&quot;:&quot;Vo 
+Minh&quot;,&quot;phone&quot;:&quot;123123123&quot;,&quot;email&quot;:&quot;tam@gmail.com&quot;,&quot;birthday&quot;:&quot;Jan 22, 3890 
+12:00:00 AM&quot;,&quot;address&quot;:&quot;Binh Tan district&quot;,&quot;lat&quot;:10.213,&quot;lng&quot;:106.123123,&quot;avatarLink&quot;:&quot;&quot;,&quot;sum_star&quot;:0,&quot;count_vote&quot;:0,&quot;gmt&quot;:7.0,&quot;lang&quot;:&quot;vi&quot;,&quot;country&quot;:&quot;VietNam&quot;,&quot;type&quot;:0,&quot;setFriendsUsername&quot;:[]}}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục
+<a href="/doc/dev-intro.html">Giới thiệu</a></p>
+</blockquote>
+<h2 id="login">Đăng nhập&nbsp;</h2>
+<blockquote style="height: 323px">
+<p>Để đăng nhập, bạn c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng
+<a href="http://en.wikipedia.org/wiki/GET_(HTTP)">GET</a> tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<api-key>/account-register/">
+http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-login/?username=USERNAME&amp;password=PASSWORD</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">
+USERNAME và PASSWORD: là username và password của tài khoản mà bạn muốn đăng nhập
+</p>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp lệ của c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{&quot;birthday&quot;:&quot;Wed Jan 22 00:00:00 UTC 3890&quot;,&quot;phone&quot;:&quot;123123123&quot;,&quot;sum_star&quot;:0,&quot;errCode&quot;:0,&quot;lng&quot;:106.123123,&quot;type&quot;:0,&quot;lang&quot;:&quot;vi&quot;,&quot;password&quot;:&quot;3eaf6c984c18d143e1c0a797779afea8&quot;,&quot;country&quot;:&quot;VietNam&quot;,&quot;message&quot;:&quot;Đăng 
+nhập thành công&quot;,&quot;first_name&quot;:&quot;Tam&quot;,&quot;gmt&quot;:7,&quot;username&quot;:&quot;tam&quot;,&quot;email&quot;:&quot;tam@gmail.com&quot;,&quot;address&quot;:&quot;Binh 
+Tan district&quot;,&quot;last_name&quot;:&quot;Vo Minh&quot;,&quot;count_vote&quot;:0,&quot;avatarLink&quot;:&quot;&quot;,&quot;lat&quot;:10.213}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục
+<a href="/doc/dev-intro.html">Giới thiệu</a></p>
+</blockquote>
+<h2 id="findFriend">Tìm bạn</h2>
+<blockquote style="height: 323px">
+<p>Để đăng nhập, bạn c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng
+<a href="http://en.wikipedia.org/wiki/GET_(HTTP)">GET</a> tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<api-key>/account-register/">
+http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-search/?q=USERNAME</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">
+USERNAME: là username của tài khoản bạn muốn tìm</p>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp lệ của c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{&quot;errCode&quot;:0,&quot;message&quot;:&quot;Tìm các tài khoản thành công&quot;,&quot;userinfos&quot;:[{&quot;username&quot;:&quot;tam&quot;,&quot;first_name&quot;:&quot;Tam&quot;,&quot;last_name&quot;:&quot;Vo 
+Minh&quot;,&quot;lat&quot;:0.0,&quot;lng&quot;:0.0,&quot;sum_star&quot;:0,&quot;count_vote&quot;:0,&quot;gmt&quot;:0.0,&quot;type&quot;:0}]}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục
+<a href="/doc/dev-intro.html">Giới thiệu</a></p>
+</blockquote>
+<h2 id="addFriend">Kết bạn</h2>
+<blockquote style="height: 323px">
+<p>Để kết bạn, bạn c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng
+<a href="http://en.wikipedia.org/wiki/GET_(HTTP)">GET</a> tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<api-key>/account-register/">
+http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-addfriend/?username=YOURUSERNAME&amp;friends=USERNAME1,USERNAME2,USERNAME3,..,USERNAMEn</a> </p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">
+USERNAME1,USERNAME2..,USERNAMEn: là danh sách các username của những người mà 
+bạn muốn kết bạn  <br>
+YOURUSERNAME: tên đăng nhập của bạn</br></p>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp lệ của c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{&quot;errCode&quot;:0,&quot;message&quot;:&quot;Thêm danh sách bạn thành công&quot;}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục
+<a href="/doc/dev-intro.html">Giới thiệu</a></p>
+</blockquote>
 </body>
 
 </html>
