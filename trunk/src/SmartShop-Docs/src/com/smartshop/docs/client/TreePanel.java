@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class TreePanel extends VerticalPanel {
 	private static TreePanel instance = null;
-	private List<TreeItem> listRoot = new ArrayList<TreeItem>();
 
 	public static TreePanel getInstance() {
 		if (instance == null)
@@ -23,12 +22,12 @@ public class TreePanel extends VerticalPanel {
 				"/doc/introduction.html");
 		ItemNode itemOverview = new ItemNode("Tổng quan hệ thống", "overview",
 				"/doc/overview.html");
-		ItemNode itemProductRoadMap = new ItemNode("Hướng phát triển",
-				"roadmap", "/doc/product_roadmap.html");
-		ItemNode itemSponsor = new ItemNode("Nhà tài trợ", "sponsor",
-				"/doc/sponsor.html");
-		ItemNode itemLicense = new ItemNode("Bản quyền", "license",
-				"/doc/license.html");
+		ItemNode itemUserComment = new ItemNode("Ý kiến người sử dụng",
+				"user-comment", "/doc/user-comment.html");
+		ItemNode itemFeasibility = new ItemNode("Tính khả thi của dự án",
+				"feasibility", "/doc/feasibility.html");
+		ItemNode itemIdeaTechnology = new ItemNode("Ý tưởng & Công nghệ",
+				"idea-technology", "/doc/idea-technology.html");
 
 		// 5. Ứng dụng Android
 		Tree treeAndroid = new Tree();
@@ -42,6 +41,7 @@ public class TreePanel extends VerticalPanel {
 		rootAndroid.addItem(itemIntroAnd);
 		rootAndroid.addItem(itemDownload);
 		rootAndroid.addItem(itemGuide);
+		rootAndroid.setState(true);
 		treeAndroid.addItem(rootAndroid);
 
 		// 6. Dành cho nhà phát triển
@@ -53,11 +53,32 @@ public class TreePanel extends VerticalPanel {
 				"/doc/signup_apikey.html");
 		ItemNode itemUserAccount = new ItemNode("Thông tin tài khoản",
 				"dev-user-account", "/doc/dev-user-account.html");
+		ItemNode itemProduct = new ItemNode("Sản phẩm", "dev-product",
+				"/doc/dev-user-account.html");
+		ItemNode itemCategory = new ItemNode("Danh mục sản phẩm",
+				"dev-categories", "/doc/dev-categories.html");
+		ItemNode itemMap = new ItemNode("Các dịch vụ bản đồ", "dev-map",
+				"/doc/dev-map.html");
+		ItemNode itemSMSEmail = new ItemNode(
+				"Các dịch vụ gửi tin nhắn và email", "dev-sms-mail",
+				"/doc/dev-sms-mail.html");
 
 		rootDev.addItem(itemDevIntro);
 		rootDev.addItem(itemDevSignUp);
 		rootDev.addItem(itemUserAccount);
+		rootDev.addItem(itemProduct);
+		rootDev.addItem(itemCategory);
+		rootDev.addItem(itemMap);
+		rootDev.addItem(itemSMSEmail);
+		rootDev.setState(true);
 		treeDev.addItem(rootDev);
+
+		ItemNode itemProductRoadMap = new ItemNode("Hướng phát triển",
+				"roadmap", "/doc/product_roadmap.html");
+		ItemNode itemSponsor = new ItemNode("Nhà tài trợ", "sponsor",
+				"/doc/sponsor.html");
+		ItemNode itemLicense = new ItemNode("Bản quyền", "license",
+				"/doc/license.html");
 
 		HTML hr1 = new HTML("<hr/>");
 		hr1.setWidth("300px");
@@ -68,6 +89,9 @@ public class TreePanel extends VerticalPanel {
 
 		add(itemIntro);
 		add(itemOverview);
+		add(itemUserComment);
+		add(itemFeasibility);
+		add(itemIdeaTechnology);
 
 		add(hr1);
 		add(treeAndroid);

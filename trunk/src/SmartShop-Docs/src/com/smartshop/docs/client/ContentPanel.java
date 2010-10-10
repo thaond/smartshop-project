@@ -27,7 +27,7 @@ public class ContentPanel extends VerticalPanel {
 		html = new HTML();
 		swfWidget = new SWFWidget("res/SmartShop Introduction.swf");
 		swfWidget.addStyleName("flash-intro");
-		swfWidget.setPixelSize(800, 600);
+		swfWidget.setPixelSize(600, 400);
 
 		add(html);
 		add(swfWidget);
