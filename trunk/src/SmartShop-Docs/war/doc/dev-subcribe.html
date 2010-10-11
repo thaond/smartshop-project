@@ -29,7 +29,7 @@
 <h2><a name="2">&nbsp;</a>Đăng k&yacute; dịch vụ&nbsp;</h2>
 <blockquote>
 <p>Để đăng k&yacute; dịch vu mới, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng <a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a> tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/create-page/">http://localhost:8888/api/asd/create-subcribe/</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/create-page/">http://smartshopviet.appspot.com/api/<em>api-key</em>/create-subcribe/</a></p>
 <p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
 <p class="code">{lat:49, lng:49, radius: 50,<br /> description:"tim m&aacute;y giặt samsung mới 99% tại Thủ Đức",<br /> isActive:true, date:"20/08/2010 10:00:00",<br /> categoryList:["laptop"], q:"m&aacute;y giặt samsung"<br /> type_notification:1}</p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
@@ -63,7 +63,7 @@
 <h2><a name="3">&nbsp;</a>Cập nhật th&ocirc;ng tin của dịch vụ<span style="font-weight: normal; font-size: 10px;">&nbsp;</span></h2>
 <blockquote>
 <p>Để sửa th&ocirc;ng tin dịch vụ, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng&nbsp;<a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a>&nbsp;tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/edit-subcribe/">http://localhost:8888/api/asd/edit-subcribe/</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/edit-subcribe/">http://smartshopviet.appspot.com/api/<em>api-key</em>/edit-subcribe/</a></p>
 <p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
 <p class="code">{lat:49, lng:49, radius: 50,<br /> description:"tim laptop mac air mới 99% tại Thủ Đức",<br /> isActive:true, date:"20/08/2010 10:00:00",<br /> categoryList:["laptop"],<br /> type_notification:1}</p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
@@ -90,7 +90,7 @@
 <h2><a name="4">&nbsp;</a>Lấy danh s&aacute;ch c&aacute;c sản phẩm ph&ugrave; hợp với dịch vụ đ&atilde; tạo</h2>
 <blockquote>
 <p>Để lấy danh s&aacute;ch c&aacute;c sản phẩm ph&ugrave; hợp với dịch vụ đ&atilde; tạo, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/get-products-in-sub-range/?id=18">http://localhost:8888/api/asd/get-products-in-sub-range/?id=18</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/get-products-in-sub-range/?id=18">http://smartshopviet.appspot.com/api/<em>api-key</em>/get-products-in-sub-range/?id=18</a></p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
 <p class="code">id*:&nbsp;m&atilde; số dịch vụ</p>
 <p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
@@ -123,7 +123,7 @@
 <h2><a name="5">&nbsp;</a>Lấy th&ocirc;ng tin của dịch vụ đ&atilde; tạo</h2>
 <blockquote>
 <p>Để lấy th&ocirc;ng tin của dịch vụ đ&atilde; tạo, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng POST tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/get-subcribe/">http://localhost:8888/api/asd/get-subcribe/</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/get-subcribe/">http://smartshopviet.appspot.com/api/<em>api-key</em>/get-subcribe/</a></p>
 <p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
 <p class="code">{id:135}</p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
@@ -154,7 +154,7 @@
 <h2><a name="6">&nbsp;</a>Lấy danh s&aacute;ch dịch vụ m&agrave; user đ&atilde; đăng k&yacute;</h2>
 <blockquote>
 <p>Để lấy c&aacute;c dịch vụ m&agrave; user đ&atilde; đăng k&yacute;, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/untag-product-from-page/">http://localhost:8888/api/asd/get-subscribe-by-user/?username=tam&amp;mode=1</a>&amp;fromDate=19-08-2010&amp;toDate=20-08-2010</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/untag-product-from-page/">http://smartshopviet.appspot.com/api/<em>api-key</em>/get-subscribe-by-user/?username=tam&amp;mode=1</a>&amp;fromDate=19-08-2010&amp;toDate=20-08-2010</p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
 <ul>
 <li><strong>username*: username của người d&ugrave;ng</strong>.</li>
@@ -194,7 +194,7 @@
 <h2><a name="7">&nbsp;</a>Lấy danh s&aacute;ch sản phẩm li&ecirc;n quan đến dịch vụ m&agrave; người d&ugrave;ng đ&atilde; đăng k&yacute;</h2>
 <blockquote>
 <p>Để t&igrave;m trang th&ocirc;ng tin bằng query, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
-<p class="code">http://localhost:8888/api/asd/get-subscribe-product-by-user/?username=tam&amp;fromDate=19-08-2010&amp;toDate=20-08-2010&amp;lastUpdate=01/06/2010+12:00:00</p>
+<p class="code">http://smartshopviet.appspot.com/api/<em>api-key</em>/get-subscribe-product-by-user/?username=tam&amp;fromDate=19-08-2010&amp;toDate=20-08-2010&amp;lastUpdate=01/06/2010+12:00:00</p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
 <ul>
 <li><strong>username* :&nbsp;</strong>username của user m&agrave; bạn muốn t&igrave;m.</li>
