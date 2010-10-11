@@ -60,12 +60,12 @@ public class TreePanel extends VerticalPanel {
 		ItemNode itemSMSEmail = new ItemNode(
 				"Các dịch vụ gửi tin nhắn và email", "dev-sms-mail",
 				"/doc/dev-sms-mail.html");
-		ItemNode itemProduct = new  ItemNode("Sản phẩm", "dev-product",
-		"/doc/dev-product.html");
-		ItemNode itemSubcribe = new  ItemNode("Dịch vụ thông tin", "dev-subcribe",
-		"/doc/dev-subcribe.html");
-		ItemNode itemPage = new  ItemNode("Trang thông tin", "dev-page",
-		"/doc/dev-page.html");
+		ItemNode itemProduct = new ItemNode("Sản phẩm", "dev-product",
+				"/doc/dev-product.html");
+		ItemNode itemSubcribe = new ItemNode("Dịch vụ thông tin",
+				"dev-subcribe", "/doc/dev-subcribe.html");
+		ItemNode itemPage = new ItemNode("Trang thông tin", "dev-page",
+				"/doc/dev-page.html");
 
 		rootDev.addItem(itemDevIntro);
 		rootDev.addItem(itemDevSignUp);
@@ -109,6 +109,6 @@ public class TreePanel extends VerticalPanel {
 		add(itemProductRoadMap);
 		add(itemSponsor);
 		add(itemLicense);
-		
+
 	}
 }
