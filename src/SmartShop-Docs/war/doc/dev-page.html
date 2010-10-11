@@ -32,7 +32,7 @@
 <h2><a name="2">&nbsp;</a>Tạo trang th&ocirc;ng tin*</h2>
 <blockquote>
 <p>Để đăng k&yacute; trang th&ocirc;ng tin mới, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng <a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a> tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/create-page/">http://localhost:8888/api/asd/create-page/</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/create-page/">http://smartshopviet.appspot.com/api/<em>api-key</em>/create-page/</a></p>
 <p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
 <p class="code">{name:"Cần mua loa bose",<br /> content:"Cần mua loa bose gi&aacute; 5tr mới 99%",<br /> date_post: "21/08/2010 15:00:00",<br /> setCategoryKeys:["net"]}</p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
@@ -49,7 +49,7 @@
 <h2><a name="3">&nbsp;</a>Lấy dữ liệu của trang th&ocirc;ng tin</h2>
 <blockquote>
 <p>Để lấy th&ocirc;ng tin của trang, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
-<p class="code"><a href="http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-register/">http://localhost:8888/api/asd/get-page/?id=48</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-register/">http://smartshopviet.appspot.com/api/<em>api-key</em>/get-page/?id=48</a></p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
 <p class="code">id*:&nbsp;m&atilde; số của trang th&ocirc;ng tin</p>
 <p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
@@ -81,7 +81,7 @@
 <h2><a name="4">&nbsp;</a>Tag sản phẩm v&agrave;o trang th&ocirc;ng tin*</h2>
 <blockquote>
 <p>Để tag sản phẩm v&agrave;o trang th&ocirc;ng tin, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng POST tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/tag-product-to-page/">http://localhost:8888/api/asd/tag-product-to-page/</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/tag-product-to-page/">http://smartshopviet.appspot.com/api/<em>api-key</em>/tag-product-to-page/</a></p>
 <p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
 <p class="code">{productID:1,pageID:1}</p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
@@ -102,7 +102,7 @@
 <h2><a name="5">&nbsp;</a>Untag sản phẩm khỏi trang th&ocirc;ng tin*</h2>
 <blockquote>
 <p>Để untag sản phẩm khỏi trang th&ocirc;ng tin, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng POST tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/untag-product-from-page/">http://localhost:8888/api/asd/untag-product-from-page/</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/untag-product-from-page/">http://smartshopviet.appspot.com/api/<em>api-key</em>/untag-product-from-page/</a></p>
 <p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
 <p class="code">{productID:1,pageID:1}</p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
@@ -123,7 +123,7 @@
 <p><span style="font-size: 15px; font-weight: bold;"><a name="6">&nbsp;</a>Cập nhật trang th&ocirc;ng tin*</span></p>
 <blockquote>
 <p>Để sửa th&ocirc;ng tin trang th&ocirc;ng tin, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng&nbsp;<a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a>&nbsp;tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/page-edit/">http://localhost:8888/api/asd/page-edit/</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/page-edit/">http://smartshopviet.appspot.com/api/<em>api-key</em>/page-edit/</a></p>
 <p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
 <p class="code">{name:"Cần mua loa bose",<br /> content:"Cần mua loa bose gi&aacute; 5tr mới 99%",<br /> date_post: "21/08/2010 15:00:00",<br /> setCategoryKeys:["net"]}</p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
@@ -140,7 +140,7 @@
 <h2><a name="7">&nbsp;</a>T&igrave;m trang th&ocirc;ng tin do một người d&ugrave;ng tạo ra</h2>
 <blockquote>
 <p>Để t&igrave;m trang th&ocirc;ng tin bằng query, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/page-get-by-username/?username=tam">http://localhost:8888/api/asd/page-get-by-username/?username=n</a>ghia</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/page-get-by-username/?username=tam">http://smartshopviet.appspot.com/api/<em>api-key</em>/page-get-by-username/?username=n</a>ghia</p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
 <ul>
 <li><strong>username*:&nbsp;</strong>username của user m&agrave; bạn muốn t&igrave;m.</li>
@@ -171,7 +171,7 @@
 <h2><a name="8">&nbsp;</a>T&igrave;m trang th&ocirc;ng tin trong danh mục với c&aacute;c ti&ecirc;u chuẩn</h2>
 <blockquote>
 <p>Để t&igrave;m th&ocirc;ng tin trang th&ocirc;ng tin trong danh mục với một số ti&ecirc;u chuẩn nhất định, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/page-search-criteria/?maximum=10&amp;criterias=1,3,4&amp;cat_keys=laptop,mobile_pda_sub&amp;status=1">http://localhost:8888/api/asd/page-search-criteria/?maximum=10&amp;criterias=1,3,4&amp;cat_keys=laptop,mobile_pda_sub&amp;status=1</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/page-search-criteria/?maximum=10&amp;criterias=1,3,4&amp;cat_keys=laptop,mobile_pda_sub&amp;status=1">http://smartshopviet.appspot.com/api/<em>api-key</em>/page-search-criteria/?maximum=10&amp;criterias=1,3,4&amp;cat_keys=laptop,mobile_pda_sub&amp;status=1</a></p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
 <ul>
 <li><strong>maximum: </strong>giới hạn&nbsp;số lượng tối đa số trang th&ocirc;ng tin trong kết quả trả về</li>
@@ -217,7 +217,7 @@
 <h2><a name="9">&nbsp;</a>T&igrave;m trang th&ocirc;ng tin bằng c&acirc;u truy vấn</h2>
 <blockquote>
 <p>Để t&igrave;m trang th&ocirc;ng tin bằng query, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
-<p class="code"><a href="http://localhost:8888/api/asd/product-search/?q=laptop">http://localhost:8888/api/asd/product-search/?q=laptop</a></p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/product-search/?q=laptop">http://smartshopviet.appspot.com/api/<em>api-key</em>/product-search/?q=laptop</a></p>
 <p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
 <ul>
 <li><strong>q*:&nbsp;</strong>từ kh&oacute;a do user truyền v&agrave;o, server sẽ dựa v&agrave;o từ kh&oacute;a n&agrave;y để t&igrave;m kiếm trang th&ocirc;ng tin (dựa v&agrave;o ...).</li>
