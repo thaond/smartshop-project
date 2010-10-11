@@ -53,8 +53,6 @@ public class TreePanel extends VerticalPanel {
 				"/doc/signup_apikey.html");
 		ItemNode itemUserAccount = new ItemNode("Thông tin tài khoản",
 				"dev-user-account", "/doc/dev-user-account.html");
-		ItemNode itemProduct = new ItemNode("Sản phẩm", "dev-product",
-				"/doc/dev-user-account.html");
 		ItemNode itemCategory = new ItemNode("Danh mục sản phẩm",
 				"dev-categories", "/doc/dev-categories.html");
 		ItemNode itemMap = new ItemNode("Các dịch vụ bản đồ", "dev-map",
@@ -62,12 +60,20 @@ public class TreePanel extends VerticalPanel {
 		ItemNode itemSMSEmail = new ItemNode(
 				"Các dịch vụ gửi tin nhắn và email", "dev-sms-mail",
 				"/doc/dev-sms-mail.html");
+		ItemNode itemProduct = new  ItemNode("Sản phẩm", "dev-product",
+		"/doc/dev-product.html");
+		ItemNode itemSubcribe = new  ItemNode("Dịch vụ thông tin", "dev-subcribe",
+		"/doc/dev-subcribe.html");
+		ItemNode itemPage = new  ItemNode("Trang thông tin", "dev-page",
+		"/doc/dev-page.html");
 
 		rootDev.addItem(itemDevIntro);
 		rootDev.addItem(itemDevSignUp);
 		rootDev.addItem(itemUserAccount);
 		rootDev.addItem(itemProduct);
 		rootDev.addItem(itemCategory);
+		rootDev.addItem(itemPage);
+		rootDev.addItem(itemSubcribe);
 		rootDev.addItem(itemMap);
 		rootDev.addItem(itemSMSEmail);
 		rootDev.setState(true);
@@ -103,5 +109,6 @@ public class TreePanel extends VerticalPanel {
 		add(itemProductRoadMap);
 		add(itemSponsor);
 		add(itemLicense);
+		
 	}
 }

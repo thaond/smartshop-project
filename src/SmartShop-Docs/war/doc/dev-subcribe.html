@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<p><span class="title">DỊCH VỤ T&Igrave;M KIẾM SẢN PHẨM ĐỊNH KỲ</span></p>
+<h2><a name="0">&nbsp;</a>Nội dung</h2>
+<ul>
+<li><a href="#1">Giới thiệu</a></li>
+<li><a href="#2">Đăng k&iacute; dịch vụ t&igrave;m sản phẩm&nbsp;</a></li>
+<li><a href="#3">Cập nhật th&ocirc;ng tin dịch vụ&nbsp;</a></li>
+<li><a href="#4">Lấy danh s&aacute;ch sản phẩm ph&ugrave; hợp với dịch vụ đ&atilde; tạo&nbsp;</a></li>
+<li><a href="#5">Lấy th&ocirc;ng tin của dịch vụ đ&atilde; tạo&nbsp;</a></li>
+<li><a href="#6">Lấy danh s&aacute;ch dịch vụ user đ&atilde; đăng k&yacute;&nbsp;</a></li>
+<li><a href="#7">Lấy danh s&aacute;ch sản phẩm ph&ugrave; hợp với c&aacute;c dịch vụ người d&ugrave;ng đ&atilde; đăng k&yacute;&nbsp;</a></li>
+</ul>
+<h2><a name="1">&nbsp;</a>Giới thiệu</h2>
+<blockquote>
+<p class="style1">Nhằm tăng nhiều tiện &iacute;ch cho người d&ugrave;ng, SmartShop c&ograve;n t&iacute;ch hợp dịch vụ t&igrave;m sản phẩm theo định k&igrave;. Với dịch vụ n&agrave;y, người d&ugrave;ng c&oacute; thể t&igrave;m sản phẩm mong muốn trong một phạm vi nhất định, trong khoảng thời gian x&aacute;c định m&agrave; kh&ocirc;ng cần phải truy cập hệ thống SmartShop thường xuy&ecirc;n, v&igrave; SmartShop sẽ tự động gửi tin nhắn hay email đến cho người d&ugrave;ng khi c&oacute; sản phẩm ph&ugrave; hợp.</p>
+<p class="style1">C&aacute;c service trong hệ thống ph&acirc;n l&agrave;m 2 loại:</p>
+<p class="style1">C&aacute;c service cần x&aacute;c thực của th&agrave;nh vi&ecirc;n: l&agrave; c&aacute;c service chỉ c&oacute; th&agrave;nh vi&ecirc;n thực sự của hệ thống mới c&oacute; thể sử dụng, chẳng hạn bao gồm c&aacute;c service như đăng k&yacute; một trang th&ocirc;ng tin mới, tạo trang th&ocirc;ng tin, đăng k&yacute; nhận th&ocirc;ng tin trang th&ocirc;ng tin, ...</p>
+<p class="style1">C&aacute;c service được sử dụng tự do: Mọi người đều c&oacute; thể dễ d&agrave;ng sử dụng c&aacute;c dịch vụ n&agrave;y</p>
+<p class="style1">Để tiện cho bạn theo d&otilde;i, ch&uacute;ng t&ocirc;i tạm k&iacute; hiệu * tr&ecirc;n c&aacute;c ti&ecirc;u đề cho c&aacute;c service cần sự x&aacute;c thực của th&agrave;nh vi&ecirc;n. Sự kh&aacute;c nhau về th&ocirc;ng số gọi h&agrave;m cũng như về chức năng sẽ được tr&igrave;nh b&agrave;y ngay sau đ&acirc;y. C&aacute;c th&agrave;nh vi&ecirc;n trong hệ thống c&oacute; thể l&agrave; người mua hoặc người b&aacute;n hoặc l&agrave; c&oacute; thể thực hiện cả 2 chức năng tr&ecirc;n.</p>
+<p class="style1"><a href="#0">[Về đầu trang]</a></p>
+</blockquote>
+<h2><a name="2">&nbsp;</a>Đăng k&yacute; dịch vụ&nbsp;</h2>
+<blockquote>
+<p>Để đăng k&yacute; dịch vu mới, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng <a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a> tới địa chỉ:</p>
+<p class="code"><a href="http://localhost:8888/api/asd/create-page/">http://localhost:8888/api/asd/create-subcribe/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">{lat:49, lng:49, radius: 50,<br /> description:"tim m&aacute;y giặt samsung mới 99% tại Thủ Đức",<br /> isActive:true, date:"20/08/2010 10:00:00",<br /> categoryList:["laptop"], q:"m&aacute;y giặt samsung"<br /> type_notification:1}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>lat,&nbsp;lng&nbsp;: </strong>Tọa độ trung t&acirc;m của t&igrave;m kiếm</li>
+<li><strong>radius</strong> : B&aacute;n k&iacute;nh của t&igrave;m kiếm</li>
+<li><strong>description :</strong> m&ocirc; tả của dịch vụ</li>
+<li><strong>isActive&nbsp;</strong>: c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết dịch vụ n&agrave;y c&oacute; đang được k&iacute;ch hoạt hay kh&ocirc;ng</li>
+<li><strong>date </strong>: ng&agrave;y tạo dịch vụ</li>
+<li><strong>categoryList: </strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; trang th&ocirc;ng tin thuộc về</li>
+<li><strong>q</strong> : từ kh&oacute;a do user cung cấp để server c&oacute; thể t&igrave;m dễ d&agrave;ng v&agrave; ch&iacute;nh x&aacute;c c&aacute;c sản phẩm ph&ugrave; hợp.</li>
+<li><strong>type_notification</strong>&nbsp;: thiết lập c&aacute;ch m&agrave; user sẽ nhận ựoơc th&ocirc;ng b&aacute;o từ hệ thống khi c&oacute; sản phẩm ph&ugrave; hợp với dịch vụ, c&oacute; c&aacute;c gi&aacute; trị như sau :  
+<ul>
+<li><strong>1</strong>&nbsp;: qua email</li>
+<li><strong>2</strong>&nbsp;: qua SMS</li>
+<li><strong>1|2</strong>&nbsp;: qua email v&agrave; SMS</li>
+</ul>
+</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"message":"Đăng k&iacute; dịch vụ th&agrave;nh c&ocirc;ng","id":135,"errCode":0}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message</strong> :&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>id</strong> : m&atilde; của dịch vụ vừa tạo</li>
+</ul>
+<a href="#0">[Về đầu trang]</a><br /> 
+<ul>
+</ul>
+</blockquote>
+<h2><a name="3">&nbsp;</a>Cập nhật th&ocirc;ng tin của dịch vụ<span style="font-weight: normal; font-size: 10px;">&nbsp;</span></h2>
+<blockquote>
+<p>Để sửa th&ocirc;ng tin dịch vụ, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng&nbsp;<a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a>&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://localhost:8888/api/asd/edit-subcribe/">http://localhost:8888/api/asd/edit-subcribe/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">{lat:49, lng:49, radius: 50,<br /> description:"tim laptop mac air mới 99% tại Thủ Đức",<br /> isActive:true, date:"20/08/2010 10:00:00",<br /> categoryList:["laptop"],<br /> type_notification:1}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>lat,&nbsp;lng&nbsp;:&nbsp;</strong>Tọa độ trung t&acirc;m của t&igrave;m kiếm</li>
+<li><strong>radius</strong>&nbsp;: B&aacute;n k&iacute;nh của t&igrave;m kiếm</li>
+<li><strong>description :</strong>&nbsp;m&ocirc; tả của dịch vụ</li>
+<li><strong>isActive&nbsp;</strong>: c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết dịch vụ n&agrave;y c&oacute; đang được k&iacute;ch hoạt hay kh&ocirc;ng</li>
+<li><strong>date&nbsp;</strong>: ng&agrave;y tạo dịch vụ</li>
+<li><strong>categoryList:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; trang th&ocirc;ng tin thuộc về</li>
+<li><strong>type_notification</strong> : thiết lập c&aacute;ch m&agrave; user sẽ nhận ựoơc th&ocirc;ng b&aacute;o từ hệ thống khi c&oacute; sản phẩm ph&ugrave; hợp với dịch vụ, c&oacute; c&aacute;c gi&aacute; trị như sau :  
+<ul>
+<li><strong>1</strong> : qua email</li>
+<li><strong>2</strong> : qua SMS</li>
+<li><strong>1|2</strong> : qua email v&agrave; SMS</li>
+</ul>
+</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"message":"Cập nhật trang th&agrave;nh c&ocirc;ng","errCode":0}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục Giới thiệu</p>
+<p><a href="#0">[Về đầu trang]</a></p>
+</blockquote>
+<h2><a name="4">&nbsp;</a>Lấy danh s&aacute;ch c&aacute;c sản phẩm ph&ugrave; hợp với dịch vụ đ&atilde; tạo</h2>
+<blockquote>
+<p>Để lấy danh s&aacute;ch c&aacute;c sản phẩm ph&ugrave; hợp với dịch vụ đ&atilde; tạo, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://localhost:8888/api/asd/get-products-in-sub-range/?id=18">http://localhost:8888/api/asd/get-products-in-sub-range/?id=18</a></p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<p class="code">id*:&nbsp;m&atilde; số dịch vụ</p>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{{"errCode":0,<br /> "products":[<br /> {"id":114,"name":"sony vaio &nbsp;F115",<br /> "price":1000.0,<br /> "is_vat":false, "quantity":2,<br /> "date_post":"07-02-2010", "warranty":"12 month",<br /> "origin":"China", "address":"Binh Tan",<br /> "lat":10.777268, "lng":106.6563,<br /> "description":"Man h&igrave;nh rất xịn",<br /> "product_view":3,"username":"tamvo",<br /> "listBuyers":[], "setPagesID":[],<br /> "setCategoryKeys":["laptop"], "attributeSets":[]},<br /> {"id":103,"name":"Mouse Misumi",<br /> "price":7.0,<br /> "is_vat":false,"quantity":2,<br /> "date_post":"01-02-2010","warranty":"12 month",<br /> "origin":"China","address":"Đường Lạc Long Qu&acirc;n",<br /> "lat":10.783528, "lng":106.650828,<br /> "description":"H&agrave;ng c&ograve;n mới 95%",<br /> "product_view":3, "username":"hieu",<br /> "listBuyers":[], "setPagesID":[],<br /> "setCategoryKeys":["laptop"], "attributeSets":[]}<br /> ]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>products :</strong>&nbsp;danh s&aacute;ch&nbsp;sản phẩm t&igrave;m được  
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của sản phẩm</li>
+<li><strong>name:&nbsp;</strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price:&nbsp;</strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat:&nbsp;</strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy:&nbsp;</strong>số lượng sản phẩm</li>
+<li><strong>date_post:&nbsp;</strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty:&nbsp;</strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin:&nbsp;</strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description:&nbsp;</strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về</li>
+<li><strong>attributeSets:&nbsp;</strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setPagesID :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[Về đầu trang]</a></blockquote>
+<h2><a name="5">&nbsp;</a>Lấy th&ocirc;ng tin của dịch vụ đ&atilde; tạo</h2>
+<blockquote>
+<p>Để lấy th&ocirc;ng tin của dịch vụ đ&atilde; tạo, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng POST tới địa chỉ:</p>
+<p class="code"><a href="http://localhost:8888/api/asd/get-subcribe/">http://localhost:8888/api/asd/get-subcribe/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">{id:135}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>id*:</strong> m&atilde; của dịch vụ.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0, "message":"Lấy th&ocirc;ng tin dịch vụ th&agrave;nh c&ocirc;ng",&nbsp;<br /> "subcribe":{"id":135,<br /> "lat":10.777268, "lng":106.6563, "radius":160000.0,<br /> lat:49, lng:49, radius: 50,<br /> description:"tim laptop mac air mới 99% tại Thủ Đức",<br /> isActive:true, date:"20/08/2010 10:00:00",<br /> categoryList:["laptop"],<br /> type_notification:1,<br /> "userName":"nghia","<br /> categoryList":["laptop"]},}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>id</strong> : m&atilde; của dịch vụ</li>
+<li><strong>lat,&nbsp;lng&nbsp;:&nbsp;</strong>Tọa độ trung t&acirc;m của t&igrave;m kiếm</li>
+<li><strong>radius</strong>&nbsp;: B&aacute;n k&iacute;nh của t&igrave;m kiếm</li>
+<li><strong>description :</strong>&nbsp;m&ocirc; tả của dịch vụ</li>
+<li><strong>isActive&nbsp;</strong>: c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết dịch vụ n&agrave;y c&oacute; đang được k&iacute;ch hoạt hay kh&ocirc;ng</li>
+<li><strong>date&nbsp;</strong>: ng&agrave;y tạo dịch vụ</li>
+<li><strong>categoryList:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; trang th&ocirc;ng tin thuộc về</li>
+<li><strong>type_notification</strong>&nbsp;: thiết lập c&aacute;ch m&agrave; user sẽ nhận ựoơc th&ocirc;ng b&aacute;o từ hệ thống khi c&oacute; sản phẩm ph&ugrave; hợp với dịch vụ, c&oacute; c&aacute;c gi&aacute; trị như sau :  
+<ul>
+<li><strong>1</strong>&nbsp;: qua email</li>
+<li><strong>2</strong>&nbsp;: qua SMS</li>
+<li><strong>1|2</strong>&nbsp;: qua email v&agrave; SMS</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[Về đầu trang]</a></blockquote>
+<h2><a name="6">&nbsp;</a>Lấy danh s&aacute;ch dịch vụ m&agrave; user đ&atilde; đăng k&yacute;</h2>
+<blockquote>
+<p>Để lấy c&aacute;c dịch vụ m&agrave; user đ&atilde; đăng k&yacute;, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET tới địa chỉ:</p>
+<p class="code"><a href="http://localhost:8888/api/asd/untag-product-from-page/">http://localhost:8888/api/asd/get-subscribe-by-user/?username=tam&amp;mode=1</a>&amp;fromDate=19-08-2010&amp;toDate=20-08-2010</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>username*: username của người d&ugrave;ng</strong>.</li>
+<li><strong>mode : </strong>t&ugrave;y chọn c&aacute;c loại dịch vụ m&agrave; user muốn xem, c&oacute; c&aacute;c gi&aacute; trị như sau :  
+<ul>
+<li><strong>1</strong> : tất cả c&aacute;c th&ocirc;ng tin</li>
+<li><strong>2 </strong>: th&ocirc;ng tin được k&iacute;ch hoạt</li>
+<li><strong>3</strong> : th&ocirc;ng tin kh&ocirc;ng được k&iacute;ch hoạt</li>
+</ul>
+</li>
+<li><strong>fromDate :</strong>&nbsp;chọn c&aacute;c dịch vụ c&oacute; ng&agrave;y tạo lớn hơn fromDate</li>
+<li><strong>toDate </strong>: chọn c&aacute;c dịch vụ c&oacute; ng&agrave;y tạo nhỏ hơn toDate</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0, "message":"Lấy danh s&aacute;ch đăng k&yacute; th&ocirc;ng tin của tam th&agrave;nh c&ocirc;ng",<br /> "usersubscribeproducts":[<br /> {"id":723,<br /> "lat":10.776854, "lng":106.690548,"radius":10000.0,<br /> "description":"M&ocirc; tả",<br /> "isActive":true, "categoryList":[],<br /> "q":"Coffee", "type_notification":1},<br /> {"id":724,<br /> "lat":10.764789, "lng":106.618749, "radius":10000.0,<br /> "description":"M&ocirc; tả",<br /> "isActive":true, "categoryList":["mobile_pda_sub"],<br /> "q":"nokia", "type_notification":1}<br /> ]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>usersubscribeproducts</strong> : danh s&aacute;ch c&aacute;c dịch vụ user đ&atilde; tạo, mỗi dịch vụ sẽ c&oacute; c&aacute;c thuộc t&iacute;nh như sau:  
+<ul>
+<li><strong>id</strong>&nbsp;: m&atilde; của dịch vụ</li>
+<li><strong>lat,&nbsp;lng&nbsp;:&nbsp;</strong>Tọa độ trung t&acirc;m của t&igrave;m kiếm</li>
+<li><strong>radius</strong>&nbsp;: B&aacute;n k&iacute;nh của t&igrave;m kiếm</li>
+<li><strong>description :</strong>&nbsp;m&ocirc; tả của dịch vụ</li>
+<li><strong>isActive&nbsp;</strong>: c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết dịch vụ n&agrave;y c&oacute; đang được k&iacute;ch hoạt hay kh&ocirc;ng</li>
+<li><strong>date&nbsp;</strong>: ng&agrave;y tạo dịch vụ</li>
+<li><strong>categoryList:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; trang th&ocirc;ng tin thuộc về</li>
+<li><strong>q</strong>&nbsp;: từ kh&oacute;a do user cung cấp để server c&oacute; thể t&igrave;m dễ d&agrave;ng v&agrave; ch&iacute;nh x&aacute;c c&aacute;c sản phẩm ph&ugrave; hợp.</li>
+<li><strong>type_notification</strong>&nbsp;: thiết lập c&aacute;ch m&agrave; user sẽ nhận ựoơc th&ocirc;ng b&aacute;o từ hệ thống khi c&oacute; sản phẩm ph&ugrave; hợp với dịch vụ, c&oacute; c&aacute;c gi&aacute; trị như sau :</li>
+<li><strong>1</strong>&nbsp;: qua email</li>
+<li><strong>2</strong>&nbsp;: qua SMS</li>
+<li><strong>1|2</strong>&nbsp;: qua email v&agrave; SMS</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[Về đầu trang]</a></blockquote>
+<h2><a name="7">&nbsp;</a>Lấy danh s&aacute;ch sản phẩm li&ecirc;n quan đến dịch vụ m&agrave; người d&ugrave;ng đ&atilde; đăng k&yacute;</h2>
+<blockquote>
+<p>Để t&igrave;m trang th&ocirc;ng tin bằng query, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code">http://localhost:8888/api/asd/get-subscribe-product-by-user/?username=tam&amp;fromDate=19-08-2010&amp;toDate=20-08-2010&amp;lastUpdate=01/06/2010+12:00:00</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>username* :&nbsp;</strong>username của user m&agrave; bạn muốn t&igrave;m.</li>
+<li><strong>lastUpdate </strong>: chọn ra c&aacute;c sản phẩm c&oacute; ng&agrave;y đăng lớn hơn lastUpdate</li>
+<li><strong>from, to&nbsp;</strong>: giới hạn kết quả trả về từ record <strong>from</strong> đến record <strong>to</strong></li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0, "message":"Lấy c&aacute;c sản phẩm đ&atilde; đăng k&yacute; th&ocirc;ng tin của tam th&agrave;nh c&ocirc;ng",<br /> "subscribe_listproduct":[<br /> {"id":723, "listProducts":[<br /> {"id":633, "name":"Coffee World",<br /> "price":20.0, "is_vat":false,<br /> "quantity":2, "date_post":"05/08/2010 12:00:00",<br /> "warranty":"12 month", "origin":"China",<br /> "address":"V&otilde; Văn Tần, 6th Ward, Saigon",<br /> "lat":10.776494, "lng":106.689985,<br /> "description":"Phục vụ chu đ&aacute;o", "product_view":3,<br /> "username":"duc", "listBuyers":[],<br /> "setPagesID":[], "setCategoryKeys":["coffee"],<br /> "attributeSets":[]}]},<br /> {"id":724, "listProducts":[<br /> {"id":642, "name":"Nokia 6670",<br /> "price":1000.0, "is_vat":false,<br /> "quantity":2, "date_post":"06/06/2010 12:00:00",<br /> "warranty":"12 month", "origin":"China",<br /> "address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br /> "lat":10.764789, "lng":106.618749,<br /> "description":"Chất lượng vượt thời gian", "product_view":3,<br /> "username":"tam", "listBuyers":[],<br /> "setPagesID":[], "setCategoryKeys":["mobile_pda_sub"],<br /> "attributeSets":[]}<br /> ]}]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li>subscribe_listproduct : danh s&aacute;ch c&aacute;c dịch vụ t&igrave;m được sản phẩm ph&ugrave; hợp, mỗi phần tử sẽ c&oacute; c&aacute;c thuộc t&iacute;nh như sau :<br /> 
+<ul>
+<li><strong>id </strong>: m&atilde; của dịch vụ</li>
+<li><strong>listProducts&nbsp;</strong>: danh s&aacute;ch c&aacute;c sản phẩm ph&ugrave; hợp, mỗi phần tử sẽ c&oacute; c&aacute;c thuộc t&iacute;nh như sau :  
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của sản phẩm</li>
+<li><strong>name:&nbsp;</strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price:&nbsp;</strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat:&nbsp;</strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy:&nbsp;</strong>số lượng sản phẩm</li>
+<li><strong>date_post:&nbsp;</strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty:&nbsp;</strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin:&nbsp;</strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description:&nbsp;</strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về</li>
+<li><strong>attributeSets:&nbsp;</strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setPagesID :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[Về đầu trang]</a></blockquote>
+<h2>sửa th&ocirc;ng tin t&agrave;i khoản</h2>
+</body>
+</html>
