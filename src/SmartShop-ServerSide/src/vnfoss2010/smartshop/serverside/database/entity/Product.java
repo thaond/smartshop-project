@@ -76,6 +76,9 @@ public class Product extends SearchCapable implements LocationCapable,
 	private Set<Long> setPagesID;
 
 	@Persistent
+	private Set<String> setFriendsTaggedID;
+
+	@Persistent
 	private Set<String> setCategoryKeys;
 
 	@Persistent(mappedBy = "product")
@@ -88,6 +91,14 @@ public class Product extends SearchCapable implements LocationCapable,
 
 	public Set<Long> getSetPagesID() {
 		return setPagesID;
+	}
+
+	public Set<String> getSetFriendsTaggedID() {
+		return setFriendsTaggedID;
+	}
+
+	public void setSetFriendsTaggedID(Set<String> setFriendsTaggedID) {
+		this.setFriendsTaggedID = setFriendsTaggedID;
 	}
 
 	public void setSetPages(Set<Long> setPages) {
@@ -485,8 +496,8 @@ public class Product extends SearchCapable implements LocationCapable,
 	public static void main(String[] args) {
 		Product product = new Product();
 		product = new Product("Nec Monitor", 123, false, 2, "12 month",
-				"China", "Binh Tan", 10.11, 106.123, "Man hình rất xịn", 3,
-				new Date(), "tamvo");
+				"China", "Binh Tan", 10.11, 106.123, "Man hình rất xịn",
+				3, new Date(), "tamvo");
 		product.getSetCategoryKeys().add("laptop");
 
 		String json = Global.gsonWithDate.toJson(product);

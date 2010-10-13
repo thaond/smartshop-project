@@ -16,6 +16,7 @@ import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
+import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.utils.Predicate;
@@ -141,6 +142,11 @@ public class ProductServiceImpl {
 	}
 
 	public ServiceResult<Product> findProduct(Long id) {
+		ServiceResult<Product> result = findProduct(id, false);
+		return result;
+	}
+
+	public ServiceResult<Product> findProduct(Long id, boolean isIncreaseView) {
 		ServiceResult<Product> result = new ServiceResult<Product>();
 		Product product = null;
 		PersistenceManager pm = null;
@@ -149,16 +155,18 @@ public class ProductServiceImpl {
 			product = pm.getObjectById(Product.class, id);
 			if (product == null) {
 				result.setOK(false);
-				result
-						.setMessage(Global.messages
-								.getString("no_found_product"));
+				result.setMessage(Global.messages.getString("no_found_product"));
 			} else {
 				result.setOK(true);
 				result.setResult(product);
+				if (isIncreaseView) {
+					product.setProduct_view(product.getProduct_view() + 1);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setMessage("exception " + e.getMessage());
+			result.setOK(false);
+			result.setMessage(Global.messages.getString("no_found_product"));
 		} finally {
 			try {
 				pm.close();
@@ -178,9 +186,7 @@ public class ProductServiceImpl {
 			product = pm.getObjectById(Product.class, editProduct.getId());
 			if (product == null) {
 				result.setOK(false);
-				result
-						.setMessage(Global.messages
-								.getString("no_found_product"));
+				result.setMessage(Global.messages.getString("no_found_product"));
 			} else {
 				product.setAddress(editProduct.getAddress());
 				product.setAttributeSets(editProduct.getAttributeSets());
@@ -388,8 +394,7 @@ public class ProductServiceImpl {
 				if (cat_keys != null) {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
-					where
-							.append("setCategoryKeys.contains(catKey) && username==us ");
+					where.append("setCategoryKeys.contains(catKey) && username==us ");
 					listParameters.add(Arrays.asList(cat_keys));
 					listParameters.add(username);
 
@@ -473,8 +478,7 @@ public class ProductServiceImpl {
 				if (cat_keys != null) {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
-					where
-							.append("setCategoryKeys.contains(catKey) && username==us && ");
+					where.append("setCategoryKeys.contains(catKey) && username==us && ");
 					where.append(queryBuffer.toString());
 
 					listParameters.add(Arrays.asList(cat_keys));
@@ -563,9 +567,8 @@ public class ProductServiceImpl {
 
 		if (listIds.size() > 0) {
 			result.setOK(true);
-			result
-					.setMessage(Global.messages
-							.getString("search_product_by_criteria_in_cat_successfully"));
+			result.setMessage(Global.messages
+					.getString("search_product_by_criteria_in_cat_successfully"));
 
 			List<Product> listProducts = getListProductFromIds(listIds);
 
@@ -579,7 +582,7 @@ public class ProductServiceImpl {
 
 							@Override
 							public boolean apply(Product type) {
-								return type.getQuantity()>0;
+								return type.getQuantity() > 0;
 							}
 						});
 				break;
@@ -590,7 +593,7 @@ public class ProductServiceImpl {
 
 							@Override
 							public boolean apply(Product type) {
-								return type.getQuantity()==0;
+								return type.getQuantity() == 0;
 							}
 						});
 				break;
@@ -709,8 +712,9 @@ public class ProductServiceImpl {
 				queryObject.declareParameters(declareParametersBuffer
 						.toString());
 				parametersForSearch.add(username);
-				log.log(Level.SEVERE, "ParaforSearch: "
-						+ Arrays.toString(parametersForSearch.toArray()));
+				log.log(Level.SEVERE,
+						"ParaforSearch: "
+								+ Arrays.toString(parametersForSearch.toArray()));
 
 				listProducts = (List<Product>) queryObject
 						.executeWithArray(parametersForSearch.toArray());
@@ -719,12 +723,10 @@ public class ProductServiceImpl {
 
 			if (listProducts.size() > 0) {
 				result.setOK(true);
-				result
-						.setMessage(String
-								.format(
-										Global.messages
-												.getString("get_list_buyed_product_by_username_successfully"),
-										username));
+				result.setMessage(String.format(
+						Global.messages
+								.getString("get_list_buyed_product_by_username_successfully"),
+						username));
 				result.setResult(listProducts);
 			} else {
 				result.setOK(false);
@@ -824,8 +826,10 @@ public class ProductServiceImpl {
 					queryObject.declareParameters(declareParametersBuffer
 							.toString());
 					parametersForSearch.add(username);
-					log.log(Level.SEVERE, "ParaforSearch: "
-							+ Arrays.toString(parametersForSearch.toArray()));
+					log.log(Level.SEVERE,
+							"ParaforSearch: "
+									+ Arrays.toString(parametersForSearch
+											.toArray()));
 
 					listProducts = (List<Product>) queryObject
 							.executeWithArray(parametersForSearch.toArray());
@@ -834,21 +838,17 @@ public class ProductServiceImpl {
 
 				if (listProducts.size() > 0) {
 					result.setOK(true);
-					result
-							.setMessage(String
-									.format(
-											Global.messages
-													.getString("get_list_selled_product_by_username_successfully"),
-											username));
+					result.setMessage(String.format(
+							Global.messages
+									.getString("get_list_selled_product_by_username_successfully"),
+							username));
 					result.setResult(listProducts);
 				} else {
 					result.setOK(false);
-					result
-							.setMessage(String
-									.format(
-											Global.messages
-													.getString("get_list_selled_product_by_username_fail"),
-											username));
+					result.setMessage(String.format(
+							Global.messages
+									.getString("get_list_selled_product_by_username_fail"),
+							username));
 				}
 			}
 		} catch (Exception ex) {
@@ -886,7 +886,7 @@ public class ProductServiceImpl {
 
 			Query queryObject;
 			List<Product> listProducts;
-			
+
 			log.log(Level.SEVERE, "" + userInfo.getListInteredProduct());
 
 			if (StringUtils.isEmptyOrNull(q)) {
@@ -897,9 +897,9 @@ public class ProductServiceImpl {
 				queryObject.declareParameters("Long productId");
 
 				listProducts = new ArrayList<Product>();
-				for (int i =0;i<userInfo.getListInteredProduct().size();i++){
-					listProducts.addAll((List<Product>) queryObject.execute(userInfo
-							.getListInteredProduct()));
+				for (int i = 0; i < userInfo.getListInteredProduct().size(); i++) {
+					listProducts.addAll((List<Product>) queryObject
+							.execute(userInfo.getListInteredProduct()));
 				}
 			} else {
 				// Prepare to search
@@ -945,21 +945,17 @@ public class ProductServiceImpl {
 
 			if (listProducts.size() > 0) {
 				result.setOK(true);
-				result
-						.setMessage(String
-								.format(
-										Global.messages
-												.getString("get_list_interested_product_by_username_successfully"),
-										username));
+				result.setMessage(String.format(
+						Global.messages
+								.getString("get_list_interested_product_by_username_successfully"),
+						username));
 				result.setResult(listProducts);
 			} else {
 				result.setOK(false);
-				result
-						.setMessage(String
-								.format(
-										Global.messages
-												.getString("get_list_interested_product_by_username_fail"),
-										username));
+				result.setMessage(String.format(
+						Global.messages
+								.getString("get_list_interested_product_by_username_fail"),
+						username));
 			}
 		} else {
 			result.setMessage(Global.messages.getString("not_found") + " "
@@ -1098,6 +1094,72 @@ public class ProductServiceImpl {
 		return result;
 	}
 
+	public ServiceResult<Void> tagFriendToProduct(long productID,
+			String username, boolean isTag) {
+		ServiceResult<Void> result = new ServiceResult<Void>();
+		UserInfo user = null;
+		Product product = null;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			user = pm.getObjectById(UserInfo.class, username);
+			product = pm.getObjectById(Product.class, productID);
+			if (user == null || product == null) {
+				result.setMessage(Global.messages
+						.getString("no_user_or_product"));
+			} else {
+				if (isTag) {
+					user.getSetProductTaggedID().add(productID);
+					product.getSetFriendsTaggedID().add(username);
+					result.setMessage(String.format(Global.messages
+							.getString("tag_friend_to_product_successfully"),
+							username, productID));
+				} else {
+					user.getSetProductTaggedID().remove(productID);
+					product.getSetFriendsTaggedID().remove(username);
+					result.setMessage(String.format(
+							Global.messages
+									.getString("untag_friend_from_product_successfully"),
+							username, productID));
+				}
+				result.setOK(true);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (isTag) {
+				result.setMessage(String.format(
+						Global.messages.getString("tag_friend_to_product_fail"),
+						username, productID));
+			} else {
+				result.setMessage(String.format(Global.messages
+						.getString("untag_friend_from_product_fail"), username,
+						productID));
+			}
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		// TODO: notification
+		// if (result.isOK()) {
+		// ServiceResult<Void> notiResult = dbNoti.insertWhenUserTagToPage(
+		// pageID, productID, true);
+		// if (notiResult.isOK() == false) {
+		// result.setMessage(result.getMessage()
+		// + ";Notification Exception:" + notiResult.getMessage());
+		// }
+		// }
+		return result;
+	}
+
+	public ServiceResult<Void> untagFriendToProduct(long productID,
+			String username) {
+		ServiceResult<Void> result = new ServiceResult<Void>();
+		return result;
+	}
+
 	public static void preventSQLInjProduct(Product product) {
 		product.setName(DatabaseUtils.preventSQLInjection(product.getName()));
 		product.setAddress(DatabaseUtils.preventSQLInjection(product
@@ -1115,4 +1177,5 @@ public class ProductServiceImpl {
 
 		return listProducts;
 	}
+
 }

@@ -38,6 +38,7 @@ import vnfoss2010.smartshop.serverside.services.HelloService;
 import vnfoss2010.smartshop.serverside.services.account.AddFriendsService;
 import vnfoss2010.smartshop.serverside.services.account.EditProfileService;
 import vnfoss2010.smartshop.serverside.services.account.GetUserInfoService;
+import vnfoss2010.smartshop.serverside.services.account.GetUserTaggedFromProduct;
 import vnfoss2010.smartshop.serverside.services.account.LoginService;
 import vnfoss2010.smartshop.serverside.services.account.RegisterService;
 import vnfoss2010.smartshop.serverside.services.account.SearchUsernameService;
@@ -78,9 +79,12 @@ import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteria
 import vnfoss2010.smartshop.serverside.services.product.GetProductService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductsByUsernameService;
 import vnfoss2010.smartshop.serverside.services.product.GetSelledProductByUserService;
+import vnfoss2010.smartshop.serverside.services.product.GetTaggedProductFromUser;
 import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductPromixity;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductService;
+import vnfoss2010.smartshop.serverside.services.product.TagFriendToProductService;
+import vnfoss2010.smartshop.serverside.services.product.UntagFriendFromProductService;
 import vnfoss2010.smartshop.serverside.services.sms.SendSMSService;
 import vnfoss2010.smartshop.serverside.services.sms.SendSMSToService;
 import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
@@ -131,12 +135,12 @@ public class RestfulServlet extends HttpServlet {
 			String api = req.getParameter("api");
 			String serviceName = req.getParameter("service");
 
-			if (!Global.listAPIKeys.contains(api)){
+			if (!Global.listAPIKeys.contains(api)) {
 				String decryptAPIKey = UtilsFunction.decrypt(api);
 				if (decryptAPIKey == null)
 					throw new InvalidAPIKeyException(serviceName);
 				APIKey apiKey = DatabaseUtils.getAPIKey(decryptAPIKey);
-				if (apiKey==null)
+				if (apiKey == null)
 					throw new InvalidAPIKeyException(serviceName);
 				else
 					Global.listAPIKeys.add(api);
@@ -192,6 +196,8 @@ public class RestfulServlet extends HttpServlet {
 		// AddFriendsService.class);
 		unAuthorizedServices.put("account-search", SearchUsernameService.class);
 		unAuthorizedServices.put("account-getuser", GetUserInfoService.class);
+		unAuthorizedServices.put("get-tagged-user-from-product",
+				GetUserTaggedFromProduct.class);
 		// unAuthorizedServices.put("account-editprofile",
 		// EditProfileService.class);
 
@@ -205,6 +211,8 @@ public class RestfulServlet extends HttpServlet {
 		unAuthorizedServices.put("searchproductproximity",
 				SearchProductPromixity.class);
 		unAuthorizedServices.put("get-product", GetProductService.class);
+		unAuthorizedServices.put("get-tagged-product-from-user",
+				GetTaggedProductFromUser.class);
 		// unAuthorizedServices.put("registerproduct",
 		// RegisterProductService.class);
 		// unAuthorizedServices.put("editproduct", EditProductService.class);
@@ -301,8 +309,8 @@ public class RestfulServlet extends HttpServlet {
 				NProductInfoService.class);
 		unAuthorizedServices.put("parser-vatgia-keyword",
 				SearchKeywordService.class);
-		
-		//other
+
+		// other
 		unAuthorizedServices.put("get-api-key", GetAPIKeyService.class);
 	}
 
@@ -314,6 +322,10 @@ public class RestfulServlet extends HttpServlet {
 		// product
 		authorizedServices.put("registerproduct", RegisterProductService.class);
 		authorizedServices.put("editproduct", EditProductService.class);
+		authorizedServices.put("tag-friend-to-product",
+				TagFriendToProductService.class);
+		authorizedServices.put("untag-friend-from-product",
+				UntagFriendFromProductService.class);
 
 		// page
 		authorizedServices.put("create-page", CreatePageService.class);

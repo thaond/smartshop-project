@@ -31,6 +31,11 @@ public class PageServiceImpl {
 	}
 
 	public ServiceResult<Page> findPage(Long id) {
+		ServiceResult<Page> result = findPage(id, false);
+		return result;
+	}
+
+	public ServiceResult<Page> findPage(Long id, boolean isIncreaseView) {
 		ServiceResult<Page> result = new ServiceResult<Page>();
 		Page page = null;
 		PersistenceManager pm = null;
@@ -44,6 +49,9 @@ public class PageServiceImpl {
 				result.setMessage(Global.messages.getString("page_found"));
 				result.setOK(true);
 				result.setResult(page);
+				if (isIncreaseView) {
+					page.setPage_view(page.getPage_view() + 1);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

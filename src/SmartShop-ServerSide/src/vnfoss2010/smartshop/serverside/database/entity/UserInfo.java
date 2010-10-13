@@ -18,14 +18,14 @@ import vnfoss2010.smartshop.serverside.utils.SearchCapable;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
-public class UserInfo extends SearchCapable implements Serializable{
+public class UserInfo extends SearchCapable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private String username;
 
-	@Persistent 
+	@Persistent
 	private String password;
 
 	private String old_password;
@@ -74,7 +74,7 @@ public class UserInfo extends SearchCapable implements Serializable{
 
 	@Persistent
 	private int type;
-	
+
 	private String sessionId;
 
 	@Persistent
@@ -82,6 +82,15 @@ public class UserInfo extends SearchCapable implements Serializable{
 
 	@Persistent
 	private Set<String> setFriendsUsername;
+	@Persistent
+	private Set<Long> setProductTaggedID;
+	public Set<Long> getSetProductTaggedID() {
+		return setProductTaggedID;
+	}
+
+	public void setSetProductTaggedID(Set<Long> setProductTaggedID) {
+		this.setProductTaggedID = setProductTaggedID;
+	}
 
 	@Exclude
 	@Persistent
@@ -536,7 +545,7 @@ public class UserInfo extends SearchCapable implements Serializable{
 	public List<Long> getListInteredProduct() {
 		return listInteredProduct;
 	}
-	
+
 	@Override
 	public String getTokenString() {
 		return getUsername() + " " + getFirst_name() + " " + getLast_name();
@@ -552,7 +561,8 @@ public class UserInfo extends SearchCapable implements Serializable{
 	}
 
 	/**
-	 * @param sessionId the sessionId to set
+	 * @param sessionId
+	 *            the sessionId to set
 	 */
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
