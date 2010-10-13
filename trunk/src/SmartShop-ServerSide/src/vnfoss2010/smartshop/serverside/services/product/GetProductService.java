@@ -39,7 +39,7 @@ public class GetProductService extends BaseRestfulService {
 
 		Long id = new Long(getParameterWithThrow("id", params, json));
 		Product product = null;
-		ServiceResult<Product> productResult = dbProduct.findProduct(id);
+		ServiceResult<Product> productResult = dbProduct.findProduct(id,true);
 
 		JsonObject jsonReturn = new JsonObject();
 
