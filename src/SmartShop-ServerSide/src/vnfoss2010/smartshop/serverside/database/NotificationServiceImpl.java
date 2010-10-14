@@ -13,6 +13,7 @@ import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Notification;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
+import vnfoss2010.smartshop.serverside.notification.NotificationUtils;
 import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
 
 public class NotificationServiceImpl {
@@ -51,6 +52,8 @@ public class NotificationServiceImpl {
 				result.setMessage(Global.messages
 						.getString("insert_nofitification_successfully"));
 				result.setOK(true);
+				NotificationUtils.sendNotification(
+						Global.dfFull.format(n.getDate()), n.getContent());
 			}
 		} else {
 			result.setMessage(Global.messages.getString("not_found") + " "
@@ -167,8 +170,9 @@ public class NotificationServiceImpl {
 		noti.setTypeId(comment.getType_id());
 		noti.setDate(new Date());
 		noti.setNew(true);
-		noti.setContent(comment.getUsername() + " da binh luan vao "
-				+ noti.getType() + " co id " + noti.getTypeId());
+		noti.setContent(String.format(
+				Global.messages.getString("notification_comment_content"),
+				comment.getUsername(), noti.getType(), noti.getTypeId()));
 		if (noti.getType().equals(TYPE_PAGE)) {
 			ServiceResult<Page> searchResult = dbPage
 					.findPage(noti.getTypeId());
@@ -197,6 +201,39 @@ public class NotificationServiceImpl {
 		return result;
 	}
 
+	public ServiceResult<Void> insertWhenTagUserToProduct(long productID,
+			String userName, boolean isTag) {
+		ServiceResult<Void> result = new ServiceResult<Void>();
+		ServiceResult<Product> productResult = dbProduct.findProduct(productID);
+		if (productResult.isOK() == false) {
+			result.setOK(false);
+			result.setMessage(productResult.getMessage());
+			return result;
+		}
+
+		Notification noti = new Notification();
+		noti.setUsername(userName);
+		if (isTag) {
+			noti.setContent(String.format(Global.messages
+					.getString("notification_tag_user_to_product_content"),
+					productResult.getResult().getUsername(), productID));
+		} else {
+			noti.setContent(String.format(Global.messages
+					.getString("notification_untag_user_from_product_content"),
+					productResult.getResult().getUsername(), productID));
+		}
+		noti.setDate(new Date());
+		noti.setNew(true);
+		noti.setType(TYPE_PRODUCT);
+		noti.setTypeId(productID);
+		ServiceResult<Long> insertResult = insertNotification(noti);
+		result.setOK(insertResult.isOK());
+		result.setMessage(insertResult.getMessage());
+
+		insertNotification(noti);
+		return result;
+	}
+
 	public ServiceResult<Void> insertWhenUserTagToPage(long pageID,
 			long productID, boolean isTag) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
@@ -214,9 +251,15 @@ public class NotificationServiceImpl {
 		}
 		Notification noti = new Notification();
 		noti.setUsername(pageResult.getResult().getUsername());
-		noti.setContent(productResult.getResult().getUsername() + " da "
-				+ (isTag ? "tag" : "bo tag") + " product co id " + productID
-				+ " trong page co id " + pageID);
+		if (isTag) {
+			noti.setContent(String.format(
+					Global.messages.getString("notification_tag_page_content"),
+					productResult.getResult().getUsername(), productID, pageID));
+		} else {
+			noti.setContent(String.format(Global.messages
+					.getString("notification_untag_page_content"),
+					productResult.getResult().getUsername(), productID, pageID));
+		}
 		noti.setDate(new Date());
 		noti.setNew(true);
 		noti.setType(TYPE_PAGE);
@@ -251,7 +294,8 @@ public class NotificationServiceImpl {
 			Notification noti = new Notification();
 			noti.setDate(new Date());
 			noti.setNew(true);
-			noti.setContent(userName + " da add ban vao danh sach ban be");
+			noti.setContent(String.format(Global.messages
+					.getString("notification_add_friend_conttent"), userName));
 			noti.setUsername(addedUname);
 			noti.setType(TYPE_USER);
 			result.add(insertNotification(noti));

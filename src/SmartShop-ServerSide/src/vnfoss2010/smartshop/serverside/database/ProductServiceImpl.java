@@ -31,6 +31,8 @@ import com.beoui.geocell.model.Point;
 public class ProductServiceImpl {
 	private static ProductServiceImpl instance;
 	private AccountServiceImpl dbAccount = AccountServiceImpl.getInstance();
+	private NotificationServiceImpl dbNoti = NotificationServiceImpl
+			.getInstance();
 
 	private final static Logger log = Logger.getLogger(ProductServiceImpl.class
 			.getName());
@@ -1143,14 +1145,16 @@ public class ProductServiceImpl {
 			}
 		}
 		// TODO: notification
-		// if (result.isOK()) {
-		// ServiceResult<Void> notiResult = dbNoti.insertWhenUserTagToPage(
-		// pageID, productID, true);
-		// if (notiResult.isOK() == false) {
-		// result.setMessage(result.getMessage()
-		// + ";Notification Exception:" + notiResult.getMessage());
-		// }
-		// }
+		if (result.isOK()) {
+			ServiceResult<Void> notiResult = null;
+			notiResult = dbNoti.insertWhenTagUserToProduct(productID, username,
+					isTag);
+
+			if (notiResult.isOK() == false) {
+				result.setMessage(result.getMessage()
+						+ ";Notification Exception:" + notiResult.getMessage());
+			}
+		}
 		return result;
 	}
 
