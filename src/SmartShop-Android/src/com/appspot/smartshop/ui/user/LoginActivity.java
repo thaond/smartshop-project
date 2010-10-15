@@ -131,49 +131,49 @@ public class LoginActivity extends Activity {
 						task.cancel(true);
 					}
 				});
-				loadNotifications();
+				//loadNotifications();
 			}
 		});
 		
 		task.execute();
 	}
-	public void loadNotifications() {
-		String param = String.format(PARAM_NOFITICATION, Global.username, 1);
-		Log.d(TAG, param);
-		RestClient.postData(URLConstant.GET_NOTIFICATIONS, param,
-				new JSONParser() {
-
-					@Override
-					public void onSuccess(JSONObject json)
-							throws JSONException {
-						JSONArray arr = json
-								.getJSONArray("notifications");
-						notifications = Global.gsonWithHour.fromJson(
-								arr.toString(), SmartshopNotification
-										.getType());
-						Log.d(TAG, "found " + notifications.size()
-								+ " notification(s)");
-						if (notifications.size() == 0) {
-							task.hasData = false;
-							task.message = getString(R.string.warn_no_notification);
-						} else {
+//	public void loadNotifications() {
+//		String param = String.format(PARAM_NOFITICATION, Global.username, 1);
+//		Log.d(TAG, param);
+//		RestClient.postData(URLConstant.GET_NOTIFICATIONS, param,
+//				new JSONParser() {
+//
+//					@Override
+//					public void onSuccess(JSONObject json)
+//							throws JSONException {
+//						JSONArray arr = json
+//								.getJSONArray("notifications");
+//						notifications = Global.gsonWithHour.fromJson(
+//								arr.toString(), SmartshopNotification
+//										.getType());
+//						Log.d(TAG, "found " + notifications.size()
+//								+ " notification(s)");
+//						if (notifications.size() == 0) {
+//							task.hasData = false;
+//							task.message = getString(R.string.warn_no_notification);
+//						} else {
 //							markAsRead();
-							CharSequence title;
-							CharSequence content;
-							for(int i = 0 ; i< notifications.size();i++){
-								title = notifications.get(i).date.toLocaleString();
-								content = notifications.get(i).content;
-								generateNotification(notifications.size(),i,title, content);
-							}
-						}
-					}
-
-					@Override
-					public void onFailure(String message) {
-						task.cancel(true);
-					}
-				});
-	}
+//							CharSequence title;
+//							CharSequence content;
+//							for(int i = 0 ; i< notifications.size();i++){
+//								title = notifications.get(i).date.toLocaleString();
+//								content = notifications.get(i).content;
+//								generateNotification(notifications.size(),i,title, content);
+//							}
+//						}
+//					}
+//
+//					@Override
+//					public void onFailure(String message) {
+//						task.cancel(true);
+//					}
+//				});
+//	}
 
 	public void generateNotification(int numOfNewNotification,int notificatioinID,CharSequence charTitle, CharSequence charContent) {
 		NotificationManager myNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

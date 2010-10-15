@@ -14,7 +14,7 @@
 
 	<!-- User -->
 	<string name="lblUsername">Tên đăng nhập*:</string>
-	<string name="lblOldPassword">Mật khẩu cũ:</string> 
+	<string name="lblOldPassword">Mật khẩu cũ:</string>
 	<string name="lblPassword">Mật khẩu*:</string>
 	<string name="lblConfirm">Xác nhận*:</string>
 	<string name="lblFirstName">Tên*:</string>
@@ -26,8 +26,9 @@
 	<string name="btnTagAddressOnMap">Đánh dấu trên bản đồ</string>
 	<string name="btnViewAddressOnMap">Xem trên bản đồ</string>
 	<string name="titleChoooseUserLoction">Chọn địa chỉ của bạn</string>
-	<string name="hintChangeUserLocation">Click vào bản đồ để thay đổi địa chỉ của bạn</string>
-	
+	<string name="hintChangeUserLocation">Click vào bản đồ để thay đổi địa chỉ của bạn
+	</string>
+
 	<string name="username">Tên đăng nhập:</string>
 	<string name="name">Tên:</string>
 	<string name="lastname">Họ:</string>
@@ -36,14 +37,14 @@
 	<string name="address">Địa chỉ:</string>
 	<string name="tel">Số điện thoại:</string>
 	<string name="edit_profile">Sửa thông tin</string>
-	
+
 	<string name="tooltipAddressHint">(vd: 268 Lý Thường Kiệt quận 10 HCM)</string>
 	<string name="lblPhoneNumber">Số điện thoại:</string>
 	<string name="lblAvatar">Hình đại diện:</string>
 	<string name="lblRegister">Đăng ký</string>
 	<string name="warn_must_enter_address">Bạn chưa nhập địa chỉ</string>
 	<string name="err_register_message">Có lỗi trong quá trình đăng ký</string>
-	
+
 	<!-- Validate user -->
 	<string name="username_invalid">Nhập tên đăng nhập </string>
 	<string name="password_invalid">Nhập mật khẩu </string>
@@ -54,7 +55,7 @@
 	<!-- General labels -->
 	<string name="lblUpdate">Cập nhật</string>
 	<string name="lblCancel">Thoát</string>
-	<string name="lblOk">OK</string>
+	<string name="lblOk">Xong</string>
 	<string name="errServer">Lỗi hệ thống</string>
 
 	<!-- User login -->
@@ -87,20 +88,20 @@
 	<string name="chooseDatePost">Chọn ngày</string>
 	<string name="moreAttribute">Thêm thuộc tính</string>
 	<string name="chooseCategory">Chọn danh mục cho sản phẩm</string>
-	<string name="select">Chọn</string>
+	<string name="select">Chọn danh mục</string>
 	<string name="tagOnMap">Đánh dấu trên bản đồ</string>
-	
+
 	<!-- View Product Form -->
 	<string name="userName">Username</string>
 	<string name="product_basic_info">Thông tin sản phẩm</string>
 	<string name="product_user_defined_info">Thông tin bổ sung</string>
 	<string name="warnProductHasNoAddress">Không có thông tin địa chỉ của sản phẩm</string>
-	
+
 	<!-- Dialog -->
 	<string name="btnShowDirectionOnMap">Xem trên bản đồ</string>
 
 	<!-- Map API key -->
-	<string name="mapApiKey">0oXkvY2tUcbGM8-BK6Myjp770et8Obv5A2PjqnQ</string>
+	<string name="mapApiKey">0owYtUX-1osulbhBvIzWUnfdpYAgOTOwy2gP_Vw</string>
 
 	<!-- Page -->
 	<string name="page_name">Tên:</string>
@@ -152,13 +153,13 @@
 	<string name="errEmptyComment">Bạn chưa nhập nội dung</string>
 	<string name="warn_must_login_to_post_comment">Bạn phải đăng nhập trước</string>
 	<string name="warn_has_no_comment">Hiện chưa có bình luận nào</string>
-	
+
 	<!-- Search by categories -->
 	<string name="search_by_categories">Tìm theo mục</string>
-	
+
 	<!-- Message -->
 	<string name="cant_connect_network">Không thể kết nối mạng</string>
-	
+
 	<!-- File explorer -->
 	<string name="dirname_app_name">Android File Browser</string>
 	<string name="menu_new_folder">Tạo thư mục</string>
@@ -173,14 +174,15 @@
 	<string name="notice">Thông báo</string>
 	<string name="can_not_choose_this_file">Định dạng file không được hỗ trợ</string>
 	<string name="back">Trở về</string>
-	
+
 	<!-- Upload -->
-	<string name="cant_upload_image_try_again">Không thể upload hình ảnh. Bạn muốn thử lại không?</string>
-	
+	<string name="cant_upload_image_try_again">Không thể upload hình ảnh. Bạn muốn thử lại không?
+	</string>
+
 	<!-- Post product's attribute -->
 	<string name="attr_name">Tên:</string>
 	<string name="attr_value">Giá trị:</string>
-	
+
 	<!-- Vatgia products -->
 	<string name="num_of_stores">Có %d cửa hàng</string>
 	<string name="tab_vatgia_companies">So sánh giá</string>
@@ -191,7 +193,7 @@
 	<string name="lblSubscribeEmail">Email</string>
 	<string name="lblSubscribeMobile">Mobile</string>
 	<string name="lblAgree">Đồng ý</string>
-	
+
 	<!-- Send email to admin -->
 	<string name="email_title">Tiêu đề</string>
 	<string name="email_sender">Người gửi</string>
@@ -206,16 +208,16 @@
 	<!-- Notification -->
 	<string name="date">Ngày : </string>
 	<string name="warn_no_notification">Không có thông báo nào</string>
-	
+
 	<!-- Search products on map -->
 	<string name="my_current_location">Vị trí của tôi</string>
 	<string name="search_location">Tìm kiếm</string>
 	<string name="warn_search_location_empty">Nhập vào địa điểm cần tìm</string>
 	<string name="warn_cannot_find_search_location">Không tìm thấy địa điểm vừa nhập</string>
-	
+
 	<string name="init_data">Đang nạp dữ liệu...</string>
 	<string name="no_category">Chưa phân danh mục</string>
-	
+
 	<string name="radius">Bán kính</string>
 	<string name="subcribe_sms">SMS</string>
 	<string name="subcribe_email">Email</string>
@@ -225,7 +227,7 @@
 	<string name="subcribe_update">Cập nhật</string>
 
 	<string name="subcribe_detail">Chi tiết</string>
-	
+
 
 	<string name="missing_subcribe_location">Bạn chưa chọn địa điểm</string>
 	<!-- Add Friend -->
@@ -233,5 +235,15 @@
 	<string name="addFriend">Kết bạn</string>
 	<string name="addFriendSuccess">Thêm danh sách bạn bè thành công</string>
 	<string name="addFriendFail">Thêm bạn bè thất bại, vui lòng thử lại</string>
+	<!-- Tag Friends -->
+	<string name="tagFriends">Tag friends</string>
+	<!-- Facebook -->
+	<string name="postOnFacebook">Đăng lên FaceBook</string>
+	<string name="postOnFacebookSuccess">Mặt hàng của bạn đã được đăng lên Facebook</string>
+	<string name="loginFacebookSuccess">Đăng nhập Facebook thành công</string>
+	<string name="loginFacebookFail">Đăng nhập Facebook thất bại</string>
+	<string name="logoutFacebookSuccess">Đăng xuất Facebook thành công</string>
+	<string name="logoutFacebookLoading">Đang thoát khỏi tài khoản Facebook</string>
 	
+	<string name="alertLogin">Bạn phải đăng nhập tài khoản Facebook để sử dụng chức năng này</string>
 </resources>

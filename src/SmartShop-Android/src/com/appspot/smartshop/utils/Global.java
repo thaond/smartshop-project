@@ -6,8 +6,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import android.app.Activity;
+import android.widget.Button;
 
 import com.appspot.smartshop.dom.UserInfo;
+import com.appspot.smartshop.facebook.AsyncFacebookRunner;
+import com.appspot.smartshop.facebook.Facebook;
+import com.appspot.smartshop.facebook.LoginButton;
 import com.appspot.smartshop.mock.MockUserInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -126,4 +130,9 @@ public class Global {
 	public static final String VIEW_PROFILE_ACTIVITY = "ViewProfile";
 	public static final String TITLE_NOTIFICATION = "TitleNotification";
 	public static final String CONTENT_NOTIFICATION = "ContentNotification";
+	//Variable for Facebook's connection
+	public static final String APP_ID = "141251065920937";
+	public static final String[] PERMISSIONS = new String[] {
+			"publish_stream", "read_stream", "offline_access" };
+	public static Facebook mFacebook;
 }

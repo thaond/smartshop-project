@@ -76,7 +76,8 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testSubcribeList();
+		testSearchVatgia();
+//		testPostProduct();
 	}
 
 	protected void test2() {
@@ -204,7 +205,6 @@ public class HomeActivity extends Activity {
 	}
 
 	private void testPostProduct() {
-		Global.application = this;
 		Intent intent = new Intent(this, PostProductActivity.class);
 		startActivity(intent);
 	}
