@@ -78,14 +78,10 @@ public class AddFriendActivity extends Activity {
 	protected void addFriends() {
 		final String param = String.format(PARAM_ADD_FRIENDS, Global.username, friendsToAdd);
 		Log.d(TAG,param);
-		taskAddFriend = new SimpleAsyncTask(this, new DataLoader() {
-			
+		taskAddFriend = new SimpleAsyncTask(this, new DataLoader() {	
 			@Override
-			public void updateUI() {
-				// TODO Auto-generated method stub
-				
+			public void updateUI() {	
 			}
-			
 			@Override
 			public void loadData() {
 				Log.d(TAG,"loadData");

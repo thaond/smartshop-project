@@ -2,9 +2,14 @@ package com.appspot.smartshop.adapter;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +18,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.NProductVatGia;
+import com.appspot.smartshop.facebook.AsyncFacebookRunner;
+import com.appspot.smartshop.facebook.BaseRequestListener;
+import com.appspot.smartshop.facebook.Facebook;
+import com.appspot.smartshop.facebook.FacebookError;
+import com.appspot.smartshop.facebook.SessionStore;
+import com.appspot.smartshop.facebook.Util;
+import com.appspot.smartshop.ui.product.ProductBasicAttributeActivity;
+import com.appspot.smartshop.ui.product.ProductBasicAttributeActivity.WallPostRequestListener;
+import com.appspot.smartshop.ui.product.vatgia.SearchVatgiaActivity;
 import com.appspot.smartshop.ui.product.vatgia.VatgiaTabActivity;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.URLConstant;
@@ -27,6 +42,8 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 	public static final int IMAGE_HEIGHT = 50;
 	private LayoutInflater inflater;
 	private Context context;
+	String webUrlOfProduct = "";
+	public Bundle params = new Bundle();
 	
 	public NProductVatgiaAdapter(Context context, int textViewResourceId,
 			List<NProductVatGia> objects) {
@@ -37,7 +54,7 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
+		final ViewHolder holder;
 
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.nproductvatgia_list_item, null);
@@ -48,6 +65,7 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 			holder.txtPrice = (TextView) convertView.findViewById(R.id.txtProductPrice);
 			holder.btnListShop = (Button) convertView.findViewById(R.id.btnListShop);
 			holder.txtNumOfStore = (TextView) convertView.findViewById(R.id.txtNumOfStore);
+			holder.postFacebook =  (ImageView) convertView.findViewById(R.id.btnPostFacebookVatGia);
 
 			convertView.setTag(holder);
 		} else {
@@ -76,15 +94,79 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 				context.startActivity(intent);
 			}
 		});
+		
+		holder.postFacebook.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				postFacebookVatGia();
+				holder.postFacebook.setImageResource(R.drawable.facebook_share_nonactive);
+				holder.postFacebook.setClickable(false);
+			}
+		});
+		
+		params.putString("message", "Smart Shop");
+		params.putString("name", item.productName);
+		webUrlOfProduct = item.urlListShop.substring(0, 7) + item.urlListShop.substring(9, item.urlListShop.length());
+		params.putString("link", webUrlOfProduct );
+		params.putString("description",
+				item.priceVND);
+		params.putString("picture",
+				item.imageThumbnail);
 
 		return convertView;
 	}
 	
+	protected void postFacebookVatGia() {
+		AsyncFacebookRunner mAsyncRunner;
+		Global.mFacebook = new Facebook();
+		SessionStore.restore(Global.mFacebook, context);
+		mAsyncRunner = new AsyncFacebookRunner(Global.mFacebook);
+		if (!Global.mFacebook.isSessionValid()) {
+			Toast.makeText(context,
+					context.getString(R.string.alertLogin),
+					Toast.LENGTH_SHORT).show();
+		} else {
+			
+			Log.d("TAG", webUrlOfProduct);
+			mAsyncRunner.request("me/feed", params, "POST",
+					new WallPostRequestListener());
+			Toast.makeText(context,
+					context.getString(R.string.postOnFacebookSuccess),
+					Toast.LENGTH_LONG).show();
+		}
+		
+	}
+
 	static class ViewHolder {
 		ImageView image;
 		TextView txtName;
 		TextView txtPrice;
 		TextView txtNumOfStore;
 		Button btnListShop;
+		ImageView postFacebook;
+	}
+	public class WallPostRequestListener extends BaseRequestListener {
+
+		@Override
+		public void onComplete(String response) {
+			Log.d("Facebook-Example", "Got response: " + response);
+			String message = "<empty>";
+			try {
+				JSONObject json = Util.parseJson(response);
+				message = json.getString("message");
+			} catch (JSONException e) {
+				Log.w("Facebook-Example", "JSON Error in response");
+			} catch (FacebookError e) {
+				Log.w("Facebook-Example", "Facebook Error: " + e.getMessage());
+			}
+			final String text = "Your Wall Post: " + message;
+//			Context.this.runOnUiThread(new Runnable() {
+//				public void run() {
+//					Toast.makeText(ProductBasicAttributeActivity.this,
+//							getString(R.string.postOnFacebookSuccess), Toast.LENGTH_SHORT).show();
+//				}
+//			});
+		}
 	}
 }

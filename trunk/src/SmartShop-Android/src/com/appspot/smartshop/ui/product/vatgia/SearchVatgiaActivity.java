@@ -1,7 +1,6 @@
 package com.appspot.smartshop.ui.product.vatgia;
 
 import java.net.URLEncoder;
-import java.security.KeyStore.LoadStoreParameter;
 import java.util.LinkedList;
 
 import org.json.JSONArray;
@@ -11,6 +10,13 @@ import org.json.JSONObject;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.NProductVatgiaAdapter;
 import com.appspot.smartshop.dom.NProductVatGia;
+import com.appspot.smartshop.facebook.AsyncFacebookRunner;
+import com.appspot.smartshop.facebook.Facebook;
+import com.appspot.smartshop.facebook.LoginButton;
+import com.appspot.smartshop.facebook.SessionEvents;
+import com.appspot.smartshop.facebook.SessionStore;
+import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
+import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -26,9 +32,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SearchVatgiaActivity extends Activity {
 	public static final String TAG = "[SearchVatgiaActivity]";
+	//set up variable for facebook connection
+	private LoginButton mLoginButton;
+	private AsyncFacebookRunner mAsyncRunner;
+	//end set up variable for facebook connection
 	
 	private static final int NO_PAGE = 0;
 	
@@ -38,6 +49,7 @@ public class SearchVatgiaActivity extends Activity {
 	private TextView txtCurrentPage;
 	private TextView txtNumOfPages;
 	private LinkedList<NProductVatGia> products;
+	
 	private int currentPage = 1;
 	private int numOfPages = NO_PAGE;
 	private boolean first = true;
@@ -48,7 +60,14 @@ public class SearchVatgiaActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_vatgia);
-		
+		//set up variable for facebook connection
+		mLoginButton = (LoginButton) findViewById(R.id.loginFaceBookVatGia);
+		Global.mFacebook = new Facebook();
+		mAsyncRunner = new AsyncFacebookRunner(Global.mFacebook);
+		SessionStore.restore(Global.mFacebook, this);
+		SessionEvents.addAuthListener(new SampleAuthListener());
+		SessionEvents.addLogoutListener(new SampleLogoutListener());
+		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
 		// search field
 		txtSearch = (EditText) findViewById(R.id.txtSearch);
 		
@@ -145,5 +164,33 @@ public class SearchVatgiaActivity extends Activity {
 			}
 		});
 		task.execute();
+	}
+	public class SampleAuthListener implements AuthListener {
+
+		public void onAuthSucceed() {
+			Toast.makeText(SearchVatgiaActivity.this,
+					getString(R.string.loginFacebookSuccess),
+					Toast.LENGTH_SHORT).show();
+		}
+
+		public void onAuthFail(String error) {
+			Toast.makeText(SearchVatgiaActivity.this,
+					getString(R.string.loginFacebookFail), Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
+	public class SampleLogoutListener implements LogoutListener {
+		public void onLogoutBegin() {
+			Toast.makeText(SearchVatgiaActivity.this,
+					getString(R.string.logoutFacebookLoading),
+					Toast.LENGTH_SHORT).show();
+		}
+
+		public void onLogoutFinish() {
+			Toast.makeText(SearchVatgiaActivity.this,
+					getString(R.string.logoutFacebookSuccess),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 }

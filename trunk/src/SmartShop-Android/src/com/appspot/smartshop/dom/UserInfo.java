@@ -21,7 +21,7 @@ public class UserInfo implements Serializable {
 	public Date birthday = null;
 	public String address = null;
 	public String avatarLink = null;
-	public String lang = null;;
+	public String lang = null;
 	public String country = null;
 	public double lat;
 	public double lng;

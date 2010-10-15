@@ -77,7 +77,8 @@ public class ViewUserProfileActivity extends Activity {
 			
 			// View other profile
 			isOwn = false;
-			userInfo = (UserInfo) tmp.get(Global.USER_INFO);
+			//userInfo = (UserInfo) tmp.get(Global.USER_INFO); vanloi999 has replace this statement by the next one
+			userInfo = Global.userInfo;
 			viewProfile();
 		} else if (Global.userInfo == null) {
 			
@@ -175,6 +176,7 @@ public class ViewUserProfileActivity extends Activity {
 
 	private void viewProfile() {
 //		userInfo.avatarLink = "http://10.0.2.2/uploads/tam1234/a.jpg";
+		Log.d(TAG, "fdsfdsfs");
 		if (StringUtils.isEmptyOrNull(userInfo.avatarLink)) {
 			imgAvatar.setBackgroundDrawable(drawableNoAvatar);
 		} else {

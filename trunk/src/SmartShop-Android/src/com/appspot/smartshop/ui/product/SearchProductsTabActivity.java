@@ -28,7 +28,6 @@ public class SearchProductsTabActivity extends TabActivity {
 		intent = new Intent(this, ProductsListActivity.class);
 		tabHost.addTab(tabHost.newTabSpec(TAB_SMARTSHOP_PRODUCTS).setIndicator(
 				getString(R.string.tab_smartshop_products)).setContent(intent));
-
 		// Vatgia products tab
 		intent = new Intent(this, SearchVatgiaActivity.class);
 		tabHost.addTab(tabHost.newTabSpec(TAB_VATGIA_PRODUCTS).setIndicator(

@@ -98,7 +98,6 @@ public class ProductUserDefinedAttributeActivity extends Activity {
 						for (int i = 0; i < len; ++i) {
 							name = arr.getJSONObject(i).getString("name");
 							key_cat = arr.getJSONObject(i).getString("key_cat");
-							
 							parentCategories[i] = name;
 							mapCategories.put(name, key_cat);
 						}

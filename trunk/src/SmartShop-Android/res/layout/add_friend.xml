@@ -2,16 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:orientation="vertical">
-	<LinearLayout android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:orientation="horizontal">
-		<EditText android:id="@+id/txtFriendSearch" android:textSize="12dip"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:hint="@string/hintFriendSearch" android:layout_weight="1" />
-		<Button android:layout_width="wrap_content" android:text="@string/search"
-			android:layout_height="wrap_content" android:id="@+id/btnFriendSearch" />
-	</LinearLayout>
+	<EditText android:id="@+id/txtFriendSearch" android:textSize="12dip"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:hint="@string/hintFriendSearch" android:layout_weight="1" />
+	<Button android:layout_width="wrap_content" android:text="@string/search"
+		android:layout_height="wrap_content" android:id="@+id/btnFriendSearch" />
 	<ListView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:id="@+id/listFriend" />
 	<Button android:id="@+id/btnAddFriends" android:layout_width="wrap_content"
 		android:text="@string/addFriend" android:layout_height="wrap_content" />
 </LinearLayout>
+	

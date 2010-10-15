@@ -6,6 +6,7 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.ui.user.AddFriendActivity;
 import com.appspot.smartshop.utils.DataLoader;
+import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 
 import android.content.Context;
@@ -62,15 +63,14 @@ public class AddFriendAdapter extends ArrayAdapter<UserInfo>{
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked){
 					Log.d(TAG, AddFriendActivity.friendsToAdd);
-					if(AddFriendActivity.friendsToAdd.length()==0){
+					if(AddFriendActivity.friendsToAdd.length()==0&& friendInfo.username!=Global.username){
 						AddFriendActivity.friendsToAdd += friendInfo.username;
-					}else if(!AddFriendActivity.friendsToAdd.contains(friendInfo.username)){
+					}else if(!AddFriendActivity.friendsToAdd.contains(friendInfo.username)&& friendInfo.username!=Global.username){
 						AddFriendActivity.friendsToAdd += ","+ friendInfo.username;
 					}
 				}
 			}
 		});
-		
 		return convertView;
 	}
 	static class ViewHolder{

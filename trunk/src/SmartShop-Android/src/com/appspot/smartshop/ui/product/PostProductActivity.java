@@ -15,16 +15,14 @@ public class PostProductActivity extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final TabHost tabHost = getTabHost();
-
-		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
-			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
-		}
-		
 		tabHost.addTab(tabHost.newTabSpec(PRODUCT_BASIC_INFO).setIndicator(
 				getString(R.string.product_basic_info)).setContent(
 				new Intent(this, ProductBasicAttributeActivity.class)));
 		tabHost.addTab(tabHost.newTabSpec(PRODUCT_USER_DEFINED_INFO).setIndicator(
 				getString(R.string.product_user_defined_info)).setContent(
 				new Intent(this, ProductUserDefinedAttributeActivity.class)));
+		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
+		}
 	}
 }
