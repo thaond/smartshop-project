@@ -14,22 +14,24 @@ import vnfoss2010.smartshop.serverside.database.entity.Notification;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.notification.NotificationUtils;
-import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
 
 public class NotificationServiceImpl {
 	private static NotificationServiceImpl instance;
 	public static final String TYPE_PRODUCT = "product";
 	public static final String TYPE_PAGE = "page";
 	public static final String TYPE_USER = "user";
-	private AccountServiceImpl dbAccount = AccountServiceImpl.getInstance();
-	private ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
-	private PageServiceImpl dbPage = PageServiceImpl.getInstance();
+	private AccountServiceImpl dbAccount;
+	private ProductServiceImpl dbProduct;
+	private PageServiceImpl dbPage;
 
 	private static Logger log = Logger.getLogger(NotificationServiceImpl.class
 			.getName());
 
-	public void Nofication() {
+	public NotificationServiceImpl(){
 		instance = this;
+		dbAccount = AccountServiceImpl.getInstance();
+		dbProduct = ProductServiceImpl.getInstance();
+		dbPage = PageServiceImpl.getInstance();
 	}
 
 	public ServiceResult<Long> insertNotification(Notification n) {
