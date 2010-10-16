@@ -18,17 +18,18 @@ public class CommentServiceImpl {
 	private static CommentServiceImpl instance;
 	public static final String TYPE_PRODUCT = "product";
 	public static final String TYPE_PAGE = "page";
-	private static ProductServiceImpl dbProduct = ProductServiceImpl
-			.getInstance();
-	private static NotificationServiceImpl dbNoti = NotificationServiceImpl
-			.getInstance();
-	private static PageServiceImpl dbPage = PageServiceImpl.getInstance();
+	private static ProductServiceImpl dbProduct;
+	private static NotificationServiceImpl dbNoti;
+	private static PageServiceImpl dbPage;
 
 	private static Logger log = Logger.getLogger(CommentServiceImpl.class
 			.getName());
 
 	public CommentServiceImpl() {
 		instance = this;
+		dbNoti = NotificationServiceImpl.getInstance();
+		dbProduct = ProductServiceImpl.getInstance();
+		dbPage = PageServiceImpl.getInstance();
 	}
 
 	public ServiceResult<Long> insertComment(Comment comment) {
@@ -57,8 +58,8 @@ public class CommentServiceImpl {
 			ServiceResult<Void> notiResult = dbNoti
 					.insertWhenUserComment(comment);
 			if (notiResult.isOK() == false) {
-				result.setMessage(result.getMessage() + ";Notification Exception:"
-						+ notiResult.getMessage());
+				result.setMessage(result.getMessage()
+						+ ";Notification Exception:" + notiResult.getMessage());
 			}
 		}
 		return result;

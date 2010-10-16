@@ -17,6 +17,9 @@ public class APIKey {
 	@Persistent
 	private String source;
 	
+	@Persistent
+	private String email;
+	
 	@Persistent 
 	private Date date;
 	
@@ -29,6 +32,12 @@ public class APIKey {
 	public APIKey(String source, Date date) {
 		this.source = source;
 		this.date = date;
+	}
+	
+	public APIKey(String source, Date date, String email) {
+		this.source = source;
+		this.date = date;
+		this.email = email;
 	}
 
 	/**
@@ -71,5 +80,19 @@ public class APIKey {
 	 */
 	public long getViews() {
 		return views;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
 	}
 }

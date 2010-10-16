@@ -32,8 +32,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class AccountServiceImpl {
 	private static final long serialVersionUID = 1L;
 	private static AccountServiceImpl instance;
-	private static NotificationServiceImpl dbNoti = NotificationServiceImpl
-			.getInstance();
+	private static NotificationServiceImpl dbNoti;
 
 	public static UserService userService = UserServiceFactory.getUserService();
 	private final static Logger log = Logger.getLogger(AccountServiceImpl.class
@@ -47,6 +46,7 @@ public class AccountServiceImpl {
 	 */
 	public AccountServiceImpl() {
 		instance = this;
+		dbNoti = NotificationServiceImpl.getInstance();
 	}
 
 	/**
@@ -367,15 +367,17 @@ public class AccountServiceImpl {
 						+ username);
 			} else {
 				if (userInfo.getPassword().equals(password)) {
-					//Store session here
+					// Store session here
 					String sessionId = UtilsFunction.getAlphaNumeric(32);
-					if (Global.mapSession.containsKey(username)){
-						((SessionObject)Global.mapSession.get(username)).set(username, sessionId, new Date().getTime());
-					}else{
-						Global.mapSession.put(username, new SessionObject(username, sessionId, new Date().getTime()));
+					if (Global.mapSession.containsKey(username)) {
+						((SessionObject) Global.mapSession.get(username)).set(
+								username, sessionId, new Date().getTime());
+					} else {
+						Global.mapSession.put(username, new SessionObject(
+								username, sessionId, new Date().getTime()));
 					}
 					userInfo.setSessionId(sessionId);
-					
+
 					result.setMessage(Global.messages
 							.getString("login_successfully"));
 					result.setResult(userInfo);

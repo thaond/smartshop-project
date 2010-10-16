@@ -16,7 +16,6 @@ import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
-import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.utils.Predicate;
@@ -30,15 +29,16 @@ import com.beoui.geocell.model.Point;
 
 public class ProductServiceImpl {
 	private static ProductServiceImpl instance;
-	private AccountServiceImpl dbAccount = AccountServiceImpl.getInstance();
-	private NotificationServiceImpl dbNoti = NotificationServiceImpl
-			.getInstance();
+	private AccountServiceImpl dbAccount;
+	private NotificationServiceImpl dbNoti;
 
 	private final static Logger log = Logger.getLogger(ProductServiceImpl.class
 			.getName());
 
 	private ProductServiceImpl() {
 		instance = this;
+		dbAccount = AccountServiceImpl.getInstance();
+		dbNoti = NotificationServiceImpl.getInstance();
 	}
 
 	// PRODUCT
@@ -157,7 +157,9 @@ public class ProductServiceImpl {
 			product = pm.getObjectById(Product.class, id);
 			if (product == null) {
 				result.setOK(false);
-				result.setMessage(Global.messages.getString("no_found_product"));
+				result
+						.setMessage(Global.messages
+								.getString("no_found_product"));
 			} else {
 				result.setOK(true);
 				result.setResult(product);
@@ -188,7 +190,9 @@ public class ProductServiceImpl {
 			product = pm.getObjectById(Product.class, editProduct.getId());
 			if (product == null) {
 				result.setOK(false);
-				result.setMessage(Global.messages.getString("no_found_product"));
+				result
+						.setMessage(Global.messages
+								.getString("no_found_product"));
 			} else {
 				product.setAddress(editProduct.getAddress());
 				product.setAttributeSets(editProduct.getAttributeSets());
@@ -396,7 +400,8 @@ public class ProductServiceImpl {
 				if (cat_keys != null) {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
-					where.append("setCategoryKeys.contains(catKey) && username==us ");
+					where
+							.append("setCategoryKeys.contains(catKey) && username==us ");
 					listParameters.add(Arrays.asList(cat_keys));
 					listParameters.add(username);
 
@@ -480,7 +485,8 @@ public class ProductServiceImpl {
 				if (cat_keys != null) {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
-					where.append("setCategoryKeys.contains(catKey) && username==us && ");
+					where
+							.append("setCategoryKeys.contains(catKey) && username==us && ");
 					where.append(queryBuffer.toString());
 
 					listParameters.add(Arrays.asList(cat_keys));
@@ -569,8 +575,9 @@ public class ProductServiceImpl {
 
 		if (listIds.size() > 0) {
 			result.setOK(true);
-			result.setMessage(Global.messages
-					.getString("search_product_by_criteria_in_cat_successfully"));
+			result
+					.setMessage(Global.messages
+							.getString("search_product_by_criteria_in_cat_successfully"));
 
 			List<Product> listProducts = getListProductFromIds(listIds);
 
@@ -714,9 +721,8 @@ public class ProductServiceImpl {
 				queryObject.declareParameters(declareParametersBuffer
 						.toString());
 				parametersForSearch.add(username);
-				log.log(Level.SEVERE,
-						"ParaforSearch: "
-								+ Arrays.toString(parametersForSearch.toArray()));
+				log.log(Level.SEVERE, "ParaforSearch: "
+						+ Arrays.toString(parametersForSearch.toArray()));
 
 				listProducts = (List<Product>) queryObject
 						.executeWithArray(parametersForSearch.toArray());
@@ -725,10 +731,12 @@ public class ProductServiceImpl {
 
 			if (listProducts.size() > 0) {
 				result.setOK(true);
-				result.setMessage(String.format(
-						Global.messages
-								.getString("get_list_buyed_product_by_username_successfully"),
-						username));
+				result
+						.setMessage(String
+								.format(
+										Global.messages
+												.getString("get_list_buyed_product_by_username_successfully"),
+										username));
 				result.setResult(listProducts);
 			} else {
 				result.setOK(false);
@@ -828,10 +836,8 @@ public class ProductServiceImpl {
 					queryObject.declareParameters(declareParametersBuffer
 							.toString());
 					parametersForSearch.add(username);
-					log.log(Level.SEVERE,
-							"ParaforSearch: "
-									+ Arrays.toString(parametersForSearch
-											.toArray()));
+					log.log(Level.SEVERE, "ParaforSearch: "
+							+ Arrays.toString(parametersForSearch.toArray()));
 
 					listProducts = (List<Product>) queryObject
 							.executeWithArray(parametersForSearch.toArray());
@@ -840,17 +846,21 @@ public class ProductServiceImpl {
 
 				if (listProducts.size() > 0) {
 					result.setOK(true);
-					result.setMessage(String.format(
-							Global.messages
-									.getString("get_list_selled_product_by_username_successfully"),
-							username));
+					result
+							.setMessage(String
+									.format(
+											Global.messages
+													.getString("get_list_selled_product_by_username_successfully"),
+											username));
 					result.setResult(listProducts);
 				} else {
 					result.setOK(false);
-					result.setMessage(String.format(
-							Global.messages
-									.getString("get_list_selled_product_by_username_fail"),
-							username));
+					result
+							.setMessage(String
+									.format(
+											Global.messages
+													.getString("get_list_selled_product_by_username_fail"),
+											username));
 				}
 			}
 		} catch (Exception ex) {
@@ -947,17 +957,21 @@ public class ProductServiceImpl {
 
 			if (listProducts.size() > 0) {
 				result.setOK(true);
-				result.setMessage(String.format(
-						Global.messages
-								.getString("get_list_interested_product_by_username_successfully"),
-						username));
+				result
+						.setMessage(String
+								.format(
+										Global.messages
+												.getString("get_list_interested_product_by_username_successfully"),
+										username));
 				result.setResult(listProducts);
 			} else {
 				result.setOK(false);
-				result.setMessage(String.format(
-						Global.messages
-								.getString("get_list_interested_product_by_username_fail"),
-						username));
+				result
+						.setMessage(String
+								.format(
+										Global.messages
+												.getString("get_list_interested_product_by_username_fail"),
+										username));
 			}
 		} else {
 			result.setMessage(Global.messages.getString("not_found") + " "
@@ -1118,10 +1132,12 @@ public class ProductServiceImpl {
 				} else {
 					user.getSetProductTaggedID().remove(productID);
 					product.getSetFriendsTaggedID().remove(username);
-					result.setMessage(String.format(
-							Global.messages
-									.getString("untag_friend_from_product_successfully"),
-							username, productID));
+					result
+							.setMessage(String
+									.format(
+											Global.messages
+													.getString("untag_friend_from_product_successfully"),
+											username, productID));
 				}
 				result.setOK(true);
 
@@ -1129,9 +1145,9 @@ public class ProductServiceImpl {
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (isTag) {
-				result.setMessage(String.format(
-						Global.messages.getString("tag_friend_to_product_fail"),
-						username, productID));
+				result.setMessage(String.format(Global.messages
+						.getString("tag_friend_to_product_fail"), username,
+						productID));
 			} else {
 				result.setMessage(String.format(Global.messages
 						.getString("untag_friend_from_product_fail"), username,

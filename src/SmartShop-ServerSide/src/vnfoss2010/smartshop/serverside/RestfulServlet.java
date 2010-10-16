@@ -135,16 +135,16 @@ public class RestfulServlet extends HttpServlet {
 			String api = req.getParameter("api");
 			String serviceName = req.getParameter("service");
 
-			if (!Global.listAPIKeys.contains(api)) {
-				String decryptAPIKey = UtilsFunction.decrypt(api);
-				if (decryptAPIKey == null)
-					throw new InvalidAPIKeyException(serviceName);
-				APIKey apiKey = DatabaseUtils.getAPIKey(decryptAPIKey);
-				if (apiKey == null)
-					throw new InvalidAPIKeyException(serviceName);
-				else
-					Global.listAPIKeys.add(api);
-			}
+//			if (!Global.listAPIKeys.contains(api)) {
+//				String decryptAPIKey = UtilsFunction.decrypt(api);
+//				if (decryptAPIKey == null)
+//					throw new InvalidAPIKeyException(serviceName);
+//				APIKey apiKey = DatabaseUtils.getAPIKey(decryptAPIKey);
+//				if (apiKey == null)
+//					throw new InvalidAPIKeyException(serviceName);
+//				else
+//					Global.listAPIKeys.add(api);
+//			}
 
 			String r;
 			Class<BaseRestfulService> service = unAuthorizedServices

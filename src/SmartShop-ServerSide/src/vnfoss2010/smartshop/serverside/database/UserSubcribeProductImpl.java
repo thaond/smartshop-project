@@ -25,9 +25,14 @@ import com.beoui.geocell.model.Point;
 
 public class UserSubcribeProductImpl {
 	private static UserSubcribeProductImpl instance;
-	private AccountServiceImpl dbAccount = AccountServiceImpl.getInstance();
+	private AccountServiceImpl dbAccount;
 	static Logger log = Logger.getLogger(UserSubcribeProductImpl.class
 			.getName());
+	
+	private UserSubcribeProductImpl(){
+		instance = this;
+		dbAccount = AccountServiceImpl.getInstance();
+	}
 
 	public ServiceResult<UserSubcribeProduct> findSubcribe(Long id) {
 		ServiceResult<UserSubcribeProduct> result = new ServiceResult<UserSubcribeProduct>();

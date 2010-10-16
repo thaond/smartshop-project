@@ -21,13 +21,13 @@ import vnfoss2010.smartshop.serverside.utils.StringUtils;
 
 public class PageServiceImpl {
 	private static PageServiceImpl instance;
-	private static NotificationServiceImpl dbNoti = NotificationServiceImpl
-			.getInstance();
+	private static NotificationServiceImpl dbNoti;
 	private final static Logger log = Logger.getLogger(ProductServiceImpl.class
 			.getName());
 
 	private PageServiceImpl() {
 		instance = this;
+		dbNoti = NotificationServiceImpl.getInstance();
 	}
 
 	public ServiceResult<Page> findPage(Long id) {
@@ -74,7 +74,9 @@ public class PageServiceImpl {
 		try {
 			page = pm.makePersistent(page);
 			if (page == null) {
-				result.setMessage(Global.messages.getString("insert_page_fail"));
+				result
+						.setMessage(Global.messages
+								.getString("insert_page_fail"));
 			} else {
 				result.setResult(page.getId());
 				result.setMessage(Global.messages
@@ -294,7 +296,8 @@ public class PageServiceImpl {
 				if (cat_keys != null) {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
-					where.append("setCategoryKeys.contains(catKey) && username==us ");
+					where
+							.append("setCategoryKeys.contains(catKey) && username==us ");
 					listParameters.add(Arrays.asList(cat_keys));
 					listParameters.add(username);
 
@@ -376,7 +379,8 @@ public class PageServiceImpl {
 				if (cat_keys != null) {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
-					where.append("setCategoryKeys.contains(catKey) && username==us && ");
+					where
+							.append("setCategoryKeys.contains(catKey) && username==us && ");
 					where.append(queryBuffer.toString());
 
 					listParameters.add(Arrays.asList(cat_keys));
@@ -518,9 +522,8 @@ public class PageServiceImpl {
 				result.setResult(listPages);
 			} else {
 				result.setOK(false);
-				result.setMessage(String.format(
-						Global.messages.getString("get_pages_by_username_fail"),
-						username));
+				result.setMessage(String.format(Global.messages
+						.getString("get_pages_by_username_fail"), username));
 			}
 		}
 		pm.close();
