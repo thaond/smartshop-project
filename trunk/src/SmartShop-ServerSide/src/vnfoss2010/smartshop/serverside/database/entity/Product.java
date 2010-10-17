@@ -64,6 +64,10 @@ public class Product extends SearchCapable implements LocationCapable,
 
 	@Persistent
 	private String username;
+	
+	@Persistent(mappedBy = "product")
+	@Element(dependent = "true")
+	private Set<Media> setMedias;
 
 	@Persistent
 	private List<String> listBuyers;
@@ -135,6 +139,7 @@ public class Product extends SearchCapable implements LocationCapable,
 		attributeSets = new ArrayList<Attribute>();
 		setPagesID = new HashSet<Long>();
 		listBuyers = new ArrayList<String>();
+		this.setMedias = new HashSet<Media>();
 		this.fts = new HashSet<String>();
 	}
 
@@ -502,6 +507,20 @@ public class Product extends SearchCapable implements LocationCapable,
 
 		String json = Global.gsonWithDate.toJson(product);
 		System.out.println(json);
+	}
+
+	/**
+	 * @param setMedias the setMedias to set
+	 */
+	public void setSetMedias(Set<Media> setMedias) {
+		this.setMedias = setMedias;
+	}
+
+	/**
+	 * @return the setMedias
+	 */
+	public Set<Media> getSetMedias() {
+		return setMedias;
 	}
 
 }

@@ -698,41 +698,6 @@ public class AccountServiceImpl {
 		return result;
 	}
 
-	// MEDIA
-	/**
-	 * Insert new media into database
-	 * 
-	 * @return id in the datastore
-	 */
-	public ServiceResult<Long> insertMedia(Media media) {
-		preventSQLInjMedia(media);
-		ServiceResult<Long> result = new ServiceResult<Long>();
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-
-		if (media == null) {
-			result.setMessage(Global.messages
-					.getString("cannot_handle_with_null"));
-		}
-
-		try {
-			media = pm.makePersistent(media);
-			if (media == null) {
-				result.setMessage(Global.messages
-						.getString("insert_media_fail"));
-			} else {
-				result.setResult(media.getId());
-				result.setMessage(Global.messages
-						.getString("insert_media_successfully"));
-				result.setOK(true);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.setMessage(Global.messages.getString("insert_media_fail"));
-		}
-
-		return result;
-	}
-
 	private void preventSQLInjMedia(Media media) {
 		media.setName(DatabaseUtils.preventSQLInjection(media.getName()));
 		media.setDescription(DatabaseUtils.preventSQLInjection(media
