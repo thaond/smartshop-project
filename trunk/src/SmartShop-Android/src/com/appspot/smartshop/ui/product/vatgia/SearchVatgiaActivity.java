@@ -38,7 +38,6 @@ public class SearchVatgiaActivity extends Activity {
 	public static final String TAG = "[SearchVatgiaActivity]";
 	//set up variable for facebook connection
 	private LoginButton mLoginButton;
-	private AsyncFacebookRunner mAsyncRunner;
 	//end set up variable for facebook connection
 	
 	private static final int NO_PAGE = 0;
@@ -63,7 +62,6 @@ public class SearchVatgiaActivity extends Activity {
 		//set up variable for facebook connection
 		mLoginButton = (LoginButton) findViewById(R.id.loginFaceBookVatGia);
 		Global.mFacebook = new Facebook();
-		mAsyncRunner = new AsyncFacebookRunner(Global.mFacebook);
 		SessionStore.restore(Global.mFacebook, this);
 		SessionEvents.addAuthListener(new SampleAuthListener());
 		SessionEvents.addLogoutListener(new SampleLogoutListener());

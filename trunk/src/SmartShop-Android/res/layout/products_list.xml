@@ -10,8 +10,15 @@
 			android:hint="@string/hintEnterProductsName" android:layout_weight="1" />
 		<Button android:layout_width="wrap_content" android:text="@string/search"
 			android:layout_height="wrap_content" android:id="@+id/btnSearch" />
-		<Button android:layout_width="wrap_content" android:background="@drawable/map_icon"
-			android:layout_height="wrap_content" android:id="@+id/btnSearchOnMap" />
+		<LinearLayout android:orientation="vertical"
+			android:layout_width="wrap_content" android:layout_height="wrap_content">
+			<Button android:layout_width="wrap_content"
+				android:background="@drawable/map_icon" android:layout_height="wrap_content"
+				android:id="@+id/btnSearchOnMap" />
+			<com.appspot.smartshop.facebook.LoginButton
+				android:id="@+id/loginFb" android:background="@drawable/login_facebook"
+				android:layout_width="73dip" android:layout_height="31dip" />
+		</LinearLayout>
 	</LinearLayout>
 
 	<LinearLayout android:layout_width="fill_parent"
@@ -25,6 +32,7 @@
 		<CheckBox android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:text="@string/chMostView"
 			android:textSize="12dip" android:id="@+id/chMostView" />
+
 	</LinearLayout>
 
 	<ListView android:layout_width="fill_parent"

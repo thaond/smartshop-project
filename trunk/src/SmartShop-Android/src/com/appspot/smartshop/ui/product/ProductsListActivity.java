@@ -24,10 +24,13 @@ import android.widget.Toast;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.facebook.Facebook;
+import com.appspot.smartshop.facebook.LoginButton;
+import com.appspot.smartshop.facebook.SessionEvents;
+import com.appspot.smartshop.facebook.SessionStore;
+import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
+import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
 import com.appspot.smartshop.map.SearchProductsOnMapActivity;
-import com.appspot.smartshop.ui.page.PagesListActivity;
-import com.appspot.smartshop.ui.user.LoginActivity;
-import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -51,6 +54,9 @@ public class ProductsListActivity extends MapActivity {
 	
 	private LinkedList<ProductInfo> products;
 	private EditText txtSearch;
+	//set up variable for facebook connection
+	private LoginButton mLoginButton;
+	//end set up variable for facebook connection
 	
 	public static ProductsListActivity getInstance() {
 		return instance;
@@ -62,6 +68,13 @@ public class ProductsListActivity extends MapActivity {
 		setContentView(R.layout.products_list);
 		
 		instance = this;
+		//set up variable for facebook connection
+		mLoginButton = (LoginButton) findViewById(R.id.loginFb);
+		Global.mFacebook = new Facebook();
+		SessionStore.restore(Global.mFacebook, this);
+		SessionEvents.addAuthListener(new SampleAuthListener());
+		SessionEvents.addLogoutListener(new SampleLogoutListener());
+		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
 		
 		// search field
 		txtSearch = (EditText) findViewById(R.id.txtSearch);
@@ -216,6 +229,34 @@ public class ProductsListActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	public class SampleAuthListener implements AuthListener {
+
+		public void onAuthSucceed() {
+			Toast.makeText(ProductsListActivity.this,
+					getString(R.string.loginFacebookSuccess),
+					Toast.LENGTH_SHORT).show();
+		}
+
+		public void onAuthFail(String error) {
+			Toast.makeText(ProductsListActivity.this,
+					getString(R.string.loginFacebookFail), Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
+	public class SampleLogoutListener implements LogoutListener {
+		public void onLogoutBegin() {
+			Toast.makeText(ProductsListActivity.this,
+					getString(R.string.logoutFacebookLoading),
+					Toast.LENGTH_SHORT).show();
+		}
+
+		public void onLogoutFinish() {
+			Toast.makeText(ProductsListActivity.this,
+					getString(R.string.logoutFacebookSuccess),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 }
