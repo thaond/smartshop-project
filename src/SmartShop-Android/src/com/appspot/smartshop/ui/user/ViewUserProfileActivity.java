@@ -1,7 +1,5 @@
 package com.appspot.smartshop.ui.user;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,6 +31,9 @@ import com.appspot.smartshop.utils.ObjectPool;
 import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.Utils;
 
+/*
+ * @author: Tam Vo Minh
+ */
 public class ViewUserProfileActivity extends Activity {
 	public static final String TAG = "[ViewUserProfileActivity]";
 	
@@ -65,7 +66,7 @@ public class ViewUserProfileActivity extends Activity {
 		Button btnUserInfo = (Button) findViewById(R.id.btnEditUserInfo);
 
 		// view user info
-		Bundle tmp = getIntent().getExtras();
+		Bundle tmp = getIntent().getBundleExtra("user");
 		if (tmp != null) {
 			// don't show buttons
 			btnPages.setVisibility(View.GONE);

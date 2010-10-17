@@ -24,6 +24,7 @@ public class ProductInfo implements Serializable {
 	public double lat;
 	public double lng;
 	public String username = null;
+	public List<Media> setMedias;
 	public Set<Long> setPagesId;
 	public Set<String> setCategoryKeys;
 	public Set<Attribute> attributeSets;

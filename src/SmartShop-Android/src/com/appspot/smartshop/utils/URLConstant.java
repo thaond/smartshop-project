@@ -50,7 +50,10 @@ public class URLConstant {
 	public static final String EDIT_SUBCRIBE = HOST + "/api/asd/edit-subcribe/";
 	
 	/********* Image Hosting */
-	public static final String HOST_IMG = "http://10.0.2.2/testupload/myupload.php?username=%s";
+	public static final String HOST_IMG = "http://10.0.2.2/testupload/";
+	public static final String URL_UPLOAD_AVATAR = HOST_IMG + "myupload.php?username=%s";
+	public static final String URL_UPLOAD_IMG_PRODUCT = HOST_IMG + "uploadimages.php";
+	
 	public static final String SEARCH_FRIEND_BY_QUERY = HOST + "/api/asd/account-search/?q=";
 	public static final String ADD_FRIENDS_TO_LIST = HOST + "/api/asd/account-addfriend/";
 }

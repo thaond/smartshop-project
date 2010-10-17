@@ -71,6 +71,14 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<activity android:name=".ui.product.ProductUploadImagesActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="PostProductBasicAttribute"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
 		<activity android:name=".ui.page.PageActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="Page"></action>

@@ -409,7 +409,7 @@ public class ViewUserInfoActivity extends MapActivity {
 			// ------------------ CLIENT REQUEST
 
 			// open a URL connection to the Servlet
-			URL url = new URL(String.format(URLConstant.HOST_IMG,
+			URL url = new URL(String.format(URLConstant.URL_UPLOAD_AVATAR,
 					userInfo.username));
 
 			// Open a HTTP connection to the URL

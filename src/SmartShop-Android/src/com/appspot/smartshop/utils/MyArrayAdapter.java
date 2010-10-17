@@ -74,12 +74,22 @@ public class MyArrayAdapter<T> extends BaseAdapter implements Filterable {
 	 */
 	private boolean mNotifyOnChange = true;
 
-	private Context mContext;
+	protected Context mContext;
 
 	private ArrayList<T> mOriginalValues;
 	private ArrayFilter mFilter;
 
 	private LayoutInflater mInflater;
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param context
+	 *            The current context.
+	 */
+	public MyArrayAdapter(Context context) {
+		init(context, 0, 0, new ArrayList<T>());
+	}
 
 	/**
 	 * Constructor

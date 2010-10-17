@@ -28,19 +28,17 @@ import com.appspot.smartshop.utils.Global;
 
 /**
  * The source code is refered from andev.org
- * @modify VoMinhTam
- * Some mini changes:
- * - Add Callback when user want to choose file
- * - Finish this activity in case user don't want to choose any picture
- * - Filter choosed file
+ * 
+ * @modify VoMinhTam Some mini changes: - Add Callback when user want to choose
+ *         file - Finish this activity in case user don't want to choose any
+ *         picture - Filter choosed file
  */
 public class AndroidFileBrowser extends ListActivity {
-	
-	
 
 	private enum DISPLAYMODE {
 		ABSOLUTE, RELATIVE;
 	}
+
 	protected static final int SUB_ACTIVITY_REQUEST_CODE = 1337;
 	protected static final int RETURN = 1;
 
@@ -48,16 +46,16 @@ public class AndroidFileBrowser extends ListActivity {
 	private List<IconifiedText> directoryEntries = new ArrayList<IconifiedText>();
 	private File currentDirectory = new File("/");
 	private String[] filter;
-	
-//	private FileChooserCallback callback; 
+
+	// private FileChooserCallback callback;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		// setTheme(android.R.style.Theme_Dark);
-		
-		//Get filter
+
+		// Get filter
 		filter = getIntent().getStringArrayExtra(Global.FILTER_FILE);
 		browseToRoot();
 		this.setSelection(0);
@@ -71,7 +69,7 @@ public class AndroidFileBrowser extends ListActivity {
 		menu.add(0, RETURN, 0, getString(R.string.back));
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
@@ -83,50 +81,50 @@ public class AndroidFileBrowser extends ListActivity {
 		default:
 			break;
 		}
-		
+
 		return super.onMenuItemSelected(featureId, item);
 	}
 
-//	@Override
-//	public boolean onMenuItemSelected(int featureId, Item item) {
-//		switch (item.getId()) {
-//		case 0:
-//			startSubActivity(new Intent(this, DirNameInputActivity.class),
-//					SUB_ACTIVITY_REQUEST_CODE);
-//			return true;
-//		}
-//		return false;
-//	}
+	// @Override
+	// public boolean onMenuItemSelected(int featureId, Item item) {
+	// switch (item.getId()) {
+	// case 0:
+	// startSubActivity(new Intent(this, DirNameInputActivity.class),
+	// SUB_ACTIVITY_REQUEST_CODE);
+	// return true;
+	// }
+	// return false;
+	// }
 
 	// ===========================================================
 	// Reacting on started subactivities that return
 	// ===========================================================
-//	@Override
-//	protected void onActivityResult(int requestCode, int resultCode,
-//			String data, Bundle extras) {
-//		super.onActivityResult(requestCode, resultCode, data, extras);
-//		// Here We identify the subActivity we starte
-//		if (requestCode == SUB_ACTIVITY_REQUEST_CODE) {
-//			// And show its result
-//			try {
-//				if (data.length() > 0) {
-//					String dirName = this.currentDirectory.getPath() + "/"
-//							+ data + "/";
-//					dirName = dirName.replace("//", "/");
-//					File f = new File(dirName);
-//					boolean success = f.mkdir();
-//					if (!success)
-//						showAlert("Error", "Could not create the directory: "
-//								+ data + "\nin: "
-//								+ this.currentDirectory.getPath(), "Ok", false);
-//				}
-//			} catch (Exception e) {
-//				showAlert("Error", "Could not create the directory: " + data
-//						+ "\nin: " + this.currentDirectory.getPath(), "Ok",
-//						false);
-//			}
-//		}
-//	}
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode,
+	// String data, Bundle extras) {
+	// super.onActivityResult(requestCode, resultCode, data, extras);
+	// // Here We identify the subActivity we starte
+	// if (requestCode == SUB_ACTIVITY_REQUEST_CODE) {
+	// // And show its result
+	// try {
+	// if (data.length() > 0) {
+	// String dirName = this.currentDirectory.getPath() + "/"
+	// + data + "/";
+	// dirName = dirName.replace("//", "/");
+	// File f = new File(dirName);
+	// boolean success = f.mkdir();
+	// if (!success)
+	// showAlert("Error", "Could not create the directory: "
+	// + data + "\nin: "
+	// + this.currentDirectory.getPath(), "Ok", false);
+	// }
+	// } catch (Exception e) {
+	// showAlert("Error", "Could not create the directory: " + data
+	// + "\nin: " + this.currentDirectory.getPath(), "Ok",
+	// false);
+	// }
+	// }
+	// }
 
 	/**
 	 * This function browses to the root-directory of the file-system.
@@ -157,33 +155,37 @@ public class AndroidFileBrowser extends ListActivity {
 				@Override
 				public void onClick(DialogInterface arg0, int arg1) {
 					// AndroidFileBrowser.this.openFile(aDirectory);
-					//Filter here
-					if (filter!=null){
+					// Filter here
+					if (filter != null) {
 						boolean isValid = false;
-						for (String s : filter){
-							if (aDirectory.getName().endsWith(s)){
+						for (String s : filter) {
+							if (aDirectory.getName().endsWith(s)) {
 								isValid = true;
 								break;
 							}
 						}
-						if (isValid){
-							//Call back to choose this file
+						if (isValid) {
+							// Call back to choose this file
 							Intent intent = new Intent();
 							intent.putExtra(Global.FILE_INTENT_ID, aDirectory);
 							setResult(RESULT_OK, intent);
 							finish();
-						}else{
-							Toast.makeText(AndroidFileBrowser.this, getString(R.string.can_not_choose_this_file), Toast.LENGTH_SHORT).show();
+						} else {
+							Toast
+									.makeText(
+											AndroidFileBrowser.this,
+											getString(R.string.can_not_choose_this_file),
+											Toast.LENGTH_SHORT).show();
 						}
-						
-					}else{
-						//Call back to choose this file
+
+					} else {
+						// Call back to choose this file
 						Intent intent = new Intent();
 						intent.putExtra(Global.FILE_INTENT_ID, aDirectory);
 						setResult(RESULT_OK, intent);
-						finish();						
+						finish();
 					}
-//					callback.getFilePath(aDirectory);
+					// callback.getFilePath(aDirectory);
 				}
 			};
 			OnClickListener cancelButtonListener = new OnClickListener() {
@@ -232,50 +234,59 @@ public class AndroidFileBrowser extends ListActivity {
 							.getDrawable(R.drawable.uponelevel)));
 
 		Drawable currentIcon = null;
-		for (File currentFile : files) {
-			if (currentFile.isDirectory()) {
-				currentIcon = getResources().getDrawable(R.drawable.folder);
-			} else {
-				String fileName = currentFile.getName();
-				/*
-				 * Determine the Icon to be used, depending on the FileEndings
-				 * defined in: res/values/fileendings.xml.
-				 */
-				if (checkEndsWithInStringArray(fileName, getResources()
-						.getStringArray(R.array.fileEndingImage))) {
-					currentIcon = getResources().getDrawable(R.drawable.image);
-				} else if (checkEndsWithInStringArray(fileName, getResources()
-						.getStringArray(R.array.fileEndingWebText))) {
-					currentIcon = getResources()
-							.getDrawable(R.drawable.webtext);
-				} else if (checkEndsWithInStringArray(fileName, getResources()
-						.getStringArray(R.array.fileEndingPackage))) {
-					currentIcon = getResources().getDrawable(R.drawable.packed);
-				} else if (checkEndsWithInStringArray(fileName, getResources()
-						.getStringArray(R.array.fileEndingAudio))) {
-					currentIcon = getResources().getDrawable(R.drawable.audio);
+		if (files != null) {
+			for (File currentFile : files) {
+				if (currentFile.isDirectory()) {
+					currentIcon = getResources().getDrawable(R.drawable.folder);
 				} else {
-					currentIcon = getResources().getDrawable(R.drawable.text);
+					String fileName = currentFile.getName();
+					/*
+					 * Determine the Icon to be used, depending on the
+					 * FileEndings defined in: res/values/fileendings.xml.
+					 */
+					if (checkEndsWithInStringArray(fileName, getResources()
+							.getStringArray(R.array.fileEndingImage))) {
+						currentIcon = getResources().getDrawable(
+								R.drawable.image);
+					} else if (checkEndsWithInStringArray(fileName,
+							getResources().getStringArray(
+									R.array.fileEndingWebText))) {
+						currentIcon = getResources().getDrawable(
+								R.drawable.webtext);
+					} else if (checkEndsWithInStringArray(fileName,
+							getResources().getStringArray(
+									R.array.fileEndingPackage))) {
+						currentIcon = getResources().getDrawable(
+								R.drawable.packed);
+					} else if (checkEndsWithInStringArray(fileName,
+							getResources().getStringArray(
+									R.array.fileEndingAudio))) {
+						currentIcon = getResources().getDrawable(
+								R.drawable.audio);
+					} else {
+						currentIcon = getResources().getDrawable(
+								R.drawable.text);
+					}
 				}
-			}
-			switch (this.displayMode) {
-			case ABSOLUTE:
-				/* On absolute Mode, we show the full path */
-				this.directoryEntries.add(new IconifiedText(currentFile
-						.getPath(), currentIcon));
-				break;
-			case RELATIVE:
-				/*
-				 * On relative Mode, we have to cut the current-path at the
-				 * beginning
-				 */
-				int currentPathStringLenght = this.currentDirectory
-						.getAbsolutePath().length();
-				this.directoryEntries.add(new IconifiedText(currentFile
-						.getAbsolutePath().substring(currentPathStringLenght),
-						currentIcon));
+				switch (this.displayMode) {
+				case ABSOLUTE:
+					/* On absolute Mode, we show the full path */
+					this.directoryEntries.add(new IconifiedText(currentFile
+							.getPath(), currentIcon));
+					break;
+				case RELATIVE:
+					/*
+					 * On relative Mode, we have to cut the current-path at the
+					 * beginning
+					 */
+					int currentPathStringLenght = this.currentDirectory
+							.getAbsolutePath().length();
+					this.directoryEntries.add(new IconifiedText(currentFile
+							.getAbsolutePath().substring(
+									currentPathStringLenght), currentIcon));
 
-				break;
+					break;
+				}
 			}
 		}
 		Collections.sort(this.directoryEntries);
@@ -328,12 +339,12 @@ public class AndroidFileBrowser extends ListActivity {
 		}
 		return false;
 	}
-	
-	public void setFilter(String[] filters){
+
+	public void setFilter(String[] filters) {
 		this.filter = filters;
 	}
-	
-//	public void setCallback(FileChooserCallback callback){
-//		this.callback = callback;
-//	}
+
+	// public void setCallback(FileChooserCallback callback){
+	// this.callback = callback;
+	// }
 }

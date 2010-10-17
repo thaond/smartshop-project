@@ -3,7 +3,7 @@
 	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:orientation="vertical">
-		
+
 		<!-- User name -->
 		<LinearLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:paddingRight="10dip">
@@ -159,9 +159,10 @@
 				android:layout_height="wrap_content" android:text="@string/lblAvatar"
 				android:layout_gravity="center_vertical" android:id="@+id/lblAvatar" />
 
-			<ImageView android:layout_height="100dip" android:id="@+id/imgAvatar"
-				android:layout_width="100dip" android:background="@drawable/no_avatar" />
-				
+			<EditText android:layout_height="wrap_content" android:id="@+id/txtAvatar"
+				android:layout_alignParentRight="true" android:layout_width="wrap_content"
+				android:editable="false" />
+
 			<Button android:layout_height="wrap_content" android:id="@+id/btnBrowser"
 				android:layout_width="wrap_content" android:layout_toLeftOf="@+id/btnPhoto"
 				android:background="@drawable/browser" />
@@ -170,6 +171,10 @@
 				android:layout_alignParentRight="true" android:layout_width="wrap_content"
 				android:background="@drawable/photo" />
 		</LinearLayout>
+
+		<ImageView android:layout_height="100dip" android:id="@+id/imgAvatar"
+			android:layout_width="100dip" android:background="@drawable/no_avatar"
+			android:layout_gravity="center_horizontal" />
 
 		<!-- Register button -->
 		<LinearLayout android:layout_width="wrap_content"

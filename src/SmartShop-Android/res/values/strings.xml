@@ -57,6 +57,7 @@
 	<string name="lblCancel">Thoát</string>
 	<string name="lblOk">Xong</string>
 	<string name="errServer">Lỗi hệ thống</string>
+	<string name="error">Lỗi</string>
 
 	<!-- User login -->
 	<string name="lblLogin">Đăng nhập</string>
@@ -90,10 +91,14 @@
 	<string name="chooseCategory">Chọn danh mục cho sản phẩm</string>
 	<string name="select">Chọn danh mục</string>
 	<string name="tagOnMap">Đánh dấu trên bản đồ</string>
+	<string name="path">Đường dẫn</string>
+	<string name="add">Thêm</string>
+	<string name="please_add_image">Bạn chưa chọn hình để thêm vào</string>
 
 	<!-- View Product Form -->
 	<string name="userName">Username</string>
 	<string name="product_basic_info">Thông tin sản phẩm</string>
+	<string name="upload_image">Upload hình ảnh</string>
 	<string name="product_user_defined_info">Thông tin bổ sung</string>
 	<string name="warnProductHasNoAddress">Không có thông tin địa chỉ của sản phẩm</string>
 

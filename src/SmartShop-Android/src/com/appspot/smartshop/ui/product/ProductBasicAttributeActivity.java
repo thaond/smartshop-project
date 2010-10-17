@@ -12,11 +12,9 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -28,21 +26,17 @@ import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.AddFriendAdapter;
+import com.appspot.smartshop.dom.Media;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.facebook.AsyncFacebookRunner;
 import com.appspot.smartshop.facebook.BaseRequestListener;
-import com.appspot.smartshop.facebook.Example;
 import com.appspot.smartshop.facebook.Facebook;
 import com.appspot.smartshop.facebook.FacebookError;
 import com.appspot.smartshop.facebook.LoginButton;
 import com.appspot.smartshop.facebook.SessionEvents;
 import com.appspot.smartshop.facebook.SessionStore;
 import com.appspot.smartshop.facebook.Util;
-import com.appspot.smartshop.facebook.Example.SampleAuthListener;
-import com.appspot.smartshop.facebook.Example.SampleLogoutListener;
-import com.appspot.smartshop.facebook.Example.WallPostDeleteListener;
-import com.appspot.smartshop.facebook.Example.WallPostRequestListener;
 import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
 import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
 import com.appspot.smartshop.map.MapDialog;
@@ -63,11 +57,11 @@ import com.google.android.maps.MapActivity;
 
 public class ProductBasicAttributeActivity extends MapActivity {
 	public static final String TAG = "[ProductBasicAttributeActivity]";
-//Declare variable for Facebook connection
+	// Declare variable for Facebook connection
 	private LoginButton mLoginButton;
 	private AsyncFacebookRunner mAsyncRunner;
 	public ImageView postFacebook;
-// End declare variable for facebook connection
+	// End declare variable for facebook connection
 	public static final int PICK_CATEGORIES = 0;
 	public TextView lblNameOfProduct;
 	public TextView lblPriceOfProduct;
@@ -95,15 +89,15 @@ public class ProductBasicAttributeActivity extends MapActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//Check app id for facebook connection
+		// Check app id for facebook connection
 		if (Global.APP_ID == null) {
 			Util.showAlert(this, "Warning", "Facebook Applicaton ID must be "
 					+ "specified before running");
 		}
 
 		setContentView(R.layout.post_basic_product_attribute);
-		
-		//set up variable for Facebook connection
+
+		// set up variable for Facebook connection
 		mLoginButton = (LoginButton) findViewById(R.id.login);
 		Global.mFacebook = new Facebook();
 		mAsyncRunner = new AsyncFacebookRunner(Global.mFacebook);
@@ -111,8 +105,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		SessionEvents.addAuthListener(new SampleAuthListener());
 		SessionEvents.addLogoutListener(new SampleLogoutListener());
 		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
-		
-		
+
 		// set up labelWidth and textWidth
 		int width = Utils.getScreenWidth();
 		int labelWidth = (int) (width * 0.25);
@@ -143,7 +136,8 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtAddressOfProduct);
 		txtDescriptionOfProduct = (EditText) findViewById(R.id.txtDescription);
 		txtDescriptionOfProduct.setHeight(labelWidth);
-		postFacebook =  (ImageView) findViewById(R.id.postFacebook);
+		postFacebook = (ImageView) findViewById(R.id.postFacebook);
+
 		// create params to post on Facebook
 		final Bundle params = new Bundle();
 		params.putString("message", "Test");
@@ -153,6 +147,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 				"A Freshman College Girl on a scholarship from an ...");
 		params.putString("picture",
 				"http://www.hangxachtayusa.net/img/p/45-84-large.jpg");
+
 		postFacebook.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -238,7 +233,8 @@ public class ProductBasicAttributeActivity extends MapActivity {
 			ProductBasicAttributeActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
 					Toast.makeText(ProductBasicAttributeActivity.this,
-							getString(R.string.postOnFacebookSuccess), Toast.LENGTH_SHORT).show();
+							getString(R.string.postOnFacebookSuccess),
+							Toast.LENGTH_SHORT).show();
 				}
 			});
 		}
@@ -340,11 +336,32 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		productInfo.warranty = txtWarrantyOfProduct.getText().toString();
 		productInfo.address = txtAddressOfProduct.getText().toString();
 		productInfo.attributeSets = ProductUserDefinedAttributeActivity.setAttributes;
+		productInfo.setMedias = ProductUploadImagesActivity.setMedias;
+	}
+
+	private void doImagesUpload() {
+		RestClient.getData(URLConstant.URL_UPLOAD_IMG_PRODUCT,
+				new JSONParser() {
+
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+					}
+
+					@Override
+					public void onFailure(String message) {
+						System.err.println(message);
+					}
+				});
 	}
 
 	private void postNewProduct() {
 		// setup product info
 		getProductInfo();
+		
+		String images = "http://localhost/testupload/images/img%s.jpg";
+		for (int i=0;i<productInfo.setMedias.size();i++){
+			productInfo.setMedias.get(i).link = String.format(images, i);
+		}
 
 		// post new product
 		task = new SimpleAsyncTask(this, new DataLoader() {
