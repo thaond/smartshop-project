@@ -24,14 +24,12 @@ import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.ui.user.ViewUserProfileActivity;
 import com.appspot.smartshop.ui.user.email.SendEmailActivity;
 import com.appspot.smartshop.ui.user.email.SendEmailToAdminActivity;
-import com.appspot.smartshop.ui.user.subcribe.SubcribeActivity;
 import com.appspot.smartshop.ui.user.subcribe.ProductsListOfSubcribeActivity;
+import com.appspot.smartshop.ui.user.subcribe.SubcribeActivity;
 import com.appspot.smartshop.ui.user.subcribe.UserSubcribeListActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.Global;
-import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
-import com.google.gson.JsonObject;
 
 public class HomeActivity extends Activity {
 	public static final String TAG = "[HomeActivity]";
@@ -67,7 +65,7 @@ public class HomeActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				test3();
+				testPostProduct();
 			}
 		});
 	}

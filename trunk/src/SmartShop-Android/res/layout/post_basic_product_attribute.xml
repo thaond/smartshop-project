@@ -87,8 +87,9 @@
 
 			<LinearLayout android:orientation="vertical"
 				android:layout_width="wrap_content" android:layout_height="wrap_content">
-				<ImageView android:id="@+id/postFacebook" android:background="@drawable/facebook_share"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+				<ImageView android:id="@+id/postFacebook"
+					android:background="@drawable/facebook_share" android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />
 				<com.appspot.smartshop.facebook.LoginButton
 					android:id="@+id/login" android:background="@drawable/login_facebook"
 					android:layout_width="73dip" android:layout_height="31dip" />

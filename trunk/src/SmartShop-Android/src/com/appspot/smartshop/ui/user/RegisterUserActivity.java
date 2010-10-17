@@ -25,6 +25,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -83,7 +84,8 @@ public class RegisterUserActivity extends MapActivity {
 	private TextView lblPhoneNumber;
 	private EditText txtPhoneNumber;
 	private TextView lblAvatar;
-	private ImageView txtAvatar;
+	private ImageView imgAvatar;
+	private EditText txtAvatar;
 	private TextView lblBirthday;
 	private EditText txtBirthday;
 
@@ -96,8 +98,6 @@ public class RegisterUserActivity extends MapActivity {
 
 	private UserInfo userInfo = null;
 
-	private String[] imageFilter = new String[] { "jpg", "jpe", "jpeg", "jpg",
-			"bmp", "ico", "gif", "png" };
 	private InputStream inputStreamAvatar;
 	private String fileName;
 
@@ -161,7 +161,10 @@ public class RegisterUserActivity extends MapActivity {
 
 		lblAvatar = (TextView) findViewById(R.id.lblAvatar);
 		lblAvatar.setWidth(labelWidth);
-		txtAvatar = (ImageView) findViewById(R.id.imgAvatar);
+		txtAvatar = (EditText) findViewById(R.id.txtAvatar);
+		txtAvatar.setWidth(labelWidth);
+		
+		imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
 
 		lblPhoneNumber = (TextView) findViewById(R.id.lblPhoneNumber);
 		lblPhoneNumber.setWidth(labelWidth);
@@ -234,11 +237,7 @@ public class RegisterUserActivity extends MapActivity {
 					DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface arg0, int arg1) {
-							Intent intent = new Intent(RegisterUserActivity.this,
-									AndroidFileBrowser.class);
-							intent.putExtra(Global.FILTER_FILE, imageFilter);
-							intent.setAction(Global.FILE_BROWSER_ACTIVITY);
-							startActivityForResult(intent, FILE_BROWSER_ID);
+							startFileBrowserActivity();
 						}
 					};
 					DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
@@ -258,11 +257,7 @@ public class RegisterUserActivity extends MapActivity {
 									cancelButtonListener).create();
 					ad.show();
 				} else {
-					Intent intent = new Intent(RegisterUserActivity.this,
-							AndroidFileBrowser.class);
-					intent.setAction(Global.FILE_BROWSER_ACTIVITY);
-					intent.putExtra(Global.FILTER_FILE, imageFilter);
-					startActivityForResult(intent, FILE_BROWSER_ID);
+					startFileBrowserActivity();
 				}
 			}
 		});
@@ -277,10 +272,7 @@ public class RegisterUserActivity extends MapActivity {
 					DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface arg0, int arg1) {
-							Intent intent = new Intent(RegisterUserActivity.this,
-									ImageCaptureActivity.class);
-							intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
-							startActivityForResult(intent, IMAGE_CAPTURE_ID);
+							startImageCaptureActivity();
 						}
 					};
 					DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
@@ -300,13 +292,25 @@ public class RegisterUserActivity extends MapActivity {
 									cancelButtonListener).create();
 					ad.show();
 				} else {
-					Intent intent = new Intent(RegisterUserActivity.this,
-							ImageCaptureActivity.class);
-					intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
-					startActivityForResult(intent, IMAGE_CAPTURE_ID);
+					startImageCaptureActivity();
 				}
 			}
 		});
+	}
+	
+	private void startFileBrowserActivity(){
+		Intent intent = new Intent(RegisterUserActivity.this,
+				AndroidFileBrowser.class);
+		intent.setAction(Global.FILE_BROWSER_ACTIVITY);
+		intent.putExtra(Global.FILTER_FILE, Global.IMAGE_FILTER_EXTENSION);
+		startActivityForResult(intent, FILE_BROWSER_ID);
+	}
+	
+	private void startImageCaptureActivity(){
+		Intent intent = new Intent(RegisterUserActivity.this,
+				ImageCaptureActivity.class);
+		intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
+		startActivityForResult(intent, IMAGE_CAPTURE_ID);
 	}
 
 	@Override
@@ -328,8 +332,9 @@ public class RegisterUserActivity extends MapActivity {
 						}
 					}
 					
-					// TODO display image choosen from sdcard
-//					txtAvatar.setText(file.getName());
+					txtAvatar.setText(fileName);
+					Drawable drawable = Drawable.createFromStream(inputStreamAvatar, "avatar");
+					imgAvatar.setBackgroundDrawable(drawable);
 				}
 
 			}
@@ -347,7 +352,9 @@ public class RegisterUserActivity extends MapActivity {
 								+ ".jpg";
 						
 						// TODO display image from sdcard
-//						txtAvatar.setText(fileName);
+						txtAvatar.setText(fileName);
+						Drawable drawable = Drawable.createFromStream(inputStreamAvatar, "avatar");
+						imgAvatar.setBackgroundDrawable(drawable);
 					}
 				}
 			}
@@ -356,7 +363,7 @@ public class RegisterUserActivity extends MapActivity {
 		default:
 			break;
 		}
-	}
+	} 
 
 	/**
 	 * 
@@ -375,14 +382,16 @@ public class RegisterUserActivity extends MapActivity {
 		int bytesRead, bytesAvailable, bufferSize;
 
 		byte[] buffer;
-		int maxBufferSize = 1 * 1024 * 1024;
+		int maxBufferSize = 6 * 1024 * 1024;
 
 		try {
 			// ------------------ CLIENT REQUEST
 
 			// open a URL connection to the Servlet
-			URL url = new URL(String.format(URLConstant.HOST_IMG,
-					userInfo.username));
+			String urlString = String.format(URLConstant.URL_UPLOAD_AVATAR,
+					userInfo.username).replaceAll(" ", "+");
+			URL url = new URL(urlString);
+			Log.w("Upload", urlString);
 
 			// Open a HTTP connection to the URL
 			conn = (HttpURLConnection) url.openConnection();
@@ -391,7 +400,7 @@ public class RegisterUserActivity extends MapActivity {
 			conn.setDoInput(true);
 
 			// Allow Outputs
-			conn.setDoOutput(true);
+			conn.setDoOutput(true); 
 
 			// Don't use a cached copy.
 			conn.setUseCaches(false);
@@ -416,7 +425,7 @@ public class RegisterUserActivity extends MapActivity {
 			buffer = new byte[bufferSize];
 
 			// read file and write it into form...
-			bytesRead = inputStreamAvatar.read(buffer, 0, bufferSize);
+			bytesRead = inputStreamAvatar.read(buffer, 0, bufferSize); 
 
 			while (bytesRead > 0) {
 				dos.write(buffer, 0, bufferSize);
@@ -492,6 +501,8 @@ public class RegisterUserActivity extends MapActivity {
 		String errorMsg = getErrorMessage();
 		Log.d(TAG, "[validate form] " + errorMsg);
 		if (errorMsg != null) {
+			//Show dialog
+			Utils.createOKDialog(this, getString(R.string.error), errorMsg, null);
 			return;
 		}
 		
@@ -574,7 +585,7 @@ public class RegisterUserActivity extends MapActivity {
 							Toast.LENGTH_SHORT).show();
 					Global.isLogin = false;
 
-				default:
+				default: 
 					Toast.makeText(RegisterUserActivity.this,
 							getString(R.string.err_register_message),
 							Toast.LENGTH_SHORT).show();
@@ -668,9 +679,9 @@ public class RegisterUserActivity extends MapActivity {
 			result = getString(R.string.email_invalid);
 		}
 
-		if (result != null) {
-			Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
-		}
+//		if (result != null) {
+//			Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+//		}
 		
 		return result;
 	}

@@ -2,7 +2,6 @@ package com.appspot.smartshop.ui.user;
 
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +12,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,10 +22,8 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
-import com.appspot.smartshop.adapter.NotificationAdapter;
 import com.appspot.smartshop.dom.SmartshopNotification;
 import com.appspot.smartshop.dom.UserInfo;
-import com.appspot.smartshop.ui.user.notification.ViewNotificationsActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -35,6 +31,7 @@ import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 
 public class LoginActivity extends Activity {
 	public static final String TAG = "[LoginActivity]";
@@ -94,7 +91,7 @@ public class LoginActivity extends Activity {
 	protected void login() {
 		String username = txtUsername.getText().toString();
 		String pass = txtPassword.getText().toString();
-		final String url = String.format(URLConstant.LOGIN, username, pass);
+		final String url = String.format(URLConstant.LOGIN, username, Utils.getMD5(pass));
 		
 		task = new SimpleAsyncTask(getString(R.string.loading_when_login), this, new DataLoader() {
 			
@@ -135,7 +132,7 @@ public class LoginActivity extends Activity {
 			}
 		});
 		
-		task.execute();
+		task.execute(); 
 	}
 //	public void loadNotifications() {
 //		String param = String.format(PARAM_NOFITICATION, Global.username, 1);

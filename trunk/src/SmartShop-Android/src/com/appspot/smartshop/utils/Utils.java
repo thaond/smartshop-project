@@ -3,8 +3,11 @@ package com.appspot.smartshop.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -71,6 +74,7 @@ public class Utils {
 			String text, DialogInterface.OnClickListener clickListener) {
 		AlertDialog ad = new AlertDialog.Builder(context).setPositiveButton("OK",
 				clickListener).setTitle(title).setMessage(text).create();
+		ad.setCancelable(false);
 		ad.show();
 	}
 	
@@ -94,4 +98,22 @@ public class Utils {
 			} });
 		}
 	}
+	
+	public static String getMD5(String pass){
+		try {
+			MessageDigest m = MessageDigest.getInstance("MD5");
+			byte[] data = pass.getBytes();
+			m.update(data, 0, data.length);
+			BigInteger i = new BigInteger(1, m.digest());	
+			return String.format("%1$032x", i);
+		} catch (NoSuchAlgorithmException e) {
+		}
+		
+		return null;
+	}
+	
+//	move_uploaded_file(
+//			  $_FILES["file"]["tmp_name"],
+//			  $dir . preg_replace('/[^a-z0-9_\-\.]/i', '_', $_FILES["file"]["name"])
+//			);
 }

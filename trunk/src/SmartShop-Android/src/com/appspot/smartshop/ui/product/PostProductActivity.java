@@ -10,7 +10,8 @@ import com.appspot.smartshop.R;
 public class PostProductActivity extends TabActivity {
 	public static final String PRODUCT_BASIC_INFO = "basic";
 	public static final String PRODUCT_USER_DEFINED_INFO = "user_defined";
-	
+	public static final String PRODUCT_UPLOAD_IMAGE = "upload_images";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,9 +19,14 @@ public class PostProductActivity extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec(PRODUCT_BASIC_INFO).setIndicator(
 				getString(R.string.product_basic_info)).setContent(
 				new Intent(this, ProductBasicAttributeActivity.class)));
-		tabHost.addTab(tabHost.newTabSpec(PRODUCT_USER_DEFINED_INFO).setIndicator(
-				getString(R.string.product_user_defined_info)).setContent(
-				new Intent(this, ProductUserDefinedAttributeActivity.class)));
+		tabHost.addTab(tabHost.newTabSpec(PRODUCT_UPLOAD_IMAGE).setIndicator(
+				getString(R.string.upload_image)).setContent(
+				new Intent(this, ProductUploadImagesActivity.class)));
+		tabHost.addTab(tabHost.newTabSpec(PRODUCT_USER_DEFINED_INFO)
+				.setIndicator(getString(R.string.product_user_defined_info))
+				.setContent(
+						new Intent(this,
+								ProductUserDefinedAttributeActivity.class)));
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
 		}
