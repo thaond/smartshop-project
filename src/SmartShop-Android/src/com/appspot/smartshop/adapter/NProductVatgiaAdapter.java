@@ -43,7 +43,7 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 	private LayoutInflater inflater;
 	private Context context;
 	String webUrlOfProduct = "";
-	public Bundle params = new Bundle();
+	public Bundle params = new Bundle();//contain information for post product to facebook
 	
 	public NProductVatgiaAdapter(Context context, int textViewResourceId,
 			List<NProductVatGia> objects) {
@@ -76,6 +76,9 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 		final NProductVatGia item = (NProductVatGia) getItem(position);
 		
 		Bitmap imageOfProduct = Utils.getBitmapFromURL(item.imageThumbnail);
+		//TODO: condohero01: when I search "may dun nuoc", it reported 
+		// that has NULL Pointer at com.appspot.smartshop.adapter.NProductVatgiaAdapter.getView(NProductVatgiaAdapter.java:79)
+
 		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,
 				IMAGE_WIDTH, IMAGE_HEIGHT, true);
 		holder.image.setImageBitmap(imageOfProduct);
@@ -104,7 +107,7 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 				holder.postFacebook.setClickable(false);
 			}
 		});
-		
+		//set up information to post on Facebook
 		params.putString("message", "Smart Shop");
 		params.putString("name", item.productName);
 		webUrlOfProduct = item.urlListShop.substring(0, 7) + item.urlListShop.substring(9, item.urlListShop.length());
@@ -160,13 +163,6 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 			} catch (FacebookError e) {
 				Log.w("Facebook-Example", "Facebook Error: " + e.getMessage());
 			}
-			final String text = "Your Wall Post: " + message;
-//			Context.this.runOnUiThread(new Runnable() {
-//				public void run() {
-//					Toast.makeText(ProductBasicAttributeActivity.this,
-//							getString(R.string.postOnFacebookSuccess), Toast.LENGTH_SHORT).show();
-//				}
-//			});
 		}
 	}
 }
