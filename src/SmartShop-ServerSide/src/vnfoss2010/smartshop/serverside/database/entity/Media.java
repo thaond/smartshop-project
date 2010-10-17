@@ -5,52 +5,40 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable 
+import com.google.appengine.api.datastore.Key;
+
+@PersistenceCapable
 public class Media {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
-	
+	private Key id;
+
 	@Persistent
 	private String name;
-	
+
 	@Persistent
-	private String link; 
-	   
-	@Persistent 
-	private String mime_type; 
-	
+	private String link;
+
 	@Persistent
-	private String description; 
-	
+	private String mime_type;
+
 	@Persistent
-	private int product_id;
-	
-	public Media(){
+	private String description;
+
+	@Persistent
+	private Product product;
+
+	public Media() {
 	}
 
 	public Media(String name, String link, String mimeType, String description,
-			int productId) {
+			Product product) {
 		this.name = name;
 		this.link = link;
 		mime_type = mimeType;
 		this.description = description;
-		product_id = productId;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
+		this.product = product;
 	}
 
 	/**
@@ -61,7 +49,8 @@ public class Media {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -75,7 +64,8 @@ public class Media {
 	}
 
 	/**
-	 * @param link the link to set
+	 * @param link
+	 *            the link to set
 	 */
 	public void setLink(String link) {
 		this.link = link;
@@ -89,7 +79,8 @@ public class Media {
 	}
 
 	/**
-	 * @param mimeType the mime_type to set
+	 * @param mimeType
+	 *            the mime_type to set
 	 */
 	public void setMime_type(String mimeType) {
 		mime_type = mimeType;
@@ -103,38 +94,29 @@ public class Media {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	/**
-	 * @return the product_id
-	 */
-	public int getProduct_id() {
-		return product_id;
-	}
-
-	/**
-	 * @param productId the product_id to set
-	 */
-	public void setProduct_id(int productId) {
-		product_id = productId;
-	}
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -146,21 +128,51 @@ public class Media {
 		if (getClass() != obj.getClass())
 			return false;
 		Media other = (Media) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Media [id=" + id + ", link=" + link + ", mime_type="
-				+ mime_type + ", name=" + name + ", product_id=" + product_id
-				+ "]";
+		return "Media [id=" + getId() + ", link=" + link + ", mime_type="
+				+ mime_type + ", name=" + name + "]";
+	}
+
+	/**
+	 * @param product
+	 *            the product to set
+	 */
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	/**
+	 * @return the product
+	 */
+	public Product getProduct() {
+		return product;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Key id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Key getId() {
+		return id;
 	}
 }
