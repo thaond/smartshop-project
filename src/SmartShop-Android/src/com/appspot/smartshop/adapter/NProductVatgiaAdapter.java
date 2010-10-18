@@ -28,9 +28,6 @@ import com.appspot.smartshop.facebook.Facebook;
 import com.appspot.smartshop.facebook.FacebookError;
 import com.appspot.smartshop.facebook.SessionStore;
 import com.appspot.smartshop.facebook.Util;
-import com.appspot.smartshop.ui.product.ProductBasicAttributeActivity;
-import com.appspot.smartshop.ui.product.ProductBasicAttributeActivity.WallPostRequestListener;
-import com.appspot.smartshop.ui.product.vatgia.SearchVatgiaActivity;
 import com.appspot.smartshop.ui.product.vatgia.VatgiaTabActivity;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.URLConstant;
@@ -81,6 +78,7 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 
 		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,
 				IMAGE_WIDTH, IMAGE_HEIGHT, true);
+		
 		holder.image.setImageBitmap(imageOfProduct);
 		
 		holder.txtName.setText(item.productName);

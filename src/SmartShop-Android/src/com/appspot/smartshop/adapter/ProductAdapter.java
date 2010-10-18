@@ -1,11 +1,11 @@
 package com.appspot.smartshop.adapter;
 
-
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +28,7 @@ import com.appspot.smartshop.facebook.Util;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
 
 public class ProductAdapter extends ArrayAdapter<ProductInfo> {
@@ -35,7 +36,10 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 	private Context context;
 	private LayoutInflater inflater;
-	public Bundle params = new Bundle();//contain information for post product to facebook
+	public Bundle params = new Bundle();// contain information for post product
+										// to facebook
+	public static final int IMAGE_WIDTH = 50;
+	public static final int IMAGE_HEIGHT = 50;
 	public ProductAdapter(Context context, int textViewResourceId,
 			List<ProductInfo> objects) {
 		super(context, textViewResourceId, objects);
@@ -64,11 +68,16 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			holder = new ViewHolder();
 			holder.image = (ImageView) convertView.findViewById(R.id.image);
 			holder.btnMap = (Button) convertView.findViewById(R.id.btnMap);
-			holder.txtDescription = (TextView) convertView.findViewById(R.id.txtDescription);
-			holder.txtName = (TextView) convertView.findViewById(R.id.txtProductName);
-			holder.txtPrice = (TextView) convertView.findViewById(R.id.txtProductPrice);
-			holder.txtDatePost = (TextView) convertView.findViewById(R.id.txtDatePost);
-			holder.postFacebook = (ImageView) convertView.findViewById(R.id.btnPostFb);
+			holder.txtDescription = (TextView) convertView
+					.findViewById(R.id.txtDescription);
+			holder.txtName = (TextView) convertView
+					.findViewById(R.id.txtProductName);
+			holder.txtPrice = (TextView) convertView
+					.findViewById(R.id.txtProductPrice);
+			holder.txtDatePost = (TextView) convertView
+					.findViewById(R.id.txtDatePost);
+			holder.postFacebook = (ImageView) convertView
+					.findViewById(R.id.btnPostFb);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -79,7 +88,8 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		holder.txtPrice.setText("" + productInfo.price);
 		holder.txtDescription.setText(productInfo.description);
 		if (productInfo.date_post != null) {
-			holder.txtDatePost.setText(Global.dfFull.format(productInfo.date_post));
+			holder.txtDatePost.setText(Global.dfFull
+					.format(productInfo.date_post));
 		}
 		holder.btnMap.setOnClickListener(new OnClickListener() {
 
@@ -87,11 +97,16 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			public void onClick(View v) {
 				if (productInfo.lat == 0 && productInfo.lng == 0) {
 					Log.d(TAG, "product has no lat, long");
-					Toast.makeText(context, context.getString(R.string.warnProductHasNoAddress), 
-							Toast.LENGTH_SHORT).show();
+					Toast
+							.makeText(
+									context,
+									context
+											.getString(R.string.warnProductHasNoAddress),
+									Toast.LENGTH_SHORT).show();
 				} else {
 					Log.d(TAG, "show location of product");
-					MapDialog.createProductLocationDialog(productInfo.address,
+					MapDialog.createProductLocationDialog(
+							productInfo.address,
 							context,
 							new GeoPoint((int) (productInfo.lat * 1E6),
 									(int) (productInfo.lng * 1E6))).show();
@@ -99,23 +114,25 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			}
 		});
 		holder.postFacebook.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				postFacebookSmartShop();
-				holder.postFacebook.setImageResource(R.drawable.facebook_share_nonactive);
+				holder.postFacebook
+						.setImageResource(R.drawable.facebook_share_nonactive);
 				holder.postFacebook.setClickable(false);
 			}
 		});
-		
-//		// TODO Load image of product from internet
-//		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
-//		Bitmap imageOfProduct = getBitmapFromURL(url);
-//		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,imageOfProduct.getWidth(), imageOfProduct.getHeight(), true);
-//		holder.image.setImageBitmap(imageOfProduct);
+
+		// // TODO Load image of product from internet
+		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
+		Bitmap imageOfProduct = Utils.getBitmapFromURL(url);
+		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,
+				IMAGE_WIDTH, IMAGE_HEIGHT, true);
+		holder.image.setImageBitmap(imageOfProduct);
 		// TODO sample image
-		holder.image.setBackgroundResource(R.drawable.icon);
-		
+		// holder.image.setBackgroundResource(R.drawable.icon);
+
 		// go to product detail
 		convertView.setOnClickListener(new OnClickListener() {
 
@@ -124,7 +141,8 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 				Log.d(TAG, "view detail of product");
 				Intent intent = new Intent(context, ViewProductActivity.class);
 				intent.putExtra(Global.PRODUCT_INFO, productInfo);
-				if (Global.isLogin && productInfo.username.equals(Global.username)) {
+				if (Global.isLogin
+						&& productInfo.username.equals(Global.username)) {
 					Log.d(TAG, "can edit product profile");
 					intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
 				}
@@ -132,12 +150,12 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 				context.startActivity(intent);
 			}
 		});
-		//set up information to post on Facebook
+		// set up information to post on Facebook
 		params.putString("message", "Smart Shop");
 		params.putString("name", productInfo.name);
-		params.putString("picture", "http://hangxachtayusa.net/img/p/89-129-medium.jpg" );
-		params.putString("description",
-				productInfo.description);
+		params.putString("picture",
+				"http://hangxachtayusa.net/img/p/89-129-medium.jpg");
+		params.putString("description", productInfo.description);
 		params.putString("link",
 				"http://www.hangxachtayusa.net/product.php?id_product=195");
 
@@ -150,8 +168,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		SessionStore.restore(Global.mFacebook, context);
 		mAsyncRunner = new AsyncFacebookRunner(Global.mFacebook);
 		if (!Global.mFacebook.isSessionValid()) {
-			Toast.makeText(context,
-					context.getString(R.string.alertLogin),
+			Toast.makeText(context, context.getString(R.string.alertLogin),
 					Toast.LENGTH_SHORT).show();
 		} else {
 			mAsyncRunner.request("me/feed", params, "POST",
@@ -161,6 +178,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 					Toast.LENGTH_LONG).show();
 		}
 	}
+
 	static class ViewHolder {
 		ImageView image;
 		TextView txtName;
@@ -170,6 +188,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		Button btnMap;
 		ImageView postFacebook;
 	}
+
 	public class WallPostRequestListener extends BaseRequestListener {
 
 		@Override
