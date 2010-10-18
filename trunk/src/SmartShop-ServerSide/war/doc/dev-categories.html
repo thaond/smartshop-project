@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Language" content="en-us" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<p><span class="title">Danh mục sản phẩm</span></p>
+<hr/>
+<h2><a name="0">&nbsp;</a>Nội dung</h2>
+<ul>
+<li><a href="#introduction">Giới thiệu</a></li>
+<li><a href="#getCategories">Lấy danh mục sản phẩm</a></li>
+<li><a href="#getSubCategories">Lấy một mục con trong danh mục sản phẩm</a></li>
+</ul>
+
+<h2 id="introduction">Giới thiệu</h2>
+<blockquote>
+<p class="style1">C&aacute;c service trong hệ thống ph&acirc;n l&agrave;m 2 loại:</p>
+<p class="style1">C&aacute;c service cần x&aacute;c thực của th&agrave;nh vi&ecirc;n: l&agrave; c&aacute;c service chỉ c&oacute; th&agrave;nh vi&ecirc;n thực sự của hệ thống mới c&oacute; thể sử dụng, chẳng hạn bao gồm c&aacute;c service như đăng k&yacute; một sản phẩm mới, tạo trang th&ocirc;ng tin, đăng k&yacute; nhận th&ocirc;ng tin sản phẩm, ...</p>
+<p class="style1">C&aacute;c service được sử dụng tự do: Mọi người đều c&oacute; thể dễ d&agrave;ng sử dụng c&aacute;c dịch vụ n&agrave;y</p>
+<p class="style1">Để tiện cho bạn theo d&otilde;i, ch&uacute;ng t&ocirc;i tạm k&iacute; hiệu * tr&ecirc;n c&aacute;c ti&ecirc;u đề cho c&aacute;c service cần sự x&aacute;c thực của th&agrave;nh vi&ecirc;n. Sự kh&aacute;c nhau về th&ocirc;ng số gọi h&agrave;m cũng như về chức năng sẽ được tr&igrave;nh b&agrave;y ngay sau đ&acirc;y. C&aacute;c th&agrave;nh vi&ecirc;n trong hệ thống c&oacute; thể l&agrave; người mua hoặc người b&aacute;n hoặc l&agrave; c&oacute; thể thực hiện cả 2 chức năng tr&ecirc;n.</p>
+<a href="#0">[về đầu trang]</a>
+</blockquote>
+
+<h2 id="getCategories">Lấy danh mục sản phẩm</h2>
+<blockquote>
+<p>Để lấy danh mục sản phẩm từ server bạn c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng
+<a href="http://en.wikipedia.org/wiki/GET_(HTTP)">GET</a> tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<api-key>/account-register/">http://smartshopviet.appspot.com/api/asd/category-get-all/</a></p>
+<p>Sau đ&oacute;, server sẽ trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{&quot;message&quot;:&quot;Lấy danh sách danh mục thành công&quot;,<br>&quot;errCode&quot;:true,<br>&quot;categories&quot;:[{&quot;key_cat&quot;:&quot;accessories_desktop&quot;<br>,&quot;name&quot;:&quot;Linh 
+kiện máy tính để bàn&quot;,<br>&quot;parent_id&quot;:&quot;computer&quot;,<br>&quot;listPages&quot;:[]<br>,&quot;listProducts&quot;:[]},<br>{&quot;key_cat&quot;:&quot;accessories_laptop&quot;,<br>&quot;name&quot;:&quot;Linh 
+kiện Laptop&quot;,&quot;parent_id&quot;:&quot;computer&quot;,&quot;listPages&quot;:[],&quot;listProducts&quot;:[]},{&quot;key_thông&quot;,&quot;parent_id&quot;:&quot;mobile_pda&quot;,&quot;listPages&quot;:[],&quot;listProducts&quot;:[]}]}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục <a href="/doc/dev-intro.html">Giới thiệu</a></p>
+<a href="#0">[về đầu trang]</a>
+</blockquote>
+
+<h2 id="getSubCategories">Lấy một mục con trong danh mục sản phẩm</h2>
+<blockquote>
+<p>Để lấy một mục con trong danh mục sản phẩm, bạn c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng
+<a href="http://en.wikipedia.org/wiki/GET_(HTTP)">GET</a> tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<api-key>/account-register/">
+http://smartshopviet.appspot.com/api/asd/category-get-sub/?parent_id=ID</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">
+ID: là id cụ thể của danh mục con cần lấy<br>Sample request:&nbsp; 
+http://localhost:8888/api/asd/category-get-sub/?parent_id=computer</p>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{&quot;message&quot;:&quot;Lấy danh sách danh mục thành công&quot;,<br>&quot;errCode&quot;:true,<br>&quot;categories&quot;:[{&quot;key_cat&quot;:&quot;accessories_desktop&quot;,<br>&quot;name&quot;:&quot;Linh 
+kiện máy tính để bàn&quot;,&quot;parent_id&quot;:&quot;computer&quot;},<br>{&quot;key_cat&quot;:&quot;accessories_laptop&quot;,<br>&quot;name&quot;:&quot;Linh 
+kiện Laptop&quot;,<br>&quot;parent_id&quot;:&quot;computer&quot;},<br>{&quot;key_cat&quot;:&quot;computer_other&quot;,<br>&quot;name&quot;:&quot;Khác&quot;,<br>&quot;parent_id&quot;:&quot;computer&quot;},<br>{&quot;key_cat&quot;:&quot;desktop&quot;,<br>&quot;name&quot;:&quot;Máy 
+tính để bàn&quot;,<br>&quot;parent_id&quot;:&quot;computer&quot;},<br>{&quot;key_cat&quot;:&quot;driver&quot;,<br>&quot;name&quot;:&quot;Driver&quot;,<br>&quot;parent_id&quot;:&quot;computer&quot;},<br>{&quot;key_cat&quot;:&quot;laptop&quot;,<br>&quot;name&quot;:&quot;Laptop&quot;,&quot;parent_id&quot;:&quot;computer&quot;},{&quot;key_cat&quot;:&quot;software&quot;,&quot;name&quot;:&quot;Phần 
+mềm máy tính&quot;,&quot;parent_id&quot;:&quot;computer&quot;}]}</p>
+<a href="#0">[về đầu trang]</a>
+</blockquote>
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+/** Add css rules here for your application. */
+	/** Example rules used by the template application (remove for your app) */
+h1 {
+	font-size: 2em;
+	font-weight: bold;
+	color: #777777;
+	margin: 40px 0px 70px;
+	text-align: center;
+}
+
+.sendButton {
+	display: block;
+	font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+	width: 400px;
+}
+
+.dialogVPanel {
+	margin: 5px;
+}
+
+.serverResponseLabelError {
+	color: red;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+	margin: 15px 6px 6px;
+}
+
+/** Header style */
+.panel-header {
+	border-bottom-style: solid;
+	border-width: medium;
+	height: 27px;
+	border-color: #809FFE; /* light blue */ /*padding-right: 20px;*/
+	/*margin-right: 20px;*/
+}
+
+.title {
+	font-family: Sans-serif;
+	font-size: 30px;
+	font-weight: bold;
+	padding-left: 30px;
+}
+
+.lbl-login {
+	position: absolute;
+	right: 10px;
+}
+
+.lbl-user {
+	font-weight: bold;
+	position: absolute;
+	right: 65px;
+}
+
+.tree-node {
+	padding-left: 20px;
+}
+
+.flash-intro {
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.title {
+	text-transform: uppercase;
+	font-size: 30px;
+}
+
+.code {
+	background-color: #DEDEDE;
+	padding: 10px 0px 10px 30px;
+	border-style: solid;
+	border-width: thin;
+}
+
+.tab {
+	text-indent: 1cm;
+}
+
+/* Used by error reporting code in test_base.js */
+.mismatch {
+	background: #fee;
+	font-weight: bold
+}
+
+span.annot {
+	margin: 2px 2px 2px 3em;
+	border: 1px dotted #88f;
+	background: #eef;
+	padding: 0 2px 0 2px
+}
+
+.nocode {
+	background: #f8f8f8
+}
+
+/* Pretty printing styles. Used with prettify.js. */
+
+.str { color: #080; }
+.kwd { color: #008; }
+.com { color: #800; }
+.typ { color: #606; }
+.lit { color: #066; }
+.pun { color: #660; }
+.pln { color: #000; }
+.tag { color: #008; }
+.atn { color: #606; }
+.atv { color: #080; }
+.dec { color: #606; }
+pre.prettyprint { padding: 2px; border: 1px solid #888; background-color: #DEDEDE;}
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums { margin-top: 0; margin-bottom: 0 } /* IE indents via margin-left */
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L5,
+li.L6,
+li.L7,
+li.L8 { list-style-type: none }
+/* Alternate shading for lines */
+li.L1,
+li.L3,
+li.L5,
+li.L7,
+li.L9 { background: #eee }
+
+@media print {
+  .str { color: #060; }
+  .kwd { color: #006; font-weight: bold; }
+  .com { color: #600; font-style: italic; }
+  .typ { color: #404; font-weight: bold; }
+  .lit { color: #044; }
+  .pun { color: #440; }
+  .pln { color: #000; }
+  .tag { color: #006; font-weight: bold; }
+  .atn { color: #404; }
+  .atv { color: #060; }
+}
