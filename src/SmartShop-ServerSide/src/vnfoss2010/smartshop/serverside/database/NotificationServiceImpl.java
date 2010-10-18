@@ -20,6 +20,7 @@ public class NotificationServiceImpl {
 	public static final String TYPE_PRODUCT = "product";
 	public static final String TYPE_PAGE = "page";
 	public static final String TYPE_USER = "user";
+
 	private AccountServiceImpl dbAccount;
 	private ProductServiceImpl dbProduct;
 	private PageServiceImpl dbPage;
@@ -27,7 +28,7 @@ public class NotificationServiceImpl {
 	private static Logger log = Logger.getLogger(NotificationServiceImpl.class
 			.getName());
 
-	public NotificationServiceImpl(){
+	public NotificationServiceImpl() {
 		instance = this;
 		dbAccount = AccountServiceImpl.getInstance();
 		dbProduct = ProductServiceImpl.getInstance();
@@ -42,27 +43,40 @@ public class NotificationServiceImpl {
 			result.setMessage(Global.messages
 					.getString("cannot_handle_with_null"));
 		}
+		try {
+			if (dbAccount.isExist(n.getUsername()).isOK()) {
+				n = pm.makePersistent(n);
 
-		if (dbAccount.isExist(n.getUsername()).isOK()) {
-			n = pm.makePersistent(n);
-
-			if (n == null) {
-				result.setMessage(Global.messages
-						.getString("insert_nofitification_fail"));
+				if (n == null) {
+					result.setMessage(Global.messages
+							.getString("insert_nofitification_fail"));
+				} else {
+					result.setResult(n.getId());
+					result.setMessage(Global.messages
+							.getString("insert_nofitification_successfully"));
+					result.setOK(true);
+					NotificationUtils.sendNotification(
+							Global.dfFull.format(n.getDate()), n.getContent());
+				}
 			} else {
-				result.setResult(n.getId());
-				result.setMessage(Global.messages
-						.getString("insert_nofitification_successfully"));
-				result.setOK(true);
+				result.setMessage(Global.messages.getString("not_found") + " "
+						+ n.getUsername());
 				NotificationUtils.sendNotification(
 						Global.dfFull.format(n.getDate()), n.getContent());
 			}
-		} else {
-			result.setMessage(Global.messages.getString("not_found") + " "
-					+ n.getUsername());
-		}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setOK(false);
+			result.setMessage(Global.messages
+					.getString("insert_nofitification_fail"));
+		} finally {
 
-		pm.close();
+			try {
+				pm.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return result;
 	}
 
