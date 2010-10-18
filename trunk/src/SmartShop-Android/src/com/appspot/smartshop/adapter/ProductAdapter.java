@@ -1,18 +1,11 @@
 package com.appspot.smartshop.adapter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.List;
 
+import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,9 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.appspot.smartshop.R;
-import com.appspot.smartshop.adapter.NProductVatgiaAdapter.WallPostRequestListener;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.facebook.AsyncFacebookRunner;
 import com.appspot.smartshop.facebook.BaseRequestListener;
@@ -169,9 +160,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 					context.getString(R.string.postOnFacebookSuccess),
 					Toast.LENGTH_LONG).show();
 		}
-		
 	}
-
 	static class ViewHolder {
 		ImageView image;
 		TextView txtName;
