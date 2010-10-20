@@ -251,4 +251,7 @@
 	<string name="logoutFacebookLoading">Đang thoát khỏi tài khoản Facebook</string>
 	
 	<string name="alertLogin">Bạn phải đăng nhập tài khoản Facebook để sử dụng chức năng này</string>
+	<string name="settings">Thiết lập</string>
+	
+	
 </resources>
