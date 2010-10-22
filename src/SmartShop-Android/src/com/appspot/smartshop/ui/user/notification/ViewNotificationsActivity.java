@@ -40,7 +40,7 @@ public class ViewNotificationsActivity extends Activity {
 //	private LayoutInflater inflater;
 	private List<SmartshopNotification> notifications;
 //	private long id;
-	private String username = Global.username;
+	private String username = Global.userInfo.username;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

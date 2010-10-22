@@ -70,7 +70,7 @@ public class ViewPageActivity extends Activity {
 	protected void viewUserProfile() {
 		Intent intent = new Intent(this, ViewUserInfoActivity.class);
 		intent.putExtra(Global.USER_NAME, page.username);
-		if (Global.isLogin && Global.username.equals(page.username)) {
+		if (Global.isLogin && Global.userInfo.username.equals(page.username)) {
 			intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
 		}
 		

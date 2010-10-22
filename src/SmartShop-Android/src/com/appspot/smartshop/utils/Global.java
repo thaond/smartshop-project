@@ -11,6 +11,7 @@ import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.facebook.Facebook;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.xtify.android.sdk.PersistentLocationManager;
 
 public class Global {
 
@@ -24,9 +25,12 @@ public class Global {
 	 * User
 	 */
 	// TODO mock username
-	public static String username = "duc";
+	//public static String username = "duc";
 	public static boolean isLogin = false;
 	public static UserInfo userInfo = null;
+	
+	// Manage Xtify
+	public static PersistentLocationManager persistentLocationManager;
 
 	/*
 	 * Misc

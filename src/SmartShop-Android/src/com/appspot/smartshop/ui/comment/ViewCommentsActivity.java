@@ -168,7 +168,7 @@ public class ViewCommentsActivity extends Activity {
 			public void loadData() {
 				comment = new Comment();
 				comment.content = content;
-				comment.username = Global.username;
+				comment.username = Global.userInfo.username;
 				comment.type_id = id;
 				comment.type = type;
 				

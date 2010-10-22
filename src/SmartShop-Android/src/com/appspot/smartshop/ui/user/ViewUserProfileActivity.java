@@ -108,10 +108,10 @@ public class ViewUserProfileActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					Log.d(TAG, "[VIEW PAGES OF CURRENT USER] " + Global.username);
+					Log.d(TAG, "[VIEW PAGES OF CURRENT USER] " + Global.userInfo.username);
 					Intent intent = new Intent(ViewUserProfileActivity.this, PagesListActivity.class);
 					intent.putExtra(Global.PAGES_TYPE, PagesListActivity.PAGES_OF_USER);
-					intent.putExtra(Global.PAGES_OF_USER, Global.username);
+					intent.putExtra(Global.PAGES_OF_USER, Global.userInfo.username);
 					startActivity(intent);
 				}
 			});
@@ -120,9 +120,9 @@ public class ViewUserProfileActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					Log.d(TAG, "[VIEW PRODUCTS OF CURRENT USER] " + Global.username);
+					Log.d(TAG, "[VIEW PRODUCTS OF CURRENT USER] " + Global.userInfo.username);
 					Intent intent = new Intent(ViewUserProfileActivity.this, UserProductListActivity.class);
-					intent.putExtra(Global.PRODUCTS_OF_USER, Global.username);
+					intent.putExtra(Global.PRODUCTS_OF_USER, Global.userInfo.username);
 					startActivity(intent);
 				}
 			});

@@ -62,8 +62,8 @@ public class UserSubcribeListActivity extends Activity {
 			
 			@Override
 			public void loadData() {
-				// TODO remove Global.username=duc after test
-				String url = String.format(URLConstant.GET_USER_SUBCRIBES, Global.username);
+				// TODO remove Global.userInfo.username=duc after test
+				String url = String.format(URLConstant.GET_USER_SUBCRIBES, Global.userInfo.username);
 				
 				RestClient.getData(url, new JSONParser() {
 					

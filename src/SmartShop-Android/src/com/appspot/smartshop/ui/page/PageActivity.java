@@ -133,7 +133,7 @@ public class PageActivity extends Activity {
 				page.content = txtContent.getText().toString();
 				page.name = txtName.getText().toString();
 				page.date_post = new Date();
-				page.username = Global.username;
+				page.username = Global.userInfo.username;
 				page.page_view++;
 				
 				String param = Global.gsonWithHour.toJson(page);

@@ -70,8 +70,8 @@ public class PageAdapter extends ArrayAdapter<Page> {
 			@Override
 			public void onClick(View v) {
 				Intent intent = null;
-				if (Global.isLogin && page.username.equals(Global.username)) {
-					Log.d(TAG, "edit page of " + Global.username);
+				if (Global.isLogin && page.username.equals(Global.userInfo.username)) {
+					Log.d(TAG, "edit page of " + Global.userInfo.username);
 					intent = new Intent(context, PageActivity.class);
 				} else {
 					Log.d(TAG, "view page");

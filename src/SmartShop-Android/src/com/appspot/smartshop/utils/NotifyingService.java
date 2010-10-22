@@ -91,7 +91,7 @@ public class NotifyingService extends Service {
     private List<SmartshopNotification> notifications;
     private SimpleAsyncTask task;
     private void loadNotifications() {
-		String param = String.format(PARAM_NOFITICATION, Global.username, 1);
+		String param = String.format(PARAM_NOFITICATION, Global.userInfo.username, 1);
 		Log.d(TAG, param);
 		
 		RestClient.postData(URLConstant.GET_NOTIFICATIONS, param, new JSONParser() {

@@ -142,7 +142,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 				Intent intent = new Intent(context, ViewProductActivity.class);
 				intent.putExtra(Global.PRODUCT_INFO, productInfo);
 				if (Global.isLogin
-						&& productInfo.username.equals(Global.username)) {
+						&& productInfo.username.equals(Global.userInfo.username)) {
 					Log.d(TAG, "can edit product profile");
 					intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
 				}

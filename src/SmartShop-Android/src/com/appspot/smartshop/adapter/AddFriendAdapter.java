@@ -63,9 +63,9 @@ public class AddFriendAdapter extends ArrayAdapter<UserInfo>{
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked){
 					Log.d(TAG, AddFriendActivity.friendsToAdd);
-					if(AddFriendActivity.friendsToAdd.length()==0&& friendInfo.username!=Global.username){
+					if(AddFriendActivity.friendsToAdd.length()==0&& friendInfo.username!=Global.userInfo.username){
 						AddFriendActivity.friendsToAdd += friendInfo.username;
-					}else if(!AddFriendActivity.friendsToAdd.contains(friendInfo.username)&& friendInfo.username!=Global.username){
+					}else if(!AddFriendActivity.friendsToAdd.contains(friendInfo.username)&& friendInfo.username!=Global.userInfo.username){
 						AddFriendActivity.friendsToAdd += ","+ friendInfo.username;
 					}
 				}
