@@ -27,7 +27,6 @@ public class SmartShopActivity extends ListActivity {
 	public static final String PAGE = "page";
 
 	private SimpleAsyncTask task;
-	private PersistentLocationManager persistentLocationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,30 +65,13 @@ public class SmartShopActivity extends ListActivity {
 					});
 			task.execute();
 		}
-
-		Thread xtifyThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Log.e(TAG, "Thread run");
-				persistentLocationManager = new PersistentLocationManager(
-						SmartShopActivity.this);
-				persistentLocationManager
-						.setNotificationIcon(R.drawable.notification);
-				persistentLocationManager
-						.setNotificationDetailsIcon(R.drawable.icon);
-				boolean trackLocation = persistentLocationManager
-						.isTrackingLocation();
-				boolean deliverNotifications = persistentLocationManager
-						.isDeliveringNotifications();
-				Log.e(TAG, persistentLocationManager.getUserKey());
-				if (trackLocation || deliverNotifications) {
-					persistentLocationManager.startService();
-				}
-			}
-		});
-		xtifyThread.start(); // to avoid Android's application-not-responding
-								// dialog box, do non-essential work in another
-								// thread
+		
+		Global.persistentLocationManager = new PersistentLocationManager(
+				SmartShopActivity.this);
+		Global.persistentLocationManager
+				.setNotificationIcon(R.drawable.notification);
+		Global.persistentLocationManager
+				.setNotificationDetailsIcon(R.drawable.icon);
 	}
 	
 	@Override
@@ -104,7 +86,7 @@ public class SmartShopActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case 0: {
-				persistentLocationManager.showSettingsActivity(this, true);
+				Global.persistentLocationManager.showSettingsActivity(this, true);
 				return true;
 			}
 		}

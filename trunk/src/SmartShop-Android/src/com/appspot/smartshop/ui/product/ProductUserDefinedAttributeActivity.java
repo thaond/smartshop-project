@@ -144,7 +144,7 @@ public class ProductUserDefinedAttributeActivity extends Activity {
 				
 				attribute = new Attribute();
 				attribute.key_cat = mapCategories.get(attrName);
-				attribute.username = Global.username;
+				attribute.username = Global.userInfo.username;
 			}
 		});
         // ok button

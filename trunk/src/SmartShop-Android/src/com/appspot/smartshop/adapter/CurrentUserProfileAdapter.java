@@ -83,22 +83,22 @@ public class CurrentUserProfileAdapter extends BaseAdapter {
 					Intent intent = null;
 					switch (position) {
 					case 0:
-						Log.d(TAG, "view info of current user " + Global.username);
+						Log.d(TAG, "view info of current user " + Global.userInfo.username);
 						getUserProfile();
 						break;
 						
 					case 1:
-						Log.d(TAG, "view pages of current user " + Global.username);
+						Log.d(TAG, "view pages of current user " + Global.userInfo.username);
 						intent = new Intent(context, PagesListActivity.class);
 						intent.putExtra(Global.PAGES_TYPE, PagesListActivity.PAGES_OF_USER);
-						intent.putExtra(Global.PAGES_OF_USER, Global.username);
+						intent.putExtra(Global.PAGES_OF_USER, Global.userInfo.username);
 						context.startActivity(intent);
 						break;
 						
 					case 2:
-						Log.d(TAG, "view products of current user " + Global.username);
+						Log.d(TAG, "view products of current user " + Global.userInfo.username);
 						intent = new Intent(context, UserProductListActivity.class);
-						intent.putExtra(Global.PRODUCTS_OF_USER, Global.username);
+						intent.putExtra(Global.PRODUCTS_OF_USER, Global.userInfo.username);
 						context.startActivity(intent);
 						break;
 						

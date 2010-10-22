@@ -230,7 +230,7 @@ public class SubcribeActivity extends MapActivity {
 		// other info of subcribe
 		newSubcribe.date = subcribe.date;
 		newSubcribe.isActive = chActive.isChecked();
-		newSubcribe.userName = Global.username;
+		newSubcribe.userName = Global.userInfo.username;
 		boolean email = chEmail.isChecked();
 		boolean sms = chSms.isChecked();
 		if (email && sms) {
@@ -306,7 +306,7 @@ public class SubcribeActivity extends MapActivity {
 		// other info of subcribe
 		subcribe.date = new Date();
 		subcribe.isActive = true;
-		subcribe.userName = Global.username;
+		subcribe.userName = Global.userInfo.username;
 		boolean email = chEmail.isChecked();
 		boolean sms = chSms.isChecked();
 		if (email && sms) {

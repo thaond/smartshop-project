@@ -332,7 +332,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		productInfo.lng = lng;
 		productInfo.date_post = new Date();
 		productInfo.description = txtDescriptionOfProduct.getText().toString();
-		productInfo.username = Global.username;
+		productInfo.username = Global.userInfo.username;
 		productInfo.warranty = txtWarrantyOfProduct.getText().toString();
 		productInfo.address = txtAddressOfProduct.getText().toString();
 		productInfo.attributeSets = ProductUserDefinedAttributeActivity.setAttributes;

@@ -76,7 +76,7 @@ public class AddFriendActivity extends Activity {
 	public static SimpleAsyncTask taskAddFriend;
 	boolean isSuccess = false;
 	protected void addFriends() {
-		final String param = String.format(PARAM_ADD_FRIENDS, Global.username, friendsToAdd);
+		final String param = String.format(PARAM_ADD_FRIENDS, Global.userInfo.username, friendsToAdd);
 		Log.d(TAG,param);
 		taskAddFriend = new SimpleAsyncTask(this, new DataLoader() {	
 			@Override

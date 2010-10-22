@@ -12,6 +12,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -107,10 +108,8 @@ public class LoginActivity extends Activity {
 					public void onSuccess(JSONObject json) throws JSONException {
 						Global.isLogin = true;
 						Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
-						Global.username = Global.userInfo.username;
 						
 						if (StringUtils.isEmptyOrNull(lastActivity)){
-							
 							Intent intent = new Intent(LoginActivity.this, SmartShopActivity.class);
 							startActivity(intent);
 						}else{
@@ -119,6 +118,26 @@ public class LoginActivity extends Activity {
 								startActivity(intent);
 							}
 						}
+						
+						//Start Xtify Thread
+//						Thread xtifyThread = new Thread(new Runnable() {
+//							@Override
+//							public void run() {
+//								Log.e(TAG, "Thread Xtify run");
+//								
+//								boolean trackLocation = Global.persistentLocationManager
+//										.isTrackingLocation();
+//								boolean deliverNotifications = Global.persistentLocationManager
+//										.isDeliveringNotifications();
+//								Log.e(TAG, Global.persistentLocationManager.getUserKey());
+//								if (trackLocation || deliverNotifications) {
+//									Global.persistentLocationManager.startService();
+//								}
+//							}
+//						});
+//						xtifyThread.start(); // to avoid Android's application-not-responding
+												// dialog box, do non-essential work in another
+												// thread
 					}
 					
 					@Override
@@ -135,7 +154,7 @@ public class LoginActivity extends Activity {
 		task.execute(); 
 	}
 //	public void loadNotifications() {
-//		String param = String.format(PARAM_NOFITICATION, Global.username, 1);
+//		String param = String.format(PARAM_NOFITICATION, Global.userInfo.username, 1);
 //		Log.d(TAG, param);
 //		RestClient.postData(URLConstant.GET_NOTIFICATIONS, param,
 //				new JSONParser() {
