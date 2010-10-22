@@ -98,6 +98,9 @@ public class Global {
 
 	public static final String SUBCRIBE_ID = "subcribe_id";
 	public static final String SUBCRIBE_INFO = "subcribe_info";
+	
+	public static final String PRODUCT_1 = "product_1";
+	public static final String PRODUCT_2 = "product_2";
 	/*
 	 * ACTIVITY ACTION NAME
 	 */

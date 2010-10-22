@@ -15,20 +15,20 @@ import com.appspot.smartshop.dom.Pair;
 import com.appspot.smartshop.utils.Utils;
 
 public class CompareTwoProductsAdapter extends BaseExpandableListAdapter {
-private final int WIDTH = (Utils.getScreenWidth() - 30) / 2;
+	private final int WIDTH = (Utils.getScreenWidth() - 30) / 2;
 	
 	public String[] groups;
-	public Pair[][] children;
+	public Pair[] children;
 	private LayoutInflater inflater;
 
-	public CompareTwoProductsAdapter(Context context, String[] groups, Pair[][] children) {
+	public CompareTwoProductsAdapter(Context context, String[] groups, Pair[] children) {
 		this.groups = groups;
 		this.children = children;
 		inflater = LayoutInflater.from(context);
 	}
 
 	public Object getChild(int groupPosition, int childPosition) {
-		return children[groupPosition][childPosition];
+		return children[childPosition];
 	}
 
 	public long getChildId(int groupPosition, int childPosition) {
@@ -36,7 +36,7 @@ private final int WIDTH = (Utils.getScreenWidth() - 30) / 2;
 	}
 
 	public int getChildrenCount(int groupPosition) {
-		return children[groupPosition].length;
+		return 1;
 	}
 
 	public View getGroupView(int groupPosition, boolean isExpanded,
@@ -56,21 +56,21 @@ private final int WIDTH = (Utils.getScreenWidth() - 30) / 2;
 		ViewHolder holder;
 		
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.vatgia_attribute_list_item, null);
+			convertView = inflater.inflate(R.layout.compare_two_products_list_item, null);
 			
 			holder = new ViewHolder();
-			holder.txtName = (TextView) convertView.findViewById(R.id.txtName);
-			holder.txtValue = (EditText) convertView.findViewById(R.id.txtValue);
-			holder.txtName.setWidth(WIDTH);
-			holder.txtValue.setWidth(WIDTH);
+			holder.txtProductOne = (TextView) convertView.findViewById(R.id.txtProductOne);
+			holder.txtProductTwo = (TextView) convertView.findViewById(R.id.txtProductTwo);
+			holder.txtProductOne.setWidth(WIDTH);
+			holder.txtProductTwo.setWidth(WIDTH);
 			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		holder.txtName.setText(children[groupPosition][childPosition].name);
-		holder.txtValue.setText(Html.fromHtml(children[groupPosition][childPosition].value));
+		holder.txtProductOne.setText(children[groupPosition].name);
+		holder.txtProductTwo.setText(children[groupPosition].value);
 		
 		return convertView;
 	}
@@ -96,8 +96,8 @@ private final int WIDTH = (Utils.getScreenWidth() - 30) / 2;
 	}
 	
 	static class ViewHolder {
-		public TextView txtName;
-		public EditText txtValue;
+		public TextView txtProductOne;
+		public TextView txtProductTwo;
 	}
 }
 
