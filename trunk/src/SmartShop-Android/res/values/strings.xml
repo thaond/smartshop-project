@@ -94,6 +94,9 @@
 	<string name="path">Đường dẫn</string>
 	<string name="add">Thêm</string>
 	<string name="please_add_image">Bạn chưa chọn hình để thêm vào</string>
+	<string name="hasNoVAT">Không</string>
+	<string name="hasVAT">Có</string>
+	<string name="product_view">Lượt xem</string>
 
 	<!-- View Product Form -->
 	<string name="userName">Username</string>
