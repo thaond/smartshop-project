@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.AddFriendAdapter;
-import com.appspot.smartshop.dom.Media;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.facebook.AsyncFacebookRunner;

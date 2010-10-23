@@ -120,22 +120,22 @@ public class LoginActivity extends Activity {
 						}
 						
 						//Start Xtify Thread
-//						Thread xtifyThread = new Thread(new Runnable() {
-//							@Override
-//							public void run() {
-//								Log.e(TAG, "Thread Xtify run");
-//								
-//								boolean trackLocation = Global.persistentLocationManager
-//										.isTrackingLocation();
-//								boolean deliverNotifications = Global.persistentLocationManager
-//										.isDeliveringNotifications();
-//								Log.e(TAG, Global.persistentLocationManager.getUserKey());
-//								if (trackLocation || deliverNotifications) {
-//									Global.persistentLocationManager.startService();
-//								}
-//							}
-//						});
-//						xtifyThread.start(); // to avoid Android's application-not-responding
+						Thread xtifyThread = new Thread(new Runnable() {
+							@Override
+							public void run() {
+								Log.e(TAG, "Thread Xtify run");
+								
+								boolean trackLocation = Global.persistentLocationManager
+										.isTrackingLocation();
+								boolean deliverNotifications = Global.persistentLocationManager
+										.isDeliveringNotifications();
+								Log.e(TAG, Global.persistentLocationManager.getUserKey());
+								if (trackLocation || deliverNotifications) {
+									Global.persistentLocationManager.startService();
+								}
+							}
+						});
+						xtifyThread.start(); // to avoid Android's application-not-responding
 												// dialog box, do non-essential work in another
 												// thread
 					}

@@ -336,6 +336,24 @@
 		<service android:name=".utils.NotifyingService" />
 
 		<!-- XTIFY Declearation -->
+		<!-- Testing -->
+		<activity android:name=".ui.user.notification.CustomDataActivity"
+			android:label="Custom Data" android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="com.acmelabs.DISPLAY_CUSTOM_DATA" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="notif" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.user.notification.ProductNotificationActivity"
+			android:label="Product Notification">
+			<intent-filter>
+				<action android:name="com.acmelabs.DISPLAY_CUSTOM_DATA" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="notif" />
+			</intent-filter>
+		</activity>
+
 		<activity android:name="com.xtify.android.sdk.SettingsActivity"
 			android:label="Settings" android:screenOrientation="portrait">
 		</activity>
@@ -386,4 +404,10 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+	<uses-permission android:name="android.permission.VIBRATE" />
 </manifest> 

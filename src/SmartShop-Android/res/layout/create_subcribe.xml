@@ -28,6 +28,9 @@
 		<CheckBox android:layout_width="wrap_content" android:text="@string/subcribe_sms"
 			android:layout_height="wrap_content" android:id="@+id/chSms"
 			android:paddingRight="10dip" />
+		<CheckBox android:layout_width="wrap_content" android:text="@string/push_notification"
+			android:layout_height="wrap_content" android:id="@+id/chPush"
+			android:paddingRight="10dip" />
 		<Button android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/btnCategories"
 			android:background="@drawable/category" />
