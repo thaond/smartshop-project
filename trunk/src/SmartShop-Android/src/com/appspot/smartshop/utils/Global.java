@@ -28,6 +28,9 @@ public class Global {
 	//public static String username = "duc";
 	public static boolean isLogin = false;
 	public static UserInfo userInfo = null;
+	public static String getSession(){
+		return userInfo.sessionId;
+	}
 	
 	// Manage Xtify
 	public static PersistentLocationManager persistentLocationManager;

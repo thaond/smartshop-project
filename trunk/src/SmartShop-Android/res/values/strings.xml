@@ -229,6 +229,7 @@
 	<string name="radius">Bán kính</string>
 	<string name="subcribe_sms">SMS</string>
 	<string name="subcribe_email">Email</string>
+	<string name="push_notification">Push</string>
 	<string name="subcribe_categories">Chọn danh mục</string>
 	<string name="register_subcribe">Đăng ký</string>
 	<string name="subcribe_active">Kích hoạt</string>
