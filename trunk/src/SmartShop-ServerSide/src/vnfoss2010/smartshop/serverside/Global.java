@@ -43,6 +43,7 @@ public abstract class Global {
 			.getBundle("vnfoss2010/smartshop/serverside.localization/MessagesBundle");;
 	public static final String YAHOO_APP_ID = "VFv3MmLV34EjL9IdhgJeiiS9024qwIYt6HwMOWwoIG69CZ0kJDyi2lHprgwSoAtnvg--";
 	public static final String GOOGLE_APP_ID = "VFv3MmLV34EjL9IdhgJeiiS9024qwIYt6HwMOWwoIG69CZ0kJDyi2lHprgwSoAtnvg--";
+	public static final String XTIFY_API_KEY = "e32689d3-597b-43b4-afac-4387af15647e";
 	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;
 	public static final int MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX = 200;
 	public static final long SESSION_EXPRIED = 30*60*1000;
@@ -58,6 +59,8 @@ public abstract class Global {
 	private static Logger log = Logger.getLogger(Global.class.getName());
 	public static Map<String, SessionObject> mapSession = new HashMap<String, SessionObject>();
 	public static List<String> listAPIKeys = new ArrayList<String>();
+	
+	public static long lastScanExpired = 0;
 
 	public static final String[][] LANGUAGE = new String[][] {
 			{ "vi", "Ti\u1EBFng Vi\u1EC7t" }, { "en", "English" } };

@@ -5,7 +5,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.smartshop.docs.client.rpc.RPCService;
-import com.smartshop.docs.share.Global;
+import com.smartshop.docs.share.Config;
 import com.smartshop.docs.share.GoogleUser;
 
 /**
@@ -18,8 +18,8 @@ public class RPCServiceImpl extends RemoteServiceServlet implements RPCService {
 	@Override
 	public GoogleUser getGoogleAccountLink() {
 		GoogleUser googleUser = new GoogleUser();
-		googleUser.linkLogin = userService.createLoginURL(Global.HOST_NAME);
-		googleUser.linkLogout = userService.createLogoutURL(Global.HOST_NAME);
+		googleUser.linkLogin = userService.createLoginURL(Config.HOST_NAME);
+		googleUser.linkLogout = userService.createLogoutURL(Config.HOST_NAME);
 		googleUser.isLogin = userService.isUserLoggedIn();
 		if (userService.isUserLoggedIn()){
 			googleUser.isAdmin = userService.isUserAdmin();

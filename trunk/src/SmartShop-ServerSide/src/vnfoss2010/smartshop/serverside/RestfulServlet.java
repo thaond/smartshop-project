@@ -40,6 +40,7 @@ import vnfoss2010.smartshop.serverside.services.account.EditProfileService;
 import vnfoss2010.smartshop.serverside.services.account.GetUserInfoService;
 import vnfoss2010.smartshop.serverside.services.account.GetUserTaggedFromProduct;
 import vnfoss2010.smartshop.serverside.services.account.LoginService;
+import vnfoss2010.smartshop.serverside.services.account.LogoutService;
 import vnfoss2010.smartshop.serverside.services.account.RegisterService;
 import vnfoss2010.smartshop.serverside.services.account.SearchUsernameService;
 import vnfoss2010.smartshop.serverside.services.cat.GetAllCategoriesService;
@@ -318,6 +319,7 @@ public class RestfulServlet extends HttpServlet {
 	static {
 		authorizedServices.put("account-editprofile", EditProfileService.class);
 		authorizedServices.put("account-addfriend", AddFriendsService.class);
+		authorizedServices.put("account-logout", LogoutService.class);
 
 		// product
 		authorizedServices.put("registerproduct", RegisterProductService.class);
@@ -334,8 +336,6 @@ public class RestfulServlet extends HttpServlet {
 		// comment
 		authorizedServices.put("create-comment", CreateCommentService.class);
 		authorizedServices.put("delete-comment", DeleteCommentService.class);
-		authorizedServices.put("comment-get-by-username",
-				GetCommentsByUsernameService.class);
 
 		// notification
 		authorizedServices.put("noti-delete-all-by",

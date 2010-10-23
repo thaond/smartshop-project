@@ -377,6 +377,7 @@ public class AccountServiceImpl {
 								username, sessionId, new Date().getTime()));
 					}
 					userInfo.setSessionId(sessionId);
+					userInfo.setLogin(true);
 
 					result.setMessage(Global.messages
 							.getString("login_successfully"));
@@ -431,20 +432,15 @@ public class AccountServiceImpl {
 				result.setMessage(Global.messages.getString("not_found")
 						+ username);
 			} else {
+				userInfo.setLogin(false);
+				Global.mapSession.remove(username);
 				result.setMessage(Global.messages
 						.getString("logout_successfully"));
-				// TODO
-				// userInfo.setOnline(false);
-				// if (userInfo.getTypeCus() == 1) {
-				// result.setResult(true);
-				// }
 				result.setOK(true);
 			}
 		} catch (Exception ex) {
 			result.setMessage(Global.messages.getString("logout_fail"));
 			result.setOK(false);
-			// log.log(Level.SEVERE, s, ex);
-			// ex.printStackTrace();
 		} finally {
 			try {
 				pm.close();
@@ -696,6 +692,26 @@ public class AccountServiceImpl {
 		}
 
 		return result;
+	}
+
+	public void setLogout(String username){
+		UserInfo userInfo = null;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		boolean isNotFound = false;
+		try {
+			userInfo = pm.getObjectById(UserInfo.class, username);
+		} catch (JDOObjectNotFoundException e) {
+			isNotFound = true;
+		} catch (NucleusObjectNotFoundException n) {
+			isNotFound = true;
+		}
+
+		if (isNotFound || userInfo == null) {
+		} else {
+			userInfo.setLogin(false);
+		}
+		
+		pm.close();
 	}
 
 	private void preventSQLInjMedia(Media media) {
