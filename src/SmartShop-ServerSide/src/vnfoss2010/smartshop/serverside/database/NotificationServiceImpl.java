@@ -55,8 +55,8 @@ public class NotificationServiceImpl {
 					result.setMessage(Global.messages
 							.getString("insert_nofitification_successfully"));
 					result.setOK(true);
-					NotificationUtils.sendNotification(
-							Global.dfFull.format(n.getDate()), n.getContent());
+//					NotificationUtils.sendNotification(
+//							Global.dfFull.format(n.getDate()), n.getContent());
 				}
 			} else {
 				result.setMessage(Global.messages.getString("not_found") + " "

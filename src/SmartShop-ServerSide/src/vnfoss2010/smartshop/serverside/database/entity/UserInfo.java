@@ -76,6 +76,10 @@ public class UserInfo extends SearchCapable implements Serializable {
 	private int type;
 
 	private String sessionId;
+	
+	@Exclude
+	@Persistent
+	private boolean isLogin = false;
 
 	@Persistent
 	private List<Long> listInteredProduct;
@@ -84,6 +88,7 @@ public class UserInfo extends SearchCapable implements Serializable {
 	private Set<String> setFriendsUsername;
 	@Persistent
 	private Set<Long> setProductTaggedID;
+
 	public Set<Long> getSetProductTaggedID() {
 		return setProductTaggedID;
 	}
@@ -573,6 +578,20 @@ public class UserInfo extends SearchCapable implements Serializable {
 	 */
 	public String getSessionId() {
 		return sessionId;
+	}
+
+	/**
+	 * @param isLogin the isLogin to set
+	 */
+	public void setLogin(boolean isLogin) {
+		this.isLogin = isLogin;
+	}
+
+	/**
+	 * @return the isLogin
+	 */
+	public boolean isLogin() {
+		return isLogin;
 	}
 
 }

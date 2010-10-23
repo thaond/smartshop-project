@@ -17,6 +17,10 @@ import com.google.gson.annotations.Exclude;
 public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	private static final long serialVersionUID = 1L;
 
+	private static final int EMAIL = 0;
+	private static final int SMS = 1;
+	private static final int PUSH_NOTIFICATION = 2;
+
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
@@ -48,12 +52,12 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 
 	@Persistent
 	private String q;
-	
+
 	@Persistent
 	private int type_notification;
-	
+
 	private boolean isNew;
-	
+
 	@Persistent
 	@Exclude
 	private List<String> geocells;
@@ -61,8 +65,9 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	public UserSubcribeProduct() {
 	}
 
-	public UserSubcribeProduct(String userName, Double lat, Double lng, Double radius,  
-			boolean isActive, Date date, String description, String keyword, int type) {
+	public UserSubcribeProduct(String userName, Double lat, Double lng,
+			Double radius, boolean isActive, Date date, String description,
+			String keyword, int type) {
 		this.lat = lat;
 		this.lng = lng;
 		this.radius = radius;
@@ -163,7 +168,8 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	}
 
 	/**
-	 * @param keyword the keyword to set
+	 * @param keyword
+	 *            the keyword to set
 	 */
 	public void setKeyword(String keyword) {
 		this.q = keyword;
@@ -176,7 +182,9 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 		return q;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -189,7 +197,8 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	}
 
 	/**
-	 * @param type_notification the type_notification to set
+	 * @param type_notification
+	 *            the type_notification to set
 	 */
 	public void setType_notification(int type_notification) {
 		this.type_notification = type_notification;
@@ -211,7 +220,12 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	}
 
 	/**
-	 * @param isNew the isNew to set
+	 * @param isNew
+	 *            the isNew
+	 *            <ul>
+	 *            <li>true: if there have any new products in the list
+	 *            <li>false: otherwise
+	 *            </ul>
 	 */
 	public void setNew(boolean isNew) {
 		this.isNew = isNew;
@@ -222,5 +236,43 @@ public class UserSubcribeProduct implements LocationCapable, Cloneable {
 	 */
 	public boolean isNew() {
 		return isNew;
+	}
+
+	private String toBinaryString() {
+		String tmp = Integer.toBinaryString(type_notification);
+		for (int i = tmp.length(); i < 3; i++) {
+			tmp = "0" + tmp;
+		}
+		return tmp;
+	}
+
+	public boolean isSendMail() {
+		if (toBinaryString().charAt(3 - 1 - EMAIL) == '1')
+			return true;
+
+		return false;
+	}
+
+	public boolean isSendSMS() {
+		if (toBinaryString().charAt(3 - 1 - SMS) == '1')
+			return true;
+		return false;
+	}
+
+	public boolean isPushNotification() {
+		if (toBinaryString().charAt(3 - 1 - PUSH_NOTIFICATION) == '1')
+			return true;
+
+		return false;
+	}
+
+	public static void main(String[] args) {
+		UserSubcribeProduct u = new UserSubcribeProduct();
+		u.type_notification = 1 | 4;
+		System.out.println(u.type_notification + "  "
+				+ Integer.toBinaryString(u.type_notification));
+
+		System.out.println(u.isSendMail() + " " + u.isSendSMS() + " "
+				+ u.isPushNotification());
 	}
 }

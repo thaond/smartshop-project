@@ -28,8 +28,8 @@ public class UserSubcribeProductImpl {
 	private AccountServiceImpl dbAccount;
 	static Logger log = Logger.getLogger(UserSubcribeProductImpl.class
 			.getName());
-	
-	private UserSubcribeProductImpl(){
+
+	private UserSubcribeProductImpl() {
 		instance = this;
 		dbAccount = AccountServiceImpl.getInstance();
 	}
@@ -38,25 +38,24 @@ public class UserSubcribeProductImpl {
 		ServiceResult<UserSubcribeProduct> result = new ServiceResult<UserSubcribeProduct>();
 		UserSubcribeProduct subcribe = null;
 		PersistenceManager pm = null;
-			pm = PMF.get().getPersistenceManager();
-			try {
-				subcribe = pm.getObjectById(UserSubcribeProduct.class, id);
-			} catch (JDOObjectNotFoundException e) {
-			}
-			if (subcribe == null) {
-				result.setOK(false);
-				result.setMessage(Global.messages
-						.getString("no_found_subscribe"));
-			} else {
-				result.setOK(true);
-				result.setResult(subcribe);
-				result.setMessage(Global.messages
-						.getString("get_subscribe_successfully"));
-			}
-			try {
-				pm.close();
-			} catch (Exception e) {
-			}
+		pm = PMF.get().getPersistenceManager();
+		try {
+			subcribe = pm.getObjectById(UserSubcribeProduct.class, id);
+		} catch (JDOObjectNotFoundException e) {
+		}
+		if (subcribe == null) {
+			result.setOK(false);
+			result.setMessage(Global.messages.getString("no_found_subscribe"));
+		} else {
+			result.setOK(true);
+			result.setResult(subcribe);
+			result.setMessage(Global.messages
+					.getString("get_subscribe_successfully"));
+		}
+		try {
+			pm.close();
+		} catch (Exception e) {
+		}
 		return result;
 	}
 
@@ -90,11 +89,20 @@ public class UserSubcribeProductImpl {
 		return result;
 	}
 
+	/**
+	 * Get subscribed product in <b>each</b> UserSubscribeProduct
+	 */
 	public ServiceResult<List<Product>> searchProductInSubcribeRange(
 			UserSubcribeProduct subcribe, long fromRecord, long toRecord,
 			final Date lastUpdate) {
 		Point center = subcribe.getLocation();
 		Double maxDistance = subcribe.getRadius();
+		
+		//You can search whatever 
+		if (center==null || center.getLat()==0 || center.getLon()==0){
+			center = new Point(10, 10);
+			maxDistance = Double.MAX_VALUE;
+		}
 
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -208,7 +216,7 @@ public class UserSubcribeProductImpl {
 				}
 			}
 		}
-		
+
 		if (lastUpdate != null) {
 			// filter
 			listProduct = UtilsFunction.filter(listProduct, isLargerDatePost);
@@ -238,7 +246,8 @@ public class UserSubcribeProductImpl {
 				ServiceResult<List<Product>> tmp = searchProductInSubcribeRange(
 						subscribe, fromRecord, toRecord, lastUpdate);
 				if (tmp.isOK()) {
-					list.add(new Subscribe_ListProduct(subscribe.getId(), tmp.getResult()));
+					list.add(new Subscribe_ListProduct(subscribe.getId(), tmp
+							.getResult()));
 				}
 			}
 
@@ -303,7 +312,8 @@ public class UserSubcribeProductImpl {
 	 * @return
 	 */
 	public ServiceResult<List<UserSubcribeProduct>> getUserSubscribeProductByUsername(
-			String username, Date fromDate, Date toDate, int mode, Date lastUpdate) {
+			String username, Date fromDate, Date toDate, int mode,
+			Date lastUpdate) {
 		ServiceResult<List<UserSubcribeProduct>> result = new ServiceResult<List<UserSubcribeProduct>>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -368,8 +378,20 @@ public class UserSubcribeProductImpl {
 
 		return result;
 	}
-	
-	
+
+	/**
+	 * 
+	 * @param username
+	 * @param mode
+	 *            <ul>
+	 *            <li>mode = 0: Get all {@link UserSubcribeProduct} of username
+	 *            <li>mode = 1: Get active {@link UserSubcribeProduct} of
+	 *            username
+	 *            <li>mode = 2: Get inactive {@link UserSubcribeProduct} of
+	 *            username
+	 *            </ul>
+	 * @return
+	 */
 	public ServiceResult<List<UserSubcribeProduct>> getUserSubscribeProductByUsernameEnhanced(
 			String username, int mode, Date lastUpdate) {
 		ServiceResult<List<UserSubcribeProduct>> result = getUserSubscribeProductByUsername(
@@ -386,10 +408,10 @@ public class UserSubcribeProductImpl {
 			result.setMessage(result.getMessage());
 			result.setOK(false);
 		}
-		
+
 		return result;
 	}
- 
+
 	public ServiceResult<Void> editSubcribe(UserSubcribeProduct editSubcribe) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		UserSubcribeProduct subcribe = null;
