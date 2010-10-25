@@ -506,10 +506,13 @@ public class Product extends SearchCapable implements LocationCapable,
 
 	public static void main(String[] args) {
 		Product product = new Product();
-		product = new Product("Nec Monitor", 123, false, 2, "12 month",
-				"China", "Binh Tan", 10.11, 106.123, "Man hình rất xịn",
+		product = new Product("ABC", 123, false, 2, "12 month",
+				"China", "Binh Tan", 10.11, 106.123, "WTH",
 				3, new Date(), "tamvo");
 		product.getSetCategoryKeys().add("laptop");
+		product.getAttributeSets().add(new Attribute("1", "Thuộc tính 1", "Giá trị", "tam"));
+		product.getSetMedias().add(new Media("Iphone1", "http://127.0.0.1:8888/image_host/product/img1.jpg", "", ""));
+		product.getSetMedias().add(new Media("Iphone2", "http://127.0.0.1:8888/image_host/product/img2.jpg", "", ""));
 
 		String json = Global.gsonWithDate.toJson(product);
 		System.out.println(json);

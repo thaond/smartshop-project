@@ -13,9 +13,8 @@ public class Media2 {
 	}
 
 	public static void main(String[] args) {
-		for (int i = 0; i < 100; i++) {
-			int randNum = (int) (Math.random() * 9 + 1);
-			System.out.println(randNum);
-		}
+		String t = "http://127.0.0.1:8888/image_host/product/img1.jpg";
+		
+		System.out.println(t);
 	}
 }

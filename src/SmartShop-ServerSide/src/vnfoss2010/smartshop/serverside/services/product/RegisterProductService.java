@@ -49,7 +49,6 @@ public class RegisterProductService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 		Product product = Global.gsonWithDate.fromJson(content, Product.class);
-		log.log(Level.SEVERE, product + "");
 
 		if (!product.getSetCategoryKeys().isEmpty()) {
 			ServiceResult<Set<Category>> listCategories = dbcat
@@ -64,7 +63,6 @@ public class RegisterProductService extends BaseRestfulService {
 
 		product.setGeocells(GeocellManager.generateGeoCell(product
 				.getLocation()));
-
 		ServiceResult<Long> result = dbProduct.insertProduct(product);
 
 		// Scan for subscribed user
