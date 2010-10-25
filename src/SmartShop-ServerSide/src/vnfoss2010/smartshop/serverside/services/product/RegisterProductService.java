@@ -7,10 +7,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.database.AttributeServiceImpl;
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.UserSubcribeProductImpl;
+import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
@@ -27,9 +29,9 @@ public class RegisterProductService extends BaseRestfulService {
 			.getLogger(RegisterProductService.class.getName());
 
 	private CategoryServiceImpl dbcat;
-	private ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
-	private UserSubcribeProductImpl dbSubscribe = UserSubcribeProductImpl
-			.getInstance();
+	private ProductServiceImpl dbProduct;
+	private UserSubcribeProductImpl dbSubscribe;
+	private AttributeServiceImpl dbAttribute;
 
 	public RegisterProductService(String serviceName) {
 		super(serviceName);
@@ -37,6 +39,7 @@ public class RegisterProductService extends BaseRestfulService {
 		dbcat = CategoryServiceImpl.getInstance();
 		dbProduct = ProductServiceImpl.getInstance();
 		dbSubscribe = UserSubcribeProductImpl.getInstance();
+		dbAttribute = AttributeServiceImpl.getInstance();
 	}
 
 	@Override
@@ -64,7 +67,7 @@ public class RegisterProductService extends BaseRestfulService {
 		product.setGeocells(GeocellManager.generateGeoCell(product
 				.getLocation()));
 		ServiceResult<Long> result = dbProduct.insertProduct(product);
-
+		
 		// Scan for subscribed user
 		Set<String> setKeys = Global.mapSession.keySet();
 		for (String s : setKeys) {

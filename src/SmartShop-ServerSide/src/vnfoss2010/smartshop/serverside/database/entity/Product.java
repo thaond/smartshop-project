@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -71,9 +71,13 @@ public class Product extends SearchCapable implements LocationCapable,
 	@Persistent
 	private String username;
 	
-	@Persistent(mappedBy = "product")
-	@Element(dependent = "true")
+//	@Persistent(mappedBy = "product")
+//	@Element(dependent = "true")
+	@NotPersistent
 	private Set<Media> setMedias;
+	
+	@Persistent
+	private Set<Long> setMediaKeys;
 
 	@Persistent
 	private List<String> listBuyers;
@@ -91,9 +95,13 @@ public class Product extends SearchCapable implements LocationCapable,
 	@Persistent
 	private Set<String> setCategoryKeys;
 
-	@Persistent(mappedBy = "product")
-	@Element(dependent = "true")
+//	@Persistent(mappedBy = "product")
+//	@Element(dependent = "true")
+	@NotPersistent
 	private List<Attribute> attributeSets;
+	
+	@Persistent
+	private List<Long> listAttributeKeys;
 
 	@Exclude
 	@Persistent
@@ -143,9 +151,11 @@ public class Product extends SearchCapable implements LocationCapable,
 
 		setCategoryKeys = new HashSet<String>();
 		attributeSets = new ArrayList<Attribute>();
+		this.setListAttributeKeys(new ArrayList<Long>());
 		setPagesID = new HashSet<Long>();
 		listBuyers = new ArrayList<String>();
 		this.setMedias = new HashSet<Media>();
+		setListMediaKeys(new HashSet<Long>());
 		this.fts = new HashSet<String>();
 	}
 
@@ -558,6 +568,34 @@ public class Product extends SearchCapable implements LocationCapable,
 	 */
 	public int getCount_vote() {
 		return count_vote;
+	}
+
+	/**
+	 * @param listMediaKeys the listMediaKeys to set
+	 */
+	public void setListMediaKeys(Set<Long> listMediaKeys) {
+		this.setMediaKeys = listMediaKeys;
+	}
+
+	/**
+	 * @return the listMediaKeys
+	 */
+	public Set<Long> getSetMediaKeys() {
+		return setMediaKeys;
+	}
+
+	/**
+	 * @param listAttributeKeys the listAttributeKeys to set
+	 */
+	public void setListAttributeKeys(List<Long> listAttributeKeys) {
+		this.listAttributeKeys = listAttributeKeys;
+	}
+
+	/**
+	 * @return the listAttributeKeys
+	 */
+	public List<Long> getListAttributeKeys() {
+		return listAttributeKeys;
 	}
 
 }
