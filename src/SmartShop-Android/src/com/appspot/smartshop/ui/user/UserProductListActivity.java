@@ -28,9 +28,6 @@ import com.appspot.smartshop.facebook.SessionEvents;
 import com.appspot.smartshop.facebook.SessionStore;
 import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
 import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
-import com.appspot.smartshop.ui.product.ProductsListActivity;
-import com.appspot.smartshop.ui.product.ProductsListActivity.SampleAuthListener;
-import com.appspot.smartshop.ui.product.ProductsListActivity.SampleLogoutListener;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -147,12 +144,12 @@ public class UserProductListActivity extends Activity {
 			break;
 
 		case BUYED_PRODUCTS:
-			url = String.format(URLConstant.GET_BUYED_PRODUCTS_OF_USER,
+			url = String.format(URLConstant.GET_SELLED_PRODUCTS_OF_USER,
 					username);
 			break;
 
 		case SELLED_PRODUCTS:
-			url = String.format(URLConstant.GET_SELLED_PRODUCTS_OF_USER,
+			url = String.format(URLConstant.GET_BUYED_PRODUCTS_OF_USER,
 					username);
 			break;
 		}
@@ -167,9 +164,11 @@ public class UserProductListActivity extends Activity {
 
 			@Override
 			public void updateUI() {
-				adapter = new ProductAdapter(UserProductListActivity.this,
-						R.layout.product_list_item, products);
-				listProducts.setAdapter(adapter);
+				if (products != null) {
+					adapter = new ProductAdapter(UserProductListActivity.this,
+							R.layout.product_list_item, products);
+					listProducts.setAdapter(adapter);
+				}
 			}
 
 			@Override
@@ -185,7 +184,9 @@ public class UserProductListActivity extends Activity {
 
 					@Override
 					public void onFailure(String message) {
-						task.cancel(true);
+						// task.cancel(true);
+						// Toast.makeText(UserProductListActivity.this, message,
+						// Toast.LENGTH_SHORT);
 					}
 				});
 			}
@@ -193,6 +194,7 @@ public class UserProductListActivity extends Activity {
 
 		task.execute();
 	}
+
 	public class SampleAuthListener implements AuthListener {
 
 		public void onAuthSucceed() {

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.appspot.smartshop.adapter.MainAdapter;
 import com.appspot.smartshop.utils.DataLoader;
@@ -65,7 +66,7 @@ public class SmartShopActivity extends ListActivity {
 					});
 			task.execute();
 		}
-		
+
 		Global.persistentLocationManager = new PersistentLocationManager(
 				SmartShopActivity.this);
 		Global.persistentLocationManager
@@ -73,11 +74,11 @@ public class SmartShopActivity extends ListActivity {
 		Global.persistentLocationManager
 				.setNotificationDetailsIcon(R.drawable.icon);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(0, 0, 0, getString(R.string.settings) );
+		menu.add(0, 0, 0, getString(R.string.settings));
 		menu.findItem(0).setIcon(R.drawable.menu_preferences);
 		return true;
 	}
@@ -85,10 +86,10 @@ public class SmartShopActivity extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case 0: {
-				Global.persistentLocationManager.showSettingsActivity(this, true);
-				return true;
-			}
+		case 0: {
+			Global.persistentLocationManager.showSettingsActivity(this, true);
+			return true;
+		}
 		}
 		return false;
 	}
@@ -116,6 +117,10 @@ public class SmartShopActivity extends ListActivity {
 				task.hasData = false;
 				task.message = message;
 				task.cancel(true);
+
+				Toast.makeText(SmartShopActivity.this,
+						getString(R.string.cannot_connect_network),
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 

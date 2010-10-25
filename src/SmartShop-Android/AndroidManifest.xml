@@ -64,6 +64,13 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<activity android:name=".ui.product.ProductGalleryActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="ProductGalleryActivity"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 		<activity android:name=".ui.product.ProductUserDefinedAttributeActivity"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -337,14 +344,6 @@
 
 		<!-- XTIFY Declearation -->
 		<!-- Testing -->
-		<activity android:name=".ui.user.notification.CustomDataActivity"
-			android:label="Custom Data" android:screenOrientation="portrait">
-			<intent-filter>
-				<action android:name="com.acmelabs.DISPLAY_CUSTOM_DATA" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="notif" />
-			</intent-filter>
-		</activity>
 		<activity android:name=".ui.user.notification.ProductNotificationActivity"
 			android:label="Product Notification">
 			<intent-filter>

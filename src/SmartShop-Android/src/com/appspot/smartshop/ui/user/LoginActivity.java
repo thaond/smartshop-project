@@ -109,16 +109,6 @@ public class LoginActivity extends Activity {
 						Global.isLogin = true;
 						Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
 						
-						if (StringUtils.isEmptyOrNull(lastActivity)){
-							Intent intent = new Intent(LoginActivity.this, SmartShopActivity.class);
-							startActivity(intent);
-						}else{
-							if (lastActivity.equals(Global.VIEW_PROFILE_ACTIVITY)){
-								Intent intent = new Intent(LoginActivity.this, ViewUserProfileActivity.class);
-								startActivity(intent);
-							}
-						}
-						
 						//Start Xtify Thread
 						Thread xtifyThread = new Thread(new Runnable() {
 							@Override
@@ -129,6 +119,7 @@ public class LoginActivity extends Activity {
 										.isTrackingLocation();
 								boolean deliverNotifications = Global.persistentLocationManager
 										.isDeliveringNotifications();
+								Global.persistentLocationManager.setUserKey(Global.userInfo.username, null);
 								Log.e(TAG, Global.persistentLocationManager.getUserKey());
 								if (trackLocation || deliverNotifications) {
 									Global.persistentLocationManager.startService();
@@ -138,6 +129,16 @@ public class LoginActivity extends Activity {
 						xtifyThread.start(); // to avoid Android's application-not-responding
 												// dialog box, do non-essential work in another
 												// thread
+						
+						if (StringUtils.isEmptyOrNull(lastActivity)){
+							Intent intent = new Intent(LoginActivity.this, SmartShopActivity.class);
+							startActivity(intent);
+						}else{
+							if (lastActivity.equals(Global.VIEW_PROFILE_ACTIVITY)){
+								Intent intent = new Intent(LoginActivity.this, ViewUserProfileActivity.class);
+								startActivity(intent);
+							}
+						}
 					}
 					
 					@Override

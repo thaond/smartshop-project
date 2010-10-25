@@ -510,7 +510,8 @@ public class RegisterUserActivity extends MapActivity {
 
 		// TODO (vo.mita.ov): upload avatar of user
 		if (StringUtils.isEmptyOrNull(userInfo.avatarLink) && inputStreamAvatar != null) {
-			String response = doFileUpload();
+			//String response = doFileUpload();
+			String response = "0:" + URLConstant.HOST + "/image_host/avatar/NT" + (int)(Math.random()*9+1) + ".jpg";
 
 			Log.e("Upload", response);
 			String[] data = response.split(";");

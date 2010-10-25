@@ -2,11 +2,14 @@ package com.appspot.smartshop.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import android.app.Activity;
 
+import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.facebook.Facebook;
 import com.google.gson.Gson;
@@ -65,6 +68,9 @@ public class Global {
 
 	// (key_cat, child categories)
 	public static LinkedList<String[]> listCategories = new LinkedList<String[]>();
+	
+	//List subscribed product of user
+	public static List<ProductInfo> listSubscribeProduct = new ArrayList<ProductInfo>();
 
 	/*
 	 * Intent key

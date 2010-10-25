@@ -103,6 +103,7 @@
 	<string name="product_basic_info">Thông tin sản phẩm</string>
 	<string name="upload_image">Upload hình ảnh</string>
 	<string name="product_user_defined_info">Thông tin bổ sung</string>
+	<string name="gallery">Gallery</string>
 	<string name="warnProductHasNoAddress">Không có thông tin địa chỉ của sản phẩm</string>
 
 	<!-- Dialog -->
@@ -121,7 +122,7 @@
 	<string name="hintEnterPagesName">Nhập tên trang cần tìm</string>
 
 	<!-- User products list -->
-	<string name="lblInterestedProducts">Ưa thích</string>
+	<string name="lblInterestedProducts">Quan tâm</string>
 	<string name="lblBuyProducts">Bán</string>
 	<string name="lblSellProducts">Mua</string>
 
@@ -256,6 +257,6 @@
 	
 	<string name="alertLogin">Bạn phải đăng nhập tài khoản Facebook để sử dụng chức năng này</string>
 	<string name="settings">Thiết lập</string>
-	
+	<string name="cannot_connect_network">Không thể kết nối mạng</string>
 	
 </resources>
