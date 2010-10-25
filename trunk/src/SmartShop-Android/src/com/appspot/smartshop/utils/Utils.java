@@ -52,8 +52,6 @@ public class Utils {
 		return (int) (Math.random() * n);
 	}
 	
-	public static Gson gson = new Gson();
-	
 	public static Bitmap getBitmapFromURL(String src) {
 		try {
 			URL url = new URL(src);
@@ -112,8 +110,8 @@ public class Utils {
 		return null;
 	}
 	
-//	move_uploaded_file(
-//			  $_FILES["file"]["tmp_name"],
-//			  $dir . preg_replace('/[^a-z0-9_\-\.]/i', '_', $_FILES["file"]["name"])
-//			);
+	public static String encodeURL(String url){
+		return url.replaceAll("/[^a-z0-9_\\-\\.]/i'", "_");
+	}
+	
 }

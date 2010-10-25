@@ -1,5 +1,7 @@
 package com.appspot.smartshop.ui.product;
 
+import java.util.ArrayList;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ public class ViewProductActivity extends TabActivity {
 	public static final String TAG = "[ViewProduct]";
 	public static final String PRODUCT_BASIC_INFO = "basic";
 	public static final String PRODUCT_USER_DEFINED_INFO = "user_defined";
+	public static final String PRODUCT_GALLERY = "gallery";
 	
 	
 	@Override
@@ -41,6 +44,12 @@ public class ViewProductActivity extends TabActivity {
 		Log.d(TAG, "attribute set = " + ViewProductUserDefinedAttributeActivity.setAttributes);
 		tabHost.addTab(tabHost.newTabSpec(PRODUCT_USER_DEFINED_INFO).setIndicator(
 				getString(R.string.product_user_defined_info)).setContent(intent));
+		
+		intent = new Intent(this, ProductGalleryActivity.class);
+		intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, false);
+		ProductGalleryActivity.listMediaBitmap = new ArrayList(productInfo.setMedias);
+		tabHost.addTab(tabHost.newTabSpec(PRODUCT_GALLERY).setIndicator(
+				getString(R.string.gallery)).setContent(intent));
 		
 		// set up size for tab
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++){

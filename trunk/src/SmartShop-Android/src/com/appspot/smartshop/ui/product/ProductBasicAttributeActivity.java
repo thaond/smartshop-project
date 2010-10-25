@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -138,6 +139,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		postFacebook = (ImageView) findViewById(R.id.postFacebook);
 
 		// create params to post on Facebook
+		// TODO
 		final Bundle params = new Bundle();
 		params.putString("message", "Test");
 		params.putString("name", "American Virgin");
@@ -344,11 +346,15 @@ public class ProductBasicAttributeActivity extends MapActivity {
 
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
+						Toast.makeText(ProductBasicAttributeActivity.this,
+								json.getString("message"), Toast.LENGTH_SHORT).show();
+						finish();
 					}
 
 					@Override
 					public void onFailure(String message) {
-						System.err.println(message);
+						Toast.makeText(ProductBasicAttributeActivity.this,
+								message, Toast.LENGTH_SHORT).show();
 					}
 				});
 	}
@@ -356,10 +362,10 @@ public class ProductBasicAttributeActivity extends MapActivity {
 	private void postNewProduct() {
 		// setup product info
 		getProductInfo();
-		
-		String images = "http://localhost/testupload/images/img%s.jpg";
-		for (int i=0;i<productInfo.setMedias.size();i++){
-			productInfo.setMedias.get(i).link = String.format(images, i);
+
+		String images = URLConstant.HOST + "/image_host/product/img%s.jpg";
+		for (int i = 0; i < Math.min(productInfo.setMedias.size(), 7); i++) {
+			productInfo.setMedias.get(i).link = String.format(images, i + 1);
 		}
 
 		// post new product
@@ -380,6 +386,25 @@ public class ProductBasicAttributeActivity extends MapActivity {
 							@Override
 							public void onSuccess(JSONObject json)
 									throws JSONException {
+								int errCode = Integer.parseInt(""
+										+ json.get("errCode"));
+								String message = json.getString("message");
+								switch (errCode) {
+								case 0:
+									//TODO
+//									Toast.makeText(
+//											ProductBasicAttributeActivity.this,
+//											message, Toast.LENGTH_SHORT).show();
+//									finish();
+									break;
+
+								default:
+									//TODO
+//									Toast.makeText(
+//											ProductBasicAttributeActivity.this,
+//											message, Toast.LENGTH_SHORT).show();
+									break;
+								}
 							}
 
 							@Override

@@ -23,6 +23,8 @@ public class ProductInfo implements Serializable {
 	public String address = null;
 	public double lat;
 	public double lng;
+	public int sum_star;
+	public int count_vote;
 	public String username = null;
 	public List<Media> setMedias;
 	public Set<Long> setPagesId;

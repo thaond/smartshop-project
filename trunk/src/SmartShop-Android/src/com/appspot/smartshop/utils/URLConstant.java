@@ -58,16 +58,12 @@ public class URLConstant {
 	public static final String GET_DETAIL_OF_VATGIA_PRODUCT = HOST
 			+ "/api/asd/parser-vatgia-each-product-n/?url=%s";
 
-	public static String SEND_EMAIL_TO_ADMIN = String
-			.format(
-					HOST
-							+ "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&session=%s",
-					Global.getSession());
-	public static String SEND_EMAIL = String
-			.format(
-					HOST
-							+ "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&to=%s&session=%s",
-					Global.getSession());
+	public static String SEND_EMAIL_TO_ADMIN = HOST
+			+ "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&session="
+			+ Global.getSession();
+	public static String SEND_EMAIL = HOST
+			+ "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&to=%s&session=%s"
+			+ Global.getSession();
 
 	public static final String GET_NOTIFICATIONS = HOST
 			+ "/api/asd/noti-get-by/";
@@ -83,15 +79,16 @@ public class URLConstant {
 	public static String EDIT_SUBCRIBE = String.format(HOST
 			+ "/api/asd/edit-subcribe/?session=%s", Global.getSession());
 
+
+	public static final String SEARCH_FRIEND_BY_QUERY = HOST
+			+ "/api/asd/account-search/?q=";
+	public static String ADD_FRIENDS_TO_LIST = String.format(HOST
+			+ "/api/asd/account-addfriend/?session=%s", Global.getSession());
+	
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/";
 	public static final String URL_UPLOAD_AVATAR = HOST_IMG
 			+ "myupload.php?username=%s";
 	public static final String URL_UPLOAD_IMG_PRODUCT = HOST_IMG
 			+ "uploadimages.php";
-
-	public static final String SEARCH_FRIEND_BY_QUERY = HOST
-			+ "/api/asd/account-search/?q=";
-	public static String ADD_FRIENDS_TO_LIST = String.format(HOST
-			+ "/api/asd/account-addfriend/?session=%s", Global.getSession());
 }
