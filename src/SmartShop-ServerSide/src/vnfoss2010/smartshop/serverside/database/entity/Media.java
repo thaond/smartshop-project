@@ -6,6 +6,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
 public class Media {
@@ -26,6 +27,7 @@ public class Media {
 	@Persistent
 	private String description;
 
+	@Exclude
 	@Persistent
 	private Product product;
 

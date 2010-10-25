@@ -31,8 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import vnfoss2010.smartshop.serverside.authentication.SessionObject;
-import vnfoss2010.smartshop.serverside.database.DatabaseUtils;
-import vnfoss2010.smartshop.serverside.database.entity.APIKey;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.HelloService;
 import vnfoss2010.smartshop.serverside.services.account.AddFriendsService;
@@ -49,7 +47,6 @@ import vnfoss2010.smartshop.serverside.services.comment.CreateCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.DeleteCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.GetCommentService;
 import vnfoss2010.smartshop.serverside.services.comment.GetCommentsByUsernameService;
-import vnfoss2010.smartshop.serverside.services.exception.InvalidAPIKeyException;
 import vnfoss2010.smartshop.serverside.services.exception.InvalidSessionException;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.services.exception.SessionExpiredException;
@@ -86,6 +83,7 @@ import vnfoss2010.smartshop.serverside.services.product.SearchProductPromixity;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductService;
 import vnfoss2010.smartshop.serverside.services.product.TagFriendToProductService;
 import vnfoss2010.smartshop.serverside.services.product.UntagFriendFromProductService;
+import vnfoss2010.smartshop.serverside.services.product.VoteProductService;
 import vnfoss2010.smartshop.serverside.services.sms.SendSMSService;
 import vnfoss2010.smartshop.serverside.services.sms.SendSMSToService;
 import vnfoss2010.smartshop.serverside.services.test.InsertCategoryService;
@@ -214,6 +212,7 @@ public class RestfulServlet extends HttpServlet {
 		unAuthorizedServices.put("get-product", GetProductService.class);
 		unAuthorizedServices.put("get-tagged-product-from-user",
 				GetTaggedProductFromUser.class);
+		unAuthorizedServices.put("product-vote", VoteProductService.class);
 		// unAuthorizedServices.put("registerproduct",
 		// RegisterProductService.class);
 		// unAuthorizedServices.put("editproduct", EditProductService.class);
@@ -312,7 +311,7 @@ public class RestfulServlet extends HttpServlet {
 				SearchKeywordService.class);
 
 		// other
-		unAuthorizedServices.put("get-api-key", GetAPIKeyService.class);
+		//unAuthorizedServices.put("get-api-key", GetAPIKeyService.class);
 	}
 
 	public static Hashtable<String, Class> authorizedServices = new Hashtable<String, Class>();

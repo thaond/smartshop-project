@@ -46,6 +46,7 @@ public class GetAPIKeyService extends HttpServlet {
 		PrintWriter writer = resp.getWriter();
 
 		String source = req.getParameter("source");
-		writer.print(DatabaseUtils.registerAPIKey(source));
+		String email = req.getParameter("email");
+		//writer.print(DatabaseUtils.registerAPIKey(source, email));
 	}
 }

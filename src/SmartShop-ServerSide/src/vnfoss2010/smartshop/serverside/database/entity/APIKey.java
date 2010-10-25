@@ -23,18 +23,14 @@ public class APIKey {
 	@Persistent 
 	private Date date;
 	
+	@Persistent
 	private long views;
 
 	
 	public APIKey() {
 	}
 
-	public APIKey(String source, Date date) {
-		this.source = source;
-		this.date = date;
-	}
-	
-	public APIKey(String source, Date date, String email) {
+	public APIKey(String source, String email, Date date) {
 		this.source = source;
 		this.date = date;
 		this.email = email;

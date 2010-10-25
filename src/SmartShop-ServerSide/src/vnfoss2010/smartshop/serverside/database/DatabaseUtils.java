@@ -235,21 +235,6 @@ public class DatabaseUtils {
 		}
 	}
 
-	public static String registerAPIKey(String source) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-
-		APIKey apiKey = new APIKey(source, new Date());
-		pm.makePersistent(apiKey);
-
-		try {
-			pm.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return UtilsFunction.encrypt(source);
-	}
-
 	public static APIKey getAPIKey(String source) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 

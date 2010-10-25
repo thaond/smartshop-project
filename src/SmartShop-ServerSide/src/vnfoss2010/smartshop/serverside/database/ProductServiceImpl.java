@@ -1180,6 +1180,34 @@ public class ProductServiceImpl {
 		return result;
 	}
 
+	public ServiceResult<Void> voteProduct(Long productId, int star) {
+		ServiceResult<Void> result = new ServiceResult<Void>();
+
+		Product product = null;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			product = pm.getObjectById(Product.class, productId);
+		} catch (Exception e) {
+		}
+		if (product == null) {
+			result.setOK(false);
+			result.setMessage(Global.messages.getString("no_found_product"));
+		} else {
+			product.setCount_vote(product.getCount_vote() + 1);
+			product.setSum_star(product.getSum_star() + star);
+			
+			result.setOK(true);
+			result.setMessage(Global.messages.getString("vote_product_successfully"));
+		}
+		try {
+			pm.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 	public static void preventSQLInjProduct(Product product) {
 		product.setName(DatabaseUtils.preventSQLInjection(product.getName()));
 		product.setAddress(DatabaseUtils.preventSQLInjection(product
