@@ -16,6 +16,7 @@ import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
+import vnfoss2010.smartshop.serverside.database.entity.Media;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.utils.Predicate;
@@ -62,6 +63,23 @@ public class ProductServiceImpl {
 		log.log(Level.SEVERE, "Before: " + product.toString());
 
 		try {
+			// Make persistence for attribute
+			for (int i = 0; i < product.getAttributeSets().size(); i++) {
+				Attribute a = pm.makePersistent(product.getAttributeSets().get(
+						i));
+				if (a != null)
+					product.getListAttributeKeys().add(a.getId());
+			}
+			
+			// Make persistence for Media
+			java.util.Iterator<Media> iterator = product.getSetMedias().iterator();
+			while(iterator.hasNext()){
+				Media m = iterator.next();
+				m = pm.makePersistent(m);
+				if (m!=null)
+					product.getSetMediaKeys().add(m.getId());
+			}
+
 			// pm.flush();
 			product = pm.makePersistent(product);
 			log.log(Level.SEVERE, "After: " + product.toString());
@@ -162,6 +180,7 @@ public class ProductServiceImpl {
 								.getString("no_found_product"));
 			} else {
 				result.setOK(true);
+				getReferenedField(pm, product);
 				result.setResult(product);
 				if (isIncreaseView) {
 					product.setProduct_view(product.getProduct_view() + 1);
@@ -610,6 +629,10 @@ public class ProductServiceImpl {
 			default:
 				break;
 			}
+			
+			for (Product p:listProducts){
+				getReferenedField(pm, p);
+			}
 
 			result.setResult(listProducts);
 		} else {
@@ -623,6 +646,7 @@ public class ProductServiceImpl {
 
 	public ServiceResult<List<Product>> searchProductLike(String queryString) {
 		queryString = DatabaseUtils.preventSQLInjection(queryString);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		List<Product> listProducts = null;
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
@@ -631,6 +655,11 @@ public class ProductServiceImpl {
 
 		if (listProducts.size() > 0) {
 			result.setResult(listProducts);
+			
+			for (Product p:listProducts){
+				getReferenedField(pm, p);
+			}
+
 			result.setOK(true);
 			result.setMessage(Global.messages
 					.getString("search_product_by_query_successfully"));
@@ -738,6 +767,10 @@ public class ProductServiceImpl {
 												.getString("get_list_buyed_product_by_username_successfully"),
 										username));
 				result.setResult(listProducts);
+				
+				for (Product p:listProducts){
+					getReferenedField(pm, p);
+				}
 			} else {
 				result.setOK(false);
 				result.setMessage(String.format(Global.messages
@@ -852,6 +885,11 @@ public class ProductServiceImpl {
 											Global.messages
 													.getString("get_list_selled_product_by_username_successfully"),
 											username));
+					
+					for (Product p:listProducts){
+						getReferenedField(pm, p);
+					}
+					
 					result.setResult(listProducts);
 				} else {
 					result.setOK(false);
@@ -963,6 +1001,11 @@ public class ProductServiceImpl {
 										Global.messages
 												.getString("get_list_interested_product_by_username_successfully"),
 										username));
+				
+				for (Product p:listProducts){
+					getReferenedField(pm, p);
+				}
+				
 				result.setResult(listProducts);
 			} else {
 				result.setOK(false);
@@ -1075,6 +1118,11 @@ public class ProductServiceImpl {
 				result.setMessage(String.format(Global.messages
 						.getString("get_products_by_username_successfully"),
 						username));
+				
+				for (Product p:listProducts){
+					getReferenedField(pm, p);
+				}
+				
 				result.setResult(listProducts);
 			} else {
 				result.setOK(false);
@@ -1100,6 +1148,11 @@ public class ProductServiceImpl {
 					maxDistance, Product.class, baseQuery, pm);
 			if (listProduct != null) {
 				result.setOK(true);
+				
+				for (Product p:listProduct){
+					getReferenedField(pm, p);
+				}
+				
 				result.setResult(listProduct);
 			}
 		} catch (Exception e) {
@@ -1195,9 +1248,10 @@ public class ProductServiceImpl {
 		} else {
 			product.setCount_vote(product.getCount_vote() + 1);
 			product.setSum_star(product.getSum_star() + star);
-			
+
 			result.setOK(true);
-			result.setMessage(Global.messages.getString("vote_product_successfully"));
+			result.setMessage(Global.messages
+					.getString("vote_product_successfully"));
 		}
 		try {
 			pm.close();
@@ -1224,6 +1278,20 @@ public class ProductServiceImpl {
 		}
 
 		return listProducts;
+	}
+	
+	private void getReferenedField(PersistenceManager pm, Product product){
+		for (Long k : product.getListAttributeKeys()){
+			Attribute a = pm.getObjectById(Attribute.class, k);
+			if (a!=null)
+				product.getAttributeSets().add(a);
+		}
+		
+		for (Long k : product.getSetMediaKeys()){
+			Media m = pm.getObjectById(Media.class, k);
+			if (m!=null)
+				product.getSetMedias().add(m);
+		}
 	}
 
 }

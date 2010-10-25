@@ -5,7 +5,6 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.datastore.Key;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
@@ -13,7 +12,7 @@ public class Media {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key id;
+	private Long id;
 
 	@Persistent
 	private String name;
@@ -27,21 +26,16 @@ public class Media {
 	@Persistent
 	private String description;
 
-	@Exclude
-	@Persistent
-	private Product product;
-
 	public Media() {
 	}
 
-	public Media(String name, String link, String mimeType, String description,
-			Product product) {
-		this.name = name;
-		this.link = link;
-		mime_type = mimeType;
-		this.description = description;
-		this.product = product;
-	}
+//	public Media(String name, String link, String mimeType, String description,
+//			Product product) {
+//		this.name = name;
+//		this.link = link;
+//		mime_type = mimeType;
+//		this.description = description;
+//	}
 	
 	public Media(String name, String link, String mimeType, String description) {
 		this.name = name;
@@ -156,32 +150,25 @@ public class Media {
 				+ mime_type + ", name=" + name + "]";
 	}
 
-	/**
-	 * @param product
-	 *            the product to set
-	 */
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-	/**
-	 * @return the product
-	 */
-	public Product getProduct() {
-		return product;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Key id) {
-		this.id = id;
-	}
+//	/**
+//	 * @param product
+//	 *            the product to set
+//	 */
+//	public void setProduct(Product product) {
+//		this.product = product;
+//	}
+//
+//	/**
+//	 * @return the product
+//	 */
+//	public Product getProduct() {
+//		return product;
+//	}
 
 	/**
 	 * @return the id
 	 */
-	public Key getId() {
+	public Long getId() {
 		return id;
 	}
 }
