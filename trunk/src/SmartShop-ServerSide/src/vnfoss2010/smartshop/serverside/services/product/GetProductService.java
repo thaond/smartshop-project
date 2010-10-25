@@ -2,6 +2,7 @@ package vnfoss2010.smartshop.serverside.services.product;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.Global;
@@ -59,6 +60,7 @@ public class GetProductService extends BaseRestfulService {
 			} else {
 				product.setSetCategoryKeys(null);
 				product.setGeocells(null);
+				log.log(Level.SEVERE, product.getAttributeSets()+"");
 				Set<Category> categoryList = catsResult.getResult();
 				for (Category category : catsResult.getResult()){
 					category.setListPages(null);

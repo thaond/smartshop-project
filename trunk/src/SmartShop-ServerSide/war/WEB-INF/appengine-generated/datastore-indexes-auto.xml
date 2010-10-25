@@ -1,10 +1,11 @@
-<!-- Indices written at Mon, 25 Oct 2010 03:31:12 UTC -->
+<!-- Indices written at Mon, 25 Oct 2010 06:10:59 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 2 times in query history -->
-    <datastore-index kind="Attribute" ancestor="true" source="auto">
-        <property name="attributeSets_INTEGER_IDX" direction="asc"/>
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Product" ancestor="false" source="auto">
+        <property name="username" direction="asc"/>
+        <property name="date_post" direction="desc"/>
     </datastore-index>
 
 </datastore-indexes>
