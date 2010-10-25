@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
+
+import vnfoss2010.smartshop.serverside.Global;
 
 /**
  * HTTP Request class
@@ -50,6 +53,8 @@ import java.util.Map.Entry;
  * @author Moazzam Khan
  */
 public class HttpRequest {
+	
+	private static Logger log = Logger.getLogger("HttpRequest");
 
 	/**
 	 * HttpGet request
@@ -156,9 +161,11 @@ public class HttpRequest {
 			while ((line = rd.readLine()) != null) {
 				ret.append(line);
 			}
+			Global.log(log, "Result: " + line);
 			wr.close();
 			rd.close();
 		} catch (Exception e) {
+			Global.log(log, "Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
 		dat.content = ret.toString();

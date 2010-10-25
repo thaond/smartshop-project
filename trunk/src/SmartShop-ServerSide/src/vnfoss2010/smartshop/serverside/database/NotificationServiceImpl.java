@@ -61,8 +61,8 @@ public class NotificationServiceImpl {
 			} else {
 				result.setMessage(Global.messages.getString("not_found") + " "
 						+ n.getUsername());
-				NotificationUtils.sendNotification(
-						Global.dfFull.format(n.getDate()), n.getContent());
+//				NotificationUtils.sendNotification(
+//						Global.dfFull.format(n.getDate()), n.getContent());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

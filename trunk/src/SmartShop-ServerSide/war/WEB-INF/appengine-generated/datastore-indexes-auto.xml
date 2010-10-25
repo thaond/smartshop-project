@@ -1,8 +1,8 @@
-<!-- Indices written at Sat, 23 Oct 2010 17:41:47 UTC -->
+<!-- Indices written at Sun, 24 Oct 2010 17:00:33 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 3 times in query history -->
+    <!-- Used 34 times in query history -->
     <datastore-index kind="Attribute" ancestor="true" source="auto">
         <property name="attributeSets_INTEGER_IDX" direction="asc"/>
     </datastore-index>

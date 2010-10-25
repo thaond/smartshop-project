@@ -10,13 +10,13 @@ import com.google.gson.JsonObject;
  * @author VoMinhTam
  */
 public class ProductImages {
-	static List<Media> images = new ArrayList<Media>();
+	static List<Media2> images = new ArrayList<Media2>();
 	
 	public static void main(String[] args) {
-		images.add(new Media("Iphone1", "http://localhost/testupload/images/img1.jpg"));
-		images.add(new Media("Iphone2", "http://localhost/testupload/images/img2.jpg"));
-		images.add(new Media("Iphone3", "http://localhost/testupload/images/img3.jpg"));
-		images.add(new Media("Iphone4", "http://localhost/testupload/images/img4.jpg"));
+		images.add(new Media2("Iphone1", "http://localhost/testupload/images/img1.jpg"));
+		images.add(new Media2("Iphone2", "http://localhost/testupload/images/img2.jpg"));
+		images.add(new Media2("Iphone3", "http://localhost/testupload/images/img3.jpg"));
+		images.add(new Media2("Iphone4", "http://localhost/testupload/images/img4.jpg"));
 		
 		JsonObject json = new JsonObject();
 		json.addProperty("errCode", 0);

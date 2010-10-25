@@ -1,12 +1,5 @@
 package vnfoss2010.smartshop.serverside.services.product;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,15 +14,12 @@ import vnfoss2010.smartshop.serverside.database.UserSubcribeProductImpl;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
+import vnfoss2010.smartshop.serverside.notification.NotificationUtils;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
-import vnfoss2010.smartshop.serverside.utils.StringUtils;
-import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 import com.beoui.geocell.GeocellManager;
-import com.beoui.geocell.model.Point;
 import com.google.appengine.repackaged.org.json.JSONObject;
-import com.google.gson.Gson;
 
 public class RegisterProductService extends BaseRestfulService {
 
@@ -73,36 +63,54 @@ public class RegisterProductService extends BaseRestfulService {
 			ServiceResult<Long> result = dbProduct.insertProduct(product);
 
 			// Scan for subscribed user
-//			Set<String> setKeys = Global.mapSession.keySet();
-//			for (String s : setKeys) {
-//				ServiceResult<List<UserSubcribeProduct>> resultListUserSubscribeProduct = dbSubscribe
-//						.getUserSubscribeProductByUsernameEnhanced(s, 1, null);
-//
-//				if (resultListUserSubscribeProduct.isOK()) {
-//					for (UserSubcribeProduct subcribe : resultListUserSubscribeProduct
-//							.getResult()) {
-//						if (subcribe.isPushNotification()) {
-//							if (isMatchProductAndUserSubscribeProduct(product,
-//									subcribe)) {
-//								// Push Notification for this user right now
-//								log.log(Level.SEVERE, "Push for user: " + s);
-//
-//								boolean b = sendPush(s, subcribe
-//										.getDescription().substring(
-//												0,
-//												Math.min(40, subcribe
-//														.getDescription()
-//														.length())),
-//										Global.gsonWithDate.toJson(product));
-//								if (!b)
-//									log.log(Level.SEVERE,
-//											"Cannot push notification for user: "
-//													+ s);
-//							}
-//						}
-//					}
-//				}
-//			}
+			Set<String> setKeys = Global.mapSession.keySet();
+			for (String s : setKeys) {
+				ServiceResult<List<UserSubcribeProduct>> resultListUserSubscribeProduct = dbSubscribe
+						.getUserSubscribeProductByUsernameEnhanced(s, 1, null);
+
+				if (resultListUserSubscribeProduct.isOK()) {
+					for (UserSubcribeProduct subcribe : resultListUserSubscribeProduct
+							.getResult()) {
+						if (subcribe.isPushNotification()) {
+							if (isMatchProductAndUserSubscribeProduct(product,
+									subcribe)) {
+								// Push Notification for this user right now
+								log.log(Level.SEVERE, "Push for user: " + s);
+
+								// boolean b = sendPush(s, subcribe
+								// .getDescription().substring(
+								// 0,
+								// Math.min(40, subcribe
+								// .getDescription()
+								// .length())),
+								// Global.gsonWithDate.toJson(product));
+
+								ServiceResult<String> result2 = NotificationUtils
+										.sendNotification(
+												s,
+												subcribe
+														.getDescription()
+														.substring(
+																0,
+																Math
+																		.min(
+																				40,
+																				subcribe
+																						.getDescription()
+																						.length())),
+												Global.gsonWithDate
+														.toJson(product));
+
+								log.log(Level.SEVERE, "" + result2.getResult());
+								if (!result2.isOK())
+									log.log(Level.SEVERE,
+											"Cannot push notification for user: "
+													+ s);
+							}
+						}
+					}
+				}
+			}
 
 			jsonReturn.put("errCode", result.isOK() ? 0 : 1);
 			jsonReturn.put("message", result.getMessage());
@@ -130,71 +138,5 @@ public class RegisterProductService extends BaseRestfulService {
 		// }
 
 		return true;
-	}
-
-	private boolean sendPush(String userKey, String title, String body)
-			throws IOException {
-		String urlString = "http://notify.xtify.com/api/1.0/SdkNotification";
-		String content = String.format(
-				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-						+ "<sdk-notification>"
-						+ "<actionType>LAUNCH_APP</actionType>" + "<appId>"
-						+ Global.XTIFY_API_KEY + "</appId>"
-						+ "<userKey>%s</userKey>"
-						+ "<notificationTitle>%s</notificationTitle>"
-						+ "<notificationBody>%s</notificationBody>"
-						+ "</sdk-notification>", userKey, title, body);
-		String result = null;
-		URL url = null;
-		try {
-			url = new URL(urlString);
-		} catch (MalformedURLException e) {
-			System.out.println(e.getMessage());
-		}
-		HttpURLConnection urlConn = null;
-		OutputStream out = null;
-		BufferedReader in = null;
-		if (url != null) {
-			try {
-				urlConn = (HttpURLConnection) url.openConnection();
-				urlConn.addRequestProperty("Content-Type", "application/xml");
-				urlConn.setRequestMethod("PUT");
-				urlConn.setDoOutput(true);
-				urlConn.setDoInput(true);
-				urlConn.connect();
-				// Write content data to server
-				out = urlConn.getOutputStream();
-				out.write(content.getBytes());
-				out.flush();
-				// Check response code
-				if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-					in = new BufferedReader(new InputStreamReader(urlConn
-							.getInputStream()), 8192);
-					StringBuffer strBuff = new StringBuffer();
-					String inputLine;
-					while ((inputLine = in.readLine()) != null) {
-						strBuff.append(inputLine);
-					}
-					result = strBuff.toString();
-					System.err.println(result);
-				}
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
-			} finally {
-				if (in != null) {
-					in.close();
-				}
-				if (out != null) {
-					out.close();
-				}
-				if (urlConn != null) {
-					urlConn.disconnect();
-				}
-			}
-		}// end if
-
-		if (!StringUtils.isEmptyOrNull(result) && result.contains("SUCCESS"))
-			return true;
-		return false;
 	}
 }

@@ -61,6 +61,12 @@ public class Product extends SearchCapable implements LocationCapable,
 
 	@Persistent
 	private int product_view;
+	
+	@Persistent
+	private int sum_star;
+
+	@Persistent
+	private int count_vote;
 
 	@Persistent
 	private String username;
@@ -521,6 +527,34 @@ public class Product extends SearchCapable implements LocationCapable,
 	 */
 	public Set<Media> getSetMedias() {
 		return setMedias;
+	}
+
+	/**
+	 * @param sum_star the sum_star to set
+	 */
+	public void setSum_star(int sum_star) {
+		this.sum_star = sum_star;
+	}
+
+	/**
+	 * @return the sum_star
+	 */
+	public int getSum_star() {
+		return sum_star;
+	}
+
+	/**
+	 * @param count_vote the count_vote to set
+	 */
+	public void setCount_vote(int count_vote) {
+		this.count_vote = count_vote;
+	}
+
+	/**
+	 * @return the count_vote
+	 */
+	public int getCount_vote() {
+		return count_vote;
 	}
 
 }
