@@ -51,72 +51,61 @@ public class RegisterProductService extends BaseRestfulService {
 		Product product = Global.gsonWithDate.fromJson(content, Product.class);
 		log.log(Level.SEVERE, product + "");
 
-		ServiceResult<Set<Category>> listCategories = dbcat
-				.findCategories(product.getSetCategoryKeys());
-		if (listCategories.isOK() == false) {
-			jsonReturn.put("errCode", 1);
-			jsonReturn.put("message", listCategories.getMessage());
-		} else {
-			product.setGeocells(GeocellManager.generateGeoCell(product
-					.getLocation()));
+		if (!product.getSetCategoryKeys().isEmpty()) {
+			ServiceResult<Set<Category>> listCategories = dbcat
+					.findCategories(product.getSetCategoryKeys());
+			if (listCategories.isOK() == false) {
+				jsonReturn.put("errCode", 1);
+				jsonReturn.put("message", listCategories.getMessage());
 
-			ServiceResult<Long> result = dbProduct.insertProduct(product);
+				return jsonReturn.toString();
+			}
+		}
 
-			// Scan for subscribed user
-			Set<String> setKeys = Global.mapSession.keySet();
-			for (String s : setKeys) {
-				ServiceResult<List<UserSubcribeProduct>> resultListUserSubscribeProduct = dbSubscribe
-						.getUserSubscribeProductByUsernameEnhanced(s, 1, null);
+		product.setGeocells(GeocellManager.generateGeoCell(product
+				.getLocation()));
 
-				if (resultListUserSubscribeProduct.isOK()) {
-					for (UserSubcribeProduct subcribe : resultListUserSubscribeProduct
-							.getResult()) {
-						if (subcribe.isPushNotification()) {
-							if (isMatchProductAndUserSubscribeProduct(product,
-									subcribe)) {
-								// Push Notification for this user right now
-								log.log(Level.SEVERE, "Push for user: " + s);
+		ServiceResult<Long> result = dbProduct.insertProduct(product);
 
-								// boolean b = sendPush(s, subcribe
-								// .getDescription().substring(
-								// 0,
-								// Math.min(40, subcribe
-								// .getDescription()
-								// .length())),
-								// Global.gsonWithDate.toJson(product));
+		// Scan for subscribed user
+		Set<String> setKeys = Global.mapSession.keySet();
+		for (String s : setKeys) {
+			ServiceResult<List<UserSubcribeProduct>> resultListUserSubscribeProduct = dbSubscribe
+					.getUserSubscribeProductByUsernameEnhanced(s, 1, null);
 
-								ServiceResult<String> result2 = NotificationUtils
-										.sendNotification(
-												s,
-												subcribe
-														.getDescription()
-														.substring(
-																0,
-																Math
-																		.min(
-																				40,
-																				subcribe
-																						.getDescription()
-																						.length())),
-												Global.gsonWithDate
-														.toJson(product));
+			if (resultListUserSubscribeProduct.isOK()) {
+				for (UserSubcribeProduct subcribe : resultListUserSubscribeProduct
+						.getResult()) {
+					if (subcribe.isPushNotification()) {
+						if (isMatchProductAndUserSubscribeProduct(product,
+								subcribe)) {
+							// Push Notification for this user right now
+							log.log(Level.SEVERE, "Push for user: " + s);
 
-								log.log(Level.SEVERE, "" + result2.getResult());
-								if (!result2.isOK())
-									log.log(Level.SEVERE,
-											"Cannot push notification for user: "
-													+ s);
-							}
+							ServiceResult<String> result2 = NotificationUtils
+									.sendNotification(s, subcribe
+											.getDescription().substring(
+													0,
+													Math.min(40, subcribe
+															.getDescription()
+															.length())),
+											Global.gsonWithDate.toJson(product));
+
+							log.log(Level.SEVERE, "" + result2.getResult());
+							if (!result2.isOK())
+								log.log(Level.SEVERE,
+										"Cannot push notification for user: "
+												+ s);
 						}
 					}
 				}
 			}
+		}
 
-			jsonReturn.put("errCode", result.isOK() ? 0 : 1);
-			jsonReturn.put("message", result.getMessage());
-			if (result.isOK()) {
-				jsonReturn.put("product_id", result.getResult());
-			}
+		jsonReturn.put("errCode", result.isOK() ? 0 : 1);
+		jsonReturn.put("message", result.getMessage());
+		if (result.isOK()) {
+			jsonReturn.put("product_id", result.getResult());
 		}
 		return jsonReturn.toString();
 	}
