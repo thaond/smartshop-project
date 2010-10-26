@@ -22,12 +22,14 @@ import vnfoss2010.smartshop.serverside.utils.StringUtils;
 public class PageServiceImpl {
 	private static PageServiceImpl instance;
 	private static NotificationServiceImpl dbNoti;
+	private static AccountServiceImpl dbAccount;
 	private final static Logger log = Logger.getLogger(ProductServiceImpl.class
 			.getName());
 
 	private PageServiceImpl() {
 		instance = this;
 		dbNoti = NotificationServiceImpl.getInstance();
+		dbAccount = AccountServiceImpl.getInstance();
 	}
 
 	public ServiceResult<Page> findPage(Long id) {
@@ -66,6 +68,143 @@ public class PageServiceImpl {
 		return result;
 	}
 
+	public ServiceResult<Void> tagFriendToPage(long pageID, String[] usernames,
+			String username) {
+		ServiceResult<Void> result = new ServiceResult<Void>();
+		result.setOK(true);
+		PersistenceManager pm = null;
+		UserInfo user = null;
+		Page page = null;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			page = pm.getObjectById(Page.class, pageID);
+			if (page == null) {
+				result.setOK(false);
+				result.setMessage(Global.messages.getString("no_page_found"));
+			} else {
+				if (!page.getUsername().equals(username)) {
+					result.setOK(false);
+					result.setMessage(String.format(
+							Global.messages.getString("no_permission_to_tag_to_page"),
+							username));
+				} else {
+					ServiceResult<Void> notiResult = null;
+					for (String user2Tag : usernames) {
+						try {
+							user = pm.getObjectById(UserInfo.class, user2Tag);
+							page.getSetFriendsTaggedID().add(user2Tag);
+							user.getSetPageTaggedID().add(pageID);
+							result.setMessage(result.getMessage()
+									+ ";"
+									+ String.format(
+											Global.messages
+													.getString("tag_user_to_page_successfully"),
+											user2Tag, pageID));
+							// notification
+							notiResult = dbNoti.insertWhenTagUserToPage(pageID,
+									username, true);
+							if (notiResult.isOK() == false) {
+								result.setMessage(result.getMessage()
+										+ ";Notification Exception:"
+										+ notiResult.getMessage());
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							result.setOK(false);
+							result.setMessage(result.getMessage()
+									+ ";"
+									+ String.format(
+											Global.messages
+													.getString("tag_user_to_page_fail"),
+											user2Tag, pageID));
+						}
+					}
+					// if (result.isOK()) {
+					// result.setMessage("Tag friends thanh cong");
+					// }
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage(Global.messages
+					.getString("tag_friend_to_page_fail"));
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	public ServiceResult<Void> untagFriendFromPage(long pageID,
+			String[] usernames, String username) {
+		ServiceResult<Void> result = new ServiceResult<Void>();
+		result.setOK(true);
+		UserInfo user = null;
+		PersistenceManager pm = null;
+		Page page = null;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			page = pm.getObjectById(Page.class, pageID);
+			if (page == null) {
+				result.setOK(false);
+				result.setMessage(Global.messages.getString("no_page_found"));
+			} else {
+				if (!page.getUsername().equals(username)) {
+					result.setOK(false);
+					result.setMessage(String.format(
+							Global.messages.getString("no_permission_to_untag_from_page"),
+							username));
+				} else {
+					ServiceResult<Void> notiResult = null;
+					for (String user2Tag : usernames) {
+						try {
+							user = pm.getObjectById(UserInfo.class, user2Tag);
+							page.getSetFriendsTaggedID().remove(user2Tag);
+							user.getSetPageTaggedID().remove(pageID);
+							result.setMessage(result.getMessage()
+									+ ";"
+									+ String.format(
+											Global.messages
+													.getString("untag_user_from_page_successfully"),
+											user2Tag, pageID));
+							// notification
+							notiResult = dbNoti.insertWhenTagUserToPage(pageID,
+									username, false);
+							if (notiResult.isOK() == false) {
+								result.setMessage(result.getMessage()
+										+ ";Notification Exception:"
+										+ notiResult.getMessage());
+							}
+						} catch (Exception e) {
+							result.setOK(false);
+							result.setMessage(result.getMessage()
+									+ ";"
+									+ String.format(
+											Global.messages
+													.getString("untag_user_from_page_fail"),
+											user2Tag, pageID));
+						}
+					}
+					// result.setMessage("unTag friends thanh cong");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setMessage(Global.messages
+					.getString("untag_friend_from_page_fail"));
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
 	public ServiceResult<Long> insertPage(Page page) {
 		// updateFTSStuffForPage(page);
 		page.updateFTS();
@@ -74,9 +213,7 @@ public class PageServiceImpl {
 		try {
 			page = pm.makePersistent(page);
 			if (page == null) {
-				result
-						.setMessage(Global.messages
-								.getString("insert_page_fail"));
+				result.setMessage(Global.messages.getString("insert_page_fail"));
 			} else {
 				result.setResult(page.getId());
 				result.setMessage(Global.messages
@@ -126,8 +263,8 @@ public class PageServiceImpl {
 			}
 		}
 		if (result.isOK()) {
-			ServiceResult<Void> notiResult = dbNoti.insertWhenUserTagToPage(
-					pageID, productID, true);
+			ServiceResult<Void> notiResult = dbNoti
+					.insertWhenUserTagProductToPage(pageID, productID, true);
 			if (notiResult.isOK() == false) {
 				result.setMessage(result.getMessage()
 						+ ";Notification Exception:" + notiResult.getMessage());
@@ -166,8 +303,8 @@ public class PageServiceImpl {
 			}
 		}
 		if (result.isOK()) {
-			ServiceResult<Void> notiResult = dbNoti.insertWhenUserTagToPage(
-					pageID, productID, false);
+			ServiceResult<Void> notiResult = dbNoti
+					.insertWhenUserTagProductToPage(pageID, productID, false);
 			if (notiResult.isOK() == false) {
 				result.setMessage(result.getMessage()
 						+ ";Notification Exception:" + notiResult.getMessage());
@@ -296,8 +433,7 @@ public class PageServiceImpl {
 				if (cat_keys != null) {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
-					where
-							.append("setCategoryKeys.contains(catKey) && username==us ");
+					where.append("setCategoryKeys.contains(catKey) && username==us ");
 					listParameters.add(Arrays.asList(cat_keys));
 					listParameters.add(username);
 
@@ -379,8 +515,7 @@ public class PageServiceImpl {
 				if (cat_keys != null) {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
-					where
-							.append("setCategoryKeys.contains(catKey) && username==us && ");
+					where.append("setCategoryKeys.contains(catKey) && username==us && ");
 					where.append(queryBuffer.toString());
 
 					listParameters.add(Arrays.asList(cat_keys));
@@ -522,8 +657,9 @@ public class PageServiceImpl {
 				result.setResult(listPages);
 			} else {
 				result.setOK(false);
-				result.setMessage(String.format(Global.messages
-						.getString("get_pages_by_username_fail"), username));
+				result.setMessage(String.format(
+						Global.messages.getString("get_pages_by_username_fail"),
+						username));
 			}
 		}
 		pm.close();

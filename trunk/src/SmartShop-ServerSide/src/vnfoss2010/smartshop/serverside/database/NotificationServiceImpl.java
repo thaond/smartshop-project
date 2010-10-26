@@ -250,7 +250,7 @@ public class NotificationServiceImpl {
 		return result;
 	}
 
-	public ServiceResult<Void> insertWhenUserTagToPage(long pageID,
+	public ServiceResult<Void> insertWhenUserTagProductToPage(long pageID,
 			long productID, boolean isTag) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		ServiceResult<Product> productResult = dbProduct.findProduct(productID);
@@ -319,6 +319,39 @@ public class NotificationServiceImpl {
 		return result;
 	}
 
+	public ServiceResult<Void> insertWhenTagUserToPage(long pageID,
+			String userName, boolean isTag) {
+		ServiceResult<Void> result = new ServiceResult<Void>();
+		ServiceResult<Page> pageResult = dbPage.findPage(pageID);
+		if (pageResult.isOK() == false) {
+			result.setOK(false);
+			result.setMessage(pageResult.getMessage());
+			return result;
+		}
+
+		Notification noti = new Notification();
+		noti.setUsername(userName);
+		if (isTag) {
+			noti.setContent(String.format(Global.messages
+					.getString("notification_tag_user_to_page_content"),
+					pageResult.getResult().getUsername(), pageID));
+		} else {
+			noti.setContent(String.format(Global.messages
+					.getString("notification_untag_user_from_page_content"),
+					pageResult.getResult().getUsername(), pageID));
+		}
+		noti.setDate(new Date());
+		noti.setNew(true);
+		noti.setType(TYPE_PAGE);
+		noti.setTypeId(pageID);
+		ServiceResult<Long> insertResult = insertNotification(noti);
+		result.setOK(insertResult.isOK());
+		result.setMessage(insertResult.getMessage());
+
+		insertNotification(noti);
+		return result;
+	}
+	
 	public ServiceResult<Void> deleteAllNoticationsBy(String username) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
