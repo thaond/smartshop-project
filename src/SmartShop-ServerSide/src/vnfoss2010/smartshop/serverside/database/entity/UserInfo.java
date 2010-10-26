@@ -76,7 +76,7 @@ public class UserInfo extends SearchCapable implements Serializable {
 	private int type;
 
 	private String sessionId;
-	
+
 	@Exclude
 	@Persistent
 	private boolean isLogin = false;
@@ -86,8 +86,18 @@ public class UserInfo extends SearchCapable implements Serializable {
 
 	@Persistent
 	private Set<String> setFriendsUsername;
+
 	@Persistent
 	private Set<Long> setProductTaggedID;
+
+	@Persistent
+	private Set<Long> setPageTaggedID;
+
+	@Persistent
+	private List<Long> listSubcribeProduct;
+	@Exclude
+	@Persistent
+	private Set<String> fts;
 
 	public Set<Long> getSetProductTaggedID() {
 		return setProductTaggedID;
@@ -97,10 +107,6 @@ public class UserInfo extends SearchCapable implements Serializable {
 		this.setProductTaggedID = setProductTaggedID;
 	}
 
-	@Exclude
-	@Persistent
-	private List<Long> listSubcribeProduct;
-
 	public List<Long> getListSubcribeProduct() {
 		return listSubcribeProduct;
 	}
@@ -108,10 +114,6 @@ public class UserInfo extends SearchCapable implements Serializable {
 	public void setListSubcribeProduct(List<Long> listSubcribeProduct) {
 		this.listSubcribeProduct = listSubcribeProduct;
 	}
-
-	@Exclude
-	@Persistent
-	private Set<String> fts;
 
 	/**
 	 * Default contructor. It should be have to serialize
@@ -149,6 +151,14 @@ public class UserInfo extends SearchCapable implements Serializable {
 			double gmt, String lang, String country) {
 		this(username, password, firstName, lastName, phone, email, birthday,
 				address, lat, lng, avatarLink, 0, 0, gmt, lang, country, 0);
+	}
+
+	public Set<Long> getSetPageTaggedID() {
+		return setPageTaggedID;
+	}
+
+	public void setSetPageTaggedID(Set<Long> setPageTaggedID) {
+		this.setPageTaggedID = setPageTaggedID;
 	}
 
 	/**
@@ -581,7 +591,8 @@ public class UserInfo extends SearchCapable implements Serializable {
 	}
 
 	/**
-	 * @param isLogin the isLogin to set
+	 * @param isLogin
+	 *            the isLogin to set
 	 */
 	public void setLogin(boolean isLogin) {
 		this.isLogin = isLogin;

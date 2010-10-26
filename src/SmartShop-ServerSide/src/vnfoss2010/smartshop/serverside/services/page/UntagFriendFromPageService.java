@@ -1,18 +1,18 @@
-package vnfoss2010.smartshop.serverside.services.product;
+package vnfoss2010.smartshop.serverside.services.page;
 
 import java.util.Map;
 
-import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
+import vnfoss2010.smartshop.serverside.database.PageServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
 
-public class UntagFriendFromProductService extends BaseRestfulService {
-	ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
+public class UntagFriendFromPageService extends BaseRestfulService{
 
-	public UntagFriendFromProductService(String serviceName) {
+	PageServiceImpl dbPage = PageServiceImpl.getInstance();	
+	public UntagFriendFromPageService(String serviceName) {
 		super(serviceName);
 	}
 
@@ -25,18 +25,15 @@ public class UntagFriendFromProductService extends BaseRestfulService {
 			json = new JSONObject(content);
 		} catch (Exception e) {
 		}
-		long productID = Long.parseLong(getParameterWithThrow("productID",
-				params, json));
-		String usernames[] = getParameterWithThrow("usernames", params, json)
+		long pageID = Long.parseLong(getParameterWithThrow("pageID", params,
+				json));
+		String[] usernames = getParameterWithThrow("usernames", params, json)
 				.split(",");
 		String username = getParameterWithThrow("username", params, json);
-		ServiceResult<Void> result = dbProduct.tagFriendToProduct(productID,
-				usernames, username, false);
-		if (result.isOK()) {
-			jsonReturn.put("errCode", 0);
-		} else {
-			jsonReturn.put("errCode", 1);
-		}
+		ServiceResult<Void> result = dbPage.untagFriendFromPage(pageID, usernames,
+				username);
+
+		jsonReturn.put("errCode", result.isOK() ? 0 : 1);
 		jsonReturn.put("message", result.getMessage());
 		return jsonReturn.toString();
 	}

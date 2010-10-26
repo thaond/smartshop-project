@@ -67,6 +67,8 @@ import vnfoss2010.smartshop.serverside.services.page.GetListPageByCriteriaServic
 import vnfoss2010.smartshop.serverside.services.page.GetPageService;
 import vnfoss2010.smartshop.serverside.services.page.GetPagesByUsernameService;
 import vnfoss2010.smartshop.serverside.services.page.SearchPageByQueryService;
+import vnfoss2010.smartshop.serverside.services.page.TagFriendToPageService;
+import vnfoss2010.smartshop.serverside.services.page.UntagFriendFromPageService;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.NProductInfoService;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.ProductInfoService;
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.SearchKeywordService;
@@ -331,6 +333,8 @@ public class RestfulServlet extends HttpServlet {
 		// page
 		authorizedServices.put("create-page", CreatePageService.class);
 		authorizedServices.put("page-edit", EditPageService.class);
+		authorizedServices.put("tag-friend-to-page", TagFriendToPageService.class);
+		authorizedServices.put("untag-friend-from-page", UntagFriendFromPageService.class);
 
 		// comment
 		authorizedServices.put("create-comment", CreateCommentService.class);

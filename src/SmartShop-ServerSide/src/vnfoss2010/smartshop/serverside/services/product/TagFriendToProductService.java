@@ -2,12 +2,8 @@ package vnfoss2010.smartshop.serverside.services.product;
 
 import java.util.Map;
 
-import vnfoss2010.smartshop.serverside.Global;
-import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
-import vnfoss2010.smartshop.serverside.database.entity.Product;
-import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
@@ -31,9 +27,11 @@ public class TagFriendToProductService extends BaseRestfulService {
 		}
 		long productID = Long.parseLong(getParameterWithThrow("productID",
 				params, json));
+		String usernames[] = getParameterWithThrow("usernames", params, json)
+				.split(",");
 		String username = getParameterWithThrow("username", params, json);
 		ServiceResult<Void> result = dbProduct.tagFriendToProduct(productID,
-				username,true);
+				usernames, username, true);
 		if (result.isOK()) {
 			jsonReturn.put("errCode", 0);
 		} else {
