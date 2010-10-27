@@ -9,7 +9,8 @@ public class URLConstant {
 	public static final String ERROR = "error";
 
 	/************************ URL ***************************************/
-
+	public static final String GET_PRODUCT_BY_ID = HOST + "/api/asd/get-product/?id=%d";
+	
 	public static String POST_PRODUCT = String.format(HOST
 			+ "/api/asd/registerproduct/?session=%s", Global.getSession());
 	public static final String GET_PRODUCTS = HOST
@@ -32,6 +33,7 @@ public class URLConstant {
 
 	public static final String LOGIN = HOST
 			+ "/api/asd/account-login/?username=%s&password=%s";
+
 	public static final String REGISTER = HOST + "/api/asd/account-register/";
 	public static String EDIT_PROFILE = String.format(HOST
 			+ "/api/asd/account-editprofile/?session=%s", Global.getSession());
@@ -84,6 +86,10 @@ public class URLConstant {
 			+ "/api/asd/account-search/?q=";
 	public static String ADD_FRIENDS_TO_LIST = String.format(HOST
 			+ "/api/asd/account-addfriend/?session=%s", Global.getSession());
+	
+	public static final String RATE_PRODUCT = HOST + "/api/asd/product-vote/?id=%d&star=%d";
+	
+	public static final String TAG_FRIEND_TO_PRODUCT = HOST + "/api/asd/tag-friend-to-product/?productID=%d&tagusername=%s";
 	
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/";

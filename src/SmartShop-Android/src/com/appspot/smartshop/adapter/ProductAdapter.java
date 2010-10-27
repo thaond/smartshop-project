@@ -1,11 +1,12 @@
 package com.appspot.smartshop.adapter;
 
 import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,10 +15,13 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.adapter.CommentAdapter.ViewHolder;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.facebook.AsyncFacebookRunner;
 import com.appspot.smartshop.facebook.BaseRequestListener;
@@ -27,17 +31,21 @@ import com.appspot.smartshop.facebook.SessionStore;
 import com.appspot.smartshop.facebook.Util;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
+import com.appspot.smartshop.utils.FixedList;
 import com.appspot.smartshop.utils.Global;
-import com.appspot.smartshop.utils.Utils;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.URLConstant;
 import com.google.android.maps.GeoPoint;
+import com.google.gson.JsonElement;
 
 public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 	public static final String TAG = "[ProductAdapter]";
 
 	private Context context;
 	private LayoutInflater inflater;
-	public Bundle params = new Bundle();// contain information for post product
-										// to facebook
+	private Bundle params = new Bundle();// contain information for post product to facebook
+	
 	public static final int IMAGE_WIDTH = 50;
 	public static final int IMAGE_HEIGHT = 50;
 	public ProductAdapter(Context context, int textViewResourceId,
@@ -59,12 +67,12 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ViewHolder holder;
 
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.product_list_item, null);
-
+	
 			holder = new ViewHolder();
 			holder.image = (ImageView) convertView.findViewById(R.id.image);
 			holder.btnMap = (Button) convertView.findViewById(R.id.btnMap);
@@ -78,6 +86,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 					.findViewById(R.id.txtDatePost);
 			holder.postFacebook = (ImageView) convertView
 					.findViewById(R.id.btnPostFb);
+			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -97,12 +106,9 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			public void onClick(View v) {
 				if (productInfo.lat == 0 && productInfo.lng == 0) {
 					Log.d(TAG, "product has no lat, long");
-					Toast
-							.makeText(
-									context,
-									context
-											.getString(R.string.warnProductHasNoAddress),
-									Toast.LENGTH_SHORT).show();
+					Toast.makeText(context,
+						context.getString(R.string.warnProductHasNoAddress),
+						Toast.LENGTH_SHORT).show();
 				} else {
 					Log.d(TAG, "show location of product");
 					MapDialog.createProductLocationDialog(
@@ -125,13 +131,13 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		});
 
 		// // TODO Load image of product from internet
-		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
-		Bitmap imageOfProduct = Utils.getBitmapFromURL(url);
-		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,
-				IMAGE_WIDTH, IMAGE_HEIGHT, true);
-		holder.image.setImageBitmap(imageOfProduct);
+//		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
+//		Bitmap imageOfProduct = Utils.getBitmapFromURL(url);
+//		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,
+//				IMAGE_WIDTH, IMAGE_HEIGHT, true);
+//		holder.image.setImageBitmap(imageOfProduct);
 		// TODO sample image
-		// holder.image.setBackgroundResource(R.drawable.icon);
+		holder.image.setBackgroundResource(R.drawable.icon);
 
 		// go to product detail
 		convertView.setOnClickListener(new OnClickListener() {
@@ -139,17 +145,36 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			@Override
 			public void onClick(View v) {
 				Log.d(TAG, "view detail of product");
-				Intent intent = new Intent(context, ViewProductActivity.class);
-				intent.putExtra(Global.PRODUCT_INFO, productInfo);
-				if (Global.isLogin
-						&& productInfo.username.equals(Global.userInfo.username)) {
-					Log.d(TAG, "can edit product profile");
-					intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
-				}
+				
+				// get product info from server
+				String url = String.format(URLConstant.GET_PRODUCT_BY_ID, productInfo.id);
+				RestClient.getData(url, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+						ProductInfo newProductInfo = 
+							Global.gsonWithHour.fromJson(json.getString("product"), 
+							ProductInfo.class);
+						Intent intent = new Intent(context, ViewProductActivity.class);
+						intent.putExtra(Global.PRODUCT_INFO, newProductInfo);
+						if (Global.isLogin
+								&& productInfo.username.equals(Global.userInfo.username)) {
+							Log.d(TAG, "can edit product profile");
+							intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
+						}
 
-				context.startActivity(intent);
+						context.startActivity(intent);
+					}
+					
+					@Override
+					public void onFailure(String message) {
+						Toast.makeText(context, context.getString(R.string.err_cant_get_product_info), 
+								Toast.LENGTH_SHORT).show();
+					}
+				});
 			}
 		});
+		
 		// set up information to post on Facebook
 		params.putString("message", "Smart Shop");
 		params.putString("name", productInfo.name);
@@ -158,6 +183,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		params.putString("description", productInfo.description);
 		params.putString("link",
 				"http://www.hangxachtayusa.net/product.php?id_product=195");
+		
 
 		return convertView;
 	}

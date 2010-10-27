@@ -22,8 +22,7 @@
 		<Button android:id="@+id/btnMap" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:background="@drawable/map_icon"
 			android:layout_alignParentRight="true" />
-		<ImageView android:id="@+id/btnPostFb"
-			android:background="@drawable/facebook_share" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" />
+		<ImageView android:id="@+id/btnPostFb" android:background="@drawable/facebook_share"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
 	</LinearLayout>
 </LinearLayout>
