@@ -259,4 +259,11 @@
 	<string name="settings">Thiết lập</string>
 	<string name="cannot_connect_network">Không thể kết nối mạng</string>
 	
+	<string name="select_product_1">Mặt hàng 1</string>
+	<string name="select_product_2">Mặt hàng 2</string>
+	<string name="prompt_select_product">Chọn mặt hàng</string>
+	<string name="compare">So sánh</string>
+	<string name="warn_choose_2_different_products">Chọn 2 mặt hàng khác nhau</string>
+	
+	<string name="err_cant_get_product_info">Không thể lấy thông tin sản phẩm</string>
 </resources>

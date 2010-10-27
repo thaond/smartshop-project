@@ -4,6 +4,14 @@
 	android:versionName="1.0">
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
 		<uses-library android:name="com.google.android.maps" />
+		
+		<activity android:name=".SmartShopActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
 		<activity android:name=".HomeActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="Home" />
@@ -82,6 +90,20 @@
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="PostProductBasicAttribute"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.SelectTwoProductActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="SelectTwoProduct"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.CompareTwoProductsActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="SelectTwoProduct"></action>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
@@ -227,12 +249,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".SmartShopActivity" android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+		
 
 		<activity android:name=".ui.product.SearchProductsTabActivity"
 			android:label="@string/app_name">
@@ -403,10 +420,12 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 	<uses-permission android:name="android.permission.VIBRATE" />
 </manifest> 

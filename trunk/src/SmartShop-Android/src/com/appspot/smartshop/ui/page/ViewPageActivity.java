@@ -15,6 +15,7 @@ import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
+import com.appspot.smartshop.utils.FriendListDialog;
 import com.appspot.smartshop.utils.Global;
 
 public class ViewPageActivity extends Activity {
@@ -65,6 +66,24 @@ public class ViewPageActivity extends Activity {
 				viewUserProfile();
 			}
 		});
+		
+		Button btnTagFriend = (Button) findViewById(R.id.tag);
+		if (Global.isLogin) {
+			btnTagFriend.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					tagFriendToProduct();
+				}
+			});
+		} else {
+			btnTagFriend.setVisibility(View.GONE);
+		}
+	}
+	
+	protected void tagFriendToProduct() {
+		FriendListDialog.tagType = FriendListDialog.TAG_PAGE;
+		FriendListDialog.showDialog(this, page.id);
 	}
 	
 	protected void viewUserProfile() {

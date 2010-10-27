@@ -1,5 +1,6 @@
 package com.appspot.smartshop;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import android.app.Activity;
@@ -10,14 +11,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.DirectionListActivity;
 import com.appspot.smartshop.map.SearchProductsOnMapActivity;
 import com.appspot.smartshop.mock.MockPage;
+import com.appspot.smartshop.mock.MockProduct;
 import com.appspot.smartshop.mock.MockUserInfo;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.product.PostProductActivity;
+import com.appspot.smartshop.ui.product.ProductsListActivity;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.ui.product.vatgia.SearchVatgiaActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
@@ -28,6 +32,7 @@ import com.appspot.smartshop.ui.user.subcribe.ProductsListOfSubcribeActivity;
 import com.appspot.smartshop.ui.user.subcribe.SubcribeActivity;
 import com.appspot.smartshop.ui.user.subcribe.UserSubcribeListActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
+import com.appspot.smartshop.utils.FriendListDialog;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 
@@ -74,8 +79,7 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testSearchVatgia();
-//		testPostProduct();
+		testFriendListDialog();
 	}
 
 	protected void test2() {
@@ -83,6 +87,23 @@ public class HomeActivity extends Activity {
 	}
 
 	protected void test3() {
+	}
+	
+	void testFriendListDialog() {
+		Global.userInfo = new UserInfo();
+		Global.userInfo.setFriendsUsername = new LinkedHashSet<String>();
+		Global.userInfo.setFriendsUsername.add("friend one");
+		Global.userInfo.setFriendsUsername.add("friend two");
+		Global.userInfo.setFriendsUsername.add("friend three");
+		Global.userInfo.setFriendsUsername.add("friend four");
+		Global.userInfo.setFriendsUsername.add("friend five");
+		
+		FriendListDialog.showDialog(this, 10);
+	}
+	
+	void testProductList() {
+		Intent intent = new Intent(this, ProductsListActivity.class);
+		startActivity(intent);
 	}
 	
 	void testSubcribeList() {
@@ -199,6 +220,7 @@ public class HomeActivity extends Activity {
 
 	private void testViewProduct() {
 		Intent intent = new Intent(this, ViewProductActivity.class);
+		intent.putExtra(Global.PRODUCT_INFO, MockProduct.getProducts().get(0));
 		startActivity(intent);
 	}
 

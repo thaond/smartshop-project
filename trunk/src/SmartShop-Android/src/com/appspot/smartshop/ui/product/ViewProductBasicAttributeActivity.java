@@ -1,15 +1,28 @@
 package com.appspot.smartshop.ui.product;
 
+import java.net.URLConnection;
+import java.text.DecimalFormat;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
@@ -19,7 +32,11 @@ import com.appspot.smartshop.map.MyLocationCallback;
 import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
+import com.appspot.smartshop.utils.FriendListDialog;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
 
@@ -50,7 +67,12 @@ public class ViewProductBasicAttributeActivity extends Activity {
 	private TextView txtUsername;
 
 	private CheckBox chVat;
+	
+	private DecimalFormat decimalFormat = new DecimalFormat("#.#");
+	
 	public boolean canEdit;
+	
+	private boolean first = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +84,36 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		int width = Utils.getScreenWidth();
 		int labelWidth = (int) (width * 0.25);
 
+		// spinner for rating
+		Spinner s1 = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<Integer> adapter1 = new ArrayAdapter<Integer>(
+        		this, android.R.layout.simple_spinner_item, 
+        		new Integer[] {1, 2, 3, 4, 5});
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s1.setAdapter(adapter1);
+        s1.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (first) {
+					first = false;
+					return;
+				}
+				rateProduct(position + 1);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+		
+        // rating info
+		txtRatingInfo = (TextView) findViewById(R.id.txtRatingInfo);
+		if (productInfo.count_vote != 0 && productInfo.sum_star != 0) {
+			double rate = (double) productInfo.sum_star / productInfo.count_vote;
+			txtRatingInfo.setText(decimalFormat.format(rate) + " *");
+		}
+		
 		// set up TextView and EditText
 		lblNameOfProduct = (TextView) findViewById(R.id.viewNameOfProduct);
 		lblNameOfProduct.setWidth(labelWidth);
@@ -174,7 +226,50 @@ public class ViewProductBasicAttributeActivity extends Activity {
 			// txtPageViewOfProduct.setFilters(Global.uneditableInputFilters);
 			btnEditProduct.setVisibility(View.GONE);
 		}
+		
+		// button tag friend to product
+		Button btnTagFriend = (Button) findViewById(R.id.tag);
+		if (Global.isLogin) {
+			btnTagFriend.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					tagFriendToProduct();
+				}
+			});
+		} else {
+			btnTagFriend.setVisibility(View.GONE);
+		}
 	}
+
+	protected void tagFriendToProduct() {
+		FriendListDialog.tagType = FriendListDialog.TAG_PRODUCT;
+		FriendListDialog.showDialog(this, productInfo.id);
+	}
+
+	protected void rateProduct(final int rating) {
+		String url = String.format(URLConstant.RATE_PRODUCT, productInfo.id, rating);
+		
+		RestClient.getData(url, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				Log.d(TAG, "[Rate product successfully] " + json.toString());
+				productInfo.count_vote++;
+				productInfo.sum_star += rating;
+				double rate = (double) productInfo.sum_star / productInfo.count_vote;
+				txtRatingInfo.setText(decimalFormat.format(rate) + " *");
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				Log.e(TAG, "[Rate product fail] " + message);
+				Toast.makeText(ViewProductBasicAttributeActivity.this, 
+						message, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
+
 
 	protected void updateProductInfo() {
 		Log.d(TAG, "not implement yet");
@@ -191,7 +286,7 @@ public class ViewProductBasicAttributeActivity extends Activity {
 	}
 
 	private MyLocationListener myLocationListener;
-
+	private TextView txtRatingInfo;
 	protected void findDirectionToProduct() {
 		Log.d(TAG, "find direction to product");
 		myLocationListener = new MyLocationListener(this,
@@ -229,8 +324,9 @@ public class ViewProductBasicAttributeActivity extends Activity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		if (myLocationListener != null)
+		if (myLocationListener != null) {
 			myLocationListener.removeUpdates();
+		}
 	}
 
 	protected void showComment() {

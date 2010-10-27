@@ -114,6 +114,9 @@ public class Global {
 	
 	public static final String PRODUCT_1 = "product_1";
 	public static final String PRODUCT_2 = "product_2";
+	
+	public static final String PRODUCTS = "products";
+	
 	/*
 	 * ACTIVITY ACTION NAME
 	 */

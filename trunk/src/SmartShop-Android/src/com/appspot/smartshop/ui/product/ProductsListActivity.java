@@ -152,19 +152,20 @@ public class ProductsListActivity extends MapActivity {
 		}
 	}
 	
-	public static final int MENU_SEARCH_BY_CATEGORIES = 3;
+	public static final int MENU_SEARCH_BY_CATEGORIES = 0;
+	public static final int MENU_COMPARE_TWO_PRODUCTS = 1;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_SEARCH_BY_CATEGORIES, 0,
-				getString(R.string.search_by_categories)).setIcon(
-				R.drawable.category);
+				getString(R.string.search_by_categories)).setIcon(R.drawable.category);
+		menu.add(0, MENU_COMPARE_TWO_PRODUCTS, 0,
+				getString(R.string.compare)).setIcon(R.drawable.compare);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-
 		case MENU_SEARCH_BY_CATEGORIES:
 			CategoriesDialog.showCategoriesDialog(this, new CategoriesDialogListener() {
 				
@@ -173,6 +174,12 @@ public class ProductsListActivity extends MapActivity {
 					searchByCategories(categories);
 				}
 			});
+			break;
+		
+		case MENU_COMPARE_TWO_PRODUCTS:
+			Intent intent = new Intent(ProductsListActivity.this, SelectTwoProductActivity.class);
+			intent.putExtra(Global.PRODUCTS, products);
+			startActivity(intent);
 			break;
 		}
 
