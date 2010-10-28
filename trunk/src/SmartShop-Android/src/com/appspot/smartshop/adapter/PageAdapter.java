@@ -70,14 +70,19 @@ public class PageAdapter extends ArrayAdapter<Page> {
 			@Override
 			public void onClick(View v) {
 				Intent intent = null;
-				if (Global.isLogin && page.username.equals(Global.userInfo.username)) {
-					Log.d(TAG, "edit page of " + Global.userInfo.username);
-					intent = new Intent(context, PageActivity.class);
-				} else {
-					Log.d(TAG, "view page");
-					intent = new Intent(context, ViewPageActivity.class);
-				}
+//				if (Global.isLogin && page.username.equals(Global.userInfo.username)) {
+//					Log.d(TAG, "edit page of " + Global.userInfo.username);
+//					intent = new Intent(context, PageActivity.class);
+//				} else {
+//					Log.d(TAG, "view page");
+//					intent = new Intent(context, ViewPageActivity.class);
+//				}
 				
+				Log.d(TAG, "view page");
+				intent = new Intent(context, ViewPageActivity.class);
+				
+				// TODO: get page info from service find page by id
+				Page newPage = null;
 				intent.putExtra(Global.PAGE, page);
 				context.startActivity(intent);
 			}

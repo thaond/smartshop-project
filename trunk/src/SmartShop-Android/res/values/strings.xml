@@ -266,4 +266,5 @@
 	<string name="warn_choose_2_different_products">Chọn 2 mặt hàng khác nhau</string>
 	
 	<string name="err_cant_get_product_info">Không thể lấy thông tin sản phẩm</string>
+	
 </resources>
