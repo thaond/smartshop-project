@@ -31,6 +31,7 @@ public class UserInfo implements Serializable {
 	public double gmt;
 	public int type;
 	public String sessionId;
+	public String userkey;
 
 	public Set<String> setFriendsUsername;
 

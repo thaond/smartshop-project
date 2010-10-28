@@ -37,7 +37,7 @@ public class ProductGalleryActivity extends Activity implements ViewFactory{
 		setContentView(R.layout.product_gallery);
 		
 		//TODO
-		initMockTest();
+//		initMockTest();
 		getBitmap();
 
 		imageSwitcher = (ImageSwitcher) findViewById(R.id.image_switcher);

@@ -35,7 +35,7 @@ public class URLConstant {
 			+ "/api/asd/get-page/?id=%d";
 
 	public static final String LOGIN = HOST
-			+ "/api/asd/account-login/?username=%s&password=%s";
+			+ "/api/asd/account-login/?username=%s&password=%s&userkey=%s";
 	public static final String LOGOUT = HOST 
 			+ "/api/asd/account-logout/?session=%s";
 
@@ -44,6 +44,8 @@ public class URLConstant {
 			+ "/api/asd/account-editprofile/?session=%s", Global.getSession());
 	public static final String GET_USER_INFO = HOST
 			+ "/api/asd/account-getuser/?username=%s";
+	public static final String GET_USER_INFO_SESSION = HOST
+			+ "/api/asd/account-getuser/?session=%s";
 	public static final String GET_INTERESTED_PRODUCTS_OF_USER = HOST
 			+ "/api/asd/product-get-interested-product/?username=%s&limit=0";
 	public static final String GET_SELLED_PRODUCTS_OF_USER = HOST
@@ -73,7 +75,7 @@ public class URLConstant {
 			+ Global.getSession();
 
 	public static final String GET_NOTIFICATIONS = HOST
-			+ "/api/asd/noti-get-by/";
+			+ "/api/asd/noti-get-by/?username=%s&type=%d&lastupdate=%d";
 	public static String MARK_AS_READ_ALL_NOTIFICATIONS = String.format(HOST
 			+ "/api/asd/noti-mark-as-read/?session=%s", Global.getSession());
 
@@ -103,7 +105,6 @@ public class URLConstant {
 			+ "/api/asd/tag-friend-to-page/?session=%s&pageID=%d&usernames=%s";
 	public static final String UNTAG_FRIEND_FROM_PAGE = HOST
 			+ "/api/asd/untag-friend-from-page/?session=%s&pageID=%d&usernames=%s";
-
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/";
 	public static final String URL_UPLOAD_AVATAR = HOST_IMG

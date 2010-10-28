@@ -33,6 +33,7 @@ import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
+import com.xtify.android.sdk.PersistentLocationManager.SetUserKeyListener;
 
 public class LoginActivity extends Activity {
 	public static final String TAG = "[LoginActivity]";
@@ -53,7 +54,7 @@ public class LoginActivity extends Activity {
 		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		int width = display.getWidth(); 
 		int labelWidth = (int) (width * 0.25);
-		int textWidth = width - labelWidth;
+		int textWidth = width - labelWidth; 
 		
 		// set up textviews
 		lblUsername = (TextView) findViewById(R.id.lblUsername);
@@ -92,13 +93,14 @@ public class LoginActivity extends Activity {
 	protected void login() {
 		String username = txtUsername.getText().toString();
 		String pass = txtPassword.getText().toString();
-		final String url = String.format(URLConstant.LOGIN, username, Utils.getMD5(pass));
+		final String userkey = Utils.getAlphaNumeric(20);
+		final String url = String.format(URLConstant.LOGIN, username, Utils.getMD5(pass), userkey);
 		
 		task = new SimpleAsyncTask(getString(R.string.loading_when_login), this, new DataLoader() {
 			
 			@Override
 			public void updateUI() {
-			}
+			} 
 			
 			@Override
 			public void loadData() {
@@ -119,11 +121,11 @@ public class LoginActivity extends Activity {
 										.isTrackingLocation();
 								boolean deliverNotifications = Global.persistentLocationManager
 										.isDeliveringNotifications();
-								Global.persistentLocationManager.setUserKey(Global.userInfo.username, null);
-								Log.e(TAG, Global.persistentLocationManager.getUserKey());
+								Global.persistentLocationManager.setUserKey(userkey, null);
 								if (trackLocation || deliverNotifications) {
 									Global.persistentLocationManager.startService();
 								}
+								Log.e(TAG, "After start: " + userkey);
 							}
 						});
 						xtifyThread.start(); // to avoid Android's application-not-responding

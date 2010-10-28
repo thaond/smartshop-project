@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="username">#05FCEF</color>
+	<color name="function_green">#2FEF15</color>
+	<color name="background">#021728</color>
+	<color name="submenu">#052844</color>
+	<color name="selected">#1258a9</color>
+	
+	<!-- Normal color -->
+	<color name="white">#FFFFFF</color>
+	<color name="green">#33CC33</color>
+	<color name="red">#FF0000</color>
+</resources>
