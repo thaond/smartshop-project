@@ -36,42 +36,42 @@ public class InsertSampleProductService extends BaseRestfulService {
 			Long productId = db.insertProduct(product).getResult();
 			
 			ServiceResult<Long> result;
-			if (product.getUsername().equals("tam")) {
-				result = dbNo.insertNotification(new Notification(
-						"nghia đã comment vào sản phẩm của bạn", new Date(),
-						true, "product", productId, "tam"));
-				result = dbNo.insertNotification(new Notification(
-						"duc đã comment vào sản phẩm của bạn", new Date(),
-						false, "product", productId, "tam"));
-			} else if (product.getUsername().equals("nghia")) {
-				result = dbNo.insertNotification(new Notification(
-						"tam đã comment vào sản phẩm của bạn", new Date(),
-						true, "product", productId, "nghia"));
-				result = dbNo.insertNotification(new Notification(
-						"duc đã comment vào sản phẩm của bạn", new Date(),
-						false, "product", productId, "nghia"));
-			} else if (product.getUsername().equals("duc")) {
-				result = dbNo.insertNotification(new Notification(
-						"nghia đã comment vào sản phẩm của bạn", new Date(),
-						true, "product", productId, "duc"));
-				result = dbNo.insertNotification(new Notification(
-						"loi đã comment vào sản phẩm của bạn", new Date(),
-						false, "product", productId, "duc"));
-			} else if (product.getUsername().equals("hieu")) {
-				result = dbNo.insertNotification(new Notification(
-						"nghia đã comment vào sản phẩm của bạn", new Date(),
-						true, "product", productId, "loi"));
-				result = dbNo.insertNotification(new Notification(
-						"duc đã comment vào sản phẩm của bạn", new Date(),
-						false, "product", productId, "loi"));
-			} else if (product.getUsername().equals("loi")) {
-				result = dbNo.insertNotification(new Notification(
-						"nghia đã comment vào sản phẩm của bạn", new Date(),
-						true, "product", productId, "hieu"));
-				result = dbNo.insertNotification(new Notification(
-						"duc đã comment vào sản phẩm của bạn", new Date(),
-						false, "product", productId, "hieu"));
-			}
+//			if (product.getUsername().equals("tam")) {
+//				result = dbNo.insertNotification(new Notification(
+//						"nghia đã comment vào sản phẩm của bạn", new Date(),
+//						true, "product", productId, "tam"));
+//				result = dbNo.insertNotification(new Notification(
+//						"duc đã comment vào sản phẩm của bạn", new Date(),
+//						false, "product", productId, "tam"));
+//			} else if (product.getUsername().equals("nghia")) {
+//				result = dbNo.insertNotification(new Notification(
+//						"tam đã comment vào sản phẩm của bạn", new Date(),
+//						true, "product", productId, "nghia"));
+//				result = dbNo.insertNotification(new Notification(
+//						"duc đã comment vào sản phẩm của bạn", new Date(),
+//						false, "product", productId, "nghia"));
+//			} else if (product.getUsername().equals("duc")) {
+//				result = dbNo.insertNotification(new Notification(
+//						"nghia đã comment vào sản phẩm của bạn", new Date(),
+//						true, "product", productId, "duc"));
+//				result = dbNo.insertNotification(new Notification(
+//						"loi đã comment vào sản phẩm của bạn", new Date(),
+//						false, "product", productId, "duc"));
+//			} else if (product.getUsername().equals("hieu")) {
+//				result = dbNo.insertNotification(new Notification(
+//						"nghia đã comment vào sản phẩm của bạn", new Date(),
+//						true, "product", productId, "loi"));
+//				result = dbNo.insertNotification(new Notification(
+//						"duc đã comment vào sản phẩm của bạn", new Date(),
+//						false, "product", productId, "loi"));
+//			} else if (product.getUsername().equals("loi")) {
+//				result = dbNo.insertNotification(new Notification(
+//						"nghia đã comment vào sản phẩm của bạn", new Date(),
+//						true, "product", productId, "hieu"));
+//				result = dbNo.insertNotification(new Notification(
+//						"duc đã comment vào sản phẩm của bạn", new Date(),
+//						false, "product", productId, "hieu"));
+//			}
 		}
 
 		return "Done";

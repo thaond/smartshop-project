@@ -27,42 +27,42 @@ public class InsertPageService extends BaseRestfulService {
 		for (Page page : pages) {
 			Long pageId = db.insertPage(page).getResult();
 
-			if (page.getUsername().equals("tam")) {
-				dbNo.insertNotification(new Notification(
-						"nghia đã comment vào bài viết của bạn", new Date(),
-						true, "page", pageId, "tam"));
-				dbNo.insertNotification(new Notification(
-						"duc đã comment vào bài viết của bạn", new Date(),
-						false, "page", pageId, "tam"));
-			} else if (page.getUsername().equals("nghia")) {
-				dbNo.insertNotification(new Notification(
-						"tam đã comment vào bài viết của bạn", new Date(),
-						true, "page", pageId, "nghia"));
-				dbNo.insertNotification(new Notification(
-						"duc đã comment vào bài viết của bạn", new Date(),
-						false, "page", pageId, "nghia"));
-			} else if (page.getUsername().equals("duc")) {
-				dbNo.insertNotification(new Notification(
-						"nghia đã comment vào bài viết của bạn", new Date(),
-						true, "page", pageId, "duc"));
-				dbNo.insertNotification(new Notification(
-						"loi đã comment vào bài viết của bạn", new Date(),
-						false, "page", pageId, "duc"));
-			} else if (page.getUsername().equals("loi")) {
-				dbNo.insertNotification(new Notification(
-						"nghia đã comment vào bài viết của bạn", new Date(),
-						true, "page", pageId, "loi"));
-				dbNo.insertNotification(new Notification(
-						"duc đã comment vào bài viết của bạn", new Date(),
-						false, "page", pageId, "loi"));
-			} else if (page.getUsername().equals("hieu")) {
-				dbNo.insertNotification(new Notification(
-						"nghia đã comment vào bài viết của bạn", new Date(),
-						true, "page", pageId, "hieu"));
-				dbNo.insertNotification(new Notification(
-						"duc đã comment vào bài viết của bạn", new Date(),
-						false, "page", pageId, "hieu"));
-			}
+//			if (page.getUsername().equals("tam")) {
+//				dbNo.insertNotification(new Notification(
+//						"nghia đã comment vào bài viết của bạn", new Date(),
+//						true, "page", pageId, "tam"));
+//				dbNo.insertNotification(new Notification(
+//						"duc đã comment vào bài viết của bạn", new Date(),
+//						false, "page", pageId, "tam"));
+//			} else if (page.getUsername().equals("nghia")) {
+//				dbNo.insertNotification(new Notification(
+//						"tam đã comment vào bài viết của bạn", new Date(),
+//						true, "page", pageId, "nghia"));
+//				dbNo.insertNotification(new Notification(
+//						"duc đã comment vào bài viết của bạn", new Date(),
+//						false, "page", pageId, "nghia"));
+//			} else if (page.getUsername().equals("duc")) {
+//				dbNo.insertNotification(new Notification(
+//						"nghia đã comment vào bài viết của bạn", new Date(),
+//						true, "page", pageId, "duc"));
+//				dbNo.insertNotification(new Notification(
+//						"loi đã comment vào bài viết của bạn", new Date(),
+//						false, "page", pageId, "duc"));
+//			} else if (page.getUsername().equals("loi")) {
+//				dbNo.insertNotification(new Notification(
+//						"nghia đã comment vào bài viết của bạn", new Date(),
+//						true, "page", pageId, "loi"));
+//				dbNo.insertNotification(new Notification(
+//						"duc đã comment vào bài viết của bạn", new Date(),
+//						false, "page", pageId, "loi"));
+//			} else if (page.getUsername().equals("hieu")) {
+//				dbNo.insertNotification(new Notification(
+//						"nghia đã comment vào bài viết của bạn", new Date(),
+//						true, "page", pageId, "hieu"));
+//				dbNo.insertNotification(new Notification(
+//						"duc đã comment vào bài viết của bạn", new Date(),
+//						false, "page", pageId, "hieu"));
+//			}
 		}
 
 		return "Done";

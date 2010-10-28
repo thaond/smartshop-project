@@ -187,30 +187,25 @@ public class SampleData {
 	public static ArrayList<Notification> getSampleNotifications() {
 		ArrayList<Notification> a = new ArrayList<Notification>();
 
-		a.add(new Notification("Thông báo số 1", new Date(), true, "", 0L,
+		// (String content, long date, String username, int type)
+		// (String content, long date, boolean isNew, String username, int type)
+		// {
+		a.add(new Notification("Thông báo số 1", System.currentTimeMillis(),
 				"tam"));
-		a.add(new Notification("loi đã add bạn vào friend", new Date(), true,
-				"", 0L, "tam"));
+		a.add(new Notification("loi đã add bạn vào friend",  System.currentTimeMillis(), true,
+				"tam", 1, "loi"));
 
-		a.add(new Notification("Thông báo số 1", new Date(), true, "", 0L,
-				"nghia"));
-		a.add(new Notification("loi đã add bạn vào friend", new Date(), true,
-				"", 0L, "nghia"));
+		a.add(new Notification("Thông báo số 1", System.currentTimeMillis(), "nghia"));
+		a.add(new Notification("loi đã add bạn vào friend",  System.currentTimeMillis(), true,
+				"nghia", 1, "loi"));
 
-		a.add(new Notification("Thông báo số 1", new Date(), true, "", 0L,
-				"duc"));
-		a.add(new Notification("loi đã add bạn vào friend", new Date(), true,
-				"", 0L, "duc"));
+		a.add(new Notification("Thông báo số 1", System.currentTimeMillis(), "duc"));
+		a.add(new Notification("loi đã add bạn vào friend",  System.currentTimeMillis(), true,
+				"duc", 1, "loi"));
 
-		a.add(new Notification("Thông báo số 1", new Date(), true, "", 0L,
-				"loi"));
-		a.add(new Notification("loi đã add bạn vào friend", new Date(), true,
-				"", 0L, "loi"));
-
-		a.add(new Notification("Thông báo số 1", new Date(), true, "", 0L,
-				"hieu"));
-		a.add(new Notification("loi đã add bạn vào friend", new Date(), true,
-				"", 0L, "hieu"));
+		a.add(new Notification("Thông báo số 1", System.currentTimeMillis(), "hieu"));
+		a.add(new Notification("loi đã add bạn vào friend",  System.currentTimeMillis(), true,
+				"hieu", 1, "loi"));
 
 		return a;
 	}

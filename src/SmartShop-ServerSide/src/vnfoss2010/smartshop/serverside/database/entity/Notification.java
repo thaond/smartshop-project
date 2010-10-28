@@ -1,7 +1,5 @@
  package vnfoss2010.smartshop.serverside.database.entity;
 
-import java.util.Date;
-
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -11,50 +9,59 @@ import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
 public class Notification {
+	public static final int ADD_FRIEND = 1;
+	public static final int TAG_PRODUCT = 2;
+	public static final int UNTAG_PRODUCT = 3;
+	public static final int TAG_PAGE = 4;
+	public static final int UNTAG_PAGE = 5;
+	public static final int ADD_COMMENT_PRODUCT = 6;
+	public static final int ADD_COMMENT_PAGE = 7;
+	public static final int TAG_PRODUCT_TO_PAGE = 8;
+	
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
 	
 	@Persistent
-	private String type;
-	
-	@Persistent
-	private Long type_id;
+	private int type;
 
 	@Persistent
 	private String content;
 
 	@Persistent
-	private Date date; 
+	private long timestamp; 
  
 	@Persistent
 	private boolean isNew;
  
 	@Persistent
 	@Exclude 
-	private String username; 
-
+	private String username;
+	
+	@Persistent
+	private String detail;
+	
 	public Notification() {
 	}
 
-	public Notification(String content, Date date, String username) {
+	public Notification(String content, long date, String username) {
 		this.content = content;
-		this.date = date;
+		this.timestamp = date;
 		this.setUsername(username);
-		this.isNew = false;
+		this.isNew = true;
 	}
 	
 	/**
 	 * Full constructor
 	 */
-	public Notification(String content, Date date, boolean isNew,
-			String type, Long typeId, String username) {
-		this.content = content;
-		this.date = date;
-		this.isNew = isNew;
+	public Notification(String content, long date, boolean isNew, String username, int type, String detail) {
 		this.type = type;
-		this.type_id = typeId;
+		this.content = content;
+		this.timestamp = date;
+		this.isNew = isNew;
+		//this.type_id = typeId;
 		this.username = username;
+		this.detail = detail;
 	}
 
 	/**
@@ -87,20 +94,6 @@ public class Notification {
 		return content;
 	}
 
-	/**
-	 * @param date
-	 *            the date to set
-	 */
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	/**
-	 * @return the date
-	 */
-	public Date getDate() {
-		return date;
-	}
 
 	/**
 	 * @param username
@@ -132,31 +125,60 @@ public class Notification {
 		return isNew;
 	}
 
+//	/**
+//	 * @param typeId the typeId to set
+//	 */
+//	public void setTypeId(int typeId) {
+//		this.type_id = typeId;
+//	}
+//
+//	/**
+//	 * @return the typeId
+//	 */
+//	public int getTypeId() {
+//		return type_id;
+//	}
+
+	/**
+	 * @param detail the detail to set
+	 */
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
+	/**
+	 * @return the detail
+	 */
+	public String getDetail() {
+		return detail;
+	}
+
+	/**
+	 * @param timestamp the timestamp to set
+	 */
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	/**
+	 * @return the timestamp
+	 */
+	public long getTimestamp() {
+		return timestamp;
+	}
+
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 
 	/**
 	 * @return the type
 	 */
-	public String getType() {
+	public int getType() {
 		return type;
 	}
 
-	/**
-	 * @param typeId the typeId to set
-	 */
-	public void setTypeId(Long typeId) {
-		this.type_id = typeId;
-	}
-
-	/**
-	 * @return the typeId
-	 */
-	public Long getTypeId() {
-		return type_id;
-	}
 }
