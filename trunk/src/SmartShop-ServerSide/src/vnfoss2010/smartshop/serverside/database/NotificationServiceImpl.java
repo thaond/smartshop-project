@@ -1,7 +1,6 @@
 package vnfoss2010.smartshop.serverside.database;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,14 +14,9 @@ import vnfoss2010.smartshop.serverside.database.entity.Notification;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
-import vnfoss2010.smartshop.serverside.notification.NotificationUtils;
-import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 public class NotificationServiceImpl {
 	private static NotificationServiceImpl instance;
-	public static final String TYPE_PRODUCT = "product";
-	public static final String TYPE_PAGE = "page";
-	public static final String TYPE_USER = "user";
 
 	private AccountServiceImpl dbAccount;
 	private ProductServiceImpl dbProduct;
@@ -59,13 +53,13 @@ public class NotificationServiceImpl {
 							.getString("insert_nofitification_successfully"));
 					result.setOK(true);
 					// NotificationUtils.sendNotification(
-					// Global.dfFull.format(n.getDate()), n.getContent());
+					// Global.dfFull.format(n.getTimestamp()), n.getContent());
 				}
 			} else {
 				result.setMessage(Global.messages.getString("not_found") + " "
 						+ n.getUsername());
 				// NotificationUtils.sendNotification(
-				// Global.dfFull.format(n.getDate()), n.getContent());
+				// Global.dfFull.format(n.getTimestamp()), n.getContent());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,23 +78,39 @@ public class NotificationServiceImpl {
 	}
 
 	public ServiceResult<List<Notification>> getListNotificationsByUsername(
-			String username, int limit, int type) {
+			String username, int limit, int type, long lastupdate) {
 		ServiceResult<List<Notification>> result = new ServiceResult<List<Notification>>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		if (dbAccount.isExist(username).isOK()) {
 			Query query = pm.newQuery(Notification.class);
-			query.setFilter("username == us");
-			query.declareParameters("String us");
+			String filter = "username == us";
+			String declear = "String us";
 			if (limit > 0)
 				query.setRange(0, limit);
+
 			if (type == 1) {
-				query.setFilter("isNew == true");
+				filter += " && isNew == true";
 			} else if (type == 2) {
-				query.setFilter("isNew == false");
+				filter += " && isNew == false";
 			}
-			List<Notification> listNotifications = (List<Notification>) query
-					.execute(username);
+
+			List<Notification> listNotifications;
+			if (lastupdate > 0) {
+				filter += " && timestamp >= lu";
+				declear += ", Long lu";
+				query.setFilter(filter);
+				query.declareParameters(declear);
+				log.log(Level.SEVERE, filter + " | " + declear);
+				listNotifications = (List<Notification>) query.execute(
+						username, lastupdate);
+			} else {
+				log.log(Level.SEVERE, filter + " | " + declear);
+				query.setFilter(filter);
+				query.declareParameters(declear);
+				listNotifications = (List<Notification>) query
+						.execute(username);
+			}
 
 			if (listNotifications.size() > 0) {
 				result.setOK(true);
@@ -143,7 +153,7 @@ public class NotificationServiceImpl {
 						.getString("no_found_notification"));
 			} else {
 				n.setContent(nof.getContent());
-				n.setDate(nof.getDate());
+				n.setTimestamp(nof.getTimestamp());
 				n.setNew(nof.isNew());
 				n.setUsername(nof.getUsername());
 
@@ -189,26 +199,16 @@ public class NotificationServiceImpl {
 	public ServiceResult<Void> insertWhenUserComment(Comment comment) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		Notification noti = new Notification();
-		noti.setType(comment.getType());
-		noti.setTypeId(comment.getType_id());
-		noti.setDate(new Date());
+		noti.setTimestamp(comment.getDatePost().getTime());
 		noti.setNew(true);
-		noti.setContent(String.format(Global.messages
-				.getString("notification_comment_content"), comment
-				.getUsername(), noti.getType(), noti.getTypeId()));
-		if (noti.getType().equals(TYPE_PAGE)) {
-			ServiceResult<Page> searchResult = dbPage
-					.findPage(noti.getTypeId());
-			if (searchResult.isOK()) {
-				noti.setUsername(searchResult.getResult().getUsername());
-			} else {
-				result.setOK(false);
-				result.setMessage(searchResult.getMessage());
-				return result;
-			}
-		} else if (noti.getType().equals(TYPE_PRODUCT)) {
-			ServiceResult<Product> productResult = dbProduct.findProduct(noti
-					.getTypeId());
+		if (comment.getType().equals("product")) {
+			noti.setType(Notification.ADD_COMMENT_PRODUCT);
+			noti.setContent(String.format(Global.messages
+					.getString("notification_comment_content"), comment
+					.getUsername(), Global.messages.getString("product")));
+
+			ServiceResult<Product> productResult = dbProduct
+					.findProduct(comment.getType_id());
 			if (productResult.isOK()) {
 				noti.setUsername(productResult.getResult().getUsername());
 			} else {
@@ -216,7 +216,23 @@ public class NotificationServiceImpl {
 				result.setMessage(productResult.getMessage());
 				return result;
 			}
+		} else {
+			noti.setType(Notification.ADD_COMMENT_PAGE);
+			noti.setContent(String.format(Global.messages
+					.getString("notification_comment_content"), comment
+					.getUsername(), Global.messages.getString("page")));
+
+			ServiceResult<Page> searchResult = dbPage.findPage(comment
+					.getType_id());
+			if (searchResult.isOK()) {
+				noti.setUsername(searchResult.getResult().getUsername());
+			} else {
+				result.setOK(false);
+				result.setMessage(searchResult.getMessage());
+				return result;
+			}
 		}
+
 		ServiceResult<Long> insertResult = insertNotification(noti);
 		result.setOK(insertResult.isOK());
 		result.setMessage(insertResult.getMessage());
@@ -224,10 +240,10 @@ public class NotificationServiceImpl {
 		return result;
 	}
 
-	public ServiceResult<Void> insertWhenTagUserToProduct(long productID,
-			String userName, boolean isTag) {
+	public ServiceResult<Void> insertWhenTagUserToProduct(long productId,
+			String username, boolean isTag) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
-		ServiceResult<Product> productResult = dbProduct.findProduct(productID);
+		ServiceResult<Product> productResult = dbProduct.findProduct(productId);
 		if (productResult.isOK() == false) {
 			result.setOK(false);
 			result.setMessage(productResult.getMessage());
@@ -235,25 +251,24 @@ public class NotificationServiceImpl {
 		}
 
 		Notification noti = new Notification();
-		noti.setUsername(userName);
+		noti.setUsername(username);
 		if (isTag) {
 			noti.setContent(String.format(Global.messages
 					.getString("notification_tag_user_to_product_content"),
-					productResult.getResult().getUsername(), productID));
+					productResult.getResult().getUsername(), productId));
+			noti.setType(Notification.TAG_PRODUCT);
 		} else {
 			noti.setContent(String.format(Global.messages
 					.getString("notification_untag_user_from_product_content"),
-					productResult.getResult().getUsername(), productID));
+					productResult.getResult().getUsername(), productId));
+			noti.setType(Notification.UNTAG_PRODUCT);
 		}
-		noti.setDate(new Date());
+		noti.setTimestamp(System.currentTimeMillis());
 		noti.setNew(true);
-		noti.setType(TYPE_PRODUCT);
-		noti.setTypeId(productID);
+
 		ServiceResult<Long> insertResult = insertNotification(noti);
 		result.setOK(insertResult.isOK());
 		result.setMessage(insertResult.getMessage());
-
-		insertNotification(noti);
 		return result;
 	}
 
@@ -285,10 +300,9 @@ public class NotificationServiceImpl {
 							productResult.getResult().getUsername(), productID,
 							pageID));
 		}
-		noti.setDate(new Date());
+		noti.setTimestamp(System.currentTimeMillis());
 		noti.setNew(true);
-		noti.setType(TYPE_PAGE);
-		noti.setTypeId(pageID);
+		noti.setType(Notification.TAG_PRODUCT_TO_PAGE);
 		ServiceResult<Long> insertResult = insertNotification(noti);
 		result.setOK(insertResult.isOK());
 		result.setMessage(insertResult.getMessage());
@@ -316,39 +330,40 @@ public class NotificationServiceImpl {
 			List<String> addedUnames) {
 		List<ServiceResult<Long>> result = new ArrayList<ServiceResult<Long>>();
 		for (String addedUname : addedUnames) {
-			ServiceResult<UserInfo> resultAddedUserInfo = dbAccount.getUserInfo(addedUname);
+			ServiceResult<UserInfo> resultAddedUserInfo = dbAccount
+					.getUserInfo(addedUname);
 			if (!resultAddedUserInfo.isOK())
 				continue;
 			String addedUserkey = resultAddedUserInfo.getResult().getUserkey();
-			
+
 			Notification noti = new Notification();
-			noti.setDate(new Date());
+			noti.setTimestamp(System.currentTimeMillis());
 			noti.setNew(true);
 			noti.setContent(String.format(Global.messages
 					.getString("notification_add_friend_conttent"), userName));
 			noti.setUsername(addedUname);
-			noti.setType(TYPE_USER);
+			noti.setType(Notification.ADD_FRIEND);
 
-			if (UtilsFunction.isOnline(addedUname)) {
-				// Send Xtify message ^^
-				noti.setNew(false);
-				NotificationUtils.sendNotification(addedUserkey, 
-						NotificationUtils.ADD_FRIEND, Global.messages
-								.getString("add_friend"),
-						String.format(Global.messages
-								.getString("notification_add_friend_conttent"),
-								userName));
-				log.log(Level.SEVERE, "Send xtify " + addedUname);
-			}
+			// if (UtilsFunction.isOnline(addedUname)) {
+			// // Send Xtify message ^^
+			// noti.setNew(false);
+			// NotificationUtils.sendNotification(addedUserkey,
+			// NotificationUtils.ADD_FRIEND, Global.messages
+			// .getString("add_friend"),
+			// String.format(Global.messages
+			// .getString("notification_add_friend_conttent"),
+			// userName));
+			// log.log(Level.SEVERE, "Send xtify " + addedUname);
+			// }
 			result.add(insertNotification(noti));
 		}
 		return result;
 	}
 
-	public ServiceResult<Void> insertWhenTagUserToPage(long pageID,
-			String userName, boolean isTag) {
+	public ServiceResult<Void> insertWhenTagUserToPage(long pageId,
+			String username, boolean isTag) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
-		ServiceResult<Page> pageResult = dbPage.findPage(pageID);
+		ServiceResult<Page> pageResult = dbPage.findPage(pageId);
 		if (pageResult.isOK() == false) {
 			result.setOK(false);
 			result.setMessage(pageResult.getMessage());
@@ -356,20 +371,20 @@ public class NotificationServiceImpl {
 		}
 
 		Notification noti = new Notification();
-		noti.setUsername(userName);
+		noti.setUsername(username);
 		if (isTag) {
 			noti.setContent(String.format(Global.messages
 					.getString("notification_tag_user_to_page_content"),
-					pageResult.getResult().getUsername(), pageID));
+					pageResult.getResult().getUsername(), pageId));
+			noti.setType(Notification.TAG_PAGE);
 		} else {
 			noti.setContent(String.format(Global.messages
 					.getString("notification_untag_user_from_page_content"),
-					pageResult.getResult().getUsername(), pageID));
+					pageResult.getResult().getUsername(), pageId));
+			noti.setType(Notification.UNTAG_PAGE);
 		}
-		noti.setDate(new Date());
+		noti.setTimestamp(System.currentTimeMillis());
 		noti.setNew(true);
-		noti.setType(TYPE_PAGE);
-		noti.setTypeId(pageID);
 		ServiceResult<Long> insertResult = insertNotification(noti);
 		result.setOK(insertResult.isOK());
 		result.setMessage(insertResult.getMessage());
@@ -377,7 +392,7 @@ public class NotificationServiceImpl {
 		insertNotification(noti);
 		return result;
 	}
-	
+
 	public ServiceResult<Void> deleteAllNoticationsBy(String username) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();

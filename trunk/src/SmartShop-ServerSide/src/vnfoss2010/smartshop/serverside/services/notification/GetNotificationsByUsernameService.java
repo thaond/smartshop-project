@@ -45,10 +45,16 @@ public class GetNotificationsByUsernameService extends BaseRestfulService {
 			type= Integer.parseInt(getParameter("type", params, json));
 		} catch (Exception e) {
 		}
+		
+		long lastupdate = 0;
+		try {
+			lastupdate= Long.parseLong(getParameter("lastupdate", params, json));
+		} catch (Exception e) {
+		}
 
 		JsonObject jsonReturn = new JsonObject();
 
-		ServiceResult<List<Notification>> result = dbNotification.getListNotificationsByUsername(username, limit, type);
+		ServiceResult<List<Notification>> result = dbNotification.getListNotificationsByUsername(username, limit, type, lastupdate);
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());
