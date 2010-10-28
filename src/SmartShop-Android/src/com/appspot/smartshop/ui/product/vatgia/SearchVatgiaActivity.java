@@ -67,6 +67,11 @@ public class SearchVatgiaActivity extends Activity {
 		SessionEvents.addAuthListener(new SampleAuthListener());
 		SessionEvents.addLogoutListener(new SampleLogoutListener());
 		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
+		if(!Global.isLogin){
+			mLoginButton.setVisibility(View.GONE);
+		}else{
+			mLoginButton.setVisibility(View.VISIBLE);
+		}
 		if(Global.mFacebook.isSessionValid()){
 			mLoginButton.setVisibility(View.GONE);
 		}

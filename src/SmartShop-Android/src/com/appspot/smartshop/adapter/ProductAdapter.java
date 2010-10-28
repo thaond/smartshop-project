@@ -44,6 +44,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 	private Context context;
 	private LayoutInflater inflater;
+	public ViewHolder holder;
 	private Bundle params = new Bundle();// contain information for post product
 	// to facebook
 
@@ -70,7 +71,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		final ViewHolder holder;
+		
 
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.product_list_item, null);
@@ -134,9 +135,6 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 							Toast.LENGTH_SHORT).show();
 				} else {
 					postFacebookSmartShop();
-					holder.postFacebook
-							.setImageResource(R.drawable.facebook_share_nonactive);
-					holder.postFacebook.setClickable(false);
 				}
 
 			}
@@ -221,6 +219,9 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			Toast.makeText(context,
 					context.getString(R.string.postOnFacebookSuccess),
 					Toast.LENGTH_LONG).show();
+			holder.postFacebook
+			.setImageResource(R.drawable.facebook_share_nonactive);
+			holder.postFacebook.setClickable(false);
 		}
 	}
 

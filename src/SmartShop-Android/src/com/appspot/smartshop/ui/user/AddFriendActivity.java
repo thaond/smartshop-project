@@ -64,11 +64,14 @@ public class AddFriendActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				if(friendsToAdd.length()==0){
+					Toast.makeText(AddFriendActivity.this, getString(R.string.warn_not_choose_user), Toast.LENGTH_SHORT).show();
+				}else{
 				addFriends();
-				
+				}
 			}
 		});
-		adapter = new AddFriendAdapter(this, 0, MockAddFriend.getInstance());
+		adapter = new AddFriendAdapter(this, 0, null);
 		friendList.setAdapter(adapter);
 //		Log.d(TAG, "is executed");
 //		loadFriendList();
