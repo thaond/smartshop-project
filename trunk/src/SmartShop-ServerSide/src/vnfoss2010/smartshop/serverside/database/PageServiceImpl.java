@@ -68,9 +68,9 @@ public class PageServiceImpl {
 		return result;
 	}
 
-	public ServiceResult<Void> tagFriendToPage(long pageID, String[] usernames,
-			String username) {
-		ServiceResult<Void> result = new ServiceResult<Void>();
+	public ServiceResult<Set<String>> tagFriendToPage(long pageID,
+			String[] usernames, String username) {
+		ServiceResult<Set<String>> result = new ServiceResult<Set<String>>();
 		result.setOK(true);
 		PersistenceManager pm = null;
 		UserInfo user = null;
@@ -91,7 +91,7 @@ public class PageServiceImpl {
 					ServiceResult<Void> notiResult = null;
 					for (String user2Tag : usernames) {
 						try {
-							if (!page.getSetFriendsTaggedID()
+							if (page.getSetFriendsTaggedID()
 									.contains(user2Tag)) {
 								result.setOK(false);
 								result.setMessage(result.getMessage()
@@ -147,12 +147,15 @@ public class PageServiceImpl {
 				e.printStackTrace();
 			}
 		}
+		if (result.isOK()) {
+			result.setResult(page.getSetFriendsTaggedID());
+		}
 		return result;
 	}
 
-	public ServiceResult<Void> untagFriendFromPage(long pageID,
+	public ServiceResult<Set<String>> untagFriendFromPage(long pageID,
 			String[] usernames, String username) {
-		ServiceResult<Void> result = new ServiceResult<Void>();
+		ServiceResult<Set<String>> result = new ServiceResult<Set<String>>();
 		result.setOK(true);
 		UserInfo user = null;
 		PersistenceManager pm = null;
@@ -225,6 +228,9 @@ public class PageServiceImpl {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+		if (result.isOK()) {
+			result.setResult(page.getSetFriendsTaggedID());
 		}
 		return result;
 	}

@@ -1,7 +1,9 @@
 package vnfoss2010.smartshop.serverside.services.page;
 
 import java.util.Map;
+import java.util.Set;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.PageServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
@@ -9,6 +11,7 @@ import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 public class TagFriendToPageService extends BaseRestfulService {
 
@@ -21,7 +24,7 @@ public class TagFriendToPageService extends BaseRestfulService {
 	@Override
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
-		JSONObject jsonReturn = new JSONObject();
+		JsonObject jsonReturn = new JsonObject();
 		JSONObject json = null;
 		try {
 			json = new JSONObject(content);
@@ -32,11 +35,15 @@ public class TagFriendToPageService extends BaseRestfulService {
 		String[] usernames = getParameterWithThrow("usernames", params, json)
 				.split(",");
 		String username = getParameterWithThrow("username", params, json);
-		ServiceResult<Void> result = dbPage.tagFriendToPage(pageID, usernames,
-				username);
+		ServiceResult<Set<String>> result = dbPage.tagFriendToPage(pageID,
+				usernames, username);
 
-		jsonReturn.put("errCode", result.isOK() ? 0 : 1);
-		jsonReturn.put("message", result.getMessage());
+		if (result.isOK()) {
+			jsonReturn.add("setFriendTaggedID",
+					Global.gsonWithDate.toJsonTree(result.getResult()));
+		}
+		jsonReturn.addProperty("errCode", result.isOK() ? 0 : 1);
+		jsonReturn.addProperty("message", result.getMessage());
 		return jsonReturn.toString();
 	}
 }

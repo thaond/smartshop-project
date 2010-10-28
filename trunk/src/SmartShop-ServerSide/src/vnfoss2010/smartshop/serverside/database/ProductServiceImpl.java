@@ -1150,9 +1150,9 @@ public class ProductServiceImpl {
 		return result;
 	}
 
-	public ServiceResult<Void> tagFriendToProduct(long productID,
+	public ServiceResult<Set<String>> tagFriendToProduct(long productID,
 			String usernames[], String username, boolean isTag) {
-		ServiceResult<Void> result = new ServiceResult<Void>();
+		ServiceResult<Set<String>> result = new ServiceResult<Set<String>>();
 		result.setOK(true);
 		UserInfo user = null;
 		Product product = null;
@@ -1277,7 +1277,9 @@ public class ProductServiceImpl {
 				e.printStackTrace();
 			}
 		}
-
+		if (result.isOK()) {
+			result.setResult(product.getSetFriendsTaggedID());
+		}
 		return result;
 	}
 
