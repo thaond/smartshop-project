@@ -10,6 +10,7 @@ import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.JsonObject;
@@ -32,21 +33,13 @@ public class LoginService extends BaseRestfulService {
 		
 		String username = getParameter("username", params, json);
 		String password = getParameter("password", params, json);
+		String userkey = getParameter("userkey", params, json);
 
 		JsonObject jsonReturn = new JsonObject();
 		
-		//Clear expried session
-		long cur = System.currentTimeMillis();
-		Set<String> setKeys = Global.mapSession.keySet();
-		for (String s: setKeys){
-			SessionObject so = Global.mapSession.get(s);
-			if (cur - so.timeStamp > Global.SESSION_EXPRIED){
-				db.logout(s);
-				Global.mapSession.remove(s);
-			}
-		}
-
-		ServiceResult<UserInfo> result = db.login(username, password);
+		UtilsFunction.clearExpiredSession();
+		
+		ServiceResult<UserInfo> result = db.login(username, password, userkey);
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());

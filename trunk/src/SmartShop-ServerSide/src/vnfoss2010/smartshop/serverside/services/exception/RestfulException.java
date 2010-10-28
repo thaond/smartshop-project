@@ -27,7 +27,8 @@ public class RestfulException extends Exception {
 
     public JSONObject toJSONObject() throws JSONException {
         JSONObject obj = new JSONObject();
-        obj.put("error", this.getClass().getSimpleName());
+        obj.put("message", this.getClass().getSimpleName());
+        obj.put("errCode", 1);
         return obj;
     }
 

@@ -20,22 +20,21 @@ import com.google.appengine.repackaged.org.json.JSONObject;
 
 /**
  * @author H&#7912;A PHAN Minh Hi&#7871;u (rockerhieu@gmail.com)
- *
+ * 
  */
 public class MissingParameterException extends RestfulException {
-    private static final long serialVersionUID = 1122744948405987845L;
-    private String mServiceName;
-    private String mParamName;
+	private static final long serialVersionUID = 1122744948405987845L;
+	private String mServiceName;
+	private String mParamName;
 
-    public MissingParameterException(String serviceName, String paramName) {
-        this.mServiceName = serviceName;
-        this.mParamName = paramName;
-    }
+	public MissingParameterException(String serviceName, String paramName) {
+		this.mServiceName = serviceName;
+		this.mParamName = paramName;
+	}
 
-    @Override
-    public JSONObject toJSONObject() throws JSONException {
-        return super.toJSONObject().put("service", mServiceName).put(
-                "parameter",
-                mParamName);
-    }
+	@Override
+	public JSONObject toJSONObject() throws JSONException {
+		return super.toJSONObject().put("service", mServiceName).put(
+				"parameter", mParamName).put("errCode", 1);
+	}
 }

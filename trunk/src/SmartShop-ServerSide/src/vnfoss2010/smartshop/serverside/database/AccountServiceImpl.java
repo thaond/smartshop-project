@@ -337,7 +337,7 @@ public class AccountServiceImpl {
 	 *            in MD5 form
 	 * @return
 	 */
-	public ServiceResult<UserInfo> login(String username, String password) {
+	public ServiceResult<UserInfo> login(String username, String password, String userkey) {
 		username = DatabaseUtils.preventSQLInjection(username);
 		password = DatabaseUtils.preventSQLInjection(password);// DatabaseUtils.md5
 
@@ -378,6 +378,7 @@ public class AccountServiceImpl {
 					}
 					userInfo.setSessionId(sessionId);
 					userInfo.setLogin(true);
+					userInfo.setUserkey(userkey);
 
 					result.setMessage(Global.messages
 							.getString("login_successfully"));
@@ -559,9 +560,10 @@ public class AccountServiceImpl {
 				for (int i = 0; i < friends.length; i++) {
 					isNotFound = false;
 
+					String friend = DatabaseUtils.preventSQLInjection(friends[i]);
 					UserInfo userInfo2 = null;
 					try {
-						userInfo2 = pm.getObjectById(UserInfo.class, username);
+						userInfo2 = pm.getObjectById(UserInfo.class, friend);
 					} catch (NucleusObjectNotFoundException e) {
 						isNotFound = true;
 					} catch (JDOObjectNotFoundException e) {
@@ -572,9 +574,8 @@ public class AccountServiceImpl {
 						continue;
 					}
 
-					userInfo.getSetFriendsUsername().add(
-							DatabaseUtils.preventSQLInjection(friends[i]));
-					addedSuccessUName.add(friends[i]);
+					userInfo.getSetFriendsUsername().add(friend);
+					addedSuccessUName.add(friend);
 				}
 
 				result.setOK(true);

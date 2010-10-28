@@ -11,6 +11,7 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.authentication.SessionObject;
+import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.map.direction.GeoPoint;
 
 /**
@@ -222,6 +223,9 @@ public class UtilsFunction {
 	}
 
 	public static SessionObject getSessionObject(String sessionId) {
+		if (StringUtils.isEmptyOrNull(sessionId))
+			return null;
+		
 		Collection<SessionObject> sessions = Global.mapSession.values();
 		Global.log(null, Global.mapSession + "");
 		for (SessionObject s : sessions) {
@@ -246,6 +250,42 @@ public class UtilsFunction {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public static void clearExpiredSession(){
+		//Clear expried session
+		long cur = System.currentTimeMillis();
+		Set<String> setKeys = Global.mapSession.keySet();
+		ArrayList<String> a = null;
+		Global.mapSession.put("asd" , new SessionObject("asd", "Asd", 0));
+		for (String s: setKeys){
+			SessionObject so = Global.mapSession.get(s);
+			if (cur - so.timeStamp > Global.SESSION_EXPRIED){
+				if (a==null)
+					a = new ArrayList<String>();
+				a.add(s);
+				AccountServiceImpl.getInstance().logout(s);
+			}
+		}
+		
+		if (a!=null){
+			for (String u : a){
+				Global.mapSession.remove(u);
+			}
+		}
+	}
+	
+	public static boolean isOnline(String username){
+		SessionObject so = Global.mapSession.get(username);
+		if (so!=null){
+			if (System.currentTimeMillis() - so.timeStamp > Global.SESSION_EXPRIED){
+				AccountServiceImpl.getInstance().logout(username);
+				Global.mapSession.remove(username);
+			}else{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	// public static void main(String[] args) {

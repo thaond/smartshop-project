@@ -1,0 +1,32 @@
+ATTRIBUTE OF PRODUCT
+Full version
+(<tr class="title"><td colspan="2" lang="vi">(.+?)</td></tr>)?(<tr class="technical"><td class="name"><span lang="vi">(.+?)</span>.+?<td class="value">(.+?)</td>)+
+Mobile version
+(<tr class="title"><td colspan="[0-9]">(.+?)</td></tr><tr>)? ?(<td class="name">(.+?)</td><td class="value">(.+?)</td>)+
+
+NAME OF PRODUCT AND THUMBNAIL
+<h1>(.+?)</h1>.+?<img src="(.+?)"
+Group(0) = <h1>DELL Battery D830</h1><div align="center"><img src="http://images.vatgia.com/pictures/small_nym1276671729.jpg"
+Group(1) = DELL Battery D830
+Group(2) = http://images.vatgia.com/pictures/small_nym1276671729.jpg
+
+NAME OF COMPANY
+<div class="pro_estore_name">(.+?)</div><div class="pro_estore_price"><span class="pro_price">(.+?)</span>&nbsp;<span class="pro_price_usd">(.+?)</span><div class="pro_price_width">(.+?)</div></div><div><(.+?)<div class="pro_estore_information">(.+?)</div>
+Group(0) = <div class="pro_estore_name">Công Ty TNHH Tin Học Thành Trí - Chuyên cung cấp các loại linh kiện laptop -... (thanhtrilaptop)</div><div class="pro_estore_price"><span class="pro_price">920.000 VNĐ</span>&nbsp;<span class="pro_price_usd">(47,1 USD)</span><div class="pro_price_width">(Giá thấp nhất)</div></div><div><b>Chất lượng:</b> Mới - <b>Bảo hành:</b> 3 Tháng</div><div class="pro_estore_information"><b>Địa chỉ:</b> 174 Nguyễn Kim, P.6, Q.10<br /><b>Điện thoại:</b> (84.8)39573374 - (84.8)35072251<br /><b>Mobile:</b> 0913 61 55 51<br /></div>
+Group(1) = Công Ty TNHH Tin Học Thành Trí - Chuyên cung cấp các loại linh kiện laptop -... (thanhtrilaptop)
+Group(2) = 920.000 VNĐ
+Group(3) = (47,1 USD)
+Group(4) = (Giá thấp nhất)
+Group(5) = b>Chất lượng:</b> Mới - <b>Bảo hành:</b> 3 Tháng</div>
+Group(6) = <b>Địa chỉ:</b> 174 Nguyễn Kim, P.6, Q.10<br /><b>Điện thoại:</b> (84.8)39573374 - (84.8)35072251<br /><b>Mobile:</b> 0913 61 55 51<br />
+
+b>(.+?)</b>(.+?)<
+Group(0) = b>Chất lượng:</b> Mới - <
+Group(1) = Chất lượng:
+Group(2) =  Mới - 
+
+<b>(.+?)</b>(.+?)<br />
+Group(0) = <b>Địa chỉ:</b> 174 Nguyễn Kim, P.6, Q.10<br />
+Group(1) = Địa chỉ:
+Group(2) =  174 Nguyễn Kim, P.6, Q.10
+

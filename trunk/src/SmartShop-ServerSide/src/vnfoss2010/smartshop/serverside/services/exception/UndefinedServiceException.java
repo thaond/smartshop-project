@@ -32,6 +32,6 @@ public class UndefinedServiceException extends RestfulException {
 
     @Override
     public JSONObject toJSONObject() throws JSONException {
-        return super.toJSONObject().put("service", mServiceName);
+        return super.toJSONObject().put("service", mServiceName).put("errCode", 1);
     }
 }
