@@ -184,8 +184,8 @@ public class SmartShopActivity extends ListActivity {
 				
 				// display
 				if (notifications.size() == 0) {
-					task.hasData = false;
-					task.message = getString(R.string.warn_no_notification);
+					Toast.makeText(SmartShopActivity.this, getString(R.string.warn_no_notification), 
+							Toast.LENGTH_SHORT).show();
 				} else {
 					String title;
 					String content;
@@ -204,9 +204,7 @@ public class SmartShopActivity extends ListActivity {
 
 			@Override
 			public void onFailure(String message) {
-				task.hasData = false;
-				task.message = message;
-				task.cancel(true);
+				Toast.makeText(SmartShopActivity.this, message, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
