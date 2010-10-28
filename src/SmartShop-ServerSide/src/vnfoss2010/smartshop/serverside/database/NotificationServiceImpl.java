@@ -3,6 +3,7 @@ package vnfoss2010.smartshop.serverside.database;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
@@ -13,7 +14,9 @@ import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Notification;
 import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
+import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.notification.NotificationUtils;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 public class NotificationServiceImpl {
 	private static NotificationServiceImpl instance;
@@ -55,14 +58,14 @@ public class NotificationServiceImpl {
 					result.setMessage(Global.messages
 							.getString("insert_nofitification_successfully"));
 					result.setOK(true);
-//					NotificationUtils.sendNotification(
-//							Global.dfFull.format(n.getDate()), n.getContent());
+					// NotificationUtils.sendNotification(
+					// Global.dfFull.format(n.getDate()), n.getContent());
 				}
 			} else {
 				result.setMessage(Global.messages.getString("not_found") + " "
 						+ n.getUsername());
-//				NotificationUtils.sendNotification(
-//						Global.dfFull.format(n.getDate()), n.getContent());
+				// NotificationUtils.sendNotification(
+				// Global.dfFull.format(n.getDate()), n.getContent());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,13 +104,17 @@ public class NotificationServiceImpl {
 
 			if (listNotifications.size() > 0) {
 				result.setOK(true);
-				result.setMessage(String.format(
-						Global.messages
-								.getString("get_notifications_by_username_successfully"),
-						username));
+				result
+						.setMessage(String
+								.format(
+										Global.messages
+												.getString("get_notifications_by_username_successfully"),
+										username));
 				result.setResult(listNotifications);
 			} else {
-				result.setMessage(Global.messages.getString("no_notifications"));
+				result
+						.setMessage(Global.messages
+								.getString("no_notifications"));
 			}
 		} else {
 			result.setMessage(Global.messages.getString("not_found") + " "
@@ -186,9 +193,9 @@ public class NotificationServiceImpl {
 		noti.setTypeId(comment.getType_id());
 		noti.setDate(new Date());
 		noti.setNew(true);
-		noti.setContent(String.format(
-				Global.messages.getString("notification_comment_content"),
-				comment.getUsername(), noti.getType(), noti.getTypeId()));
+		noti.setContent(String.format(Global.messages
+				.getString("notification_comment_content"), comment
+				.getUsername(), noti.getType(), noti.getTypeId()));
 		if (noti.getType().equals(TYPE_PAGE)) {
 			ServiceResult<Page> searchResult = dbPage
 					.findPage(noti.getTypeId());
@@ -268,13 +275,15 @@ public class NotificationServiceImpl {
 		Notification noti = new Notification();
 		noti.setUsername(pageResult.getResult().getUsername());
 		if (isTag) {
-			noti.setContent(String.format(
-					Global.messages.getString("notification_tag_page_content"),
-					productResult.getResult().getUsername(), productID, pageID));
-		} else {
 			noti.setContent(String.format(Global.messages
-					.getString("notification_untag_page_content"),
-					productResult.getResult().getUsername(), productID, pageID));
+					.getString("notification_tag_page_content"), productResult
+					.getResult().getUsername(), productID, pageID));
+		} else {
+			noti
+					.setContent(String.format(Global.messages
+							.getString("notification_untag_page_content"),
+							productResult.getResult().getUsername(), productID,
+							pageID));
 		}
 		noti.setDate(new Date());
 		noti.setNew(true);
@@ -307,6 +316,11 @@ public class NotificationServiceImpl {
 			List<String> addedUnames) {
 		List<ServiceResult<Long>> result = new ArrayList<ServiceResult<Long>>();
 		for (String addedUname : addedUnames) {
+			ServiceResult<UserInfo> resultAddedUserInfo = dbAccount.getUserInfo(addedUname);
+			if (!resultAddedUserInfo.isOK())
+				continue;
+			String addedUserkey = resultAddedUserInfo.getResult().getUserkey();
+			
 			Notification noti = new Notification();
 			noti.setDate(new Date());
 			noti.setNew(true);
@@ -314,6 +328,18 @@ public class NotificationServiceImpl {
 					.getString("notification_add_friend_conttent"), userName));
 			noti.setUsername(addedUname);
 			noti.setType(TYPE_USER);
+
+			if (UtilsFunction.isOnline(addedUname)) {
+				// Send Xtify message ^^
+				noti.setNew(false);
+				NotificationUtils.sendNotification(addedUserkey, 
+						NotificationUtils.ADD_FRIEND, Global.messages
+								.getString("add_friend"),
+						String.format(Global.messages
+								.getString("notification_add_friend_conttent"),
+								userName));
+				log.log(Level.SEVERE, "Send xtify " + addedUname);
+			}
 			result.add(insertNotification(noti));
 		}
 		return result;
@@ -363,17 +389,21 @@ public class NotificationServiceImpl {
 			List<Notification> list = (List<Notification>) query
 					.execute(username);
 			if (list == null) {
-				result.setMessage(String.format(
-						Global.messages
-								.getString("delete_all_notifications_by_username_fail"),
-						username));
+				result
+						.setMessage(String
+								.format(
+										Global.messages
+												.getString("delete_all_notifications_by_username_fail"),
+										username));
 				result.setOK(false);
 			} else {
 				pm.deletePersistentAll(list);
-				result.setMessage(String.format(
-						Global.messages
-								.getString("delete_all_notifications_by_username_successfully"),
-						username));
+				result
+						.setMessage(String
+								.format(
+										Global.messages
+												.getString("delete_all_notifications_by_username_successfully"),
+										username));
 				result.setOK(true);
 			}
 		} else {

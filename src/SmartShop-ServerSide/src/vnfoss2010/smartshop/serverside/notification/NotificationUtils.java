@@ -12,17 +12,34 @@ import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 
 public class NotificationUtils {
+	public static final int SUBSCRIBED_PRODUCT = 1;
+	public static final int ADD_FRIEND = 2;
+
+	/**
+	 * 
+	 * @param userKey
+	 * @param type
+	 *            : See some above constants
+	 * @param title
+	 *            : will be transformed into form as following: <type>#title and
+	 *            pass via Xtify
+	 * @param bodyContent
+	 *            : will be transformed into form as following: <type>#body and
+	 *            pass via Xtify
+	 * @return
+	 */
 	public static ServiceResult<String> sendNotification(String userKey,
-			String title, String bodyContent) {
+			int type, String title, String bodyContent) {
 		ServiceResult<String> sResult = new ServiceResult<String>();
 
 		String urlString = "http://notify.xtify.com/api/1.0/SdkNotification";
 		String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 				+ "<sdk-notification>" + "<actionType>LAUNCH_APP</actionType>"
 				+ "<appId>" + Global.XTIFY_API_KEY + "</appId>" + "<userKey>"
-				+ userKey + "</userKey>" + "<notificationBody>" + bodyContent
-				+ "</notificationBody>" + "<notificationTitle>" + title
-				+ " </notificationTitle>" + "</sdk-notification>";
+				+ userKey + "</userKey>" + "<notificationBody>" + type + "#"
+				+ bodyContent + "</notificationBody>" + "<notificationTitle>"
+				+ type + "#" + title + " </notificationTitle>"
+				+ "</sdk-notification>";
 
 		Global.log(null, "Content: " + content);
 
@@ -61,7 +78,8 @@ public class NotificationUtils {
 					}
 					sResult.setOK(true);
 					sResult.setResult(strBuff.toString());
-					sResult.setMessage(Global.messages.getString("send_push_notification_successfully"));
+					sResult.setMessage(Global.messages
+							.getString("send_push_notification_successfully"));
 				}
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
@@ -80,7 +98,7 @@ public class NotificationUtils {
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
-					
+
 					sResult.setOK(false);
 					sResult.setMessage(e.getMessage());
 				}

@@ -74,12 +74,16 @@ public class UserInfo extends SearchCapable implements Serializable {
 
 	@Persistent
 	private int type;
+	
 
 	private String sessionId;
 
 	@Exclude
 	@Persistent
 	private boolean isLogin = false;
+	
+	@Persistent
+	private String userkey;
 
 	@Persistent
 	private List<Long> listInteredProduct;
@@ -603,6 +607,20 @@ public class UserInfo extends SearchCapable implements Serializable {
 	 */
 	public boolean isLogin() {
 		return isLogin;
+	}
+
+	/**
+	 * @param userkey the userkey to set
+	 */
+	public void setUserkey(String userkey) {
+		this.userkey = userkey;
+	}
+
+	/**
+	 * @return the userkey
+	 */
+	public String getUserkey() {
+		return userkey;
 	}
 
 }

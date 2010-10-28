@@ -36,6 +36,6 @@ public class InvalidSessionException extends RestfulException {
     public JSONObject toJSONObject() throws JSONException {
         return super.toJSONObject().put("service", mServiceName).put(
                 "message",
-                Global.messages.getString("invalid_session"));
+                Global.messages.getString("invalid_session")).put("errCode", 1);
     }
 }

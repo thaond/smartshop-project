@@ -67,7 +67,7 @@ public class RegisterProductService extends BaseRestfulService {
 		product.setGeocells(GeocellManager.generateGeoCell(product
 				.getLocation()));
 		ServiceResult<Long> result = dbProduct.insertProduct(product);
-		
+
 		// Scan for subscribed user
 		Set<String> setKeys = Global.mapSession.keySet();
 		for (String s : setKeys) {
@@ -84,12 +84,19 @@ public class RegisterProductService extends BaseRestfulService {
 							log.log(Level.SEVERE, "Push for user: " + s);
 
 							ServiceResult<String> result2 = NotificationUtils
-									.sendNotification(s, subcribe
-											.getDescription().substring(
-													0,
-													Math.min(40, subcribe
-															.getDescription()
-															.length())),
+									.sendNotification(
+											s,
+											NotificationUtils.SUBSCRIBED_PRODUCT,
+											subcribe
+													.getDescription()
+													.substring(
+															0,
+															Math
+																	.min(
+																			40,
+																			subcribe
+																					.getDescription()
+																					.length())),
 											Global.gsonWithDate.toJson(product));
 
 							log.log(Level.SEVERE, "" + result2.getResult());

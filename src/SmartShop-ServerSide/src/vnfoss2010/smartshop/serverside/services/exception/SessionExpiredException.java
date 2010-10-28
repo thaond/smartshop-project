@@ -22,20 +22,20 @@ import com.google.appengine.repackaged.org.json.JSONObject;
 
 /**
  * @author VoMinhTam
- *
+ * 
  */
 public class SessionExpiredException extends RestfulException {
-    private static final long serialVersionUID = 1122744948405987845L;
-    private String mServiceName;
+	private static final long serialVersionUID = 1122744948405987845L;
+	private String mServiceName;
 
-    public SessionExpiredException(String serviceName) {
-        this.mServiceName = serviceName;
-    }
+	public SessionExpiredException(String serviceName) {
+		this.mServiceName = serviceName;
+	}
 
-    @Override
-    public JSONObject toJSONObject() throws JSONException {
-        return super.toJSONObject().put("service", mServiceName).put(
-                "message",
-                Global.messages.getString("invalid_apikey"));
-    }
+	@Override
+	public JSONObject toJSONObject() throws JSONException {
+		return super.toJSONObject().put("service", mServiceName).put("message",
+				Global.messages.getString("session_exprired"))
+				.put("errCode", 1);
+	}
 }

@@ -136,20 +136,21 @@ public class RestfulServlet extends HttpServlet {
 			String api = req.getParameter("api");
 			String serviceName = req.getParameter("service");
 
-//			if (!Global.listAPIKeys.contains(api)) {
-//				String decryptAPIKey = UtilsFunction.decrypt(api);
-//				if (decryptAPIKey == null)
-//					throw new InvalidAPIKeyException(serviceName);
-//				APIKey apiKey = DatabaseUtils.getAPIKey(decryptAPIKey);
-//				if (apiKey == null)
-//					throw new InvalidAPIKeyException(serviceName);
-//				else
-//					Global.listAPIKeys.add(api);
-//			}
+			// if (!Global.listAPIKeys.contains(api)) {
+			// String decryptAPIKey = UtilsFunction.decrypt(api);
+			// if (decryptAPIKey == null)
+			// throw new InvalidAPIKeyException(serviceName);
+			// APIKey apiKey = DatabaseUtils.getAPIKey(decryptAPIKey);
+			// if (apiKey == null)
+			// throw new InvalidAPIKeyException(serviceName);
+			// else
+			// Global.listAPIKeys.add(api);
+			// }
 
 			String r;
 			Class<BaseRestfulService> service = unAuthorizedServices
 					.get(serviceName);
+			SessionObject so = null;
 			if (service == null) {
 				service = authorizedServices.get(serviceName);
 				if (service == null)
@@ -157,8 +158,7 @@ public class RestfulServlet extends HttpServlet {
 
 				// Check whether valid session or not
 				String sessionId = req.getParameter("session");
-				SessionObject so = StringUtils.isEmptyOrNull(sessionId) ? null
-						: UtilsFunction.getSessionObject(sessionId);
+				so = UtilsFunction.getSessionObject(sessionId);
 				if (so == null) {
 					// Invalid session
 					throw new InvalidSessionException(serviceName);
@@ -168,15 +168,24 @@ public class RestfulServlet extends HttpServlet {
 				}
 
 				Map hashMap = new HashMap(req.getParameterMap());
-				hashMap.put("username", new String[]{so.username});
+				hashMap.put("username", new String[] { so.username });
 				r = service.getConstructor(String.class).newInstance(
 						serviceName).process(hashMap, content);
-				
-			}else{
-				r = service.getConstructor(String.class).newInstance(
-						serviceName).process(req.getParameterMap(), content);
+
+			} else {
+				// Apply for get userinfo service
+				so = UtilsFunction
+						.getSessionObject(req.getParameter("session"));
+				if (so != null) {
+					Map hashMap = new HashMap(req.getParameterMap());
+					hashMap.put("username", new String[] { so.username });
+					r = service.getConstructor(String.class).newInstance(
+							serviceName).process(hashMap, content);
+				}else{
+					r = service.getConstructor(String.class).newInstance(
+							serviceName).process(req.getParameterMap(), content);
+				}
 			}
-			
 
 			// response
 			writer.print(r);
@@ -313,7 +322,7 @@ public class RestfulServlet extends HttpServlet {
 				SearchKeywordService.class);
 
 		// other
-		//unAuthorizedServices.put("get-api-key", GetAPIKeyService.class);
+		// unAuthorizedServices.put("get-api-key", GetAPIKeyService.class);
 	}
 
 	public static Hashtable<String, Class> authorizedServices = new Hashtable<String, Class>();

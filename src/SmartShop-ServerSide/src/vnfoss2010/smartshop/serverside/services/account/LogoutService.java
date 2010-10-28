@@ -2,10 +2,8 @@ package vnfoss2010.smartshop.serverside.services.account;
 
 import java.util.Map;
 
-import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
-import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
