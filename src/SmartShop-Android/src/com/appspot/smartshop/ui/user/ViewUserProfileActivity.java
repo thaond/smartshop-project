@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.R.string;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
@@ -58,24 +59,14 @@ public class ViewUserProfileActivity extends Activity {
 		listInfos.setAdapter(adapter);
 		
 		// user function buttons
-		Button btnPages = (Button) findViewById(R.id.btnPages);
-		Button btnProducts = (Button) findViewById(R.id.btnProducts);
-		Button btnAddNewPage = (Button) findViewById(R.id.btnAddNewPage);
-		Button btnPostNewProduct = (Button) findViewById(R.id.btnPostNewProduct);
+
 		Button btnSubcribe = (Button) findViewById(R.id.btnSubcribe);
-		Button btnUserInfo = (Button) findViewById(R.id.btnEditUserInfo);
 
 		// view user info
 		Bundle tmp = getIntent().getBundleExtra("user");
 		if (tmp != null) {
 			// don't show buttons
-			btnPages.setVisibility(View.GONE);
-			btnProducts.setVisibility(View.GONE);
-			btnAddNewPage.setVisibility(View.GONE);
-			btnPostNewProduct.setVisibility(View.GONE);
 			btnSubcribe.setVisibility(View.GONE);
-			btnUserInfo.setVisibility(View.GONE);
-			
 			// View other profile
 			isOwn = false;
 			//userInfo = (UserInfo) tmp.get(Global.USER_INFO); vanloi999 has replace this statement by the next one
@@ -102,80 +93,8 @@ public class ViewUserProfileActivity extends Activity {
 			// View my profile
 			userInfo = Global.userInfo;
 			viewProfile();
-			
-			// set listener for buttons
-			btnPages.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Log.d(TAG, "[VIEW PAGES OF CURRENT USER] " + Global.userInfo.username);
-					Intent intent = new Intent(ViewUserProfileActivity.this, PagesListActivity.class);
-					intent.putExtra(Global.PAGES_TYPE, PagesListActivity.PAGES_OF_USER);
-					intent.putExtra(Global.PAGES_OF_USER, Global.userInfo.username);
-					startActivity(intent);
-				}
-			});
-			
-			btnProducts.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Log.d(TAG, "[VIEW PRODUCTS OF CURRENT USER] " + Global.userInfo.username);
-					Intent intent = new Intent(ViewUserProfileActivity.this, UserProductListActivity.class);
-					intent.putExtra(Global.PRODUCTS_OF_USER, Global.userInfo.username);
-					startActivity(intent);
-				}
-			});
-			
-			btnAddNewPage.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Log.d(TAG, "[CREATE NEW PAGE]");
-					Intent intent = new Intent(ViewUserProfileActivity.this, PageActivity.class);
-					startActivity(intent);
-				}
-			});
-			
-			btnPostNewProduct.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Log.d(TAG, "[POST NEW PRODUCT]");
-					Intent intent = new Intent(ViewUserProfileActivity.this, PostProductActivity.class);
-					startActivity(intent);
-				}
-			});
-			
-			btnSubcribe.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO subcribe products
-					Log.d(TAG, "[SUBCRIBE PRODUCTS]");
-					showSubcribeList();
-				}
-			});
-			
-			btnUserInfo.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Log.d(TAG, "[EDIT INFO OF CURRENT USER]");
-					Intent intent = new Intent(ViewUserProfileActivity.this, ViewUserInfoActivity.class);
-					intent.putExtra(Global.USER_INFO, Global.userInfo);
-					intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
-					startActivity(intent);
-				}
-			});
 		}
 	}
-
-	protected void showSubcribeList() {
-		Intent intent = new Intent(this, UserSubcribeListActivity.class);
-		startActivity(intent);
-	}
-
 	private void viewProfile() {
 //		userInfo.avatarLink = "http://10.0.2.2/uploads/tam1234/a.jpg";
 		Log.d(TAG, "fdsfdsfs");
@@ -242,22 +161,68 @@ public class ViewUserProfileActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (isOwn)
-			menu.add(0, R.string.edit_profile, 0,
-					getString(R.string.edit_profile));
-
+		if (isOwn){
+			menu.add(0, R.string.my_page_list, 0,
+					getString(R.string.my_page_list)).setIcon(R.drawable.user_pages_list);
+			menu.add(0, R.string.my_product_list, 1,
+					getString(R.string.my_product_list)).setIcon(R.drawable.user_products_list);
+			menu.add(0, R.string.add_new_page, 2,
+					getString(R.string.add_new_page)).setIcon(R.drawable.add_new_page);
+			menu.add(0, R.string.add_new_product, 0,
+					getString(R.string.add_new_product)).setIcon(R.drawable.post_new_product);
+			menu.add(0, R.string.user_info, 1,
+					getString(R.string.user_info)).setIcon(R.drawable.user_info);
+			menu.add(0, R.string.subcribe, 2,
+					getString(R.string.subcribe)).setIcon(R.drawable.subcribe);	
+			menu.add(0, R.string.addFriend, 3,
+					getString(R.string.addFriend)).setIcon(R.drawable.add_friend);	
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		Intent intent = null;
 		switch (item.getItemId()) {
-		case R.string.edit_profile:
-			Intent intent = new Intent(ViewUserProfileActivity.this,
-					ViewUserInfoActivity.class);
-			intent.putExtra(Global.USER_INFO, Global.userInfo);
-			startActivityForResult(intent, R.string.edit_profile);
+		case R.string.my_page_list:
+//			Intent intent = new Intent(ViewUserProfileActivity.this,
+//					ViewUserInfoActivity.class);
+//			intent.putExtra(Global.USER_INFO, Global.userInfo);
+//			startActivityForResult(intent, R.string.edit_profile);
+//			break;
+			intent = new Intent(ViewUserProfileActivity.this, PagesListActivity.class);
+			intent.putExtra(Global.PAGES_TYPE, PagesListActivity.PAGES_OF_USER);
+			intent.putExtra(Global.PAGES_OF_USER, Global.userInfo.username);
+			startActivity(intent);
 			break;
+		case R.string.my_product_list:
+			intent = new Intent(ViewUserProfileActivity.this, UserProductListActivity.class);
+			intent.putExtra(Global.PRODUCTS_OF_USER, Global.userInfo.username);
+			startActivity(intent);
+			break;
+		case R.string.add_new_page:
+			intent = new Intent(ViewUserProfileActivity.this, PageActivity.class);
+			startActivity(intent);
+			break;
+		case R.string.add_new_product:
+			intent = new Intent(ViewUserProfileActivity.this, PostProductActivity.class);
+			startActivity(intent);
+			break;
+		case R.string.user_info:
+			intent = new Intent(ViewUserProfileActivity.this, ViewUserInfoActivity.class);
+			intent.putExtra(Global.USER_INFO, Global.userInfo);
+			intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
+			startActivity(intent);
+			break;
+		case R.string.subcribe:
+			intent = new Intent(this, UserSubcribeListActivity.class);
+			startActivity(intent);
+			break;
+		case  R.string.addFriend:
+			intent = new Intent(this,AddFriendActivity.class);
+			startActivity(intent);
+			break;
+			
 
 		default:
 			break;
