@@ -155,7 +155,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 			public void onClick(View v) {
 				if (!Global.mFacebook.isSessionValid()) {
 					Toast.makeText(ProductBasicAttributeActivity.this,
-							getString(R.string.alertLogin), Toast.LENGTH_SHORT)
+							getString(R.string.alertLoginSmartShop), Toast.LENGTH_SHORT)
 							.show();
 				} else {
 					mAsyncRunner.request("me/feed", params, "POST",
