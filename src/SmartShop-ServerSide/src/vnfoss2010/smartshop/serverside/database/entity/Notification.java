@@ -41,6 +41,8 @@ public class Notification {
 	@Persistent
 	private String detail;
 	
+	private String jsonOutput;
+	
 	public Notification() {
 	}
 
@@ -179,6 +181,30 @@ public class Notification {
 	 */
 	public int getType() {
 		return type;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Notification [content=" + content + ", detail=" + detail
+				+ ", id=" + id + ", isNew=" + isNew + ", timestamp="
+				+ timestamp + ", type=" + type + ", username=" + username + "]";
+	}
+
+	/**
+	 * @param jsonOutput the jsonOutput to set
+	 */
+	public void setJsonOutput(String jsonOutput) {
+		this.jsonOutput = jsonOutput;
+	}
+
+	/**
+	 * @return the jsonOutput
+	 */
+	public String getJsonOutput() {
+		return jsonOutput;
 	}
 
 }
