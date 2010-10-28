@@ -8,7 +8,6 @@ import java.util.List;
 import org.anddev.android.filebrowser.iconifiedlist.IconifiedText;
 import org.anddev.android.filebrowser.iconifiedlist.IconifiedTextListAdapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;

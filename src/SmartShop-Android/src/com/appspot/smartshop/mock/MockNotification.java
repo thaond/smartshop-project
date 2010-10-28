@@ -16,10 +16,10 @@ public class MockNotification {
 		Log.d(TAG, "MockNotification has created");
 		List<SmartshopNotification> list = new LinkedList<SmartshopNotification>();
 		for (int i = 0; i < NUM_OF_NOTIFICATION; i++) {
-			SmartshopNotification notification = new SmartshopNotification("Co " + i
-					+ "  san pham may tinh hop voi nhu cau cua ban", new Date(
-					89, 11, 11), "loi");
-			list.add(notification);
+//			SmartshopNotification notification = new SmartshopNotification("Co " + i
+//					+ "  san pham may tinh hop voi nhu cau cua ban", new Date(
+//					89, 11, 11), "loi");
+//			list.add(notification);
 			Log.d(TAG, list.get(i).content);
 		}
 

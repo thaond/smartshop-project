@@ -20,12 +20,15 @@ import android.widget.Toast;
 
 import com.appspot.smartshop.adapter.MainAdapter;
 import com.appspot.smartshop.dom.SmartshopNotification;
+import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
+import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 import com.xtify.android.sdk.PersistentLocationManager;
 
 public class SmartShopActivity extends ListActivity {
@@ -33,13 +36,12 @@ public class SmartShopActivity extends ListActivity {
 
 	public static final String PRODUCT = "product";
 	public static final String PAGE = "page";
-	
-	public static final String PARAM_NOFITICATION = "{username:\"%s\",type_id:%d}";
+	// public static final String PARAM_NOFITICATION =
+	// "{username:\"%s\",type_id:%d}";
 	private List<SmartshopNotification> notifications;
 	private int numOfNotifications = 0;
-	private NotificationManager notificationManager;
-
 	private SimpleAsyncTask task;
+	NotificationManager notificationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +50,71 @@ public class SmartShopActivity extends ListActivity {
 		Global.application = this;
 
 		ListView listView = getListView();
+
+		// Check whether user login or not
+		Global.persistentLocationManager = new PersistentLocationManager(
+				SmartShopActivity.this);
+		Global.persistentLocationManager
+				.setNotificationIcon(R.drawable.notification);
+		Global.persistentLocationManager
+				.setNotificationDetailsIcon(R.drawable.icon);
+		if (Global.userInfo == null) {
+			String session = Utils.loadSession();
+			Log.d(TAG, "Session: " + session);
+			if (StringUtils.isEmptyOrNull(session))
+				Global.isLogin = false;
+			else {
+				String url = String.format(URLConstant.GET_USER_INFO_SESSION,
+						session);
+				RestClient.getData(url, new JSONParser() {
+
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+						Global.isLogin = true;
+						Global.userInfo = Global.gsonDateWithoutHour
+								.fromJson(json.get("userinfo").toString(),
+										UserInfo.class);
+
+						// Start Xtify Thread
+						Thread xtifyThread = new Thread(new Runnable() {
+							@Override
+							public void run() {
+								Log.e(TAG, "Thread Xtify run");
+
+								boolean trackLocation = Global.persistentLocationManager
+										.isTrackingLocation();
+								boolean deliverNotifications = Global.persistentLocationManager
+										.isDeliveringNotifications();
+								if (trackLocation || deliverNotifications) {
+									Global.persistentLocationManager
+											.startService();
+								}
+							}
+						});
+						xtifyThread.start(); // to avoid Android's
+						// application-not-responding
+					}
+
+					@Override
+					public void onFailure(String message) {
+						Log.d(TAG, message);
+					}
+				});
+			}
+
+		}
 		listView.setAdapter(new MainAdapter(this));
-		
+
 		if (Global.isLogin) {
 			notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 			Log.d(TAG, "[LOAD NOTIFICATIONS]");
 			loadNotifications();
 		}
+
+		/**************************** Init data *********************************/
+		Log.d(TAG, "[START NOTIFICATION SERVICE]");
+		// TODO start service notification
+		// startService(new Intent(this, NotifyingService.class));
 
 		if (Global.mapParentCategories.size() != 0) {
 			Log.d(TAG, "[DONT NEED TO GET CATEGORIES LIST]");
@@ -74,13 +134,6 @@ public class SmartShopActivity extends ListActivity {
 					});
 			task.execute();
 		}
-
-		Global.persistentLocationManager = new PersistentLocationManager(
-				SmartShopActivity.this);
-		Global.persistentLocationManager
-				.setNotificationIcon(R.drawable.notification);
-		Global.persistentLocationManager
-				.setNotificationDetailsIcon(R.drawable.icon);
 	}
 
 	@Override
@@ -168,36 +221,40 @@ public class SmartShopActivity extends ListActivity {
 			});
 		}
 	}
-	
-    private void loadNotifications() {
-		String param = String.format(PARAM_NOFITICATION, Global.userInfo.username, 1);
-		Log.d(TAG, param);
-		
-		RestClient.postData(URLConstant.GET_NOTIFICATIONS, param, new JSONParser() {
+
+	private void loadNotifications() {
+		// String param = String.format(PARAM_NOFITICATION,
+		// Global.userInfo.username, 1);
+		// Log.d(TAG, param);
+
+		String url = String.format(URLConstant.GET_NOTIFICATIONS,
+				Global.userInfo.username, 1, Global.lastupdateNoti);
+		RestClient.getData(url, new JSONParser() {
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
 				// load
 				JSONArray arr = json.getJSONArray("notifications");
-				notifications = Global.gsonWithHour.fromJson(arr.toString(), 
+				notifications = Global.gsonWithHour.fromJson(arr.toString(),
 						SmartshopNotification.getType());
-				Log.d(TAG, "found " + notifications.size() + " notification(s)");
-				
+				Log
+						.d(TAG, "found " + notifications.size()
+								+ " notification(s)");
+
 				// display
 				if (notifications.size() == 0) {
 					Toast.makeText(SmartShopActivity.this, getString(R.string.warn_no_notification), 
 							Toast.LENGTH_SHORT).show();
 				} else {
-					String title;
 					String content;
-					
+
 					int count = 0;
 					for (SmartshopNotification notification : notifications) {
-						title = notification.date.toLocaleString();
 						content = notification.content;
-						showNotification(count + numOfNotifications, title, content);
+						showNotification(count + numOfNotifications, notification.getTitle(),
+								content);
 						count++;
 					}
-					
+
 					numOfNotifications += notifications.size();
 				}
 			}
@@ -208,16 +265,31 @@ public class SmartShopActivity extends ListActivity {
 			}
 		});
 	}
-    
-    private void showNotification(int id, String title, String content) {
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, SmartShopActivity.class), 0);
 
-        Notification notification = new Notification(android.R.drawable.btn_star_big_on, 
-        		null, System.currentTimeMillis());
-        notification.setLatestEventInfo(this, title, content, contentIntent);
-        // TODO custom view for notification
+	private void showNotification(int id, String title, String content) {
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+				new Intent(this, SmartShopActivity.class), 0);
 
-        notificationManager.notify(id, notification);
-    }
+		Notification notification = new Notification(
+				android.R.drawable.btn_star_big_on, null, System
+						.currentTimeMillis());
+		notification.setLatestEventInfo(this, title, content, contentIntent);
+		// TODO custom view for notification
+
+		notificationManager.notify(id, notification);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		Log.d(TAG, "[STOP NOTIFICATION SERVICE]");
+		// Global.isStop = true;
+		// TODO stop service notification
+		// stopService(new Intent(this, NotifyingService.class));
+
+		// store session
+		if (Utils.isLogined())
+			Utils.storeSessionState(Global.userInfo.sessionId);
+	}
 }

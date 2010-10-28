@@ -12,46 +12,49 @@ import java.security.NoSuchAlgorithmException;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
-
-
 public class Utils {
 	private static final int AVATAR_WIDTH = 32;
 	private static final int AVATAR_HEIGHT = 32;
+	private static final int MODE_PRIVATE = 0;
 
 	public OutputStream scaleImage(Bitmap bitmap) {
-		Bitmap scaledBitmap = Bitmap.createScaledBitmap(
-				bitmap, AVATAR_WIDTH, AVATAR_HEIGHT, false);
-		
+		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, AVATAR_WIDTH,
+				AVATAR_HEIGHT, false);
+
 		// TODO (condorhero01): what output stream?
 		OutputStream outputStream = null;
 		scaledBitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
-		
+
 		return outputStream;
 	}
-	
+
 	private static int screenWidth = -1;
+
 	public static int getScreenWidth() {
 		if (screenWidth == -1) {
-			Display display = ((WindowManager) Global.application.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+			Display display = ((WindowManager) Global.application
+					.getSystemService(Context.WINDOW_SERVICE))
+					.getDefaultDisplay();
 			screenWidth = display.getWidth();
 		}
-		
+
 		return screenWidth;
 	}
-	
+
 	public static int random(int n) {
 		return (int) (Math.random() * n);
 	}
-	
+
 	public static Bitmap getBitmapFromURL(String src) {
 		try {
 			URL url = new URL(src);
@@ -67,16 +70,16 @@ public class Utils {
 			return null;
 		}
 	}
-	
+
 	public static void createOKDialog(Context context, String title,
 			String text, DialogInterface.OnClickListener clickListener) {
-		AlertDialog ad = new AlertDialog.Builder(context).setPositiveButton("OK",
-				clickListener).setTitle(title).setMessage(text).create();
+		AlertDialog ad = new AlertDialog.Builder(context).setPositiveButton(
+				"OK", clickListener).setTitle(title).setMessage(text).create();
 		ad.setCancelable(false);
 		ad.show();
 	}
-	
-	public static void setEditableEditText(EditText editText, boolean isEditable){
+
+	public static void setEditableEditText(EditText editText, boolean isEditable) {
 		if (!isEditable) {
 			editText.setFilters(new InputFilter[] { new InputFilter() {
 				@Override
@@ -96,22 +99,58 @@ public class Utils {
 			} });
 		}
 	}
-	
-	public static String getMD5(String pass){
+
+	public static String getMD5(String pass) {
 		try {
 			MessageDigest m = MessageDigest.getInstance("MD5");
 			byte[] data = pass.getBytes();
 			m.update(data, 0, data.length);
-			BigInteger i = new BigInteger(1, m.digest());	
+			BigInteger i = new BigInteger(1, m.digest());
 			return String.format("%1$032x", i);
 		} catch (NoSuchAlgorithmException e) {
 		}
-		
+
 		return null;
 	}
-	
-	public static String encodeURL(String url){
+
+	public static String encodeURL(String url) {
 		return url.replaceAll("/[^a-z0-9_\\-\\.]/i'", "_");
 	}
+
+	public static void storeSessionState(String session) {
+		Log.d("Utils", "Store Session: " + session);
+		// Store values between instances here
+		SharedPreferences preferences = Global.application
+				.getPreferences(MODE_PRIVATE);
+		SharedPreferences.Editor editor2 = preferences.edit();
+
+		if (Global.isLogin) {
+			editor2.putString("sessionid", session);
+		}
+		// Commit to storage
+		editor2.commit();
+	}
+
+	public static String loadSession() {
+		SharedPreferences preferences = Global.application
+				.getPreferences(MODE_PRIVATE);
+		return preferences.getString("sessionid", null);
+	}
+
+	public static boolean isLogined() {
+		if (Global.userInfo == null || Global.isLogin == false
+				|| StringUtils.isEmptyOrNull(Global.userInfo.sessionId))
+			return false;
+		return true;
+	}
 	
+	private static final String ALPHA_NUM = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZqwertyuiopasdfghjklzxcvbnm";
+	public static String getAlphaNumeric(int len) {
+		StringBuffer sb = new StringBuffer(len);
+		for (int i = 0; i < len; i++) {
+			int ndx = (int) (Math.random() * ALPHA_NUM.length());
+			sb.append(ALPHA_NUM.charAt(ndx));
+		}
+		return sb.toString();
+	}
 }

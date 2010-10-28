@@ -45,6 +45,7 @@ public class MainAdapter extends BaseAdapter {
 					R.drawable.user_pages_list,
 					R.drawable.login, 
 					R.drawable.register,
+					R.drawable.exit,
 			};
 
 			text = new String[] {
@@ -52,20 +53,23 @@ public class MainAdapter extends BaseAdapter {
 					context.getString(R.string.user_pages_list),
 					context.getString(R.string.lblLogin),
 					context.getString(R.string.lblRegister),
+					context.getString(R.string.exit),
 			};
 		} else {
 			icons = new int[] { 
 					R.drawable.user_products_list, 
 					R.drawable.user_pages_list,
 					R.drawable.user_profile,
-					R.drawable.smartshop_logout
+					R.drawable.smartshop_logout,
+					R.drawable.exit,
 			};
 
 			text = new String[] {
 					context.getString(R.string.user_products_list),
 					context.getString(R.string.user_pages_list),
 					context.getString(R.string.user_profile), 
-					context.getString(R.string.logout)
+					context.getString(R.string.logout),
+					context.getString(R.string.exit),
 			};
 		}
 	}
@@ -143,6 +147,10 @@ public class MainAdapter extends BaseAdapter {
 			intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
 			break;
 			
+		case R.drawable.exit:
+			System.exit(0);
+			break;
+			
 		case R.drawable.smartshop_logout:
 			Log.d(TAG, "[LOGOUT]");
 			
@@ -158,7 +166,10 @@ public class MainAdapter extends BaseAdapter {
 				
 				@Override
 				public void onFailure(String message) {
-					Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+					Global.isLogin = false;
+					Global.userInfo = null;
+					intent = new Intent(context, SmartShopActivity.class);
+					//Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 				}
 			});
 			break;

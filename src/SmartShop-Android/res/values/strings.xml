@@ -40,7 +40,7 @@
 	<!-- modify User Profile View User Profile Activity -->
 	<string name="my_page_list">Trang đã đăng</string>
 	<string name="my_product_list">Sản phẩm đã đăng</string>
-	<string name="add_new_page">Đăng trang mới</string>
+	<string name="add_new_page">Đăng bài viết mới</string>
 	<string name="add_new_product">Đăng sản phẩm mới</string>
 	<string name="user_info">Thông tin của tôi</string>
 	<string name="subcribe">Đăng ký nhận thông tin</string>
@@ -52,6 +52,7 @@
 	<string name="lblRegister">Đăng ký</string>
 	<string name="warn_must_enter_address">Bạn chưa nhập địa chỉ</string>
 	<string name="err_register_message">Có lỗi trong quá trình đăng ký</string>
+	<string name="exit">Thoát</string>
 
 	<!-- Validate user -->
 	<string name="username_invalid">Nhập tên đăng nhập </string>
@@ -127,7 +128,7 @@
 	<string name="lblViewComment">Xem bình luận</string>
 	<string name="lblViewUser">Xem thông tin người đăng</string>
 	<string name="pageView">Số lượt xem</string>
-	<string name="hintEnterPagesName">Nhập tên trang cần tìm</string>
+	<string name="hintEnterPagesName">Nhập tên bài viết cần tìm</string>
 
 	<!-- User products list -->
 	<string name="lblInterestedProducts">Quan tâm</string>
@@ -156,7 +157,7 @@
 	<string name="tab_search_products">Tìm kiếm SP</string>
 	<string name="tab_search_on_map">Bản đồ</string>
 	<string name="tab_smartshop_products">SmartShop</string>
-	<string name="tab_vatgia_products">Những trang khác</string>
+	<string name="tab_vatgia_products">Những bài viết khác</string>
 
 	<!-- Search products on map -->
 	<string name="btnSearchProductsOnMap">Tìm</string>
@@ -221,9 +222,19 @@
 	<string name="warn_email_receiver_empty">Chưa nhập người nhận</string>
 	<string name="warn_email_sender_wrong_format">Email sai định dạng</string>
 	<string name="warn_email_content_empty">Chưa nhập nội dung</string>
+	
 	<!-- Notification -->
 	<string name="date">Ngày : </string>
 	<string name="warn_no_notification">Không có thông báo nào</string>
+	<string name="add_fiend">Thêm bạn</string>
+	<string name="tag_product">Bạn được tag vào sản phẩm</string>
+	<string name="tag_page">Bạn được tag vào bài viết</string>
+	<string name="untag_product">Bạn được gỡ tag khỏi sản phẩm</string>
+	<string name="untag_page">Bạn được gỡ tag khỏi bài viết</string>
+	<string name="add_comment_product">Có thành viên khác bình luận vào sản phẩm của bạn</string>
+	<string name="add_comment_page">Có thành viên khác bình luận vào bài viết của bạn</string>
+	<string name="tag_product_to_page">Tag sản phẩm vào bài viết</string>
+	
 
 	<!-- Search products on map -->
 	<string name="my_current_location">Vị trí của tôi</string>

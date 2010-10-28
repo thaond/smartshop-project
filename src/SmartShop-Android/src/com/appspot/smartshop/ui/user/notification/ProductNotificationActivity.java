@@ -2,6 +2,7 @@ package com.appspot.smartshop.ui.user.notification;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -20,11 +21,14 @@ import com.xtify.android.sdk.NotificationActivity;
  * to match the intent filter defined in AndroidManifest.xml.
  */
 public class ProductNotificationActivity extends NotificationActivity {
+	private static final String TAG = "ProductNotificationActivity";
 	
 	private static ProductAdapter adapter;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Log.d(TAG, "Running");
 		setContentView(R.layout.product_subscribe_list);
 		
 		Intent intent = getIntent();

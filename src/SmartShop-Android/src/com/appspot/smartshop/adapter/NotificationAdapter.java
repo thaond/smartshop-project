@@ -52,7 +52,7 @@ public class NotificationAdapter extends ArrayAdapter<SmartshopNotification> {
 		}
 		notification = getItem(position);
 		detail = notification.content;
-		holder.txtDate.setText(notification.date.toLocaleString());
+		holder.txtDate.setText(notification.getTitle());
 		holder.chBoxIsRead.setChecked(notification.isNew);
 		holder.txtContent.setText(notification.content.substring(0, notification.content.length()/2)+"...");
 		holder.btnDetail.setOnClickListener(new OnClickListener() {
