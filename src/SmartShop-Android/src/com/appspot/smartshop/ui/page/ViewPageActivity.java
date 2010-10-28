@@ -25,6 +25,7 @@ import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 
 public class ViewPageActivity extends Activity {
 	public static final String TAG = "[ViewPageActivity]";
@@ -51,6 +52,7 @@ public class ViewPageActivity extends Activity {
 		txtPostDate.setText(Global.dfFull.format(page.date_post));
 		
 		EditText txtContent = (EditText) findViewById(R.id.txtContent);
+		Utils.setEditableEditText(txtContent, false);
 		txtContent.setText(page.content);
 		
 		TextView txtPageView = (TextView) findViewById(R.id.txtPageView);
