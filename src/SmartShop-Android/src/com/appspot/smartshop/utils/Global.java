@@ -22,7 +22,6 @@ public class Global {
 	 * Update interval
 	 */
 	public static int UPDATE_INTERVAL = 60000;
-	public static boolean isStop = false;
 
 	/*
 	 * User
@@ -118,6 +117,9 @@ public class Global {
 	public static final String PRODUCTS = "products";
 	
 	public static final String IS_NORMAL_PAGE = "normal_page";
+	
+	public static final String SENDER = "sender";
+	public static final String RECEIVER = "receiver";
 	
 	/*
 	 * ACTIVITY ACTION NAME

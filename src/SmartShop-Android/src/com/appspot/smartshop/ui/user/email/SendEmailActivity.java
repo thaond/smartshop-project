@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
@@ -35,6 +36,10 @@ public class SendEmailActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.send_email);
 		
+		Bundle bundle = getIntent().getExtras();
+		String sender = bundle.getString(Global.SENDER);
+		String receiver = bundle.getString(Global.RECEIVER);
+		
 		int width = Utils.getScreenWidth();
 		int labelWidth = width * 2 / 5;
 		int textWidth = width - labelWidth;
@@ -54,6 +59,11 @@ public class SendEmailActivity extends Activity {
 		txtTitle.setWidth(textWidth);
 		txtSender.setWidth(textWidth);
 		txtReceiver.setWidth(textWidth);
+		
+		if (sender != null) {
+			txtSender.setText(sender);
+			txtReceiver.setText(receiver);
+		}
 		
 		Button btnSend = (Button) findViewById(R.id.btnSend);
 		btnSend.setOnClickListener(new OnClickListener() {

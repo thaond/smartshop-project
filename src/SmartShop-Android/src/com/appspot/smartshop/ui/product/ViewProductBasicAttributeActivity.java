@@ -168,14 +168,6 @@ public class ViewProductBasicAttributeActivity extends Activity {
 			}
 		});
 
-		btnViewUserInfo.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				viewUserProfile();
-			}
-		});
-
 		Button btnFindDirectionToProduct = (Button) findViewById(R.id.btnFindDirectionToProduct);
 		btnFindDirectionToProduct.setOnClickListener(new OnClickListener() {
 

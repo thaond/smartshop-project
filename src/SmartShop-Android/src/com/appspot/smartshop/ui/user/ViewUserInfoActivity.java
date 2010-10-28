@@ -26,6 +26,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,6 +43,8 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
+import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
+import com.appspot.smartshop.ui.user.email.SendEmailActivity;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
@@ -350,6 +354,32 @@ public class ViewUserInfoActivity extends MapActivity {
 				}
 			}
 		});
+	}
+	
+	private static final int MENU_SEND_MAIL = 0;
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_SEND_MAIL, 0,
+				getString(R.string.send_email_to_user));
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case MENU_SEND_MAIL:
+			Intent intent = new Intent(ViewUserInfoActivity.this, SendEmailActivity.class);
+			if (Global.isLogin) {
+				if (Global.userInfo.email != null) {
+					intent.putExtra(Global.SENDER, Global.userInfo.email);
+				}
+			}
+			if (userInfo.email != null) {
+				intent.putExtra(Global.RECEIVER, userInfo.email);
+			}
+			startActivity(intent);
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
