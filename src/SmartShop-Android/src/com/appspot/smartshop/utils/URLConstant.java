@@ -36,6 +36,8 @@ public class URLConstant {
 
 	public static final String LOGIN = HOST
 			+ "/api/asd/account-login/?username=%s&password=%s";
+	public static final String LOGOUT = HOST 
+			+ "/api/asd/account-logout/?session=%s";
 
 	public static final String REGISTER = HOST + "/api/asd/account-register/";
 	public static String EDIT_PROFILE = String.format(HOST
