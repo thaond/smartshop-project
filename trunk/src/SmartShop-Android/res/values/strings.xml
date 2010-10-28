@@ -37,6 +37,14 @@
 	<string name="address">Địa chỉ:</string>
 	<string name="tel">Số điện thoại:</string>
 	<string name="edit_profile">Sửa thông tin</string>
+	<!-- modify User Profile View User Profile Activity -->
+	<string name="my_page_list">Trang đã đăng</string>
+	<string name="my_product_list">Sản phẩm đã đăng</string>
+	<string name="add_new_page">Đăng trang mới</string>
+	<string name="add_new_product">Đăng sản phẩm mới</string>
+	<string name="user_info">Thông tin của tôi</string>
+	<string name="subcribe">Đăng ký nhận thông tin</string>
+	
 
 	<string name="tooltipAddressHint">(vd: 268 Lý Thường Kiệt quận 10 HCM)</string>
 	<string name="lblPhoneNumber">Số điện thoại:</string>
@@ -137,7 +145,6 @@
 	<string name="user_profile">Thông tin</string>
 	<string name="user_pages_list">Danh sách bài viết</string>
 	<string name="user_products_list">Danh sách mặt hàng</string>
-	<string name="add_new_page">Đăng bài viết mới</string>
 	<string name="post_new_product">Đăng mặt hàng mới</string>
 	<string name="view_notifications">Xem thông báo</string>
 
@@ -270,6 +277,5 @@
 	
 	<string name="search_product_on_map">Tên sản phẩm cần tìm</string>
 	<string name="search_radius_on_map">Bán kính</string>
-	
 	<string name="logout">Đăng xuất</string>
 </resources>
