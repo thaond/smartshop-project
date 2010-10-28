@@ -164,6 +164,7 @@ public class ViewUserProfileActivity extends Activity {
 					Log.d(TAG, "[EDIT INFO OF CURRENT USER]");
 					Intent intent = new Intent(ViewUserProfileActivity.this, ViewUserInfoActivity.class);
 					intent.putExtra(Global.USER_INFO, Global.userInfo);
+					intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
 					startActivity(intent);
 				}
 			});

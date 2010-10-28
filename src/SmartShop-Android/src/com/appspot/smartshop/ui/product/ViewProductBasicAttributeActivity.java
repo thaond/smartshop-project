@@ -363,7 +363,7 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		if (Global.isLogin
 				&& Global.userInfo.username.equals(productInfo.username)) {
 			Log.d(TAG, "can edit user profile");
-			intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
+			intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
 		}
 
 		startActivity(intent);

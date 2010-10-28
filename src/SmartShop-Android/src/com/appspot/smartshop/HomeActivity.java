@@ -172,7 +172,7 @@ public class HomeActivity extends Activity {
 	private void testEditUserInfo() {
 		Intent intent = new Intent(this, ViewUserInfoActivity.class);
 		intent.putExtra(Global.USER_INFO, MockUserInfo.getInstance());
-		intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
+		intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
 		startActivity(intent);
 	}
 

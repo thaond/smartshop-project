@@ -121,6 +121,12 @@ public class ViewUserInfoActivity extends MapActivity {
 		int width = Utils.getScreenWidth();
 		int labelWidth = (int) (width * 0.4);
 		int textWidth = width - labelWidth;
+		
+		// setup data for text field if in edit/view user profile mode
+		Bundle bundle = getIntent().getExtras();
+		userInfo = (UserInfo) bundle.get(Global.USER_INFO);
+		Boolean canEditUserInfo = bundle.getBoolean(Global.CAN_EDIT_USER_INFO);
+		canEditUserInfo = canEditUserInfo != null ? canEditUserInfo.booleanValue() : false;
 
 		// set up textviews
 		lblUsername = (TextView) findViewById(R.id.lblUsername);
@@ -132,11 +138,19 @@ public class ViewUserInfoActivity extends MapActivity {
 		lblPassword.setWidth(labelWidth);
 		txtPassword = (EditText) findViewById(R.id.txtPassword);
 		txtPassword.setWidth(textWidth);
+		if (!canEditUserInfo) {
+			txtPassword.setVisibility(View.GONE);
+			lblPassword.setVisibility(View.GONE);
+		}
 
 		lblConfirm = (TextView) findViewById(R.id.lblConfirm);
 		lblConfirm.setWidth(labelWidth);
 		txtConfirm = (EditText) findViewById(R.id.txtConfirm);
 		txtConfirm.setWidth(textWidth);
+		if (!canEditUserInfo) {
+			txtConfirm.setVisibility(View.GONE);
+			lblConfirm.setVisibility(View.GONE);
+		}
 
 		lblFirstName = (TextView) findViewById(R.id.lblFirstName);
 		lblFirstName.setWidth(labelWidth);
@@ -188,10 +202,10 @@ public class ViewUserInfoActivity extends MapActivity {
 		lblOldPassword.setWidth(labelWidth);
 		txtOldPassword = (EditText) findViewById(R.id.txtOldPassword);
 		txtOldPassword.setWidth(textWidth);
-
-		// setup data for text field if in edit/view user profile mode
-		Bundle bundle = getIntent().getExtras();
-		userInfo = (UserInfo) bundle.get(Global.USER_INFO);
+		if (!canEditUserInfo) {
+			lblOldPassword.setVisibility(View.GONE);
+			txtOldPassword.setVisibility(View.GONE);
+		}
 
 		// fill user info to form
 		txtUsername.setText(userInfo.username);
@@ -213,34 +227,35 @@ public class ViewUserInfoActivity extends MapActivity {
 			}
 		});
 
-		lblOldPassword.setVisibility(View.VISIBLE);
-		txtOldPassword.setVisibility(View.VISIBLE);
-		lblPassword.setVisibility(View.VISIBLE);
-		txtPassword.setVisibility(View.VISIBLE);
-		lblConfirm.setVisibility(View.VISIBLE);
-		txtConfirm.setVisibility(View.VISIBLE);
-
 		/********************************** Buttons ********************************/
 		// Register button
-		Button btnRegister = (Button) findViewById(R.id.btnRegister);
-		btnRegister.setText(getString(R.string.lblUpdate));
-		btnRegister.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				editUserProfile();
-			}
-		});
+		Button btnEditUserInfo = (Button) findViewById(R.id.btnRegister);
+		if (!canEditUserInfo) {
+			btnEditUserInfo.setVisibility(View.GONE);
+		} else {
+			btnEditUserInfo.setText(getString(R.string.lblUpdate));
+			btnEditUserInfo.setOnClickListener(new OnClickListener() {
+	
+				@Override
+				public void onClick(View v) {
+					editUserProfile();
+				}
+			});
+		}
 
 		// Cancel button
 		Button btnCancel = (Button) findViewById(R.id.btnCancel);
-		btnCancel.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+		if (!canEditUserInfo) {
+			btnCancel.setVisibility(View.GONE);
+		} else { 
+			btnCancel.setOnClickListener(new OnClickListener() {
+	
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
+		}
 
 		// Tag address on map button
 		Button btnTagAddressOnMap = (Button) findViewById(R.id.btnTagAddressOnMap);
