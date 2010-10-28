@@ -28,6 +28,7 @@ import com.appspot.smartshop.facebook.Facebook;
 import com.appspot.smartshop.facebook.LoginButton;
 import com.appspot.smartshop.facebook.SessionEvents;
 import com.appspot.smartshop.facebook.SessionStore;
+import com.appspot.smartshop.facebook.Util;
 import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
 import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
 import com.appspot.smartshop.map.SearchProductsOnMapActivity;
@@ -66,6 +67,10 @@ public class ProductsListActivity extends MapActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.products_list);
+		if (Global.APP_ID == null) {
+			Util.showAlert(this, "Warning", "Facebook Applicaton ID must be "
+					+ "specified before running");
+		}
 		
 		instance = this;
 		//set up variable for facebook connection
