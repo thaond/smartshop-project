@@ -9,8 +9,9 @@ public class URLConstant {
 	public static final String ERROR = "error";
 
 	/************************ URL ***************************************/
-	public static final String GET_PRODUCT_BY_ID = HOST + "/api/asd/get-product/?id=%d";
-	
+	public static final String GET_PRODUCT_BY_ID = HOST
+			+ "/api/asd/get-product/?id=%d";
+
 	public static String POST_PRODUCT = String.format(HOST
 			+ "/api/asd/registerproduct/?session=%s", Global.getSession());
 	public static final String GET_PRODUCTS = HOST
@@ -30,6 +31,8 @@ public class URLConstant {
 			+ "/api/asd/page-search-criteria/?status=1";
 	public static final String GET_PAGES_BY_CRITERIA = HOST
 			+ "/api/asd/page-search-criteria/?status=1&criteria=%s";
+	public static final String GET_PAGE_BY_ID = HOST
+			+ "/api/asd/get-page/?id=%d";
 
 	public static final String LOGIN = HOST
 			+ "/api/asd/account-login/?username=%s&password=%s";
@@ -81,20 +84,24 @@ public class URLConstant {
 	public static String EDIT_SUBCRIBE = String.format(HOST
 			+ "/api/asd/edit-subcribe/?session=%s", Global.getSession());
 
-
 	public static final String SEARCH_FRIEND_BY_QUERY = HOST
 			+ "/api/asd/account-search/?q=";
 	public static String ADD_FRIENDS_TO_LIST = String.format(HOST
 			+ "/api/asd/account-addfriend/?session=%s", Global.getSession());
-	
-	public static final String RATE_PRODUCT = HOST + "/api/asd/product-vote/?id=%d&star=%d";
-	
-	public static final String TAG_FRIEND_TO_PRODUCT = HOST + "/api/asd/tag-friend-to-product/?session=%s&productID=%d&usernames=%s";
-	public static final String UNTAG_FRIEND_FROM_PRODUCT = HOST + "/api/asd/untag-friend-from-product/?session=%s&productID=%d&usernames=%s";
-	
-	public static final String TAG_FRIEND_TO_PAGE = HOST + "/api/asd/tag-friend-to-page/?session=%s&pageID=%d&usernames=%s";
-	public static final String UNTAG_FRIEND_FROM_PAGE = HOST + "/api/asd/untag-friend-from-page/?session=%s&pageID=%d&usernames=%s";
-	
+
+	public static final String RATE_PRODUCT = HOST
+			+ "/api/asd/product-vote/?id=%d&star=%d";
+
+	public static final String TAG_FRIEND_TO_PRODUCT = HOST
+			+ "/api/asd/tag-friend-to-product/?session=%s&productID=%d&usernames=%s";
+	public static final String UNTAG_FRIEND_FROM_PRODUCT = HOST
+			+ "/api/asd/untag-friend-from-product/?session=%s&productID=%d&usernames=%s";
+
+	public static final String TAG_FRIEND_TO_PAGE = HOST
+			+ "/api/asd/tag-friend-to-page/?session=%s&pageID=%d&usernames=%s";
+	public static final String UNTAG_FRIEND_FROM_PAGE = HOST
+			+ "/api/asd/untag-friend-from-page/?session=%s&pageID=%d&usernames=%s";
+
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/";
 	public static final String URL_UPLOAD_AVATAR = HOST_IMG

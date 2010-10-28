@@ -40,6 +40,8 @@ public class ViewPageActivity extends Activity {
 		// get page info from intent
 		Bundle bundle = getIntent().getExtras();
 		page = (Page) bundle.get(Global.PAGE);
+		Boolean isNormalPage = (Boolean) bundle.getBoolean(Global.IS_NORMAL_PAGE);
+		isNormalPage = (isNormalPage != null) ? isNormalPage.booleanValue() : false;
 		
 		// display page info on form
 		TextView txtUsername = (TextView) findViewById(R.id.txtUsername);
@@ -79,7 +81,7 @@ public class ViewPageActivity extends Activity {
 		
 		// Button tag friend
 		Button btnTagFriend = (Button) findViewById(R.id.tag);
-		if (Global.isLogin && page.username.equals(Global.userInfo.username)) {
+		if (!isNormalPage) {
 			btnTagFriend.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -93,7 +95,7 @@ public class ViewPageActivity extends Activity {
 		
 		// button untag friend from product
 		Button btnUntagFriend = (Button) findViewById(R.id.un_tag);
-		if (Global.isLogin && page.username.equals(Global.userInfo.username)) {
+		if (!isNormalPage) {
 			btnUntagFriend.setOnClickListener(new OnClickListener() {
 				
 				@Override
