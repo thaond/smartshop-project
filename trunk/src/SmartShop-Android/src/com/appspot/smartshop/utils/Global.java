@@ -76,7 +76,7 @@ public class Global {
 	 * Intent key
 	 */
 	public static final String USER_INFO = "user_info";
-	public static final String CAN_EDIT_USER_PROFILE = "can_edit_user_profile";
+	public static final String CAN_EDIT_USER_INFO = "can_edit_user_profile";
 
 	public static final String PRODUCTS_OF_USER = "products_of_user";
 

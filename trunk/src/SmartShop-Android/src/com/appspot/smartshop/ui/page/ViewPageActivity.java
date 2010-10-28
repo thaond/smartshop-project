@@ -1,5 +1,8 @@
 package com.appspot.smartshop.ui.page;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,14 +12,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.dom.Page;
+import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.utils.FriendListDialog;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.URLConstant;
 
 public class ViewPageActivity extends Activity {
 	public static final String TAG = "[ViewPageActivity]";
@@ -107,13 +115,29 @@ public class ViewPageActivity extends Activity {
 	}
 	
 	protected void viewUserProfile() {
-		Intent intent = new Intent(this, ViewUserInfoActivity.class);
-		intent.putExtra(Global.USER_NAME, page.username);
-		if (Global.isLogin && Global.userInfo.username.equals(page.username)) {
-			intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
-		}
+		final Intent intent = new Intent(this, ViewUserInfoActivity.class);
 		
-		startActivity(intent);
+		// get userinfo of page creator
+		String url = String.format(URLConstant.GET_USER_INFO, page.username);
+		RestClient.getData(url, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(
+						json.getString("userinfo"), UserInfo.class);
+				intent.putExtra(Global.USER_INFO, userInfo);
+				if (Global.isLogin && Global.userInfo.username.equals(page.username)) {
+					intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
+				}
+				
+				startActivity(intent);
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				Toast.makeText(ViewPageActivity.this, message, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	protected void viewComment() {

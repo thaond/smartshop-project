@@ -131,7 +131,7 @@ public class MainAdapter extends BaseAdapter {
 
 			intent = new Intent(context, ViewUserProfileActivity.class);
 			intent.putExtra(Global.USER_NAME, Global.userInfo.username);
-			intent.putExtra(Global.CAN_EDIT_USER_PROFILE, true);
+			intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
 			break;
 		}
 
