@@ -86,7 +86,12 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 					.findViewById(R.id.txtDatePost);
 			holder.postFacebook = (ImageView) convertView
 					.findViewById(R.id.btnPostFb);
-			
+
+			if(!Global.isLogin){
+				holder.postFacebook.setVisibility(View.GONE);
+			}else {
+				holder.postFacebook.setVisibility(View.VISIBLE);
+			}
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
