@@ -75,7 +75,11 @@ public class ProductsListActivity extends MapActivity {
 		}else{
 			mLoginButton.setVisibility(View.VISIBLE);
 		}
+
 		Global.mFacebook = new Facebook();
+		if(Global.mFacebook.isSessionValid()){
+			mLoginButton.setVisibility(View.GONE);
+		}
 		SessionStore.restore(Global.mFacebook, this);
 		SessionEvents.addAuthListener(new SampleAuthListener());
 		SessionEvents.addLogoutListener(new SampleLogoutListener());

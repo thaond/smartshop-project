@@ -61,7 +61,7 @@ public class LoginButton extends ImageButton {
 //                         R.drawable.logout_button : 
 //                         R.drawable.login_button);
         if(!fb.isSessionValid()){
-        	setImageResource(R.drawable.login);
+        	setImageResource(R.drawable.login_facebook);
         }
         drawableStateChanged();
         

@@ -34,7 +34,7 @@ import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
 
 public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
-
+	public ViewHolder holder;
 	public static final int IMAGE_WIDTH = 50;
 	public static final int IMAGE_HEIGHT = 50;
 	private LayoutInflater inflater;
@@ -51,7 +51,7 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		final ViewHolder holder;
+		
 
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.nproductvatgia_list_item, null);
@@ -106,8 +106,7 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 							Toast.LENGTH_SHORT).show();
 				}else{
 				postFacebookVatGia();
-				holder.postFacebook.setImageResource(R.drawable.facebook_share_nonactive);
-				holder.postFacebook.setClickable(false);
+
 				}
 			}
 		});
@@ -141,6 +140,8 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 			Toast.makeText(context,
 					context.getString(R.string.postOnFacebookSuccess),
 					Toast.LENGTH_LONG).show();
+			holder.postFacebook.setImageResource(R.drawable.facebook_share_nonactive);
+			holder.postFacebook.setClickable(false);
 		}
 		
 	}
