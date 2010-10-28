@@ -67,6 +67,7 @@ public class GetProductInSubcribeRange extends BaseRestfulService {
 				}
 				jsonReturn.addProperty("errCode", 0);
 				jsonReturn.add("products", productArray);
+				jsonReturn.addProperty("message", result.getMessage());
 			} else {
 				jsonReturn.addProperty("errCode", 1);
 				jsonReturn.addProperty("message", result.getMessage());
