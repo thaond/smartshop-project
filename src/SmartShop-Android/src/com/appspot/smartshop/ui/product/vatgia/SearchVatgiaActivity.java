@@ -71,6 +71,9 @@ public class SearchVatgiaActivity extends Activity {
 		SessionEvents.addAuthListener(new SampleAuthListener());
 		SessionEvents.addLogoutListener(new SampleLogoutListener());
 		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
+		if(Global.mFacebook.isSessionValid()){
+			mLoginButton.setVisibility(View.GONE);
+		}
 		// search field
 		txtSearch = (EditText) findViewById(R.id.txtSearch);
 		
