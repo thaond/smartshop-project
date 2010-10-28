@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.google.gson.Gson;
+
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Notification;
@@ -113,6 +115,13 @@ public class NotificationServiceImpl {
 			}
 
 			if (listNotifications.size() > 0) {
+				for (Notification n : listNotifications) {
+					ServiceResult<UserInfo> resultUserInfo = dbAccount
+							.getUserInfo(n.getDetail());
+					if (resultUserInfo.isOK())
+						n.setJsonOutput(Global.gsonDateWithoutHour
+								.toJson(resultUserInfo.getResult()));
+				}
 				result.setOK(true);
 				result
 						.setMessage(String
@@ -326,7 +335,7 @@ public class NotificationServiceImpl {
 		return result;
 	}
 
-	public List<ServiceResult<Long>> insertWhenUserAddFriend(String userName,
+	public List<ServiceResult<Long>> insertWhenUserAddFriend(String username,
 			List<String> addedUnames) {
 		List<ServiceResult<Long>> result = new ArrayList<ServiceResult<Long>>();
 		for (String addedUname : addedUnames) {
@@ -340,9 +349,11 @@ public class NotificationServiceImpl {
 			noti.setTimestamp(System.currentTimeMillis());
 			noti.setNew(true);
 			noti.setContent(String.format(Global.messages
-					.getString("notification_add_friend_conttent"), userName));
+					.getString("notification_add_friend_conttent"), username));
 			noti.setUsername(addedUname);
 			noti.setType(Notification.ADD_FRIEND);
+			noti.setDetail(username);
+			log.log(Level.SEVERE, noti.toString());
 
 			// if (UtilsFunction.isOnline(addedUname)) {
 			// // Send Xtify message ^^

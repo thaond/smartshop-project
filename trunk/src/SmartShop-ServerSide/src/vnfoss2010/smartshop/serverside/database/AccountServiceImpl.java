@@ -337,7 +337,8 @@ public class AccountServiceImpl {
 	 *            in MD5 form
 	 * @return
 	 */
-	public ServiceResult<UserInfo> login(String username, String password, String userkey) {
+	public ServiceResult<UserInfo> login(String username, String password,
+			String userkey) {
 		username = DatabaseUtils.preventSQLInjection(username);
 		password = DatabaseUtils.preventSQLInjection(password);// DatabaseUtils.md5
 
@@ -533,6 +534,7 @@ public class AccountServiceImpl {
 		username = DatabaseUtils.preventSQLInjection(username);
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		ArrayList<String> addedSuccessUName = new ArrayList<String>();
+		UserInfo userInfo = null;
 
 		if (username == null || username.equals("")) {
 			result.setMessage(Global.messages
@@ -543,7 +545,6 @@ public class AccountServiceImpl {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			boolean isNotFound = false;
-			UserInfo userInfo = null;
 			try {
 				userInfo = pm.getObjectById(UserInfo.class, username);
 			} catch (NucleusObjectNotFoundException e) {
@@ -560,7 +561,8 @@ public class AccountServiceImpl {
 				for (int i = 0; i < friends.length; i++) {
 					isNotFound = false;
 
-					String friend = DatabaseUtils.preventSQLInjection(friends[i]);
+					String friend = DatabaseUtils
+							.preventSQLInjection(friends[i]);
 					UserInfo userInfo2 = null;
 					try {
 						userInfo2 = pm.getObjectById(UserInfo.class, friend);
@@ -598,7 +600,8 @@ public class AccountServiceImpl {
 		}
 		if (result.isOK()) {
 			List<ServiceResult<Long>> notiResults = dbNoti
-					.insertWhenUserAddFriend(username, addedSuccessUName);
+					.insertWhenUserAddFriend(userInfo.getUsername(),
+							addedSuccessUName);
 			for (ServiceResult<Long> notiResult : notiResults) {
 				if (notiResult.isOK() == false) {
 					result.setMessage(result.getMessage()
@@ -695,7 +698,7 @@ public class AccountServiceImpl {
 		return result;
 	}
 
-	public void setLogout(String username){
+	public void setLogout(String username) {
 		UserInfo userInfo = null;
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		boolean isNotFound = false;
@@ -711,7 +714,7 @@ public class AccountServiceImpl {
 		} else {
 			userInfo.setLogin(false);
 		}
-		
+
 		pm.close();
 	}
 
