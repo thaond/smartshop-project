@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:background="@color/background">
+
+	<include android:layout_width="fill_parent"
+		android:layout_height="wrap_content" layout="@layout/header" />
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:orientation="horizontal" android:layout_height="wrap_content"
+		android:layout_margin="10dp">
+		<ImageView android:id="@+id/imgAvatar" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/no_avatar"
+			android:layout_gravity="center_horizontal"></ImageView>
+		<LinearLayout android:layout_width="fill_parent"
+			android:orientation="vertical" android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical" android:layout_marginLeft="20dp">
+			<TextView android:id="@+id/lblName" android:layout_height="wrap_content"
+				android:text="@string/name" android:layout_width="fill_parent"
+				android:paddingBottom="5dp" android:textSize="14sp" />
+			<TextView android:id="@+id/lblEmail" android:layout_height="wrap_content"
+				android:text="@string/email" android:layout_width="fill_parent"
+				android:paddingBottom="5dp" android:textSize="14sp" />
+		</LinearLayout>
+	</LinearLayout>
+	<TextView android:id="@+id/lblDetail" android:layout_width="fill_parent"
+		android:text="asdasds" android:layout_gravity="center_horizontal"
+		android:padding="5dp" android:layout_height="fill_parent"
+		android:layout_weight="1" android:textStyle="bold" android:textSize="17sp"
+		android:background="@drawable/xml_border" android:layout_margin="10dp" />
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:orientation="horizontal" android:layout_height="wrap_content"
+		android:gravity="center_horizontal">
+		<Button android:id="@+id/btnOK" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:background="@drawable/add_friend_confirm_ok"
+			android:layout_marginRight="10dp" android:layout_marginBottom="10dp"></Button>
+		<Button android:id="@+id/btnCancel" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:background="@drawable/add_friend_confirm_cancel"
+			android:layout_marginBottom="10dp" android:layout_marginLeft="10dp"></Button>
+	</LinearLayout>
+
+</LinearLayout>

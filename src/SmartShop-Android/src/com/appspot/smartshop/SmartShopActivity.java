@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.appspot.smartshop.adapter.MainAdapter;
 import com.appspot.smartshop.dom.SmartshopNotification;
 import com.appspot.smartshop.dom.UserInfo;
+import com.appspot.smartshop.ui.user.notification.AddFriendNotificationActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -41,13 +42,15 @@ public class SmartShopActivity extends ListActivity {
 	private List<SmartshopNotification> notifications;
 	private int numOfNotifications = 0;
 	private SimpleAsyncTask task;
-	NotificationManager notificationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// Init for constant
 		Global.application = this;
+		Global.drawableNoAvatar = getResources().getDrawable(
+				R.drawable.no_avatar);
 
 		ListView listView = getListView();
 
@@ -106,7 +109,7 @@ public class SmartShopActivity extends ListActivity {
 		listView.setAdapter(new MainAdapter(this));
 
 		if (Global.isLogin) {
-			notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			Global.notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 			Log.d(TAG, "[LOAD NOTIFICATIONS]");
 			loadNotifications();
 		}
@@ -242,7 +245,8 @@ public class SmartShopActivity extends ListActivity {
 
 				// display
 				if (notifications.size() == 0) {
-					Toast.makeText(SmartShopActivity.this, getString(R.string.warn_no_notification), 
+					Toast.makeText(SmartShopActivity.this,
+							getString(R.string.warn_no_notification),
 							Toast.LENGTH_SHORT).show();
 				} else {
 					String content;
@@ -250,8 +254,7 @@ public class SmartShopActivity extends ListActivity {
 					int count = 0;
 					for (SmartshopNotification notification : notifications) {
 						content = notification.content;
-						showNotification(count + numOfNotifications, notification.getTitle(),
-								content);
+						showNotification(notification);
 						count++;
 					}
 
@@ -261,22 +264,38 @@ public class SmartShopActivity extends ListActivity {
 
 			@Override
 			public void onFailure(String message) {
-				Toast.makeText(SmartShopActivity.this, message, Toast.LENGTH_SHORT).show();
+				Toast.makeText(SmartShopActivity.this, message,
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
 
-	private void showNotification(int id, String title, String content) {
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, SmartShopActivity.class), 0);
+	private void showNotification(SmartshopNotification sNotification) {
+		Intent intent = null;
+		switch (sNotification.type) {
+		case SmartshopNotification.ADD_FRIEND:
+			intent = new Intent(this, AddFriendNotificationActivity.class);
+			intent.putExtra("notification", sNotification);
+			break;
 
+		case SmartshopNotification.TAG_PRODUCT:
+			break;
+
+		default:
+			intent = new Intent(this, SmartShopActivity.class);
+			break;
+		}
+
+		PendingIntent contentIntent = contentIntent = PendingIntent
+				.getActivity(this, 0, intent, 0);
 		Notification notification = new Notification(
 				android.R.drawable.btn_star_big_on, null, System
 						.currentTimeMillis());
-		notification.setLatestEventInfo(this, title, content, contentIntent);
+		notification.setLatestEventInfo(this, sNotification.getTitle(),
+				sNotification.content, contentIntent);
 		// TODO custom view for notification
 
-		notificationManager.notify(id, notification);
+		Global.notificationManager.notify(sNotification.id, notification);
 	}
 
 	@Override

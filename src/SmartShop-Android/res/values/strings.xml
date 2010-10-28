@@ -235,6 +235,7 @@
 	<string name="add_comment_page">Có thành viên khác bình luận vào bài viết của bạn</string>
 	<string name="tag_product_to_page">Tag sản phẩm vào bài viết</string>
 	
+	<string name="invalid_intent">Gọi giao diện không hợp lệ</string>
 
 	<!-- Search products on map -->
 	<string name="my_current_location">Vị trí của tôi</string>

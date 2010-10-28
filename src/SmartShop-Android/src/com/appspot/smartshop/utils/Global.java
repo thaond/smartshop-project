@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.graphics.drawable.Drawable;
 
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserInfo;
@@ -44,6 +46,7 @@ public class Global {
 	public static final int SUCCESS = 0;
 	public static final int ERROR = 1;
 
+	//Constant
 	public static final String NORMAL_DATE = "dd/MM/yyyy";
 	public static final String NORMAL_DATE_WITH_HOUR = "dd/MM/yyyy hh:mm:ss";
 	public static final Gson gsonDateWithoutHour = new GsonBuilder()
@@ -58,6 +61,8 @@ public class Global {
 			NORMAL_DATE_WITH_HOUR);
 	public static DateFormat dfTimeStamp = new SimpleDateFormat(
 			"yyyyMMddHHmmssSS");
+	public static Drawable drawableNoAvatar;
+	public static NotificationManager notificationManager;
 
 	// (key_cat, name) of categories
 	public static HashMap<String, String> mapParentCategories = new HashMap<String, String>();
