@@ -357,8 +357,6 @@
 			</intent-filter>
 		</activity>
 
-		<service android:name=".utils.NotifyingService" />
-
 		<!-- XTIFY Declearation -->
 		<!-- Testing -->
 		<activity android:name=".ui.user.notification.ProductNotificationActivity"

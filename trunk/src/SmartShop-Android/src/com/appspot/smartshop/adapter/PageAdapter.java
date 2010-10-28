@@ -51,6 +51,7 @@ public class PageAdapter extends ArrayAdapter<Page> {
 		this(context, textViewResourceId, new Page[] {});
 	}
 
+	private Intent intent;
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
@@ -88,9 +89,12 @@ public class PageAdapter extends ArrayAdapter<Page> {
 //				}
 				
 				Log.d(TAG, "view page");
-				final Intent intent = new Intent(context, ViewPageActivity.class);
 				if (pageType == NORMAL_PAGES) {
+					intent = new Intent(context, ViewPageActivity.class);
 					intent.putExtra(Global.IS_NORMAL_PAGE, true);
+				} else {
+					intent = new Intent(context, PageActivity.class);
+					intent.putExtra("can_edit_page", true);
 				}
 				
 				// TODO: get page info from service find page by id

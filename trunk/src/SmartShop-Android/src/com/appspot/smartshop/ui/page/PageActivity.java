@@ -88,7 +88,7 @@ public class PageActivity extends Activity {
 		
 		Button btnCategories = (Button) findViewById(R.id.btnCategories);
 		if (mode == EDIT_MODE) {
-			btnCategories.setEnabled(false);
+			btnCategories.setVisibility(View.GONE);
 		}
 		btnCategories.setOnClickListener(new OnClickListener() {
 			
