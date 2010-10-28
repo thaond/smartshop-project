@@ -57,11 +57,6 @@ import com.google.android.maps.MapActivity;
 
 public class ProductBasicAttributeActivity extends MapActivity {
 	public static final String TAG = "[ProductBasicAttributeActivity]";
-	// Declare variable for Facebook connection
-	private LoginButton mLoginButton;
-	private AsyncFacebookRunner mAsyncRunner;
-	public ImageView postFacebook;
-	// End declare variable for facebook connection
 	public static final int PICK_CATEGORIES = 0;
 	public TextView lblNameOfProduct;
 	public TextView lblPriceOfProduct;
@@ -69,7 +64,6 @@ public class ProductBasicAttributeActivity extends MapActivity {
 	public TextView lblWarrantyOfProduct;
 	public TextView lblOriginOfProduct;
 	public TextView lblAddressOfProduct;
-
 	public EditText txtNameProduct;
 	public EditText txtPriceOfProduct;
 	public EditText txtQuantityOfProduct;
@@ -89,23 +83,8 @@ public class ProductBasicAttributeActivity extends MapActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Check app id for facebook connection
-		if (Global.APP_ID == null) {
-			Util.showAlert(this, "Warning", "Facebook Applicaton ID must be "
-					+ "specified before running");
-		}
 
 		setContentView(R.layout.post_basic_product_attribute);
-
-		// set up variable for Facebook connection
-		mLoginButton = (LoginButton) findViewById(R.id.login);
-		Global.mFacebook = new Facebook();
-		mAsyncRunner = new AsyncFacebookRunner(Global.mFacebook);
-		SessionStore.restore(Global.mFacebook, this);
-		SessionEvents.addAuthListener(new SampleAuthListener());
-		SessionEvents.addLogoutListener(new SampleLogoutListener());
-		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
-
 		// set up labelWidth and textWidth
 		int width = Utils.getScreenWidth();
 		int labelWidth = (int) (width * 0.25);
@@ -136,34 +115,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtAddressOfProduct);
 		txtDescriptionOfProduct = (EditText) findViewById(R.id.txtDescription);
 		txtDescriptionOfProduct.setHeight(labelWidth);
-		postFacebook = (ImageView) findViewById(R.id.postFacebook);
-
-		// create params to post on Facebook
-		// TODO
-		final Bundle params = new Bundle();
-		params.putString("message", "Test");
-		params.putString("name", "American Virgin");
-		params.putString("link", "http://bit.ly/12345");
-		params.putString("description",
-				"A Freshman College Girl on a scholarship from an ...");
-		params.putString("picture",
-				"http://www.hangxachtayusa.net/img/p/45-84-large.jpg");
-
-		postFacebook.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (!Global.mFacebook.isSessionValid()) {
-					Toast.makeText(ProductBasicAttributeActivity.this,
-							getString(R.string.alertLoginSmartShop), Toast.LENGTH_SHORT)
-							.show();
-				} else {
-					mAsyncRunner.request("me/feed", params, "POST",
-							new WallPostRequestListener());
-				}
-			}
-		});
-
+		
 		// buttons
 		btnChooseCategory = (Button) findViewById(R.id.btnChooseCategory);
 		btnChooseCategory.setOnClickListener(new OnClickListener() {
@@ -216,30 +168,6 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		});
 	}
 
-	public class WallPostRequestListener extends BaseRequestListener {
-
-		@Override
-		public void onComplete(String response) {
-			Log.d("Facebook-Example", "Got response: " + response);
-			String message = "<empty>";
-			try {
-				JSONObject json = Util.parseJson(response);
-				message = json.getString("message");
-			} catch (JSONException e) {
-				Log.w("Facebook-Example", "JSON Error in response");
-			} catch (FacebookError e) {
-				Log.w("Facebook-Example", "Facebook Error: " + e.getMessage());
-			}
-			final String text = "Your Wall Post: " + message;
-			ProductBasicAttributeActivity.this.runOnUiThread(new Runnable() {
-				public void run() {
-					Toast.makeText(ProductBasicAttributeActivity.this,
-							getString(R.string.postOnFacebookSuccess),
-							Toast.LENGTH_SHORT).show();
-				}
-			});
-		}
-	}
 
 	public LayoutInflater inflater;
 	public View view;
@@ -265,25 +193,6 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		}
 		friends = new LinkedList<UserInfo>();
 		friendList = (ListView) view.findViewById(R.id.listFriend);
-		// txtFriendSearch = (TextView) view.findViewById(R.id.txtFriendSearch);
-		// btnFriendSearch = (Button) view.findViewById(R.id.btnFriendSearch);
-		// btnFriendSearch.setOnClickListener(new OnClickListener() {
-		//			
-		// @Override
-		// public void onClick(View v) {
-		// loadFriendList();
-		//				
-		// }
-		// });
-		// btnAddFriend = (Button) view.findViewById(R.id.btnAddFriends);
-		// btnAddFriend.setOnClickListener(new OnClickListener() {
-		//			
-		// @Override
-		// public void onClick(View v) {
-		// tagFriends();
-		//				
-		// }
-		// });
 		adapter = new AddFriendAdapter(this, 0, MockAddFriend.getInstance());
 		friendList.setAdapter(adapter);
 		// create dialog
@@ -449,34 +358,5 @@ public class ProductBasicAttributeActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
-	}
-
-	public class SampleAuthListener implements AuthListener {
-
-		public void onAuthSucceed() {
-			Toast.makeText(ProductBasicAttributeActivity.this,
-					getString(R.string.loginFacebookSuccess),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		public void onAuthFail(String error) {
-			Toast.makeText(ProductBasicAttributeActivity.this,
-					getString(R.string.loginFacebookFail), Toast.LENGTH_SHORT)
-					.show();
-		}
-	}
-
-	public class SampleLogoutListener implements LogoutListener {
-		public void onLogoutBegin() {
-			Toast.makeText(ProductBasicAttributeActivity.this,
-					getString(R.string.logoutFacebookLoading),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		public void onLogoutFinish() {
-			Toast.makeText(ProductBasicAttributeActivity.this,
-					getString(R.string.logoutFacebookSuccess),
-					Toast.LENGTH_SHORT).show();
-		}
 	}
 }

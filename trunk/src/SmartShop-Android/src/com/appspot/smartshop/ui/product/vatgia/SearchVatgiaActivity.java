@@ -15,6 +15,7 @@ import com.appspot.smartshop.facebook.Facebook;
 import com.appspot.smartshop.facebook.LoginButton;
 import com.appspot.smartshop.facebook.SessionEvents;
 import com.appspot.smartshop.facebook.SessionStore;
+import com.appspot.smartshop.facebook.Util;
 import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
 import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
 import com.appspot.smartshop.utils.DataLoader;
@@ -59,6 +60,10 @@ public class SearchVatgiaActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_vatgia);
+		if (Global.APP_ID == null) {
+			Util.showAlert(this, "Warning", "Facebook Applicaton ID must be "
+					+ "specified before running");
+		}
 		//set up variable for facebook connection
 		mLoginButton = (LoginButton) findViewById(R.id.loginFaceBookVatGia);
 
