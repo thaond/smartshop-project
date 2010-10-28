@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
+import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
@@ -15,8 +16,9 @@ import com.google.gson.JsonObject;
 
 public class UntagFriendFromProductService extends BaseRestfulService {
 	ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
-	private final static Logger log = Logger.getLogger(UntagFriendFromProductService.class
-			.getName());
+	private final static Logger log = Logger
+			.getLogger(UntagFriendFromProductService.class.getName());
+
 	public UntagFriendFromProductService(String serviceName) {
 		super(serviceName);
 	}
@@ -35,15 +37,13 @@ public class UntagFriendFromProductService extends BaseRestfulService {
 		String usernames[] = getParameterWithThrow("usernames", params, json)
 				.split(",");
 		String username = getParameterWithThrow("username", params, json);
-		ServiceResult<Set<String>> result = dbProduct.tagFriendToProduct(productID,
-				usernames, username, false);
-		if (result.isOK()) {
-			jsonReturn.addProperty("errCode", 0);
-			jsonReturn.add("setFriendTaggedID",
-					Global.gsonWithDate.toJsonTree(result.getResult()));
-		} else {
-			jsonReturn.addProperty("errCode", 1);
+		ServiceResult<Set<String>> result = dbProduct.tagFriendToProduct(
+				productID, usernames, username, false);
+		if (result.getResult() != null) {
+			jsonReturn.add("setFriendTaggedID", Global.gsonWithDate.toJsonTree(
+					result.getResult()));
 		}
+		jsonReturn.addProperty("errCode", result.isOK() ? 0 : 1);
 		jsonReturn.addProperty("message", result.getMessage());
 		return jsonReturn.toString();
 	}

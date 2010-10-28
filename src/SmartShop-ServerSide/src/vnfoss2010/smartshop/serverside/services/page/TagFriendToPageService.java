@@ -38,10 +38,11 @@ public class TagFriendToPageService extends BaseRestfulService {
 		ServiceResult<Set<String>> result = dbPage.tagFriendToPage(pageID,
 				usernames, username);
 
-		if (result.isOK()) {
+		if (result.getResult() != null) {
 			jsonReturn.add("setFriendTaggedID",
-					Global.gsonWithDate.toJsonTree(result.getResult()));
+					Global.gsonWithDate.toJsonTree(result.getResult()));	
 		}
+		
 		jsonReturn.addProperty("errCode", result.isOK() ? 0 : 1);
 		jsonReturn.addProperty("message", result.getMessage());
 		return jsonReturn.toString();

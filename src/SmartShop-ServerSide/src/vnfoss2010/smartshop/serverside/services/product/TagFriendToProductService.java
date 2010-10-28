@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
+import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
@@ -37,13 +38,11 @@ public class TagFriendToProductService extends BaseRestfulService {
 		String username = getParameterWithThrow("username", params, json);
 		ServiceResult<Set<String>> result = dbProduct.tagFriendToProduct(productID,
 				usernames, username, true);
-		if (result.isOK()) {
-			jsonReturn.add("setFriendTaggedID",
-					Global.gsonWithDate.toJsonTree(result.getResult()));
-			jsonReturn.addProperty("errCode", 0);
-		} else {
-			jsonReturn.addProperty("errCode", 1);
+		if (result.getResult() != null) {
+			jsonReturn.add("setFriendTaggedID", Global.gsonWithDate.toJsonTree(
+					result.getResult()));
 		}
+		jsonReturn.addProperty("errCode", result.isOK() ? 0 : 1);
 		jsonReturn.addProperty("message", result.getMessage());
 		return jsonReturn.toString();
 	}
