@@ -194,6 +194,7 @@ public class PagesListActivity extends Activity {
 
 			@Override
 			public void updateUI() {
+				adapter.pageType = type;
 				adapter = new PageAdapter(PagesListActivity.this, 0, pages);
 				listPages.setAdapter(adapter);
 			}

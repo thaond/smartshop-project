@@ -2,6 +2,9 @@ package com.appspot.smartshop.adapter;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -18,9 +21,16 @@ import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.URLConstant;
 
 public class PageAdapter extends ArrayAdapter<Page> {
 	public static final String TAG = "[PageAdapter]";
+	
+	public static final int PAGES_OF_USER = 1;
+	public static final int NORMAL_PAGES = 0;
+	public static int pageType = NORMAL_PAGES;
 	
 	private LayoutInflater inflater;
 	private Context context;
@@ -69,7 +79,6 @@ public class PageAdapter extends ArrayAdapter<Page> {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = null;
 //				if (Global.isLogin && page.username.equals(Global.userInfo.username)) {
 //					Log.d(TAG, "edit page of " + Global.userInfo.username);
 //					intent = new Intent(context, PageActivity.class);
@@ -79,12 +88,27 @@ public class PageAdapter extends ArrayAdapter<Page> {
 //				}
 				
 				Log.d(TAG, "view page");
-				intent = new Intent(context, ViewPageActivity.class);
+				final Intent intent = new Intent(context, ViewPageActivity.class);
+				if (pageType == NORMAL_PAGES) {
+					intent.putExtra(Global.IS_NORMAL_PAGE, true);
+				}
 				
 				// TODO: get page info from service find page by id
-				Page newPage = null;
-				intent.putExtra(Global.PAGE, page);
-				context.startActivity(intent);
+				String url = String.format(URLConstant.GET_PAGE_BY_ID, page.id);
+				RestClient.getData(url, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+						Page newPage = Global.gsonWithHour.fromJson(
+								json.getString("page"), Page.class);
+						intent.putExtra(Global.PAGE, newPage);
+						context.startActivity(intent);
+					}
+					
+					@Override
+					public void onFailure(String message) {
+					}
+				});
 			}
 		};
 		holder.btnDetail.setOnClickListener(onClickListener);

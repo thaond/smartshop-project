@@ -38,10 +38,9 @@
 			android:layout_height="48dip" android:background="@drawable/user_profile"
 			android:layout_toLeftOf="@+id/btnViewComment" />
 
-		<Button android:layout_width="wrap_content"
-			android:layout_alignParentRight="true" android:layout_height="wrap_content"
-			android:id="@+id/btnViewComment" android:text="@string/lblViewComment"
-			android:paddingRight="5dip" />
+		<Button android:layout_alignParentRight="true" android:id="@+id/btnViewComment"
+			android:layout_width="48dip" android:layout_height="48dip"
+			android:background="@drawable/comment_icon" android:paddingRight="5dip" />
 
 	</RelativeLayout>
 

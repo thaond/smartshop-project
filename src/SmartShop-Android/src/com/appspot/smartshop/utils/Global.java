@@ -117,6 +117,8 @@ public class Global {
 	
 	public static final String PRODUCTS = "products";
 	
+	public static final String IS_NORMAL_PAGE = "normal_page";
+	
 	/*
 	 * ACTIVITY ACTION NAME
 	 */
