@@ -1174,23 +1174,36 @@ public class ProductServiceImpl {
 					if (isTag) {
 						for (String user2Tag : usernames) {
 							try {
-								user = pm.getObjectById(UserInfo.class,
-										user2Tag);
-								user.getSetProductTaggedID().add(productID);
-								product.getSetFriendsTaggedID().add(username);
-								result.setMessage(result.getMessage()
-										+ ";"
-										+ String.format(
-												Global.messages
-														.getString("tag_user_to_product_successfully"),
-												user2Tag, productID));
-								notiResult = dbNoti.insertWhenTagUserToProduct(
-										productID, user2Tag, isTag);
-
-								if (notiResult.isOK() == false) {
+								if (product.getSetFriendsTaggedID().contains(
+										user2Tag)) {
+									result.setOK(false);
 									result.setMessage(result.getMessage()
-											+ ";Notification Exception:"
-											+ notiResult.getMessage());
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("already_tag_user_to_product"),
+													user2Tag, productID));
+								} else {
+									user = pm.getObjectById(UserInfo.class,
+											user2Tag);
+									user.getSetProductTaggedID().add(productID);
+									product.getSetFriendsTaggedID().add(
+											username);
+									result.setMessage(result.getMessage()
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("tag_user_to_product_successfully"),
+													user2Tag, productID));
+									notiResult = dbNoti
+											.insertWhenTagUserToProduct(
+													productID, user2Tag, isTag);
+
+									if (notiResult.isOK() == false) {
+										result.setMessage(result.getMessage()
+												+ ";Notification Exception:"
+												+ notiResult.getMessage());
+									}
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -1206,24 +1219,37 @@ public class ProductServiceImpl {
 					} else {
 						for (String user2Tag : usernames) {
 							try {
-								user = pm.getObjectById(UserInfo.class,
-										user2Tag);
-								user.getSetProductTaggedID().remove(productID);
-								product.getSetFriendsTaggedID()
-										.remove(user2Tag);
-								result.setMessage(result.getMessage()
-										+ ";"
-										+ String.format(
-												Global.messages
-														.getString("untag_user_from_product_successfully"),
-												user2Tag, productID));
-								notiResult = dbNoti.insertWhenTagUserToProduct(
-										productID, user2Tag, isTag);
-
-								if (notiResult.isOK() == false) {
+								if (!product.getSetFriendsTaggedID().contains(
+										user2Tag)) {
+									result.setOK(false);
 									result.setMessage(result.getMessage()
-											+ ";Notification Exception:"
-											+ notiResult.getMessage());
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("user_not_yet_tag_to_product"),
+													user2Tag, productID));
+								} else {
+									user = pm.getObjectById(UserInfo.class,
+											user2Tag);
+									user.getSetProductTaggedID().remove(
+											productID);
+									product.getSetFriendsTaggedID().remove(
+											user2Tag);
+									result.setMessage(result.getMessage()
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("untag_user_from_product_successfully"),
+													user2Tag, productID));
+									notiResult = dbNoti
+											.insertWhenTagUserToProduct(
+													productID, user2Tag, isTag);
+
+									if (notiResult.isOK() == false) {
+										result.setMessage(result.getMessage()
+												+ ";Notification Exception:"
+												+ notiResult.getMessage());
+									}
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
