@@ -2,6 +2,7 @@ package com.appspot.smartshop.ui.comment;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,9 +11,12 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,12 +27,16 @@ import android.widget.Toast;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.CommentAdapter;
 import com.appspot.smartshop.dom.Comment;
+import com.appspot.smartshop.ui.product.ProductsListActivity;
+import com.appspot.smartshop.ui.product.SelectTwoProductActivity;
+import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 
 public class ViewCommentsActivity extends Activity {
 	public static final String TAG = "[ViewCommentsActivity]";
@@ -61,27 +69,34 @@ public class ViewCommentsActivity extends Activity {
 		Log.d(TAG, "id of comments = " + id);
 		Log.d(TAG, "type of comments = " + type);
 		
-		// add new comment
-		Button btnAddComment = (Button) findViewById(R.id.btnAddComment);
-		btnAddComment.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if (!Global.isLogin) {
-					Toast.makeText(ViewCommentsActivity.this,
-							getString(R.string.warn_must_login_to_post_comment), Toast.LENGTH_SHORT).show();
-				} else {
-					showAddNewCommentDialog();
-				}
-			}
-		});
-		
 		// list comments
 		adapter = new CommentAdapter(this, 0, new LinkedList<Comment>());
 		listComments = (ListView) findViewById(R.id.listComments);
 		
 		// load comments
 		loadComments();
+	}
+	
+	private static final int MENU_ADD_COMMENT = 0;
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_ADD_COMMENT, 0,
+				getString(R.string.add_new_comment)).setIcon(R.drawable.new_comment);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case MENU_ADD_COMMENT:
+			if (!Global.isLogin) {
+				Toast.makeText(ViewCommentsActivity.this,
+						getString(R.string.warn_must_login_to_post_comment), Toast.LENGTH_SHORT).show();
+			} else {
+				showAddNewCommentDialog();
+			}
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	private SimpleAsyncTask task;

@@ -2,10 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:orientation="vertical">
-	
-	<Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:id="@+id/btnAddComment" android:background="@drawable/new_comment"
-		android:layout_gravity="right"/>
 		
 	<ListView android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:id="@+id/listComments"/>
