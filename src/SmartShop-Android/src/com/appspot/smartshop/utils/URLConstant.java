@@ -89,7 +89,11 @@ public class URLConstant {
 	
 	public static final String RATE_PRODUCT = HOST + "/api/asd/product-vote/?id=%d&star=%d";
 	
-	public static final String TAG_FRIEND_TO_PRODUCT = HOST + "/api/asd/tag-friend-to-product/?productID=%d&tagusername=%s";
+	public static final String TAG_FRIEND_TO_PRODUCT = HOST + "/api/asd/tag-friend-to-product/?session=%s&productID=%d&usernames=%s";
+	public static final String UNTAG_FRIEND_FROM_PRODUCT = HOST + "/api/asd/untag-friend-from-product/?session=%s&productID=%d&usernames=%s";
+	
+	public static final String TAG_FRIEND_TO_PAGE = HOST + "/api/asd/tag-friend-to-page/?session=%s&pageID=%d&usernames=%s";
+	public static final String UNTAG_FRIEND_FROM_PAGE = HOST + "/api/asd/untag-friend-from-page/?session=%s&pageID=%d&usernames=%s";
 	
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/";

@@ -229,7 +229,7 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		
 		// button tag friend to product
 		Button btnTagFriend = (Button) findViewById(R.id.tag);
-		if (Global.isLogin) {
+		if (Global.isLogin && productInfo.username.equals(Global.userInfo.username)) {
 			btnTagFriend.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -240,11 +240,30 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		} else {
 			btnTagFriend.setVisibility(View.GONE);
 		}
+		
+		// button untag friend from product
+		Button btnUntagFriend = (Button) findViewById(R.id.un_tag);
+		if (Global.isLogin && productInfo.username.equals(Global.userInfo.username)) {
+			btnUntagFriend.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					untagFriendToProduct();
+				}
+			});
+		} else {
+			btnUntagFriend.setVisibility(View.GONE);
+		}
+	}
+
+	protected void untagFriendToProduct() {
+		FriendListDialog.tagType = FriendListDialog.PRODUCT;
+		FriendListDialog.showUntagFriendDialog(this, productInfo.id);
 	}
 
 	protected void tagFriendToProduct() {
-		FriendListDialog.tagType = FriendListDialog.TAG_PRODUCT;
-		FriendListDialog.showDialog(this, productInfo.id);
+		FriendListDialog.tagType = FriendListDialog.PRODUCT;
+		FriendListDialog.showTagFriendDialog(this, productInfo.id);
 	}
 
 	protected void rateProduct(final int rating) {

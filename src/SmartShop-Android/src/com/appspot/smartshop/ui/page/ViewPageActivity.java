@@ -67,8 +67,9 @@ public class ViewPageActivity extends Activity {
 			}
 		});
 		
+		// Button tag friend
 		Button btnTagFriend = (Button) findViewById(R.id.tag);
-		if (Global.isLogin) {
+		if (Global.isLogin && page.username.equals(Global.userInfo.username)) {
 			btnTagFriend.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -79,11 +80,30 @@ public class ViewPageActivity extends Activity {
 		} else {
 			btnTagFriend.setVisibility(View.GONE);
 		}
+		
+		// button untag friend from product
+		Button btnUntagFriend = (Button) findViewById(R.id.un_tag);
+		if (Global.isLogin && page.username.equals(Global.userInfo.username)) {
+			btnUntagFriend.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					untagFriendToProduct();
+				}
+			});
+		} else {
+			btnUntagFriend.setVisibility(View.GONE);
+		}
 	}
 	
 	protected void tagFriendToProduct() {
-		FriendListDialog.tagType = FriendListDialog.TAG_PAGE;
-		FriendListDialog.showDialog(this, page.id);
+		FriendListDialog.tagType = FriendListDialog.PAGE;
+		FriendListDialog.showTagFriendDialog(this, page.id);
+	}
+	
+	protected void untagFriendToProduct() {
+		FriendListDialog.tagType = FriendListDialog.PAGE;
+		FriendListDialog.showUntagFriendDialog(this, page.id);
 	}
 	
 	protected void viewUserProfile() {

@@ -79,7 +79,6 @@ public class HomeActivity extends Activity {
 	// test UI
 	// should adjust the button's text in main.xml file as name of the test
 	protected void test1() {
-		testFriendListDialog();
 	}
 
 	protected void test2() {
@@ -89,17 +88,7 @@ public class HomeActivity extends Activity {
 	protected void test3() {
 	}
 	
-	void testFriendListDialog() {
-		Global.userInfo = new UserInfo();
-		Global.userInfo.setFriendsUsername = new LinkedHashSet<String>();
-		Global.userInfo.setFriendsUsername.add("friend one");
-		Global.userInfo.setFriendsUsername.add("friend two");
-		Global.userInfo.setFriendsUsername.add("friend three");
-		Global.userInfo.setFriendsUsername.add("friend four");
-		Global.userInfo.setFriendsUsername.add("friend five");
-		
-		FriendListDialog.showDialog(this, 10);
-	}
+	
 	
 	void testProductList() {
 		Intent intent = new Intent(this, ProductsListActivity.class);
