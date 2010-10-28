@@ -7,9 +7,11 @@
 		android:layout_height="wrap_content" android:orientation="horizontal">
 		<EditText android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:id="@+id/txtSearch"
-			android:layout_weight="1" />
+			android:layout_weight="1" android:textSize="12dip"
+			android:hint="@string/search_product_on_map"/>
 		<EditText android:layout_width="75dip" android:layout_height="wrap_content"
-			android:id="@+id/txtRadius" android:paddingRight="10dip" />
+			android:id="@+id/txtRadius" android:paddingRight="10dip" 
+			android:hint="@string/search_radius_on_map" android:textSize="12dip"/>
 		<Button android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/btnSearch"
 			android:text="@string/btnSearchProductsOnMap" />

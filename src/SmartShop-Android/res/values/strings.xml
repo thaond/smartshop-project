@@ -267,4 +267,6 @@
 	
 	<string name="err_cant_get_product_info">Không thể lấy thông tin sản phẩm</string>
 	
+	<string name="search_product_on_map">Tên sản phẩm cần tìm</string>
+	<string name="search_radius_on_map">Bán kính</string>	
 </resources>
