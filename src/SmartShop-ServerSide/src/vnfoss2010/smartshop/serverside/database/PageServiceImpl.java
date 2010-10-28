@@ -84,29 +84,41 @@ public class PageServiceImpl {
 			} else {
 				if (!page.getUsername().equals(username)) {
 					result.setOK(false);
-					result.setMessage(String.format(
-							Global.messages.getString("no_permission_to_tag_to_page"),
+					result.setMessage(String.format(Global.messages
+							.getString("no_permission_to_tag_to_page"),
 							username));
 				} else {
 					ServiceResult<Void> notiResult = null;
 					for (String user2Tag : usernames) {
 						try {
-							user = pm.getObjectById(UserInfo.class, user2Tag);
-							page.getSetFriendsTaggedID().add(user2Tag);
-							user.getSetPageTaggedID().add(pageID);
-							result.setMessage(result.getMessage()
-									+ ";"
-									+ String.format(
-											Global.messages
-													.getString("tag_user_to_page_successfully"),
-											user2Tag, pageID));
-							// notification
-							notiResult = dbNoti.insertWhenTagUserToPage(pageID,
-									username, true);
-							if (notiResult.isOK() == false) {
+							if (!page.getSetFriendsTaggedID()
+									.contains(user2Tag)) {
+								result.setOK(false);
 								result.setMessage(result.getMessage()
-										+ ";Notification Exception:"
-										+ notiResult.getMessage());
+										+ ";"
+										+ String.format(
+												Global.messages
+														.getString("already_tag_user_to_page"),
+												user2Tag, pageID));
+							} else {
+								user = pm.getObjectById(UserInfo.class,
+										user2Tag);
+								page.getSetFriendsTaggedID().add(user2Tag);
+								user.getSetPageTaggedID().add(pageID);
+								result.setMessage(result.getMessage()
+										+ ";"
+										+ String.format(
+												Global.messages
+														.getString("tag_user_to_page_successfully"),
+												user2Tag, pageID));
+								// notification
+								notiResult = dbNoti.insertWhenTagUserToPage(
+										pageID, username, true);
+								if (notiResult.isOK() == false) {
+									result.setMessage(result.getMessage()
+											+ ";Notification Exception:"
+											+ notiResult.getMessage());
+								}
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -154,29 +166,41 @@ public class PageServiceImpl {
 			} else {
 				if (!page.getUsername().equals(username)) {
 					result.setOK(false);
-					result.setMessage(String.format(
-							Global.messages.getString("no_permission_to_untag_from_page"),
+					result.setMessage(String.format(Global.messages
+							.getString("no_permission_to_untag_from_page"),
 							username));
 				} else {
 					ServiceResult<Void> notiResult = null;
 					for (String user2Tag : usernames) {
 						try {
-							user = pm.getObjectById(UserInfo.class, user2Tag);
-							page.getSetFriendsTaggedID().remove(user2Tag);
-							user.getSetPageTaggedID().remove(pageID);
-							result.setMessage(result.getMessage()
-									+ ";"
-									+ String.format(
-											Global.messages
-													.getString("untag_user_from_page_successfully"),
-											user2Tag, pageID));
-							// notification
-							notiResult = dbNoti.insertWhenTagUserToPage(pageID,
-									username, false);
-							if (notiResult.isOK() == false) {
+							if (!page.getSetFriendsTaggedID()
+									.contains(user2Tag)) {
+								result.setOK(false);
 								result.setMessage(result.getMessage()
-										+ ";Notification Exception:"
-										+ notiResult.getMessage());
+										+ ";"
+										+ String.format(
+												Global.messages
+														.getString("user_not_yet_tag_to_page"),
+												user2Tag, pageID));
+							} else {
+								user = pm.getObjectById(UserInfo.class,
+										user2Tag);
+								page.getSetFriendsTaggedID().remove(user2Tag);
+								user.getSetPageTaggedID().remove(pageID);
+								result.setMessage(result.getMessage()
+										+ ";"
+										+ String.format(
+												Global.messages
+														.getString("untag_user_from_page_successfully"),
+												user2Tag, pageID));
+								// notification
+								notiResult = dbNoti.insertWhenTagUserToPage(
+										pageID, username, false);
+								if (notiResult.isOK() == false) {
+									result.setMessage(result.getMessage()
+											+ ";Notification Exception:"
+											+ notiResult.getMessage());
+								}
 							}
 						} catch (Exception e) {
 							result.setOK(false);

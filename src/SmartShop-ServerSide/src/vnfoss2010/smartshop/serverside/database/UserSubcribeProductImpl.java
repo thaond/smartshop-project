@@ -226,12 +226,13 @@ public class UserSubcribeProductImpl {
 			if (listProduct != null) {
 				result.setOK(true);
 				result.setResult(listProduct);
+				result.setMessage(String.format(Global.messages.getString("get_products_by_subscribe_successfully"),subcribe.getId()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setOK(false);
+			result.setMessage(String.format(Global.messages.getString("get_products_by_subscribe_fail"),subcribe.getId()));
 		}
-
 		return result;
 	}
 
