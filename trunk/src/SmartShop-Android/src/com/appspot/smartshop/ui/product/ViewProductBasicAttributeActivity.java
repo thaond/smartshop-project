@@ -27,10 +27,12 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.DirectionListActivity;
 import com.appspot.smartshop.map.MyLocationCallback;
 import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
+import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.utils.FriendListDialog;
 import com.appspot.smartshop.utils.Global;
@@ -358,14 +360,28 @@ public class ViewProductBasicAttributeActivity extends Activity {
 	}
 
 	protected void viewUserProfile() {
-		Intent intent = new Intent(this, ViewUserInfoActivity.class);
-		intent.putExtra(Global.USER_NAME, productInfo.username);
-		if (Global.isLogin
-				&& Global.userInfo.username.equals(productInfo.username)) {
-			Log.d(TAG, "can edit user profile");
-			intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
-		}
-
-		startActivity(intent);
+		final Intent intent = new Intent(this, ViewUserInfoActivity.class);
+		
+		// get userinfo of page creator
+		String url = String.format(URLConstant.GET_USER_INFO, productInfo.username);
+		RestClient.getData(url, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				UserInfo userInfo = Global.gsonDateWithoutHour.fromJson(
+						json.getString("userinfo"), UserInfo.class);
+				intent.putExtra(Global.USER_INFO, userInfo);
+				if (Global.isLogin && Global.userInfo.username.equals(productInfo.username)) {
+					intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
+				}
+				
+				startActivity(intent);
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				Toast.makeText(ViewProductBasicAttributeActivity.this, message, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 }
