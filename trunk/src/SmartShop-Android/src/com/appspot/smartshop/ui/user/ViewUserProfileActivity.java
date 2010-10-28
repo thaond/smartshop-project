@@ -40,7 +40,6 @@ public class ViewUserProfileActivity extends Activity {
 	
 	private ListView listInfos;
 	private ImageView imgAvatar;
-	private Drawable drawableNoAvatar;
 	private ProfileAdapter adapter;
 	private UserInfo userInfo;
 	private boolean isOwn = true;
@@ -50,8 +49,6 @@ public class ViewUserProfileActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_profile);
 
-		// avatar and user basic info
-		drawableNoAvatar = getResources().getDrawable(R.drawable.no_avatar);
 		adapter = new ProfileAdapter(ViewUserProfileActivity.this,
 				R.layout.view_profile_list_item);
 		imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
@@ -99,7 +96,7 @@ public class ViewUserProfileActivity extends Activity {
 //		userInfo.avatarLink = "http://10.0.2.2/uploads/tam1234/a.jpg";
 		Log.d(TAG, "fdsfdsfs");
 		if (StringUtils.isEmptyOrNull(userInfo.avatarLink)) {
-			imgAvatar.setBackgroundDrawable(drawableNoAvatar);
+			imgAvatar.setBackgroundDrawable(Global.drawableNoAvatar);
 		} else {
 			try {
 				Bitmap bitmapAvatar = Utils
@@ -110,7 +107,7 @@ public class ViewUserProfileActivity extends Activity {
 				imgAvatar.setImageBitmap(bitmapAvatar);
 			} catch (Exception e) {
 				e.printStackTrace();
-				imgAvatar.setBackgroundDrawable(drawableNoAvatar);
+				imgAvatar.setBackgroundDrawable(Global.drawableNoAvatar);
 			}
 		}
 

@@ -1,5 +1,6 @@
 package com.appspot.smartshop.dom;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -7,7 +8,8 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.utils.Global;
 import com.google.gson.reflect.TypeToken;
 
-public class SmartshopNotification {
+public class SmartshopNotification implements Serializable{
+	private static final long serialVersionUID = 1L;
 	public static final int ADD_FRIEND = 1;
 	public static final int TAG_PRODUCT = 2;
 	public static final int UNTAG_PRODUCT = 3;
@@ -17,13 +19,14 @@ public class SmartshopNotification {
 	public static final int ADD_COMMENT_PAGE = 7;
 	public static final int TAG_PRODUCT_TO_PAGE = 8;
 
-	public Long id;
+	public int id;
 	public int type;
 	public String content;
 	public long timestamp;
 	public boolean isNew;
 	public String username;
 	public String detail;
+	public String jsonOutput;
 
 	public SmartshopNotification() {
 	}

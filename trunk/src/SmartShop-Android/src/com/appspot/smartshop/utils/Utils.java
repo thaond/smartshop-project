@@ -9,9 +9,14 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.appspot.smartshop.SmartShopActivity;
+import com.appspot.smartshop.ui.BaseUIActivity;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -143,8 +148,9 @@ public class Utils {
 			return false;
 		return true;
 	}
-	
+
 	private static final String ALPHA_NUM = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZqwertyuiopasdfghjklzxcvbnm";
+
 	public static String getAlphaNumeric(int len) {
 		StringBuffer sb = new StringBuffer(len);
 		for (int i = 0; i < len; i++) {
@@ -152,5 +158,10 @@ public class Utils {
 			sb.append(ALPHA_NUM.charAt(ndx));
 		}
 		return sb.toString();
+	}
+
+	public static void returnHomeActivity(Activity activity) {
+		Intent intent = new Intent(activity, SmartShopActivity.class);
+		activity.startActivity(intent);
 	}
 }

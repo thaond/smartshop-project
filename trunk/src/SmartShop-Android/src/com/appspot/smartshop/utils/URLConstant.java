@@ -90,8 +90,8 @@ public class URLConstant {
 
 	public static final String SEARCH_FRIEND_BY_QUERY = HOST
 			+ "/api/asd/account-search/?q=";
-	public static String ADD_FRIENDS_TO_LIST = String.format(HOST
-			+ "/api/asd/account-addfriend/?session=%s", Global.getSession());
+	public static String ADD_FRIENDS_TO_LIST = HOST
+			+ "/api/asd/account-addfriend/?session=%s&friends=%s";
 
 	public static final String RATE_PRODUCT = HOST
 			+ "/api/asd/product-vote/?id=%d&star=%d";
