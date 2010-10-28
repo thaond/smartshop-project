@@ -56,7 +56,7 @@ public class ScanSubcribeServlet extends HttpServlet {
 					if (searchProducts.isOK()) {
 						if (searchProducts.getResult().size() > 0) {
 							ServiceResult<UserInfo> searchUser = dbAccount
-									.getUserInfo(subcribe.getUserName());
+									.getUserInfo(subcribe.getUsername());
 							if (searchUser.isOK()) {
 								UserInfo userInfo = searchUser.getResult();
 								sendMail(userInfo, searchProducts.getResult(),
