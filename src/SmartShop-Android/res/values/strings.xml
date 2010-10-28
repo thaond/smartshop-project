@@ -255,7 +255,8 @@
 	<string name="logoutFacebookSuccess">Đăng xuất Facebook thành công</string>
 	<string name="logoutFacebookLoading">Đang thoát khỏi tài khoản Facebook</string>
 	
-	<string name="alertLogin">Bạn phải đăng nhập tài khoản Facebook để sử dụng chức năng này</string>
+	<string name="alertLoginFacebook">Bạn phải đăng nhập tài khoản Facebook để sử dụng chức năng này</string>
+	<string name="alertLoginSmartShop">Bạn phải đăng nhập tài khoản Smart Shop để sử dụng chức năng này</string>
 	<string name="settings">Thiết lập</string>
 	<string name="cannot_connect_network">Không thể kết nối mạng</string>
 	

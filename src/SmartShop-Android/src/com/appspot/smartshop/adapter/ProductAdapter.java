@@ -44,10 +44,12 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 	private Context context;
 	private LayoutInflater inflater;
-	private Bundle params = new Bundle();// contain information for post product to facebook
-	
+	private Bundle params = new Bundle();// contain information for post product
+	// to facebook
+
 	public static final int IMAGE_WIDTH = 50;
 	public static final int IMAGE_HEIGHT = 50;
+
 	public ProductAdapter(Context context, int textViewResourceId,
 			List<ProductInfo> objects) {
 		super(context, textViewResourceId, objects);
@@ -72,7 +74,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.product_list_item, null);
-	
+
 			holder = new ViewHolder();
 			holder.image = (ImageView) convertView.findViewById(R.id.image);
 			holder.btnMap = (Button) convertView.findViewById(R.id.btnMap);
@@ -87,11 +89,6 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			holder.postFacebook = (ImageView) convertView
 					.findViewById(R.id.btnPostFb);
 
-			if(!Global.isLogin){
-				holder.postFacebook.setVisibility(View.GONE);
-			}else {
-				holder.postFacebook.setVisibility(View.VISIBLE);
-			}
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -111,9 +108,12 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			public void onClick(View v) {
 				if (productInfo.lat == 0 && productInfo.lng == 0) {
 					Log.d(TAG, "product has no lat, long");
-					Toast.makeText(context,
-						context.getString(R.string.warnProductHasNoAddress),
-						Toast.LENGTH_SHORT).show();
+					Toast
+							.makeText(
+									context,
+									context
+											.getString(R.string.warnProductHasNoAddress),
+									Toast.LENGTH_SHORT).show();
 				} else {
 					Log.d(TAG, "show location of product");
 					MapDialog.createProductLocationDialog(
@@ -128,19 +128,26 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 			@Override
 			public void onClick(View v) {
-				postFacebookSmartShop();
-				holder.postFacebook
-						.setImageResource(R.drawable.facebook_share_nonactive);
-				holder.postFacebook.setClickable(false);
+				if (!Global.isLogin) {
+					Toast.makeText(context,
+							context.getString(R.string.alertLoginSmartShop),
+							Toast.LENGTH_SHORT).show();
+				} else {
+					postFacebookSmartShop();
+					holder.postFacebook
+							.setImageResource(R.drawable.facebook_share_nonactive);
+					holder.postFacebook.setClickable(false);
+				}
+
 			}
 		});
 
 		// // TODO Load image of product from internet
-//		String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
-//		Bitmap imageOfProduct = Utils.getBitmapFromURL(url);
-//		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,
-//				IMAGE_WIDTH, IMAGE_HEIGHT, true);
-//		holder.image.setImageBitmap(imageOfProduct);
+		// String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
+		// Bitmap imageOfProduct = Utils.getBitmapFromURL(url);
+		// imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,
+		// IMAGE_WIDTH, IMAGE_HEIGHT, true);
+		// holder.image.setImageBitmap(imageOfProduct);
 		// TODO sample image
 		holder.image.setBackgroundResource(R.drawable.icon);
 
@@ -150,36 +157,43 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			@Override
 			public void onClick(View v) {
 				Log.d(TAG, "view detail of product");
-				
+
 				// get product info from server
-				String url = String.format(URLConstant.GET_PRODUCT_BY_ID, productInfo.id);
+				String url = String.format(URLConstant.GET_PRODUCT_BY_ID,
+						productInfo.id);
 				RestClient.getData(url, new JSONParser() {
-					
+
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
-						ProductInfo newProductInfo = 
-							Global.gsonWithHour.fromJson(json.getString("product"), 
-							ProductInfo.class);
-						Intent intent = new Intent(context, ViewProductActivity.class);
+						ProductInfo newProductInfo = Global.gsonWithHour
+								.fromJson(json.getString("product"),
+										ProductInfo.class);
+						Intent intent = new Intent(context,
+								ViewProductActivity.class);
 						intent.putExtra(Global.PRODUCT_INFO, newProductInfo);
 						if (Global.isLogin
-								&& productInfo.username.equals(Global.userInfo.username)) {
+								&& productInfo.username
+										.equals(Global.userInfo.username)) {
 							Log.d(TAG, "can edit product profile");
 							intent.putExtra(Global.CAN_EDIT_PRODUCT_INFO, true);
 						}
 
 						context.startActivity(intent);
 					}
-					
+
 					@Override
 					public void onFailure(String message) {
-						Toast.makeText(context, context.getString(R.string.err_cant_get_product_info), 
-								Toast.LENGTH_SHORT).show();
+						Toast
+								.makeText(
+										context,
+										context
+												.getString(R.string.err_cant_get_product_info),
+										Toast.LENGTH_SHORT).show();
 					}
 				});
 			}
 		});
-		
+
 		// set up information to post on Facebook
 		params.putString("message", "Smart Shop");
 		params.putString("name", productInfo.name);
@@ -188,7 +202,6 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		params.putString("description", productInfo.description);
 		params.putString("link",
 				"http://www.hangxachtayusa.net/product.php?id_product=195");
-		
 
 		return convertView;
 	}
@@ -199,7 +212,8 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		SessionStore.restore(Global.mFacebook, context);
 		mAsyncRunner = new AsyncFacebookRunner(Global.mFacebook);
 		if (!Global.mFacebook.isSessionValid()) {
-			Toast.makeText(context, context.getString(R.string.alertLogin),
+			Toast.makeText(context,
+					context.getString(R.string.alertLoginFacebook),
 					Toast.LENGTH_SHORT).show();
 		} else {
 			mAsyncRunner.request("me/feed", params, "POST",
