@@ -92,6 +92,7 @@ public class Page extends SearchCapable {
 	public Page() {
 		setCategoryKeys = new HashSet<String>();
 		setProductIDs = new HashSet<Long>();
+		setFriendsTaggedID = new HashSet<String>();
 		fts = new HashSet<String>();
 	}
 

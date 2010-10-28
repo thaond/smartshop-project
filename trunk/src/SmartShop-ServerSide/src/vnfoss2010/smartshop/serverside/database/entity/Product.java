@@ -61,7 +61,7 @@ public class Product extends SearchCapable implements LocationCapable,
 
 	@Persistent
 	private int product_view;
-	
+
 	@Persistent
 	private int sum_star;
 
@@ -70,12 +70,12 @@ public class Product extends SearchCapable implements LocationCapable,
 
 	@Persistent
 	private String username;
-	
-//	@Persistent(mappedBy = "product")
-//	@Element(dependent = "true")
+
+	// @Persistent(mappedBy = "product")
+	// @Element(dependent = "true")
 	@NotPersistent
 	private Set<Media> setMedias;
-	
+
 	@Persistent
 	private Set<Long> setMediaKeys;
 
@@ -95,11 +95,11 @@ public class Product extends SearchCapable implements LocationCapable,
 	@Persistent
 	private Set<String> setCategoryKeys;
 
-//	@Persistent(mappedBy = "product")
-//	@Element(dependent = "true")
+	// @Persistent(mappedBy = "product")
+	// @Element(dependent = "true")
 	@NotPersistent
 	private List<Attribute> attributeSets;
-	
+
 	@Persistent
 	private List<Long> listAttributeKeys;
 
@@ -154,6 +154,7 @@ public class Product extends SearchCapable implements LocationCapable,
 		this.setListAttributeKeys(new ArrayList<Long>());
 		setPagesID = new HashSet<Long>();
 		listBuyers = new ArrayList<String>();
+		setFriendsTaggedID = new HashSet<String>();
 		this.setMedias = new HashSet<Media>();
 		setListMediaKeys(new HashSet<Long>());
 		this.fts = new HashSet<String>();
@@ -516,20 +517,27 @@ public class Product extends SearchCapable implements LocationCapable,
 
 	public static void main(String[] args) {
 		Product product = new Product();
-		product = new Product("ABC", 123, false, 2, "12 month",
-				"China", "Binh Tan", 10.11, 106.123, "WTH",
-				3, new Date(), "tamvo");
+		product = new Product("ABC", 123, false, 2, "12 month", "China",
+				"Binh Tan", 10.11, 106.123, "WTH", 3, new Date(), "tamvo");
 		product.getSetCategoryKeys().add("laptop");
-		product.getAttributeSets().add(new Attribute("1", "Thuộc tính 1", "Giá trị", "tam"));
-		product.getSetMedias().add(new Media("Iphone1", "http://127.0.0.1:8888/image_host/product/img1.jpg", "", ""));
-		product.getSetMedias().add(new Media("Iphone2", "http://127.0.0.1:8888/image_host/product/img2.jpg", "", ""));
+		product.getAttributeSets().add(
+				new Attribute("1", "Thuộc tính 1", "Giá trị", "tam"));
+		product.getSetMedias().add(
+				new Media("Iphone1",
+						"http://127.0.0.1:8888/image_host/product/img1.jpg",
+						"", ""));
+		product.getSetMedias().add(
+				new Media("Iphone2",
+						"http://127.0.0.1:8888/image_host/product/img2.jpg",
+						"", ""));
 
 		String json = Global.gsonWithDate.toJson(product);
 		System.out.println(json);
 	}
 
 	/**
-	 * @param setMedias the setMedias to set
+	 * @param setMedias
+	 *            the setMedias to set
 	 */
 	public void setSetMedias(Set<Media> setMedias) {
 		this.setMedias = setMedias;
@@ -543,7 +551,8 @@ public class Product extends SearchCapable implements LocationCapable,
 	}
 
 	/**
-	 * @param sum_star the sum_star to set
+	 * @param sum_star
+	 *            the sum_star to set
 	 */
 	public void setSum_star(int sum_star) {
 		this.sum_star = sum_star;
@@ -557,7 +566,8 @@ public class Product extends SearchCapable implements LocationCapable,
 	}
 
 	/**
-	 * @param count_vote the count_vote to set
+	 * @param count_vote
+	 *            the count_vote to set
 	 */
 	public void setCount_vote(int count_vote) {
 		this.count_vote = count_vote;
@@ -571,7 +581,8 @@ public class Product extends SearchCapable implements LocationCapable,
 	}
 
 	/**
-	 * @param listMediaKeys the listMediaKeys to set
+	 * @param listMediaKeys
+	 *            the listMediaKeys to set
 	 */
 	public void setListMediaKeys(Set<Long> listMediaKeys) {
 		this.setMediaKeys = listMediaKeys;
@@ -585,7 +596,8 @@ public class Product extends SearchCapable implements LocationCapable,
 	}
 
 	/**
-	 * @param listAttributeKeys the listAttributeKeys to set
+	 * @param listAttributeKeys
+	 *            the listAttributeKeys to set
 	 */
 	public void setListAttributeKeys(List<Long> listAttributeKeys) {
 		this.listAttributeKeys = listAttributeKeys;

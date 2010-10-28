@@ -37,9 +37,9 @@ public class UntagFriendFromPageService extends BaseRestfulService {
 		String username = getParameterWithThrow("username", params, json);
 		ServiceResult<Set<String>> result = dbPage.untagFriendFromPage(pageID,
 				usernames, username);
-		if (result.isOK()) {
+		if (result.getResult() != null) {
 			jsonReturn.add("setFriendTaggedID", Global.gsonWithDate.toJsonTree(
-					result.getResult(), Page.class));
+					result.getResult()));
 		}
 		jsonReturn.addProperty("errCode", result.isOK() ? 0 : 1);
 		jsonReturn.addProperty("message", result.getMessage());
