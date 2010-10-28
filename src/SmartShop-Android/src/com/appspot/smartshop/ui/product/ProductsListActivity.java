@@ -70,6 +70,11 @@ public class ProductsListActivity extends MapActivity {
 		instance = this;
 		//set up variable for facebook connection
 		mLoginButton = (LoginButton) findViewById(R.id.loginFb);
+		if(!Global.isLogin){
+			mLoginButton.setVisibility(View.GONE);
+		}else{
+			mLoginButton.setVisibility(View.VISIBLE);
+		}
 		Global.mFacebook = new Facebook();
 		SessionStore.restore(Global.mFacebook, this);
 		SessionEvents.addAuthListener(new SampleAuthListener());
