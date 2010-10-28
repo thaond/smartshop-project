@@ -1,5 +1,8 @@
 package com.appspot.smartshop.adapter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -13,12 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.product.SearchProductsTabActivity;
 import com.appspot.smartshop.ui.user.LoginActivity;
 import com.appspot.smartshop.ui.user.RegisterUserActivity;
 import com.appspot.smartshop.ui.user.ViewUserProfileActivity;
 import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.URLConstant;
 
 public class MainAdapter extends BaseAdapter {
 	public static final String TAG = "[MainAdapter]";
@@ -51,12 +58,14 @@ public class MainAdapter extends BaseAdapter {
 					R.drawable.user_products_list, 
 					R.drawable.user_pages_list,
 					R.drawable.user_profile,
+					R.drawable.smartshop_logout
 			};
 
 			text = new String[] {
 					context.getString(R.string.user_products_list),
 					context.getString(R.string.user_pages_list),
 					context.getString(R.string.user_profile), 
+					context.getString(R.string.logout)
 			};
 		}
 	}
@@ -96,8 +105,8 @@ public class MainAdapter extends BaseAdapter {
 		return convertView;
 	}
 
+	private Intent intent;
 	protected void onMainMenuClick(int position) {
-		Intent intent = null;
 
 		switch (icons[position]) {
 		case R.drawable.user_pages_list:
@@ -132,6 +141,26 @@ public class MainAdapter extends BaseAdapter {
 			intent = new Intent(context, ViewUserProfileActivity.class);
 			intent.putExtra(Global.USER_NAME, Global.userInfo.username);
 			intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
+			break;
+			
+		case R.drawable.smartshop_logout:
+			Log.d(TAG, "[LOGOUT]");
+			
+			String url = String.format(URLConstant.LOGOUT, Global.getSession());
+			RestClient.getData(url, new JSONParser() {
+				
+				@Override
+				public void onSuccess(JSONObject json) throws JSONException {
+					Global.isLogin = false;
+					Global.userInfo = null;
+					intent = new Intent(context, SmartShopActivity.class);
+				}
+				
+				@Override
+				public void onFailure(String message) {
+					Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+				}
+			});
 			break;
 		}
 

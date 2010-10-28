@@ -270,4 +270,6 @@
 	
 	<string name="search_product_on_map">Tên sản phẩm cần tìm</string>
 	<string name="search_radius_on_map">Bán kính</string>
+	
+	<string name="logout">Đăng xuất</string>
 </resources>
