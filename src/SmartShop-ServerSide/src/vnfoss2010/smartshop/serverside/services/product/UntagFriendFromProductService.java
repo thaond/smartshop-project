@@ -1,17 +1,22 @@
 package vnfoss2010.smartshop.serverside.services.product;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.logging.Logger;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 
 import com.google.appengine.repackaged.org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 public class UntagFriendFromProductService extends BaseRestfulService {
 	ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
-
+	private final static Logger log = Logger.getLogger(UntagFriendFromProductService.class
+			.getName());
 	public UntagFriendFromProductService(String serviceName) {
 		super(serviceName);
 	}
@@ -19,7 +24,7 @@ public class UntagFriendFromProductService extends BaseRestfulService {
 	@Override
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
-		JSONObject jsonReturn = new JSONObject();
+		JsonObject jsonReturn = new JsonObject();
 		JSONObject json = null;
 		try {
 			json = new JSONObject(content);
@@ -30,14 +35,16 @@ public class UntagFriendFromProductService extends BaseRestfulService {
 		String usernames[] = getParameterWithThrow("usernames", params, json)
 				.split(",");
 		String username = getParameterWithThrow("username", params, json);
-		ServiceResult<Void> result = dbProduct.tagFriendToProduct(productID,
+		ServiceResult<Set<String>> result = dbProduct.tagFriendToProduct(productID,
 				usernames, username, false);
 		if (result.isOK()) {
-			jsonReturn.put("errCode", 0);
+			jsonReturn.addProperty("errCode", 0);
+			jsonReturn.add("setFriendTaggedID",
+					Global.gsonWithDate.toJsonTree(result.getResult()));
 		} else {
-			jsonReturn.put("errCode", 1);
+			jsonReturn.addProperty("errCode", 1);
 		}
-		jsonReturn.put("message", result.getMessage());
+		jsonReturn.addProperty("message", result.getMessage());
 		return jsonReturn.toString();
 	}
 
