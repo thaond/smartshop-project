@@ -75,7 +75,7 @@ public class URLConstant {
 			+ Global.getSession();
 
 	public static final String GET_NOTIFICATIONS = HOST
-			+ "/api/asd/noti-get-by/?username=%s&type=%d&lastupdate=%d";
+			+ "/api/asd/noti-get-by/?username=%s&type=%d";
 	public static String MARK_AS_READ_ALL_NOTIFICATIONS = String.format(HOST
 			+ "/api/asd/noti-mark-as-read/?session=%s", Global.getSession());
 

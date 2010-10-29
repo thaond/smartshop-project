@@ -29,7 +29,7 @@ public class Global {
 	 */
 	public static boolean isLogin = false;
 	public static UserInfo userInfo = null;
-	public static long lastupdateNoti = 0;
+//	public static long lastupdateNoti = 0;
 	public static String getSession(){
 		return userInfo.sessionId;
 	}
