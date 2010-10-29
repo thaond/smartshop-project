@@ -19,8 +19,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.appspot.smartshop.adapter.MainAdapter;
+import com.appspot.smartshop.dom.Page;
+import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.SmartshopNotification;
 import com.appspot.smartshop.dom.UserInfo;
+import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
+import com.appspot.smartshop.ui.page.ViewPageActivity;
+import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.ui.user.notification.AddFriendNotificationActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -207,12 +212,9 @@ public class SmartShopActivity extends ListActivity {
 	}
 
 	private void loadNotifications() {
-		// String param = String.format(PARAM_NOFITICATION,
-		// Global.userInfo.username, 1);
-		// Log.d(TAG, param);
-
 		String url = String.format(URLConstant.GET_NOTIFICATIONS,
 				Global.userInfo.username, 1, Global.lastupdateNoti);
+		Global.lastupdateNoti = System.currentTimeMillis();
 		RestClient.getData(url, new JSONParser() {
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
@@ -225,13 +227,8 @@ public class SmartShopActivity extends ListActivity {
 								+ " notification(s)");
 
 				// display
-				if (notifications.size() == 0) {
-					Toast.makeText(SmartShopActivity.this,
-							getString(R.string.warn_no_notification),
-							Toast.LENGTH_SHORT).show();
-				} else {
+				if (notifications.size() != 0) {
 					String content;
-
 					int count = 0;
 					for (SmartshopNotification notification : notifications) {
 						content = notification.content;
@@ -252,6 +249,12 @@ public class SmartShopActivity extends ListActivity {
 	}
 
 	private void showNotification(SmartshopNotification sNotification) {
+		if (sNotification == null || sNotification.detail == null) {
+			Toast.makeText(this, getString(R.string.warn_cant_view_notification_detail), 
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		Intent intent = null;
 		switch (sNotification.type) {
 		case SmartshopNotification.ADD_FRIEND:
@@ -260,8 +263,30 @@ public class SmartShopActivity extends ListActivity {
 			break;
 
 		case SmartshopNotification.TAG_PRODUCT:
+		case SmartshopNotification.UNTAG_PRODUCT:
+			intent = new Intent(this, ViewProductActivity.class);
+			ProductInfo productInfo = Global.gsonWithHour.fromJson(
+					sNotification.detail, ProductInfo.class);
+			intent.putExtra(Global.PRODUCT_INFO, productInfo);
 			break;
-
+			
+		case SmartshopNotification.TAG_PAGE:
+		case SmartshopNotification.UNTAG_PAGE:
+			intent = new Intent(this, ViewPageActivity.class);
+			Page page = Global.gsonWithHour.fromJson(sNotification.detail, Page.class);
+			intent.putExtra(Global.PAGE, page);
+			break;
+			
+		case SmartshopNotification.ADD_COMMENT_PRODUCT:
+			intent = new Intent(this, ViewCommentsActivity.class);
+			intent.putExtra(Global.TYPE_OF_COMMENTS, SmartShopActivity.PRODUCT);
+			intent.putExtra(Global.ID_OF_COMMENTS, Long.parseLong(sNotification.detail));
+			
+		case SmartshopNotification.ADD_COMMENT_PAGE:
+			intent = new Intent(this, ViewCommentsActivity.class);
+			intent.putExtra(Global.TYPE_OF_COMMENTS, SmartShopActivity.PAGE);
+			intent.putExtra(Global.ID_OF_COMMENTS, Long.parseLong(sNotification.detail));
+			
 		default:
 			intent = new Intent(this, SmartShopActivity.class);
 			break;
