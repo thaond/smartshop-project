@@ -25,7 +25,7 @@ public class CommentServiceImpl {
 	private static Logger log = Logger.getLogger(CommentServiceImpl.class
 			.getName());
 
-	public CommentServiceImpl() {
+	private CommentServiceImpl() {
 		instance = this;
 		dbNoti = NotificationServiceImpl.getInstance();
 		dbProduct = ProductServiceImpl.getInstance();

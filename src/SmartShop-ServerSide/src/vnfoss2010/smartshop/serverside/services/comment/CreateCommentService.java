@@ -1,5 +1,6 @@
 package vnfoss2010.smartshop.serverside.services.comment;
 
+import java.util.Date;
 import java.util.Map;
 
 import vnfoss2010.smartshop.serverside.Global;
@@ -29,6 +30,9 @@ public class CreateCommentService extends BaseRestfulService {
 			jsonReturn.put("errCode", 1);
 			jsonReturn.put("message", "comment type or type id is incorrect");
 		} else {
+			if (comment.getDatePost() == null){
+				comment.setDatePost(new Date());
+			}
 			ServiceResult<Long> result = dbComment.insertComment(comment);
 			if (result.isOK()) {
 				jsonReturn.put("errCode", 0);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -534,9 +535,9 @@ public class AccountServiceImpl {
 		return result;
 	}
 
-	public ServiceResult<Void> addFriends(String username, String... friends) {
+	public ServiceResult<Set<String>> addFriends(String username, String... friends) {
 		username = DatabaseUtils.preventSQLInjection(username);
-		ServiceResult<Void> result = new ServiceResult<Void>();
+		ServiceResult<Set<String>> result = new ServiceResult<Set<String>>();
 		ArrayList<String> addedSuccessUName = new ArrayList<String>();
 		UserInfo userInfo = null;
 
@@ -603,6 +604,7 @@ public class AccountServiceImpl {
 			}
 		}
 		if (result.isOK()) {
+			result.setResult(userInfo.getSetFriendsUsername());
 			List<ServiceResult<Long>> notiResults = dbNoti
 					.insertWhenUserAddFriend(userInfo.getUsername(),
 							addedSuccessUName);

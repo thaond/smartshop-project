@@ -1,7 +1,9 @@
 package vnfoss2010.smartshop.serverside.services.account;
 
 import java.util.Map;
+import java.util.Set;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
@@ -25,20 +27,23 @@ public class AddFriendsService extends BaseRestfulService {
 			json = new JSONObject(content);
 		} catch (Exception e) {
 		}
-		
+
 		String usernameA = getParameter("username", params, json);
 		String friends = getParameter("friends", params, json);
 
 		JsonObject jsonReturn = new JsonObject();
-		
-		ServiceResult<Void> result = db.addFriends(usernameA, friends.split(","));
+
+		ServiceResult<Set<String>> result = db.addFriends(usernameA,
+				friends.split(","));
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
-			jsonReturn.addProperty("message", result.getMessage());
+			jsonReturn.add("setFriendAddedID",
+					Global.gsonWithDate.toJsonTree(result.getResult()));
 		} else {
 			jsonReturn.addProperty("errCode", 1);
-			jsonReturn.addProperty("message", result.getMessage());
 		}
+
+		jsonReturn.addProperty("message", result.getMessage());
 		return jsonReturn.toString();
 	}
 
