@@ -145,3 +145,21 @@ li.L9 { background: #eee }
   .atn { color: #404; }
   .atv { color: #060; }
 }
+
+/* WEB-BASED */
+.cw-DockPanel td {
+	border: 1px solid #BBBBBB;
+	padding: 3px;
+}
+
+.user-profile-left-panel {
+	border: 3px solid #e8eef7;
+	padding: 4px 4px 4px 8px;
+	width: 200px;
+	height: 400px;
+}
+
+.content-title{
+	font-size: 15pt;
+	color: blue;
+}
