@@ -27,17 +27,12 @@ public class Global {
 	/*
 	 * User
 	 */
-	// TODO mock username
-	//public static String username = "duc";
 	public static boolean isLogin = false;
 	public static UserInfo userInfo = null;
 	public static long lastupdateNoti = 0;
 	public static String getSession(){
 		return userInfo.sessionId;
 	}
-	
-	// Manage Xtify
-	//public static PersistentLocationManager persistentLocationManager;
 
 	/*
 	 * Misc

@@ -23,6 +23,7 @@ import com.appspot.smartshop.ui.product.ViewProductBasicAttributeActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
+import com.appspot.smartshop.utils.FriendListDialog;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
@@ -97,6 +98,36 @@ public class PageActivity extends Activity {
 				choosePageCategories();
 			}
 		});
+		
+		// Button tag friend
+		Button btnTagFriend = (Button) findViewById(R.id.tag);
+			btnTagFriend.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					tagFriendToProduct();
+				}
+			});
+		
+		// button untag friend from product
+		Button btnUntagFriend = (Button) findViewById(R.id.un_tag);
+			btnUntagFriend.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					untagFriendToProduct();
+				}
+			});
+	}
+	
+	protected void tagFriendToProduct() {
+		FriendListDialog.tagType = FriendListDialog.PAGE;
+		FriendListDialog.showTagFriendDialog(this, page.id);
+	}
+	
+	protected void untagFriendToProduct() {
+		FriendListDialog.tagType = FriendListDialog.PAGE;
+		FriendListDialog.showUntagFriendDialog(this, page.id);
 	}
 
 	protected void choosePageCategories() {
