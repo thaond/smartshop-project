@@ -28,6 +28,8 @@ import com.appspot.smartshop.utils.URLConstant;
 
 public class AddFriendActivity extends Activity {
 	public static final String TAG = "AddFriendActivity";
+	public static final String PARAM_SEARCH_FRIENDS = "{username:\"%s\"}";
+	public static final String PARAM_ADD_FRIENDS = "{friends:%s}";
 	public static String friendsToAdd = "";
 	public AddFriendAdapter adapter;
 	public ListView friendList;
@@ -39,120 +41,118 @@ public class AddFriendActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		// TODO: just for test, please remove after test
 		Global.application = this;
-
+		
 		setContentView(R.layout.add_friend);
 		friends = new LinkedList<UserInfo>();
 		friendList = (ListView) findViewById(R.id.listFriend);
 		txtFriendSearch = (TextView) findViewById(R.id.txtFriendSearch);
 		btnFriendSearch = (Button) findViewById(R.id.btnFriendSearch);
 		btnFriendSearch.setOnClickListener(new OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
 				loadFriendList();
-
+				
 			}
 		});
 		btnAddFriend = (Button) findViewById(R.id.btnAddFriends);
 		btnAddFriend.setOnClickListener(new OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
-				if (friendsToAdd.length() == 0) {
-					Toast.makeText(AddFriendActivity.this,
-							getString(R.string.warn_not_choose_user),
-							Toast.LENGTH_SHORT).show();
-				} else {
-					addFriends();
+				if(friendsToAdd.length()==0){
+					Toast.makeText(AddFriendActivity.this, getString(R.string.warn_not_choose_user), Toast.LENGTH_SHORT).show();
+				}else{
+				addFriends();
 				}
 			}
 		});
-		adapter = new AddFriendAdapter(this, 0, null);
+		adapter = new AddFriendAdapter(this, 0, new LinkedList<UserInfo>());
 		friendList.setAdapter(adapter);
-		// Log.d(TAG, "is executed");
-		// loadFriendList();
+//		Log.d(TAG, "is executed");
+//		loadFriendList();
 	}
-
 	public static SimpleAsyncTask taskAddFriend;
 	boolean isSuccess = false;
-
 	protected void addFriends() {
+		isSuccess = false;
+		final String param = String.format(PARAM_ADD_FRIENDS, friendsToAdd);
+		Log.d(TAG,param);
+		
 		taskAddFriend = new SimpleAsyncTask(this, new DataLoader() {
+			
 			@Override
 			public void updateUI() {
+			
 			}
-
 			@Override
 			public void loadData() {
-				Log.d(TAG, "loadData");
-				String url = String.format(URLConstant.ADD_FRIENDS_TO_LIST,
-						Global.userInfo.sessionId, friendsToAdd);
-				RestClient.getData(url, new JSONParser() {
-
+				Log.d(TAG,"loadData");
+				
+				RestClient.postData(URLConstant.ADD_FRIENDS_TO_LIST, param, new JSONParser() {
+					
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
 						Log.d(TAG, json.toString());
+						friendsToAdd="";
 						isSuccess = true;
-
+						Log.d(TAG+"onSuccess",""+isSuccess);
+//						Toast.makeText(AddFriendActivity.this, getString(R.string.addFriendSuccess), Toast.LENGTH_SHORT).show();
 					}
-
 					@Override
 					public void onFailure(String message) {
-						Log.d(TAG, message);
-
+						Log.d(TAG,message);
+						isSuccess = false;
+						Log.d(TAG+"onFailure",""+isSuccess);
+//						Toast.makeText(AddFriendActivity.this, getString(R.string.addFriendFail), Toast.LENGTH_SHORT).show();
 					}
 				});
 			}
 		});
-
 		taskAddFriend.execute();
-		if (isSuccess) {
-			Toast.makeText(AddFriendActivity.this,
-					getString(R.string.addFriendSuccess), Toast.LENGTH_SHORT)
-					.show();
-		} else {
-			Toast.makeText(AddFriendActivity.this,
-					getString(R.string.addFriendFail), Toast.LENGTH_SHORT)
-					.show();
-		}
+		Toast.makeText(AddFriendActivity.this, getString(R.string.addFriendSuccess), Toast.LENGTH_SHORT).show();
+//		if(isSuccess==true){
+//			Log.d(TAG+"if true", ""+isSuccess);
+//			Toast.makeText(AddFriendActivity.this, getString(R.string.addFriendSuccess), Toast.LENGTH_SHORT).show();
+//		}else {
+//			Log.d(TAG+"if false", ""+isSuccess);
+//			Toast.makeText(AddFriendActivity.this, getString(R.string.addFriendFail), Toast.LENGTH_SHORT).show();
+//		}
+		
 	}
-
 	public static SimpleAsyncTask task;
 
 	protected void loadFriendList() {
+		String param = String.format(PARAM_SEARCH_FRIENDS, txtFriendSearch.getText().toString());
+		Log.d(TAG, param);
 		task = new SimpleAsyncTask(this, new DataLoader() {
 			@Override
 			public void updateUI() {
-				adapter = new AddFriendAdapter(AddFriendActivity.this,
-						R.layout.add_friend_item, friends);
+				adapter = new AddFriendAdapter(AddFriendActivity.this, R.layout.add_friend_item, friends);
 				friendList.setAdapter(adapter);
-
+				
 			}
-
-			String url = URLConstant.SEARCH_FRIEND_BY_QUERY
-					+ txtFriendSearch.getText().toString();
-
+			String url = URLConstant.SEARCH_FRIEND_BY_QUERY + txtFriendSearch.getText().toString();
 			@Override
 			public void loadData() {
 				RestClient.getData(url, new JSONParser() {
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
 						JSONArray arr = json.getJSONArray("userinfos");
-						friends = Global.gsonWithHour.fromJson(arr.toString(),
-								UserInfo.getType());
+						friends = Global.gsonWithHour.fromJson(arr.toString(), UserInfo.getType());	
 					}
-
 					@Override
 					public void onFailure(String message) {
-
+						// TODO Auto-generated method stub
+						
 					}
 				});
 			}
-		});
+		});	
 		task.execute();
 	}
-
+		
 }
