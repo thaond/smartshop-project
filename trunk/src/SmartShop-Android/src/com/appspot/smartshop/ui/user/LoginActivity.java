@@ -12,7 +12,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -33,7 +32,6 @@ import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
-import com.xtify.android.sdk.PersistentLocationManager.SetUserKeyListener;
 
 public class LoginActivity extends Activity {
 	public static final String TAG = "[LoginActivity]";
