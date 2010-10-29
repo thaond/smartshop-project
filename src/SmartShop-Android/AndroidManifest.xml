@@ -282,13 +282,6 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.user.notification.ViewNotificationsActivity"
-			android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="android.intent.action.DEFAULT" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
 
 		<activity android:name=".ui.user.email.SendEmailToAdminActivity"
 			android:label="@string/app_name">
