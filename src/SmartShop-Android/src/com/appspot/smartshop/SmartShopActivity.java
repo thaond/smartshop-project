@@ -35,7 +35,6 @@ import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
-import com.xtify.android.sdk.PersistentLocationManager;
 
 public class SmartShopActivity extends ListActivity {
 	public static final String TAG = "[SmartShopActivity]";
@@ -60,12 +59,6 @@ public class SmartShopActivity extends ListActivity {
 		ListView listView = getListView();
 
 		// Check whether user login or not
-		Global.persistentLocationManager = new PersistentLocationManager(
-				SmartShopActivity.this);
-		Global.persistentLocationManager
-				.setNotificationIcon(R.drawable.notification);
-		Global.persistentLocationManager
-				.setNotificationDetailsIcon(R.drawable.icon);
 		if (Global.userInfo == null) {
 			String session = Utils.loadSession();
 			Log.d(TAG, "Session: " + session);
@@ -137,7 +130,7 @@ public class SmartShopActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case 0: {
-			Global.persistentLocationManager.showSettingsActivity(this, true);
+			//Global.persistentLocationManager.showSettingsActivity(this, true);
 			return true;
 		}
 		}

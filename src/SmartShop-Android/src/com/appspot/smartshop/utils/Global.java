@@ -16,7 +16,6 @@ import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.facebook.Facebook;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.xtify.android.sdk.PersistentLocationManager;
 
 public class Global {
 
@@ -38,7 +37,7 @@ public class Global {
 	}
 	
 	// Manage Xtify
-	public static PersistentLocationManager persistentLocationManager;
+	//public static PersistentLocationManager persistentLocationManager;
 
 	/*
 	 * Misc
