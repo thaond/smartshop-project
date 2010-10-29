@@ -75,7 +75,6 @@ public class UserInfo extends SearchCapable implements Serializable {
 	@Persistent
 	private int type;
 	
-
 	private String sessionId;
 
 	@Exclude
@@ -84,6 +83,9 @@ public class UserInfo extends SearchCapable implements Serializable {
 	
 	@Persistent
 	private String userkey;
+	
+	@Persistent
+	private long lastLogin;
 
 	@Persistent
 	private List<Long> listInteredProduct;
@@ -621,6 +623,20 @@ public class UserInfo extends SearchCapable implements Serializable {
 	 */
 	public String getUserkey() {
 		return userkey;
+	}
+
+	/**
+	 * @param lastLogin the lastLogin to set
+	 */
+	public void setLastLogin(long lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	/**
+	 * @return the lastLogin
+	 */
+	public long getLastLogin() {
+		return lastLogin;
 	}
 
 }
