@@ -131,7 +131,7 @@ public class NotificationServiceImpl {
 						ServiceResult<Product> resultProduct = dbProduct
 								.findProduct(Long.parseLong(n.getDetail()));
 						if (resultProduct.isOK()) {
-							n.setJsonOutput(Global.gsonDateWithoutHour
+							n.setJsonOutput(Global.gsonWithDate
 									.toJson(resultProduct.getResult()));
 						}
 						break;
@@ -141,7 +141,7 @@ public class NotificationServiceImpl {
 						ServiceResult<Page> resultPage = dbPage.findPage(Long
 								.parseLong(n.getDetail()));
 						if (resultPage.isOK()) {
-							n.setJsonOutput(Global.gsonDateWithoutHour
+							n.setJsonOutput(Global.gsonWithDate
 									.toJson(resultPage.getResult()));
 						}
 						break;
