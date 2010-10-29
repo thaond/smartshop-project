@@ -212,11 +212,11 @@ public class ViewUserProfileActivity extends Activity {
 			startActivity(intent);
 			break;
 		case R.string.subcribe:
-			intent = new Intent(this, UserSubcribeListActivity.class);
+			intent = new Intent(ViewUserProfileActivity.this, UserSubcribeListActivity.class);
 			startActivity(intent);
 			break;
 		case  R.string.addFriend:
-			intent = new Intent(this,AddFriendActivity.class);
+			intent = new Intent(ViewUserProfileActivity.this,AddFriendActivity.class);
 			startActivity(intent);
 			break;
 			
