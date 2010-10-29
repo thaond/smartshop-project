@@ -111,27 +111,6 @@ public class LoginActivity extends Activity {
 						Global.isLogin = true;
 						Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
 						
-						//Start Xtify Thread
-						Thread xtifyThread = new Thread(new Runnable() {
-							@Override
-							public void run() {
-								Log.e(TAG, "Thread Xtify run");
-								
-								boolean trackLocation = Global.persistentLocationManager
-										.isTrackingLocation();
-								boolean deliverNotifications = Global.persistentLocationManager
-										.isDeliveringNotifications();
-								Global.persistentLocationManager.setUserKey(userkey, null);
-								if (trackLocation || deliverNotifications) {
-									Global.persistentLocationManager.startService();
-								}
-								Log.e(TAG, "After start: " + userkey);
-							}
-						});
-						xtifyThread.start(); // to avoid Android's application-not-responding
-												// dialog box, do non-essential work in another
-												// thread
-						
 						if (StringUtils.isEmptyOrNull(lastActivity)){
 							Intent intent = new Intent(LoginActivity.this, SmartShopActivity.class);
 							startActivity(intent);
