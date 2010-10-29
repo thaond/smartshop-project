@@ -1313,9 +1313,9 @@ public class ProductServiceImpl {
 	}
 
 	public static void preventSQLInjProduct(Product product) {
-		product.setName(DatabaseUtils.preventSQLInjection(product.getName()));
-		product.setAddress(DatabaseUtils.preventSQLInjection(product
-				.getAddress()));
+//		product.setName(DatabaseUtils.preventSQLInjection(product.getName()));
+//		product.setAddress(DatabaseUtils.preventSQLInjection(product
+//				.getAddress()));
 	}
 
 	private List<Product> getListProductFromIds(List<Long> listIds) {
