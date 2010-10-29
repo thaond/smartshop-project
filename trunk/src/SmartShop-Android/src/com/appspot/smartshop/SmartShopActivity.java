@@ -118,25 +118,6 @@ public class SmartShopActivity extends ListActivity {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		menu.add(0, 0, 0, getString(R.string.settings));
-		menu.findItem(0).setIcon(R.drawable.menu_preferences);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case 0: {
-			//Global.persistentLocationManager.showSettingsActivity(this, true);
-			return true;
-		}
-		}
-		return false;
-	}
-
 	private void getCategoriesList() {
 		// get parent categories
 		RestClient.getData(URLConstant.GET_PARENT_CATEGORIES, new JSONParser() {
@@ -242,7 +223,7 @@ public class SmartShopActivity extends ListActivity {
 	}
 
 	private void showNotification(SmartshopNotification sNotification) {
-		if (sNotification == null || sNotification.detail == null) {
+		if (sNotification == null || sNotification.jsonOutput == null) {
 			Toast.makeText(this, getString(R.string.warn_cant_view_notification_detail), 
 					Toast.LENGTH_SHORT).show();
 			return;
@@ -259,26 +240,26 @@ public class SmartShopActivity extends ListActivity {
 		case SmartshopNotification.UNTAG_PRODUCT:
 			intent = new Intent(this, ViewProductActivity.class);
 			ProductInfo productInfo = Global.gsonWithHour.fromJson(
-					sNotification.detail, ProductInfo.class);
+					sNotification.jsonOutput, ProductInfo.class);
 			intent.putExtra(Global.PRODUCT_INFO, productInfo);
 			break;
 			
 		case SmartshopNotification.TAG_PAGE:
 		case SmartshopNotification.UNTAG_PAGE:
 			intent = new Intent(this, ViewPageActivity.class);
-			Page page = Global.gsonWithHour.fromJson(sNotification.detail, Page.class);
+			Page page = Global.gsonWithHour.fromJson(sNotification.jsonOutput, Page.class);
 			intent.putExtra(Global.PAGE, page);
 			break;
 			
 		case SmartshopNotification.ADD_COMMENT_PRODUCT:
 			intent = new Intent(this, ViewCommentsActivity.class);
 			intent.putExtra(Global.TYPE_OF_COMMENTS, SmartShopActivity.PRODUCT);
-			intent.putExtra(Global.ID_OF_COMMENTS, Long.parseLong(sNotification.detail));
+			intent.putExtra(Global.ID_OF_COMMENTS, Long.parseLong(sNotification.jsonOutput));
 			
 		case SmartshopNotification.ADD_COMMENT_PAGE:
 			intent = new Intent(this, ViewCommentsActivity.class);
 			intent.putExtra(Global.TYPE_OF_COMMENTS, SmartShopActivity.PAGE);
-			intent.putExtra(Global.ID_OF_COMMENTS, Long.parseLong(sNotification.detail));
+			intent.putExtra(Global.ID_OF_COMMENTS, Long.parseLong(sNotification.jsonOutput));
 			
 		default:
 			intent = new Intent(this, SmartShopActivity.class);

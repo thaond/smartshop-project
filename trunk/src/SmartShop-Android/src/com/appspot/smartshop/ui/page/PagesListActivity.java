@@ -106,7 +106,7 @@ public class PagesListActivity extends Activity {
 			loadPagesList();
 		} else {
 			constructUrl();
-			url += "&query=" + URLEncoder.encode(query);
+			url += "&q=" + URLEncoder.encode(query);
 			loadData();
 		}
 	}
@@ -194,7 +194,8 @@ public class PagesListActivity extends Activity {
 
 			@Override
 			public void updateUI() {
-				adapter.pageType = type;
+				PageAdapter.pageType = type;
+				Log.d(TAG, "pageType = " + PageAdapter.pageType);
 				adapter = new PageAdapter(PagesListActivity.this, 0, pages);
 				listPages.setAdapter(adapter);
 			}

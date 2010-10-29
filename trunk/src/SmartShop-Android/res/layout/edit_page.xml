@@ -13,10 +13,10 @@
 		<EditText android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/txtName"
 			android:layout_weight="1" />
-			
+
 		<Button android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/btnCategories"
-			android:background="@drawable/category"/>
+			android:background="@drawable/category" />
 
 	</LinearLayout>
 
@@ -30,6 +30,12 @@
 
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
+
+		<Button android:id="@+id/un_tag" android:layout_width="48dip"
+			android:layout_height="48dip" android:background="@drawable/un_tag" />
+
+		<Button android:id="@+id/tag" android:layout_width="48dip"
+			android:layout_height="48dip" android:background="@drawable/tag" />
 
 		<Button android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/btnOk"

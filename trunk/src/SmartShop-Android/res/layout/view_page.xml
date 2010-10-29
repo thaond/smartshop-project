@@ -26,14 +26,6 @@
 			android:layout_alignParentLeft="true" android:layout_height="wrap_content"
 			android:id="@+id/txtPageView" android:paddingLeft="5dip" />
 
-		<Button android:id="@+id/un_tag" android:layout_width="48dip"
-			android:layout_height="48dip" android:background="@drawable/un_tag"
-			android:layout_toLeftOf="@+id/tag" />
-
-		<Button android:id="@+id/tag" android:layout_width="48dip"
-			android:layout_height="48dip" android:background="@drawable/tag"
-			android:layout_toLeftOf="@+id/viewUserInfo" />
-
 		<Button android:id="@+id/viewUserInfo" android:layout_width="48dip"
 			android:layout_height="48dip" android:background="@drawable/user_profile"
 			android:layout_toLeftOf="@+id/btnViewComment" />

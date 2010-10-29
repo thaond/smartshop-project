@@ -79,43 +79,6 @@ public class ViewPageActivity extends Activity {
 			}
 		});
 		
-		// Button tag friend
-		Button btnTagFriend = (Button) findViewById(R.id.tag);
-		if (!isNormalPage) {
-			btnTagFriend.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					tagFriendToProduct();
-				}
-			});
-		} else {
-			btnTagFriend.setVisibility(View.GONE);
-		}
-		
-		// button untag friend from product
-		Button btnUntagFriend = (Button) findViewById(R.id.un_tag);
-		if (!isNormalPage) {
-			btnUntagFriend.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					untagFriendToProduct();
-				}
-			});
-		} else {
-			btnUntagFriend.setVisibility(View.GONE);
-		}
-	}
-	
-	protected void tagFriendToProduct() {
-		FriendListDialog.tagType = FriendListDialog.PAGE;
-		FriendListDialog.showTagFriendDialog(this, page.id);
-	}
-	
-	protected void untagFriendToProduct() {
-		FriendListDialog.tagType = FriendListDialog.PAGE;
-		FriendListDialog.showUntagFriendDialog(this, page.id);
 	}
 	
 	protected void viewUserProfile() {
