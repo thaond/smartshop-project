@@ -187,8 +187,7 @@ public class SmartShopActivity extends ListActivity {
 
 	private void loadNotifications() {
 		String url = String.format(URLConstant.GET_NOTIFICATIONS,
-				Global.userInfo.username, 1, Global.lastupdateNoti);
-		
+				Global.userInfo.username, 1);
 		RestClient.getData(url, new JSONParser() {
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
@@ -260,7 +259,7 @@ public class SmartShopActivity extends ListActivity {
 		case SmartshopNotification.TAG_PAGE:
 		case SmartshopNotification.UNTAG_PAGE:
 			intent = new Intent(this, ViewPageActivity.class);
-			Page page = Global.gsonWithHour.fromJson(sNotification.jsonOutput, Page.class);
+			Page page = Global.gsonDateWithoutHour.fromJson(sNotification.jsonOutput, Page.class);
 			intent.putExtra(Global.PAGE, page);
 			break;
 			
