@@ -23,7 +23,7 @@ public class PageServiceImpl {
 	private static PageServiceImpl instance;
 	private static NotificationServiceImpl dbNoti;
 	private static AccountServiceImpl dbAccount;
-	private final static Logger log = Logger.getLogger(ProductServiceImpl.class
+	private final static Logger log = Logger.getLogger(PageServiceImpl.class
 			.getName());
 
 	private PageServiceImpl() {
@@ -91,8 +91,7 @@ public class PageServiceImpl {
 					ServiceResult<Void> notiResult = null;
 					for (String user2Tag : usernames) {
 						try {
-							if (page.getSetFriendsTaggedID()
-									.contains(user2Tag)) {
+							if (page.getSetFriendsTaggedID().contains(user2Tag)) {
 								result.setOK(false);
 								result.setMessage(result.getMessage()
 										+ ";"
