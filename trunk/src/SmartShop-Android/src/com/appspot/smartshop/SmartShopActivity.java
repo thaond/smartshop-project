@@ -77,25 +77,6 @@ public class SmartShopActivity extends ListActivity {
 						Global.userInfo = Global.gsonDateWithoutHour
 								.fromJson(json.get("userinfo").toString(),
 										UserInfo.class);
-
-						// Start Xtify Thread
-						Thread xtifyThread = new Thread(new Runnable() {
-							@Override
-							public void run() {
-								Log.e(TAG, "Thread Xtify run");
-
-								boolean trackLocation = Global.persistentLocationManager
-										.isTrackingLocation();
-								boolean deliverNotifications = Global.persistentLocationManager
-										.isDeliveringNotifications();
-								if (trackLocation || deliverNotifications) {
-									Global.persistentLocationManager
-											.startService();
-								}
-							}
-						});
-						xtifyThread.start(); // to avoid Android's
-						// application-not-responding
 					}
 
 					@Override
