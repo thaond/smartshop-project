@@ -366,59 +366,6 @@
 			</intent-filter>
 		</activity>
 
-		<!-- XTIFY Declearation -->
-		<!-- Testing -->
-		<activity android:name=".ui.user.notification.ProductNotificationActivity"
-			android:label="Product Notification">
-			<intent-filter>
-				<action android:name="com.acmelabs.DISPLAY_CUSTOM_DATA" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="notif" />
-			</intent-filter>
-		</activity>
-
-		<activity android:name="com.xtify.android.sdk.SettingsActivity"
-			android:label="Settings" android:screenOrientation="portrait">
-		</activity>
-		<activity android:name="com.xtify.android.sdk.NotificationDetailsActivity"
-			android:label="Notification Details" android:excludeFromRecents="true">
-		</activity>
-		<activity android:name="com.xtify.android.sdk.NotificationSettingsActivity"
-			android:label="Notification Settings">
-		</activity>
-		<service android:name="com.xtify.android.sdk.MainService"
-			android:label="Notifications Service">
-			<intent-filter>
-				<action android:name="com.xtify.android.sdk.IMainService" />
-				<category android:name="com.xtify.android.sdk.IMainService" />
-				<category android:name="com.xtify.android.sdk.IMainService.V1042" />
-			</intent-filter>
-		</service>
-		<receiver android:name="com.xtify.android.sdk.MainReceiver">
-			<intent-filter>
-				<action android:name="com.xtify.android.sdk.SHOW_NOTIFICATION" />
-				<action android:name="com.xtify.android.sdk.NOTIFICATION_CLICKED" />
-				<action android:name="com.xtify.android.sdk.NOTIFICATION_CLEARED" />
-				<action android:name="com.xtify.android.sdk.SAVE_REGISTERED_CP_ID" />
-				<action android:name="com.xtify.android.sdk.SAVE_USER_KEY" />
-				<!-- MAKE SURE THE API KEY ON THE NEXT LINE IS PRECEDED BY A SLASH -->
-				<data android:scheme="notif" android:host="notification.xtify.com"
-					android:pathPrefix="/e32689d3-597b-43b4-afac-4387af15647e" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.BOOT_COMPLETED" />
-				<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-				<action android:name="com.xtify.android.sdk.SEND_SETTINGS" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.PACKAGE_ADDED" />
-				<action android:name="android.intent.action.PACKAGE_REMOVED" />
-				<data android:scheme="package" />
-			</intent-filter>
-		</receiver>
-		<meta-data android:name="XTIFY_SDK_API_KEY"
-			android:value="e32689d3-597b-43b4-afac-4387af15647e" />
-		<!-- End XTIFY Declearation -->
 	</application>
 
 	<uses-sdk android:minSdkVersion="4" />
