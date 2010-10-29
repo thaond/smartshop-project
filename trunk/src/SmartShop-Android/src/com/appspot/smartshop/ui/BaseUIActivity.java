@@ -31,6 +31,15 @@ public abstract class BaseUIActivity extends Activity {
 			}
 		});
 		
+		Button btnBack = (Button) findViewById(R.id.btnBack);
+		btnBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		
 		onCreatePost(savedInstanceState);
 	}
 	

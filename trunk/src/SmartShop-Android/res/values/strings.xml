@@ -292,4 +292,6 @@
 	<string name="logout">Đăng xuất</string> 
 	<string name="warn_not_choose_user">Bạn chưa chọn bạn bè nào</string>
 	<string name="send_email_to_user">Gửi email tới user</string>
+	
+	<string name="warn_cant_view_notification_detail">Không thể xem chi tiết thông báo</string>
 </resources>
