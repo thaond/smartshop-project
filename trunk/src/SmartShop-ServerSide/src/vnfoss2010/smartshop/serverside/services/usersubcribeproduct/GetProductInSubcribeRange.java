@@ -60,7 +60,7 @@ public class GetProductInSubcribeRange extends BaseRestfulService {
 			ServiceResult<List<Product>> result = dbSubcribe
 					.searchProductInSubcribeRange(searchResult.getResult(), fromRecord, toRecord, lastUpdate);
 			if (result.isOK()) {
-				Gson gson = Global.gsonDateWithoutHour;
+				Gson gson = Global.gsonWithDate;
 				JsonArray productArray = new JsonArray();
 				for (Product product : result.getResult()) {
 					productArray.add(gson.toJsonTree(product));

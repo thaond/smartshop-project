@@ -66,7 +66,7 @@ public class SampleData {
 		categories.add(new Category("office_device", "Thiết bị văn phòng",
 				"office"));
 		categories.add(new Category("stationery", "Văn phòng phẩm", "office"));
-
+		categories.add(new Category("coffee", "Cà phê sân vườn", null));
 		return categories;
 	}
 

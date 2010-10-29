@@ -36,6 +36,7 @@ public class Comment {
 		this.type = type;
 		type_id = typeId;
 		this.username = username;
+		date_post = new Date();
 	}
 
 	/**
