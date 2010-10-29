@@ -188,7 +188,7 @@ public class SmartShopActivity extends ListActivity {
 	private void loadNotifications() {
 		String url = String.format(URLConstant.GET_NOTIFICATIONS,
 				Global.userInfo.username, 1, Global.lastupdateNoti);
-		Global.lastupdateNoti = System.currentTimeMillis();
+		
 		RestClient.getData(url, new JSONParser() {
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
@@ -228,6 +228,19 @@ public class SmartShopActivity extends ListActivity {
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
+		
+		// TODO: mark as read all notifications of a user
+		RestClient.getData(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				Toast.makeText(SmartShopActivity.this, message, Toast.LENGTH_SHORT).show();
+			}
+		});
 		
 		Intent intent = null;
 		switch (sNotification.type) {
