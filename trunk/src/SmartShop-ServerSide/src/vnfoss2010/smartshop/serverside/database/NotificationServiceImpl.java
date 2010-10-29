@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import com.google.gson.Gson;
-
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Notification;
@@ -115,12 +113,45 @@ public class NotificationServiceImpl {
 			}
 
 			if (listNotifications.size() > 0) {
-				for (Notification n : listNotifications) {
-					ServiceResult<UserInfo> resultUserInfo = dbAccount
-							.getUserInfo(n.getDetail());
-					if (resultUserInfo.isOK())
-						n.setJsonOutput(Global.gsonDateWithoutHour
-								.toJson(resultUserInfo.getResult()));
+				for (int i = 0; i < listNotifications.size(); i++) {
+					Notification n = listNotifications.get(i);
+
+					switch (n.getType()) {
+					case Notification.ADD_FRIEND:
+						ServiceResult<UserInfo> resultUserInfo = dbAccount
+								.getUserInfo(n.getDetail());
+						if (resultUserInfo.isOK()) {
+							n.setJsonOutput(Global.gsonDateWithoutHour
+									.toJson(resultUserInfo.getResult()));
+						}
+						break;
+
+					case Notification.UNTAG_PRODUCT:
+					case Notification.TAG_PRODUCT:
+						ServiceResult<Product> resultProduct = dbProduct
+								.findProduct(Long.parseLong(n.getDetail()));
+						if (resultProduct.isOK()) {
+							n.setJsonOutput(Global.gsonDateWithoutHour
+									.toJson(resultProduct.getResult()));
+						}
+						break;
+
+					case Notification.UNTAG_PAGE:
+					case Notification.TAG_PAGE:
+						ServiceResult<Page> resultPage = dbPage.findPage(Long
+								.parseLong(n.getDetail()));
+						if (resultPage.isOK()) {
+							n.setJsonOutput(Global.gsonDateWithoutHour
+									.toJson(resultPage.getResult()));
+						}
+						break;
+
+					case Notification.ADD_COMMENT_PRODUCT:
+					case Notification.ADD_COMMENT_PAGE:
+					case Notification.TAG_PRODUCT_TO_PAGE:
+					default:
+						break;
+					}
 				}
 				result.setOK(true);
 				result
@@ -220,6 +251,7 @@ public class NotificationServiceImpl {
 					.findProduct(comment.getType_id());
 			if (productResult.isOK()) {
 				noti.setUsername(productResult.getResult().getUsername());
+				noti.setDetail(productResult.getResult().getId() + "");
 			} else {
 				result.setOK(false);
 				result.setMessage(productResult.getMessage());
@@ -261,6 +293,7 @@ public class NotificationServiceImpl {
 
 		Notification noti = new Notification();
 		noti.setUsername(username);
+		noti.setDetail(productResult.getResult().getId() + "");
 		if (isTag) {
 			noti.setContent(String.format(Global.messages
 					.getString("notification_tag_user_to_product_content"),
@@ -383,6 +416,7 @@ public class NotificationServiceImpl {
 
 		Notification noti = new Notification();
 		noti.setUsername(username);
+		noti.setDetail(pageResult.getResult().getId() + "");
 		if (isTag) {
 			noti.setContent(String.format(Global.messages
 					.getString("notification_tag_user_to_page_content"),
