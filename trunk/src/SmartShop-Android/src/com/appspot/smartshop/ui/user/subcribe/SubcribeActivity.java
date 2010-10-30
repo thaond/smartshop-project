@@ -275,8 +275,8 @@ public class SubcribeActivity extends MapActivity {
 				String param = Global.gsonWithHour.toJson(newSubcribe,
 						UserSubcribeProduct.class);
 
-				RestClient.postData(URLConstant.EDIT_SUBCRIBE, param,
-						new JSONParser() {
+				String url = String.format(URLConstant.EDIT_SUBCRIBE, Global.getSession());
+				RestClient.postData(url, param, new JSONParser() {
 
 							@Override
 							public void onSuccess(JSONObject json)
@@ -371,7 +371,8 @@ public class SubcribeActivity extends MapActivity {
 				String param = Global.gsonWithHour.toJson(subcribe,
 						UserSubcribeProduct.class);
 
-				RestClient.postData(URLConstant.CREATE_SUBCRIBE, param,
+				String url = String.format(URLConstant.CREATE_SUBCRIBE, Global.getSession());
+				RestClient.postData(url, param,
 						new JSONParser() {
 
 							@Override

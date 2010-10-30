@@ -658,8 +658,9 @@ public class ViewUserInfoActivity extends MapActivity {
 		}
 		
 		// edit user profile
-		Log.d(TAG, userInfo + "");
-		RestClient.postData(URLConstant.EDIT_PROFILE, Global.gsonDateWithoutHour.toJson(userInfo), 
+		Log.d(TAG, "[EDIT USERINFO]" + userInfo);
+		String url = String.format(URLConstant.EDIT_PROFILE, Global.getSession());
+		RestClient.postData(url, Global.gsonDateWithoutHour.toJson(userInfo), 
 				new JSONParser() {
 			
 			@Override

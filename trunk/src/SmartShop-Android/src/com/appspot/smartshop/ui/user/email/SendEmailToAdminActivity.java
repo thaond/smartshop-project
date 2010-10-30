@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.ui.BaseUIActivity;
+import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
@@ -88,7 +89,7 @@ public class SendEmailToAdminActivity extends BaseUIActivity {
 		title = URLEncoder.encode(title);
 		content = URLEncoder.encode(content);
 		String url = String.format(URLConstant.SEND_EMAIL_TO_ADMIN, sender,
-				title, content);
+				title, content, Global.getSession());
 
 		// send email
 		RestClient.getData(url, new JSONParser() {

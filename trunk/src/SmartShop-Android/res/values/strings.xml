@@ -289,7 +289,7 @@
 	<string name="err_cant_get_product_info">Không thể lấy thông tin sản phẩm</string>
 	
 	<string name="search_product_on_map">Tên sản phẩm cần tìm</string>
-	<string name="search_radius_on_map">Bán kính</string>
+	<string name="search_radius_on_map">Bán kính (m)</string>
 	<string name="logout">Đăng xuất</string> 
 	<string name="warn_not_choose_user">Bạn chưa chọn bạn bè nào</string>
 	<string name="send_email_to_user">Gửi email tới user</string>
@@ -297,4 +297,6 @@
 	<string name="warn_cant_view_notification_detail">Không thể xem chi tiết thông báo</string>
 	
 	<string name="return_to_home">Trang chủ</string>
+	
+	<string name="no_product_found">Không có sản phẩm nào</string>
 </resources>

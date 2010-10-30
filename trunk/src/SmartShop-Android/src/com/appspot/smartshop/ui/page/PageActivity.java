@@ -144,11 +144,11 @@ public class PageActivity extends BaseUIActivity {
 	protected void processPage() {
 		switch (mode) {
 		case CREATE_MODE:
-			url = URLConstant.CREATE_PAGE;
+			url = String.format(URLConstant.CREATE_PAGE, Global.getSession());
 			break;
 
 		case EDIT_MODE:
-			url = URLConstant.EDIT_PAGE;
+			url = String.format(URLConstant.EDIT_PAGE, Global.getSession());
 			break;
 		}
 

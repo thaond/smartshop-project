@@ -111,7 +111,7 @@ public class SendEmailActivity extends BaseUIActivity {
 		receiver = URLEncoder.encode(receiver);
 		content = URLEncoder.encode(content);
 		String url = String.format(URLConstant.SEND_EMAIL, sender, title,
-				content, receiver);
+				content, receiver, Global.getSession());
 
 		// send email
 		RestClient.getData(url, new JSONParser() {
