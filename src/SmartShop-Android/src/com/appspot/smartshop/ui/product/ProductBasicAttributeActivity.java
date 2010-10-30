@@ -212,13 +212,13 @@ public class ProductBasicAttributeActivity extends MapActivity {
 	boolean isSuccess = false;
 
 	protected void tagFriends() {
-		// TODO (vanloi999) call service to tag friends (similar addFriends in
+		// TODO (condohero01) call service to tag friends (similar addFriends in
 		// AddFriendActivity)
 
 	}
 
 	protected void loadFriendList() {
-		// TODO (vanloi999) call service to load friends list (similar to
+		// TODO (condohero01) call service to load friends list (similar to
 		// loadFriendList in AddFriendActivity)
 
 	}
