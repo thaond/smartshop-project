@@ -63,9 +63,9 @@
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent"
 			android:layout_gravity="right">
-			<Button android:id="@+id/btnTagOnMap" android:text="@string/tagOnMap"
+			<Button android:id="@+id/btnTagOnMap" android:background="@drawable/tag_on_map"
 				android:layout_width="wrap_content" android:layout_height="wrap_content" />
-			<Button android:id="@+id/btnTagFriends" android:text="@string/tagFriends"
+			<Button android:id="@+id/btnTagFriends" android:background="@drawable/tag_friend"
 				android:layout_width="wrap_content" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="vertical"
@@ -84,7 +84,7 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content" />
 			<Button android:id="@+id/btnXong" android:text="@string/lblOk"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-			<Button android:id="@+id/btnCancel" android:text="@string/lblCancel"
+			<Button android:id="@+id/btnCancel" android:background="@drawable/exit"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 		</LinearLayout>
 	</LinearLayout>
