@@ -11,6 +11,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -112,6 +113,7 @@ public class LoginActivity extends BaseUIActivity {
 					public void onSuccess(JSONObject json) throws JSONException {
 						Global.isLogin = true;
 						Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
+						Log.e(TAG, "[CURRENT SESSION] " + Global.userInfo.sessionId);
 						
 						if (StringUtils.isEmptyOrNull(lastActivity)){
 							Intent intent = new Intent(LoginActivity.this, SmartShopActivity.class);

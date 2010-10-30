@@ -53,6 +53,12 @@ public class UserSubcribeListActivity extends BaseUIActivity {
 		listSubcribe = (ListView) findViewById(R.id.listSubcribe);
 		loadSubcribeList();
 	}
+	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		loadSubcribeList();
+	}
 
 	private SimpleAsyncTask task;
 	private ListView listSubcribe;

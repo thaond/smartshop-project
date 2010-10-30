@@ -306,8 +306,8 @@ public class ProductBasicAttributeActivity extends MapActivity {
 				String param = Global.gsonWithHour.toJson(productInfo);
 				Log.d(TAG, param);
 
-				RestClient.postData(URLConstant.POST_PRODUCT, param,
-						new JSONParser() {
+				String url = String.format(URLConstant.POST_PRODUCT, Global.getSession());
+				RestClient.postData(url, param, new JSONParser() {
 
 							@Override
 							public void onSuccess(JSONObject json)

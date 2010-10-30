@@ -1,5 +1,6 @@
 package com.appspot.smartshop.ui.user;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import org.json.JSONArray;
@@ -103,7 +104,6 @@ public class AddFriendActivity extends BaseUIActivity {
 	protected void addFriends() {
 		isSuccess = false;
 		final String param = String.format(PARAM_ADD_FRIENDS, friendsToAdd);
-		Log.d(TAG, param);
 
 		taskAddFriend = new SimpleAsyncTask(this, new DataLoader() {
 
@@ -114,31 +114,22 @@ public class AddFriendActivity extends BaseUIActivity {
 
 			@Override
 			public void loadData() {
-				Log.d(TAG, "loadData");
-
-				RestClient.postData(URLConstant.ADD_FRIENDS_TO_LIST, param,
-						new JSONParser() {
+				RestClient.postData(String.format(URLConstant.ADD_FRIENDS_TO_LIST, Global.getSession()), 
+						param, new JSONParser() {
 
 							@Override
 							public void onSuccess(JSONObject json)
 									throws JSONException {
-								Log.d(TAG, json.toString());
+								updateUserFriendList();
 								friendsToAdd = "";
 								isSuccess = true;
 								Log.d(TAG + "onSuccess", "" + isSuccess);
-								// Toast.makeText(AddFriendActivity.this,
-								// getString(R.string.addFriendSuccess),
-								// Toast.LENGTH_SHORT).show();
 							}
 
 							@Override
 							public void onFailure(String message) {
-								Log.d(TAG, message);
 								isSuccess = false;
 								Log.d(TAG + "onFailure", "" + isSuccess);
-								// Toast.makeText(AddFriendActivity.this,
-								// getString(R.string.addFriendFail),
-								// Toast.LENGTH_SHORT).show();
 							}
 						});
 			}
@@ -147,16 +138,15 @@ public class AddFriendActivity extends BaseUIActivity {
 		Toast.makeText(AddFriendActivity.this,
 				getString(R.string.addFriendSuccess), Toast.LENGTH_SHORT)
 				.show();
-		// if(isSuccess==true){
-		// Log.d(TAG+"if true", ""+isSuccess);
-		// Toast.makeText(AddFriendActivity.this,
-		// getString(R.string.addFriendSuccess), Toast.LENGTH_SHORT).show();
-		// }else {
-		// Log.d(TAG+"if false", ""+isSuccess);
-		// Toast.makeText(AddFriendActivity.this,
-		// getString(R.string.addFriendFail), Toast.LENGTH_SHORT).show();
-		// }
-
+	}
+	
+	private void updateUserFriendList() {
+		String[] friends = friendsToAdd.split(",");
+		Log.d(TAG, "new friends  = " + Arrays.toString(friends));
+		for (String friend : friends) {
+			friend = friend.trim();
+			Global.userInfo.setFriendsUsername.add(friend);
+		}
 	}
 
 	public static SimpleAsyncTask task;

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
@@ -49,14 +50,20 @@ public class ProductsListOfSubcribeActivity extends ListActivity {
 	}
 
 	private SimpleAsyncTask task;
+	private boolean foundProduct = true;
 	private void loadProducts() {
 		
 		task = new SimpleAsyncTask(this, new DataLoader() {
 			
 			@Override
 			public void updateUI() {
-				adapter = new ProductAdapter(ProductsListOfSubcribeActivity.this, 0, products);
+				adapter = new ProductAdapter(ProductsListOfSubcribeActivity.this, 
+						R.layout.product_list_item, products);
 				listProducts.setAdapter(adapter);
+				if (!foundProduct) {
+					Toast.makeText(ProductsListOfSubcribeActivity.this, 
+							getString(R.string.no_product_found), Toast.LENGTH_SHORT).show();
+				}
 			}
 			
 			@Override
@@ -70,6 +77,9 @@ public class ProductsListOfSubcribeActivity extends ListActivity {
 						JSONArray arr = json.getJSONArray("products");
 						products = Global.gsonWithHour.fromJson(arr.toString(), ProductInfo.getType());
 						Log.d(TAG, "load " + products.size() + " products");
+						if (products.size() == 0) {
+							foundProduct = false;
+						}
 					}
 					
 					@Override

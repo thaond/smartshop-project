@@ -199,8 +199,8 @@ public class ViewCommentsActivity extends BaseUIActivity {
 				comment.type = type;
 				
 				String param = Global.gsonWithHour.toJson(comment);
-				
-				RestClient.postData(URLConstant.ADD_NEW_COMMENT, param, new JSONParser() {
+				String url = String.format(URLConstant.ADD_NEW_COMMENT, Global.getSession());
+				RestClient.postData(url, param, new JSONParser() {
 					
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
