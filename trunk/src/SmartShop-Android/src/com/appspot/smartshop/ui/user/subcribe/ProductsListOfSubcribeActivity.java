@@ -19,6 +19,7 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserSubcribeProduct;
+import com.appspot.smartshop.facebook.LoginButton;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -31,7 +32,6 @@ public class ProductsListOfSubcribeActivity extends ListActivity {
 	public static final String TAG = "[ProductsListOfSubcribeActivity]";
 	
 	public static UserSubcribeProduct subcribe;
-
 	private ListView listProducts;
 	private long subcribeId;
 	private List<ProductInfo> products;

@@ -15,11 +15,22 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.UserSubcribeAdapter;
 import com.appspot.smartshop.dom.UserSubcribeProduct;
+import com.appspot.smartshop.facebook.Facebook;
+import com.appspot.smartshop.facebook.LoginButton;
+import com.appspot.smartshop.facebook.SessionEvents;
+import com.appspot.smartshop.facebook.SessionStore;
+import com.appspot.smartshop.facebook.Util;
+import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
+import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
 import com.appspot.smartshop.ui.BaseUIActivity;
+import com.appspot.smartshop.ui.product.ProductsListActivity;
+import com.appspot.smartshop.ui.product.ProductsListActivity.SampleAuthListener;
+import com.appspot.smartshop.ui.product.ProductsListActivity.SampleLogoutListener;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -33,7 +44,7 @@ public class UserSubcribeListActivity extends BaseUIActivity {
 
 	private List<UserSubcribeProduct> subcribes;
 	private UserSubcribeAdapter adapter;
-
+	private LoginButton mLoginButton;
 	@Override
 	protected void onCreatePre() {
 		setContentView(R.layout.subcribe_list);
@@ -42,6 +53,20 @@ public class UserSubcribeListActivity extends BaseUIActivity {
 	@Override
 	protected void onCreatePost(Bundle savedInstanceState) {
 		Button btnAddSubcribe = (Button) findViewById(R.id.btnAddSubcribe);
+		mLoginButton = (LoginButton) findViewById(R.id.loginFACE);
+		if (Global.APP_ID == null) {
+			Util.showAlert(this, "Warning", "Facebook Applicaton ID must be "
+					+ "specified before running");
+		}
+		//set up variable for facebook connection
+		Global.mFacebook = new Facebook();
+		SessionStore.restore(Global.mFacebook, this);
+		SessionEvents.addAuthListener(new SampleAuthListener());
+		SessionEvents.addLogoutListener(new SampleLogoutListener());
+		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
+		if(Global.mFacebook.isSessionValid()){
+			mLoginButton.setVisibility(View.GONE);
+		}
 		btnAddSubcribe.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -121,5 +146,33 @@ public class UserSubcribeListActivity extends BaseUIActivity {
 			Utils.returnHomeActivity(this);
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	public class SampleAuthListener implements AuthListener {
+
+		public void onAuthSucceed() {
+			Toast.makeText(UserSubcribeListActivity.this,
+					getString(R.string.loginFacebookSuccess),
+					Toast.LENGTH_SHORT).show();
+		}
+
+		public void onAuthFail(String error) {
+			Toast.makeText(UserSubcribeListActivity.this,
+					getString(R.string.loginFacebookFail), Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
+	public class SampleLogoutListener implements LogoutListener {
+		public void onLogoutBegin() {
+			Toast.makeText(UserSubcribeListActivity.this,
+					getString(R.string.logoutFacebookLoading),
+					Toast.LENGTH_SHORT).show();
+		}
+
+		public void onLogoutFinish() {
+			Toast.makeText(UserSubcribeListActivity.this,
+					getString(R.string.logoutFacebookSuccess),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 }
