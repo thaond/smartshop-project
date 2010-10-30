@@ -2,8 +2,10 @@
 <ScrollView android:layout_width="fill_parent"
 	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 	<LinearLayout android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:orientation="vertical">
-
+		android:layout_height="fill_parent" android:orientation="vertical"
+		android:background="@color/background">
+		<include android:layout_width="fill_parent"
+			android:layout_height="wrap_content" layout="@layout/header" />
 		<!-- User name -->
 		<LinearLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:paddingRight="10dip">

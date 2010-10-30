@@ -1,7 +1,5 @@
 package com.appspot.smartshop;
 
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,8 +11,6 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -43,13 +39,13 @@ public class SmartShopActivity extends ListActivity {
 	public static final String PAGE = "page";
 	// public static final String PARAM_NOFITICATION =
 	// "{username:\"%s\",type_id:%d}";
-	private List<SmartshopNotification> notifications;
 	private int numOfNotifications = 0;
 	private SimpleAsyncTask task;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 
 		// Init for constant
 		Global.application = this;
@@ -57,6 +53,8 @@ public class SmartShopActivity extends ListActivity {
 				R.drawable.no_avatar);
 
 		ListView listView = getListView();
+		//Config layout
+		listView.setBackgroundResource(R.color.background);
 
 		// Check whether user login or not
 		if (Global.userInfo == null) {
@@ -115,6 +113,14 @@ public class SmartShopActivity extends ListActivity {
 						}
 					});
 			task.execute();
+		}
+
+		// Remove Notification
+		SmartshopNotification sNotification = (SmartshopNotification) getIntent()
+				.getSerializableExtra(Global.NOTIFICATION);
+		if (sNotification != null) {
+			Global.notifications.remove(sNotification);
+			Global.notificationManager.cancel(sNotification.id);
 		}
 	}
 
@@ -193,23 +199,22 @@ public class SmartShopActivity extends ListActivity {
 			public void onSuccess(JSONObject json) throws JSONException {
 				// load
 				JSONArray arr = json.getJSONArray("notifications");
-				notifications = Global.gsonWithHour.fromJson(arr.toString(),
-						SmartshopNotification.getType());
-				Log
-						.d(TAG, "found " + notifications.size()
-								+ " notification(s)");
+				Global.notifications = Global.gsonWithHour.fromJson(arr
+						.toString(), SmartshopNotification.getType());
+				Log.d(TAG, "found " + Global.notifications.size()
+						+ " notification(s)");
 
 				// display
-				if (notifications.size() != 0) {
+				if (Global.notifications.size() != 0) {
 					String content;
 					int count = 0;
-					for (SmartshopNotification notification : notifications) {
+					for (SmartshopNotification notification : Global.notifications) {
 						content = notification.content;
 						showNotification(notification);
 						count++;
 					}
 
-					numOfNotifications += notifications.size();
+					numOfNotifications += Global.notifications.size();
 				}
 			}
 
@@ -223,24 +228,27 @@ public class SmartShopActivity extends ListActivity {
 
 	private void showNotification(SmartshopNotification sNotification) {
 		if (sNotification == null || sNotification.jsonOutput == null) {
-			Toast.makeText(this, getString(R.string.warn_cant_view_notification_detail), 
+			Toast.makeText(this,
+					getString(R.string.warn_cant_view_notification_detail),
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
+
 		// TODO: mark as read all notifications of a user
-		RestClient.getData(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS, new JSONParser() {
-			
-			@Override
-			public void onSuccess(JSONObject json) throws JSONException {
-			}
-			
-			@Override
-			public void onFailure(String message) {
-				Toast.makeText(SmartShopActivity.this, message, Toast.LENGTH_SHORT).show();
-			}
-		});
-		
+		RestClient.getData(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS,
+				new JSONParser() {
+
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+					}
+
+					@Override
+					public void onFailure(String message) {
+						Toast.makeText(SmartShopActivity.this, message,
+								Toast.LENGTH_SHORT).show();
+					}
+				});
+
 		Intent intent = null;
 		switch (sNotification.type) {
 		case SmartshopNotification.ADD_FRIEND:
@@ -253,28 +261,38 @@ public class SmartShopActivity extends ListActivity {
 			intent = new Intent(this, ViewProductActivity.class);
 			ProductInfo productInfo = Global.gsonWithHour.fromJson(
 					sNotification.jsonOutput, ProductInfo.class);
+			intent.putExtra(Global.NOTIFICATION, sNotification);
 			intent.putExtra(Global.PRODUCT_INFO, productInfo);
 			break;
-			
+
 		case SmartshopNotification.TAG_PAGE:
 		case SmartshopNotification.UNTAG_PAGE:
 			intent = new Intent(this, ViewPageActivity.class);
-			Page page = Global.gsonDateWithoutHour.fromJson(sNotification.jsonOutput, Page.class);
+			Page page = Global.gsonDateWithoutHour.fromJson(
+					sNotification.jsonOutput, Page.class);
+			intent.putExtra(Global.NOTIFICATION, sNotification);
 			intent.putExtra(Global.PAGE, page);
 			break;
-			
+
 		case SmartshopNotification.ADD_COMMENT_PRODUCT:
 			intent = new Intent(this, ViewCommentsActivity.class);
+			intent.putExtra(Global.NOTIFICATION, sNotification);
 			intent.putExtra(Global.TYPE_OF_COMMENTS, SmartShopActivity.PRODUCT);
-			intent.putExtra(Global.ID_OF_COMMENTS, Long.parseLong(sNotification.jsonOutput));
-			
+			intent.putExtra(Global.ID_OF_COMMENTS, Long
+					.parseLong(sNotification.jsonOutput));
+			break;
+
 		case SmartshopNotification.ADD_COMMENT_PAGE:
 			intent = new Intent(this, ViewCommentsActivity.class);
+			intent.putExtra(Global.NOTIFICATION, sNotification);
 			intent.putExtra(Global.TYPE_OF_COMMENTS, SmartShopActivity.PAGE);
-			intent.putExtra(Global.ID_OF_COMMENTS, Long.parseLong(sNotification.jsonOutput));
-			
+			intent.putExtra(Global.ID_OF_COMMENTS, Long
+					.parseLong(sNotification.jsonOutput));
+			break;
+
 		default:
 			intent = new Intent(this, SmartShopActivity.class);
+			intent.putExtra(Global.NOTIFICATION, sNotification);
 			break;
 		}
 

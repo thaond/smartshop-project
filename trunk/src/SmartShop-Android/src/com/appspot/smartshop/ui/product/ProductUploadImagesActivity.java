@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -38,6 +39,7 @@ import com.appspot.smartshop.utils.capture.ImageCaptureActivity;
  * @author VoMinhTam
  */
 public class ProductUploadImagesActivity extends Activity {
+	private static final String TAG = "[ProductUploadImages]";  
 	private static final int FILE_BROWSER_ID = 0;
 	private static final int IMAGE_CAPTURE_ID = 1;
 	
@@ -78,6 +80,8 @@ public class ProductUploadImagesActivity extends Activity {
 							getString(R.string.please_add_image),
 							Toast.LENGTH_SHORT).show();
 				}
+				
+				Log.d(TAG, setMedias + "");
 			}
 		});
 

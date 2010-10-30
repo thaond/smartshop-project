@@ -1,6 +1,5 @@
 package com.appspot.smartshop.ui.user;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,18 +9,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem; 
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.appspot.smartshop.R;
-import com.appspot.smartshop.R.string;
 import com.appspot.smartshop.dom.UserInfo;
+import com.appspot.smartshop.ui.BaseUIActivity;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
 import com.appspot.smartshop.ui.product.PostProductActivity;
@@ -35,7 +33,7 @@ import com.appspot.smartshop.utils.Utils;
 /*
  * @author: Tam Vo Minh
  */
-public class ViewUserProfileActivity extends Activity {
+public class ViewUserProfileActivity extends BaseUIActivity {
 	public static final String TAG = "[ViewUserProfileActivity]";
 	
 	private ListView listInfos;
@@ -43,12 +41,14 @@ public class ViewUserProfileActivity extends Activity {
 	private ProfileAdapter adapter;
 	private UserInfo userInfo;
 	private boolean isOwn = true;
-
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onCreatePre() {
 		setContentView(R.layout.user_profile);
-
+	}
+	
+	@Override
+	protected void onCreatePost(Bundle savedInstanceState) {
 		adapter = new ProfileAdapter(ViewUserProfileActivity.this,
 				R.layout.view_profile_list_item);
 		imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
@@ -92,6 +92,7 @@ public class ViewUserProfileActivity extends Activity {
 			viewProfile();
 		}
 	}
+
 	private void viewProfile() {
 //		userInfo.avatarLink = "http://10.0.2.2/uploads/tam1234/a.jpg";
 		Log.d(TAG, "fdsfdsfs");

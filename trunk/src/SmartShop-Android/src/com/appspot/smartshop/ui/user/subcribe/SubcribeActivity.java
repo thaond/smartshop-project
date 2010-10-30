@@ -31,6 +31,7 @@ import com.appspot.smartshop.map.LocationOverlay;
 import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.map.MyLocationCallback;
 import com.appspot.smartshop.map.MyLocationListener;
+import com.appspot.smartshop.ui.BaseUIActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -78,6 +79,8 @@ public class SubcribeActivity extends MapActivity {
 	protected void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		setContentView(R.layout.create_subcribe);
+
+		BaseUIActivity.initHeader(this);
 
 		// TODO for test
 		Global.application = this;
@@ -209,9 +212,9 @@ public class SubcribeActivity extends MapActivity {
 
 		// get subcribe radius
 		try {
-			if (!StringUtils.isEmptyOrNull(txtRadius.getText().toString())){
+			if (!StringUtils.isEmptyOrNull(txtRadius.getText().toString())) {
 				radius = Double.parseDouble(txtRadius.getText().toString());
-			}else{
+			} else {
 				radius = 0;
 			}
 		} catch (NumberFormatException ex) {
@@ -224,9 +227,10 @@ public class SubcribeActivity extends MapActivity {
 
 		// get subcribe lat, long
 		if (locationOverlay.point != null) {
-//			Toast.makeText(this, getString(R.string.missing_subcribe_location),
-//					Toast.LENGTH_SHORT).show();
-//			return;
+			// Toast.makeText(this,
+			// getString(R.string.missing_subcribe_location),
+			// Toast.LENGTH_SHORT).show();
+			// return;
 			newSubcribe.lat = (double) locationOverlay.point.getLatitudeE6() / 1E6;
 			newSubcribe.lng = (double) locationOverlay.point.getLongitudeE6() / 1E6;
 		}

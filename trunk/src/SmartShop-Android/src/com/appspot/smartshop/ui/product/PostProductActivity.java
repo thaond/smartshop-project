@@ -16,6 +16,7 @@ public class PostProductActivity extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final TabHost tabHost = getTabHost();
+		
 		tabHost.addTab(tabHost.newTabSpec(PRODUCT_BASIC_INFO).setIndicator(
 				getString(R.string.product_basic_info)).setContent(
 				new Intent(this, ProductBasicAttributeActivity.class)));

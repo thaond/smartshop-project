@@ -43,6 +43,7 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
+import com.appspot.smartshop.ui.BaseUIActivity;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.user.email.SendEmailActivity;
 import com.appspot.smartshop.utils.Global;
@@ -120,6 +121,8 @@ public class ViewUserInfoActivity extends MapActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user);
+		
+		BaseUIActivity.initHeader(this);
 
 		// label width
 		int width = Utils.getScreenWidth();

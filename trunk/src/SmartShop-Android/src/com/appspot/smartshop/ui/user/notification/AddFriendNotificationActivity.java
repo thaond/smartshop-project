@@ -123,6 +123,8 @@ public class AddFriendNotificationActivity extends BaseUIActivity {
 		
 		//Cancel this notification
 		Global.notificationManager.cancel(sNotification.id);
+		Global.notifications.remove(sNotification);
+		
 	}
 
 };

@@ -296,6 +296,24 @@ public class RegisterUserActivity extends MapActivity {
 				}
 			}
 		});
+		
+		Button btnHome = (Button) findViewById(R.id.btnHome);
+		btnHome.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Utils.returnHomeActivity(RegisterUserActivity.this);
+			}
+		});
+		
+		Button btnBack = (Button) findViewById(R.id.btnBack);
+		btnBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 	
 	private void startFileBrowserActivity(){
@@ -510,11 +528,14 @@ public class RegisterUserActivity extends MapActivity {
 
 		// TODO (vo.mita.ov): upload avatar of user
 		if (StringUtils.isEmptyOrNull(userInfo.avatarLink) && inputStreamAvatar != null) {
+			userInfo.avatarLink = URLConstant.HOST + "/image_host/avatar/NT" + (int)(Math.random()*9+1) + ".jpg";//Just testing
+			/*
 			//String response = doFileUpload();
+			//Parsing image upload response
 			String response = "0:" + URLConstant.HOST + "/image_host/avatar/NT" + (int)(Math.random()*9+1) + ".jpg";
 
 			Log.e("Upload", response);
-			String[] data = response.split(";");
+			String[] data = response.split(":");
 			int errCode = -1;
 			try {
 				errCode = Integer.parseInt(data[0]);
@@ -556,8 +577,13 @@ public class RegisterUserActivity extends MapActivity {
 				ad.show();
 				break;
 			}
+			*/
 		}
-
+		
+		sendRegisterRequest();
+	}
+	
+	private void sendRegisterRequest(){
 		// register user
 		RestClient.postData(URLConstant.REGISTER, Global.gsonDateWithoutHour
 				.toJson(userInfo), new JSONParser() {

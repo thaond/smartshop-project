@@ -12,6 +12,7 @@ import android.app.NotificationManager;
 import android.graphics.drawable.Drawable;
 
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.dom.SmartshopNotification;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.facebook.Facebook;
 import com.google.gson.Gson;
@@ -57,6 +58,7 @@ public class Global {
 			"yyyyMMddHHmmssSS");
 	public static Drawable drawableNoAvatar;
 	public static NotificationManager notificationManager;
+	public static List<SmartshopNotification> notifications;
 
 	// (key_cat, name) of categories
 	public static HashMap<String, String> mapParentCategories = new HashMap<String, String>();
@@ -80,6 +82,7 @@ public class Global {
 	public static final String PRODUCTS_OF_USER = "products_of_user";
 
 	public static final String PRODUCT_INFO = "product_info";
+	public static final String NOTIFICATION = "notification";
 	public static final String CAN_EDIT_PRODUCT_INFO = "can_edit_product_info";
 
 	public static final String PAGE = "page";
