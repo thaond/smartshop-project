@@ -33,7 +33,7 @@ public class ProductInfo implements Serializable {
 	public ProductInfo(String name, double price, String description){
 		this.name = name;
 		this.price = price;
-		this.description = description;
+		this.description = description; 
 	}
 	public ProductInfo() {}
 	@Override

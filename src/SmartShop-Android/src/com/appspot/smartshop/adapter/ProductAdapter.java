@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,13 +16,11 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appspot.smartshop.R;
-import com.appspot.smartshop.adapter.CommentAdapter.ViewHolder;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.facebook.AsyncFacebookRunner;
 import com.appspot.smartshop.facebook.BaseRequestListener;
@@ -31,13 +30,11 @@ import com.appspot.smartshop.facebook.SessionStore;
 import com.appspot.smartshop.facebook.Util;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
-import com.appspot.smartshop.utils.FixedList;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
 import com.google.android.maps.GeoPoint;
-import com.google.gson.JsonElement;
 
 public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 	public static final String TAG = "[ProductAdapter]";
@@ -51,9 +48,12 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 	public static final int IMAGE_WIDTH = 50;
 	public static final int IMAGE_HEIGHT = 50;
 
+	private int textViewResourceId;
+
 	public ProductAdapter(Context context, int textViewResourceId,
 			List<ProductInfo> objects) {
 		super(context, textViewResourceId, objects);
+		this.textViewResourceId = textViewResourceId;
 		this.context = context;
 		inflater = LayoutInflater.from(context);
 	}
@@ -61,6 +61,8 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 	public ProductAdapter(Context context, int textViewResourceId,
 			ProductInfo[] objects) {
 		super(context, textViewResourceId, objects);
+		this.textViewResourceId = textViewResourceId;
+
 		inflater = LayoutInflater.from(context);
 		this.context = context;
 	}
@@ -71,10 +73,9 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		
 
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.product_list_item, null);
+			convertView = inflater.inflate(textViewResourceId, null);
 
 			holder = new ViewHolder();
 			holder.image = (ImageView) convertView.findViewById(R.id.image);
@@ -135,14 +136,17 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			}
 		});
 
-		// // TODO Load image of product from internet
-		// String url = "http://hangxachtayusa.net/img/p/89-129-medium.jpg";
-		// Bitmap imageOfProduct = Utils.getBitmapFromURL(url);
-		// imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,
-		// IMAGE_WIDTH, IMAGE_HEIGHT, true);
-		// holder.image.setImageBitmap(imageOfProduct);
-		// TODO sample image
-		holder.image.setBackgroundResource(R.drawable.icon);
+		if (productInfo.setMedias == null || productInfo.setMedias.isEmpty())
+			holder.image.setBackgroundResource(R.drawable.product_unknown);
+		else {
+			Drawable productDrawable = productInfo.setMedias.get(
+					(int) (Math.random() * productInfo.setMedias.size()))
+					.getDrawable();
+			if (productDrawable != null)
+				holder.image.setBackgroundDrawable(productDrawable);
+			else
+				holder.image.setBackgroundResource(R.drawable.product_unknown);
+		}
 
 		// go to product detail
 		convertView.setOnClickListener(new OnClickListener() {
@@ -215,7 +219,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 					context.getString(R.string.postOnFacebookSuccess),
 					Toast.LENGTH_LONG).show();
 			holder.postFacebook
-			.setImageResource(R.drawable.facebook_share_nonactive);
+					.setImageResource(R.drawable.facebook_share_nonactive);
 			holder.postFacebook.setClickable(false);
 		}
 	}

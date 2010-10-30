@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.Utils;
 
 /**
@@ -53,5 +55,11 @@ public abstract class BaseUIActivity extends Activity {
 				activity.finish();
 			}
 		});
+
+		TextView lblName = (TextView) activity.findViewById(R.id.lblUser);
+		if (Utils.isLogined())
+			lblName.setText(Global.userInfo.username);
+		else
+			lblName.setVisibility(View.GONE);
 	}
 }
