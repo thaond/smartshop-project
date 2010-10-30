@@ -89,7 +89,9 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 					.findViewById(R.id.txtDatePost);
 			holder.postFacebook = (ImageView) convertView
 					.findViewById(R.id.btnPostFb);
-
+			if(!Global.mFacebook.isSessionValid()){
+				holder.postFacebook.setVisibility(View.GONE);
+			}
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -129,14 +131,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 			@Override
 			public void onClick(View v) {
-				if (!Global.isLogin) {
-					Toast.makeText(context,
-							context.getString(R.string.alertLoginSmartShop),
-							Toast.LENGTH_SHORT).show();
-				} else {
 					postFacebookSmartShop();
-				}
-
 			}
 		});
 

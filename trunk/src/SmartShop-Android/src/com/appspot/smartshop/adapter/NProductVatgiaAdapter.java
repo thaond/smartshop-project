@@ -63,7 +63,9 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 			holder.btnListShop = (Button) convertView.findViewById(R.id.btnListShop);
 			holder.txtNumOfStore = (TextView) convertView.findViewById(R.id.txtNumOfStore);
 			holder.postFacebook =  (ImageView) convertView.findViewById(R.id.btnPostFacebookVatGia);
-			
+			if(!Global.mFacebook.isSessionValid()){
+				holder.postFacebook.setVisibility(View.GONE);
+			}
 
 			convertView.setTag(holder);
 		} else {
@@ -101,13 +103,7 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 			
 			@Override
 			public void onClick(View v) {
-				if(!Global.isLogin){
-					Toast.makeText(context, context.getString(R.string.alertLoginSmartShop), 
-							Toast.LENGTH_SHORT).show();
-				}else{
 				postFacebookVatGia();
-
-				}
 			}
 		});
 		//set up information to post on Facebook
