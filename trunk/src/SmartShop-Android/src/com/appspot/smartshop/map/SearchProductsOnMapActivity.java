@@ -32,6 +32,7 @@ import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -215,11 +216,13 @@ public class SearchProductsOnMapActivity extends MapActivity {
 
 	public static final int MENU_CURRENT_LOCATION = 0;
 	public static final int MENU_SEARCH_LOCATION = 1;
+	public static final int MENU_RETURN_TO_HOME = 2;
 	private MyLocationListener myLocationListener;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_CURRENT_LOCATION, 0, getString(R.string.my_current_location));
 		menu.add(0, MENU_SEARCH_LOCATION, 0, getString(R.string.search_location));
+		menu.add(0, MENU_RETURN_TO_HOME, 0, getString(R.string.return_to_home)).setIcon(R.drawable.home);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -235,6 +238,9 @@ public class SearchProductsOnMapActivity extends MapActivity {
 			productsOverlay.mode = ProductsOverlay.SEARCH_NEARBY_LOCATION;
 			openSearchLocationDialog();
 			break;
+			
+		case MENU_RETURN_TO_HOME:
+			Utils.returnHomeActivity(this);
 		}
 		
 		return super.onOptionsItemSelected(item);

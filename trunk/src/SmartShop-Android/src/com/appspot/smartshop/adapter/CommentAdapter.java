@@ -32,7 +32,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 			
 			holder = new ViewHolder();
 			holder.txtComment = (TextView) convertView.findViewById(R.id.txtComment);
-			holder.btnAvatar = (Button) convertView.findViewById(R.id.btnAvatar);
+			holder.txtUsername = (TextView) convertView.findViewById(R.id.txtUsername);
 			
 			convertView.setTag(holder);
 		} else {
@@ -41,7 +41,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 		
 		Comment comment = (Comment) getItem(position);
 		holder.txtComment.setText(comment.content);
-		// TODO (condorhero01): load avatar of user and display
+		holder.txtUsername.setText(comment.username + "\t");
 		
 		return convertView;
 	}
@@ -52,7 +52,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 	}
 
 	static class ViewHolder {
-		Button btnAvatar;
+		TextView txtUsername;
 		TextView txtComment;
 	}
 }

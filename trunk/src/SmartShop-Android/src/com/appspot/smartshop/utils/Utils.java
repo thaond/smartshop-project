@@ -163,6 +163,7 @@ public class Utils {
 
 	public static void returnHomeActivity(Activity activity) {
 		Intent intent = new Intent(activity, SmartShopActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		activity.startActivity(intent);
 	}
 	

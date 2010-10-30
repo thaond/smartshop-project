@@ -30,6 +30,7 @@ import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
 
 public class PagesListActivity extends BaseUIActivity {
@@ -123,12 +124,13 @@ public class PagesListActivity extends BaseUIActivity {
 	}
 
 	public static final int MENU_SEARCH_BY_CATEGORIES = 3;
-
+	public static final int MENU_RETURN_TO_HOME = 4;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_SEARCH_BY_CATEGORIES, 0,
 				getString(R.string.search_by_categories)).setIcon(
 				R.drawable.category);
+		menu.add(0, MENU_RETURN_TO_HOME, 0, getString(R.string.return_to_home)).setIcon(R.drawable.home);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -146,6 +148,10 @@ public class PagesListActivity extends BaseUIActivity {
 							searchByCategories(categories);
 						}
 					});
+			break;
+			
+		case MENU_RETURN_TO_HOME:
+			Utils.returnHomeActivity(this);
 			break;
 		}
 

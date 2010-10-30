@@ -99,93 +99,45 @@ public class LoginActivity extends BaseUIActivity {
 		final String url = String.format(URLConstant.LOGIN, username, Utils
 				.getMD5(pass), userkey);
 
-		task = new SimpleAsyncTask(getString(R.string.loading_when_login),
-				this, new DataLoader() {
+		task = new SimpleAsyncTask(getString(R.string.loading_when_login), this, new DataLoader() {
+						
+			public void updateUI() {
+			}
+
+			@Override
+			public void loadData() {
+				RestClient.getData(url, new JSONParser() {
 
 					@Override
-					public void updateUI() {
+					public void onSuccess(JSONObject json) throws JSONException {
+						Global.isLogin = true;
+						Global.userInfo = Global.gsonDateWithoutHour.fromJson(json.get("userinfo").toString(), UserInfo.class);
+						
+						if (StringUtils.isEmptyOrNull(lastActivity)){
+							Intent intent = new Intent(LoginActivity.this, SmartShopActivity.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
+						}else{
+							if (lastActivity.equals(Global.VIEW_PROFILE_ACTIVITY)){
+								Intent intent = new Intent(LoginActivity.this, ViewUserProfileActivity.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								startActivity(intent);
+							}
+						}
 					}
 
 					@Override
-					public void loadData() {
-						RestClient.getData(url, new JSONParser() {
-
-							@Override
-							public void onSuccess(JSONObject json)
-									throws JSONException {
-								Global.isLogin = true;
-								Global.userInfo = Global.gsonDateWithoutHour
-										.fromJson(json.get("userinfo")
-												.toString(), UserInfo.class);
-
-								if (StringUtils.isEmptyOrNull(lastActivity)) {
-									Intent intent = new Intent(
-											LoginActivity.this,
-											SmartShopActivity.class);
-									startActivity(intent);
-								} else {
-									if (lastActivity
-											.equals(Global.VIEW_PROFILE_ACTIVITY)) {
-										Intent intent = new Intent(
-												LoginActivity.this,
-												ViewUserProfileActivity.class);
-										startActivity(intent);
-									}
-								}
-							}
-
-							@Override
-							public void onFailure(String message) {
-								task.hasData = false;
-								task.message = message;
-								task.cancel(true);
-							}
-						});
-						// loadNotifications();
+					public void onFailure(String message) {
+						task.hasData = false;
+						task.message = message;
+						task.cancel(true);
 					}
 				});
+			}
+		});
 
 		task.execute();
 	}
-
-	// public void loadNotifications() {
-	// String param = String.format(PARAM_NOFITICATION,
-	// Global.userInfo.username, 1);
-	// Log.d(TAG, param);
-	// RestClient.postData(URLConstant.GET_NOTIFICATIONS, param,
-	// new JSONParser() {
-	//
-	// @Override
-	// public void onSuccess(JSONObject json)
-	// throws JSONException {
-	// JSONArray arr = json
-	// .getJSONArray("notifications");
-	// notifications = Global.gsonWithHour.fromJson(
-	// arr.toString(), SmartshopNotification
-	// .getType());
-	// Log.d(TAG, "found " + notifications.size()
-	// + " notification(s)");
-	// if (notifications.size() == 0) {
-	// task.hasData = false;
-	// task.message = getString(R.string.warn_no_notification);
-	// } else {
-	// markAsRead();
-	// CharSequence title;
-	// CharSequence content;
-	// for(int i = 0 ; i< notifications.size();i++){
-	// title = notifications.get(i).date.toLocaleString();
-	// content = notifications.get(i).content;
-	// generateNotification(notifications.size(),i,title, content);
-	// }
-	// }
-	// }
-	//
-	// @Override
-	// public void onFailure(String message) {
-	// task.cancel(true);
-	// }
-	// });
-	// }
 
 	public void generateNotification(int numOfNewNotification,
 			int notificatioinID, CharSequence charTitle,
