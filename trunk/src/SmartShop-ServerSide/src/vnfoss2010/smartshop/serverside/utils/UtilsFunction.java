@@ -258,14 +258,18 @@ public class UtilsFunction {
 		Set<String> setKeys = Global.mapSession.keySet();
 		ArrayList<String> a = null;
 		Global.mapSession.put("asd" , new SessionObject("asd", "Asd", 0));
-		for (String s: setKeys){
-			SessionObject so = Global.mapSession.get(s);
-			if (cur - so.timeStamp > Global.SESSION_EXPRIED){
-				if (a==null)
-					a = new ArrayList<String>();
-				a.add(s);
-				AccountServiceImpl.getInstance().logout(s);
+		try {
+			for (String s : setKeys) {
+				SessionObject so = Global.mapSession.get(s);
+				if (cur - so.timeStamp > Global.SESSION_EXPRIED) {
+					if (a == null)
+						a = new ArrayList<String>();
+					a.add(s);
+					AccountServiceImpl.getInstance().logout(s);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		if (a!=null){
