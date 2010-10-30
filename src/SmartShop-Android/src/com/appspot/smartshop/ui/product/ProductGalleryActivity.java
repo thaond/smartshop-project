@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,46 +15,79 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Gallery.LayoutParams;
 import android.widget.ViewSwitcher.ViewFactory;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.Media;
-import com.appspot.smartshop.utils.Utils;
+import com.appspot.smartshop.utils.StringUtils;
 
-public class ProductGalleryActivity extends Activity implements ViewFactory{
-	// ---the images to display---
-//	Integer[] imageIDs = { R.drawable.pic1, R.drawable.pic2, R.drawable.pic3,
-//			R.drawable.pic4, R.drawable.pic5, R.drawable.pic6, R.drawable.pic7 };
-	public static List<Media> listMediaBitmap;
-	private ImageSwitcher imageSwitcher;
+public class ProductGalleryActivity extends Activity implements ViewFactory {
+	private static final String TAG = "[ProductGallery]";
+	private ImageSwitcher imageView;
+	public static List<Media> listMediaBitmap = new ArrayList<Media>();
+	private TextView lblName;
 
+	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.product_gallery);
-		
-		//TODO
-//		initMockTest();
-		getBitmap();
 
-		imageSwitcher = (ImageSwitcher) findViewById(R.id.image_switcher);
-		imageSwitcher.setFactory(this);
-		imageSwitcher.setInAnimation(AnimationUtils.loadAnimation(this,
+		// initMockTest();
+
+		Gallery ga = (Gallery) findViewById(R.id.Gallery01);
+		BaseAdapter adapter = new ImageAdapter(this);
+		ga.setAdapter(adapter);
+
+		imageView = (ImageSwitcher) findViewById(R.id.ImageView01);
+		imageView.setFactory(this);
+		imageView.setInAnimation(AnimationUtils.loadAnimation(this,
 				android.R.anim.fade_in));
-		imageSwitcher.setOutAnimation(AnimationUtils.loadAnimation(this,
+		imageView.setOutAnimation(AnimationUtils.loadAnimation(this,
 				android.R.anim.fade_out));
 
-		Gallery gallery = (Gallery) findViewById(R.id.gallery);
-		gallery.setAdapter(new ImageAdapter(this));
-		gallery.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView parent, View v, int position,
-					long id) {
-				imageSwitcher.setImageDrawable(new BitmapDrawable(listMediaBitmap.get(position).bitmap));
+		lblName = (TextView) findViewById(R.id.lblName);
+		// if (!listMediaBitmap.isEmpty()){
+		// if (!StringUtils
+		// .isEmptyOrNull(listMediaBitmap.get(0).description))
+		// Toast.makeText(getBaseContext(),
+		// listMediaBitmap.get(0).description,
+		// Toast.LENGTH_SHORT).show();
+		// imageView.setImageDrawable(listMediaBitmap.get(0)
+		// .getDrawable());
+		// lblName.setText(listMediaBitmap.get(0).name);
+		// }
+
+		ga.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				if (!StringUtils
+						.isEmptyOrNull(listMediaBitmap.get(position).description))
+					Toast.makeText(getBaseContext(),
+							listMediaBitmap.get(position).description,
+							Toast.LENGTH_SHORT).show();
+				imageView.setImageDrawable(listMediaBitmap.get(position)
+						.getDrawable());
+				lblName.setText(listMediaBitmap.get(position).name);
 			}
 		});
-		
+
+		if (!listMediaBitmap.isEmpty()) {
+			if (!StringUtils
+					.isEmptyOrNull(listMediaBitmap.get(0).description))
+				Toast.makeText(getBaseContext(),
+						listMediaBitmap.get(0).description,
+						Toast.LENGTH_SHORT).show();
+			imageView.setImageDrawable(listMediaBitmap.get(0)
+					.getDrawable());
+			lblName.setText(listMediaBitmap.get(0).name);
+		}
 	}
 
 	public View makeView() {
@@ -66,22 +98,18 @@ public class ProductGalleryActivity extends Activity implements ViewFactory{
 				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		return imageView;
 	}
-	
-	private void getBitmap(){
-		if (listMediaBitmap!=null && !listMediaBitmap.isEmpty()){
-			for (Media media : listMediaBitmap){
-				media.bitmap = Utils.getBitmapFromURL(media.link);
-			}
-		}
-	}
-	
-	private void initMockTest(){
-		listMediaBitmap = new ArrayList<Media>();
-		listMediaBitmap.add(new Media("Amage", "http://10.0.2.2:8888/image_host/product/img1.jpg", "jpg", "Desc"));
-		listMediaBitmap.add(new Media("Amage", "http://10.0.2.2:8888/image_host/product/img2.jpg", "jpg", "Desc"));
+
+	private void initMockTest() {
+		listMediaBitmap.add(new Media("Amage",
+				"http://10.0.2.2:8888/image_host/product/img1.jpg", "jpg",
+				"Desc"));
+		listMediaBitmap.add(new Media("Amage",
+				"http://10.0.2.2:8888/image_host/product/img2.jpg", "jpg",
+				"Desc"));
 	}
 
 	public class ImageAdapter extends BaseAdapter {
+
 		private Context context;
 		private int itemBackground;
 
@@ -111,14 +139,20 @@ public class ProductGalleryActivity extends Activity implements ViewFactory{
 
 		// ---returns an ImageView view---
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ImageView imageView = new ImageView(context);
-			//imageView.setImageResource(imageIDs[position]);
-			imageView.setImageBitmap(listMediaBitmap.get(position).bitmap);
-			imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+			ImageView imageView;
+			if (convertView == null) {
+				imageView = new ImageView(context);
+			} else {
+				imageView = (ImageView) convertView;
+			}
+			imageView.setImageDrawable(listMediaBitmap.get(position)
+					.getDrawable());
+			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			imageView.setLayoutParams(new Gallery.LayoutParams(150, 120));
 			imageView.setBackgroundResource(itemBackground);
+
 			return imageView;
 		}
-	}
 
+	}
 }

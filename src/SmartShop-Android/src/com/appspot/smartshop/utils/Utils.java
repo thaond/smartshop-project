@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
@@ -163,5 +164,16 @@ public class Utils {
 	public static void returnHomeActivity(Activity activity) {
 		Intent intent = new Intent(activity, SmartShopActivity.class);
 		activity.startActivity(intent);
+	}
+	
+	public static Drawable loadImage(String url) {
+		try {
+			InputStream is = (InputStream) new URL(url).getContent();
+			Drawable d = Drawable.createFromStream(is, "Image");
+			return d;
+		} catch (Exception e) {
+			System.out.println("Exc=" + e);
+			return null;
+		}
 	}
 }

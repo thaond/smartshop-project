@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="wrap_content" android:layout_height="wrap_content"
-	android:orientation="vertical">
-	
+	android:orientation="vertical" android:background="@color/background">
+	<include android:layout_width="fill_parent"
+		android:layout_height="wrap_content" layout="@layout/header" />
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="horizontal">
 		<EditText android:id="@+id/txtSearch" android:textSize="12dip"
@@ -11,19 +12,21 @@
 		<Button android:layout_width="wrap_content" android:text="@string/search"
 			android:layout_height="wrap_content" android:id="@+id/btnSearch" />
 	</LinearLayout>
-	
-	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:orientation="horizontal">
-	
-		<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:id="@+id/chPageMostView" android:text="@string/page_most_view"/>
-			
-		<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:id="@+id/chPageMostUpdate" android:text="@string/page_most_update"/>
-		
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal">
+
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/chPageMostView"
+			android:text="@string/page_most_view" />
+
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/chPageMostUpdate"
+			android:text="@string/page_most_update" />
+
 	</LinearLayout>
-	
-	<ListView android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:id="@+id/listPages" />
-	
+
+	<ListView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:id="@+id/listPages" />
+
 </LinearLayout>

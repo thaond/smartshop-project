@@ -1,6 +1,5 @@
 package com.appspot.smartshop.test;
 
-import com.appspot.smartshop.R;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;

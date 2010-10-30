@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +27,7 @@ import com.appspot.smartshop.facebook.SessionEvents;
 import com.appspot.smartshop.facebook.SessionStore;
 import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
 import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
+import com.appspot.smartshop.ui.BaseUIActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -35,7 +35,7 @@ import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 
-public class UserProductListActivity extends Activity {
+public class UserProductListActivity extends BaseUIActivity {
 
 	public static final int INTERESTED_PRODUCTS = 0;
 	public static final int BUYED_PRODUCTS = 1;
@@ -49,11 +49,13 @@ public class UserProductListActivity extends Activity {
 	// set up variable for facebook connection
 	private LoginButton mLoginButton;
 
-	// end set up variable for facebook connection
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onCreatePre() {
 		setContentView(R.layout.user_product_list);
+	}
+
+	@Override
+	protected void onCreatePost(Bundle savedInstanceState) {
 		// set up variable for facebook connection
 		mLoginButton = (LoginButton) findViewById(R.id.loginFace);
 		Global.mFacebook = new Facebook();

@@ -1,12 +1,15 @@
 package com.appspot.smartshop.dom;
 
 import java.io.InputStream;
+import java.io.Serializable;
 
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
+import com.appspot.smartshop.utils.Utils;
 import com.google.gson.annotations.Exclude;
 
-public class Media {
+public class Media implements Serializable{
+	private static final long serialVersionUID = 1L;
 	public String name;
 	public String link;
 	public String mime_type;
@@ -14,7 +17,7 @@ public class Media {
 	@Exclude
 	public InputStream inputStream;
 	@Exclude
-	public Bitmap bitmap;
+	private Drawable bitmap;
 
 	public Media(String name, String link, String mimeType, String description) {
 		this.name = name;
@@ -25,5 +28,19 @@ public class Media {
 
 	public Media() {
 	}
+	
+	public Drawable getDrawable(){
+		if (bitmap==null)
+			bitmap = Utils.loadImage(link);
+		return bitmap;
+	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Media [description=" + description + ", link=" + link
+				+ ", mime_type=" + mime_type + ", name=" + name + "]";
+	}
 }
