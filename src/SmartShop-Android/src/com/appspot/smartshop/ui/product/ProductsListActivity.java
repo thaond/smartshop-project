@@ -32,6 +32,7 @@ import com.appspot.smartshop.facebook.Util;
 import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
 import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
 import com.appspot.smartshop.map.SearchProductsOnMapActivity;
+import com.appspot.smartshop.ui.product.vatgia.SearchVatgiaActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -58,7 +59,7 @@ public class ProductsListActivity extends MapActivity {
 	//set up variable for facebook connection
 	private LoginButton mLoginButton;
 	//end set up variable for facebook connection
-	
+	public String query = null;
 	public static ProductsListActivity getInstance() {
 		return instance;
 	}
@@ -75,16 +76,8 @@ public class ProductsListActivity extends MapActivity {
 		instance = this;
 		//set up variable for facebook connection
 		mLoginButton = (LoginButton) findViewById(R.id.loginFb);
-		if(!Global.isLogin){
-			mLoginButton.setVisibility(View.GONE);
-		}else{
-			mLoginButton.setVisibility(View.VISIBLE);
-		}
 
 		Global.mFacebook = new Facebook();
-		if(Global.mFacebook.isSessionValid()){
-			mLoginButton.setVisibility(View.GONE);
-		}
 		SessionStore.restore(Global.mFacebook, this);
 		SessionEvents.addAuthListener(new SampleAuthListener());
 		SessionEvents.addLogoutListener(new SampleLogoutListener());
@@ -92,6 +85,7 @@ public class ProductsListActivity extends MapActivity {
 		if(Global.mFacebook.isSessionValid()){
 			mLoginButton.setVisibility(View.GONE);
 		}
+//		mLoginButton.setVisibility(View.VISIBLE);
 		// search field
 		txtSearch = (EditText) findViewById(R.id.txtSearch);
 		
@@ -100,7 +94,7 @@ public class ProductsListActivity extends MapActivity {
 			
 			@Override
 			public void onClick(View v) {
-				String query = txtSearch.getText().toString(); 
+				query = txtSearch.getText().toString(); 
 				if (query == null || query.trim().equals("")) {
 					loadProductsList();
 				} else {
@@ -259,6 +253,8 @@ public class ProductsListActivity extends MapActivity {
 			Toast.makeText(ProductsListActivity.this,
 					getString(R.string.loginFacebookSuccess),
 					Toast.LENGTH_SHORT).show();
+			mLoginButton.setVisibility(View.GONE);
+//			searchProductsByQuery(URLEncoder.encode(query));
 		}
 
 		public void onAuthFail(String error) {

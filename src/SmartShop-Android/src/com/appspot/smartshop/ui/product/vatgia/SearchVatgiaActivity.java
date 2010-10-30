@@ -26,6 +26,7 @@ import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -72,11 +73,6 @@ public class SearchVatgiaActivity extends Activity {
 		SessionEvents.addAuthListener(new SampleAuthListener());
 		SessionEvents.addLogoutListener(new SampleLogoutListener());
 		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
-		if(!Global.isLogin){
-			mLoginButton.setVisibility(View.GONE);
-		}else{
-			mLoginButton.setVisibility(View.VISIBLE);
-		}
 		if(Global.mFacebook.isSessionValid()){
 			mLoginButton.setVisibility(View.GONE);
 		}
@@ -183,6 +179,9 @@ public class SearchVatgiaActivity extends Activity {
 			Toast.makeText(SearchVatgiaActivity.this,
 					getString(R.string.loginFacebookSuccess),
 					Toast.LENGTH_SHORT).show();
+			mLoginButton.setVisibility(View.GONE);
+//			searchProductsByQuery(query);
+
 		}
 
 		public void onAuthFail(String error) {
