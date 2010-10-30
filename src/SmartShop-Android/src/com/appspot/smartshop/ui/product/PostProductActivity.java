@@ -3,9 +3,12 @@ package com.appspot.smartshop.ui.product;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TabHost;
 
 import com.appspot.smartshop.R;
+import com.appspot.smartshop.utils.Utils;
 
 public class PostProductActivity extends TabActivity {
 	public static final String PRODUCT_BASIC_INFO = "basic";
@@ -31,5 +34,19 @@ public class PostProductActivity extends TabActivity {
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 0, 0, getString(R.string.return_to_home)).setIcon(R.drawable.home);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == 0) {
+			Utils.returnHomeActivity(this);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

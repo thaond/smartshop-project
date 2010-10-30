@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,6 +26,7 @@ import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 
 public class UserSubcribeListActivity extends BaseUIActivity {
 	public static final String TAG = "[UserSubcribeListActivity]";
@@ -98,5 +101,19 @@ public class UserSubcribeListActivity extends BaseUIActivity {
 		Log.d(TAG, "[ADD NEW SUBCRIBE]");
 		Intent intent = new Intent(this, SubcribeActivity.class);
 		startActivity(intent);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 0, 0, getString(R.string.return_to_home)).setIcon(R.drawable.home);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == 0) {
+			Utils.returnHomeActivity(this);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
