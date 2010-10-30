@@ -49,6 +49,7 @@ import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
+import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
 import com.appspot.smartshop.utils.CategoriesDialog.CategoriesDialogListener;
@@ -115,7 +116,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtAddressOfProduct);
 		txtDescriptionOfProduct = (EditText) findViewById(R.id.txtDescription);
 		txtDescriptionOfProduct.setHeight(labelWidth);
-		
+
 		// buttons
 		btnChooseCategory = (Button) findViewById(R.id.btnChooseCategory);
 		btnChooseCategory.setOnClickListener(new OnClickListener() {
@@ -167,7 +168,6 @@ public class ProductBasicAttributeActivity extends MapActivity {
 			}
 		});
 	}
-
 
 	public LayoutInflater inflater;
 	public View view;
@@ -225,8 +225,13 @@ public class ProductBasicAttributeActivity extends MapActivity {
 
 	private SimpleAsyncTask task;
 
-	private void getProductInfo() {
+	private boolean getProductInfo() {
 		// setup product info
+		String message;
+		if ((message = checkValid()) != null) {
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+			return false;
+		}
 		productInfo.date_post = new Date();
 		productInfo.description = txtDescriptionOfProduct.getText().toString();
 		productInfo.isVAT = chVat.isChecked();
@@ -247,6 +252,16 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		productInfo.address = txtAddressOfProduct.getText().toString();
 		productInfo.attributeSets = ProductUserDefinedAttributeActivity.setAttributes;
 		productInfo.setMedias = ProductUploadImagesActivity.setMedias;
+		return false;
+	}
+
+	private String checkValid() {
+		if (StringUtils.isEmptyOrNull(txtPriceOfProduct.getText().toString()))
+			return getString(R.string.miss_price);
+		if (StringUtils
+				.isEmptyOrNull(txtQuantityOfProduct.getText().toString()))
+			return getString(R.string.miss_quantity);
+		return null;
 	}
 
 	private void doImagesUpload() {
@@ -256,7 +271,8 @@ public class ProductBasicAttributeActivity extends MapActivity {
 					@Override
 					public void onSuccess(JSONObject json) throws JSONException {
 						Toast.makeText(ProductBasicAttributeActivity.this,
-								json.getString("message"), Toast.LENGTH_SHORT).show();
+								json.getString("message"), Toast.LENGTH_SHORT)
+								.show();
 						finish();
 					}
 
@@ -270,7 +286,8 @@ public class ProductBasicAttributeActivity extends MapActivity {
 
 	private void postNewProduct() {
 		// setup product info
-		getProductInfo();
+		if (getProductInfo() == false)
+			return;
 
 		String images = URLConstant.HOST + "/image_host/product/img%s.jpg";
 		for (int i = 0; i < Math.min(productInfo.setMedias.size(), 7); i++) {
@@ -300,18 +317,18 @@ public class ProductBasicAttributeActivity extends MapActivity {
 								String message = json.getString("message");
 								switch (errCode) {
 								case 0:
-									//TODO
-//									Toast.makeText(
-//											ProductBasicAttributeActivity.this,
-//											message, Toast.LENGTH_SHORT).show();
-//									finish();
+									// TODO
+									// Toast.makeText(
+									// ProductBasicAttributeActivity.this,
+									// message, Toast.LENGTH_SHORT).show();
+									// finish();
 									break;
 
 								default:
-									//TODO
-//									Toast.makeText(
-//											ProductBasicAttributeActivity.this,
-//											message, Toast.LENGTH_SHORT).show();
+									// TODO
+									// Toast.makeText(
+									// ProductBasicAttributeActivity.this,
+									// message, Toast.LENGTH_SHORT).show();
 									break;
 								}
 							}
