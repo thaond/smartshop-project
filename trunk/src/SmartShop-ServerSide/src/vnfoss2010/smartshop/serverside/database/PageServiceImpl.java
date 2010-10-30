@@ -112,7 +112,7 @@ public class PageServiceImpl {
 												user2Tag, pageID));
 								// notification
 								notiResult = dbNoti.insertWhenTagUserToPage(
-										pageID, username, true);
+										pageID, user2Tag, true);
 								if (notiResult.isOK() == false) {
 									result.setMessage(result.getMessage()
 											+ ";Notification Exception:"
@@ -197,7 +197,7 @@ public class PageServiceImpl {
 												user2Tag, pageID));
 								// notification
 								notiResult = dbNoti.insertWhenTagUserToPage(
-										pageID, username, false);
+										pageID, user2Tag, false);
 								if (notiResult.isOK() == false) {
 									result.setMessage(result.getMessage()
 											+ ";Notification Exception:"
