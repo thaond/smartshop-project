@@ -79,16 +79,7 @@ public class ProductsListActivity extends MapActivity {
 		instance = this;
 		//set up variable for facebook connection
 		mLoginButton = (LoginButton) findViewById(R.id.loginFb);
-		if(!Global.isLogin){
-			mLoginButton.setVisibility(View.GONE);
-		}else{
-			mLoginButton.setVisibility(View.VISIBLE);
-		}
-
 		Global.mFacebook = new Facebook();
-		if(Global.mFacebook.isSessionValid()){
-			mLoginButton.setVisibility(View.GONE);
-		}
 		SessionStore.restore(Global.mFacebook, this);
 		SessionEvents.addAuthListener(new SampleAuthListener());
 		SessionEvents.addLogoutListener(new SampleLogoutListener());
@@ -96,6 +87,7 @@ public class ProductsListActivity extends MapActivity {
 		if(Global.mFacebook.isSessionValid()){
 			mLoginButton.setVisibility(View.GONE);
 		}
+//		mLoginButton.setVisibility(View.VISIBLE);
 		// search field
 		txtSearch = (EditText) findViewById(R.id.txtSearch);
 		

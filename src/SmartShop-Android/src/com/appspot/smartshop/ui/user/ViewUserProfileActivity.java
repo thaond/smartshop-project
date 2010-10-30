@@ -214,6 +214,7 @@ public class ViewUserProfileActivity extends BaseUIActivity {
 			break;
 		case R.string.subcribe:
 			intent = new Intent(ViewUserProfileActivity.this, UserSubcribeListActivity.class);
+//			intent.pu???
 			startActivity(intent);
 			break;
 		case  R.string.addFriend:
