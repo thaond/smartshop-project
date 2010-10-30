@@ -22,6 +22,8 @@
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/lblPadding" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
 			<CheckBox android:id="@+id/checkBoxIsVAT"
 				android:layout_width="wrap_content" android:layout_height="wrap_content" />
 			<TextView android:id="@+id/isVATInPostProductForm"
@@ -61,12 +63,14 @@
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
-			android:layout_height="wrap_content" android:layout_width="fill_parent"
-			android:layout_gravity="right">
+			android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="right">
+			<TextView android:id="@+id/lblPadding1" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 			<Button android:id="@+id/btnTagOnMap" android:background="@drawable/tag_on_map"
 				android:layout_width="wrap_content" android:layout_height="wrap_content" />
-			<Button android:id="@+id/btnTagFriends" android:background="@drawable/tag_friend"
-				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			<TextView android:id="@+id/lblPadding1" android:layout_width="20dip" android:layout_height="wrap_content"/>
+			<Button android:id="@+id/btnChooseCategory"
+				android:background="@drawable/choose_category" android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
 		</LinearLayout>
 		<LinearLayout android:orientation="vertical"
 			android:layout_height="wrap_content" android:layout_width="fill_parent">
@@ -79,11 +83,11 @@
 
 		<LinearLayout android:orientation="horizontal"
 			android:layout_gravity="right" android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-			<Button android:id="@+id/btnChooseCategory" android:background="@drawable/choose_category"
-				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			android:layout_height="wrap_content" android:gravity="center_vertical|center_horizontal" >
+
 			<Button android:id="@+id/btnXong" android:background="@drawable/finish"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+				<TextView android:id="@+id/lblPadding1" android:layout_width="20dip" android:layout_height="wrap_content"/>
 			<Button android:id="@+id/btnCancel" android:background="@drawable/exit"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 		</LinearLayout>

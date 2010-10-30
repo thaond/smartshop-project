@@ -3,46 +3,26 @@ package com.appspot.smartshop.ui.product;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Set;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.AddFriendAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserInfo;
-import com.appspot.smartshop.facebook.AsyncFacebookRunner;
-import com.appspot.smartshop.facebook.BaseRequestListener;
-import com.appspot.smartshop.facebook.Facebook;
-import com.appspot.smartshop.facebook.FacebookError;
-import com.appspot.smartshop.facebook.LoginButton;
-import com.appspot.smartshop.facebook.SessionEvents;
-import com.appspot.smartshop.facebook.SessionStore;
-import com.appspot.smartshop.facebook.Util;
-import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
-import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.map.MapDialog.UserLocationListener;
-import com.appspot.smartshop.mock.MockAddFriend;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -72,11 +52,12 @@ public class ProductBasicAttributeActivity extends MapActivity {
 	public EditText txtOriginOfProduct;
 	public EditText txtAddressOfProduct;
 	public EditText txtDescriptionOfProduct;
+	public TextView lblPadding;
+	public TextView lblPadding1;
 	public Button btnOK;
 	public Button btnCancel;
 	public Button btnChooseCategory;
 	public Button btnTagOnMap;
-	public Button btnTagFriends;
 	public ProductInfo productInfo = new ProductInfo();;
 	private CheckBox chVat;
 	private double lat, lng;
@@ -116,6 +97,10 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		txtAddressOfProduct = (EditText) findViewById(R.id.txtAddressOfProduct);
 		txtDescriptionOfProduct = (EditText) findViewById(R.id.txtDescription);
 		txtDescriptionOfProduct.setHeight(labelWidth);
+		lblPadding = (TextView) findViewById(R.id.lblPadding);
+		lblPadding.setWidth(labelWidth);
+		lblPadding1 = (TextView) findViewById(R.id.lblPadding1);
+		lblPadding1.setWidth(labelWidth);
 
 		// buttons
 		btnChooseCategory = (Button) findViewById(R.id.btnChooseCategory);
@@ -156,17 +141,6 @@ public class ProductBasicAttributeActivity extends MapActivity {
 
 		// vat check box
 		chVat = (CheckBox) findViewById(R.id.checkBoxIsVAT);
-		// Tag Friends to Product
-		btnTagFriends = (Button) findViewById(R.id.btnTagFriends);
-
-		btnTagFriends.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				showDialogTagFriends();
-
-			}
-		});
 	}
 
 	public LayoutInflater inflater;
@@ -180,34 +154,6 @@ public class ProductBasicAttributeActivity extends MapActivity {
 	public Button btnFriendSearch;
 	public TextView txtFriendSearch;
 	public Button btnAddFriend;
-	private Builder dialogBuilder;
-	private AlertDialog dialog;
-
-	protected void showDialogTagFriends() {
-		// setup view
-		if (inflater == null) {
-			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		}
-		if (view == null) {
-			view = inflater.inflate(R.layout.add_friend, null);
-		}
-		friends = new LinkedList<UserInfo>();
-		friendList = (ListView) view.findViewById(R.id.listFriend);
-		adapter = new AddFriendAdapter(this, 0, MockAddFriend.getInstance());
-		friendList.setAdapter(adapter);
-		// create dialog
-		dialogBuilder = new AlertDialog.Builder(
-				ProductBasicAttributeActivity.this);
-		ViewGroup parent = ((ViewGroup) view.getParent());
-		if (parent != null) {
-			parent.removeView(view);
-		}
-		dialogBuilder.setView(view);
-		dialog = dialogBuilder.create();
-		dialog.show();
-
-	}
-
 	public static SimpleAsyncTask taskAddFriend;
 	boolean isSuccess = false;
 
