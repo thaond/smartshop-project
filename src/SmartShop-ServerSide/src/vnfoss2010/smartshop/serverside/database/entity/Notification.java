@@ -1,6 +1,7 @@
  package vnfoss2010.smartshop.serverside.database.entity;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -41,6 +42,7 @@ public class Notification {
 	@Persistent
 	private String detail;
 	
+	@NotPersistent
 	private String jsonOutput;
 	
 	public Notification() {

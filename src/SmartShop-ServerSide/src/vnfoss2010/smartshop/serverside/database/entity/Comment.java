@@ -7,6 +7,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import vnfoss2010.smartshop.webbased.share.WComment;
+
 @PersistenceCapable
 public class Comment {
 	@PrimaryKey
@@ -14,19 +16,19 @@ public class Comment {
 	private Long id;
 
 	@Persistent
-	private String content; 
+	private String content;
 
 	@Persistent
-	private String type; 
-  
+	private String type;
+
 	@Persistent
-	private long type_id; 
+	private long type_id;
 
 	@Persistent
 	private String username;
-	
+
 	@Persistent
-	private Date date_post; 
+	private Date date_post;
 
 	public Comment() {
 	}
@@ -166,6 +168,17 @@ public class Comment {
 	public String toString() {
 		return "Comment [id=" + id + ", content=" + content + ", type=" + type
 				+ ", type_id=" + type_id + ", username=" + username + "]";
+	}
+
+	public WComment cloneObject() {
+		WComment wc = new WComment();
+		wc.id = this.id;
+		wc.content = this.content;
+		wc.type = this.type;
+		wc.type_id = this.type_id;
+		wc.username = this.username;
+
+		return wc;
 	}
 
 }

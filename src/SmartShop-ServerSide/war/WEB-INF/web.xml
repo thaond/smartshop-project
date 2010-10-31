@@ -14,6 +14,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>rpcserviceimpl</servlet-name>
 		<url-pattern>/smartshop/util</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>webbasedserviceimpl</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.webbased.server.WebbasedServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>webbasedserviceimpl</servlet-name>
+		<url-pattern>/smartshop/webbased</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>GetAPIKeyServlet</servlet-name>

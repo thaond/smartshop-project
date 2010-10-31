@@ -5,6 +5,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import vnfoss2010.smartshop.webbased.share.WAttribute;
+
 @PersistenceCapable
 public class Attribute {
 	@PrimaryKey
@@ -12,17 +14,17 @@ public class Attribute {
 	private Long id;
 
 	@Persistent
-	private String key_cat; 
+	private String key_cat;
 
 	@Persistent
-	private String name;   
- 
+	private String name;
+
 	@Persistent
-	private String value; 
- 
+	private String value;
+
 	@Persistent
 	private String username;
-	
+
 	public Attribute() {
 	}
 
@@ -139,5 +141,14 @@ public class Attribute {
 	 */
 	public String getValue() {
 		return value;
+	}
+
+	public WAttribute cloneObject() {
+		WAttribute wa = new WAttribute();
+		wa.key_cat = this.key_cat;
+		wa.name = this.name;
+		wa.value = this.value;
+		wa.username = this.username;
+		return wa;
 	}
 }

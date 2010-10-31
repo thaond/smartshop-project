@@ -14,6 +14,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.utils.SearchCapable;
+import vnfoss2010.smartshop.webbased.share.WProduct;
 
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
@@ -74,7 +75,7 @@ public class Product extends SearchCapable implements LocationCapable,
 	// @Persistent(mappedBy = "product")
 	// @Element(dependent = "true")
 	@NotPersistent
-	private Set<Media> setMedias;
+	private List<Media> setMedias;
 
 	@Persistent
 	private Set<Long> setMediaKeys;
@@ -154,8 +155,7 @@ public class Product extends SearchCapable implements LocationCapable,
 		this.setListAttributeKeys(new ArrayList<Long>());
 		setPagesID = new HashSet<Long>();
 		listBuyers = new ArrayList<String>();
-		setFriendsTaggedID = new HashSet<String>();
-		this.setMedias = new HashSet<Media>();
+		this.setSetMedias(new ArrayList<Media>());
 		setListMediaKeys(new HashSet<Long>());
 		this.fts = new HashSet<String>();
 	}
@@ -403,22 +403,6 @@ public class Product extends SearchCapable implements LocationCapable,
 		return new Point(lat, lng);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Product [address=" + address + ", attributeSets="
-				+ attributeSets + ", geocells=" + geocells + ", id=" + id
-				+ ", is_vat=" + is_vat + ", lat=" + lat + ", lng=" + lng
-				+ ", name=" + name + ", origin=" + origin + ", price=" + price
-				+ ", quantity=" + quantity + ", setCategoryKeys="
-				+ setCategoryKeys + ", setPagesId=" + getSetPagesID()
-				+ ", username=" + username + ", warranty=" + warranty + "]";
-	}
-
 	/**
 	 * @param date_post
 	 *            the date_post to set
@@ -516,38 +500,25 @@ public class Product extends SearchCapable implements LocationCapable,
 	}
 
 	public static void main(String[] args) {
-		Product product = new Product();
-		product = new Product("ABC", 123, false, 2, "12 month", "China",
-				"Binh Tan", 10.11, 106.123, "WTH", 3, new Date(), "tamvo");
-		product.getSetCategoryKeys().add("laptop");
-		product.getAttributeSets().add(
-				new Attribute("1", "Thuộc tính 1", "Giá trị", "tam"));
-		product.getSetMedias().add(
-				new Media("Iphone1",
-						"http://127.0.0.1:8888/image_host/product/img1.jpg",
-						"", ""));
-		product.getSetMedias().add(
-				new Media("Iphone2",
-						"http://127.0.0.1:8888/image_host/product/img2.jpg",
-						"", ""));
+		// Product product = new Product();
+		// product = new Product("ABC", 123, false, 2, "12 month",
+		// "China", "Binh Tan", 10.11, 106.123, "WTH",
+		// 3, new Date(), "tamvo");
+		// product.getSetCategoryKeys().add("laptop");
+		// product.getAttributeSets().add(new Attribute("1", "Thuộc tính 1",
+		// "Giá trị", "tam"));
+		// product.getSetMedias().add(new Media("Iphone1",
+		// "http://127.0.0.1:8888/image_host/product/img1.jpg", "", ""));
+		// product.getSetMedias().add(new Media("Iphone2",
+		// "http://127.0.0.1:8888/image_host/product/img2.jpg", "", ""));
+		//
+		// String json = Global.gsonWithDate.toJson(product);
+		// System.out.println(json);
 
-		String json = Global.gsonWithDate.toJson(product);
-		System.out.println(json);
-	}
+		String test = "{\"address\":\"\",\"attributeSets\":[],\"warranty\":\"\",\"date_post\":\"30/10/2010 11:37:42\",\"description\":\"\",\"username\":\"tam2\",\"setMedias\":[{\"link\":\"http://10.0.2.2:8888/image_host/product/img1.jpg\",\"name\":\"20101030113642112.jpg\"},{\"link\":\"http://10.0.2.2:8888/image_host/product/img2.jpg\",\"name\":\"20101030113651799.jpg\"},{\"link\":\"http://10.0.2.2:8888/image_host/product/img3.jpg\",\"name\":\"20101030113701740.jpg\"}],\"name\":\"vd\",\"origin\":\"\",\"setCategoryKeys\":[\"edu_device\"],\"lat\":0.0,\"lng\":0.0,\"price\":1.0,\"quantity\":2,\"product_view\":0,\"sum_star\":0,\"isVAT\":false,\"count_vote\":0}";
 
-	/**
-	 * @param setMedias
-	 *            the setMedias to set
-	 */
-	public void setSetMedias(Set<Media> setMedias) {
-		this.setMedias = setMedias;
-	}
-
-	/**
-	 * @return the setMedias
-	 */
-	public Set<Media> getSetMedias() {
-		return setMedias;
+		Product product = Global.gsonWithDate.fromJson(test, Product.class);
+		System.out.println(product);
 	}
 
 	/**
@@ -610,4 +581,76 @@ public class Product extends SearchCapable implements LocationCapable,
 		return listAttributeKeys;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Product [address=" + address + ", attributeSets="
+				+ attributeSets + ", count_vote=" + count_vote + ", date_post="
+				+ date_post + ", description=" + description + ", fts=" + fts
+				+ ", geocells=" + geocells + ", id=" + id + ", is_vat="
+				+ is_vat + ", lat=" + lat + ", listAttributeKeys="
+				+ listAttributeKeys + ", listBuyers=" + listBuyers + ", lng="
+				+ lng + ", name=" + name + ", origin=" + origin + ", price="
+				+ price + ", product_view=" + product_view + ", quantity="
+				+ quantity + ", setCategoryKeys=" + setCategoryKeys
+				+ ", setFriendsTaggedID=" + setFriendsTaggedID
+				+ ", setMediaKeys=" + setMediaKeys + ", setMedias="
+				+ getSetMedias() + ", setPagesID=" + setPagesID + ", sum_star="
+				+ sum_star + ", username=" + username + ", warranty="
+				+ warranty + "]";
+	}
+
+	/**
+	 * @param setMedias
+	 *            the setMedias to set
+	 */
+	public void setSetMedias(List<Media> setMedias) {
+		this.setMedias = setMedias;
+	}
+
+	/**
+	 * @return the setMedias
+	 */
+	public List<Media> getSetMedias() {
+		return setMedias;
+	}
+
+	public WProduct cloneObject() {
+		WProduct wp = new WProduct();
+		wp.id = this.id;
+		wp.product_view = this.product_view;
+		wp.name = this.name;
+		wp.price = this.price;
+		wp.description = this.description;
+		wp.isVAT = this.is_vat;
+		wp.quantity = this.quantity;
+		wp.date_post = this.date_post;
+		wp.warranty = this.warranty;
+		wp.origin = this.origin;
+		wp.address = this.address;
+		wp.lat = this.lat;
+		wp.lng = this.lng;
+		wp.sum_star = this.sum_star;
+		wp.count_vote = this.count_vote;
+		wp.username = this.username;
+
+		for (Media m : this.setMedias) {
+			wp.setMedias.add(m.cloneObject());
+		}
+		for (Long id : this.setPagesID){
+			wp.setPagesId.add(id);
+		}
+		for (String key : this.setCategoryKeys){
+			wp.setCategoryKeys.add(key);
+		}
+		for (Attribute a : this.attributeSets){
+			wp.attributeSets.add(a.cloneObject());
+		}
+		
+		return wp;
+	}
 }

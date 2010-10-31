@@ -46,7 +46,7 @@ public abstract class Global {
 	public static final String XTIFY_API_KEY = "e32689d3-597b-43b4-afac-4387af15647e";
 	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;
 	public static final int MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX = 200;
-	public static final long SESSION_EXPRIED = 30*60*1000;
+	public static final long SESSION_EXPRIED = 30*60*1000;//30 mins
 	
 	public static final Gson gsonDateWithoutHour = new GsonBuilder()
 			.setDateFormat(NORMAL_DATE).excludeFieldsWithExcludeAnnotation()

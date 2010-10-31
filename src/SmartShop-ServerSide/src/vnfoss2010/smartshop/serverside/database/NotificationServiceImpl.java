@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+
+import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Comment;
@@ -82,7 +85,20 @@ public class NotificationServiceImpl {
 		ServiceResult<List<Notification>> result = new ServiceResult<List<Notification>>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		if (dbAccount.isExist(username).isOK()) {
+		UserInfo userInfo = null;
+		try {
+			userInfo = pm.getObjectById(UserInfo.class, username);
+		} catch (Exception e) {
+		}
+
+		if (userInfo == null) {
+			result
+					.setMessage(Global.messages.getString("not_found")
+							+ username);
+		} else {
+			// Update lastLogin here
+			userInfo.setLastLogin(System.currentTimeMillis());
+			
 			Query query = pm.newQuery(Notification.class);
 			String filter = "username == us";
 			String declear = "String us";
@@ -166,9 +182,6 @@ public class NotificationServiceImpl {
 						.setMessage(Global.messages
 								.getString("no_notifications"));
 			}
-		} else {
-			result.setMessage(Global.messages.getString("not_found") + " "
-					+ username);
 		}
 
 		pm.close();

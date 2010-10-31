@@ -436,9 +436,9 @@ public class AccountServiceImpl {
 						+ username);
 			} else {
 				userInfo.setLogin(false);
-				SessionObject so = Global.mapSession.get(username);
-				if (so!=null)
-					userInfo.setLastLogin(so.timeStamp);
+//				SessionObject so = Global.mapSession.get(username);
+//				if (so!=null)
+//					userInfo.setLastLogin(so.timeStamp);
 				
 				Global.mapSession.remove(username);
 				result.setMessage(Global.messages
