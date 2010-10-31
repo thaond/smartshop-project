@@ -107,6 +107,10 @@ public class Product extends SearchCapable implements LocationCapable,
 	@Exclude
 	@Persistent
 	private List<String> geocells;
+	
+	@Exclude
+	@Persistent
+	private List<String> listInteredUsername;
 
 	public Set<Long> getSetPagesID() {
 		return setPagesID;
@@ -158,6 +162,7 @@ public class Product extends SearchCapable implements LocationCapable,
 		this.setSetMedias(new ArrayList<Media>());
 		setListMediaKeys(new HashSet<Long>());
 		this.fts = new HashSet<String>();
+		listInteredUsername = new ArrayList<String>();
 	}
 
 	/**
@@ -652,5 +657,19 @@ public class Product extends SearchCapable implements LocationCapable,
 		}
 		
 		return wp;
+	}
+
+	/**
+	 * @param listInteredUsername the listInteredUsername to set
+	 */
+	public void setListInteredUsername(List<String> listInteredUsername) {
+		this.listInteredUsername = listInteredUsername;
+	}
+
+	/**
+	 * @return the listInteredUsername
+	 */
+	public List<String> getListInteredUsername() {
+		return listInteredUsername;
 	}
 }
