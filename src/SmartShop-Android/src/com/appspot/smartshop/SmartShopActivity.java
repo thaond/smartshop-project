@@ -56,33 +56,33 @@ public class SmartShopActivity extends ListActivity {
 		//Config layout
 		listView.setBackgroundResource(R.color.background);
 
-		// Check whether user login or not
-		if (Global.userInfo == null) {
-			String session = Utils.loadSession();
-			Log.d(TAG, "Session: " + session);
-			if (StringUtils.isEmptyOrNull(session))
-				Global.isLogin = false;
-			else {
-				String url = String.format(URLConstant.GET_USER_INFO_SESSION,
-						session);
-				RestClient.getData(url, new JSONParser() {
-
-					@Override
-					public void onSuccess(JSONObject json) throws JSONException {
-						Global.isLogin = true;
-						Global.userInfo = Global.gsonDateWithoutHour
-								.fromJson(json.get("userinfo").toString(),
-										UserInfo.class);
-					}
-
-					@Override
-					public void onFailure(String message) {
-						Log.d(TAG, message);
-					}
-				});
-			}
-
-		}
+		// TODO: Check whether user login or not
+//		if (Global.userInfo == null) {
+//			String session = Utils.loadSession();
+//			Log.d(TAG, "Session: " + session);
+//			if (StringUtils.isEmptyOrNull(session))
+//				Global.isLogin = false;
+//			else {
+//				String url = String.format(URLConstant.GET_USER_INFO_SESSION,
+//						session);
+//				RestClient.getData(url, new JSONParser() {
+//
+//					@Override
+//					public void onSuccess(JSONObject json) throws JSONException {
+//						Global.isLogin = true;
+//						Global.userInfo = Global.gsonDateWithoutHour
+//								.fromJson(json.get("userinfo").toString(),
+//										UserInfo.class);
+//					}
+//
+//					@Override
+//					public void onFailure(String message) {
+//						Log.d(TAG, message);
+//					}
+//				});
+//			}
+//
+//		}
 		listView.setAdapter(new MainAdapter(this));
 
 		if (Global.isLogin) {
@@ -206,7 +206,7 @@ public class SmartShopActivity extends ListActivity {
 
 				// display
 				if (Global.notifications.size() != 0) {
-					String content;
+					String content = "";
 					int count = 0;
 					for (SmartshopNotification notification : Global.notifications) {
 						content = notification.content;
@@ -215,6 +215,23 @@ public class SmartShopActivity extends ListActivity {
 					}
 
 					numOfNotifications += Global.notifications.size();
+					
+					// TODO: mark as read all notifications of a user
+					Log.d(TAG, "[MARK ALL NOTIFICATION AS READ]");
+					String url = String.format(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS, 
+							Global.getSession());
+					RestClient.getData(url, new JSONParser() {
+
+								@Override
+								public void onSuccess(JSONObject json) throws JSONException {
+								}
+
+								@Override
+								public void onFailure(String message) {
+									Toast.makeText(SmartShopActivity.this, message,
+											Toast.LENGTH_SHORT).show();
+								}
+							});
 				}
 			}
 
@@ -228,26 +245,11 @@ public class SmartShopActivity extends ListActivity {
 
 	private void showNotification(SmartshopNotification sNotification) {
 		if (sNotification == null || sNotification.jsonOutput == null) {
-			Toast.makeText(this,
-					getString(R.string.warn_cant_view_notification_detail),
-					Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this,
+//					getString(R.string.warn_cant_view_notification_detail),
+//					Toast.LENGTH_SHORT).show();
 			return;
 		}
-
-		// TODO: mark as read all notifications of a user
-		RestClient.getData(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS,
-				new JSONParser() {
-
-					@Override
-					public void onSuccess(JSONObject json) throws JSONException {
-					}
-
-					@Override
-					public void onFailure(String message) {
-						Toast.makeText(SmartShopActivity.this, message,
-								Toast.LENGTH_SHORT).show();
-					}
-				});
 
 		Intent intent = null;
 		switch (sNotification.type) {
@@ -303,9 +305,9 @@ public class SmartShopActivity extends ListActivity {
 						.currentTimeMillis());
 		notification.setLatestEventInfo(this, sNotification.getTitle(),
 				sNotification.content, contentIntent);
-		// TODO custom view for notification
 
-		Global.notificationManager.notify(sNotification.id, notification);
+//		Global.notificationManager.notify(sNotification.id, notification);
+		Global.notificationManager.cancel(sNotification.id);
 	}
 
 	@Override
