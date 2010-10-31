@@ -9,7 +9,7 @@ public class MockProductInfo {
 		ProductInfo productInfo = new ProductInfo();
 		productInfo.name = "Thịt chó";
 		productInfo.price = 50000;
-		productInfo.isVAT = true;
+		productInfo.is_vat = true;
 		productInfo.quantity = 2;
 		productInfo.date_post = new Date(2010, 12, 12);
 		productInfo.warranty = "Việt Nam";

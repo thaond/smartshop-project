@@ -15,7 +15,7 @@ public class ProductInfo implements Serializable {
 	public String name = null;
 	public double price;
 	public String description = null;
-	public boolean isVAT;
+	public boolean is_vat;
 	public int quantity;
 	public Date date_post = null;
 	public String warranty = null;

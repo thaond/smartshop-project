@@ -40,8 +40,8 @@ public class CompareTwoProductsActivity extends ExpandableListActivity {
 		children[1] = new Pair("" + productInfoOne.price, "" + productInfoTwo.price);
 		children[2] = new Pair(productInfoOne.description, "" + productInfoTwo.description);
 		children[3] = new Pair(productInfoOne.product_view + "", productInfoTwo.product_view + "");
-		children[4] = new Pair(productInfoOne.isVAT ? getString(R.string.hasVAT) : getString(R.string.hasNoVAT), 
-				productInfoTwo.isVAT ? getString(R.string.hasVAT) : getString(R.string.hasNoVAT));
+		children[4] = new Pair(productInfoOne.is_vat ? getString(R.string.hasVAT) : getString(R.string.hasNoVAT), 
+				productInfoTwo.is_vat ? getString(R.string.hasVAT) : getString(R.string.hasNoVAT));
 		children[5] = new Pair("" + productInfoOne.quantity, "" + productInfoTwo.quantity);
 		children[6] = new Pair(Global.df.format(productInfoOne.date_post), Global.df.format(productInfoTwo.date_post));
 		children[7] = new Pair(productInfoOne.warranty, productInfoTwo.warranty);
