@@ -5,7 +5,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.gson.annotations.Exclude;
+import vnfoss2010.smartshop.webbased.share.WMedia;
 
 @PersistenceCapable
 public class Media {
@@ -29,14 +29,15 @@ public class Media {
 	public Media() {
 	}
 
-//	public Media(String name, String link, String mimeType, String description,
-//			Product product) {
-//		this.name = name;
-//		this.link = link;
-//		mime_type = mimeType;
-//		this.description = description;
-//	}
-	
+	// public Media(String name, String link, String mimeType, String
+	// description,
+	// Product product) {
+	// this.name = name;
+	// this.link = link;
+	// mime_type = mimeType;
+	// this.description = description;
+	// }
+
 	public Media(String name, String link, String mimeType, String description) {
 		this.name = name;
 		this.link = link;
@@ -150,25 +151,34 @@ public class Media {
 				+ mime_type + ", name=" + name + "]";
 	}
 
-//	/**
-//	 * @param product
-//	 *            the product to set
-//	 */
-//	public void setProduct(Product product) {
-//		this.product = product;
-//	}
-//
-//	/**
-//	 * @return the product
-//	 */
-//	public Product getProduct() {
-//		return product;
-//	}
+	// /**
+	// * @param product
+	// * the product to set
+	// */
+	// public void setProduct(Product product) {
+	// this.product = product;
+	// }
+	//
+	// /**
+	// * @return the product
+	// */
+	// public Product getProduct() {
+	// return product;
+	// }
 
 	/**
 	 * @return the id
 	 */
 	public Long getId() {
 		return id;
+	}
+
+	public WMedia cloneObject() {
+		WMedia wm = new WMedia();
+		wm.name = this.name;
+		wm.link = this.link;
+		wm.mime_type = this.mime_type;
+		wm.description = this.description;
+		return wm;
 	}
 }

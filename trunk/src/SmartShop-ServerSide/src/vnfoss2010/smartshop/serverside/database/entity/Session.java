@@ -1,9 +1,7 @@
 package vnfoss2010.smartshop.serverside.database.entity;
 
-import com.google.appengine.api.datastore.Key;
-
 import java.util.Date;
-import javax.jdo.annotations.IdGeneratorStrategy;
+
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;

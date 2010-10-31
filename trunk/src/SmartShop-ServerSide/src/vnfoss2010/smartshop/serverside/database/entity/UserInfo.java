@@ -14,6 +14,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.utils.SearchCapable;
+import vnfoss2010.smartshop.webbased.share.WUserInfo;
 
 import com.google.gson.annotations.Exclude;
 
@@ -639,4 +640,29 @@ public class UserInfo extends SearchCapable implements Serializable {
 		return lastLogin;
 	}
 
+	public WUserInfo cloneObject(){
+		WUserInfo wu = new WUserInfo();
+		wu.lastLogin = this.lastLogin;
+		wu.username  = this.username ;
+		wu.password  = this.password ;
+		wu.oldPassword  = this.old_password ;
+		wu.first_name  = this.first_name ;
+		wu.last_name  = this.last_name ;
+		wu.phone  = this.phone ;
+		wu.email  = this.email ;
+		wu.birthday  = this.birthday ;
+		wu.address  = this.address ;
+		wu.avatarLink  = this.avatarLink ;
+		wu.lang  = this.lang ;
+		wu.country  = this.country ;
+		wu.lat = this.lat;
+		wu.lng = this.lng;
+		wu.sum_star = this.sum_star;
+		wu.count_vote = this.count_vote;
+		wu.gmt = this.gmt;
+		wu.type = this.type;
+		wu.sessionId = this.sessionId;
+		wu.userkey = this.userkey;
+		return wu;
+	}
 }

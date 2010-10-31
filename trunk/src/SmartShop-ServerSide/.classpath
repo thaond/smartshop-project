@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jasypt-1.6.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt2swf-0.6.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtsshow.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

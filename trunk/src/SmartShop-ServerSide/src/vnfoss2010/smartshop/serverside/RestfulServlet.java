@@ -99,7 +99,6 @@ import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetProductIn
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetProductInSubcribeRangeByUsername;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetSubcribe;
 import vnfoss2010.smartshop.serverside.services.usersubcribeproduct.GetUserSubscribeProductByUsername;
-import vnfoss2010.smartshop.serverside.utils.StringUtils;
 import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 @SuppressWarnings("serial")

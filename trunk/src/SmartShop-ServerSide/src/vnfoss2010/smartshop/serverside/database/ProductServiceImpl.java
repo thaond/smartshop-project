@@ -173,7 +173,10 @@ public class ProductServiceImpl {
 		PersistenceManager pm = null;
 		try {
 			pm = PMF.get().getPersistenceManager();
-			product = pm.getObjectById(Product.class, id);
+			try {
+				product = pm.getObjectById(Product.class, id);
+			} catch (Exception e) {
+			}
 			if (product == null) {
 				result.setOK(false);
 				result.setMessage(Global.messages.getString("no_found_product"));
