@@ -3,23 +3,21 @@ package com.smartshop.docs.server;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.smartshop.docs.client.ContentPanel;
+import vnfoss2010.smartshop.serverside.database.DatabaseUtils;
 
 /**
  * @author VoMinhTam
  */
 public class GetAPIKeyServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3408305526638544185L;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
@@ -50,8 +48,13 @@ public class GetAPIKeyServlet extends HttpServlet {
 //		PrintWriter writer = resp.getWriter();
 //
 //		String source = req.getParameter("source");
-//		writer.print(DatabaseUtils.registerAPIKey(source));
-		
-		ContentPanel.getInstance().showAPIKey("asdhakds");
+//		String api = DatabaseUtils.getAPIKey(source).get;
+//		
+//		resp.setContentType("text/plain");
+//        PrintWriter out= resp.getWriter();
+//        int siteIndex = Math.abs(random.nextInt())%sites.size();
+//        String site = (String) sites.elementAt(siteIndex);
+//        res.setStatus(res.SC_MOVED_TEMPORARILY);
+//        res.setHeader("Location", site);
 	}
 }

@@ -4,9 +4,7 @@ import java.util.Date;
 
 import javax.jdo.PersistenceManager;
 
-import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.PMF;
-import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.APIKey;
 import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
@@ -43,46 +41,22 @@ public class RPCServiceImpl extends RemoteServiceServlet implements RPCService {
 		return googleUser;
 	}
 
-	/**
-	 * Escape an html string. Escaping data received from the client helps to
-	 * prevent cross-site script vulnerabilities.
-	 * 
-	 * @param html
-	 *            the html string to escape
-	 * @return the escaped string
-	 */
-	private String escapeHtml(String html) {
-		if (html == null) {
-			return null;
-		}
-		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-				.replaceAll(">", "&gt;");
-	}
-
 	@Override
-	public ServiceResult<String> signUpAPIKey(String source, String email) {
-		ServiceResult<String> result = new ServiceResult<String>();
-
+	public String signUpAPIKey(String source, String email) {
+		String result = "";
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		APIKey apiKey = new APIKey(source, email, new Date());
 		apiKey = pm.makePersistent(apiKey);
 
-		if (apiKey == null) {
-			result.setOK(false);
-			result.setMessage(Global.messages.getString("system_err"));
-		} else {
-			result.setOK(true);
-			result.setMessage(Global.messages
-					.getString("register_api_key_successfully"));
-			result.setResult(UtilsFunction.encrypt(source));
+		if (apiKey != null) {
+			result = UtilsFunction.encrypt(source);
 		}
 
 		try {
 			pm.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.setOK(false);
 		}
 
 		return result;
