@@ -1,12 +1,13 @@
 package vnfoss2010.smartshop.webbased.client;
 
-import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.webbased.client.utils.WebbasedHistoryManager;
 import vnfoss2010.smartshop.webbased.client.utils.WebbasedUtils;
+import vnfoss2010.smartshop.webbased.share.WGoogleUser;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.HorizontalSplitPanel;
@@ -23,38 +24,40 @@ public class WebBasedEntryPoint implements EntryPoint {
 	private Label lblUser;
 	private VerticalPanel pnlMain;
 
-	public void onModuleLoad() {
+	private WebbasedServiceAsync serviceAsync = WebbasedService.Util
+			.getInstance();
 
-		// UserProfileLeftPanel userProfileLeftPanel =
-		// UserProfileLeftPanel.getInstance();
-		// RootPanel.get().add(userProfileLeftPanel);
-		
-		linkLogin = new HTML("erwerwer");
+	public void onModuleLoad() {
+		linkLogin = new HTML();
 		linkLogin.addStyleName("lbl-login");
-		
-		lblUser = new Label("ưterterte");
+
+		lblUser = new Label();
 		lblUser.addStyleName("lbl-user");
-		
+
 		pnlHHeader = new HorizontalPanel();
 		pnlHHeader.addStyleName("panel-header");
-		pnlHHeader.setWidth((Window.getClientWidth()-25) + "px");
+		pnlHHeader.setWidth((Window.getClientWidth() - 25) + "px");
 		pnlHHeader.add(linkLogin);
 		pnlHHeader.add(lblUser);
 
+		initOther();
+
 		HorizontalSplitPanel hSplit = new HorizontalSplitPanel();
-		hSplit.ensureDebugId("cwHorizontalSplitPanel");
-		hSplit.setSize(WebbasedUtils.getScreenWidth() +"px", WebbasedUtils.getScreenHeight() + "px");
+		int width = WebbasedUtils.getScreenWidth();
+		int height = WebbasedUtils.getScreenHeight() - 30;
+		hSplit.setSize(width + "px", height + "px");
 		hSplit.setSplitPosition("20%");
 
-		// Add some content
-		String randomText = "Trong lịch sử 60 năm của Miss World, chưa từng có người đẹp Nauy nào đăng quang. Nhưng năm nay, càng về cuối cuộc thi, cô gái Mariann Birkedal đến từ đất nước Bắc Âu càng được nhiều người đặt cược đoạt danh hiệu này. Theo nhà cái William Hill (Anh), Mariann Birkedal dẫn đầu với tỷ lệ cược 4 ăn 5. Còn ở nhà cái Ladbrokes (Anh), cô cũng được tỷ lệ cược cao nhất là 10 ăn 11.";
-		for (int i = 0; i < 2; i++) {
-			randomText += randomText;
-		}
-		hSplit.setLeftWidget(UserProfileLeftPanel.getInstance());
-		hSplit.setRightWidget(ViewProductPanel.getInstance());
+		HorizontalPanel pnlContent = new HorizontalPanel();
+		ViewProductPanel.getInstance().setWidth(width * .57 + "px");
+		pnlContent.add(ViewProductPanel.getInstance());
+		RelatedProductsPanel.getInstance().setWidth(width * .2 + "px");
+		pnlContent.add(RelatedProductsPanel.getInstance());
 
-		//Add History Listener
+		hSplit.setLeftWidget(UserProfileLeftPanel.getInstance());
+		hSplit.setRightWidget(pnlContent);
+
+		// Add History Listener
 		History.addValueChangeHandler(WebbasedHistoryManager.getInstance());
 		History.fireCurrentHistoryState();
 
@@ -62,8 +65,31 @@ public class WebBasedEntryPoint implements EntryPoint {
 		pnlMain = new VerticalPanel();
 		pnlMain.add(pnlHHeader);
 		pnlMain.add(hSplit);
-		
+
 		RootPanel.get().add(pnlMain);
 
+	}
+
+	private void initOther() {
+		serviceAsync.getGoogleAccountLink(new AsyncCallback<WGoogleUser>() {
+
+			@Override
+			public void onSuccess(WGoogleUser result) {
+				if (result.isLogin) {
+					lblUser.setText(result.email);
+					linkLogin.setHTML("<a href=\'" + result.linkLogout
+							+ "\'>Log out" + "<a/>");
+				} else {
+					lblUser.setText("");
+					linkLogin.setHTML("<a href=\'" + result.linkLogin
+							+ "\'>Log in" + "<a/>");
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				caught.printStackTrace();
+			}
+		});
 	}
 }

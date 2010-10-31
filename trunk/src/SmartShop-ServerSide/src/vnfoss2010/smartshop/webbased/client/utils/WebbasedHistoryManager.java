@@ -1,5 +1,6 @@
 package vnfoss2010.smartshop.webbased.client.utils;
 
+import vnfoss2010.smartshop.webbased.client.RelatedProductsPanel;
 import vnfoss2010.smartshop.webbased.client.UserProfileLeftPanel;
 import vnfoss2010.smartshop.webbased.client.ViewProductPanel;
 import vnfoss2010.smartshop.webbased.client.WebbasedService;
@@ -50,25 +51,37 @@ public class WebbasedHistoryManager implements ValueChangeHandler<String> {
 		if (arr.length >= 2) {
 			String type = arr[0];
 			int id = Integer.parseInt(arr[1]);
-			
+
 			System.out.println(value);
 
 			service.getProduct(id, new AsyncCallback<WProduct>() {
 
 				@Override
 				public void onSuccess(WProduct result) {
-					//TODO Testing with localhost
+					// TODO Testing with localhost
 					result.lat = 10.123;
 					result.lng = 106.43;
-					result.userInfo.avatarLink = result.userInfo.avatarLink.replaceAll("10.0.2.2", "localhost");
-					for (WMedia media : result.setMedias){
-						media.link = media.link.replaceAll("10.0.2.2", "localhost");
+					if (!WebbasedUtils
+							.isEmptyOrNull(result.userInfo.avatarLink))
+						result.userInfo.avatarLink = result.userInfo.avatarLink
+								.replaceAll("10.0.2.2", "localhost");
+					for (WMedia media : result.setMedias) {
+						media.link = media.link.replaceAll("10.0.2.2",
+								"localhost");
+					}
+					for (WProduct product : result.listRelatedProduct) {
+						for (WMedia media : product.setMedias) {
+							media.link = media.link.replaceAll("10.0.2.2",
+									"localhost");
+						}
 					}
 					System.out.println(result);
-					
+
 					UserProfileLeftPanel.getInstance()
 							.showData(result.userInfo);
 					ViewProductPanel.getInstance().showData(result);
+					RelatedProductsPanel.getInstance().showData(
+							result.listRelatedProduct);
 				}
 
 				@Override

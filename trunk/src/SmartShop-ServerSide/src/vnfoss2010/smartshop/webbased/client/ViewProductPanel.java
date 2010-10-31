@@ -61,6 +61,7 @@ public class ViewProductPanel extends VerticalPanel implements IShowSlideShow {
 		lblAddress = new Label("address");
 		imgMap = new Image("./webbased/map_icon.png");
 		imgMap.setStyleName("img-map");
+		imgMap.setTitle("Hiển thị trên Google Maps");
 		imgMap.addClickHandler(new ClickHandler() {
 
 			@Override
