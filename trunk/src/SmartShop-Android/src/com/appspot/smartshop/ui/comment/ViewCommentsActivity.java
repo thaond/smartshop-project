@@ -75,7 +75,7 @@ public class ViewCommentsActivity extends BaseUIActivity {
 		// load comments
 		loadComments();
 		
-		//Remove Notification
+		// TODO: Remove Notification
 		SmartshopNotification sNotification = (SmartshopNotification) getIntent().getSerializableExtra(Global.NOTIFICATION);
 		if (sNotification!=null){
 			Global.notifications.remove(sNotification);
