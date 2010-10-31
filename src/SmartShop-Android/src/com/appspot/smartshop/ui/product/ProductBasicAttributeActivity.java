@@ -180,7 +180,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		}
 		productInfo.date_post = new Date();
 		productInfo.description = txtDescriptionOfProduct.getText().toString();
-		productInfo.isVAT = chVat.isChecked();
+		productInfo.is_vat = chVat.isChecked();
 		productInfo.lat = lat;
 		productInfo.lng = lng;
 		productInfo.name = txtNameProduct.getText().toString();

@@ -28,7 +28,7 @@ public class MockProduct {
 			productInfo.lng = (double)point.getLongitudeE6() / 1E6;
 			productInfo.username = usernames[Utils.random(5)];
 			productInfo.date_post = new Date(2010 - 1900, Utils.random(12), Utils.random(31));
-			productInfo.isVAT = Utils.random(10) > 5 ? true : false;
+			productInfo.is_vat = Utils.random(10) > 5 ? true : false;
 			productInfo.origin = origins[Utils.random(5)];
 			productInfo.price = Utils.random(1000);
 			productInfo.quantity = Utils.random(100);

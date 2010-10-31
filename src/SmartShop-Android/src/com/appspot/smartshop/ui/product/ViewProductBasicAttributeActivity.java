@@ -186,7 +186,7 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		txtAddressOfProduct.setText(productInfo.address);
 		txtPageViewOfProduct.setText(productInfo.product_view + "");
 		txtUsername.setText(productInfo.username);
-		chVat.setChecked(productInfo.isVAT);
+		chVat.setChecked(productInfo.is_vat);
 
 		Bundle bundle = getIntent().getExtras();
 		canEdit = bundle.getBoolean(Global.CAN_EDIT_PRODUCT_INFO);
