@@ -1,10 +1,8 @@
-package com.smartshop.docs.share;
+package vnfoss2010.smartshop.webbased.share;
 
 import java.io.Serializable;
 
-import vnfoss2010.smartshop.webbased.share.WGoogleUser;
-
-public class GoogleUser implements Serializable {
+public class WGoogleUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public boolean isAdmin;
 	public boolean isLogin;
@@ -30,18 +28,4 @@ public class GoogleUser implements Serializable {
 				+ ", username=" + username + "]";
 	}
 
-	public WGoogleUser cloneObject() {
-		WGoogleUser wg = new WGoogleUser();
-		wg.isAdmin = this.isAdmin;
-		wg.isLogin = this.isLogin;
-		wg.linkLogin = this.linkLogin;
-		wg.linkLogout = this.linkLogout;
-		wg.username = this.username;
-		wg.email = this.email;
-		wg.authDomain = this.authDomain;
-		wg.nickName = this.nickName;
-		wg.userId = this.userId;
-
-		return wg;
-	}
 }

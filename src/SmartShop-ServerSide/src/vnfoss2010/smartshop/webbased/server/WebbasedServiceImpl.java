@@ -10,9 +10,11 @@ import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.webbased.client.WebbasedService;
+import vnfoss2010.smartshop.webbased.share.WGoogleUser;
 import vnfoss2010.smartshop.webbased.share.WProduct;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.smartshop.docs.server.RPCServiceImpl;
 
 /**
  * The server side implementation of the RPC service.
@@ -38,6 +40,7 @@ public class WebbasedServiceImpl extends RemoteServiceServlet implements
 
 		ServiceResult<Product> resultProduct = dbProduct.findProduct(productId);
 		if (resultProduct.isOK()) {
+			// Load UserInfo
 			ServiceResult<UserInfo> resultUserInfo = dbAccount
 					.getUserInfo(resultProduct.getResult().getUsername());
 			if (resultUserInfo.isOK()) {
@@ -45,16 +48,33 @@ public class WebbasedServiceImpl extends RemoteServiceServlet implements
 				wProduct.userInfo = resultUserInfo.getResult().cloneObject();
 			}
 
+			// Load comments
 			ServiceResult<List<Comment>> resultComment = dbComment.getComment(
 					productId, "product");
-			if (resultComment.isOK()){
-				for (Comment comment : resultComment.getResult()){
+			if (resultComment.isOK()) {
+				for (Comment comment : resultComment.getResult()) {
 					wProduct.listComments.add(comment.cloneObject());
+				}
+			}
+
+			// Load related products
+			ServiceResult<List<Product>> resultRelatedProduct = dbProduct
+					.getRelatedProducts(productId, 5);
+			if (resultRelatedProduct.isOK()) {
+				for (Product product : resultRelatedProduct.getResult()) {
+					wProduct.listRelatedProduct.add(product.cloneObject());
 				}
 			}
 		}
 
 		return wProduct;
 	}
-	
+
+	private RPCServiceImpl rpcServiceImpl = new RPCServiceImpl();
+
+	@Override
+	public WGoogleUser getGoogleAccountLink() {
+		return rpcServiceImpl.getGoogleAccountLink().cloneObject();
+	}
+
 }

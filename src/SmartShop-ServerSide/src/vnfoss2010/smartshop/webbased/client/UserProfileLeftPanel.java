@@ -1,5 +1,7 @@
 package vnfoss2010.smartshop.webbased.client;
 
+import org.mortbay.jetty.handler.ErrorHandler;
+
 import vnfoss2010.smartshop.webbased.client.utils.WebbasedUtils;
 import vnfoss2010.smartshop.webbased.share.WUserInfo;
 
@@ -7,7 +9,9 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.LoadListener;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author VoMinhTam
@@ -19,7 +23,8 @@ public class UserProfileLeftPanel extends VerticalPanel {
 	private HTML lblName;
 	private HTML lblEmail;
 	private HTML htmlStar;
-	private String STRING_STAR = "<b>Uy tín: </b>" + "_1 <img src=\"./webbased/star.png\"/> (_2/_3)";
+	private String STRING_STAR = "<b>Đánh giá: </b>"
+			+ "_1 <img src=\"./webbased/star.png\"/> (_2/_3)";
 
 	public static final String URL_NO_AVATAR = "./webbased/no_avatar.png";
 
@@ -40,6 +45,17 @@ public class UserProfileLeftPanel extends VerticalPanel {
 
 		imgAvatar = new Image(URL_NO_AVATAR);
 		imgAvatar.setStyleName("img-avatar");
+		imgAvatar.addLoadListener(new LoadListener() {
+			
+			@Override
+			public void onLoad(Widget sender) {
+			}
+			
+			@Override
+			public void onError(Widget sender) {
+				imgAvatar.setUrl(URL_NO_AVATAR);
+			}
+		});
 		lblUsername = new HTML("Username");
 		lblName = new HTML("Name");
 		lblEmail = new HTML("Email");
@@ -74,10 +90,10 @@ public class UserProfileLeftPanel extends VerticalPanel {
 			aver = userInfo.sum_star / userInfo.count_vote;
 		} catch (Exception e) {
 		}
-		
+
 		String strAver = NumberFormat.getFormat("0.0").format(aver);
-		htmlStar.setHTML(STRING_STAR.replaceAll("_1", strAver + "")
-				.replaceAll("_2", userInfo.sum_star + "").replaceAll(
-						"_3", userInfo.count_vote + ""));
+		htmlStar.setHTML(STRING_STAR.replaceAll("_1", strAver + "").replaceAll(
+				"_2", userInfo.sum_star + "").replaceAll("_3",
+				userInfo.count_vote + ""));
 	}
 }

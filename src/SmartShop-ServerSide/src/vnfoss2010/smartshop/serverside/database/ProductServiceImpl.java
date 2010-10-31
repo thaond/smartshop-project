@@ -2,6 +2,7 @@ package vnfoss2010.smartshop.serverside.database;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -340,8 +341,9 @@ public class ProductServiceImpl {
 		String query = "";
 		List<Object> listParameters = new ArrayList<Object>();
 
-		if (priceRange.length > 0 && priceRange.length <= 2
-				&& priceRange[0] >= 0 && priceRange[1] >= 0) {
+		if (priceRange != null && priceRange.length > 0
+				&& priceRange.length <= 2 && priceRange[0] >= 0
+				&& priceRange[1] >= 0) {
 			where.append("price>" + priceRange[0] + " ");
 			if (priceRange[1] > priceRange[0]) {
 				where.append("&& price<" + priceRange[1] + " ");
@@ -1361,12 +1363,80 @@ public class ProductServiceImpl {
 	 *            record <code>from</code> and with the maximum record is
 	 *            <code>maxRecord</code>
 	 * @param maxRecord
-	 *            : The maximum number of record may be returned
-	 * Guide: use setRange(from, from+maxRecord);
+	 *            : The maximum number of record may be returned Guide: use
+	 *            setRange(from, from+maxRecord);
 	 */
 	public ServiceResult<Void> markAsInterestedProduct(String username,
 			String productId, int from, int maxRecord) {
 		return null;
+	}
+
+	/**
+	 * Get related producted with productId to recommend for user
+	 * 
+	 * @param productId
+	 * @return
+	 */
+	public ServiceResult<List<Product>> getRelatedProducts(Long productId,
+			int limit) {
+		ServiceResult<List<Product>> result;
+
+		Product product = null;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			product = pm.getObjectById(Product.class, productId);
+		} catch (Exception e) {
+		}
+
+		if (product == null) {
+			result = new ServiceResult<List<Product>>();
+			result.setOK(false);
+			result.setMessage(Global.messages.getString("no_found_product"));
+		} else {
+			result = searchProductLike(product.getName());
+
+			Object[] tmp = product.getSetCategoryKeys().toArray();
+			if (tmp != null && tmp.length > 0) {
+				String[] catKeys = new String[tmp.length];
+				for (int i = 0; i < tmp.length; i++) {
+					catKeys[i] = tmp[i].toString();
+				}
+				ServiceResult<List<Product>> result2 = getListProductByCriteriaInCategories(
+						limit, new int[] { 0 }, 1, null, null, null, catKeys);
+				if (result2.isOK()) {
+					result.getResult().addAll(result2.getResult());
+					log.log(Level.SEVERE, "new result; " + result2.getResult());
+				}
+			}
+			if (limit > result.getResult().size())
+				limit = result.getResult().size();
+			if (limit == 0)
+				limit = result.getResult().size();
+
+			result.setResult(result.getResult().subList(0, limit));
+
+			// Remove duplicate record
+			HashSet<Product> hashSet = new HashSet<Product>(result.getResult());
+			result.getResult().clear();
+			result.getResult().addAll(new ArrayList<Product>(hashSet));
+
+			for (Product p : result.getResult()) {
+				getReferenedField(pm, p);
+			}
+
+			if (result.isOK()) {
+				result.getResult().remove(product);
+				result.setMessage(Global.messages
+						.getString("get_related_products_successfully"));
+			}
+		}
+		try {
+			pm.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 
 	public static void preventSQLInjProduct(Product product) {

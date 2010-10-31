@@ -7,7 +7,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import vnfoss2010.smartshop.webbased.client.WebbasedService;
+import vnfoss2010.smartshop.webbased.client.utils.WebbasedUtils;
+
 public class WProduct implements Serializable {
+	private static final String URL_NO_PRODUCT_IMG = "./webbased/product_unknown.png";
 	private static final long serialVersionUID = 4327456927331765617L;
 	public Long id;
 	public int product_view;
@@ -32,6 +36,7 @@ public class WProduct implements Serializable {
 
 	public WUserInfo userInfo;
 	public List<WComment> listComments = new ArrayList<WComment>();
+	public List<WProduct> listRelatedProduct = new ArrayList<WProduct>();
 
 	public WProduct(String name, double price, String description) {
 		this.name = name;
@@ -62,4 +67,19 @@ public class WProduct implements Serializable {
 				+ username + ", warranty=" + warranty + "]";
 	}
 
+	public String getRandomThumbImage() {
+		if (setMedias == null || setMedias.isEmpty())
+			return URL_NO_PRODUCT_IMG;
+		else {
+			return setMedias.get((int) (Math.random() * setMedias.size())).link;
+		}
+	}
+
+	public String getShortDescription() {
+		if (WebbasedUtils.isEmptyOrNull(description))
+			return description;
+		int to = Math.min(60, description.length());
+		return description.substring(0, Math.max(to, description.indexOf(" ",
+				60)));
+	}
 }

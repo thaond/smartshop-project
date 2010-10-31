@@ -78,6 +78,7 @@ import vnfoss2010.smartshop.serverside.services.product.GetInterestedProductByUs
 import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaInCategoryService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductsByUsernameService;
+import vnfoss2010.smartshop.serverside.services.product.GetRelatedProductsService;
 import vnfoss2010.smartshop.serverside.services.product.GetSelledProductByUserService;
 import vnfoss2010.smartshop.serverside.services.product.GetTaggedProductFromUser;
 import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
@@ -223,6 +224,7 @@ public class RestfulServlet extends HttpServlet {
 		unAuthorizedServices.put("get-tagged-product-from-user",
 				GetTaggedProductFromUser.class);
 		unAuthorizedServices.put("product-vote", VoteProductService.class);
+		unAuthorizedServices.put("product-related", GetRelatedProductsService.class);
 		// unAuthorizedServices.put("registerproduct",
 		// RegisterProductService.class);
 		// unAuthorizedServices.put("editproduct", EditProductService.class);
