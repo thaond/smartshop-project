@@ -1,7 +1,6 @@
 package vnfoss2010.smartshop.serverside.database.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -87,9 +86,6 @@ public class UserInfo extends SearchCapable implements Serializable {
 	
 	@Persistent
 	private long lastLogin;
-
-	@Persistent
-	private List<Long> listInteredProduct;
 
 	@Persistent
 	private Set<String> setFriendsUsername;
@@ -194,7 +190,6 @@ public class UserInfo extends SearchCapable implements Serializable {
 		this.country = country;
 		this.type = type;
 
-		listInteredProduct = new ArrayList<Long>();
 		this.fts = new HashSet<String>();
 		// AccountServiceImpl.updateFTSStuffForUserInfo(this);
 		this.setFriendsUsername = new HashSet<String>();
@@ -546,26 +541,11 @@ public class UserInfo extends SearchCapable implements Serializable {
 				+ ", country=" + country + ", email=" + email + ", first_name="
 				+ first_name + ", fts=" + fts + ", gmt=" + gmt + ", lang="
 				+ lang + ", last_name=" + last_name + ", lat=" + lat
-				+ ", listInteredProduct=" + listInteredProduct + ", lng=" + lng
+				+ ", lng=" + lng
 				+ ", old_password=" + old_password + ", password=" + password
 				+ ", phone=" + phone + ", setFriendsUsername="
 				+ setFriendsUsername + ", sum_star=" + sum_star + ", type="
 				+ type + ", username=" + username + "]";
-	}
-
-	/**
-	 * @param listInteredProduct
-	 *            the listInteredProduct to set
-	 */
-	public void setListInteredProduct(List<Long> listInteredProduct) {
-		this.listInteredProduct = listInteredProduct;
-	}
-
-	/**
-	 * @return the listInteredProduct
-	 */
-	public List<Long> getListInteredProduct() {
-		return listInteredProduct;
 	}
 
 	@Override
