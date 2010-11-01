@@ -11,6 +11,8 @@ import javax.jdo.Query;
 
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 
+import com.google.gson.JsonObject;
+
 import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.database.entity.Comment;
 import vnfoss2010.smartshop.serverside.database.entity.Notification;
@@ -161,8 +163,31 @@ public class NotificationServiceImpl {
 						break;
 
 					case Notification.ADD_COMMENT_PRODUCT:
+						resultProduct = dbProduct.findProduct(Long.parseLong(n
+								.getDetail()));
+						if (resultProduct.isOK()) {
+							n.setJsonOutput(Global.gsonWithDate
+									.toJson(resultProduct.getResult().getId()));
+						}
+						break;
 					case Notification.ADD_COMMENT_PAGE:
+						resultPage = dbPage.findPage(Long.parseLong(n
+								.getDetail()));
+						if (resultPage.isOK()) {
+							JsonObject json = new JsonObject();
+							json.addProperty("id", resultPage.getResult().getId());
+							n.setJsonOutput(json.toString());
+						}
+						break;
 					case Notification.TAG_PRODUCT_TO_PAGE:
+						resultProduct = dbProduct.findProduct(Long.parseLong(n
+								.getDetail()));
+						if (resultProduct.isOK()) {
+							JsonObject json = new JsonObject();
+							json.addProperty("id", resultProduct.getResult().getId());
+							n.setJsonOutput(json.toString());
+						}
+						break;
 					default:
 						break;
 					}
@@ -341,6 +366,7 @@ public class NotificationServiceImpl {
 					.getType_id());
 			if (searchResult.isOK()) {
 				noti.setUsername(searchResult.getResult().getUsername());
+				noti.setDetail(comment.getType_id() + "");
 			} else {
 				result.setOK(false);
 				result.setMessage(searchResult.getMessage());

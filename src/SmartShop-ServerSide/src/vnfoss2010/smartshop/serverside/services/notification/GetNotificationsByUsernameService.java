@@ -64,7 +64,7 @@ public class GetNotificationsByUsernameService extends BaseRestfulService {
 			jsonReturn.addProperty("errCode", 1);
 			jsonReturn.addProperty("message", result.getMessage());
 		}
-		return jsonReturn.toString();
+		return jsonReturn.toString().replaceAll("\\\\\"", "\"");
 	}
 
 }
