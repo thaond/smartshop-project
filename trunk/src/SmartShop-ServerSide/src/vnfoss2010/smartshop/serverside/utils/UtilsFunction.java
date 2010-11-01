@@ -228,9 +228,10 @@ public class UtilsFunction {
 			return null;
 
 		Collection<SessionObject> sessions = Global.mapSession.values();
-		Global.log(null, Global.mapSession + "");
 		for (SessionObject s : sessions) {
 			if (s.sessionId.equals(sessionId)) {
+				//Update session timestamp
+				s.timeStamp = System.currentTimeMillis();
 				return s;
 			}
 		}

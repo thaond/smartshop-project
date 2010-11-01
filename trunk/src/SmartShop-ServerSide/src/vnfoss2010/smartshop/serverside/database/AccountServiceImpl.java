@@ -373,10 +373,10 @@ public class AccountServiceImpl {
 					String sessionId = UtilsFunction.getAlphaNumeric(32);
 					if (Global.mapSession.containsKey(username)) {
 						((SessionObject) Global.mapSession.get(username)).set(
-								username, sessionId, new Date().getTime());
+								username, sessionId, System.currentTimeMillis());
 					} else {
 						Global.mapSession.put(username, new SessionObject(
-								username, sessionId, new Date().getTime()));
+								username, sessionId, System.currentTimeMillis()));
 					}
 					userInfo.setSessionId(sessionId);
 					userInfo.setLogin(true);
