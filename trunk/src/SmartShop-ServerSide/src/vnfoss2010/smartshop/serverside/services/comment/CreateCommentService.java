@@ -23,6 +23,7 @@ public class CreateCommentService extends BaseRestfulService {
 	public String process(Map<String, String[]> params, String content)
 			throws Exception, RestfulException {
 		JSONObject jsonReturn = new JSONObject();
+		String username = getParameterWithThrow("username", params, null);
 
 		Comment comment = Global.gsonWithDate.fromJson(content, Comment.class);
 		if (dbComment.validateCommentTypeID(comment.getType(), comment
@@ -33,6 +34,7 @@ public class CreateCommentService extends BaseRestfulService {
 			if (comment.getDatePost() == null){
 				comment.setDatePost(new Date());
 			}
+			comment.setUsername(username);
 			ServiceResult<Long> result = dbComment.insertComment(comment);
 			if (result.isOK()) {
 				jsonReturn.put("errCode", 0);
