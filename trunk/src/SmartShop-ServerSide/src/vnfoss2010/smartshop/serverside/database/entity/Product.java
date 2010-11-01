@@ -110,7 +110,7 @@ public class Product extends SearchCapable implements LocationCapable,
 	
 	@Exclude
 	@Persistent
-	private List<String> listInteredUsername;
+	private List<String> listInterestedUsername;
 
 	public Set<Long> getSetPagesID() {
 		return setPagesID;
@@ -162,7 +162,7 @@ public class Product extends SearchCapable implements LocationCapable,
 		this.setSetMedias(new ArrayList<Media>());
 		setListMediaKeys(new HashSet<Long>());
 		this.fts = new HashSet<String>();
-		listInteredUsername = new ArrayList<String>();
+		listInterestedUsername = new ArrayList<String>();
 	}
 
 	/**
@@ -663,13 +663,13 @@ public class Product extends SearchCapable implements LocationCapable,
 	 * @param listInteredUsername the listInteredUsername to set
 	 */
 	public void setListInteredUsername(List<String> listInteredUsername) {
-		this.listInteredUsername = listInteredUsername;
+		this.listInterestedUsername = listInteredUsername;
 	}
 
 	/**
 	 * @return the listInteredUsername
 	 */
-	public List<String> getListInteredUsername() {
-		return listInteredUsername;
+	public List<String> getListInterestedUsername() {
+		return listInterestedUsername;
 	}
 }

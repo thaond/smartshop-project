@@ -74,17 +74,19 @@ import vnfoss2010.smartshop.serverside.services.parser.vatgia.ProductInfoService
 import vnfoss2010.smartshop.serverside.services.parser.vatgia.SearchKeywordService;
 import vnfoss2010.smartshop.serverside.services.product.EditProductService;
 import vnfoss2010.smartshop.serverside.services.product.GetBuyedProductByUserService;
-import vnfoss2010.smartshop.serverside.services.product.GetInterestedProductByUserService;
+import vnfoss2010.smartshop.serverside.services.product.GetInterestedProductByUsernameService;
 import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaInCategoryService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductsByUsernameService;
 import vnfoss2010.smartshop.serverside.services.product.GetRelatedProductsService;
 import vnfoss2010.smartshop.serverside.services.product.GetSelledProductByUserService;
 import vnfoss2010.smartshop.serverside.services.product.GetTaggedProductFromUser;
+import vnfoss2010.smartshop.serverside.services.product.MarkInterestProductService;
 import vnfoss2010.smartshop.serverside.services.product.RegisterProductService;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductPromixity;
 import vnfoss2010.smartshop.serverside.services.product.SearchProductService;
 import vnfoss2010.smartshop.serverside.services.product.TagFriendToProductService;
+import vnfoss2010.smartshop.serverside.services.product.UnmarkInterestProductService;
 import vnfoss2010.smartshop.serverside.services.product.UntagFriendFromProductService;
 import vnfoss2010.smartshop.serverside.services.product.VoteProductService;
 import vnfoss2010.smartshop.serverside.services.sms.SendSMSService;
@@ -239,8 +241,8 @@ public class RestfulServlet extends HttpServlet {
 				GetBuyedProductByUserService.class);
 		unAuthorizedServices.put("product-get-selled-product",
 				GetSelledProductByUserService.class);
-		unAuthorizedServices.put("product-get-interested-product",
-				GetInterestedProductByUserService.class);
+		unAuthorizedServices.put("get-interested-product-by-username",
+				GetInterestedProductByUsernameService.class);
 		unAuthorizedServices.put("product-get-by-username",
 				GetProductsByUsernameService.class);
 
@@ -339,6 +341,8 @@ public class RestfulServlet extends HttpServlet {
 				TagFriendToProductService.class);
 		authorizedServices.put("untag-friend-from-product",
 				UntagFriendFromProductService.class);
+		authorizedServices.put("mark-product-as-interest", MarkInterestProductService .class);
+		authorizedServices.put("unmark-product-as-interest", UnmarkInterestProductService .class);
 
 		// page
 		authorizedServices.put("create-page", CreatePageService.class);
