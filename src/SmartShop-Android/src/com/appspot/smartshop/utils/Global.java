@@ -23,7 +23,7 @@ public class Global {
 	/*
 	 * Update interval
 	 */
-	public static int UPDATE_INTERVAL = 60000;
+	public static int UPDATE_INTERVAL = 30000;
 
 	/*
 	 * User
@@ -34,6 +34,7 @@ public class Global {
 	public static String getSession(){
 		return userInfo.sessionId;
 	}
+	public static boolean isWaitingForNotifications = false;
 
 	/*
 	 * Misc

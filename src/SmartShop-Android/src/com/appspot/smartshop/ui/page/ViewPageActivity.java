@@ -52,9 +52,8 @@ public class ViewPageActivity extends BaseUIActivity {
 			Log.d(TAG, "remove notification " + notification.id);
 			Global.notificationManager.cancel(notification.id);
 			Global.notifications.remove(notification);
-		} else {
-			Log.e(TAG, "[NO NOTIFICATION FOR THIS PAGE]");
-		}
+			Utils.markNotificationAsRead(notification.id);
+		} 
 
 		// display page info on form
 		TextView txtUsername = (TextView) findViewById(R.id.txtUsername);

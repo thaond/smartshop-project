@@ -9,6 +9,9 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.ui.BaseUIActivity;
 
@@ -27,6 +30,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Utils {
 	private static final int AVATAR_WIDTH = 32;
@@ -175,6 +179,30 @@ public class Utils {
 		} catch (Exception e) {
 			System.out.println("Exc=" + e);
 			return null;
+		}
+	}
+	
+	public static void markNotificationAsRead(int notificationId) {
+		// TODO
+		System.out.println("[Mock Mark as read notification " + notificationId + "]");
+//		String url = String.format(URLConstant.MARK_NOTIFICATION_AS_READ, 
+//				Global.getSession(), notificationId);
+//		RestClient.getData(url, new JSONParser() {
+//			
+//			@Override
+//			public void onSuccess(JSONObject json) throws JSONException {
+//			}
+//			
+//			@Override
+//			public void onFailure(String message) {
+//				Toast.makeText(Global.application, message, Toast.LENGTH_SHORT).show();
+//			}
+//		});
+	}
+	
+	public static void clearAllNotifications() {
+		if (Global.notificationManager != null) {
+			Global.notificationManager.cancelAll();
 		}
 	}
 }
