@@ -90,7 +90,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 					.findViewById(R.id.txtDatePost);
 			holder.postFacebook = (ImageView) convertView
 					.findViewById(R.id.btnPostFb);
-			if(Global.mFacebook != null && !Global.mFacebook.isSessionValid()){
+			if (Global.mFacebook != null && !Global.mFacebook.isSessionValid()) {
 				holder.postFacebook.setVisibility(View.GONE);
 			}
 			convertView.setTag(holder);
@@ -132,21 +132,11 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 			@Override
 			public void onClick(View v) {
-					postFacebookSmartShop();
+				postFacebookSmartShop();
 			}
 		});
 
-		if (productInfo.setMedias == null || productInfo.setMedias.isEmpty())
-			holder.image.setBackgroundResource(R.drawable.product_unknown);
-		else {
-			Drawable productDrawable = productInfo.setMedias.get(
-					(int) (Math.random() * productInfo.setMedias.size()))
-					.getDrawable();
-			if (productDrawable != null)
-				holder.image.setBackgroundDrawable(productDrawable);
-			else
-				holder.image.setBackgroundResource(R.drawable.product_unknown);
-		}
+		holder.image.setBackgroundDrawable(productInfo.getRandomThumbImage());
 
 		// go to product detail
 		convertView.setOnClickListener(new OnClickListener() {
@@ -192,6 +182,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		});
 
 		// set up information to post on Facebook
+		// TODO
 		params.putString("message", "Smart Shop");
 		params.putString("name", productInfo.name);
 		params.putString("picture",
@@ -205,7 +196,8 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 	protected void postFacebookSmartShop() {
 		AsyncFacebookRunner mAsyncRunner;
-		Global.mFacebook = new Facebook();
+		if (Global.mFacebook == null)
+			Global.mFacebook = new Facebook();
 		SessionStore.restore(Global.mFacebook, context);
 		mAsyncRunner = new AsyncFacebookRunner(Global.mFacebook);
 		if (!Global.mFacebook.isSessionValid()) {

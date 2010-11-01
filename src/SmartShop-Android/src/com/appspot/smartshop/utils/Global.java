@@ -159,7 +159,7 @@ public class Global {
 	public static final String TITLE_NOTIFICATION = "TitleNotification";
 	public static final String CONTENT_NOTIFICATION = "ContentNotification";
 	// Variable for Facebook's connection
-	public static final String APP_ID = "168183433192672";
+	public static final String APP_ID = "168183433192672"; //SmartShop API Key on Facebook
 	public static final String[] PERMISSIONS = new String[] { "publish_stream",
 			"read_stream", "offline_access" };
 	public static Facebook mFacebook;
