@@ -38,15 +38,14 @@ public class ProductInfo implements Serializable {
 	public ProductInfo() {}
 	@Override
 	public String toString() {
-//		return "ProductInfo [address=" + address + ", datePost=" + date_post
-//				+ ", description=" + description + ", id=" + id + ", isVAT="
-//				+ isVAT + ", lat=" + lat + ", lng=" + lng + ", name=" + name
-//				+ ", origin=" + origin + ", price=" + price + ", product_view="
-//				+ product_view + ", quantity=" + quantity + ", setAttributes="
-//				+ attributeSets + ", setCategoryKeys=" + setCategoryKeys
-//				+ ", setPagesId=" + setPagesId + ", username=" + username
-//				+ ", warranty=" + warranty + "]";
-		return name;
+		return "ProductInfo [address=" + address + ", datePost=" + date_post
+				+ ", description=" + description + ", id=" + id + ", isVAT="
+				+ is_vat + ", lat=" + lat + ", lng=" + lng + ", name=" + name
+				+ ", origin=" + origin + ", price=" + price + ", product_view="
+				+ product_view + ", quantity=" + quantity + ", setAttributes="
+				+ attributeSets + ", setCategoryKeys=" + setCategoryKeys
+				+ ", setPagesId=" + setPagesId + ", username=" + username
+				+ ", warranty=" + warranty + "]";
 	}
 	
 	public static Type getType() {

@@ -38,7 +38,7 @@ public class AddFriendNotificationActivity extends BaseUIActivity {
 	private Button btnOK;
 	private Button btnCancel;
 	private UserInfo userInfo;
-	private SmartshopNotification sNotification;
+	private SmartshopNotification notification;
 
 	@Override
 	protected void onCreatePre() {
@@ -87,9 +87,9 @@ public class AddFriendNotificationActivity extends BaseUIActivity {
 		});
 
 		Intent intent = getIntent();
-		sNotification = (SmartshopNotification) intent
-				.getSerializableExtra("notification");
-		if (sNotification == null) {
+		notification = (SmartshopNotification) intent
+				.getSerializableExtra(Global.NOTIFICATION);
+		if (notification == null) {
 			Toast.makeText(this, getString(R.string.invalid_intent),
 					Toast.LENGTH_SHORT).show();
 			Utils.returnHomeActivity(AddFriendNotificationActivity.this);
@@ -100,7 +100,7 @@ public class AddFriendNotificationActivity extends BaseUIActivity {
 
 	private void showData() {
 		userInfo = Global.gsonDateWithoutHour.fromJson(
-				sNotification.jsonOutput, UserInfo.class);
+				notification.jsonOutput, UserInfo.class);
 		if (StringUtils.isEmptyOrNull(userInfo.avatarLink)) {
 			imgAvatar.setBackgroundDrawable(Global.drawableNoAvatar);
 		} else {
@@ -119,12 +119,13 @@ public class AddFriendNotificationActivity extends BaseUIActivity {
 		lblName.setText(getString(R.string.name) + " " + userInfo.first_name
 				+ " " + userInfo.last_name);
 		lblEmail.setText(getString(R.string.email) + " " + userInfo.email);
-		lblDetail.setText(sNotification.content);
+		lblDetail.setText(notification.content);
 		
 		//Cancel this notification
-		Global.notificationManager.cancel(sNotification.id);
-		Global.notifications.remove(sNotification);
-		
+		System.out.println("remove notification here");
+		Log.d(TAG, notification.id + "");
+		Global.notificationManager.cancel(notification.id);
+		Global.notifications.remove(notification);
 	}
 
 };

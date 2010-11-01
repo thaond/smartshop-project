@@ -23,8 +23,11 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.dom.SmartshopNotification;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.dom.UserSubcribeProduct;
 import com.appspot.smartshop.map.MapDialog;
@@ -55,7 +58,6 @@ public class TestActivity extends MapActivity {
 
 		Global.application = this;
 		// TODO place test function here
-		testUserLocationDialog();
 	}
 
 	private static final int CREATE_SUBCRIBE = 0;

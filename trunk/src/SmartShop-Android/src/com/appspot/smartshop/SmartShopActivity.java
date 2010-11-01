@@ -56,7 +56,7 @@ public class SmartShopActivity extends ListActivity {
 		//Config layout
 		listView.setBackgroundResource(R.color.background);
 
-		// TODO: Check whether user login or not
+		// Check whether user login or not
 //		if (Global.userInfo == null) {
 //			String session = Utils.loadSession();
 //			Log.d(TAG, "Session: " + session);
@@ -86,13 +86,15 @@ public class SmartShopActivity extends ListActivity {
 		listView.setAdapter(new MainAdapter(this));
 
 		if (Global.isLogin) {
-			Global.notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			if (Global.notificationManager == null) {
+				Global.notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			}
+			Global.notificationManager.cancelAll();		// remove all old notifications
 			Log.d(TAG, "[LOAD NOTIFICATIONS]");
 			loadNotifications();
 		}
 
-		/**************************** Init data *********************************/
-		Log.d(TAG, "[START NOTIFICATION SERVICE]");
+//		Log.d(TAG, "[START NOTIFICATION SERVICE]");
 		// TODO start service notification
 		// startService(new Intent(this, NotifyingService.class));
 
@@ -116,11 +118,16 @@ public class SmartShopActivity extends ListActivity {
 		}
 
 		// Remove Notification
-		SmartshopNotification sNotification = (SmartshopNotification) getIntent()
-				.getSerializableExtra(Global.NOTIFICATION);
-		if (sNotification != null) {
-			Global.notifications.remove(sNotification);
-			Global.notificationManager.cancel(sNotification.id);
+		if (getIntent() != null) {
+			if (getIntent().getExtras() != null) {
+				SmartshopNotification notification = 
+					(SmartshopNotification) getIntent().getExtras().get(Global.NOTIFICATION);
+				if (notification != null) {
+					Log.d(TAG, "remove notification " + notification.id);
+					Global.notificationManager.cancel(notification.id);
+					Global.notifications.remove(notification);
+				}
+			}
 		}
 	}
 
@@ -192,15 +199,19 @@ public class SmartShopActivity extends ListActivity {
 	}
 
 	private void loadNotifications() {
-		String url = String.format(URLConstant.GET_NOTIFICATIONS,
-				Global.userInfo.username, 1);
+		String url = String.format(URLConstant.GET_NOTIFICATIONS, Global.userInfo.username, 1);
 		RestClient.getData(url, new JSONParser() {
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
 				// load
 				JSONArray arr = json.getJSONArray("notifications");
+				Global.notifications.clear();
 				Global.notifications = Global.gsonWithHour.fromJson(arr
 						.toString(), SmartshopNotification.getType());
+				Log.e(TAG, "[TEST NOTIFICATION LIST ID]");
+				for (SmartshopNotification n : Global.notifications) {
+					System.out.println(n.id);
+				}
 				Log.d(TAG, "found " + Global.notifications.size()
 						+ " notification(s)");
 
@@ -208,30 +219,32 @@ public class SmartShopActivity extends ListActivity {
 				if (Global.notifications.size() != 0) {
 					String content = "";
 					int count = 0;
+					Log.e(TAG, "[TEST SHOW NOTIFICATION]");
 					for (SmartshopNotification notification : Global.notifications) {
 						content = notification.content;
 						showNotification(notification);
+						System.out.println(notification.id);
 						count++;
 					}
 
 					numOfNotifications += Global.notifications.size();
 					
 					// TODO: mark as read all notifications of a user
-					Log.d(TAG, "[MARK ALL NOTIFICATION AS READ]");
-					String url = String.format(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS, 
-							Global.getSession());
-					RestClient.getData(url, new JSONParser() {
-
-								@Override
-								public void onSuccess(JSONObject json) throws JSONException {
-								}
-
-								@Override
-								public void onFailure(String message) {
-									Toast.makeText(SmartShopActivity.this, message,
-											Toast.LENGTH_SHORT).show();
-								}
-							});
+//					Log.d(TAG, "[MARK ALL NOTIFICATION AS READ]");
+//					String url = String.format(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS, 
+//							Global.getSession());
+//					RestClient.getData(url, new JSONParser() {
+//
+//								@Override
+//								public void onSuccess(JSONObject json) throws JSONException {
+//								}
+//
+//								@Override
+//								public void onFailure(String message) {
+//									Toast.makeText(SmartShopActivity.this, message,
+//											Toast.LENGTH_SHORT).show();
+//								}
+//							});
 				}
 			}
 
@@ -255,7 +268,7 @@ public class SmartShopActivity extends ListActivity {
 		switch (sNotification.type) {
 		case SmartshopNotification.ADD_FRIEND:
 			intent = new Intent(this, AddFriendNotificationActivity.class);
-			intent.putExtra("notification", sNotification);
+			intent.putExtra(Global.NOTIFICATION, sNotification);
 			break;
 
 		case SmartshopNotification.TAG_PRODUCT:
@@ -270,9 +283,9 @@ public class SmartShopActivity extends ListActivity {
 		case SmartshopNotification.TAG_PAGE:
 		case SmartshopNotification.UNTAG_PAGE:
 			intent = new Intent(this, ViewPageActivity.class);
-			Page page = Global.gsonDateWithoutHour.fromJson(
-					sNotification.jsonOutput, Page.class);
+			Page page = Global.gsonDateWithoutHour.fromJson(sNotification.jsonOutput, Page.class);
 			intent.putExtra(Global.NOTIFICATION, sNotification);
+//			Log.d(TAG, "put notification id for ViewPage with id = " + sNotification.id);
 			intent.putExtra(Global.PAGE, page);
 			break;
 
@@ -298,29 +311,26 @@ public class SmartShopActivity extends ListActivity {
 			break;
 		}
 
-		PendingIntent contentIntent = contentIntent = PendingIntent
-				.getActivity(this, 0, intent, 0);
+		PendingIntent contentIntent  = PendingIntent.getActivity(this, 0, intent, 0);
 		Notification notification = new Notification(
-				android.R.drawable.btn_star_big_on, null, System
-						.currentTimeMillis());
+				android.R.drawable.btn_star_big_on, null, System.currentTimeMillis());
 		notification.setLatestEventInfo(this, sNotification.getTitle(),
 				sNotification.content, contentIntent);
 
-//		Global.notificationManager.notify(sNotification.id, notification);
-		Global.notificationManager.cancel(sNotification.id);
+		Global.notificationManager.notify(sNotification.id, notification);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 
-		Log.d(TAG, "[STOP NOTIFICATION SERVICE]");
+//		Log.d(TAG, "[STOP NOTIFICATION SERVICE]");
 		// Global.isStop = true;
 		// TODO stop service notification
 		// stopService(new Intent(this, NotifyingService.class));
 
-		// store session
-		if (Utils.isLogined())
-			Utils.storeSessionState(Global.userInfo.sessionId);
+		// TODO: store session
+//		if (Utils.isLogined())
+//			Utils.storeSessionState(Global.userInfo.sessionId);
 	}
 }

@@ -31,7 +31,12 @@ public class ViewProductActivity extends TabActivity {
 		// get product info from intent
 		Bundle bundle = getIntent().getExtras();
 		ProductInfo productInfo = (ProductInfo) bundle.get(Global.PRODUCT_INFO);
-		Log.d(TAG, Global.gsonWithHour.toJson(productInfo));
+		SmartshopNotification notification = (SmartshopNotification) bundle.get(Global.NOTIFICATION);
+		if (notification != null) {
+			Log.d(TAG, "remove notification " + notification.id);
+			Global.notificationManager.cancel(notification.id);
+			Global.notifications.remove(notification);
+		}
 
 		// two tabs
 		Intent intent = new Intent(this,
