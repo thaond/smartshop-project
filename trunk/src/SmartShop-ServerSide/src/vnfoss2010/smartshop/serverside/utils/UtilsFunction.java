@@ -260,15 +260,19 @@ public class UtilsFunction {
 		ArrayList<String> a = null;
 		Global.mapSession.put("asd", new SessionObject("asd", "Asd", 0));
 
-		for (Iterator<String> it = Global.mapSession.keySet().iterator(); it.hasNext();) {
-			String key = it.next();
-			SessionObject so = Global.mapSession.get(key);
-			if (cur - so.timeStamp > Global.SESSION_EXPRIED) {
-				if (a == null)
-					a = new ArrayList<String>();
-				a.add(key);
-				AccountServiceImpl.getInstance().logout(key);
+		try {
+			for (Iterator<String> it = Global.mapSession.keySet().iterator(); it
+					.hasNext();) {
+				String key = it.next();
+				SessionObject so = Global.mapSession.get(key);
+				if (cur - so.timeStamp > Global.SESSION_EXPRIED) {
+					if (a == null)
+						a = new ArrayList<String>();
+					a.add(key);
+					AccountServiceImpl.getInstance().logout(key);
+				}
 			}
+		} catch (Exception e) {
 		}
 
 		if (a != null) {
