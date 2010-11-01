@@ -1344,9 +1344,9 @@ public class ProductServiceImpl {
 			} else {
 				if (isInterest) {
 					for (String productIdStr : productIdStrs) {
-						try {
+//						try {
 							product = pm.getObjectById(Product.class,
-									Long.parseLong(productIdStr));
+									Long.parseLong(productIdStr.trim()));
 							if (product == null) {
 								result.setOK(false);
 								result.setMessage(result.getMessage()
@@ -1378,22 +1378,22 @@ public class ProductServiceImpl {
 													productIdStr));
 								}
 							}
-						} catch (Exception e) {
-							result.setOK(false);
-							Global.log(log, e.getMessage());
-							result.setMessage(result.getMessage()
-									+ ";"
-									+ String.format(
-											Global.messages
-													.getString("no_found_product_have_id"),
-											productIdStr));
-						}
+						// } catch (Exception e) {
+						// result.setOK(false);
+						// Global.log(log, e.getMessage());
+						// result.setMessage(result.getMessage()
+						// + ";"
+						// + String.format(
+						// Global.messages
+						// .getString("no_found_product_have_id"),
+						// productIdStr));
+						// }
 					}
 				} else {
 					for (String productIdStr : productIdStrs) {
-						try {
+//						try {
 							product = pm.getObjectById(Product.class,
-									Long.parseLong(productIdStr));
+									Long.parseLong(productIdStr.trim()));
 							if (product == null) {
 								result.setOK(false);
 								result.setMessage(result.getMessage()
@@ -1425,15 +1425,15 @@ public class ProductServiceImpl {
 													productIdStr));
 								}
 							}
-						} catch (Exception e) {
-							result.setOK(false);
-							result.setMessage(result.getMessage()
-									+ ";"
-									+ String.format(
-											Global.messages
-													.getString("no_found_product_have_id"),
-											productIdStr));
-						}
+//						} catch (Exception e) {
+//							result.setOK(false);
+//							result.setMessage(result.getMessage()
+//									+ ";"
+//									+ String.format(
+//											Global.messages
+//													.getString("no_found_product_have_id"),
+//											productIdStr));
+//						}
 					}
 				}
 				result.setResult(user.getListInterestedProductID());
