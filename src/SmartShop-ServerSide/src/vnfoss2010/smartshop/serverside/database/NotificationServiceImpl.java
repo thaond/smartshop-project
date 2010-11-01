@@ -92,13 +92,11 @@ public class NotificationServiceImpl {
 		}
 
 		if (userInfo == null) {
-			result
-					.setMessage(Global.messages.getString("not_found")
-							+ username);
+			result.setMessage(Global.messages.getString("not_found") + username);
 		} else {
 			// Update lastLogin here
 			userInfo.setLastLogin(System.currentTimeMillis());
-			
+
 			Query query = pm.newQuery(Notification.class);
 			String filter = "username == us";
 			String declear = "String us";
@@ -170,17 +168,13 @@ public class NotificationServiceImpl {
 					}
 				}
 				result.setOK(true);
-				result
-						.setMessage(String
-								.format(
-										Global.messages
-												.getString("get_notifications_by_username_successfully"),
-										username));
+				result.setMessage(String.format(
+						Global.messages
+								.getString("get_notifications_by_username_successfully"),
+						username));
 				result.setResult(listNotifications);
 			} else {
-				result
-						.setMessage(Global.messages
-								.getString("no_notifications"));
+				result.setMessage(Global.messages.getString("no_notifications"));
 			}
 		}
 
@@ -223,6 +217,73 @@ public class NotificationServiceImpl {
 		return result;
 	}
 
+	public ServiceResult<Void> markAsRead(String username, String[] ids) {
+		ServiceResult<Void> result = new ServiceResult<Void>();
+		result.setOK(true);
+		Notification noti = null;
+		PersistenceManager pm = null;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			for (String id : ids) {
+				try {
+					noti = pm.getObjectById(Notification.class,
+							Long.parseLong(id));
+					if (noti == null) {
+						result.setOK(false);
+						result.setMessage(result.getMessage()
+								+ ";"
+								+ String.format(Global.messages
+										.getString("no_notification_have_id"),
+										id));
+					} else {
+						if (noti.getUsername().equals(username)) {
+							if (noti.isNew()) {
+								result.setMessage(result.getMessage()
+										+ ";"
+										+ String.format(
+												Global.messages
+														.getString("mark_noti_as_read_successfully"),
+												id));
+								noti.setNew(false);
+							} else {
+								result.setOK(false);
+								result.setMessage(result.getMessage()
+										+ ";"
+										+ String.format(
+												Global.messages
+														.getString("already_mark_noti_as_read"),
+												id));
+							}
+						} else {
+							result.setOK(false);
+							result.setMessage(result.getMessage()
+									+ ";"
+									+ String.format(
+											Global.messages
+													.getString("no_permission_to_mark_noti"),
+											username, id));
+						}
+					}
+				} catch (Exception e) {
+					result.setOK(false);
+					result.setMessage(result.getMessage()
+							+ ";"
+							+ String.format(Global.messages
+									.getString("no_notification_have_id"), id));
+				}
+			}
+		} catch (Exception e) {
+			result.setOK(false);
+			result.setMessage(Global.messages.getString("mark_as_read_fail"));
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception ex) {
+			}
+		}
+		return result;
+	}
+
 	public ServiceResult<Void> markAsReadAll(String username) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -256,9 +317,9 @@ public class NotificationServiceImpl {
 		noti.setNew(true);
 		if (comment.getType().equals("product")) {
 			noti.setType(Notification.ADD_COMMENT_PRODUCT);
-			noti.setContent(String.format(Global.messages
-					.getString("notification_comment_content"), comment
-					.getUsername(), Global.messages.getString("product")));
+			noti.setContent(String.format(
+					Global.messages.getString("notification_comment_content"),
+					comment.getUsername(), Global.messages.getString("product")));
 
 			ServiceResult<Product> productResult = dbProduct
 					.findProduct(comment.getType_id());
@@ -272,9 +333,9 @@ public class NotificationServiceImpl {
 			}
 		} else {
 			noti.setType(Notification.ADD_COMMENT_PAGE);
-			noti.setContent(String.format(Global.messages
-					.getString("notification_comment_content"), comment
-					.getUsername(), Global.messages.getString("page")));
+			noti.setContent(String.format(
+					Global.messages.getString("notification_comment_content"),
+					comment.getUsername(), Global.messages.getString("page")));
 
 			ServiceResult<Page> searchResult = dbPage.findPage(comment
 					.getType_id());
@@ -345,15 +406,13 @@ public class NotificationServiceImpl {
 		Notification noti = new Notification();
 		noti.setUsername(pageResult.getResult().getUsername());
 		if (isTag) {
-			noti.setContent(String.format(Global.messages
-					.getString("notification_tag_page_content"), productResult
-					.getResult().getUsername(), productID, pageID));
+			noti.setContent(String.format(
+					Global.messages.getString("notification_tag_page_content"),
+					productResult.getResult().getUsername(), productID, pageID));
 		} else {
-			noti
-					.setContent(String.format(Global.messages
-							.getString("notification_untag_page_content"),
-							productResult.getResult().getUsername(), productID,
-							pageID));
+			noti.setContent(String.format(Global.messages
+					.getString("notification_untag_page_content"),
+					productResult.getResult().getUsername(), productID, pageID));
 		}
 		noti.setTimestamp(System.currentTimeMillis());
 		noti.setNew(true);
@@ -462,21 +521,17 @@ public class NotificationServiceImpl {
 			List<Notification> list = (List<Notification>) query
 					.execute(username);
 			if (list == null) {
-				result
-						.setMessage(String
-								.format(
-										Global.messages
-												.getString("delete_all_notifications_by_username_fail"),
-										username));
+				result.setMessage(String.format(
+						Global.messages
+								.getString("delete_all_notifications_by_username_fail"),
+						username));
 				result.setOK(false);
 			} else {
 				pm.deletePersistentAll(list);
-				result
-						.setMessage(String
-								.format(
-										Global.messages
-												.getString("delete_all_notifications_by_username_successfully"),
-										username));
+				result.setMessage(String.format(
+						Global.messages
+								.getString("delete_all_notifications_by_username_successfully"),
+						username));
 				result.setOK(true);
 			}
 		} else {

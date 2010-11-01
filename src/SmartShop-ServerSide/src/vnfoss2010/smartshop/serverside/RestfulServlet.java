@@ -61,6 +61,7 @@ import vnfoss2010.smartshop.serverside.services.notification.DeleteNotifications
 import vnfoss2010.smartshop.serverside.services.notification.GetNotificationsByUsernameService;
 import vnfoss2010.smartshop.serverside.services.notification.InsertNotificationService;
 import vnfoss2010.smartshop.serverside.services.notification.MarkAsReadNotificationsByUsernameService;
+import vnfoss2010.smartshop.serverside.services.notification.MarkNotificationsAsReadService;
 import vnfoss2010.smartshop.serverside.services.page.CreatePageService;
 import vnfoss2010.smartshop.serverside.services.page.EditPageService;
 import vnfoss2010.smartshop.serverside.services.page.GetListPageByCriteriaService;
@@ -359,6 +360,8 @@ public class RestfulServlet extends HttpServlet {
 				DeleteNotificationsByUsernameService.class);
 		authorizedServices.put("noti-mark-as-read",
 				MarkAsReadNotificationsByUsernameService.class);
+		authorizedServices.put("noti-mark-some-as-read",
+				MarkNotificationsAsReadService.class);
 
 		// mail
 		authorizedServices.put("mail-send-to-admin",
