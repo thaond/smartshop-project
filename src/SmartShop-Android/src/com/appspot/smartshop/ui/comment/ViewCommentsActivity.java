@@ -63,10 +63,17 @@ public class ViewCommentsActivity extends BaseUIActivity {
 		Log.d(TAG, "view comment");
 		
 		// get type_id and type
-		id = getIntent().getExtras().getLong(Global.ID_OF_COMMENTS);
-		type = getIntent().getExtras().getString(Global.TYPE_OF_COMMENTS);
+		Bundle bundle = getIntent().getExtras();
+		id = bundle.getLong(Global.ID_OF_COMMENTS);
+		type = bundle.getString(Global.TYPE_OF_COMMENTS);
 		Log.d(TAG, "id of comments = " + id);
 		Log.d(TAG, "type of comments = " + type);
+		SmartshopNotification notification = (SmartshopNotification) bundle.get(Global.NOTIFICATION);
+		if (notification != null) {
+			Log.d(TAG, "remove notification " + notification.id);
+			Global.notificationManager.cancel(notification.id);
+			Global.notifications.remove(notification);
+		}
 		
 		// list comments
 		adapter = new CommentAdapter(this, 0, new LinkedList<Comment>());

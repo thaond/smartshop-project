@@ -9,7 +9,6 @@ import com.appspot.smartshop.utils.Global;
 import com.google.gson.reflect.TypeToken;
 
 public class SmartshopNotification implements Serializable {
-	private static final long serialVersionUID = 1L;
 	public static final int ADD_FRIEND = 1;
 	public static final int TAG_PRODUCT = 2;
 	public static final int UNTAG_PRODUCT = 3;
@@ -30,6 +29,18 @@ public class SmartshopNotification implements Serializable {
 
 	public SmartshopNotification() {
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "SmartshopNotification [content=" + content + ", detail="
+				+ detail + ", id=" + id + ", isNew=" + isNew + ", jsonOutput="
+				+ jsonOutput + ", timestamp=" + timestamp + ", type=" + type
+				+ ", username=" + username + "]";
+	}
+
+
 
 	public SmartshopNotification(String content, long date, String username) {
 		this.content = content;
@@ -62,8 +73,7 @@ public class SmartshopNotification implements Serializable {
 	}
 
 	public static Type getType() {
-		return new TypeToken<List<SmartshopNotification>>() {
-		}.getType();
+		return new TypeToken<List<SmartshopNotification>>() {}.getType();
 	}
 
 	/*
@@ -75,7 +85,7 @@ public class SmartshopNotification implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = (int) (prime * result + id);
 		return result;
 	}
 

@@ -58,7 +58,7 @@ public class Global {
 			"yyyyMMddHHmmssSS");
 	public static Drawable drawableNoAvatar;
 	public static NotificationManager notificationManager;
-	public static List<SmartshopNotification> notifications;
+	public static List<SmartshopNotification> notifications = new LinkedList<SmartshopNotification>();
 
 	// (key_cat, name) of categories
 	public static HashMap<String, String> mapParentCategories = new HashMap<String, String>();
@@ -123,6 +123,8 @@ public class Global {
 	
 	public static final String SENDER = "sender";
 	public static final String RECEIVER = "receiver";
+	
+	public static final String NOTIFICATION_ID = "notification_id";
 	
 	/*
 	 * ACTIVITY ACTION NAME

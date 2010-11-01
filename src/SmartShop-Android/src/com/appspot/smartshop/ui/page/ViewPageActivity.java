@@ -43,11 +43,18 @@ public class ViewPageActivity extends BaseUIActivity {
 	protected void onCreatePost(Bundle savedInstanceState) {
 		// get page info from intent
 		Bundle bundle = getIntent().getExtras();
+		
 		page = (Page) bundle.get(Global.PAGE);
-		Boolean isNormalPage = (Boolean) bundle
-				.getBoolean(Global.IS_NORMAL_PAGE);
-		isNormalPage = (isNormalPage != null) ? isNormalPage.booleanValue()
-				: false;
+		Boolean isNormalPage = (Boolean) bundle.getBoolean(Global.IS_NORMAL_PAGE);
+		isNormalPage = (isNormalPage != null) ? isNormalPage.booleanValue() : false;
+		SmartshopNotification notification = (SmartshopNotification) bundle.get(Global.NOTIFICATION);
+		if (notification != null) {
+			Log.d(TAG, "remove notification " + notification.id);
+			Global.notificationManager.cancel(notification.id);
+			Global.notifications.remove(notification);
+		} else {
+			Log.e(TAG, "[NO NOTIFICATION FOR THIS PAGE]");
+		}
 
 		// display page info on form
 		TextView txtUsername = (TextView) findViewById(R.id.txtUsername);
@@ -145,11 +152,5 @@ public class ViewPageActivity extends BaseUIActivity {
 		intent.putExtra(Global.TYPE_OF_COMMENTS, SmartShopActivity.PAGE);
 
 		startActivity(intent);
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		Log.d(TAG, "onStop");
 	}
 }
