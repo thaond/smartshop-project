@@ -1,12 +1,16 @@
 package com.appspot.smartshop.dom;
 
-
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import android.graphics.drawable.Drawable;
+
+import com.appspot.smartshop.R;
+import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.StringUtils;
 import com.google.gson.reflect.TypeToken;
 
 public class ProductInfo implements Serializable {
@@ -30,25 +34,54 @@ public class ProductInfo implements Serializable {
 	public Set<Long> setPagesId;
 	public Set<String> setCategoryKeys;
 	public Set<Attribute> attributeSets;
-	public ProductInfo(String name, double price, String description){
+
+	public ProductInfo(String name, double price, String description) {
 		this.name = name;
 		this.price = price;
-		this.description = description; 
+		this.description = description;
 	}
-	public ProductInfo() {}
+
+	public ProductInfo() {
+	}
+
 	@Override
 	public String toString() {
-		return "ProductInfo [address=" + address + ", datePost=" + date_post
-				+ ", description=" + description + ", id=" + id + ", isVAT="
-				+ is_vat + ", lat=" + lat + ", lng=" + lng + ", name=" + name
-				+ ", origin=" + origin + ", price=" + price + ", product_view="
-				+ product_view + ", quantity=" + quantity + ", setAttributes="
-				+ attributeSets + ", setCategoryKeys=" + setCategoryKeys
-				+ ", setPagesId=" + setPagesId + ", username=" + username
-				+ ", warranty=" + warranty + "]";
+		// return "ProductInfo [address=" + address + ", datePost=" + date_post
+		// + ", description=" + description + ", id=" + id + ", isVAT="
+		// + isVAT + ", lat=" + lat + ", lng=" + lng + ", name=" + name
+		// + ", origin=" + origin + ", price=" + price + ", product_view="
+		// + product_view + ", quantity=" + quantity + ", setAttributes="
+		// + attributeSets + ", setCategoryKeys=" + setCategoryKeys
+		// + ", setPagesId=" + setPagesId + ", username=" + username
+		// + ", warranty=" + warranty + "]";
+		return name;
 	}
-	
+
 	public static Type getType() {
-		return new TypeToken<List<ProductInfo>>() {}.getType();
+		return new TypeToken<List<ProductInfo>>() {
+		}.getType();
+	}
+
+	public Drawable getRandomThumbImage() {
+		if (setMedias == null || setMedias.isEmpty()) {
+			return Global.application.getResources().getDrawable(
+					R.drawable.product_unknown);
+		} else {
+			Drawable productDrawable = setMedias.get(
+					(int) (Math.random() * setMedias.size()))
+					.getDrawable();
+			if (productDrawable == null)
+				return Global.application.getResources().getDrawable(
+						R.drawable.product_unknown);
+			return productDrawable;
+		}
+	}
+
+	public String getShortDescription() {
+		if (StringUtils.isEmptyOrNull(description))
+			return description;
+		int to = Math.min(60, description.length());
+		return description.substring(0, Math.max(to, description.indexOf(" ",
+				60)));
 	}
 }
