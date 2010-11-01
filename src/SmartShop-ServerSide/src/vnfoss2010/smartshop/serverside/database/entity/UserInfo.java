@@ -1,6 +1,7 @@
 package vnfoss2010.smartshop.serverside.database.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -74,16 +75,16 @@ public class UserInfo extends SearchCapable implements Serializable {
 
 	@Persistent
 	private int type;
-	
+
 	private String sessionId;
 
 	@Exclude
 	@Persistent
 	private boolean isLogin = false;
-	
+
 	@Persistent
 	private String userkey;
-	
+
 	@Persistent
 	private long lastLogin;
 
@@ -92,7 +93,8 @@ public class UserInfo extends SearchCapable implements Serializable {
 
 	@Persistent
 	private Set<Long> setProductTaggedID;
-
+	@Persistent
+	private List<Long> listInterestedProductID;
 	@Persistent
 	private Set<Long> setPageTaggedID;
 
@@ -101,6 +103,14 @@ public class UserInfo extends SearchCapable implements Serializable {
 	@Exclude
 	@Persistent
 	private Set<String> fts;
+
+	public List<Long> getListInterestedProductID() {
+		return listInterestedProductID;
+	}
+
+	public void setListInterestedProductID(List<Long> listInterestedProductID) {
+		this.listInterestedProductID = listInterestedProductID;
+	}
 
 	public Set<Long> getSetProductTaggedID() {
 		return setProductTaggedID;
@@ -193,6 +203,10 @@ public class UserInfo extends SearchCapable implements Serializable {
 		this.fts = new HashSet<String>();
 		// AccountServiceImpl.updateFTSStuffForUserInfo(this);
 		this.setFriendsUsername = new HashSet<String>();
+		this.setPageTaggedID = new HashSet<Long>();
+		this.setProductTaggedID = new HashSet<Long>();
+		this.listInterestedProductID = new ArrayList<Long>();
+		this.listSubcribeProduct = new ArrayList<Long>();
 	}
 
 	/**
@@ -540,10 +554,9 @@ public class UserInfo extends SearchCapable implements Serializable {
 				+ ", birthday=" + birthday + ", count_vote=" + count_vote
 				+ ", country=" + country + ", email=" + email + ", first_name="
 				+ first_name + ", fts=" + fts + ", gmt=" + gmt + ", lang="
-				+ lang + ", last_name=" + last_name + ", lat=" + lat
-				+ ", lng=" + lng
-				+ ", old_password=" + old_password + ", password=" + password
-				+ ", phone=" + phone + ", setFriendsUsername="
+				+ lang + ", last_name=" + last_name + ", lat=" + lat + ", lng="
+				+ lng + ", old_password=" + old_password + ", password="
+				+ password + ", phone=" + phone + ", setFriendsUsername="
 				+ setFriendsUsername + ", sum_star=" + sum_star + ", type="
 				+ type + ", username=" + username + "]";
 	}
@@ -593,7 +606,8 @@ public class UserInfo extends SearchCapable implements Serializable {
 	}
 
 	/**
-	 * @param userkey the userkey to set
+	 * @param userkey
+	 *            the userkey to set
 	 */
 	public void setUserkey(String userkey) {
 		this.userkey = userkey;
@@ -607,7 +621,8 @@ public class UserInfo extends SearchCapable implements Serializable {
 	}
 
 	/**
-	 * @param lastLogin the lastLogin to set
+	 * @param lastLogin
+	 *            the lastLogin to set
 	 */
 	public void setLastLogin(long lastLogin) {
 		this.lastLogin = lastLogin;
@@ -620,21 +635,21 @@ public class UserInfo extends SearchCapable implements Serializable {
 		return lastLogin;
 	}
 
-	public WUserInfo cloneObject(){
+	public WUserInfo cloneObject() {
 		WUserInfo wu = new WUserInfo();
 		wu.lastLogin = this.lastLogin;
-		wu.username  = this.username ;
-		wu.password  = this.password ;
-		wu.oldPassword  = this.old_password ;
-		wu.first_name  = this.first_name ;
-		wu.last_name  = this.last_name ;
-		wu.phone  = this.phone ;
-		wu.email  = this.email ;
-		wu.birthday  = this.birthday ;
-		wu.address  = this.address ;
-		wu.avatarLink  = this.avatarLink ;
-		wu.lang  = this.lang ;
-		wu.country  = this.country ;
+		wu.username = this.username;
+		wu.password = this.password;
+		wu.oldPassword = this.old_password;
+		wu.first_name = this.first_name;
+		wu.last_name = this.last_name;
+		wu.phone = this.phone;
+		wu.email = this.email;
+		wu.birthday = this.birthday;
+		wu.address = this.address;
+		wu.avatarLink = this.avatarLink;
+		wu.lang = this.lang;
+		wu.country = this.country;
 		wu.lat = this.lat;
 		wu.lng = this.lng;
 		wu.sum_star = this.sum_star;

@@ -180,9 +180,7 @@ public class ProductServiceImpl {
 			}
 			if (product == null) {
 				result.setOK(false);
-				result
-						.setMessage(Global.messages
-								.getString("no_found_product"));
+				result.setMessage(Global.messages.getString("no_found_product"));
 			} else {
 				result.setOK(true);
 				getReferenedField(pm, product);
@@ -214,9 +212,7 @@ public class ProductServiceImpl {
 			product = pm.getObjectById(Product.class, editProduct.getId());
 			if (product == null) {
 				result.setOK(false);
-				result
-						.setMessage(Global.messages
-								.getString("no_found_product"));
+				result.setMessage(Global.messages.getString("no_found_product"));
 			} else {
 				product.setAddress(editProduct.getAddress());
 				product.setAttributeSets(editProduct.getAttributeSets());
@@ -425,8 +421,7 @@ public class ProductServiceImpl {
 				if (cat_keys != null) {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
-					where
-							.append("setCategoryKeys.contains(catKey) && username==us ");
+					where.append("setCategoryKeys.contains(catKey) && username==us ");
 					listParameters.add(Arrays.asList(cat_keys));
 					listParameters.add(username);
 
@@ -510,8 +505,7 @@ public class ProductServiceImpl {
 				if (cat_keys != null) {
 					if (!StringUtils.isEmptyOrNull(where.toString()))
 						where.append(" && ");
-					where
-							.append("setCategoryKeys.contains(catKey) && username==us && ");
+					where.append("setCategoryKeys.contains(catKey) && username==us && ");
 					where.append(queryBuffer.toString());
 
 					listParameters.add(Arrays.asList(cat_keys));
@@ -600,9 +594,8 @@ public class ProductServiceImpl {
 
 		if (listIds.size() > 0) {
 			result.setOK(true);
-			result
-					.setMessage(Global.messages
-							.getString("search_product_by_criteria_in_cat_successfully"));
+			result.setMessage(Global.messages
+					.getString("search_product_by_criteria_in_cat_successfully"));
 
 			List<Product> listProducts = getListProductFromIds(listIds);
 
@@ -756,8 +749,9 @@ public class ProductServiceImpl {
 				queryObject.declareParameters(declareParametersBuffer
 						.toString());
 				parametersForSearch.add(username);
-				log.log(Level.SEVERE, "ParaforSearch: "
-						+ Arrays.toString(parametersForSearch.toArray()));
+				log.log(Level.SEVERE,
+						"ParaforSearch: "
+								+ Arrays.toString(parametersForSearch.toArray()));
 
 				listProducts = (List<Product>) queryObject
 						.executeWithArray(parametersForSearch.toArray());
@@ -766,12 +760,10 @@ public class ProductServiceImpl {
 
 			if (listProducts.size() > 0) {
 				result.setOK(true);
-				result
-						.setMessage(String
-								.format(
-										Global.messages
-												.getString("get_list_buyed_product_by_username_successfully"),
-										username));
+				result.setMessage(String.format(
+						Global.messages
+								.getString("get_list_buyed_product_by_username_successfully"),
+						username));
 				result.setResult(listProducts);
 
 				for (Product p : listProducts) {
@@ -875,8 +867,10 @@ public class ProductServiceImpl {
 					queryObject.declareParameters(declareParametersBuffer
 							.toString());
 					parametersForSearch.add(username);
-					log.log(Level.SEVERE, "ParaforSearch: "
-							+ Arrays.toString(parametersForSearch.toArray()));
+					log.log(Level.SEVERE,
+							"ParaforSearch: "
+									+ Arrays.toString(parametersForSearch
+											.toArray()));
 
 					listProducts = (List<Product>) queryObject
 							.executeWithArray(parametersForSearch.toArray());
@@ -885,12 +879,10 @@ public class ProductServiceImpl {
 
 				if (listProducts.size() > 0) {
 					result.setOK(true);
-					result
-							.setMessage(String
-									.format(
-											Global.messages
-													.getString("get_list_selled_product_by_username_successfully"),
-											username));
+					result.setMessage(String.format(
+							Global.messages
+									.getString("get_list_selled_product_by_username_successfully"),
+							username));
 
 					for (Product p : listProducts) {
 						getReferenedField(pm, p);
@@ -899,12 +891,10 @@ public class ProductServiceImpl {
 					result.setResult(listProducts);
 				} else {
 					result.setOK(false);
-					result
-							.setMessage(String
-									.format(
-											Global.messages
-													.getString("get_list_selled_product_by_username_fail"),
-											username));
+					result.setMessage(String.format(
+							Global.messages
+									.getString("get_list_selled_product_by_username_fail"),
+							username));
 				}
 			}
 		} catch (Exception ex) {
@@ -931,114 +921,108 @@ public class ProductServiceImpl {
 	// TODO Rewrite this method
 	public ServiceResult<List<Product>> getListInterestedProductsByUsername(
 			String username, String q, int limit) {
-		// ServiceResult<List<Product>> result = new
-		// ServiceResult<List<Product>>();
-		// PersistenceManager pm = PMF.get().getPersistenceManager();
-		//
-		// ServiceResult<UserInfo> resultGetUser =
-		// dbAccount.getUserInfo(username);
-		// if (resultGetUser.isOK()) {
-		// UserInfo userInfo = resultGetUser.getResult();
-		// // Query here
-		// if (limit == 0)
-		// limit = userInfo.getListInteredProduct().size();
-		//
-		// Query queryObject;
-		// List<Product> listProducts;
-		//
-		// log.log(Level.SEVERE, "" + userInfo.getListInteredProduct());
-		//
-		// if (StringUtils.isEmptyOrNull(q)) {
-		// // Query here
-		// queryObject = pm.newQuery(Product.class);
-		// queryObject.setOrdering("date_post DESC");
-		// queryObject.setFilter("id == produtId");
-		// queryObject.declareParameters("Long productId");
-		//
-		// listProducts = new ArrayList<Product>();
-		// for (int i = 0; i < userInfo.getListInteredProduct().size(); i++) {
-		// listProducts.addAll((List<Product>) queryObject
-		// .execute(userInfo.getListInteredProduct()));
-		// }
-		// } else {
-		// // Prepare to search
-		// StringBuffer queryBuffer = new StringBuffer();
-		// Set<String> queryTokens = SearchJanitorUtils
-		// .getTokensForIndexingOrQuery(q,
-		// Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
-		// List<Object> parametersForSearch = new ArrayList<Object>(
-		// queryTokens);
-		// StringBuffer declareParametersBuffer = new StringBuffer();
-		// int parameterCounter = 0;
-		//
-		// while (parameterCounter < queryTokens.size()) {
-		// queryBuffer.append("fts == param" + parameterCounter);
-		// declareParametersBuffer.append("String param"
-		// + parameterCounter);
-		//
-		// if (parameterCounter + 1 < queryTokens.size()) {
-		// queryBuffer.append(" && ");
-		// declareParametersBuffer.append(", ");
-		// }
-		// parameterCounter++;
-		// }
-		// // //////
-		//
-		// String query = "select from "
-		// + Product.class.getName()
-		// + " where ("
-		// + queryBuffer.toString()
-		// + " && listBuyers.contains(us)) order by date_post DESC"
-		// + ((limit == 0) ? "" : (" limit " + limit));
-		// declareParametersBuffer.append(", Long productId");
-		//
-		// log.log(Level.SEVERE, query);
-		// queryObject = pm.newQuery(query);
-		// queryObject.declareParameters(declareParametersBuffer
-		// .toString());
-		// parametersForSearch.add(userInfo.getListInteredProduct());
-		//
-		// listProducts = (List<Product>) queryObject
-		// .executeWithArray(parametersForSearch.toArray());
-		// }
-		//
-		// if (listProducts.size() > 0) {
-		// result.setOK(true);
-		// result.setMessage(String.format(
-		// Global.messages
-		// .getString("get_list_interested_product_by_username_successfully"),
-		// username));
-		//
-		// for (Product p : listProducts) {
-		// getReferenedField(pm, p);
-		// }
-		//
-		// result.setResult(listProducts);
-		// } else {
-		// result.setOK(false);
-		// result.setMessage(String.format(
-		// Global.messages
-		// .getString("get_list_interested_product_by_username_fail"),
-		// username));
-		// }
-		// } else {
-		// result.setMessage(Global.messages.getString("not_found") + " "
-		// + username);
-		// }
-		//
-		// try {
-		// pm.close();
-		// } catch (Exception ex) {
-		// result.setOK(false);
-		// result.setMessage(String.format(Global.messages
-		// .getString("get_list_interested_product_by_username_fail"),
-		// username));
-		// log.log(Level.SEVERE, ex.getMessage(), ex);
-		// }
-		//
-		// return result;
+		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		List<Product> listProducts;
+		listProducts = new ArrayList<Product>();
 
-		return null;
+		ServiceResult<UserInfo> resultGetUser = dbAccount.getUserInfo(username);
+		if (!resultGetUser.isOK()) {
+			result.setOK(false);
+			result.setMessage(Global.messages.getString("not_found") + " "
+					+ username);
+			return result;
+		}
+		UserInfo userInfo = resultGetUser.getResult();
+		// Query here
+		if (limit == 0)
+			limit = userInfo.getListInterestedProductID().size();
+
+		Query queryObject;
+
+		log.log(Level.SEVERE, "" + userInfo.getListInterestedProductID());
+
+		if (StringUtils.isEmptyOrNull(q)) {
+			// Query here
+			queryObject = pm.newQuery(Product.class);
+			queryObject.setOrdering("date_post DESC");
+			queryObject.setFilter("listInterestedUsername.contains(us)");
+			queryObject.declareParameters("String us");
+			if (limit > 0)
+				queryObject.setRange(0, limit);
+
+			listProducts.addAll((List<Product>) queryObject.execute(username));
+
+		} else {
+			// // Prepare to search
+			StringBuffer queryBuffer = new StringBuffer();
+			Set<String> queryTokens = SearchJanitorUtils
+					.getTokensForIndexingOrQuery(q,
+							Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+			List<Object> parametersForSearch = new ArrayList<Object>(
+					queryTokens);
+			StringBuffer declareParametersBuffer = new StringBuffer();
+			int parameterCounter = 0;
+
+			while (parameterCounter < queryTokens.size()) {
+				queryBuffer.append("fts == param" + parameterCounter);
+				declareParametersBuffer.append("String param"
+						+ parameterCounter);
+
+				if (parameterCounter + 1 < queryTokens.size()) {
+					queryBuffer.append(" && ");
+					declareParametersBuffer.append(", ");
+				}
+				parameterCounter++;
+			}
+
+			String query = "select from "
+					+ Product.class.getName()
+					+ " where ("
+					+ queryBuffer.toString()
+					+ " && listInterestedUsername.contains(us)) order by date_post DESC"
+					+ ((limit == 0) ? "" : (" limit " + limit));
+			declareParametersBuffer.append(",String us");
+
+			log.log(Level.SEVERE, query);
+			queryObject = pm.newQuery(query);
+			queryObject.declareParameters(declareParametersBuffer.toString());
+			parametersForSearch.add(username);
+
+			listProducts = (List<Product>) queryObject
+					.executeWithArray(parametersForSearch.toArray());
+		}
+
+		if (listProducts.size() > 0) {
+			result.setOK(true);
+			result.setMessage(String.format(
+					Global.messages
+							.getString("get_list_interested_product_by_username_successfully"),
+					username));
+
+			for (Product p : listProducts) {
+				getReferenedField(pm, p);
+			}
+
+			result.setResult(listProducts);
+		} else {
+			result.setOK(false);
+			result.setMessage(String.format(Global.messages
+					.getString("get_list_interested_product_by_username_fail"),
+					username));
+		}
+
+		try {
+			pm.close();
+		} catch (Exception ex) {
+			result.setOK(false);
+			result.setMessage(String.format(Global.messages
+					.getString("get_list_interested_product_by_username_fail"),
+					username));
+			log.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+
+		return result;
 	}
 
 	public ServiceResult<List<Product>> getListProductFromUsername(
@@ -1181,19 +1165,15 @@ public class ProductServiceImpl {
 		try {
 			product = pm.getObjectById(Product.class, productID);
 			if (product == null) {
-				result
-						.setMessage(Global.messages
-								.getString("no_found_product"));
+				result.setMessage(Global.messages.getString("no_found_product"));
 			} else {
 				if (!product.getUsername().equals(username)) {
 					result.setOK(false);
-					result
-							.setMessage(String
-									.format(
-											Global.messages
-													.getString(isTag ? "no_permission_to_tag_to_product"
-															: "no_permission_to_untag_from_product"),
-											username, productID));
+					result.setMessage(String.format(
+							Global.messages
+									.getString(isTag ? "no_permission_to_tag_to_product"
+											: "no_permission_to_untag_from_product"),
+							username, productID));
 				} else {
 					if (isTag) {
 						for (String user2Tag : usernames) {
@@ -1201,30 +1181,24 @@ public class ProductServiceImpl {
 								if (product.getSetFriendsTaggedID().contains(
 										user2Tag)) {
 									result.setOK(false);
-									result
-											.setMessage(result.getMessage()
-													+ ";"
-													+ String
-															.format(
-																	Global.messages
-																			.getString("already_tag_user_to_product"),
-																	user2Tag,
-																	productID));
+									result.setMessage(result.getMessage()
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("already_tag_user_to_product"),
+													user2Tag, productID));
 								} else {
 									user = pm.getObjectById(UserInfo.class,
 											user2Tag);
 									user.getSetProductTaggedID().add(productID);
 									product.getSetFriendsTaggedID().add(
 											username);
-									result
-											.setMessage(result.getMessage()
-													+ ";"
-													+ String
-															.format(
-																	Global.messages
-																			.getString("tag_user_to_product_successfully"),
-																	user2Tag,
-																	productID));
+									result.setMessage(result.getMessage()
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("tag_user_to_product_successfully"),
+													user2Tag, productID));
 									notiResult = dbNoti
 											.insertWhenTagUserToProduct(
 													productID, user2Tag, isTag);
@@ -1238,15 +1212,12 @@ public class ProductServiceImpl {
 							} catch (Exception e) {
 								e.printStackTrace();
 								result.setOK(false);
-								result
-										.setMessage(result.getMessage()
-												+ ";"
-												+ String
-														.format(
-																Global.messages
-																		.getString("tag_user_to_product_fail"),
-																user2Tag,
-																productID));
+								result.setMessage(result.getMessage()
+										+ ";"
+										+ String.format(
+												Global.messages
+														.getString("tag_user_to_product_fail"),
+												user2Tag, productID));
 							}
 						}
 					} else {
@@ -1255,15 +1226,12 @@ public class ProductServiceImpl {
 								if (!product.getSetFriendsTaggedID().contains(
 										user2Tag)) {
 									result.setOK(false);
-									result
-											.setMessage(result.getMessage()
-													+ ";"
-													+ String
-															.format(
-																	Global.messages
-																			.getString("user_not_yet_tag_to_product"),
-																	user2Tag,
-																	productID));
+									result.setMessage(result.getMessage()
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("user_not_yet_tag_to_product"),
+													user2Tag, productID));
 								} else {
 									user = pm.getObjectById(UserInfo.class,
 											user2Tag);
@@ -1271,15 +1239,12 @@ public class ProductServiceImpl {
 											productID);
 									product.getSetFriendsTaggedID().remove(
 											user2Tag);
-									result
-											.setMessage(result.getMessage()
-													+ ";"
-													+ String
-															.format(
-																	Global.messages
-																			.getString("untag_user_from_product_successfully"),
-																	user2Tag,
-																	productID));
+									result.setMessage(result.getMessage()
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("untag_user_from_product_successfully"),
+													user2Tag, productID));
 									notiResult = dbNoti
 											.insertWhenTagUserToProduct(
 													productID, user2Tag, isTag);
@@ -1293,15 +1258,12 @@ public class ProductServiceImpl {
 							} catch (Exception e) {
 								e.printStackTrace();
 								result.setOK(false);
-								result
-										.setMessage(result.getMessage()
-												+ ";"
-												+ String
-														.format(
-																Global.messages
-																		.getString("untag_user_from_product_fail"),
-																user2Tag,
-																productID));
+								result.setMessage(result.getMessage()
+										+ ";"
+										+ String.format(
+												Global.messages
+														.getString("untag_user_from_product_fail"),
+												user2Tag, productID));
 							}
 						}
 					}
@@ -1366,9 +1328,130 @@ public class ProductServiceImpl {
 	 *            : The maximum number of record may be returned Guide: use
 	 *            setRange(from, from+maxRecord);
 	 */
-	public ServiceResult<Void> markAsInterestedProduct(String username,
-			String productId, int from, int maxRecord) {
-		return null;
+	public ServiceResult<List<Long>> markAsInterestedProduct(String username,
+			String[] productIdStrs, boolean isInterest) {
+		ServiceResult<List<Long>> result = new ServiceResult<List<Long>>();
+		result.setOK(true);
+		UserInfo user = null;
+		Product product = null;
+		ServiceResult<Void> notiResult = null;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			user = pm.getObjectById(UserInfo.class, username);
+			if (user == null) {
+				result.setMessage(Global.messages.getString("not_found") + " "
+						+ username);
+			} else {
+				if (isInterest) {
+					for (String productIdStr : productIdStrs) {
+						try {
+							product = pm.getObjectById(Product.class,
+									Long.parseLong(productIdStr));
+							if (product == null) {
+								result.setOK(false);
+								result.setMessage(result.getMessage()
+										+ ";"
+										+ String.format(
+												Global.messages
+														.getString("no_found_product_have_id"),
+												productIdStr));
+							} else {
+								if (product.getListInterestedUsername()
+										.contains(username)) {
+									result.setOK(false);
+									result.setMessage(result.getMessage()
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("user_already_like_product"),
+													username, productIdStr));
+								} else {
+									product.getListInterestedUsername().add(
+											username);
+									user.getListInterestedProductID().add(
+											product.getId());
+									result.setMessage(result.getMessage()
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("user_like_product_successfully"),
+													productIdStr));
+								}
+							}
+						} catch (Exception e) {
+							result.setOK(false);
+							Global.log(log, e.getMessage());
+							result.setMessage(result.getMessage()
+									+ ";"
+									+ String.format(
+											Global.messages
+													.getString("no_found_product_have_id"),
+											productIdStr));
+						}
+					}
+				} else {
+					for (String productIdStr : productIdStrs) {
+						try {
+							product = pm.getObjectById(Product.class,
+									Long.parseLong(productIdStr));
+							if (product == null) {
+								result.setOK(false);
+								result.setMessage(result.getMessage()
+										+ ";"
+										+ String.format(
+												Global.messages
+														.getString("no_found_product_have_id"),
+												productIdStr));
+							} else {
+								if (!product.getListInterestedUsername()
+										.contains(username)) {
+									result.setMessage(result.getMessage()
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("user_not_yet_like_product"),
+													productIdStr));
+									result.setOK(false);
+								} else {
+									product.getListInterestedUsername().remove(
+											username);
+									user.getListInterestedProductID().remove(
+											product.getId());
+									result.setMessage(result.getMessage()
+											+ ";"
+											+ String.format(
+													Global.messages
+															.getString("user_unlike_product_successfully"),
+													productIdStr));
+								}
+							}
+						} catch (Exception e) {
+							result.setOK(false);
+							result.setMessage(result.getMessage()
+									+ ";"
+									+ String.format(
+											Global.messages
+													.getString("no_found_product_have_id"),
+											productIdStr));
+						}
+					}
+				}
+				result.setResult(user.getListInterestedProductID());
+			}
+
+		} catch (Exception e) {
+			result.setOK(false);
+			Global.log(log, e.getMessage());
+			result.setMessage(String.format(
+					Global.messages.getString("user_like_product_fail")));
+		} finally {
+			try {
+				pm.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 	/**

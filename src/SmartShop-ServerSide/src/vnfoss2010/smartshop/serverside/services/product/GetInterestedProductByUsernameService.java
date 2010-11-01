@@ -2,10 +2,8 @@ package vnfoss2010.smartshop.serverside.services.product;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.Global;
-import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
@@ -16,13 +14,10 @@ import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.JsonObject;
 
-public class GetInterestedProductByUserService extends BaseRestfulService {
-	ProductServiceImpl dbProduct = ProductServiceImpl.getInstance();
+public class GetInterestedProductByUsernameService extends BaseRestfulService {
+	ProductServiceImpl db = ProductServiceImpl.getInstance();
 
-	private final static Logger log = Logger.getLogger(AccountServiceImpl.class
-			.getName());
-
-	public GetInterestedProductByUserService(String serviceName) {
+	public GetInterestedProductByUsernameService(String serviceName) {
 		super(serviceName);
 	}
 
@@ -35,33 +30,37 @@ public class GetInterestedProductByUserService extends BaseRestfulService {
 		} catch (Exception e) {
 		}
 
-		String username = getParameterWithThrow("username", params, json);
+		String username = getParameter("username", params, json);
+
 		Integer limit = 0;
 		try {
 			limit = Integer.parseInt(getParameter("limit", params, json));
 		} catch (Exception e) {
 		}
 
-		//Query
+		// Query
 		String q = null;
 		try {
 			q = getParameter("q", params, json);
 			q = UtilsFunction.removeViSign(q);
 		} catch (Exception e) {
 		}
-		
-		ServiceResult<List<Product>> productResult = dbProduct.getListInterestedProductsByUsername(username, q, limit);
 
 		JsonObject jsonReturn = new JsonObject();
 
-		jsonReturn.addProperty("errCode", productResult.isOK()?0:1);
-		jsonReturn.addProperty("message", productResult.getMessage());
-		
-		if (productResult.isOK() == true) {
-			jsonReturn.add("products", Global.gsonWithDate.toJsonTree(productResult.getResult()));
-		}
+		ServiceResult<List<Product>> result = db
+				.getListInterestedProductsByUsername(username, q, limit);
+		if (result.isOK()) {
+			jsonReturn.addProperty("errCode", 0);
+			jsonReturn.addProperty("message", result.getMessage());
 
-		Global.log(log, jsonReturn.toString());
+			jsonReturn.add("products",
+					Global.gsonWithDate.toJsonTree(result.getResult()));
+		} else {
+			jsonReturn.addProperty("errCode", 1);
+			jsonReturn.addProperty("message", result.getMessage());
+		}
 		return jsonReturn.toString();
 	}
+
 }
