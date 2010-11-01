@@ -73,6 +73,7 @@ public class ViewCommentsActivity extends BaseUIActivity {
 			Log.d(TAG, "remove notification " + notification.id);
 			Global.notificationManager.cancel(notification.id);
 			Global.notifications.remove(notification);
+			Utils.markNotificationAsRead(notification.id);
 		}
 		
 		// list comments

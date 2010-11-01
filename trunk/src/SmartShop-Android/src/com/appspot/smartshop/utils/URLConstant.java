@@ -74,8 +74,8 @@ public class URLConstant {
 
 	public static final String GET_NOTIFICATIONS = HOST
 			+ "/api/asd/noti-get-by/?username=%s&type=%d";
-	public static String MARK_AS_READ_ALL_NOTIFICATIONS = HOST 
-			+ "/api/asd/noti-mark-as-read/?session=%s";
+	public static String MARK_NOTIFICATION_AS_READ = HOST
+			+ "/api/asd/noti-mark-some-as-read/?session=%s&ids=%d";
 
 	public static final String GET_USER_SUBCRIBES = HOST
 			+ "/api/asd/get-subscribe-by-user/?username=%s&mode=0";

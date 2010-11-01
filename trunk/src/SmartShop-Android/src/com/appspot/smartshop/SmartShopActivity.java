@@ -18,17 +18,16 @@ import com.appspot.smartshop.adapter.MainAdapter;
 import com.appspot.smartshop.dom.Page;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.SmartshopNotification;
-import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.ui.user.notification.AddFriendNotificationActivity;
+import com.appspot.smartshop.ui.user.notification.SmartShopNotificationService;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
-import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
 
@@ -85,19 +84,6 @@ public class SmartShopActivity extends ListActivity {
 //		}
 		listView.setAdapter(new MainAdapter(this));
 
-		if (Global.isLogin) {
-			if (Global.notificationManager == null) {
-				Global.notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			}
-			Global.notificationManager.cancelAll();		// remove all old notifications
-			Log.d(TAG, "[LOAD NOTIFICATIONS]");
-			loadNotifications();
-		}
-
-//		Log.d(TAG, "[START NOTIFICATION SERVICE]");
-		// TODO start service notification
-		// startService(new Intent(this, NotifyingService.class));
-
 		if (Global.mapParentCategories.size() != 0) {
 			Log.d(TAG, "[DONT NEED TO GET CATEGORIES LIST]");
 		} else {
@@ -116,6 +102,19 @@ public class SmartShopActivity extends ListActivity {
 					});
 			task.execute();
 		}
+		
+		// Init notification manager
+		if (Global.isLogin) {
+			if (Global.notificationManager == null) {
+				Global.notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			}
+			Global.notificationManager.cancelAll();		// remove all old notifications
+			
+			Log.d(TAG, "[START NOTIFICATION SERVICE]");
+			Global.isWaitingForNotifications = true;
+			startService(new Intent(this, SmartShopNotificationService.class));
+		}
+		
 
 		// Remove Notification
 		if (getIntent() != null) {
@@ -126,6 +125,7 @@ public class SmartShopActivity extends ListActivity {
 					Log.d(TAG, "remove notification " + notification.id);
 					Global.notificationManager.cancel(notification.id);
 					Global.notifications.remove(notification);
+					Utils.markNotificationAsRead(notification.id);
 				}
 			}
 		}
@@ -208,10 +208,6 @@ public class SmartShopActivity extends ListActivity {
 				Global.notifications.clear();
 				Global.notifications = Global.gsonWithHour.fromJson(arr
 						.toString(), SmartshopNotification.getType());
-				Log.e(TAG, "[TEST NOTIFICATION LIST ID]");
-				for (SmartshopNotification n : Global.notifications) {
-					System.out.println(n.id);
-				}
 				Log.d(TAG, "found " + Global.notifications.size()
 						+ " notification(s)");
 
@@ -219,11 +215,9 @@ public class SmartShopActivity extends ListActivity {
 				if (Global.notifications.size() != 0) {
 					String content = "";
 					int count = 0;
-					Log.e(TAG, "[TEST SHOW NOTIFICATION]");
 					for (SmartshopNotification notification : Global.notifications) {
 						content = notification.content;
 						showNotification(notification);
-						System.out.println(notification.id);
 						count++;
 					}
 
@@ -311,23 +305,28 @@ public class SmartShopActivity extends ListActivity {
 			break;
 		}
 
-		PendingIntent contentIntent  = PendingIntent.getActivity(this, 0, intent, 0);
+		// The PendingIntent to launch our activity if the user selects this
+        // notification.  Note the use of FLAG_UPDATE_CURRENT so that if there
+        // is already an active matching pending intent, we will update its
+        // extras to be the ones passed in here.
+		PendingIntent contentIntent  = PendingIntent.getActivity(this, 0, intent, 
+				PendingIntent.FLAG_UPDATE_CURRENT);
 		Notification notification = new Notification(
 				android.R.drawable.btn_star_big_on, null, System.currentTimeMillis());
 		notification.setLatestEventInfo(this, sNotification.getTitle(),
 				sNotification.content, contentIntent);
-
 		Global.notificationManager.notify(sNotification.id, notification);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		
+//		Utils.clearAllNotifications();
 
-//		Log.d(TAG, "[STOP NOTIFICATION SERVICE]");
-		// Global.isStop = true;
-		// TODO stop service notification
-		// stopService(new Intent(this, NotifyingService.class));
+		Log.d(TAG, "[STOP NOTIFICATION SERVICE]");
+		Global.isWaitingForNotifications = false;
+		stopService(new Intent(this, SmartShopNotificationService.class));
 
 		// TODO: store session
 //		if (Utils.isLogined())

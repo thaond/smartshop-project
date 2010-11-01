@@ -22,10 +22,12 @@ import com.appspot.smartshop.ui.product.SearchProductsTabActivity;
 import com.appspot.smartshop.ui.user.LoginActivity;
 import com.appspot.smartshop.ui.user.RegisterUserActivity;
 import com.appspot.smartshop.ui.user.ViewUserProfileActivity;
+import com.appspot.smartshop.ui.user.notification.SmartShopNotificationService;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 
 public class MainAdapter extends BaseAdapter {
 	public static final String TAG = "[MainAdapter]";
@@ -162,14 +164,19 @@ public class MainAdapter extends BaseAdapter {
 					Global.isLogin = false;
 					Global.userInfo = null;
 					intent = new Intent(context, SmartShopActivity.class);
+					
+					Utils.clearAllNotifications();
+					Global.isWaitingForNotifications = false;
+					Global.application.stopService(new Intent(Global.application, 
+							SmartShopNotificationService.class));
 				}
 				
 				@Override
 				public void onFailure(String message) {
 					Global.isLogin = false;
 					Global.userInfo = null;
+					// TODO: process when logout fail (because of exprired session)
 					intent = new Intent(context, SmartShopActivity.class);
-					//Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 				}
 			});
 			break;

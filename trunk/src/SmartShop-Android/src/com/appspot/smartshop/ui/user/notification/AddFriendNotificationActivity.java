@@ -121,11 +121,11 @@ public class AddFriendNotificationActivity extends BaseUIActivity {
 		lblEmail.setText(getString(R.string.email) + " " + userInfo.email);
 		lblDetail.setText(notification.content);
 		
-		//Cancel this notification
-		System.out.println("remove notification here");
-		Log.d(TAG, notification.id + "");
+		// Cancel this notification
+		Log.d(TAG, "remove notification" + notification.id);
 		Global.notificationManager.cancel(notification.id);
 		Global.notifications.remove(notification);
+		Utils.markNotificationAsRead(notification.id);
 	}
 
 };
