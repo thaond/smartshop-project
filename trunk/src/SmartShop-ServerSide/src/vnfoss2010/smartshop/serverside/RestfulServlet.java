@@ -76,6 +76,7 @@ import vnfoss2010.smartshop.serverside.services.parser.vatgia.SearchKeywordServi
 import vnfoss2010.smartshop.serverside.services.product.EditProductService;
 import vnfoss2010.smartshop.serverside.services.product.GetBuyedProductByUserService;
 import vnfoss2010.smartshop.serverside.services.product.GetInterestedProductByUsernameService;
+import vnfoss2010.smartshop.serverside.services.product.GetInterestedProductIDByUsernameService;
 import vnfoss2010.smartshop.serverside.services.product.GetListProductByCriteriaInCategoryService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductService;
 import vnfoss2010.smartshop.serverside.services.product.GetProductsByUsernameService;
@@ -244,6 +245,9 @@ public class RestfulServlet extends HttpServlet {
 				GetSelledProductByUserService.class);
 		unAuthorizedServices.put("get-interested-product-by-username",
 				GetInterestedProductByUsernameService.class);
+		unAuthorizedServices.put("get-interested-product-id-by-username",
+				GetInterestedProductIDByUsernameService.class);
+		
 		unAuthorizedServices.put("product-get-by-username",
 				GetProductsByUsernameService.class);
 
