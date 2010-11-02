@@ -299,4 +299,6 @@
 	<string name="return_to_home">Trang chủ</string>
 	
 	<string name="no_product_found">Không có sản phẩm nào</string>
+	
+	<string name="view_related_products">Xem sản phẩm liên quan</string>
 </resources>

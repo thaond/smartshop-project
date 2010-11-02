@@ -163,7 +163,8 @@ public class MainAdapter extends BaseAdapter {
 				public void onSuccess(JSONObject json) throws JSONException {
 					Global.isLogin = false;
 					Global.userInfo = null;
-					intent = new Intent(context, SmartShopActivity.class);
+					intent = new Intent(context, SmartShopActivity.class)
+									.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					
 					Utils.clearAllNotifications();
 					Global.isWaitingForNotifications = false;
@@ -176,7 +177,7 @@ public class MainAdapter extends BaseAdapter {
 					Global.isLogin = false;
 					Global.userInfo = null;
 					// TODO: process when logout fail (because of exprired session)
-					intent = new Intent(context, SmartShopActivity.class);
+					intent = new Intent(context, SmartShopActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				}
 			});
 			break;

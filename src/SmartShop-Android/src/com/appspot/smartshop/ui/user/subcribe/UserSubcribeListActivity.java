@@ -100,7 +100,6 @@ public class UserSubcribeListActivity extends BaseUIActivity {
 
 			@Override
 			public void loadData() {
-				// TODO remove Global.userInfo.username=duc after test
 				String url = String.format(URLConstant.GET_USER_SUBCRIBES,
 						Global.userInfo.username);
 

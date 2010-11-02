@@ -97,7 +97,6 @@ public class PageAdapter extends ArrayAdapter<Page> {
 					intent.putExtra("can_edit_page", true);
 				}
 				
-				// TODO: get page info from service find page by id
 				String url = String.format(URLConstant.GET_PAGE_BY_ID, page.id);
 				RestClient.getData(url, new JSONParser() {
 					

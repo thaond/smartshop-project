@@ -94,6 +94,7 @@ public class SmartShopNotificationService extends Service {
     };
 
     private NotificationManager notificationManager;
+    private String loadNotificationsFailureMessage = null;
     private void loadNotifications() {
     	String username = Global.userInfo.username;
     	if (username == null || username.trim().equals("")) {
@@ -122,12 +123,20 @@ public class SmartShopNotificationService extends Service {
 
 			@Override
 			public void onFailure(String message) {
-				Toast.makeText(Global.application, message, Toast.LENGTH_SHORT).show();
-				Log.d(TAG, "[STOP SMARTSHOP NOTIFICATION SERVICE BECAUSE CAN'T LOAD CONNECT TO NETWORK]");
-				Global.isWaitingForNotifications = false;
-				SmartShopNotificationService.this.stopSelf();
+				loadNotificationsFailureMessage = message;
 			}
 		});
+		
+		// TODO: can't make Toast inside another thread, use Handler here
+		if (loadNotificationsFailureMessage != null) {
+			Toast.makeText(Global.application, loadNotificationsFailureMessage, 
+					Toast.LENGTH_SHORT).show();
+			Log.d(TAG, "[STOP SMARTSHOP NOTIFICATION SERVICE BECAUSE CAN'T LOAD CONNECT TO NETWORK]");
+			Global.isWaitingForNotifications = false;
+			SmartShopNotificationService.this.stopSelf();
+			
+			loadNotificationsFailureMessage = null;
+		}
 	}
 
 	private void showNotification(SmartshopNotification sNotification) {

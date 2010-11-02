@@ -76,8 +76,6 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia>{
 		final NProductVatGia item = (NProductVatGia) getItem(position);
 		
 		Bitmap imageOfProduct = Utils.getBitmapFromURL(item.imageThumbnail);
-		//TODO: condohero01: when I search "may dun nuoc", it reported 
-		// that has NULL Pointer at com.appspot.smartshop.adapter.NProductVatgiaAdapter.getView(NProductVatgiaAdapter.java:79)
 
 		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct,
 				IMAGE_WIDTH, IMAGE_HEIGHT, true);

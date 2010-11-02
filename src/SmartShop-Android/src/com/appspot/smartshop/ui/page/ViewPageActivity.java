@@ -91,16 +91,6 @@ public class ViewPageActivity extends BaseUIActivity {
 				viewUserProfile();
 			}
 		});
-
-		// TODO: Remove Notification
-//		System.out.println("test");
-//		SmartshopNotification sNotification = (SmartshopNotification) getIntent()
-//				.getSerializableExtra(Global.NOTIFICATION);
-//		if (sNotification != null) {
-//			System.out.println("remove noti");
-//			Global.notifications.remove(sNotification);
-//			Global.notificationManager.cancel(sNotification.id);
-//		}
 	}
 
 	@Override
