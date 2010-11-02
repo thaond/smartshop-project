@@ -1344,7 +1344,7 @@ public class ProductServiceImpl {
 			} else {
 				if (isInterest) {
 					for (String productIdStr : productIdStrs) {
-//						try {
+						try {
 							product = pm.getObjectById(Product.class,
 									Long.parseLong(productIdStr.trim()));
 							if (product == null) {
@@ -1378,20 +1378,20 @@ public class ProductServiceImpl {
 													productIdStr));
 								}
 							}
-						// } catch (Exception e) {
-						// result.setOK(false);
-						// Global.log(log, e.getMessage());
-						// result.setMessage(result.getMessage()
-						// + ";"
-						// + String.format(
-						// Global.messages
-						// .getString("no_found_product_have_id"),
-						// productIdStr));
-						// }
+						} catch (Exception e) {
+							result.setOK(false);
+							Global.log(log, "Exception " + e.getMessage());
+							result.setMessage(result.getMessage()
+									+ ";"
+									+ String.format(
+											Global.messages
+													.getString("no_found_product_have_id"),
+											productIdStr));
+						}
 					}
 				} else {
 					for (String productIdStr : productIdStrs) {
-//						try {
+						try {
 							product = pm.getObjectById(Product.class,
 									Long.parseLong(productIdStr.trim()));
 							if (product == null) {
@@ -1410,7 +1410,7 @@ public class ProductServiceImpl {
 											+ String.format(
 													Global.messages
 															.getString("user_not_yet_like_product"),
-													productIdStr));
+													username, productIdStr));
 									result.setOK(false);
 								} else {
 									product.getListInterestedUsername().remove(
@@ -1425,30 +1425,32 @@ public class ProductServiceImpl {
 													productIdStr));
 								}
 							}
-//						} catch (Exception e) {
-//							result.setOK(false);
-//							result.setMessage(result.getMessage()
-//									+ ";"
-//									+ String.format(
-//											Global.messages
-//													.getString("no_found_product_have_id"),
-//											productIdStr));
-//						}
+						} catch (Exception e) {
+							result.setOK(false);
+							Global.log(log, "Exception " + e.getMessage());
+							result.setMessage(result.getMessage()
+									+ ";"
+									+ String.format(
+											Global.messages
+													.getString("no_found_product_have_id"),
+											productIdStr));
+						}
 					}
 				}
 				result.setResult(user.getListInterestedProductID());
 			}
-
 		} catch (Exception e) {
 			result.setOK(false);
-			Global.log(log, e.getMessage());
+			Global.log(log, "Exception " + e.getMessage());
 			result.setMessage(String.format(
-					Global.messages.getString("user_like_product_fail")));
+					Global.messages.getString("user_like_product_fail"),
+					username));
 		} finally {
 			try {
 				pm.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+				Global.log(log, "Exception " + e.getMessage());
 			}
 		}
 		return result;
