@@ -150,7 +150,7 @@ public class LoginActivity extends BaseUIActivity {
 		Notification notification = new Notification(
 				android.R.drawable.btn_star_big_on, charTicker, when);
 		Context context = getApplicationContext();
-		Intent notificationIntent = new Intent(this, SmartShopActivity.class);
+		Intent notificationIntent = new Intent(this, SmartShopActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
 				notificationIntent, 0);
 		notification.setLatestEventInfo(context, charTitle, charContent,

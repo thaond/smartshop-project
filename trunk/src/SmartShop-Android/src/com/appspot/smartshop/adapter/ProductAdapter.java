@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,31 +94,36 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			if (Global.mFacebook != null && !Global.mFacebook.isSessionValid()) {
 				holder.postFacebook.setVisibility(View.GONE);
 			}
+			holder.chLike = (CheckBox) convertView.findViewById(R.id.chLike);
+			if (!Global.isLogin) {
+				holder.chLike.setVisibility(View.GONE);
+			}
+			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
+		// display product info
 		final ProductInfo productInfo = (ProductInfo) getItem(position);
+		// general info
 		holder.txtName.setText(productInfo.name);
 		holder.txtPrice.setText("" + productInfo.price);
 		holder.txtDescription.setText(productInfo.description);
 		if (productInfo.date_post != null) {
-			holder.txtDatePost.setText(Global.dfFull
-					.format(productInfo.date_post));
+			holder.txtDatePost.setText(Global.dfFull.format(productInfo.date_post));
 		}
+		
+		// listener
+		// map
 		holder.btnMap.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				if (productInfo.lat == 0 && productInfo.lng == 0) {
 					Log.d(TAG, "product has no lat, long");
-					Toast
-							.makeText(
-									context,
-									context
-											.getString(R.string.warnProductHasNoAddress),
-									Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getString(R.string.warnProductHasNoAddress),
+								Toast.LENGTH_SHORT).show();
 				} else {
 					Log.d(TAG, "show location of product");
 					MapDialog.createProductLocationDialog(
@@ -128,6 +134,8 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 				}
 			}
 		});
+		
+		// facebook
 		holder.postFacebook.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -136,6 +144,18 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			}
 		});
 
+		// avatar
+		if (productInfo.setMedias == null || productInfo.setMedias.isEmpty())
+			holder.image.setBackgroundResource(R.drawable.product_unknown);
+		else {
+			Drawable productDrawable = productInfo.setMedias.get(
+					(int) (Math.random() * productInfo.setMedias.size()))
+					.getDrawable();
+			if (productDrawable != null)
+				holder.image.setBackgroundDrawable(productDrawable);
+			else
+				holder.image.setBackgroundResource(R.drawable.product_unknown);
+		}
 		holder.image.setBackgroundDrawable(productInfo.getRandomThumbImage());
 
 		// go to product detail
@@ -190,8 +210,54 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		params.putString("description", productInfo.description);
 		params.putString("link",
 				"http://www.hangxachtayusa.net/product.php?id_product=195");
+		
+		if (Global.isLogin) {
+			holder.chLike.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if (holder.chLike.isChecked()) {
+						markProductAsInterest(productInfo.id);
+					} else {
+						unmarkProductAsInterest(productInfo.id);
+					}
+				}
+			});
+		}
 
 		return convertView;
+	}
+	
+	private void markProductAsInterest(long productId) {
+		String url = String.format(URLConstant.MARK_PRODUCT_AS_INTEREST, 
+				Global.getSession(), productId);
+		RestClient.getData(url, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
+	
+	private void unmarkProductAsInterest(long productId) {
+		String url = String.format(URLConstant.UNMARK_PRODUCT_AS_INTEREST, 
+				Global.getSession(), productId);
+		RestClient.getData(url, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	protected void postFacebookSmartShop() {
@@ -224,6 +290,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		TextView txtDatePost;
 		Button btnMap;
 		ImageView postFacebook;
+		CheckBox chLike;
 	}
 
 	public class WallPostRequestListener extends BaseRequestListener {

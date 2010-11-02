@@ -59,6 +59,13 @@
 			</intent-filter>
 		</activity>
 
+		<activity android:name=".ui.product.ViewRelatedProductsActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="PostProduct"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 		<activity android:name=".ui.product.PostProductActivity"
 			android:label="@string/app_name">
 			<intent-filter>

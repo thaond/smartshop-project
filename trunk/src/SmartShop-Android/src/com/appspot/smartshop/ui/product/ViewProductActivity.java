@@ -30,7 +30,7 @@ public class ViewProductActivity extends TabActivity {
 
 		// get product info from intent
 		Bundle bundle = getIntent().getExtras();
-		ProductInfo productInfo = (ProductInfo) bundle.get(Global.PRODUCT_INFO);
+		productInfo = (ProductInfo) bundle.get(Global.PRODUCT_INFO);
 		SmartshopNotification notification = (SmartshopNotification) bundle.get(Global.NOTIFICATION);
 		if (notification != null) {
 			Log.d(TAG, "remove notification " + notification.id);
@@ -80,9 +80,13 @@ public class ViewProductActivity extends TabActivity {
 		}
 	}
 	
+	private static final int MENU_VIEW_RELATED_RRODUCTS = 2;
+	private ProductInfo productInfo;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, getString(R.string.return_to_home)).setIcon(R.drawable.home);
+		menu.add(0, MENU_VIEW_RELATED_RRODUCTS, 0,
+				getString(R.string.view_related_products));
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -90,6 +94,10 @@ public class ViewProductActivity extends TabActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == 0) {
 			Utils.returnHomeActivity(this);
+		} else if (item.getItemId() == MENU_VIEW_RELATED_RRODUCTS) {
+			Intent intent = new Intent(this, ViewRelatedProductsActivity.class);
+			intent.putExtra(Global.RELATED_PRODUCT_ID, productInfo.id);
+			startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
 	}

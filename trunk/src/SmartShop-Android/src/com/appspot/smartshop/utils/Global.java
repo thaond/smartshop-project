@@ -127,6 +127,8 @@ public class Global {
 	
 	public static final String NOTIFICATION_ID = "notification_id";
 	
+	public static final String RELATED_PRODUCT_ID = "related_product_id";
+	
 	/*
 	 * ACTIVITY ACTION NAME
 	 */

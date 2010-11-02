@@ -183,21 +183,20 @@ public class Utils {
 	}
 	
 	public static void markNotificationAsRead(int notificationId) {
-		// TODO
-		System.out.println("[Mock Mark as read notification " + notificationId + "]");
-//		String url = String.format(URLConstant.MARK_NOTIFICATION_AS_READ, 
-//				Global.getSession(), notificationId);
-//		RestClient.getData(url, new JSONParser() {
-//			
-//			@Override
-//			public void onSuccess(JSONObject json) throws JSONException {
-//			}
-//			
-//			@Override
-//			public void onFailure(String message) {
-//				Toast.makeText(Global.application, message, Toast.LENGTH_SHORT).show();
-//			}
-//		});
+		System.out.println("[Mark as read notification " + notificationId + "]");
+		String url = String.format(URLConstant.MARK_NOTIFICATION_AS_READ, 
+				Global.getSession(), notificationId);
+		RestClient.getData(url, new JSONParser() {
+			
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+			}
+			
+			@Override
+			public void onFailure(String message) {
+				Toast.makeText(Global.application, message, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 	
 	public static void clearAllNotifications() {

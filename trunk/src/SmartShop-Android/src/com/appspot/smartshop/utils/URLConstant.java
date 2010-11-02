@@ -15,11 +15,16 @@ public class URLConstant {
 	public static String POST_PRODUCT = HOST
 			+ "/api/asd/registerproduct/?session=%s";
 	public static final String GET_PRODUCTS = HOST
-			+ "/api/asd/product-search-criteria-cat/?status=1";;
+			+ "/api/asd/product-search-criteria-cat/?status=1";
+	public static final String GET_RELATED_PRODUCTS = HOST + "/api/asd/product-related/?id=%d&limit=10";
 	public static final String GET_PRODUCTS_BY_CRITERIA = HOST
 			+ "/api/asd/product-search-criteria-cat/?status=0&criterias=%s";
 	public static final String GET_PRODUCTS_BY_LOCATION = HOST
 			+ "/api/asd/searchproductproximity/";
+	public static final String MARK_PRODUCT_AS_INTEREST = HOST
+			+ "/api/asd/mark-product-as-interest/?session=%s&productsid=%d";
+	public static final String UNMARK_PRODUCT_AS_INTEREST = HOST
+			+ "/api/asd/unmark-product-as-interest/?session=%s&productsid=%d";
 
 	public static String CREATE_PAGE = HOST
 			+ "/api/asd/create-page/?session=%s";
@@ -104,6 +109,7 @@ public class URLConstant {
 			+ "/api/asd/tag-friend-to-page/?session=%s&pageID=%d&usernames=%s";
 	public static final String UNTAG_FRIEND_FROM_PAGE = HOST
 			+ "/api/asd/untag-friend-from-page/?session=%s&pageID=%d&usernames=%s";
+	
 	/********* Image Hosting */
 	public static final String HOST_IMG = "http://10.0.2.2/testupload/";
 	public static final String URL_UPLOAD_AVATAR = HOST_IMG

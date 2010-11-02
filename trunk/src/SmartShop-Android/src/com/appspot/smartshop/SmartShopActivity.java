@@ -40,6 +40,7 @@ public class SmartShopActivity extends ListActivity {
 	// "{username:\"%s\",type_id:%d}";
 	private int numOfNotifications = 0;
 	private SimpleAsyncTask task;
+	private boolean first = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,14 +106,18 @@ public class SmartShopActivity extends ListActivity {
 		
 		// Init notification manager
 		if (Global.isLogin) {
-			if (Global.notificationManager == null) {
-				Global.notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			}
-			Global.notificationManager.cancelAll();		// remove all old notifications
+			if (first) {
+				if (Global.notificationManager == null) {
+					Global.notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+				}
+				Global.notificationManager.cancelAll();		// remove all old notifications
+				
+				Log.d(TAG, "[START NOTIFICATION SERVICE]");
+				Global.isWaitingForNotifications = true;
+				startService(new Intent(this, SmartShopNotificationService.class));
+			} 
 			
-			Log.d(TAG, "[START NOTIFICATION SERVICE]");
-			Global.isWaitingForNotifications = true;
-			startService(new Intent(this, SmartShopNotificationService.class));
+			first = false;
 		}
 		
 
@@ -222,23 +227,6 @@ public class SmartShopActivity extends ListActivity {
 					}
 
 					numOfNotifications += Global.notifications.size();
-					
-					// TODO: mark as read all notifications of a user
-//					Log.d(TAG, "[MARK ALL NOTIFICATION AS READ]");
-//					String url = String.format(URLConstant.MARK_AS_READ_ALL_NOTIFICATIONS, 
-//							Global.getSession());
-//					RestClient.getData(url, new JSONParser() {
-//
-//								@Override
-//								public void onSuccess(JSONObject json) throws JSONException {
-//								}
-//
-//								@Override
-//								public void onFailure(String message) {
-//									Toast.makeText(SmartShopActivity.this, message,
-//											Toast.LENGTH_SHORT).show();
-//								}
-//							});
 				}
 			}
 

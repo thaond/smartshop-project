@@ -86,6 +86,7 @@ public class SearchVatgiaActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				query = txtSearch.getText().toString(); 
+				query = URLEncoder.encode(query);
 				if (query != null && !query.trim().equals("")) {
 					searchProductsByQuery(URLEncoder.encode(query));	
 				}
