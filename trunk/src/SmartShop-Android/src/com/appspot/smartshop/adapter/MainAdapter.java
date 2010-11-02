@@ -22,6 +22,7 @@ import com.appspot.smartshop.ui.product.SearchProductsTabActivity;
 import com.appspot.smartshop.ui.user.LoginActivity;
 import com.appspot.smartshop.ui.user.RegisterUserActivity;
 import com.appspot.smartshop.ui.user.ViewUserProfileActivity;
+import com.appspot.smartshop.ui.user.email.SendEmailToAdminActivity;
 import com.appspot.smartshop.ui.user.notification.SmartShopNotificationService;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -61,16 +62,18 @@ public class MainAdapter extends BaseAdapter {
 			icons = new int[] { 
 					R.drawable.user_products_list, 
 					R.drawable.user_pages_list,
-					R.drawable.user_profile,
 					R.drawable.smartshop_logout,
+					R.drawable.user_profile,
+					R.drawable.contact,
 					R.drawable.exit,
 			};
 
 			text = new String[] {
 					context.getString(R.string.user_products_list),
 					context.getString(R.string.user_pages_list),
-					context.getString(R.string.user_profile), 
 					context.getString(R.string.logout),
+					context.getString(R.string.user_profile), 
+					context.getString(R.string.contact_us),
 					context.getString(R.string.exit),
 			};
 		}
@@ -180,6 +183,16 @@ public class MainAdapter extends BaseAdapter {
 					intent = new Intent(context, SmartShopActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				}
 			});
+			break;
+			
+		case R.drawable.contact:
+			intent = new Intent(context, SendEmailToAdminActivity.class);
+			if (Global.userInfo != null) {
+				String sender = Global.userInfo.email;
+				if (sender != null && !sender.trim().equals("")) {
+					intent.putExtra(Global.SENDER, sender);
+				}
+			}
 			break;
 		}
 

@@ -40,7 +40,6 @@ public class SmartShopActivity extends ListActivity {
 	// "{username:\"%s\",type_id:%d}";
 	private int numOfNotifications = 0;
 	private SimpleAsyncTask task;
-	private boolean first = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +105,8 @@ public class SmartShopActivity extends ListActivity {
 		
 		// Init notification manager
 		if (Global.isLogin) {
-			if (first) {
+			System.out.println("test = " + SmartShopNotificationService.isRunning);
+			if (!SmartShopNotificationService.isRunning) {
 				if (Global.notificationManager == null) {
 					Global.notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 				}
@@ -116,8 +116,6 @@ public class SmartShopActivity extends ListActivity {
 				Global.isWaitingForNotifications = true;
 				startService(new Intent(this, SmartShopNotificationService.class));
 			} 
-			
-			first = false;
 		}
 		
 
@@ -312,9 +310,11 @@ public class SmartShopActivity extends ListActivity {
 		
 //		Utils.clearAllNotifications();
 
-		Log.d(TAG, "[STOP NOTIFICATION SERVICE]");
-		Global.isWaitingForNotifications = false;
-		stopService(new Intent(this, SmartShopNotificationService.class));
+		if (!Global.isLogin) {
+			Log.d(TAG, "[STOP NOTIFICATION SERVICE]");
+			Global.isWaitingForNotifications = false;
+			stopService(new Intent(this, SmartShopNotificationService.class));
+		}
 
 		// TODO: store session
 //		if (Utils.isLogined())

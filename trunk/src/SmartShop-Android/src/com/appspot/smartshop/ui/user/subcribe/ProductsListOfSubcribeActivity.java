@@ -59,6 +59,7 @@ public class ProductsListOfSubcribeActivity extends ListActivity {
 			public void updateUI() {
 				adapter = new ProductAdapter(ProductsListOfSubcribeActivity.this, 
 						R.layout.product_list_item, products);
+				adapter.isNormalProductList = false;
 				listProducts.setAdapter(adapter);
 				if (!foundProduct) {
 					Toast.makeText(ProductsListOfSubcribeActivity.this, 

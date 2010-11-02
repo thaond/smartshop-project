@@ -15,7 +15,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.ConditionVariable;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.Parcel;
 import android.os.RemoteException;
 import android.util.Log;
@@ -37,11 +39,13 @@ import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
 
 public class SmartShopNotificationService extends Service {
-	public static final String TAG = "[NotifyingService]";
+	public static final String TAG = "[SmartShopNotificationService]";
 	public static final String PARAM_NOFITICATION = "{username:\"%s\",type_id:%d}";
     
     // variable which controls the notification thread 
     private ConditionVariable mCondition;
+    
+    public static boolean isRunning = false;
  
     @Override
     public void onCreate() {
@@ -52,16 +56,41 @@ public class SmartShopNotificationService extends Service {
         // main thread, which we don't want to block.
         Thread notifyingThread = new Thread(null, mTask, "SmartShopNotificationService");
         mCondition = new ConditionVariable(false);
+        isRunning = true;
         notifyingThread.start();
     }
 
     @Override
     public void onDestroy() {
+    	isRunning = false;
+    	
         // Cancel the persistent notification.
     	notificationManager.cancelAll();
     	
         // Stop the thread from generating further notifications
         mCondition.open();
+    }
+    
+    private static final int CONNECT_TO_SERVER_FAILURE = 0;
+    private Handler handler = new Handler() {
+    	@Override
+    	public void handleMessage(Message msg) {
+    		switch (msg.what) {
+    		case CONNECT_TO_SERVER_FAILURE:
+    			processConnectToServerFailure();
+    			break;
+    		}
+    	}
+    };
+    
+    private void processConnectToServerFailure() {
+    	Toast.makeText(Global.application, loadNotificationsFailureMessage, 
+				Toast.LENGTH_SHORT).show();
+		Log.d(TAG, "[STOP SMARTSHOP NOTIFICATION SERVICE BECAUSE CAN'T LOAD CONNECT TO NETWORK]");
+		Global.isWaitingForNotifications = false;
+		SmartShopNotificationService.this.stopSelf();
+		
+		loadNotificationsFailureMessage = null;
     }
 
     private Runnable mTask = new Runnable() {
@@ -123,19 +152,16 @@ public class SmartShopNotificationService extends Service {
 
 			@Override
 			public void onFailure(String message) {
-				loadNotificationsFailureMessage = message;
+				if (message.contains("Exception")) {
+					loadNotificationsFailureMessage = message;
+				}
 			}
 		});
 		
-		// TODO: can't make Toast inside another thread, use Handler here
 		if (loadNotificationsFailureMessage != null) {
-			Toast.makeText(Global.application, loadNotificationsFailureMessage, 
-					Toast.LENGTH_SHORT).show();
-			Log.d(TAG, "[STOP SMARTSHOP NOTIFICATION SERVICE BECAUSE CAN'T LOAD CONNECT TO NETWORK]");
-			Global.isWaitingForNotifications = false;
-			SmartShopNotificationService.this.stopSelf();
-			
-			loadNotificationsFailureMessage = null;
+			Message message = handler.obtainMessage();
+			message.what = CONNECT_TO_SERVER_FAILURE;
+			handler.sendMessage(message);
 		}
 	}
 

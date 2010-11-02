@@ -186,6 +186,7 @@ public class UserProductListActivity extends BaseUIActivity {
 				if (products != null) {
 					adapter = new ProductAdapter(UserProductListActivity.this,
 							R.layout.product_list_item, products);
+					adapter.isNormalProductList = false;
 					listProducts.setAdapter(adapter);
 				}
 			}
