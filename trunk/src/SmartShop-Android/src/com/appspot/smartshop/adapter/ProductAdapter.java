@@ -25,12 +25,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.facebook.AsyncFacebookRunner;
-import com.appspot.smartshop.facebook.BaseRequestListener;
-import com.appspot.smartshop.facebook.Facebook;
-import com.appspot.smartshop.facebook.FacebookError;
-import com.appspot.smartshop.facebook.SessionStore;
-import com.appspot.smartshop.facebook.Util;
+import com.appspot.smartshop.facebook.core.FacebookError;
+import com.appspot.smartshop.facebook.core.Util;
+import com.appspot.smartshop.facebook.utils.BaseRequestListener;
+import com.appspot.smartshop.facebook.utils.FacebookUtils;
 import com.appspot.smartshop.map.MapDialog;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.utils.Global;
@@ -50,36 +48,41 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 	public static final int IMAGE_WIDTH = 50;
 	public static final int IMAGE_HEIGHT = 50;
-	
+
 	public boolean isNormalProductList = true;
 
 	private int textViewResourceId;
+	private FacebookUtils facebook;
 
 	public ProductAdapter(Context context, int textViewResourceId,
-			List<ProductInfo> objects) {
+			List<ProductInfo> objects, FacebookUtils facebook) {
 		super(context, textViewResourceId, objects);
 		this.textViewResourceId = textViewResourceId;
 		this.context = context;
 		inflater = LayoutInflater.from(context);
+		this.facebook = facebook;
 	}
-	
+
 	public ProductAdapter(Context context, int textViewResourceId,
-			List<ProductInfo> objects, boolean isNormalProductList) {
-		this(context, textViewResourceId, objects);
+			List<ProductInfo> objects, boolean isNormalProductList,
+			FacebookUtils facebook) {
+		this(context, textViewResourceId, objects, facebook);
 		this.isNormalProductList = isNormalProductList;
 	}
 
 	public ProductAdapter(Context context, int textViewResourceId,
-			ProductInfo[] objects) {
+			ProductInfo[] objects, FacebookUtils facebook) {
 		super(context, textViewResourceId, objects);
 		this.textViewResourceId = textViewResourceId;
 
 		inflater = LayoutInflater.from(context);
 		this.context = context;
+		this.facebook = facebook;
 	}
 
-	public ProductAdapter(Context context, int textViewResourceId) {
-		this(context, textViewResourceId, new ProductInfo[] {});
+	public ProductAdapter(Context context, int textViewResourceId,
+			FacebookUtils facebook) {
+		this(context, textViewResourceId, new ProductInfo[] {}, facebook);
 	}
 
 	@Override
@@ -101,16 +104,13 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 					.findViewById(R.id.txtDatePost);
 			holder.postFacebook = (ImageView) convertView
 					.findViewById(R.id.btnPostFb);
-			if (Global.mFacebook != null && !Global.mFacebook.isSessionValid()) {
-				holder.postFacebook.setVisibility(View.GONE);
-			}
 			holder.chLike = (CheckBox) convertView.findViewById(R.id.chLike);
 			if (!isNormalProductList) {
 				holder.chLike.setVisibility(View.GONE);
 			} else if (!Global.isLogin) {
 				holder.chLike.setVisibility(View.GONE);
 			}
-			
+
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -123,9 +123,10 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		holder.txtPrice.setText("" + productInfo.price);
 		holder.txtDescription.setText(productInfo.description);
 		if (productInfo.date_post != null) {
-			holder.txtDatePost.setText(Global.dfFull.format(productInfo.date_post));
+			holder.txtDatePost.setText(Global.dfFull
+					.format(productInfo.date_post));
 		}
-		
+
 		// listener
 		// map
 		holder.btnMap.setOnClickListener(new OnClickListener() {
@@ -134,8 +135,12 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			public void onClick(View v) {
 				if (productInfo.lat == 0 && productInfo.lng == 0) {
 					Log.d(TAG, "product has no lat, long");
-					Toast.makeText(context, context.getString(R.string.warnProductHasNoAddress),
-								Toast.LENGTH_SHORT).show();
+					Toast
+							.makeText(
+									context,
+									context
+											.getString(R.string.warnProductHasNoAddress),
+									Toast.LENGTH_SHORT).show();
 				} else {
 					Log.d(TAG, "show location of product");
 					MapDialog.createProductLocationDialog(
@@ -146,13 +151,27 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 				}
 			}
 		});
-		
+
 		// facebook
 		holder.postFacebook.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				postFacebookSmartShop();
+				Log.d(TAG, "Posting on Facebook...");
+				if (facebook != null)
+					facebook
+							.sendMessage(
+									"SmartShop - Giới thiệu sản phẩm",
+									productInfo.name,
+									productInfo.getRandomThumbImageURL(),
+									productInfo.getShortDescription(),
+									String.format(
+											URLConstant.URL_WEBBASED_PRODUCT,
+											productInfo.id),
+									new FacebookUtils.SimpleWallpostListener(
+											facebook.getActivity(),
+											Global.application
+													.getString(R.string.postOnFacebookSuccess)));
 			}
 		});
 
@@ -213,72 +232,49 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			}
 		});
 
-		// TODO set up information to post on Facebook
-		params.putString("message", "Smart Shop");
-		params.putString("name", productInfo.name);
-		params.putString("picture",
-				"http://hangxachtayusa.net/img/p/89-129-medium.jpg");
-		params.putString("description", productInfo.description);
-		params.putString("link",
-				"http://www.hangxachtayusa.net/product.php?id_product=195");
-		
 		// mark/unmark product as interest
 		if (Global.isLogin) {
-//			holder.chLike.setOnClickListener(new OnClickListener() {
-//				
-//				@Override
-//				public void onClick(View v) {
-//					Log.d(TAG, "checkbox = " + holder.chLike.isChecked());
-//					if (holder.chLike.isChecked()) {
-//						markProductAsInterest(productInfo.id);
-//					} else {
-//						unmarkProductAsInterest(productInfo.id);
-//					}
-//				}
-//			});
-			holder.chLike.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (isChecked) {
-						Log.d(TAG, "[MARK PRODUCT AS INTEREST]");
-						markProductAsInterest(productInfo.id);
-					} else {
-						Log.d(TAG, "[UNMARK PRODUCT AS INTEREST]");
-						unmarkProductAsInterest(productInfo.id);
-					}
-				}
-			});
+			// holder.chLike.setOnClickListener(new OnClickListener() {
+			//				
+			// @Override
+			// public void onClick(View v) {
+			// Log.d(TAG, "checkbox = " + holder.chLike.isChecked());
+			// if (holder.chLike.isChecked()) {
+			// markProductAsInterest(productInfo.id);
+			// } else {
+			// unmarkProductAsInterest(productInfo.id);
+			// }
+			// }
+			// });
+			holder.chLike
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							if (isChecked) {
+								Log.d(TAG, "[MARK PRODUCT AS INTEREST]");
+								markProductAsInterest(productInfo.id);
+							} else {
+								Log.d(TAG, "[UNMARK PRODUCT AS INTEREST]");
+								unmarkProductAsInterest(productInfo.id);
+							}
+						}
+					});
 		}
 
 		return convertView;
 	}
-	
+
 	private void markProductAsInterest(long productId) {
-		String url = String.format(URLConstant.MARK_PRODUCT_AS_INTEREST, 
-				Global.getSession(), productId);
+		String url = String.format(URLConstant.MARK_PRODUCT_AS_INTEREST, Global
+				.getSession(), productId);
 		RestClient.getData(url, new JSONParser() {
-			
+
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
 			}
-			
-			@Override
-			public void onFailure(String message) {
-				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-			}
-		});
-	}
-	
-	private void unmarkProductAsInterest(long productId) {
-		String url = String.format(URLConstant.UNMARK_PRODUCT_AS_INTEREST, 
-				Global.getSession(), productId);
-		RestClient.getData(url, new JSONParser() {
-			
-			@Override
-			public void onSuccess(JSONObject json) throws JSONException {
-			}
-			
+
 			@Override
 			public void onFailure(String message) {
 				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -286,26 +282,20 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		});
 	}
 
-	protected void postFacebookSmartShop() {
-		AsyncFacebookRunner mAsyncRunner;
-		if (Global.mFacebook == null)
-			Global.mFacebook = new Facebook();
-		SessionStore.restore(Global.mFacebook, context);
-		mAsyncRunner = new AsyncFacebookRunner(Global.mFacebook);
-		if (!Global.mFacebook.isSessionValid()) {
-			Toast.makeText(context,
-					context.getString(R.string.alertLoginFacebook),
-					Toast.LENGTH_SHORT).show();
-		} else {
-			mAsyncRunner.request("me/feed", params, "POST",
-					new WallPostRequestListener());
-			Toast.makeText(context,
-					context.getString(R.string.postOnFacebookSuccess),
-					Toast.LENGTH_LONG).show();
-			holder.postFacebook
-					.setImageResource(R.drawable.facebook_share_nonactive);
-			holder.postFacebook.setClickable(false);
-		}
+	private void unmarkProductAsInterest(long productId) {
+		String url = String.format(URLConstant.UNMARK_PRODUCT_AS_INTEREST,
+				Global.getSession(), productId);
+		RestClient.getData(url, new JSONParser() {
+
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+			}
+
+			@Override
+			public void onFailure(String message) {
+				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	static class ViewHolder {

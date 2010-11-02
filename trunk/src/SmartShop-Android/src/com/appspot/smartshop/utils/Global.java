@@ -14,7 +14,9 @@ import android.graphics.drawable.Drawable;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.SmartshopNotification;
 import com.appspot.smartshop.dom.UserInfo;
-import com.appspot.smartshop.facebook.Facebook;
+import com.appspot.smartshop.facebook.core.AsyncFacebookRunner;
+import com.appspot.smartshop.facebook.core.Facebook;
+import com.appspot.smartshop.facebook.utils.FacebookUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -160,9 +162,6 @@ public class Global {
 	public static final String VIEW_PROFILE_ACTIVITY = "ViewProfile";
 	public static final String TITLE_NOTIFICATION = "TitleNotification";
 	public static final String CONTENT_NOTIFICATION = "ContentNotification";
-	// Variable for Facebook's connection
-	public static final String APP_ID = "168183433192672"; //SmartShop API Key on Facebook
-	public static final String[] PERMISSIONS = new String[] { "publish_stream",
-			"read_stream", "offline_access" };
-	public static Facebook mFacebook;
+	
+	//public static FacebookUtils facebookUtils;
 }
