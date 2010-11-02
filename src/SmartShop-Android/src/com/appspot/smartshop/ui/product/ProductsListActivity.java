@@ -19,18 +19,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.facebook.Facebook;
-import com.appspot.smartshop.facebook.LoginButton;
-import com.appspot.smartshop.facebook.SessionEvents;
-import com.appspot.smartshop.facebook.SessionStore;
-import com.appspot.smartshop.facebook.Util;
-import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
-import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
+import com.appspot.smartshop.facebook.utils.FacebookUtils;
 import com.appspot.smartshop.map.SearchProductsOnMapActivity;
 import com.appspot.smartshop.ui.BaseUIActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
@@ -57,7 +50,6 @@ public class ProductsListActivity extends MapActivity {
 	private LinkedList<ProductInfo> products;
 	private EditText txtSearch;
 	//set up variable for facebook connection
-	private LoginButton mLoginButton;
 	//end set up variable for facebook connection
 	
 	public static ProductsListActivity getInstance() {
@@ -70,23 +62,8 @@ public class ProductsListActivity extends MapActivity {
 		setContentView(R.layout.products_list);
 		
 		BaseUIActivity.initHeader(this);
+		Log.d(TAG, "onCreate");
 		
-		if (Global.APP_ID == null) {
-			Util.showAlert(this, "Warning", "Facebook Applicaton ID must be "
-					+ "specified before running");
-		}
-		
-		instance = this;
-		//set up variable for facebook connection
-		mLoginButton = (LoginButton) findViewById(R.id.loginFb);
-		Global.mFacebook = new Facebook();
-		SessionStore.restore(Global.mFacebook, this);
-		SessionEvents.addAuthListener(new SampleAuthListener());
-		SessionEvents.addLogoutListener(new SampleLogoutListener());
-		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
-		if(Global.mFacebook.isSessionValid()){
-			mLoginButton.setVisibility(View.GONE);
-		}
 //		mLoginButton.setVisibility(View.VISIBLE);
 		// search field
 		txtSearch = (EditText) findViewById(R.id.txtSearch);
@@ -123,7 +100,7 @@ public class ProductsListActivity extends MapActivity {
 		// list view
 		listView = (ListView) findViewById(R.id.listViewProductAfterSearch);
 		productAdapter = new ProductAdapter(this, R.layout.product_list_item,
-				new LinkedList<ProductInfo>());
+				new LinkedList<ProductInfo>(),new FacebookUtils(this) );
 		loadProductsList();	
 	}
 
@@ -218,7 +195,7 @@ public class ProductsListActivity extends MapActivity {
 			@Override
 			public void updateUI() {
 				productAdapter = new ProductAdapter(
-						ProductsListActivity.this, R.layout.product_list_item, products);
+						ProductsListActivity.this, R.layout.product_list_item, products,new FacebookUtils(ProductsListActivity.this));
 				listView.setAdapter(productAdapter);
 			}
 			
@@ -249,33 +226,4 @@ public class ProductsListActivity extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-	public class SampleAuthListener implements AuthListener {
-
-		public void onAuthSucceed() {
-			Toast.makeText(ProductsListActivity.this,
-					getString(R.string.loginFacebookSuccess),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		public void onAuthFail(String error) {
-			Toast.makeText(ProductsListActivity.this,
-					getString(R.string.loginFacebookFail), Toast.LENGTH_SHORT)
-					.show();
-		}
-	}
-
-	public class SampleLogoutListener implements LogoutListener {
-		public void onLogoutBegin() {
-			Toast.makeText(ProductsListActivity.this,
-					getString(R.string.logoutFacebookLoading),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		public void onLogoutFinish() {
-			Toast.makeText(ProductsListActivity.this,
-					getString(R.string.logoutFacebookSuccess),
-					Toast.LENGTH_SHORT).show();
-		}
-	}
-
 }

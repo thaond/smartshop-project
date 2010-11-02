@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.StringUtils;
+import com.appspot.smartshop.utils.URLConstant;
 import com.google.gson.reflect.TypeToken;
 
 public class ProductInfo implements Serializable {
@@ -68,12 +69,19 @@ public class ProductInfo implements Serializable {
 					R.drawable.product_unknown);
 		} else {
 			Drawable productDrawable = setMedias.get(
-					(int) (Math.random() * setMedias.size()))
-					.getDrawable();
+					(int) (Math.random() * setMedias.size())).getDrawable();
 			if (productDrawable == null)
 				return Global.application.getResources().getDrawable(
 						R.drawable.product_unknown);
 			return productDrawable;
+		}
+	}
+
+	public String getRandomThumbImageURL() {
+		if (setMedias == null || setMedias.isEmpty())
+			return URLConstant.URL_NO_PRODUCT_IMG;
+		else {
+			return setMedias.get((int) (Math.random() * setMedias.size())).link;
 		}
 	}
 

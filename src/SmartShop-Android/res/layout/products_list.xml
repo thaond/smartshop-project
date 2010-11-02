@@ -16,9 +16,6 @@
 			<Button android:layout_width="wrap_content"
 				android:background="@drawable/map_icon" android:layout_height="wrap_content"
 				android:id="@+id/btnSearchOnMap" />
-			<com.appspot.smartshop.facebook.LoginButton
-				android:id="@+id/loginFb" android:background="@drawable/login_facebook"
-				android:layout_width="73dip" android:layout_height="31dip" />
 		</LinearLayout>
 	</LinearLayout>
 

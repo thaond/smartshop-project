@@ -44,7 +44,7 @@
 	<string name="add_new_product">Đăng sản phẩm mới</string>
 	<string name="user_info">Thông tin của tôi</string>
 	<string name="subcribe">Đăng ký nhận thông tin</string>
-	
+
 
 	<string name="tooltipAddressHint">(vd: 268 Lý Thường Kiệt quận 10 HCM)</string>
 	<string name="lblPhoneNumber">Số điện thoại:</string>
@@ -223,7 +223,7 @@
 	<string name="warn_email_receiver_empty">Chưa nhập người nhận</string>
 	<string name="warn_email_sender_wrong_format">Email sai định dạng</string>
 	<string name="warn_email_content_empty">Chưa nhập nội dung</string>
-	
+
 	<!-- Notification -->
 	<string name="date">Ngày : </string>
 	<string name="warn_no_notification">Không có thông báo nào</string>
@@ -232,10 +232,12 @@
 	<string name="tag_page">Bạn được tag vào bài viết</string>
 	<string name="untag_product">Bạn được gỡ tag khỏi sản phẩm</string>
 	<string name="untag_page">Bạn được gỡ tag khỏi bài viết</string>
-	<string name="add_comment_product">Có thành viên khác bình luận vào sản phẩm của bạn</string>
-	<string name="add_comment_page">Có thành viên khác bình luận vào bài viết của bạn</string>
+	<string name="add_comment_product">Có thành viên khác bình luận vào sản phẩm của bạn
+	</string>
+	<string name="add_comment_page">Có thành viên khác bình luận vào bài viết của bạn
+	</string>
 	<string name="tag_product_to_page">Tag sản phẩm vào bài viết</string>
-	
+
 	<string name="invalid_intent">Gọi giao diện không hợp lệ</string>
 
 	<!-- Search products on map -->
@@ -274,33 +276,42 @@
 	<string name="loginFacebookFail">Đăng nhập Facebook thất bại</string>
 	<string name="logoutFacebookSuccess">Đăng xuất Facebook thành công</string>
 	<string name="logoutFacebookLoading">Đang thoát khỏi tài khoản Facebook</string>
-	
-	<string name="alertLoginFacebook">Bạn phải đăng nhập tài khoản Facebook để sử dụng chức năng này</string>
-	<string name="alertLoginSmartShop">Bạn phải đăng nhập tài khoản Smart Shop để sử dụng chức năng này</string>
+
+	<string name="alertLoginFacebook">Bạn phải đăng nhập tài khoản Facebook để sử dụng
+		chức năng này</string>
+	<string name="alertLoginSmartShop">Bạn phải đăng nhập tài khoản Smart Shop để sử dụng
+		chức năng này</string>
 	<string name="settings">Thiết lập</string>
 	<string name="cannot_connect_network">Không thể kết nối mạng</string>
-	
+
 	<string name="select_product_1">Mặt hàng 1</string>
 	<string name="select_product_2">Mặt hàng 2</string>
 	<string name="prompt_select_product">Chọn mặt hàng</string>
 	<string name="compare">So sánh</string>
 	<string name="warn_choose_2_different_products">Chọn 2 mặt hàng khác nhau</string>
-	
+
 	<string name="err_cant_get_product_info">Không thể lấy thông tin sản phẩm</string>
-	
+
 	<string name="search_product_on_map">Tên sản phẩm cần tìm</string>
 	<string name="search_radius_on_map">Bán kính (m)</string>
-	<string name="logout">Đăng xuất</string> 
+	<string name="logout">Đăng xuất</string>
 	<string name="warn_not_choose_user">Bạn chưa chọn bạn bè nào</string>
 	<string name="send_email_to_user">Gửi email tới user</string>
-	
+
 	<string name="warn_cant_view_notification_detail">Không thể xem chi tiết thông báo</string>
-	
+
 	<string name="return_to_home">Trang chủ</string>
-	
+
 	<string name="no_product_found">Không có sản phẩm nào</string>
-	
+
 	<string name="view_related_products">Xem sản phẩm liên quan</string>
-	
+
 	<string name="contact_us">Góp ý</string>
+
+	<!-- Test Facebook -->
+	<string name="login">Test Login</string>
+	<string name="request">Request!</string>
+	<string name="upload">Upload Photo</string>
+	<string name="post">Wall Post!</string>
+	<string name="delete">Delete Post</string>
 </resources>

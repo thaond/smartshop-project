@@ -19,7 +19,7 @@ import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserSubcribeProduct;
-import com.appspot.smartshop.facebook.LoginButton;
+import com.appspot.smartshop.facebook.utils.FacebookUtils;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -58,7 +58,7 @@ public class ProductsListOfSubcribeActivity extends ListActivity {
 			@Override
 			public void updateUI() {
 				adapter = new ProductAdapter(ProductsListOfSubcribeActivity.this, 
-						R.layout.product_list_item, products);
+						R.layout.product_list_item, products,new FacebookUtils(ProductsListOfSubcribeActivity.this));
 				adapter.isNormalProductList = false;
 				listProducts.setAdapter(adapter);
 				if (!foundProduct) {

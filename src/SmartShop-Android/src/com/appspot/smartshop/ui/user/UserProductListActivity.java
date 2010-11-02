@@ -17,18 +17,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.ProductAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
-import com.appspot.smartshop.facebook.Facebook;
-import com.appspot.smartshop.facebook.LoginButton;
-import com.appspot.smartshop.facebook.SessionEvents;
-import com.appspot.smartshop.facebook.SessionStore;
-import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
-import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
+import com.appspot.smartshop.facebook.utils.FacebookUtils;
 import com.appspot.smartshop.ui.BaseUIActivity;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -50,7 +44,6 @@ public class UserProductListActivity extends BaseUIActivity {
 	private ListView listProducts;
 	private String url;
 	// set up variable for facebook connection
-	private LoginButton mLoginButton;
 
 	@Override
 	protected void onCreatePre() {
@@ -59,13 +52,6 @@ public class UserProductListActivity extends BaseUIActivity {
 
 	@Override
 	protected void onCreatePost(Bundle savedInstanceState) {
-		// set up variable for facebook connection
-		mLoginButton = (LoginButton) findViewById(R.id.loginFace);
-		Global.mFacebook = new Facebook();
-		SessionStore.restore(Global.mFacebook, this);
-		SessionEvents.addAuthListener(new SampleAuthListener());
-		SessionEvents.addLogoutListener(new SampleLogoutListener());
-		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
 		// get username
 		username = getIntent().getExtras().getString(Global.PRODUCTS_OF_USER);
 
@@ -185,7 +171,7 @@ public class UserProductListActivity extends BaseUIActivity {
 			public void updateUI() {
 				if (products != null) {
 					adapter = new ProductAdapter(UserProductListActivity.this,
-							R.layout.product_list_item, products);
+							R.layout.product_list_item, products,new FacebookUtils(UserProductListActivity.this));
 					adapter.isNormalProductList = false;
 					listProducts.setAdapter(adapter);
 				}
@@ -213,34 +199,5 @@ public class UserProductListActivity extends BaseUIActivity {
 		});
 
 		task.execute();
-	}
-
-	public class SampleAuthListener implements AuthListener {
-
-		public void onAuthSucceed() {
-			Toast.makeText(UserProductListActivity.this,
-					getString(R.string.loginFacebookSuccess),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		public void onAuthFail(String error) {
-			Toast.makeText(UserProductListActivity.this,
-					getString(R.string.loginFacebookFail), Toast.LENGTH_SHORT)
-					.show();
-		}
-	}
-
-	public class SampleLogoutListener implements LogoutListener {
-		public void onLogoutBegin() {
-			Toast.makeText(UserProductListActivity.this,
-					getString(R.string.logoutFacebookLoading),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		public void onLogoutFinish() {
-			Toast.makeText(UserProductListActivity.this,
-					getString(R.string.logoutFacebookSuccess),
-					Toast.LENGTH_SHORT).show();
-		}
 	}
 }

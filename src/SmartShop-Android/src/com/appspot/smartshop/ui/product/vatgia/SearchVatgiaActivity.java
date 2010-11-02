@@ -7,26 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.appspot.smartshop.R;
-import com.appspot.smartshop.adapter.NProductVatgiaAdapter;
-import com.appspot.smartshop.dom.NProductVatGia;
-import com.appspot.smartshop.facebook.AsyncFacebookRunner;
-import com.appspot.smartshop.facebook.Facebook;
-import com.appspot.smartshop.facebook.LoginButton;
-import com.appspot.smartshop.facebook.SessionEvents;
-import com.appspot.smartshop.facebook.SessionStore;
-import com.appspot.smartshop.facebook.Util;
-import com.appspot.smartshop.facebook.SessionEvents.AuthListener;
-import com.appspot.smartshop.facebook.SessionEvents.LogoutListener;
-import com.appspot.smartshop.utils.DataLoader;
-import com.appspot.smartshop.utils.Global;
-import com.appspot.smartshop.utils.JSONParser;
-import com.appspot.smartshop.utils.RestClient;
-import com.appspot.smartshop.utils.SimpleAsyncTask;
-import com.appspot.smartshop.utils.URLConstant;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,12 +15,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.appspot.smartshop.R;
+import com.appspot.smartshop.adapter.NProductVatgiaAdapter;
+import com.appspot.smartshop.dom.NProductVatGia;
+import com.appspot.smartshop.facebook.utils.FacebookUtils;
+import com.appspot.smartshop.utils.DataLoader;
+import com.appspot.smartshop.utils.Global;
+import com.appspot.smartshop.utils.JSONParser;
+import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.SimpleAsyncTask;
+import com.appspot.smartshop.utils.URLConstant;
 
 public class SearchVatgiaActivity extends Activity {
 	public static final String TAG = "[SearchVatgiaActivity]";
 	//set up variable for facebook connection
-	private LoginButton mLoginButton;
 	//end set up variable for facebook connection
 	
 	private static final int NO_PAGE = 0;
@@ -61,21 +51,6 @@ public class SearchVatgiaActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_vatgia);
-		if (Global.APP_ID == null) {
-			Util.showAlert(this, "Warning", "Facebook Applicaton ID must be "
-					+ "specified before running");
-		}
-		//set up variable for facebook connection
-		mLoginButton = (LoginButton) findViewById(R.id.loginFaceBookVatGia);
-
-		Global.mFacebook = new Facebook();
-		SessionStore.restore(Global.mFacebook, this);
-		SessionEvents.addAuthListener(new SampleAuthListener());
-		SessionEvents.addLogoutListener(new SampleLogoutListener());
-		mLoginButton.init(Global.mFacebook, Global.PERMISSIONS);
-		if(Global.mFacebook.isSessionValid()){
-			mLoginButton.setVisibility(View.GONE);
-		}
 		// search field
 		txtSearch = (EditText) findViewById(R.id.txtSearch);
 		
@@ -142,7 +117,7 @@ public class SearchVatgiaActivity extends Activity {
 					txtNumOfPages.setText("" + numOfPages);
 				}
 				
-				adapter = new NProductVatgiaAdapter(SearchVatgiaActivity.this, 0, products);
+				adapter = new NProductVatgiaAdapter(SearchVatgiaActivity.this, 0, products, new FacebookUtils(SearchVatgiaActivity.this));
 				listProducts.setAdapter(adapter);
 			}
 			
@@ -173,36 +148,5 @@ public class SearchVatgiaActivity extends Activity {
 			}
 		});
 		task.execute();
-	}
-	public class SampleAuthListener implements AuthListener {
-
-		public void onAuthSucceed() {
-			Toast.makeText(SearchVatgiaActivity.this,
-					getString(R.string.loginFacebookSuccess),
-					Toast.LENGTH_SHORT).show();
-			mLoginButton.setVisibility(View.GONE);
-//			searchProductsByQuery(query);
-
-		}
-
-		public void onAuthFail(String error) {
-			Toast.makeText(SearchVatgiaActivity.this,
-					getString(R.string.loginFacebookFail), Toast.LENGTH_SHORT)
-					.show();
-		}
-	}
-
-	public class SampleLogoutListener implements LogoutListener {
-		public void onLogoutBegin() {
-			Toast.makeText(SearchVatgiaActivity.this,
-					getString(R.string.logoutFacebookLoading),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		public void onLogoutFinish() {
-			Toast.makeText(SearchVatgiaActivity.this,
-					getString(R.string.logoutFacebookSuccess),
-					Toast.LENGTH_SHORT).show();
-		}
 	}
 }
