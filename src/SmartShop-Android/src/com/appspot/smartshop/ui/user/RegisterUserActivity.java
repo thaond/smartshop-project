@@ -590,7 +590,8 @@ public class RegisterUserActivity extends MapActivity {
 
 			@Override
 			public void onFailure(String message) {
-				Log.e(TAG, message);
+				Toast.makeText(RegisterUserActivity.this, message,
+						Toast.LENGTH_SHORT).show();
 			}
 
 			@Override

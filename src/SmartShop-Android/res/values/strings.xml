@@ -176,7 +176,7 @@
 	<string name="search_by_categories">Tìm theo mục</string>
 
 	<!-- Message -->
-	<string name="cant_connect_network">Không thể kết nối mạng</string>
+	<string name="cant_connect_network">Không thể kết tới server</string>
 
 	<!-- File explorer -->
 	<string name="dirname_app_name">Android File Browser</string>
@@ -301,4 +301,6 @@
 	<string name="no_product_found">Không có sản phẩm nào</string>
 	
 	<string name="view_related_products">Xem sản phẩm liên quan</string>
+	
+	<string name="contact_us">Góp ý</string>
 </resources>

@@ -52,7 +52,7 @@ public class URLConstant {
 	public static final String GET_USER_INFO_SESSION = HOST
 			+ "/api/asd/account-getuser/?session=%s";
 	public static final String GET_INTERESTED_PRODUCTS_OF_USER = HOST
-			+ "/api/asd/product-get-interested-product/?username=%s&limit=0";
+			+ "/api/asd/get-interested-product-by-username/?username=%s&limit=0";
 	public static final String GET_SELLED_PRODUCTS_OF_USER = HOST
 			+ "/api/asd/product-get-selled-product/?username=%s&limit=0";
 	public static final String GET_BUYED_PRODUCTS_OF_USER = HOST

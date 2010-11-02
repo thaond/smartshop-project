@@ -20,6 +20,7 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ViewRelatedProductsActivity extends ListActivity {
 	public static final String TAG = "[ViewRelatedProductsActivity]";
@@ -47,9 +48,14 @@ public class ViewRelatedProductsActivity extends ListActivity {
 			
 			@Override
 			public void updateUI() {
-				adapter = new ProductAdapter(
-						ViewRelatedProductsActivity.this, R.layout.product_list_item, products);
-				list.setAdapter(adapter);
+				if (products.size() == 0) {
+					Toast.makeText(ViewRelatedProductsActivity.this, 
+							getString(R.string.no_product_found), Toast.LENGTH_SHORT).show();
+				} else {
+					adapter = new ProductAdapter(
+							ViewRelatedProductsActivity.this, R.layout.product_list_item, products);
+					list.setAdapter(adapter);
+				}
 			}
 			
 			@Override
@@ -74,5 +80,6 @@ public class ViewRelatedProductsActivity extends ListActivity {
 				});
 			}
 		});
+		task.execute();
 	}
 }

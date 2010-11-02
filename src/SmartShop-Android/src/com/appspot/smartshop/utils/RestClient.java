@@ -26,7 +26,7 @@ import com.appspot.smartshop.R;
 
 public class RestClient {
 	public static final String TAG = "[RestClient]";
-	public static JSONParser jsonParser = null;
+//	public static JSONParser jsonParser = null;
 	private static HttpClient httpClient;
 	public static int CONNECTION_TIMEOUT = 10000;
 	public static int SOCKET_TIMEOUT = 30000;
@@ -55,7 +55,7 @@ public class RestClient {
 	public static void postData(String url, String jsonParam, JSONParser parser) {
 		Log.d(TAG, url); 
 				
-		jsonParser = parser;
+//		jsonParser = parser;
 
 		if (httpClient == null) {
 			HttpParams httpParameters = new BasicHttpParams();
@@ -64,90 +64,89 @@ public class RestClient {
 
 			httpClient = new DefaultHttpClient(httpParameters);
 		}
-		
-		HttpPost httpPost = new HttpPost(url);
-		try {
-			httpPost.setEntity(new StringEntity(jsonParam));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		
-		HttpResponse response = null;
-		HttpEntity entity = null;
-		String result = null;
-		InputStream instream = null;
-		
-		try {
-			response = httpClient.execute(httpPost);
-			entity = response.getEntity();
-
-			if (entity != null) {
-				instream = entity.getContent();
-				result = convertStreamToString(instream);
-				instream.close();
-			}
-
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			jsonParser.onFailure(e.getMessage());
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			jsonParser.onFailure(e.getMessage());
-			return;
-		} 
-		
-		JSONObject json = null;
-		
-		switch (jsonParser.jsonType) {
-		case JSONParser.SMART_SHOP_JSON:
+			
+		synchronized (httpClient) {
+			HttpPost httpPost = new HttpPost(url);
 			try {
-				json = new JSONObject(result);
-				Log.d(TAG, json.toString());
-			} catch (JSONException e) {
+				httpPost.setEntity(new StringEntity(jsonParam));
+			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
-				jsonParser.onFailure(e.getMessage());
+			}
+			
+			HttpResponse response = null;
+			HttpEntity entity = null;
+			String result = null;
+			InputStream instream = null;
+			
+			try {
+				response = httpClient.execute(httpPost);
+				entity = response.getEntity();
+	
+				if (entity != null) {
+					instream = entity.getContent();
+					result = convertStreamToString(instream);
+					instream.close();
+				}
+	
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				parser.onFailure(e.getMessage());
+				return;
+			} catch (IOException e) {
+				e.printStackTrace();
+				parser.onFailure(e.getMessage());
 				return;
 			} 
 			
-			try {
-				int errorCode = json.getInt(URLConstant.ERROR_CODE);
-				String message = json.getString(URLConstant.MESSAGE);
-				if (errorCode == 1) {
-					jsonParser.onFailure(message);
+			JSONObject json = null;
+			
+			switch (parser.jsonType) {
+			case JSONParser.SMART_SHOP_JSON:
+				try {
+					json = new JSONObject(result);
+					Log.d(TAG, json.toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
+					parser.onFailure(e.getMessage());
+					return;
+				} 
+				
+				try {
+					int errorCode = json.getInt(URLConstant.ERROR_CODE);
+					String message = json.getString(URLConstant.MESSAGE);
+					if (errorCode == 1) {
+						parser.onFailure(message);
+						return;
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					parser.onFailure(Global.application.getString(R.string.errServer));
 					return;
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-				jsonParser.onFailure(Global.application.getString(R.string.errServer));
-				return;
+				
+				try {
+					parser.onSuccess(json);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				break;
+				
+			case JSONParser.GOOGLE_DIRECTION_JSON:
+				try {
+					json = new JSONObject(result);
+					Log.d(TAG, json.toString());
+					parser.onSuccess(json);
+				} catch (JSONException e) {
+					e.printStackTrace();
+					parser.onFailure(e.getMessage());
+				}
+				break;
 			}
-			
-			try {
-				jsonParser.onSuccess(json);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			break;
-			
-		case JSONParser.GOOGLE_DIRECTION_JSON:
-			try {
-				json = new JSONObject(result);
-				Log.d(TAG, json.toString());
-				jsonParser.onSuccess(json);
-			} catch (JSONException e) {
-				e.printStackTrace();
-				jsonParser.onFailure(e.getMessage());
-			}
-			break;
 		}
-		
 	}
 
 	public static void getData(String url, JSONParser parser) {
 		Log.d(TAG, url);
-		
-		jsonParser = parser;
 
 		if (httpClient == null) {
 			HttpParams httpParameters = new BasicHttpParams();
@@ -156,77 +155,79 @@ public class RestClient {
 
 			httpClient = new DefaultHttpClient(httpParameters);
 		}
-		HttpGet httpGet = new HttpGet(url);
-		HttpResponse response = null;
-		HttpEntity entity = null;
-		String result = null;
-		InputStream instream = null;
-
-		try {
-			response = httpClient.execute(httpGet);
-			entity = response.getEntity();
-
-			if (entity != null) {
-				instream = entity.getContent();
-				result = convertStreamToString(instream);
-				instream.close();
-			}
-
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			jsonParser.onFailure(e.getMessage());
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			jsonParser.onFailure(e.getMessage());
-			return;
-		} 
 		
-		JSONObject json = null;
-		
-		switch (jsonParser.jsonType) {
-		case JSONParser.SMART_SHOP_JSON:
+		synchronized (httpClient) {
+			HttpGet httpGet = new HttpGet(url);
+			HttpResponse response = null;
+			HttpEntity entity = null;
+			String result = null;
+			InputStream instream = null;
+
 			try {
-				json = new JSONObject(result);
-				Log.d(TAG, json.toString());
-			} catch (JSONException e) {
+				response = httpClient.execute(httpGet);
+				entity = response.getEntity();
+
+				if (entity != null) {
+					instream = entity.getContent();
+					result = convertStreamToString(instream);
+					instream.close();
+				}
+
+			} catch (ClientProtocolException e) {
 				e.printStackTrace();
-				jsonParser.onFailure(e.getMessage());
+				parser.onFailure(e.getMessage());
+				return;
+			} catch (IOException e) {
+				e.printStackTrace();
+				parser.onFailure(e.getMessage());
 				return;
 			} 
 			
-			try {
-				int errorCode = json.getInt(URLConstant.ERROR_CODE);
-				String message = json.getString(URLConstant.MESSAGE);
-				if (errorCode == 1) {
-					jsonParser.onFailure(message);
+			JSONObject json = null;
+			
+			switch (parser.jsonType) {
+			case JSONParser.SMART_SHOP_JSON:
+				try {
+					json = new JSONObject(result);
+					Log.d(TAG, json.toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
+					parser.onFailure(e.getMessage());
+					return;
+				} 
+				
+				try {
+					int errorCode = json.getInt(URLConstant.ERROR_CODE);
+					String message = json.getString(URLConstant.MESSAGE);
+					if (errorCode == 1) {
+						parser.onFailure(message);
+						return;
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					parser.onFailure(Global.application.getString(R.string.errServer));
 					return;
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-				jsonParser.onFailure(Global.application.getString(R.string.errServer));
-				return;
+				
+				try {
+					parser.onSuccess(json);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				break;
+				
+			case JSONParser.GOOGLE_DIRECTION_JSON:
+				try {
+					json = new JSONObject(result);
+					Log.d(TAG, json.toString());
+					parser.onSuccess(json);
+				} catch (JSONException e) {
+					e.printStackTrace();
+					parser.onFailure(e.getMessage());
+				}
+				break;
 			}
-			
-			try {
-				jsonParser.onSuccess(json);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			break;
-			
-		case JSONParser.GOOGLE_DIRECTION_JSON:
-			try {
-				json = new JSONObject(result);
-				Log.d(TAG, json.toString());
-				jsonParser.onSuccess(json);
-			} catch (JSONException e) {
-				e.printStackTrace();
-				jsonParser.onFailure(e.getMessage());
-			}
-			break;
 		}
-		
 	}
 	
 }

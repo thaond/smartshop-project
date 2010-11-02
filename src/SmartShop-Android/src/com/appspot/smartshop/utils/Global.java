@@ -34,7 +34,7 @@ public class Global {
 	public static String getSession(){
 		return userInfo.sessionId;
 	}
-	public static boolean isWaitingForNotifications = false;
+	public static volatile boolean isWaitingForNotifications = false;
 
 	/*
 	 * Misc

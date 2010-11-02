@@ -118,6 +118,7 @@ public class SendEmailActivity extends BaseUIActivity {
 
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
+				finish();
 			}
 
 			@Override

@@ -17,9 +17,11 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
@@ -48,6 +50,8 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 
 	public static final int IMAGE_WIDTH = 50;
 	public static final int IMAGE_HEIGHT = 50;
+	
+	public boolean isNormalProductList = true;
 
 	private int textViewResourceId;
 
@@ -57,6 +61,12 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		this.textViewResourceId = textViewResourceId;
 		this.context = context;
 		inflater = LayoutInflater.from(context);
+	}
+	
+	public ProductAdapter(Context context, int textViewResourceId,
+			List<ProductInfo> objects, boolean isNormalProductList) {
+		this(context, textViewResourceId, objects);
+		this.isNormalProductList = isNormalProductList;
 	}
 
 	public ProductAdapter(Context context, int textViewResourceId,
@@ -95,7 +105,9 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 				holder.postFacebook.setVisibility(View.GONE);
 			}
 			holder.chLike = (CheckBox) convertView.findViewById(R.id.chLike);
-			if (!Global.isLogin) {
+			if (!isNormalProductList) {
+				holder.chLike.setVisibility(View.GONE);
+			} else if (!Global.isLogin) {
 				holder.chLike.setVisibility(View.GONE);
 			}
 			
@@ -201,8 +213,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			}
 		});
 
-		// set up information to post on Facebook
-		// TODO
+		// TODO set up information to post on Facebook
 		params.putString("message", "Smart Shop");
 		params.putString("name", productInfo.name);
 		params.putString("picture",
@@ -211,14 +222,29 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		params.putString("link",
 				"http://www.hangxachtayusa.net/product.php?id_product=195");
 		
+		// mark/unmark product as interest
 		if (Global.isLogin) {
-			holder.chLike.setOnClickListener(new OnClickListener() {
+//			holder.chLike.setOnClickListener(new OnClickListener() {
+//				
+//				@Override
+//				public void onClick(View v) {
+//					Log.d(TAG, "checkbox = " + holder.chLike.isChecked());
+//					if (holder.chLike.isChecked()) {
+//						markProductAsInterest(productInfo.id);
+//					} else {
+//						unmarkProductAsInterest(productInfo.id);
+//					}
+//				}
+//			});
+			holder.chLike.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				
 				@Override
-				public void onClick(View v) {
-					if (holder.chLike.isChecked()) {
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					if (isChecked) {
+						Log.d(TAG, "[MARK PRODUCT AS INTEREST]");
 						markProductAsInterest(productInfo.id);
 					} else {
+						Log.d(TAG, "[UNMARK PRODUCT AS INTEREST]");
 						unmarkProductAsInterest(productInfo.id);
 					}
 				}

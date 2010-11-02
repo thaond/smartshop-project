@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,6 +52,13 @@ public class SendEmailToAdminActivity extends BaseUIActivity {
 
 		txtTitle.setWidth(textWidth);
 		txtSender.setWidth(textWidth);
+		
+		if(getIntent() != null) {
+			Bundle bundle = getIntent().getExtras();
+			if (bundle != null) {
+				txtSender.setText(bundle.getString(Global.SENDER));
+			}
+		}
 
 		Button btnSend = (Button) findViewById(R.id.btnSend);
 		btnSend.setOnClickListener(new OnClickListener() {
@@ -96,6 +104,7 @@ public class SendEmailToAdminActivity extends BaseUIActivity {
 
 			@Override
 			public void onSuccess(JSONObject json) throws JSONException {
+				finish();
 			}
 
 			@Override
