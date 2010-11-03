@@ -18,6 +18,7 @@ import vnfoss2010.smartshop.webbased.share.WProduct;
 
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
@@ -58,7 +59,7 @@ public class Product extends SearchCapable implements LocationCapable,
 	private double lng;
 
 	@Persistent
-	private String description;
+	private Text description;
 
 	@Persistent
 	private int product_view;
@@ -149,7 +150,7 @@ public class Product extends SearchCapable implements LocationCapable,
 		this.address = address;
 		this.lat = lat;
 		this.lng = lng;
-		this.description = description;
+		this.description = new Text(description);
 		this.product_view = view;
 		this.date_post = date_post;
 		this.username = username;
@@ -443,14 +444,14 @@ public class Product extends SearchCapable implements LocationCapable,
 	 *            the description to set
 	 */
 	public void setDescription(String description) {
-		this.description = description;
+		this.description = new Text(description);
 	}
 
 	/**
 	 * @return the description
 	 */
 	public String getDescription() {
-		return description;
+		return description.getValue();
 	}
 
 	/**
@@ -630,7 +631,7 @@ public class Product extends SearchCapable implements LocationCapable,
 		wp.product_view = this.product_view;
 		wp.name = this.name;
 		wp.price = this.price;
-		wp.description = this.description;
+		wp.description = this.description.getValue();
 		wp.isVAT = this.is_vat;
 		wp.quantity = this.quantity;
 		wp.date_post = this.date_post;

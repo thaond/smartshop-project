@@ -3,12 +3,15 @@ package vnfoss2010.smartshop.serverside.test;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import vnfoss2010.smartshop.serverside.database.entity.Category;
+import vnfoss2010.smartshop.serverside.database.entity.Media;
 import vnfoss2010.smartshop.serverside.database.entity.Notification;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 public class SampleData {
 	public static ArrayList<UserInfo> getSampleListUserInfos() {
@@ -205,7 +208,39 @@ public class SampleData {
 				new Date(110, 1, 2), "duc");
 		product.getSetCategoryKeys().add("laptop");
 		products.add(product);
-
+		
+		//TODO
+		//////////////////
+		product = new Product("Nokia N95 8GB", 7000, false, 2, "12 tháng",
+				"China", "Công Ty CP Thế Giới Số Trần Anh (trananh)",
+				10.777268, 106.6563, UtilsFunction
+						.getContent("./sample/n95.txt"), 3,
+				new Date(110, 1, 2), "tam");
+		product.getSetCategoryKeys().add("mobile_pda_sub");
+		product.getSetMedias().add(new Media("Nokia N95_1","http://www.vatgia.com/pictures_fullsize/mjd1189151010.jpg"));
+		product.getSetMedias().add(new Media("Nokia N95_2","http://www.vatgia.com/pictures_product/owh1278726059.png"));
+		product.getSetMedias().add(new Media("Nokia N95_3","http://www.vatgia.com/pictures_product/oqg1278726057.png"));
+		product.getSetMedias().add(new Media("Nokia N95_4","http://www.vatgia.com/pictures_product/qgd1278726054.png"));
+		product.getSetMedias().add(new Media("Nokia N95_5","http://www.vatgia.com/pictures_product/qqa1278726051.png"));
+		product.getSetMedias().add(new Media("Nokia N95_6","http://www.vatgia.com/pictures_product/qhi1278726048.png"));
+		product.getSetMedias().add(new Media("Nokia N95_7","http://www.vatgia.com/pictures_product/abi1278726046.png"));
+		products.add(product);
+		
+		////////////////////
+		product = new Product("BlackBerry 8700, 8110, 8120, 8310, 8320, 8800, 8820, 9650, 9700 Giá tốt", 7000, false, 2, "12 tháng",
+				"China", "247 Phan Đăng Lưu - Quận Phú Nhuận",
+				10.777268, 106.6563, UtilsFunction
+						.getContent("./sample/blackberry.txt"), 3,
+				new Date(110, 1, 2), "tam");
+		product.getSetCategoryKeys().add("mobile_pda_sub");
+		product.getSetMedias().add(new Media("BlackBerry_1","http://enbac2.vcmedia.vn/thumb_max/up_new/2009/10/03/item/74/74321/20091003160813_blackberry_8820_gps_450x450.jpg"));
+		product.getSetMedias().add(new Media("BlackBerry_2","http://enbac2.vcmedia.vn/up_new/2009/10/03/item/74/74321/20091003160813_blackberry_8820_gps_450x450.jpg"));
+		product.getSetMedias().add(new Media("BlackBerry_3","http://enbac3.vcmedia.vn/up_new/2009/11/21/item/74/74321/20091121081521_cimg2157.jpg"));
+		product.getSetMedias().add(new Media("BlackBerry_4","http://enbac3.vcmedia.vn/up_new/2009/11/21/item/74/74321/20091121081536_cimg2178.jpg"));
+		product.getSetMedias().add(new Media("BlackBerry_5","http://enbac3.vcmedia.vn/up_new/2009/11/21/item/74/74321/20091121081558_cimg2183.jpg"));
+		product.getSetMedias().add(new Media("BlackBerry_6","http://enbac3.vcmedia.vn/up_new/2009/11/21/item/74/74321/20091121081614_cimg2190.jpg"));
+		products.add(product);
+		
 		return products;
 	}
 

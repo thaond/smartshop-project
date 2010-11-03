@@ -1,5 +1,10 @@
 package vnfoss2010.smartshop.serverside.utils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -230,7 +235,7 @@ public class UtilsFunction {
 		Collection<SessionObject> sessions = Global.mapSession.values();
 		for (SessionObject s : sessions) {
 			if (s.sessionId.equals(sessionId)) {
-				//Update session timestamp
+				// Update session timestamp
 				s.timeStamp = System.currentTimeMillis();
 				return s;
 			}
@@ -296,7 +301,33 @@ public class UtilsFunction {
 		return false;
 	}
 
-	// public static void main(String[] args) {
-	// System.out.println(distance(50, 50, 51, 50));
-	// }
+	public static String getContent(String fileName) {
+		File file = new File(fileName);
+		StringBuffer contents = new StringBuffer();
+		BufferedReader reader = null;
+
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			String text = null;
+
+			// repeat until all lines is read
+			while ((text = reader.readLine()) != null) {
+				contents.append(text).append("\n");//
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return contents.toString();
+	}
 }
