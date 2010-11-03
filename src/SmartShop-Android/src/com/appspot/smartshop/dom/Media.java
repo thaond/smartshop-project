@@ -16,8 +16,8 @@ public class Media implements Serializable{
 	public String description;
 	@Exclude
 	public InputStream inputStream;
-	@Exclude
-	private Drawable bitmap;
+//	@Exclude
+//	private Drawable bitmap;
 
 	public Media(String name, String link, String mimeType, String description) {
 		this.name = name;
@@ -30,9 +30,10 @@ public class Media implements Serializable{
 	}
 	
 	public Drawable getDrawable(){
-		if (bitmap==null)
-			bitmap = Utils.loadImage(link);
-		return bitmap;
+//		if (bitmap==null)
+//			bitmap = Utils.loadImage(link);
+//		return bitmap;
+		return Utils.loadImage(link);
 	}
 
 	/* (non-Javadoc)

@@ -187,7 +187,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			else
 				holder.image.setBackgroundResource(R.drawable.product_unknown);
 		}
-		holder.image.setBackgroundDrawable(productInfo.getRandomThumbImage());
+//		holder.image.setBackgroundDrawable(productInfo.getRandomThumbImage());
 
 		// go to product detail
 		convertView.setOnClickListener(new OnClickListener() {

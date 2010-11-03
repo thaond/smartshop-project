@@ -37,7 +37,7 @@ public class SelectTwoProductActivity extends Activity {
 		setContentView(R.layout.select_two_products);
 		
 		// get list products from Intent
-		products = (ArrayList<ProductInfo>) getIntent().getExtras().get(Global.PRODUCTS);
+		products = (ArrayList<ProductInfo>) getIntent().getSerializableExtra(Global.PRODUCTS);
 		
 		// list of product name
 		for (ProductInfo productInfo : products) {
