@@ -44,6 +44,12 @@ public class Media {
 		mime_type = mimeType;
 		this.description = description;
 	}
+	
+	public Media(String name, String link) {
+		this.name = name;
+		this.link = link;
+		this.description = name;
+	}
 
 	/**
 	 * @return the name

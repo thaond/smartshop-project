@@ -11,6 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import vnfoss2010.smartshop.serverside.utils.SearchCapable;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
@@ -23,7 +24,7 @@ public class Page extends SearchCapable {
 	private String name;
 
 	@Persistent
-	private String content;
+	private Text content;
 
 	@Persistent
 	private String link_thumbnail;
@@ -81,7 +82,7 @@ public class Page extends SearchCapable {
 			int pageView, Date datePost, Date lastModified, String username) {
 		this();
 		this.name = name;
-		this.content = content;
+		this.content = new Text(content);
 		link_thumbnail = linkThumbnail;
 		page_view = pageView;
 		date_post = datePost;
@@ -130,7 +131,9 @@ public class Page extends SearchCapable {
 	 * @return the content
 	 */
 	public String getContent() {
-		return content;
+		if (content!=null)
+			return content.getValue(); 
+		return "";
 	}
 
 	/**
@@ -138,7 +141,7 @@ public class Page extends SearchCapable {
 	 *            the content to set
 	 */
 	public void setContent(String content) {
-		this.content = content;
+		this.content = new Text(content);
 	}
 
 	/**
