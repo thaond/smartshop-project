@@ -11,9 +11,9 @@
 			android:layout_height="wrap_content" android:background="@drawable/xml_button_home"
 			android:layout_centerVertical="true" />
 		<TextView android:id="@+id/lblUser" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_centerVertical="true" android:text="username"
-			android:textColor="@color/username"
-			android:textSize="11sp" android:layout_toRightOf="@+id/btnHome"></TextView>
+			android:layout_height="wrap_content" android:layout_centerVertical="true"
+			android:textColor="@color/username" android:textSize="11sp"
+			android:layout_toRightOf="@+id/btnHome"></TextView>
 
 		<Button android:id="@+id/btnBack" android:background="@drawable/xml_button_back"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
