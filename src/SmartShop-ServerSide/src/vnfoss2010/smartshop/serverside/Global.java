@@ -27,7 +27,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.authentication.SessionObject;
+import vnfoss2010.smartshop.serverside.database.entity.Product;
+import vnfoss2010.smartshop.serverside.database.entity.TextAdapter;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
@@ -46,20 +49,20 @@ public abstract class Global {
 	public static final String XTIFY_API_KEY = "e32689d3-597b-43b4-afac-4387af15647e";
 	public static final int MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH = 5;
 	public static final int MAX_NUMBER_OF_WORDS_TO_PUT_IN_INDEX = 200;
-	public static final long SESSION_EXPRIED = 30*60*1000;//30 mins
-	
+	public static final long SESSION_EXPRIED = 30 * 60 * 1000;// 30 mins
+
 	public static final Gson gsonDateWithoutHour = new GsonBuilder()
 			.setDateFormat(NORMAL_DATE).excludeFieldsWithExcludeAnnotation()
-			.create();
+			.registerTypeAdapter(Text.class, new TextAdapter()).create();
 	public static final Gson gsonWithDate = new GsonBuilder().setDateFormat(
 			NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
-			.create();
+			.registerTypeAdapter(Text.class, new TextAdapter()).create();
 	public static final JsonParser jsonParser = new JsonParser();
 
 	private static Logger log = Logger.getLogger(Global.class.getName());
 	public static Map<String, SessionObject> mapSession = new HashMap<String, SessionObject>();
 	public static List<String> listAPIKeys = new ArrayList<String>();
-	
+
 	public static long lastScanExpired = 0;
 
 	public static final String[][] LANGUAGE = new String[][] {

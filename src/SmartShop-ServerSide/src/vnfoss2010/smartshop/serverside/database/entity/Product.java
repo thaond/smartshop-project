@@ -108,7 +108,7 @@ public class Product extends SearchCapable implements LocationCapable,
 	@Exclude
 	@Persistent
 	private List<String> geocells;
-	
+
 	@Exclude
 	@Persistent
 	private List<String> listInterestedUsername;
@@ -135,6 +135,7 @@ public class Product extends SearchCapable implements LocationCapable,
 
 	public Product() {
 		this("", 0, false, 0, "", "", "", 0, 0, "", 0, null, "");
+		System.out.println("Default");
 	}
 
 	public Product(String name, double price, boolean isVat, int quantity,
@@ -521,10 +522,22 @@ public class Product extends SearchCapable implements LocationCapable,
 		// String json = Global.gsonWithDate.toJson(product);
 		// System.out.println(json);
 
-		String test = "{\"address\":\"\",\"attributeSets\":[],\"warranty\":\"\",\"date_post\":\"30/10/2010 11:37:42\",\"description\":\"\",\"username\":\"tam2\",\"setMedias\":[{\"link\":\"http://10.0.2.2:8888/image_host/product/img1.jpg\",\"name\":\"20101030113642112.jpg\"},{\"link\":\"http://10.0.2.2:8888/image_host/product/img2.jpg\",\"name\":\"20101030113651799.jpg\"},{\"link\":\"http://10.0.2.2:8888/image_host/product/img3.jpg\",\"name\":\"20101030113701740.jpg\"}],\"name\":\"vd\",\"origin\":\"\",\"setCategoryKeys\":[\"edu_device\"],\"lat\":0.0,\"lng\":0.0,\"price\":1.0,\"quantity\":2,\"product_view\":0,\"sum_star\":0,\"isVAT\":false,\"count_vote\":0}";
+//		 String test =
+//		 "{\"address\":\"\",\"attributeSets\":[],\"warranty\":\"\",\"date_post\":\"30/10/2010 11:37:42\",\"description\":\"vox minh tam\",\"username\":\"tam2\",\"setMedias\":[{\"link\":\"http://10.0.2.2:8888/image_host/product/img1.jpg\",\"name\":\"20101030113642112.jpg\"},{\"link\":\"http://10.0.2.2:8888/image_host/product/img2.jpg\",\"name\":\"20101030113651799.jpg\"},{\"link\":\"http://10.0.2.2:8888/image_host/product/img3.jpg\",\"name\":\"20101030113701740.jpg\"}],\"name\":\"vd\",\"origin\":\"\",\"setCategoryKeys\":[\"edu_device\"],\"lat\":0.0,\"lng\":0.0,\"price\":1.0,\"quantity\":2,\"product_view\":0,\"sum_star\":0,\"isVAT\":false,\"count_vote\":0}";
+//		
+//		 String NORMAL_DATE_WITH_HOUR = "dd/MM/yyyy hh:mm:ss";
+//		 Gson gson = new GsonBuilder().setDateFormat(
+//					NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
+//					.registerTypeAdapter(Text.class, new TextAdapter()).create();
+//		 
+//		 Product product = gson.fromJson(test, Product.class);
+//		 System.out.println(product);
 
-		Product product = Global.gsonWithDate.fromJson(test, Product.class);
-		System.out.println(product);
+		Product product2 = new Product();
+		product2.setDescription("sdfsgdfgdf");
+		product2.setAddress("dfsdfggdfg");
+
+		System.out.println(Global.gsonDateWithoutHour.toJson(product2));
 	}
 
 	/**
@@ -647,21 +660,22 @@ public class Product extends SearchCapable implements LocationCapable,
 		for (Media m : this.setMedias) {
 			wp.setMedias.add(m.cloneObject());
 		}
-		for (Long id : this.setPagesID){
+		for (Long id : this.setPagesID) {
 			wp.setPagesId.add(id);
 		}
-		for (String key : this.setCategoryKeys){
+		for (String key : this.setCategoryKeys) {
 			wp.setCategoryKeys.add(key);
 		}
-		for (Attribute a : this.attributeSets){
+		for (Attribute a : this.attributeSets) {
 			wp.attributeSets.add(a.cloneObject());
 		}
-		
+
 		return wp;
 	}
 
 	/**
-	 * @param listInteredUsername the listInteredUsername to set
+	 * @param listInteredUsername
+	 *            the listInteredUsername to set
 	 */
 	public void setListInteredUsername(List<String> listInteredUsername) {
 		this.listInterestedUsername = listInteredUsername;
@@ -673,4 +687,5 @@ public class Product extends SearchCapable implements LocationCapable,
 	public List<String> getListInterestedUsername() {
 		return listInterestedUsername;
 	}
+
 }
