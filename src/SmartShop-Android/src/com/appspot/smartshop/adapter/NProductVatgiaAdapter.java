@@ -106,11 +106,12 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia> {
 
 		return convertView;
 	}
-
+	
 	protected void postFacebookVatGia(NProductVatGia item) {
 		// set up information to post on Facebook
+		webUrlOfProduct = item.urlListShop.substring(0, 7) + item.urlListShop.substring(9, item.urlListShop.length());
 		facebookUtils.sendMessage("SmartShop - Giới thiệu sản phẩm",
-				item.productName, item.imageThumbnail, item.priceVND,
+				item.productName, webUrlOfProduct, item.priceVND,
 				webUrlOfProduct, new FacebookUtils.SimpleWallpostListener(
 						facebookUtils.getActivity(), Global.application
 								.getString(R.string.postOnFacebookSuccess)));
@@ -130,8 +131,8 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia> {
 		// Toast.makeText(context,
 		// context.getString(R.string.postOnFacebookSuccess),
 		// Toast.LENGTH_LONG).show();
-		// holder.postFacebook.setImageResource(R.drawable.facebook_share_nonactive);
-		// holder.postFacebook.setClickable(false);
+		 holder.postFacebook.setImageResource(R.drawable.facebook_share_nonactive);
+		 holder.postFacebook.setClickable(false);
 		// }
 
 	}

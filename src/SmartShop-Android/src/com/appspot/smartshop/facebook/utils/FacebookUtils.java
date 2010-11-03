@@ -71,8 +71,8 @@ public class FacebookUtils {
 	public boolean isLogin() {
 		return mFacebook.isSessionValid();
 	}
-	
-	public Activity getActivity(){
+
+	public Activity getActivity() {
 		return activity;
 	}
 
@@ -196,12 +196,12 @@ public class FacebookUtils {
 				// thread that created a view hierarchy can touch its views."
 				activity.runOnUiThread(new Runnable() {
 					public void run() {
-						Toast.makeText(activity, message, Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(activity, message.toString(),
+								Toast.LENGTH_LONG).show();
 						Log.d(TAG, "Upload done");
 					}
 				});
-				
+
 				// process the response here: (executed in background thread)
 				JSONObject json = Util.parseJson(response);
 			} catch (JSONException e) {
