@@ -63,19 +63,19 @@ public class ProductInfo implements Serializable {
 		}.getType();
 	}
 
-	public Drawable getRandomThumbImage() {
-		if (setMedias == null || setMedias.isEmpty()) {
-			return Global.application.getResources().getDrawable(
-					R.drawable.product_unknown);
-		} else {
-			Drawable productDrawable = setMedias.get(
-					(int) (Math.random() * setMedias.size())).getDrawable();
-			if (productDrawable == null)
-				return Global.application.getResources().getDrawable(
-						R.drawable.product_unknown);
-			return productDrawable;
-		}
-	}
+//	public Drawable getRandomThumbImage() {
+//		if (setMedias == null || setMedias.isEmpty()) {
+//			return Global.application.getResources().getDrawable(
+//					R.drawable.product_unknown);
+//		} else {
+//			Drawable productDrawable = setMedias.get(
+//					(int) (Math.random() * setMedias.size())).getDrawable();
+//			if (productDrawable == null)
+//				return Global.application.getResources().getDrawable(
+//						R.drawable.product_unknown);
+//			return productDrawable;
+//		}
+//	}
 
 	public String getRandomThumbImageURL() {
 		if (setMedias == null || setMedias.isEmpty())
