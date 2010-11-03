@@ -174,18 +174,16 @@ public class NotificationServiceImpl {
 						resultPage = dbPage.findPage(Long.parseLong(n
 								.getDetail()));
 						if (resultPage.isOK()) {
-							JsonObject json = new JsonObject();
-							json.addProperty("id", resultPage.getResult().getId());
-							n.setJsonOutput(json.toString());
+							n.setJsonOutput(Global.gsonWithDate
+									.toJson(resultPage.getResult().getId()));
 						}
 						break;
 					case Notification.TAG_PRODUCT_TO_PAGE:
 						resultProduct = dbProduct.findProduct(Long.parseLong(n
 								.getDetail()));
 						if (resultProduct.isOK()) {
-							JsonObject json = new JsonObject();
-							json.addProperty("id", resultProduct.getResult().getId());
-							n.setJsonOutput(json.toString());
+							n.setJsonOutput(Global.gsonWithDate
+									.toJson(resultProduct.getResult().getId()));
 						}
 						break;
 					default:
