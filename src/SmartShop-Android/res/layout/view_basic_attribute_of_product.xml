@@ -4,7 +4,7 @@
 	android:scrollbars="vertical">
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="vertical">
-		<Spinner android:id="@+id/spinner" android:layout_width="fill_parent"
+				<Spinner android:id="@+id/spinner" android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:drawSelectorOnTop="true" />
 		<TextView android:layout_width="wrap_content"
 			android:textColor="#ff0000" android:textStyle="italic"
@@ -80,6 +80,19 @@
 			<EditText android:id="@+id/txtViewPageViewOfProduct"
 				android:editable="false" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/lblDescription"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/description" android:layout_gravity="center_vertical"/>
+			<ScrollView android:layout_width="fill_parent"
+				android:layout_height="150dip" android:scrollbars="vertical">
+				<EditText android:id="@+id/txtDescription"
+					android:editable="false" android:layout_width="fill_parent"
+					android:layout_height="200dip" 
+					android:text="this is a long text this is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long textthis is a long text"/>
+			</ScrollView>
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal"
 			android:layout_width="wrap_content" android:layout_height="wrap_content">

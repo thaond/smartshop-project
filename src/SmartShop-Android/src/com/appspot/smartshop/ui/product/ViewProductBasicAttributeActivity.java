@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -187,6 +188,8 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		txtPageViewOfProduct.setText(productInfo.product_view + "");
 		txtUsername.setText(productInfo.username);
 		chVat.setChecked(productInfo.is_vat);
+		EditText txtDescription = (EditText) findViewById(R.id.txtDescription);
+		txtDescription.setText(Html.fromHtml(productInfo.description));
 
 		Bundle bundle = getIntent().getExtras();
 		canEdit = bundle.getBoolean(Global.CAN_EDIT_PRODUCT_INFO);
