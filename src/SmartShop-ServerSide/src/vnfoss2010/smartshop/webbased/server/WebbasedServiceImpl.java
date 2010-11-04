@@ -4,13 +4,16 @@ import java.util.List;
 
 import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.CommentServiceImpl;
+import vnfoss2010.smartshop.serverside.database.PageServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.entity.Comment;
+import vnfoss2010.smartshop.serverside.database.entity.Page;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.webbased.client.WebbasedService;
 import vnfoss2010.smartshop.webbased.share.WGoogleUser;
+import vnfoss2010.smartshop.webbased.share.WPage;
 import vnfoss2010.smartshop.webbased.share.WProduct;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -23,6 +26,7 @@ import com.smartshop.docs.server.RPCServiceImpl;
 public class WebbasedServiceImpl extends RemoteServiceServlet implements
 		WebbasedService {
 
+	private PageServiceImpl dbPage;
 	private ProductServiceImpl dbProduct;
 	private AccountServiceImpl dbAccount;
 	private CommentServiceImpl dbComment;
@@ -30,13 +34,19 @@ public class WebbasedServiceImpl extends RemoteServiceServlet implements
 	public String greetServer(String input) throws IllegalArgumentException {
 		return "Hello";
 	}
+	
+	public WebbasedServiceImpl(){
+		super();
+		
+		dbProduct = ProductServiceImpl.getInstance();
+		dbAccount = AccountServiceImpl.getInstance();
+		dbComment = CommentServiceImpl.getInstance();
+		dbPage = PageServiceImpl.getInstance();
+	}
 
 	@Override
 	public WProduct getProduct(long productId) {
 		WProduct wProduct = null;
-		dbProduct = ProductServiceImpl.getInstance();
-		dbAccount = AccountServiceImpl.getInstance();
-		dbComment = CommentServiceImpl.getInstance();
 
 		ServiceResult<Product> resultProduct = dbProduct.findProduct(productId);
 		if (resultProduct.isOK()) {
@@ -77,4 +87,30 @@ public class WebbasedServiceImpl extends RemoteServiceServlet implements
 		return rpcServiceImpl.getGoogleAccountLink().cloneObject();
 	}
 
+	@Override
+	public WPage getPage(long pageId) {
+		WPage wPage = null;
+
+		ServiceResult<Page> resultPage = dbPage.findPage(pageId);
+		if (resultPage.isOK()) {
+			// Load UserInfo
+			ServiceResult<UserInfo> resultUserInfo = dbAccount
+					.getUserInfo(resultPage.getResult().getUsername());
+			if (resultUserInfo.isOK()) {
+				wPage = resultPage.getResult().cloneObject();
+				wPage.userInfo = resultUserInfo.getResult().cloneObject();
+			}
+
+			// Load comments
+			ServiceResult<List<Comment>> resultComment = dbComment.getComment(
+					pageId, "page");
+			if (resultComment.isOK()) {
+				for (Comment comment : resultComment.getResult()) {
+					wPage.listComments.add(comment.cloneObject());
+				}
+			}
+		}
+
+		return wPage;
+	}
 }

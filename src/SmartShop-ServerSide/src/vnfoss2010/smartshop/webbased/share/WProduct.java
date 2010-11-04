@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import vnfoss2010.smartshop.webbased.client.WebbasedService;
 import vnfoss2010.smartshop.webbased.client.utils.WebbasedUtils;
 
 public class WProduct implements Serializable {

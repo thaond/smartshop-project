@@ -1,7 +1,5 @@
 package vnfoss2010.smartshop.webbased.client;
 
-import org.mortbay.jetty.handler.ErrorHandler;
-
 import vnfoss2010.smartshop.webbased.client.utils.WebbasedUtils;
 import vnfoss2010.smartshop.webbased.share.WUserInfo;
 
@@ -95,5 +93,13 @@ public class UserProfileLeftPanel extends VerticalPanel {
 		htmlStar.setHTML(STRING_STAR.replaceAll("_1", strAver + "").replaceAll(
 				"_2", userInfo.sum_star + "").replaceAll("_3",
 				userInfo.count_vote + ""));
+	}
+	
+	public void clearData(){
+		imgAvatar.setUrl(URL_NO_AVATAR);
+		lblUsername.setText("");
+		lblName.setText("");
+		lblEmail.setText("");
+		htmlStar.setHTML("");
 	}
 }

@@ -10,6 +10,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import vnfoss2010.smartshop.serverside.utils.SearchCapable;
+import vnfoss2010.smartshop.webbased.share.WPage;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.annotations.Exclude;
@@ -131,8 +132,8 @@ public class Page extends SearchCapable {
 	 * @return the content
 	 */
 	public String getContent() {
-		if (content!=null)
-			return content.getValue(); 
+		if (content != null)
+			return content.getValue();
 		return "";
 	}
 
@@ -300,5 +301,26 @@ public class Page extends SearchCapable {
 	@Override
 	public String getTokenString() {
 		return getName() + " " + getContent();
+	}
+
+	public WPage cloneObject() {
+		WPage wp = new WPage();
+		wp.name = this.name;
+		wp.content = getContent();
+		wp.link_thumbnail = this.link_thumbnail;
+		wp.date_post = this.date_post;
+		wp.last_modified = this.last_modified;
+		wp.username = this.username;
+		wp.id = this.id;
+		wp.page_view = this.page_view;
+
+		for (String cat : this.setCategoryKeys) {
+			wp.setCategoryKeys.add(cat);
+		}
+		for (Long id : this.setProductIDs) {
+			wp.setProductIDs.add(id);
+		}
+
+		return wp;
 	}
 }

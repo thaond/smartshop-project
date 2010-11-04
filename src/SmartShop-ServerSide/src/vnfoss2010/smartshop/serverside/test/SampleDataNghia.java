@@ -124,15 +124,15 @@ public class SampleDataNghia {
 		pages.add(page);
 
 		// TODO
-		page = new Page("Cần mua laptop để đi công tác xa và giải trí ?", "",
-				UtilsFunction.getContent("./sample/page1.txt"), Math
+		page = new Page("Cần mua laptop để đi công tác xa và giải trí ?",
+				UtilsFunction.getContent("./sample/page1.txt"), "", Math
 						.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
 				new Date(110, 9, 23), "loi");
 		page.getSetCategoryKeys().add("computer_other");
 		pages.add(page);
 
-		page = new Page("Có nên mua Galaxy Tab hàng FPT phân phối không ?", "",
-				UtilsFunction.getContent("./sample/page2.txt"), Math
+		page = new Page("Có nên mua Galaxy Tab hàng FPT phân phối không ?",
+				UtilsFunction.getContent("./sample/page2.txt"), "", Math
 						.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
 				new Date(110, 9, 23), "loi");
 		page.getSetCategoryKeys().add("computer_other");
