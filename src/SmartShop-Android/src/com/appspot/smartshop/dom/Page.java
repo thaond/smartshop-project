@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.appspot.smartshop.utils.StringUtils;
+import com.appspot.smartshop.utils.URLConstant;
 import com.google.gson.reflect.TypeToken;
 
 public class Page implements Serializable {
@@ -44,5 +46,21 @@ public class Page implements Serializable {
 
 	public static Type getType() {
 		return new TypeToken<List<Page>>() {}.getType();
+	}
+	
+	public String getThumbImageURL() {
+		if (StringUtils.isEmptyOrNull(link_thumbnail))
+			return URLConstant.URL_NO_PAGE_IMG;
+		else {
+			return link_thumbnail;
+		}
+	}
+	
+	public String getShortDescription() {
+		if (StringUtils.isEmptyOrNull(content))
+			return content;
+		int to = Math.min(60, content.length());
+		return content.substring(0, Math.max(to, content.indexOf(" ",
+				60)));
 	}
 }

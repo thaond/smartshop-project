@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.Page;
+import com.appspot.smartshop.facebook.utils.FacebookUtils;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.utils.Global;
@@ -34,21 +36,24 @@ public class PageAdapter extends ArrayAdapter<Page> {
 	
 	private LayoutInflater inflater;
 	private Context context;
+	private FacebookUtils facebook;
 
-	public PageAdapter(Context context, int textViewResourceId, Page[] objects) {
+	public PageAdapter(Context context, int textViewResourceId, Page[] objects, FacebookUtils facebook) {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
 		this.context = context;
+		this.facebook = facebook;
 	}
 	
-	public PageAdapter(Context context, int textViewResourceId, List<Page> objects) {
+	public PageAdapter(Context context, int textViewResourceId, List<Page> objects, FacebookUtils facebook) {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
 		this.context = context;
+		this.facebook = facebook;
 	}
 	
-	public PageAdapter(Context context, int textViewResourceId) {
-		this(context, textViewResourceId, new Page[] {});
+	public PageAdapter(Context context, int textViewResourceId, FacebookUtils facebook) {
+		this(context, textViewResourceId, new Page[] {}, facebook);
 	}
 
 	private Intent intent;
@@ -64,6 +69,7 @@ public class PageAdapter extends ArrayAdapter<Page> {
 			holder.txtPageView = (TextView) convertView.findViewById(R.id.txtPageView);
 			holder.txtPostDate = (TextView) convertView.findViewById(R.id.txtPostDate);
 			holder.btnDetail = (Button) convertView.findViewById(R.id.btnDetail);
+			holder.btnPostFb = (ImageView) convertView.findViewById(R.id.btnPostFb);
 			
 			convertView.setTag(holder);
 		} else {
@@ -117,6 +123,26 @@ public class PageAdapter extends ArrayAdapter<Page> {
 		holder.btnDetail.setOnClickListener(onClickListener);
 		convertView.setOnClickListener(onClickListener);
 		
+		holder.btnPostFb.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (facebook != null)
+					facebook
+							.sendMessage(
+									"SmartShop - Trang thông tin",
+									page.name,
+									page.getThumbImageURL(),
+									page.getShortDescription(),
+									String.format(
+											URLConstant.URL_WEBBASED_PAGE,
+											page.id),
+									new FacebookUtils.SimpleWallpostListener(
+											facebook.getActivity(),
+											Global.application
+													.getString(R.string.postPageOnFacebookSuccess)));
+			}
+		});
 		return convertView;
 	}
 	
@@ -125,5 +151,6 @@ public class PageAdapter extends ArrayAdapter<Page> {
 		TextView txtPageView;
 		TextView txtPostDate;
 		Button btnDetail;
+		ImageView btnPostFb;
 	}
 }

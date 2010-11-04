@@ -22,6 +22,7 @@ import android.widget.ListView;
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.adapter.PageAdapter;
 import com.appspot.smartshop.dom.Page;
+import com.appspot.smartshop.facebook.utils.FacebookUtils;
 import com.appspot.smartshop.ui.BaseUIActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
@@ -203,7 +204,7 @@ public class PagesListActivity extends BaseUIActivity {
 			public void updateUI() {
 				PageAdapter.pageType = type;
 				Log.d(TAG, "pageType = " + PageAdapter.pageType);
-				adapter = new PageAdapter(PagesListActivity.this, 0, pages);
+				adapter = new PageAdapter(PagesListActivity.this, 0, pages, new FacebookUtils(PagesListActivity.this));
 				listPages.setAdapter(adapter);
 			}
 
