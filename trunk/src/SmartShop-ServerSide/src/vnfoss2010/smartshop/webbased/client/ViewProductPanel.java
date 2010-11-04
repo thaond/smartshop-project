@@ -8,6 +8,7 @@ import vnfoss2010.smartshop.webbased.client.utils.IShowSlideShow;
 import vnfoss2010.smartshop.webbased.client.utils.ImageProduct;
 import vnfoss2010.smartshop.webbased.client.utils.WebbasedUtils;
 import vnfoss2010.smartshop.webbased.share.WComment;
+import vnfoss2010.smartshop.webbased.share.WPage;
 import vnfoss2010.smartshop.webbased.share.WProduct;
 
 import com.codelathe.gwt.client.SlideShow;
@@ -39,6 +40,7 @@ public class ViewProductPanel extends VerticalPanel implements IShowSlideShow {
 	private HorizontalPanel pnlImageList;
 
 	private static final String GOOGLE_MAPS_Q = "http://maps.google.com/?q=_1+_2";
+	private HTML htmlTitleAddress;
 
 	public static ViewProductPanel getInstance() {
 		if (instance == null)
@@ -79,28 +81,37 @@ public class ViewProductPanel extends VerticalPanel implements IShowSlideShow {
 		htmlContent = new HTML();
 		htmlContent.setStyleName("content");
 		htmlComment = new HTML();
+		
+		htmlTitleAddress = new HTML("<b>Address:</b> ");
 
 		this.add(lblTitle);
 		this.add(lblDate);
 		this.add(pnlImageList);
 		this.add(htmlContent);
-		this.add(new HTML("<b>Address:</b> "));
+		this.add(htmlTitleAddress);
 		this.add(pnlAddress);
 		this.add(htmlComment);
 
 	}
 
-	public void showData(WProduct product) {
+	public void showProduct(WProduct product) {
 		if (product == null) {
 			lblTitle.setVisible(false);
 			lblDate.setVisible(false);
 			pnlImageList.setVisible(false);
 			htmlContent.setHTML("Không có sản phẩm tương ứng");
 			htmlComment.setVisible(false);
+			htmlTitleAddress.setVisible(false);
+			lblAddress.setVisible(false);
+			imgMap.setVisible(false);
 		} else {
 			this.product = product;
 			lblTitle.setVisible(true);
 			lblDate.setVisible(true);
+			htmlTitleAddress.setVisible(true);
+			lblAddress.setVisible(true);
+			imgMap.setVisible(true);
+			
 			System.out.println("Media:  " + product.setMedias);
 			if (product.setMedias.isEmpty()){
 				pnlImageList.setVisible(false);
@@ -121,7 +132,7 @@ public class ViewProductPanel extends VerticalPanel implements IShowSlideShow {
 				lblDate.setText(product.date_post.toString());
 			htmlContent.setText(product.description);
 			lblAddress.setText(product.address);
-			showComments();
+			showComments(product);
 		}
 	}
 
@@ -147,17 +158,17 @@ public class ViewProductPanel extends VerticalPanel implements IShowSlideShow {
 		slideShow.createNewSlideShow(0, "Group", arrStringURLs, arrTitles);
 	}
 
-	private void showComments() {
+	private void showComments(WProduct product) {
 		int numOfComment;
-		if (this.product.listComments == null
-				|| this.product.listComments.isEmpty())
+		if (product.listComments == null
+				|| product.listComments.isEmpty())
 			numOfComment = 0;
 		else
-			numOfComment = this.product.listComments.size();
+			numOfComment = product.listComments.size();
 
 		String comment = "<b>Comments (" + numOfComment + ")</b><br><br>";
 		for (int i = 0; i < numOfComment; i++) {
-			WComment ccomment = this.product.listComments.get(i);
+			WComment ccomment = product.listComments.get(i);
 			comment += "<br><b>" + ccomment.username + "</b> - "
 					+ ccomment.date_post + "<br>" + "<p>" + ccomment.content
 					+ "</p>";
@@ -180,4 +191,48 @@ public class ViewProductPanel extends VerticalPanel implements IShowSlideShow {
 		}
 	}
 
+	
+	public void showPage(WPage page){
+		htmlTitleAddress.setVisible(false);
+		lblAddress.setVisible(false);
+		imgMap.setVisible(false);
+		
+		if (page == null) {
+			lblTitle.setVisible(false);
+			lblDate.setVisible(false);
+			pnlImageList.setVisible(false);
+			htmlContent.setHTML("Không có trang tương ứng");
+			htmlComment.setVisible(false);
+		} else {
+			lblTitle.setVisible(true);
+			lblDate.setVisible(true);
+			
+			htmlComment.setVisible(true);
+			lblTitle.setText(page.name);
+			if (page.date_post == null)
+				lblDate.setText(page.date_post.toString());
+			htmlContent.setText(page.content);
+			showComments(page);
+		}
+	}
+	
+	private void showComments(WPage page) {
+		int numOfComment;
+		if (page.listComments == null
+				|| page.listComments.isEmpty())
+			numOfComment = 0;
+		else
+			numOfComment = page.listComments.size();
+
+		String comment = "<b>Comments (" + numOfComment + ")</b><br><br>";
+		for (int i = 0; i < numOfComment; i++) {
+			WComment ccomment = page.listComments.get(i);
+			comment += "<br><b>" + ccomment.username + "</b> - "
+					+ ccomment.date_post + "<br>" + "<p>" + ccomment.content
+					+ "</p>";
+		}
+
+		htmlComment.setHTML(comment);
+		// htmlComment.setOverflow(Overflow.VISIBLE);
+	}
 }

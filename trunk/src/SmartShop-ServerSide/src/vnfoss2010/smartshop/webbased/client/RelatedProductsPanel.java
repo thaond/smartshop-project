@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class RelatedProductsPanel extends VerticalPanel {
 	private static RelatedProductsPanel instance = null;
 	// private Grid grid;
-	private VerticalPanel grid;
+	private VerticalPanel pnl;
 	private Image imgThumb;
 
 	public static RelatedProductsPanel getInstance() {
@@ -42,17 +42,21 @@ public class RelatedProductsPanel extends VerticalPanel {
 	}
 
 	private void initUI() {
-		grid = new VerticalPanel();
+		pnl = new VerticalPanel();
 		// grid = new Grid(5, 1);
-		add(grid);
+		add(pnl);
 	}
 
 	public void showData(List<WProduct> listProducts) {
-		grid.clear();
-		grid.add(new HTML("<b>Các sản phẩm liên quan:</b> "));
+		pnl.clear();
+		pnl.add(new HTML("<b>Các sản phẩm liên quan:</b> "));
 		for (WProduct product : listProducts) {
-			grid.add(eachProduct(product));
+			pnl.add(eachProduct(product));
 		}
+	}
+	
+	public void clearData(){
+		pnl.clear();
 	}
 
 	public Panel eachProduct(final WProduct product) {

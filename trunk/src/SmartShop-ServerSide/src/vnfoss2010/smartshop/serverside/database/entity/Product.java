@@ -19,6 +19,8 @@ import vnfoss2010.smartshop.webbased.share.WProduct;
 import com.beoui.geocell.model.LocationCapable;
 import com.beoui.geocell.model.Point;
 import com.google.appengine.api.datastore.Text;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Exclude;
 
 @PersistenceCapable
@@ -135,7 +137,6 @@ public class Product extends SearchCapable implements LocationCapable,
 
 	public Product() {
 		this("", 0, false, 0, "", "", "", 0, 0, "", 0, null, "");
-		System.out.println("Default");
 	}
 
 	public Product(String name, double price, boolean isVat, int quantity,
@@ -522,16 +523,16 @@ public class Product extends SearchCapable implements LocationCapable,
 		// String json = Global.gsonWithDate.toJson(product);
 		// System.out.println(json);
 
-//		 String test =
-//		 "{\"address\":\"\",\"attributeSets\":[],\"warranty\":\"\",\"date_post\":\"30/10/2010 11:37:42\",\"description\":\"vox minh tam\",\"username\":\"tam2\",\"setMedias\":[{\"link\":\"http://10.0.2.2:8888/image_host/product/img1.jpg\",\"name\":\"20101030113642112.jpg\"},{\"link\":\"http://10.0.2.2:8888/image_host/product/img2.jpg\",\"name\":\"20101030113651799.jpg\"},{\"link\":\"http://10.0.2.2:8888/image_host/product/img3.jpg\",\"name\":\"20101030113701740.jpg\"}],\"name\":\"vd\",\"origin\":\"\",\"setCategoryKeys\":[\"edu_device\"],\"lat\":0.0,\"lng\":0.0,\"price\":1.0,\"quantity\":2,\"product_view\":0,\"sum_star\":0,\"isVAT\":false,\"count_vote\":0}";
-//		
-//		 String NORMAL_DATE_WITH_HOUR = "dd/MM/yyyy hh:mm:ss";
-//		 Gson gson = new GsonBuilder().setDateFormat(
-//					NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
-//					.registerTypeAdapter(Text.class, new TextAdapter()).create();
-//		 
-//		 Product product = gson.fromJson(test, Product.class);
-//		 System.out.println(product);
+		 String test =
+		 "{\"address\":\"\",\"attributeSets\":[],\"warranty\":\"\",\"date_post\":\"30/10/2010 11:37:42\",\"description\":\"vox minh tam\",\"username\":\"tam2\",\"setMedias\":[{\"link\":\"http://10.0.2.2:8888/image_host/product/img1.jpg\",\"name\":\"20101030113642112.jpg\"},{\"link\":\"http://10.0.2.2:8888/image_host/product/img2.jpg\",\"name\":\"20101030113651799.jpg\"},{\"link\":\"http://10.0.2.2:8888/image_host/product/img3.jpg\",\"name\":\"20101030113701740.jpg\"}],\"name\":\"vd\",\"origin\":\"\",\"setCategoryKeys\":[\"edu_device\"],\"lat\":0.0,\"lng\":0.0,\"price\":1.0,\"quantity\":2,\"product_view\":0,\"sum_star\":0,\"isVAT\":false,\"count_vote\":0}";
+		
+		 String NORMAL_DATE_WITH_HOUR = "dd/MM/yyyy hh:mm:ss";
+		 Gson gson = new GsonBuilder().setDateFormat(
+					NORMAL_DATE_WITH_HOUR).excludeFieldsWithExcludeAnnotation()
+					.registerTypeAdapter(Text.class, new TextAdapter()).create();
+		 
+		 Product product = gson.fromJson(test, Product.class);
+		 System.out.println(product);
 
 		Product product2 = new Product();
 		product2.setDescription("sdfsgdfgdf");
@@ -609,7 +610,7 @@ public class Product extends SearchCapable implements LocationCapable,
 	public String toString() {
 		return "Product [address=" + address + ", attributeSets="
 				+ attributeSets + ", count_vote=" + count_vote + ", date_post="
-				+ date_post + ", description=" + description + ", fts=" + fts
+				+ date_post + ", description=" + description.getValue() + ", fts=" + fts
 				+ ", geocells=" + geocells + ", id=" + id + ", is_vat="
 				+ is_vat + ", lat=" + lat + ", listAttributeKeys="
 				+ listAttributeKeys + ", listBuyers=" + listBuyers + ", lng="
