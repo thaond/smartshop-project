@@ -272,6 +272,7 @@
 	<!-- Facebook -->
 	<string name="postOnFacebook">Đăng lên FaceBook</string>
 	<string name="postOnFacebookSuccess">Mặt hàng của bạn đã được đăng lên Facebook</string>
+	<string name="postPageOnFacebookSuccess">Trang của bạn đã được đăng lên Facebook</string>
 	<string name="loginFacebookSuccess">Đăng nhập Facebook thành công</string>
 	<string name="loginFacebookFail">Đăng nhập Facebook thất bại</string>
 	<string name="logoutFacebookSuccess">Đăng xuất Facebook thành công</string>

@@ -5,8 +5,10 @@ public class URLConstant {
 	public static final String HOST = "http://10.0.2.2:8888";
 	public static final String WEBHOST = "http://localhost:8888";
 	public static final String URL_NO_PRODUCT_IMG = WEBHOST + "/webbased/product_unknown.png";
+	public static final String URL_NO_PAGE_IMG = WEBHOST + "/webbased/page_unknown.png";
 	//TODO remove ?gwt.codesvr=127.0.0.1:9997
 	public static final String URL_WEBBASED_PRODUCT = WEBHOST + "/webbased.html?gwt.codesvr=127.0.0.1:9997#product;%s";
+	public static final String URL_WEBBASED_PAGE = WEBHOST + "/webbased.html?gwt.codesvr=127.0.0.1:9997#page;%s";
 
 	/************************ Error code and message ********************/
 	public static final String ERROR_CODE = "errCode";

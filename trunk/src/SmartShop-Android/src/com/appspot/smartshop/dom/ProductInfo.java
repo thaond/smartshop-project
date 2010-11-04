@@ -6,10 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import android.graphics.drawable.Drawable;
-
-import com.appspot.smartshop.R;
-import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.StringUtils;
 import com.appspot.smartshop.utils.URLConstant;
 import com.google.gson.reflect.TypeToken;
