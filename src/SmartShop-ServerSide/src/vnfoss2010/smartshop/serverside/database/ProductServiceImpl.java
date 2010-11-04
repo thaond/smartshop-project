@@ -1489,7 +1489,11 @@ public class ProductServiceImpl {
 				ServiceResult<List<Product>> result2 = getListProductByCriteriaInCategories(
 						limit, new int[] { 0 }, 1, null, null, null, catKeys);
 				if (result2.isOK()) {
-					result.getResult().addAll(result2.getResult());
+					if (result.getResult()==null){
+						result.setResult(result2.getResult());
+					}else{
+						result.getResult().addAll(result2.getResult());
+					}
 					log.log(Level.SEVERE, "new result; " + result2.getResult());
 				}
 			}
