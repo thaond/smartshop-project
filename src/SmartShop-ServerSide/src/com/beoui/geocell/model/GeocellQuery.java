@@ -43,7 +43,7 @@ public class GeocellQuery<T> {
 
 	public GeocellQuery(String baseQuery, String declaredParameters,
 			List<T> parameters) {
-		Validate.notEmpty(baseQuery);
+//		Validate.notEmpty(baseQuery);
 		this.baseQuery = baseQuery;
 		this.declaredParameters = declaredParameters;
 		this.parameters = parameters;
