@@ -1497,6 +1497,13 @@ public class ProductServiceImpl {
 					log.log(Level.SEVERE, "new result; " + result2.getResult());
 				}
 			}
+			
+			if (result.getResult()==null || result.getResult().isEmpty()){
+				result.setOK(false);
+				return result;
+			}else{
+				result.setOK(true);
+			}
 			if (limit > result.getResult().size())
 				limit = result.getResult().size();
 			if (limit == 0)
