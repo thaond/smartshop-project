@@ -128,9 +128,8 @@ public class ViewProductPanel extends VerticalPanel implements IShowSlideShow {
 			htmlComment.setVisible(true);
 			lblTitle.setText(product.name);
 			if (product.date_post == null)
-
 				lblDate.setText(product.date_post.toString());
-			htmlContent.setText(product.description);
+			htmlContent.setHTML(product.description);
 			lblAddress.setText(product.address);
 			showComments(product);
 		}
@@ -211,7 +210,7 @@ public class ViewProductPanel extends VerticalPanel implements IShowSlideShow {
 			lblTitle.setText(page.name);
 			if (page.date_post == null)
 				lblDate.setText(page.date_post.toString());
-			htmlContent.setText(page.content);
+			htmlContent.setHTML(page.content);
 			showComments(page);
 		}
 	}

@@ -125,17 +125,78 @@ public class SampleDataNghia {
 
 		// TODO
 		page = new Page("Cần mua laptop để đi công tác xa và giải trí ?",
-				UtilsFunction.getContent("./sample/page1.txt"), "", Math
+				UtilsFunction.getContent("./sample/page/page1.txt"), "", Math
 						.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
 				new Date(110, 9, 23), "loi");
 		page.getSetCategoryKeys().add("computer_other");
 		pages.add(page);
-
+		
 		page = new Page("Có nên mua Galaxy Tab hàng FPT phân phối không ?",
-				UtilsFunction.getContent("./sample/page2.txt"), "", Math
-						.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
+				UtilsFunction.getContent("./sample/page/page2.txt"), "", Math
+				.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
 				new Date(110, 9, 23), "loi");
 		page.getSetCategoryKeys().add("computer_other");
+		pages.add(page);
+		
+		page = new Page("HCM - Cần mua khúc dưới tai nghe 3,5mm có mic",
+				UtilsFunction.getContent("./sample/page/page2.txt"), "", Math
+				.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
+				new Date(110, 9, 23), "loi");
+		page.getSetCategoryKeys().add("accessories_desktop");
+		page.getSetCategoryKeys().add("accessories_laptop");
+		pages.add(page);
+		
+		page = new Page("Chuyên thu mua phế liệu sắt ,thép,nhôm inox..v...v..",
+				UtilsFunction.getContent("./sample/page/page4.txt"), "", Math
+				.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
+				new Date(110, 9, 23), "loi");
+		page.getSetCategoryKeys().add("stationery");
+		page.getSetCategoryKeys().add("office_device");
+		pages.add(page);
+		
+		page = new Page("HCM - cần MUA 1 thanh SDRAM 128/256MB và 1 thanh DDRAM2 2GB bus 533/667/800 .........",
+				UtilsFunction.getContent("./sample/page/page5.txt"), "", Math
+				.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
+				new Date(110, 9, 23), "loi");
+		page.getSetCategoryKeys().add("computer_other");
+		page.getSetCategoryKeys().add("desktop");
+		pages.add(page);
+		
+		page = new Page("cần mua vé ca nhạc thay lời muốn nói",
+				UtilsFunction.getContent("./sample/page/page6.txt"), "", Math
+				.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
+				new Date(110, 9, 23), "loi");
+		page.getSetCategoryKeys().add("computer_other");
+		pages.add(page);
+		
+		page = new Page("Cần mua Cùm phuộc và dĩa 300mm RACING BOY",
+				UtilsFunction.getContent("./sample/page/page7.txt"), "", Math
+				.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
+				new Date(110, 9, 23), "loi");
+		page.getSetCategoryKeys().add("stationery");
+		pages.add(page);
+		
+		page = new Page("Thu mua xác lò viba,nối cơm điện tử,bếp điện từ,đèn-quạt sạc và ly sinh tố các loại .... ",
+				UtilsFunction.getContent("./sample/page/page8.txt"), "", Math
+				.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
+				new Date(110, 9, 23), "loi");
+		page.getSetCategoryKeys().add("driver");
+		pages.add(page);
+		
+		page = new Page("Cần mua keyboard tiếng Nhật",
+				UtilsFunction.getContent("./sample/page/page9.txt"), "", Math
+				.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
+				new Date(110, 9, 23), "loi");
+		page.getSetCategoryKeys().add("software");
+		page.getSetCategoryKeys().add("accessories_laptop");
+		page.getSetCategoryKeys().add("accessories_desktop");
+		pages.add(page);
+
+		page = new Page("Thu mua xác lò vi ba hư cũ các loại",
+				UtilsFunction.getContent("./sample/page/page10.txt"), "", Math
+						.abs(myRandom.nextInt() % 1000), new Date(110, 3, 23),
+				new Date(110, 9, 23), "loi");
+		page.getSetCategoryKeys().add("office_device");
 		pages.add(page);
 
 		return pages;

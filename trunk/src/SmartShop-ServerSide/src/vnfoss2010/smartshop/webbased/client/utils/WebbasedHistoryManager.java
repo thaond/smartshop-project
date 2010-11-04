@@ -107,13 +107,13 @@ public class WebbasedHistoryManager implements ValueChangeHandler<String> {
 					@Override
 					public void onSuccess(WPage result) {
 						// TODO Testing with localhost
-						if (result != null) {
-							if (!WebbasedUtils
-									.isEmptyOrNull(result.userInfo.avatarLink))
-								result.userInfo.avatarLink = result.userInfo.avatarLink
-										.replaceAll("10.0.2.2", "localhost");
-							System.out.println(result);
-						}
+//						if (result != null) {
+//							if (!WebbasedUtils
+//									.isEmptyOrNull(result.userInfo.avatarLink))
+//								result.userInfo.avatarLink = result.userInfo.avatarLink
+//										.replaceAll("10.0.2.2", "localhost");
+//							System.out.println(result);
+//						}
 						///////////////////////////////////
 
 						RelatedProductsPanel.getInstance().setVisible(false);
