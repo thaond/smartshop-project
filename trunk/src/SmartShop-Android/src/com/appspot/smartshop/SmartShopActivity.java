@@ -8,7 +8,9 @@ import android.app.ListActivity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -50,6 +52,9 @@ public class SmartShopActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// TODO test compass manager
+		Global.mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
 		// Init for constant
 		Global.application = this;

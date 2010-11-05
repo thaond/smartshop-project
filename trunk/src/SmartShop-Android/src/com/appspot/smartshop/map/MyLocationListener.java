@@ -29,7 +29,7 @@ public class MyLocationListener implements LocationListener {
 		this.callback = callback;
 		
 		locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 	
 	private SimpleAsyncTask task;
@@ -78,6 +78,10 @@ public class MyLocationListener implements LocationListener {
 			}
 		});
 		task.execute();
+	}
+	
+	public void updateCurrentLocation() {
+		
 	}
 	
 	@Override

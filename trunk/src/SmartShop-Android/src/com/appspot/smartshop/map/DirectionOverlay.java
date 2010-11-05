@@ -14,7 +14,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 public class DirectionOverlay extends Overlay {
-	public static final int DIRECTION_COLOR = Color.CYAN;
+	public static final int DIRECTION_COLOR = Color.RED;
 	public static final int ARROW_SIZE = 5;
 	
 	public List<GeoPoint> points;

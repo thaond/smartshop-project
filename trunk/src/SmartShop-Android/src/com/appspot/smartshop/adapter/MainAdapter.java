@@ -65,7 +65,6 @@ public class MainAdapter extends BaseAdapter {
 					R.drawable.smartshop_logout,
 					R.drawable.user_profile,
 					R.drawable.contact,
-					R.drawable.exit,
 			};
 
 			text = new String[] {
@@ -74,7 +73,6 @@ public class MainAdapter extends BaseAdapter {
 					context.getString(R.string.logout),
 					context.getString(R.string.user_profile), 
 					context.getString(R.string.contact_us),
-					context.getString(R.string.exit),
 			};
 		}
 	}
