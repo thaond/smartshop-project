@@ -11,6 +11,7 @@ import com.google.appengine.repackaged.org.json.JSONObject;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import vnfoss2010.smartshop.serverside.Global;
 import vnfoss2010.smartshop.serverside.net.HttpRequest;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
@@ -43,6 +44,7 @@ public class SearchKeywordService extends BaseRestfulService {
 			String pageNum = getParameter("page", params, json);
 			String priceFrom = getParameter("price_from", params, json);
 			String priceTo = getParameter("price_to", params, json);
+			Global.log(log, "here:" + keyword);
 
 			String url = URL_VAT_GIA_SEARCH + "keyword=" + keyword
 					+ (priceFrom == null ? "" : "&price=" + priceFrom)
@@ -55,10 +57,6 @@ public class SearchKeywordService extends BaseRestfulService {
 			// String pageContenta = HttpRequest.get(URLEncoder.encode(url,
 			// "UTF-8")).content;
 			// log.log(Level.SEVERE, pageContenta);
-			log.log(Level.SEVERE, url);
-			log.log(Level.SEVERE,
-					URLEncoder.encode(url, "UTF-8").replaceAll("%2F", "/")
-							.replaceAll("%3A", ":").replaceAll("%26", "&"));
 
 			if (url.equals("") == false) {
 				Pattern patNumResult = Pattern.compile(REGEX_NUM_RESULTS);
@@ -100,12 +98,20 @@ public class SearchKeywordService extends BaseRestfulService {
 					jsonObject.addProperty("categoryName", matcher.group(8));
 					jsonArray.add(jsonObject);
 				}
-				jsonReturn.add("results", jsonArray);
-				jsonReturn.addProperty("errCode", 0);
-				jsonReturn.addProperty("message", "Parse thành công");
+
+				if (jsonArray.size() > 0) {
+					jsonReturn.add("results", jsonArray);
+					jsonReturn.addProperty("errCode", 0);
+					jsonReturn.addProperty("message",
+							Global.messages.getString("parse_product_vatgia_successfully"));
+				} else {
+					jsonReturn.addProperty("message",
+							Global.messages.getString("parse_product_vatgia_fail"));
+				}
 			} else {
 				jsonReturn.addProperty("errCode", 1);
-				jsonReturn.addProperty("message", "Loi");
+				jsonReturn.addProperty("message",
+						Global.messages.getString("parse_product_vatgia_fail"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
