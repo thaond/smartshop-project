@@ -81,11 +81,17 @@ public class ProductInfo implements Serializable {
 		}
 	}
 
+	private static final int MAX_LENGTH_OF_DESCRIPTION = 130;
 	public String getShortDescription() {
-		if (StringUtils.isEmptyOrNull(description))
-			return description;
-		int to = Math.min(60, description.length());
-		return description.substring(0, Math.max(to, description.indexOf(" ",
-				60)));
+		if (StringUtils.isEmptyOrNull(description)) {
+			return "";
+		}
+		
+		String plainText = description.replaceAll("<.*?>", "").replace("&nbsp;", "");
+		if (plainText.length() > MAX_LENGTH_OF_DESCRIPTION) {
+			return plainText.substring(0, MAX_LENGTH_OF_DESCRIPTION) + " ...";
+		} 
+		
+		return plainText;
 	}
 }

@@ -9,14 +9,10 @@
 		<EditText android:id="@+id/txtSearch" android:textSize="12dip"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:hint="@string/hintEnterProductsName" android:layout_weight="1" />
-		<Button android:layout_width="wrap_content" android:text="@string/search"
-			android:layout_height="wrap_content" android:id="@+id/btnSearch" />
-		<LinearLayout android:orientation="vertical"
-			android:layout_width="wrap_content" android:layout_height="wrap_content">
-			<Button android:layout_width="wrap_content"
-				android:background="@drawable/map_icon" android:layout_height="wrap_content"
-				android:id="@+id/btnSearchOnMap" />
-		</LinearLayout>
+		<Button android:id="@+id/btnSearch" android:layout_width="48dip"
+			android:background="@drawable/search" android:layout_height="48dip" />
+		<Button android:layout_width="48dip" android:background="@drawable/map_icon"
+			android:layout_height="48dip" android:id="@+id/btnSearchOnMap" />
 	</LinearLayout>
 
 	<LinearLayout android:layout_width="fill_parent"

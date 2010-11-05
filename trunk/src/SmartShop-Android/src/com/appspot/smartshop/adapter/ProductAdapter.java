@@ -150,7 +150,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		final ProductInfo productInfo = (ProductInfo) getItem(position);
 		// general info
 		holder.txtName.setText(productInfo.name);
-		holder.txtPrice.setText("" + productInfo.price);
+		holder.txtPrice.setText(productInfo.price + " $");
 		holder.txtDescription.setText(productInfo.getShortDescription());
 		if (productInfo.date_post != null) {
 			holder.txtDatePost.setText(Global.dfFull

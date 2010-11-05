@@ -53,15 +53,10 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia> {
 					.findViewById(R.id.txtProductName);
 			holder.txtPrice = (TextView) convertView
 					.findViewById(R.id.txtProductPrice);
-			holder.btnListShop = (Button) convertView
-					.findViewById(R.id.btnListShop);
 			holder.txtNumOfStore = (TextView) convertView
 					.findViewById(R.id.txtNumOfStore);
 			holder.postFacebook = (ImageView) convertView
 					.findViewById(R.id.btnPostFacebookVatGia);
-			// if(!Global.mFacebook.isSessionValid()){
-			// holder.postFacebook.setVisibility(View.GONE);
-			// }
 
 			convertView.setTag(holder);
 		} else {
@@ -83,7 +78,7 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia> {
 				.getString(R.string.num_of_stores), item.numOfStore);
 		holder.txtNumOfStore.setText(numOfStore);
 		holder.txtPrice.setText(item.priceVND);
-		holder.btnListShop.setOnClickListener(new OnClickListener() {
+		convertView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -142,7 +137,6 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia> {
 		TextView txtName;
 		TextView txtPrice;
 		TextView txtNumOfStore;
-		Button btnListShop;
 		ImageView postFacebook;
 	}
 

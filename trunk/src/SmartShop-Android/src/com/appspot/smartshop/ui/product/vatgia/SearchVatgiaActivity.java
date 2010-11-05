@@ -37,8 +37,7 @@ public class SearchVatgiaActivity extends Activity {
 	private EditText txtSearch;
 	private ListView listProducts;
 	private NProductVatgiaAdapter adapter;
-	private TextView txtCurrentPage;
-	private TextView txtNumOfPages;
+	private TextView txtPageInfo;
 	private LinkedList<NProductVatGia> products;
 	
 	private int currentPage = 1;
@@ -68,7 +67,7 @@ public class SearchVatgiaActivity extends Activity {
 			}
 		});
 		
-		Button btnNext = (Button) findViewById(R.id.btnNext);
+		btnNext = (Button) findViewById(R.id.btnNext);
 		btnNext.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -81,8 +80,9 @@ public class SearchVatgiaActivity extends Activity {
 				}
 			}
 		});
+		btnNext.setVisibility(View.GONE);
 		
-		Button btnPrev = (Button) findViewById(R.id.btnPrev);
+		btnPrev = (Button) findViewById(R.id.btnPrev);
 		btnPrev.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -95,30 +95,41 @@ public class SearchVatgiaActivity extends Activity {
 				}
 			}
 		});
+		btnPrev.setVisibility(View.GONE);
 		
 		// list view
 		listProducts = (ListView) findViewById(R.id.listVatgiapProducts);
 		
 		// text fields
-		txtCurrentPage = (TextView) findViewById(R.id.txtCurrentPage);
-		txtNumOfPages = (TextView) findViewById(R.id.txtNumOfPages);
+		txtPageInfo = (TextView) findViewById(R.id.txtPageInfo);
+		txtPageInfo.setVisibility(View.GONE);
 	}
 
 	private SimpleAsyncTask task;
 	private String url;
+
+	private Button btnNext;
+
+	private Button btnPrev;
 	protected void searchProductsByQuery(final String query) {
 		
 		task = new SimpleAsyncTask(this, new DataLoader() {
 			
 			@Override
 			public void updateUI() {
-				txtCurrentPage.setText("" + currentPage);
 				if (numOfPages != NO_PAGE) {
-					txtNumOfPages.setText("" + numOfPages);
+					txtPageInfo.setVisibility(View.VISIBLE);
+					txtPageInfo.setText(currentPage + " / " + numOfPages);
+					adapter = new NProductVatgiaAdapter(SearchVatgiaActivity.this, 0, products, new FacebookUtils(SearchVatgiaActivity.this));
+					listProducts.setAdapter(adapter);
+					
+					btnNext.setVisibility(View.VISIBLE);
+					btnPrev.setVisibility(View.VISIBLE);
+				} else {
+					txtPageInfo.setVisibility(View.GONE);
+					btnNext.setVisibility(View.GONE);
+					btnPrev.setVisibility(View.GONE);
 				}
-				
-				adapter = new NProductVatgiaAdapter(SearchVatgiaActivity.this, 0, products, new FacebookUtils(SearchVatgiaActivity.this));
-				listProducts.setAdapter(adapter);
 			}
 			
 			@Override

@@ -211,6 +211,7 @@
 	<string name="lblSubscribeEmail">Email</string>
 	<string name="lblSubscribeMobile">Mobile</string>
 	<string name="lblAgree">Đồng ý</string>
+	<string name="hint_product_name_to_subcribe">Tên sản phẩm</string>
 
 	<!-- Send email to admin -->
 	<string name="email_title">Tiêu đề</string>
