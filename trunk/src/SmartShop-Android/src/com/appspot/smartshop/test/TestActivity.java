@@ -59,7 +59,7 @@ public class TestActivity extends MapActivity {
 		Global.application = this;
 		// TODO place test function here
 		try {
-			new JSONObject("{\"errCode\":0,\"message\":\"Láº¥y danh sÃ¡ch thÃ´ng bÃ¡o cá»§a nghia thÃ nh cÃ´ng\",\"notifications\":[{\"id\":60,\"type\":1,\"content\":\"duc ÄÃ£ thÃªm báº¡n vÃ o danh sÃ¡ch báº¡n bÃ¨\",\"timestamp\":1288794264254,\"isNew\":true,\"detail\":\"duc\",\"jsonOutput\":\"{\"username\":\"duc\",\"password\":\"f1a3fb2d6b5976af47a5113ce2e03fdb\",\"first_name\":\"Duc\",\"last_name\":\"Cao Tien\",\"phone\":\"123123123\",\"email\":\"duc@gmail.com\",\"birthday\":\"08/01/1990\",\"address\":\"District 10\",\"lat\":10.213,\"lng\":106.123123,\"avatarLink\":\"\",\"sum_star\":0,\"count_vote\":0,\"gmt\":7.0,\"lang\":\"vi\",\"country\":\"VietNam\",\"type\":0,\"sessionId\":\"sk6rFRRV20aaLyr4howAd3tysxS3Xg7S\",\"userkey\":\"InphN9gs4bDfRLOO0uSf\",\"lastLogin\":1288794251669,\"setFriendsUsername\":[\"nghia\",\"hieu\",\"duc\",\"loi\"],\"setProductTaggedID\":[],\"listInterestedProductID\":[],\"setPageTaggedID\":[],\"listSubcribeProduct\":[]}\"}]}");
+			new JSONObject("{\"errCode\":0,\"message\":\"Lấy danh sách thông báo của nghia thành công\",\"notifications\":[{\"id\":192,\"type\":7,\"content\":\"tam đã bình luận vào trang của bạn\",\"timestamp\":1288798214383,\"isNew\":true,\"detail\":\"163\",\"jsonOutput\":\"12\"}]}");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

@@ -85,7 +85,7 @@
 	<!-- Post Product Form -->
 	<string name="nameOfProduct">Tên</string>
 	<string name="priceOfProduct">Giá</string>
-	<string name="description">Mô tả sản phẩm</string>
+	<string name="description">Mô tả</string>
 	<string name="isVAT">Tính VAT</string>
 	<string name="quantityOfProduct">Số lượng</string>
 	<string name="warrantyOfProduct">Bảo hành</string>
