@@ -1,5 +1,7 @@
 package vnfoss2010.smartshop.serverside.database;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 
 /**
  * <code>ServiceResult</code> presents a response from <code>RemoteService</code> <br/>
@@ -10,7 +12,7 @@ package vnfoss2010.smartshop.serverside.database;
  * </ul>
  * @author Tam Vo
  */
-public class ServiceResult<ResultType>{
+public class ServiceResult<ResultType> implements IsSerializable{
 	private boolean isOK = false;
 	private String message = "";
 	private ResultType result = null;

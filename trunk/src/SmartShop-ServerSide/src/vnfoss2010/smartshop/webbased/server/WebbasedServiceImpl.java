@@ -18,6 +18,7 @@ import vnfoss2010.smartshop.webbased.share.WProduct;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.smartshop.docs.server.RPCServiceImpl;
+import com.smartshop.docs.share.GoogleUser;
 
 /**
  * The server side implementation of the RPC service.
@@ -84,7 +85,22 @@ public class WebbasedServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public WGoogleUser getGoogleAccountLink() {
-		return rpcServiceImpl.getGoogleAccountLink().cloneObject();
+		return cloneObject(rpcServiceImpl.getGoogleAccountLink());
+	}
+	
+	public WGoogleUser cloneObject(GoogleUser g) {
+		WGoogleUser wg = new WGoogleUser();
+		wg.isAdmin = g.isAdmin;
+		wg.isLogin = g.isLogin;
+		wg.linkLogin = g.linkLogin;
+		wg.linkLogout = g.linkLogout;
+		wg.username = g.username;
+		wg.email = g.email;
+		wg.authDomain = g.authDomain;
+		wg.nickName = g.nickName;
+		wg.userId = g.userId;
+
+		return wg;
 	}
 
 	@Override
