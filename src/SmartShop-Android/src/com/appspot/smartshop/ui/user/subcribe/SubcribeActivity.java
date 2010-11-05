@@ -49,7 +49,7 @@ import com.google.android.maps.Overlay;
 
 public class SubcribeActivity extends MapActivity {
 
-	public static final String TAG = "[CreateSubcribeActivity]";
+	public static final String TAG = "[SubcribeActivity]";
 	public static final String POST_PARAM = "{lat:%f,lng:%f,distance:%f,limit:0,q:%s}";
 	// radius of earth = 6400km
 	public static final float LATITUDE_TO_METER = 111701f; // 180 lat
@@ -81,9 +81,6 @@ public class SubcribeActivity extends MapActivity {
 		setContentView(R.layout.create_subcribe);
 
 		BaseUIActivity.initHeader(this);
-
-		// TODO for test
-		Global.application = this;
 
 		// text view
 		txtSearch = (EditText) findViewById(R.id.txtSearch);

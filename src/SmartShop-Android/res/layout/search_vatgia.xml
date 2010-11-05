@@ -8,8 +8,8 @@
 		<EditText android:id="@+id/txtSearch" android:textSize="12dip"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:hint="@string/hintEnterProductsName" android:layout_weight="1" />
-		<Button android:layout_width="wrap_content" android:text="@string/search"
-			android:layout_height="wrap_content" android:id="@+id/btnSearch" />
+		<Button android:layout_width="48dip" android:background="@drawable/search"
+			android:layout_height="48dip" android:id="@+id/btnSearch" />
 
 	</LinearLayout>
 
@@ -23,13 +23,8 @@
 			android:layout_height="wrap_content" android:id="@+id/btnNext" />
 
 		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/txtCurrentPage" />
-
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text=" / " />
-
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/txtNumOfPages" />
+			android:textColor="#ff0000" android:textStyle="bold"
+			android:layout_height="wrap_content" android:id="@+id/txtPageInfo" />
 
 	</LinearLayout>
 
