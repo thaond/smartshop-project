@@ -25,7 +25,7 @@ import com.google.gson.GsonBuilder;
 
 public class Global {
 	
-	public static GeoPoint currentPoint;
+	public static final int SPLASH_SCREEN_TIMEOUT = 2000;
 
 	/*
 	 * Update interval
