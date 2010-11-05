@@ -142,7 +142,7 @@ public class UserSubcribeProductImpl {
 			baseQuery = new GeocellQuery<String>(where, decleare, pa);
 			baseQuery.setRange(fromRecord, toRecord);
 
-			listProduct = GeocellManager.proximityFetchNew(center, 40,
+			listProduct = GeocellManager.proximityFetchNewN(center, 40,
 					maxDistance, Product.class, baseQuery, pm,
 					GeocellManager.MAX_GEOCELL_RESOLUTION);
 		} else {
@@ -181,7 +181,7 @@ public class UserSubcribeProductImpl {
 						declareParametersBuffer.toString(), parametersForSearch);
 				baseQuery.setRange(fromRecord, toRecord);
 
-				listProduct = GeocellManager.proximityFetchNew(center, 40,
+				listProduct = GeocellManager.proximityFetchNewN(center, 40,
 						maxDistance, Product.class, baseQuery, pm,
 						GeocellManager.MAX_GEOCELL_RESOLUTION);
 
@@ -201,7 +201,7 @@ public class UserSubcribeProductImpl {
 				// baseQuery.setDeclearedImports(importStr);
 				baseQuery.setRange(fromRecord, toRecord);
 
-				listProduct = GeocellManager.proximityFetchNew(center, 40,
+				listProduct = GeocellManager.proximityFetchNewN(center, 40,
 						maxDistance, Product.class, baseQuery, pm,
 						GeocellManager.MAX_GEOCELL_RESOLUTION);
 				if (!listProduct.isEmpty()) {
