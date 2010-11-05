@@ -18,7 +18,8 @@ import com.google.gson.JsonObject;
  * @author VoMinhTam
  */
 public class GetNotificationsByUsernameService extends BaseRestfulService {
-	private NotificationServiceImpl dbNotification = NotificationServiceImpl.getInstance();
+	private NotificationServiceImpl dbNotification = NotificationServiceImpl
+			.getInstance();
 
 	public GetNotificationsByUsernameService(String serviceName) {
 		super(serviceName);
@@ -32,39 +33,49 @@ public class GetNotificationsByUsernameService extends BaseRestfulService {
 			json = new JSONObject(content);
 		} catch (Exception e) {
 		}
-		
+
 		String username = getParameter("username", params, json);
 		int limit = 0;
 		try {
 			limit = Integer.parseInt(getParameter("limit", params, json));
 		} catch (Exception e) {
 		}
-		
-		int type=0;
+
+		int type = 0;
 		try {
-			type= Integer.parseInt(getParameter("type", params, json));
+			type = Integer.parseInt(getParameter("type", params, json));
 		} catch (Exception e) {
 		}
-		
+
 		long lastupdate = 0;
 		try {
-			lastupdate= Long.parseLong(getParameter("lastupdate", params, json));
+			lastupdate = Long
+					.parseLong(getParameter("lastupdate", params, json));
 		} catch (Exception e) {
 		}
 
 		JsonObject jsonReturn = new JsonObject();
 
-		ServiceResult<List<Notification>> result = dbNotification.getListNotificationsByUsername(username, limit, type, lastupdate);
+		ServiceResult<List<Notification>> result = dbNotification
+				.getListNotificationsByUsername(username, limit, type,
+						lastupdate);
+		if (result.isOK()) {
+			for (Notification n : result.getResult()) {
+				n.setJsonOutput(n.getJsonOutput().replaceAll("\"", "'"));
+			}
+		}
 		if (result.isOK()) {
 			jsonReturn.addProperty("errCode", 0);
 			jsonReturn.addProperty("message", result.getMessage());
-			
-			jsonReturn.add("notifications", Global.gsonWithDate.toJsonTree(result.getResult()));
+
+			jsonReturn.add("notifications",
+					Global.gsonWithDate.toJsonTree(result.getResult()));
 		} else {
 			jsonReturn.addProperty("errCode", 1);
 			jsonReturn.addProperty("message", result.getMessage());
 		}
-		return jsonReturn.toString().replaceAll("\\\\\"", "\"");
+		// return jsonReturn.toString().replaceAll("\\\\\"", "\"");
+		return jsonReturn.toString();
 	}
 
 }
