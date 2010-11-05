@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="wrap_content" android:layout_height="wrap_content">
-	
-	<TabHost android:id="@android:id/tabhost" android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:layout_weight="1">
-		<LinearLayout android:orientation="vertical"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:layout_weight="1">
 
-			<TabWidget android:id="@android:id/tabs"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_weight="0" />
-			<FrameLayout android:id="@android:id/tabcontent"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:padding="5dp" android:layout_weight="1" />
-		</LinearLayout>
-	</TabHost>
-	
+	<TableLayout android:layout_height="fill_parent"
+		android:layout_width="fill_parent" android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp" android:layout_marginBottom="20dp"
+		android:layout_marginTop="20dp">
+
+		<TableRow android:layout_weight="1">
+			<Button android:id="@+id/btnProductList" android:background="@drawable/user_products_list"
+				android:layout_height="fill_parent" android:layout_weight="1"
+				android:layout_width="fill_parent"></Button>
+			<Button android:id="@+id/btnPageList" android:background="@drawable/user_pages_list"
+				android:layout_height="fill_parent" android:layout_weight="1"
+				android:layout_width="fill_parent"></Button>
+		</TableRow>
+
+	</TableLayout>
+
 </LinearLayout>

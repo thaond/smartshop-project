@@ -8,6 +8,9 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +32,10 @@ import com.appspot.smartshop.facebook.core.FacebookError;
 import com.appspot.smartshop.facebook.core.Util;
 import com.appspot.smartshop.facebook.utils.BaseRequestListener;
 import com.appspot.smartshop.facebook.utils.FacebookUtils;
+import com.appspot.smartshop.map.CompassView;
 import com.appspot.smartshop.map.MapDialog;
+import com.appspot.smartshop.map.MyLocationCallback;
+import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.ui.product.ViewProductActivity;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
@@ -54,6 +60,9 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 	private int textViewResourceId;
 	private FacebookUtils facebook;
 
+	private LocationManager locationManager;
+	
+
 	public ProductAdapter(Context context, int textViewResourceId,
 			List<ProductInfo> objects, FacebookUtils facebook) {
 		super(context, textViewResourceId, objects);
@@ -61,6 +70,26 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		this.context = context;
 		inflater = LayoutInflater.from(context);
 		this.facebook = facebook;
+		
+		locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+			
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+			}
+			
+			@Override
+			public void onProviderEnabled(String provider) {
+			}
+			
+			@Override
+			public void onProviderDisabled(String provider) {
+			}
+			
+			@Override
+			public void onLocationChanged(Location location) {
+			}
+		});
 	}
 
 	public ProductAdapter(Context context, int textViewResourceId,
@@ -110,6 +139,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 			} else if (!Global.isLogin) {
 				holder.chLike.setVisibility(View.GONE);
 			}
+			holder.compassView = (CompassView) convertView.findViewById(R.id.compassView);
 
 			convertView.setTag(holder);
 		} else {
@@ -125,6 +155,25 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		if (productInfo.date_post != null) {
 			holder.txtDatePost.setText(Global.dfFull
 					.format(productInfo.date_post));
+		}
+		
+		// TODO compass view for product
+//		holder.compassView.invalidate();
+		if (productInfo.lat == 0 && productInfo.lng == 0) {
+			Log.d(TAG, "[PRODUCT HAS NO LOCATION INFO]");
+			holder.compassView.setVisibility(View.GONE);
+		} else {
+			Location lastLoc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			if (lastLoc != null) {
+				Log.d(TAG, String.format("Last loc = %f, %f", lastLoc.getLatitude(), lastLoc.getLongitude()));
+				holder.compassView.x1 = (float) lastLoc.getLatitude();
+				holder.compassView.y1 = (float) lastLoc.getLongitude();
+				holder.compassView.x2 = (float) productInfo.lat;
+				holder.compassView.y2 = (float) productInfo.lng;
+				holder.compassView.invalidate();
+			} else {
+				Log.d(TAG, "[CANNOT FIND LAST KNOWN LOCATION]");
+			}
 		}
 
 		// listener
@@ -307,6 +356,7 @@ public class ProductAdapter extends ArrayAdapter<ProductInfo> {
 		Button btnMap;
 		ImageView postFacebook;
 		CheckBox chLike;
+		CompassView compassView;
 	}
 
 	public class WallPostRequestListener extends BaseRequestListener {

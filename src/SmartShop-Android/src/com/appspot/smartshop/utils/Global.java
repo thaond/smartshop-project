@@ -10,6 +10,8 @@ import java.util.List;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.graphics.drawable.Drawable;
+import android.hardware.SensorManager;
+import android.location.Location;
 
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.SmartshopNotification;
@@ -17,10 +19,13 @@ import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.facebook.core.AsyncFacebookRunner;
 import com.appspot.smartshop.facebook.core.Facebook;
 import com.appspot.smartshop.facebook.utils.FacebookUtils;
+import com.google.android.maps.GeoPoint;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class Global {
+	
+	public static GeoPoint currentPoint;
 
 	/*
 	 * Update interval
@@ -75,6 +80,8 @@ public class Global {
 	
 	//List subscribed product of user
 	public static List<ProductInfo> listSubscribeProduct = new ArrayList<ProductInfo>();
+	
+	public static SensorManager mSensorManager;
 
 	/*
 	 * Intent key

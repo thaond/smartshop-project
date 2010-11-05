@@ -29,6 +29,8 @@
 		<Button android:id="@+id/btnMap" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:background="@drawable/map_icon"
 			android:layout_alignParentRight="true" />
+		<com.appspot.smartshop.map.CompassView android:layout_width="30dip"
+			android:layout_height="30dip" android:id="@+id/compassView"/>
 		<ImageView android:id="@+id/btnPostFb" android:background="@drawable/facebook_share"
 			android:layout_width="wrap_content" android:layout_height="wrap_content" />
 	</LinearLayout>
