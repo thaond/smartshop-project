@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.ProductInfo;
+import com.appspot.smartshop.ui.BaseUIActivity;
 import com.appspot.smartshop.utils.CategoriesDialog;
 import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.Global;
@@ -82,8 +83,8 @@ public class SearchProductsOnMapActivity extends MapActivity {
 	protected void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		setContentView(R.layout.search_products_on_map);
-		// TODO for test
-		Global.application = this;
+		
+		BaseUIActivity.initHeader(this);
 		
 		// text view
 		txtSearch = (EditText)findViewById(R.id.txtSearch);
@@ -122,7 +123,7 @@ public class SearchProductsOnMapActivity extends MapActivity {
 				}
 			}
 		});
-		myLocationListener.findCurrentLocation();
+//		myLocationListener.findCurrentLocation();
 		
 		// search button
 		Button btnSearch = (Button) findViewById(R.id.btnSearch);
@@ -165,11 +166,17 @@ public class SearchProductsOnMapActivity extends MapActivity {
 			@Override
 			public void loadData() {
 				if (productsOverlay.center == null) {
-					task.hasData = false;
-					task.message = getString(R.string.errCannotFindCurrentLocation);
-					task.cancel(true);
+					productsOverlay.center = myLocationListener.getLastKnowPoint();
 					
-					return;
+					if (productsOverlay.center == null) {
+						task.hasData = false;
+						task.message = getString(R.string.errCannotFindCurrentLocation);
+						task.cancel(true);
+						
+						productsOverlay.radius = ProductsOverlay.NO_RADIUS;
+						
+						return;
+					}
 				}
 				
 				double lat = (double)productsOverlay.center.getLatitudeE6() / 1E6;
@@ -216,13 +223,11 @@ public class SearchProductsOnMapActivity extends MapActivity {
 
 	public static final int MENU_CURRENT_LOCATION = 0;
 	public static final int MENU_SEARCH_LOCATION = 1;
-	public static final int MENU_RETURN_TO_HOME = 2;
 	private MyLocationListener myLocationListener;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_CURRENT_LOCATION, 0, getString(R.string.my_current_location));
 		menu.add(0, MENU_SEARCH_LOCATION, 0, getString(R.string.search_location));
-		menu.add(0, MENU_RETURN_TO_HOME, 0, getString(R.string.return_to_home)).setIcon(R.drawable.home);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -238,9 +243,6 @@ public class SearchProductsOnMapActivity extends MapActivity {
 			productsOverlay.mode = ProductsOverlay.SEARCH_NEARBY_LOCATION;
 			openSearchLocationDialog();
 			break;
-			
-		case MENU_RETURN_TO_HOME:
-			Utils.returnHomeActivity(this);
 		}
 		
 		return super.onOptionsItemSelected(item);

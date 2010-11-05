@@ -1,5 +1,6 @@
 package com.appspot.smartshop.map;
 
+import android.app.LocalActivityManager;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -80,8 +81,20 @@ public class MyLocationListener implements LocationListener {
 		task.execute();
 	}
 	
-	public void updateCurrentLocation() {
+	public GeoPoint getLastKnowPoint() {
+		if (point != null) {
+			return point;
+		}
 		
+		Location loc = locationManager.getLastKnownLocation(
+				LocationManager.GPS_PROVIDER);
+		if (loc != null) {
+			return new GeoPoint(
+					(int) (loc.getLatitude() * 1E6), 
+					(int) (loc.getLongitude() * 1E6));
+		}
+		
+		return null;
 	}
 	
 	@Override
