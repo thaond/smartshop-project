@@ -126,6 +126,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 
 			@Override
 			public void onClick(View v) {
+				System.out.println("button ok clicked");
 				postNewProduct();
 			}
 		});
@@ -174,6 +175,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 	private boolean getProductInfo() {
 		// setup product info
 		String message;
+		System.out.println("checkValide = " + checkValid());
 		if ((message = checkValid()) != null) {
 			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 			return false;
@@ -198,7 +200,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		productInfo.address = txtAddressOfProduct.getText().toString();
 		productInfo.attributeSets = ProductUserDefinedAttributeActivity.setAttributes;
 		productInfo.setMedias = ProductUploadImagesActivity.setMedias;
-		return false;
+		return true;
 	}
 
 	private String checkValid() {
@@ -235,6 +237,7 @@ public class ProductBasicAttributeActivity extends MapActivity {
 		if (getProductInfo() == false)
 			return;
 
+		System.out.println("getProductInfo = true");
 		String images = URLConstant.HOST + "/image_host/product/img%s.jpg";
 		for (int i = 0; i < Math.min(productInfo.setMedias.size(), 7); i++) {
 			productInfo.setMedias.get(i).link = String.format(images, i + 1);

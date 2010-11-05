@@ -99,23 +99,31 @@ public class PageActivity extends BaseUIActivity {
 
 		// Button tag friend
 		Button btnTagFriend = (Button) findViewById(R.id.tag);
-		btnTagFriend.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				tagFriendToProduct();
-			}
-		});
+		if (mode == EDIT_MODE) {
+			btnTagFriend.setOnClickListener(new OnClickListener() {
+	
+				@Override
+				public void onClick(View v) {
+					tagFriendToProduct();
+				}
+			});
+		} else {
+			btnTagFriend.setVisibility(View.GONE);
+		}
 
 		// button untag friend from product
 		Button btnUntagFriend = (Button) findViewById(R.id.un_tag);
-		btnUntagFriend.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				untagFriendToProduct();
-			}
-		});
+		if (mode == EDIT_MODE) {
+			btnUntagFriend.setOnClickListener(new OnClickListener() {
+	
+				@Override
+				public void onClick(View v) {
+					untagFriendToProduct();
+				}
+			});
+		} else {
+			btnUntagFriend.setVisibility(View.GONE);
+		}
 	}
 
 	protected void tagFriendToProduct() {

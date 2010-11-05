@@ -24,6 +24,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -86,9 +87,10 @@ public class ViewUserInfoActivity extends MapActivity {
 	private TextView lblPhoneNumber;
 	private EditText txtPhoneNumber;
 	private TextView lblAvatar;
-	private ImageView txtAvatar;
+	private EditText txtAvatar;
 	private TextView lblBirthday;
 	private EditText txtBirthday;
+	private ImageView imgAvatar;
 
 	private int mYear;
 	private int mMonth;
@@ -181,7 +183,11 @@ public class ViewUserInfoActivity extends MapActivity {
 
 		lblAvatar = (TextView) findViewById(R.id.lblAvatar);
 		lblAvatar.setWidth(labelWidth);
-		txtAvatar = (ImageView) findViewById(R.id.imgAvatar);
+		imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
+		txtAvatar = (EditText) findViewById(R.id.txtAvatar);
+		if (!canEditUserInfo) {
+			txtAvatar.setVisibility(View.GONE);
+		}
 
 		lblPhoneNumber = (TextView) findViewById(R.id.lblPhoneNumber);
 		lblPhoneNumber.setWidth(labelWidth);
@@ -224,16 +230,26 @@ public class ViewUserInfoActivity extends MapActivity {
 		txtBirthday.setText(Global.df.format(userInfo.birthday));
 
 		// some fields of user info must be uneditable
-		Utils.setEditableEditText(txtUsername, false);
-		Utils.setEditableEditText(txtFirstName, true);
-		txtBirthday.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				showDialog(DATE_DIALOG_ID);
-			}
-		});
-
+//		Utils.setEditableEditText(txtUsername, false);
+//		Utils.setEditableEditText(txtFirstName, true);
+		if (!canEditUserInfo) {
+			Utils.setEditableEditText(txtUsername, false);
+			Utils.setEditableEditText(txtFirstName, false);
+			Utils.setEditableEditText(txtLastName, false);
+			Utils.setEditableEditText(txtEmail, false);
+			Utils.setEditableEditText(txtBirthday, false);
+			Utils.setEditableEditText(txtAddress, false);
+			Utils.setEditableEditText(txtPhoneNumber, false);
+		} else {
+			txtBirthday.setOnClickListener(new OnClickListener() {
+	
+				@Override
+				public void onClick(View v) {
+					showDialog(DATE_DIALOG_ID);
+				}
+			});
+		}
+		
 		/********************************** Buttons ********************************/
 		// Register button
 		Button btnEditUserInfo = (Button) findViewById(R.id.btnRegister);
@@ -266,97 +282,107 @@ public class ViewUserInfoActivity extends MapActivity {
 
 		// Tag address on map button
 		Button btnTagAddressOnMap = (Button) findViewById(R.id.btnTagAddressOnMap);
-		btnTagAddressOnMap.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				tagAddressOnMap();
-			}
-		});
+		if (canEditUserInfo) {
+			btnTagAddressOnMap.setOnClickListener(new OnClickListener() {
+	
+				@Override
+				public void onClick(View v) {
+					tagAddressOnMap();
+				}
+			});
+		}
 		
 		// Browser sdcard button
 		Button btnBrowser = (Button) findViewById(R.id.btnBrowser);
-		btnBrowser.setOnClickListener(new OnClickListener() {
+		if (!canEditUserInfo) {
+			btnBrowser.setVisibility(View.GONE);
+		} else {
+			btnBrowser.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				if (inputStreamAvatar != null) {
-					DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-							Intent intent = new Intent(ViewUserInfoActivity.this,
-									AndroidFileBrowser.class);
-							intent.putExtra(Global.FILTER_FILE, imageFilter);
-							intent.setAction(Global.FILE_BROWSER_ACTIVITY);
-							startActivityForResult(intent, FILE_BROWSER_ID);
-						}
-					};
-					DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-						}
-					};
+				@Override
+				public void onClick(View v) {
+					if (inputStreamAvatar != null) {
+						DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								Intent intent = new Intent(ViewUserInfoActivity.this,
+										AndroidFileBrowser.class);
+								intent.putExtra(Global.FILTER_FILE, imageFilter);
+								intent.setAction(Global.FILE_BROWSER_ACTIVITY);
+								startActivityForResult(intent, FILE_BROWSER_ID);
+							}
+						};
+						DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+							}
+						};
 
-					// Show an Alert with the ButtonListeners we created
-					AlertDialog ad = new AlertDialog.Builder(ViewUserInfoActivity.this)
-							.setTitle(getString(R.string.notice))
-							.setMessage(
-									getString(R.string.do_you_want_to_change_avatar))
-							.setPositiveButton(getString(R.string.yes),
-									okButtonListener).setNegativeButton(
-									getString(R.string.no),
-									cancelButtonListener).create();
-					ad.show();
-				} else {
-					Intent intent = new Intent(ViewUserInfoActivity.this,
-							AndroidFileBrowser.class);
-					intent.setAction(Global.FILE_BROWSER_ACTIVITY);
-					intent.putExtra(Global.FILTER_FILE, imageFilter);
-					startActivityForResult(intent, FILE_BROWSER_ID);
+						// Show an Alert with the ButtonListeners we created
+						AlertDialog ad = new AlertDialog.Builder(ViewUserInfoActivity.this)
+								.setTitle(getString(R.string.notice))
+								.setMessage(
+										getString(R.string.do_you_want_to_change_avatar))
+								.setPositiveButton(getString(R.string.yes),
+										okButtonListener).setNegativeButton(
+										getString(R.string.no),
+										cancelButtonListener).create();
+						ad.show();
+					} else {
+						Intent intent = new Intent(ViewUserInfoActivity.this,
+								AndroidFileBrowser.class);
+						intent.setAction(Global.FILE_BROWSER_ACTIVITY);
+						intent.putExtra(Global.FILTER_FILE, imageFilter);
+						startActivityForResult(intent, FILE_BROWSER_ID);
+					}
 				}
-			}
-		});
+			});
+		}
 
 		// photo button
 		Button btnPhoto = (Button) findViewById(R.id.btnPhoto);
-		btnPhoto.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (inputStreamAvatar != null) {
-					DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-							Intent intent = new Intent(ViewUserInfoActivity.this,
-									ImageCaptureActivity.class);
-							intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
-							startActivityForResult(intent, IMAGE_CAPTURE_ID);
-						}
-					};
-					DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-						}
-					};
-
-					// Show an Alert with the ButtonListeners we created
-					AlertDialog ad = new AlertDialog.Builder(ViewUserInfoActivity.this)
-							.setTitle(getString(R.string.notice))
-							.setMessage(
-									getString(R.string.do_you_want_to_change_avatar))
-							.setPositiveButton(getString(R.string.yes),
-									okButtonListener).setNegativeButton(
-									getString(R.string.no),
-									cancelButtonListener).create();
-					ad.show();
-				} else {
-					Intent intent = new Intent(ViewUserInfoActivity.this,
-							ImageCaptureActivity.class);
-					intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
-					startActivityForResult(intent, IMAGE_CAPTURE_ID);
+		if (!canEditUserInfo) {
+			btnPhoto.setVisibility(View.GONE);
+		} else {
+			btnPhoto.setOnClickListener(new OnClickListener() {
+	
+				@Override
+				public void onClick(View v) {
+					if (inputStreamAvatar != null) {
+						DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								Intent intent = new Intent(ViewUserInfoActivity.this,
+										ImageCaptureActivity.class);
+								intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
+								startActivityForResult(intent, IMAGE_CAPTURE_ID);
+							}
+						};
+						DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+							}
+						};
+	
+						// Show an Alert with the ButtonListeners we created
+						AlertDialog ad = new AlertDialog.Builder(ViewUserInfoActivity.this)
+								.setTitle(getString(R.string.notice))
+								.setMessage(
+										getString(R.string.do_you_want_to_change_avatar))
+								.setPositiveButton(getString(R.string.yes),
+										okButtonListener).setNegativeButton(
+										getString(R.string.no),
+										cancelButtonListener).create();
+						ad.show();
+					} else {
+						Intent intent = new Intent(ViewUserInfoActivity.this,
+								ImageCaptureActivity.class);
+						intent.setAction(Global.IMAGE_CAPURE_ACTIVITY);
+						startActivityForResult(intent, IMAGE_CAPTURE_ID);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 	
 	private static final int MENU_SEND_MAIL = 0;
@@ -410,8 +436,9 @@ public class ViewUserInfoActivity extends MapActivity {
 						}
 					}
 					
-					// TODO display image choosen from sdcard
-//					txtAvatar.setText(file.getName())
+					txtAvatar.setText(fileName);
+					Drawable drawable = Drawable.createFromStream(inputStreamAvatar, "avatar");
+					imgAvatar.setBackgroundDrawable(drawable);
 				}
 
 			}
