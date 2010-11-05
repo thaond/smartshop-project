@@ -68,7 +68,6 @@ public class PageAdapter extends ArrayAdapter<Page> {
 			holder.txtName = (TextView) convertView.findViewById(R.id.txtName);
 			holder.txtPageView = (TextView) convertView.findViewById(R.id.txtPageView);
 			holder.txtPostDate = (TextView) convertView.findViewById(R.id.txtPostDate);
-			holder.btnDetail = (Button) convertView.findViewById(R.id.btnDetail);
 			holder.btnPostFb = (ImageView) convertView.findViewById(R.id.btnPostFb);
 			
 			convertView.setTag(holder);
@@ -86,15 +85,7 @@ public class PageAdapter extends ArrayAdapter<Page> {
 			
 			@Override
 			public void onClick(View v) {
-//				if (Global.isLogin && page.username.equals(Global.userInfo.username)) {
-//					Log.d(TAG, "edit page of " + Global.userInfo.username);
-//					intent = new Intent(context, PageActivity.class);
-//				} else {
-//					Log.d(TAG, "view page");
-//					intent = new Intent(context, ViewPageActivity.class);
-//				}
-				
-				Log.d(TAG, "view page");
+				Log.d(TAG, "[VIEW PAGE]");
 				if (pageType == NORMAL_PAGES) {
 					intent = new Intent(context, ViewPageActivity.class);
 					intent.putExtra(Global.IS_NORMAL_PAGE, true);
@@ -120,7 +111,6 @@ public class PageAdapter extends ArrayAdapter<Page> {
 				});
 			}
 		};
-		holder.btnDetail.setOnClickListener(onClickListener);
 		convertView.setOnClickListener(onClickListener);
 		
 		holder.btnPostFb.setOnClickListener(new OnClickListener() {
@@ -150,7 +140,6 @@ public class PageAdapter extends ArrayAdapter<Page> {
 		TextView txtName;
 		TextView txtPageView;
 		TextView txtPostDate;
-		Button btnDetail;
 		ImageView btnPostFb;
 	}
 }
