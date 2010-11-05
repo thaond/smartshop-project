@@ -48,7 +48,6 @@ public class MainAdapter extends BaseAdapter {
 					R.drawable.user_pages_list,
 					R.drawable.login, 
 					R.drawable.register,
-					R.drawable.exit,
 			};
 
 			text = new String[] {
@@ -56,7 +55,6 @@ public class MainAdapter extends BaseAdapter {
 					context.getString(R.string.user_pages_list),
 					context.getString(R.string.lblLogin),
 					context.getString(R.string.lblRegister),
-					context.getString(R.string.exit),
 			};
 		} else {
 			icons = new int[] { 
