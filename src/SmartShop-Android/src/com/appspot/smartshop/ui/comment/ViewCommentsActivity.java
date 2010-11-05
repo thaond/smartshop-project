@@ -82,13 +82,6 @@ public class ViewCommentsActivity extends BaseUIActivity {
 		
 		// load comments
 		loadComments();
-		
-		SmartshopNotification sNotification = (SmartshopNotification) getIntent().getSerializableExtra(Global.NOTIFICATION);
-		if (sNotification!=null){
-			Global.notifications.remove(sNotification);
-			Global.notificationManager.cancel(sNotification.id);
-			Utils.markNotificationAsRead(sNotification.id);
-		}
 	}
 
 	private static final int MENU_ADD_COMMENT = 0;

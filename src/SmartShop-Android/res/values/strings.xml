@@ -158,7 +158,7 @@
 	<string name="tab_search_products">Tìm kiếm SP</string>
 	<string name="tab_search_on_map">Bản đồ</string>
 	<string name="tab_smartshop_products">SmartShop</string>
-	<string name="tab_vatgia_products">Những bài viết khác</string>
+	<string name="tab_vatgia_products">Những trang khác</string>
 
 	<!-- Search products on map -->
 	<string name="btnSearchProductsOnMap">Tìm</string>
