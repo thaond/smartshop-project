@@ -918,7 +918,6 @@ public class ProductServiceImpl {
 		return result;
 	}
 
-	// TODO Rewrite this method
 	public ServiceResult<List<Product>> getListInterestedProductsByUsername(
 			String username, String q, int limit) {
 		ServiceResult<List<Product>> result = new ServiceResult<List<Product>>();
