@@ -319,5 +319,7 @@
 	
 	<string name="hint_enter_search_location">Địa điểm cần tìm</string>
 	
-	<string name="view_direction_detail">Xem chi tiết</string>
+	<string name="view_direction_detail">Xem hướng dẫn</string>
+	
+	<string name="view_road_detail">Xem đường</string>
 </resources>

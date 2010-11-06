@@ -342,6 +342,8 @@ public class ViewProductBasicAttributeActivity extends Activity {
 	
 	private SimpleAsyncTask task;
 	private void findDirectionToProduct2() {
+		myLocationListener = new MyLocationListener(this);
+		
 		// start an AsyncTask to get direction result
 		task = new SimpleAsyncTask(this, new DataLoader() {
 			private DirectionResult directionResult;
@@ -355,7 +357,7 @@ public class ViewProductBasicAttributeActivity extends Activity {
 			
 			@Override
 			public void loadData() {
-				Location loc = new MyLocationListener(ViewProductBasicAttributeActivity.this).getLastKnownLocation();
+				Location loc = myLocationListener.getLastKnownLocation();
 				if (loc == null || productInfo.lat == 0 && productInfo.lng == 0) {
 					task.hasData = false;
 					task.message = getString(R.string.errCannotFindCurrentLocation);

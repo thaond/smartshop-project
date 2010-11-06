@@ -89,17 +89,34 @@ public class DirectionOnMapActivity extends MapActivity {
 	}
 	
 	public static final int MENU_VIEW_DIRECTION_DETAIL = 1;
+	public static final int MENU_VIEW_ROAD_DETAIL = 2;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_VIEW_DIRECTION_DETAIL, 0,
 				getString(R.string.view_direction_detail));
+		menu.add(0, MENU_VIEW_ROAD_DETAIL, 0,
+				getString(R.string.view_road_detail));
 		return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case MENU_VIEW_ROAD_DETAIL:
+			if (directionResult.points.size() >= 2) {
+				int lat1 = directionResult.points.get(0).getLatitudeE6();
+				int lng1 = directionResult.points.get(0).getLongitudeE6();
+				int lat2 = directionResult.points.get(1).getLatitudeE6();
+				int lng2 = directionResult.points.get(1).getLongitudeE6();
+				
+				mapController.animateTo(new GeoPoint((lat1 + lat2) / 2, (lng1 + lng2) / 2) );
+				mapController.zoomToSpan(Math.abs(lat1 - lat2), Math.abs(lng1 - lng2));
+			}
+			break;
+			
 		case MENU_VIEW_DIRECTION_DETAIL:
+			Intent intent = new Intent(getApplicationContext(), DirectionListActivity.class);
+			startActivity(intent);
 			break;
 		}
 
