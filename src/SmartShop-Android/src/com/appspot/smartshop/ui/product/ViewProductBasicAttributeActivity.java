@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -27,18 +28,24 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
+import com.appspot.smartshop.adapter.DirectionAdapter;
 import com.appspot.smartshop.dom.ProductInfo;
 import com.appspot.smartshop.dom.UserInfo;
 import com.appspot.smartshop.map.DirectionListActivity;
+import com.appspot.smartshop.map.DirectionOnMapActivity;
+import com.appspot.smartshop.map.DirectionResult;
+import com.appspot.smartshop.map.MapService;
 import com.appspot.smartshop.map.MyLocationCallback;
 import com.appspot.smartshop.map.MyLocationListener;
 import com.appspot.smartshop.ui.comment.ViewCommentsActivity;
 import com.appspot.smartshop.ui.page.ViewPageActivity;
 import com.appspot.smartshop.ui.user.ViewUserInfoActivity;
+import com.appspot.smartshop.utils.DataLoader;
 import com.appspot.smartshop.utils.FriendListDialog;
 import com.appspot.smartshop.utils.Global;
 import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
+import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
 import com.appspot.smartshop.utils.Utils;
 import com.google.android.maps.GeoPoint;
@@ -66,8 +73,6 @@ public class ViewProductBasicAttributeActivity extends Activity {
 	private Button btnViewUserInfo;
 
 	protected static ProductInfo productInfo;
-
-	private TextView txtUsername;
 
 	private CheckBox chVat;
 	
@@ -145,10 +150,9 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		lblPageViewOfProduct.setWidth(labelWidth);
 		txtPageViewOfProduct = (EditText) findViewById(R.id.txtViewPageViewOfProduct);
 
-		txtUsername = (TextView) findViewById(R.id.txtUsername);
-
 		// VAT checbox
 		chVat = (CheckBox) findViewById(R.id.viewCheckBoxIsVAT);
+		chVat.setPadding(labelWidth, 0, 0, 0);
 
 		// buttons
 		btnViewComment = (Button) findViewById(R.id.viewComment);
@@ -174,7 +178,7 @@ public class ViewProductBasicAttributeActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				findDirectionToProduct();
+				findDirectionToProduct2();
 			}
 		});
 
@@ -186,7 +190,6 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		txtOriginOfProduct.setText(productInfo.origin);
 		txtAddressOfProduct.setText(productInfo.address);
 		txtPageViewOfProduct.setText(productInfo.product_view + "");
-		txtUsername.setText(productInfo.username);
 		chVat.setChecked(productInfo.is_vat);
 		EditText txtDescription = (EditText) findViewById(R.id.txtDescription);
 		txtDescription.setText(Html.fromHtml(productInfo.description));
@@ -335,6 +338,37 @@ public class ViewProductBasicAttributeActivity extends Activity {
 
 				});
 		myLocationListener.findCurrentLocation();
+	}
+	
+	private SimpleAsyncTask task;
+	private void findDirectionToProduct2() {
+		// start an AsyncTask to get direction result
+		task = new SimpleAsyncTask(this, new DataLoader() {
+			private DirectionResult directionResult;
+
+			@Override
+			public void updateUI() {
+				DirectionOnMapActivity.directionResult = directionResult;
+				Intent intent = new Intent(getApplicationContext(), DirectionOnMapActivity.class);
+				startActivity(intent);
+			}
+			
+			@Override
+			public void loadData() {
+				Location loc = new MyLocationListener(ViewProductBasicAttributeActivity.this).getLastKnownLocation();
+				if (loc == null || productInfo.lat == 0 && productInfo.lng == 0) {
+					task.hasData = false;
+					task.message = getString(R.string.errCannotFindCurrentLocation);
+					task.cancel(true);
+				}
+				
+				// direction result
+				directionResult = MapService.getDirectionResult(
+						loc.getLatitude(), loc.getLongitude(),
+						productInfo.lat, productInfo.lng);
+			}
+		});
+		task.execute();
 	}
 
 	@Override

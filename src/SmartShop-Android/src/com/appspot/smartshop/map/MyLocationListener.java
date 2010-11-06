@@ -33,6 +33,13 @@ public class MyLocationListener implements LocationListener {
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 	
+	public MyLocationListener(Context context) {
+		this.context = context;
+		
+		locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+	}
+	
 	private SimpleAsyncTask task;
 	public void findCurrentLocation() {
 		
@@ -97,6 +104,12 @@ public class MyLocationListener implements LocationListener {
 		return null;
 	}
 	
+	public Location getLastKnownLocation() {
+		Location loc = locationManager.getLastKnownLocation(
+				LocationManager.GPS_PROVIDER);
+		return loc;
+	}
+	
 	@Override
 	public void onLocationChanged(Location loc) {
 		Log.d(TAG, "onLocationChanged");
@@ -104,7 +117,9 @@ public class MyLocationListener implements LocationListener {
 //		if (callback != null && !findingLocation) {
 //			callback.onSuccess(point);
 //		}
-		callback.onSuccess(point);
+		if (callback != null) {
+			callback.onSuccess(point);
+		}
 	}
 
 	@Override

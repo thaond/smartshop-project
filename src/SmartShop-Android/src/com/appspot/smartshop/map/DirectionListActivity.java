@@ -22,12 +22,8 @@ public class DirectionListActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.direction_list);
 		
-		// lat, lng info from HomeActivity
-		final Bundle bundle = getIntent().getExtras();
-		
 		// GUI
 		final ListView listDirection = (ListView) findViewById(R.id.listDirection);
-		final Button btnShowDirectionOnMap = (Button) findViewById(R.id.btnShowDirectionOnMap);
 		final TextView txtDuration = (TextView) findViewById(R.id.txtDuration);
 		final TextView txtdistance = (TextView) findViewById(R.id.txtDistance);
 		
@@ -53,29 +49,12 @@ public class DirectionListActivity extends MapActivity {
 				if (distance != null) {
 					txtdistance.setText(distance);
 				}
-				
-				// button show direction on map
-				if (directionResult.hasError) {
-					btnShowDirectionOnMap.setText(getString(R.string.errGetDirection));
-				} else {
-					btnShowDirectionOnMap.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							Intent intent = new Intent(DirectionListActivity.this, DirectionOnMapActivity.class);
-							DirectionOnMapActivity.directionResult = directionResult;
-							startActivity(intent);
-						}
-					});
-				}
 			}
 			
 			@Override
 			public void loadData() {
 				// direction result
-				directionResult = MapService.getDirectionResult(
-						bundle.getDouble("lat1"), bundle.getDouble("lng1"),
-						bundle.getDouble("lat2"), bundle.getDouble("lng2"));
+				directionResult = DirectionOnMapActivity.directionResult;
 				
 				// instructions
 				instructions = directionResult.instructions;
