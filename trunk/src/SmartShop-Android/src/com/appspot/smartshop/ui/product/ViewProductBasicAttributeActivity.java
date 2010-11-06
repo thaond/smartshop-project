@@ -191,8 +191,14 @@ public class ViewProductBasicAttributeActivity extends Activity {
 		txtAddressOfProduct.setText(productInfo.address);
 		txtPageViewOfProduct.setText(productInfo.product_view + "");
 		chVat.setChecked(productInfo.is_vat);
+		
+		// description
+		TextView lblDescription = (TextView) findViewById(R.id.lblDescription);
+		lblDescription.setWidth(labelWidth);
+		
 		EditText txtDescription = (EditText) findViewById(R.id.txtDescription);
 		txtDescription.setText(Html.fromHtml(productInfo.description));
+		txtDescription.setHeight(200);
 
 		Bundle bundle = getIntent().getExtras();
 		canEdit = bundle.getBoolean(Global.CAN_EDIT_PRODUCT_INFO);
