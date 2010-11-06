@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
@@ -96,6 +97,12 @@ public class LoginActivity extends BaseUIActivity {
 	protected void login() {
 		String username = txtUsername.getText().toString();
 		String pass = txtPassword.getText().toString();
+		if (username == null || username.trim().equals("")
+				|| pass == null || pass.trim().equals("")) {
+			Toast.makeText(this, "Điền tên đăng nhập và mật khẩu", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		final String userkey = Utils.getAlphaNumeric(20);
 		final String url = String.format(URLConstant.LOGIN, username, Utils
 				.getMD5(pass), userkey);
