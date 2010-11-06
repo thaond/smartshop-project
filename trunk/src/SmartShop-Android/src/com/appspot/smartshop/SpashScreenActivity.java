@@ -56,7 +56,6 @@ public class SpashScreenActivity extends Activity {
     	
     };
     
-    private SimpleAsyncTask task;
     private void getCategoriesList() {
 		// get parent categories
 		RestClient.getData(URLConstant.GET_PARENT_CATEGORIES, new JSONParser() {
@@ -77,10 +76,6 @@ public class SpashScreenActivity extends Activity {
 
 			@Override
 			public void onFailure(String message) {
-				task.hasData = false;
-				task.message = message;
-				task.cancel(true);
-
 				Toast.makeText(getApplicationContext(), getString(R.string.cannot_connect_network),
 						Toast.LENGTH_SHORT).show();
 			}
@@ -115,9 +110,8 @@ public class SpashScreenActivity extends Activity {
 
 				@Override
 				public void onFailure(String message) {
-					task.hasData = false;
-					task.message = message;
-					task.cancel(true);
+					Toast.makeText(getApplicationContext(), getString(R.string.cannot_connect_network),
+							Toast.LENGTH_SHORT).show();
 				}
 			});
 		}
