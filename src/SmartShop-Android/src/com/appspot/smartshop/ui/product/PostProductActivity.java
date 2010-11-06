@@ -26,11 +26,11 @@ public class PostProductActivity extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec(PRODUCT_UPLOAD_IMAGE).setIndicator(
 				getString(R.string.upload_image)).setContent(
 				new Intent(this, ProductUploadImagesActivity.class)));
-		tabHost.addTab(tabHost.newTabSpec(PRODUCT_USER_DEFINED_INFO)
-				.setIndicator(getString(R.string.product_user_defined_info))
-				.setContent(
-						new Intent(this,
-								ProductUserDefinedAttributeActivity.class)));
+//		tabHost.addTab(tabHost.newTabSpec(PRODUCT_USER_DEFINED_INFO)
+//				.setIndicator(getString(R.string.product_user_defined_info))
+//				.setContent(
+//						new Intent(this,
+//								ProductUserDefinedAttributeActivity.class)));
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
 		}

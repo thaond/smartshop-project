@@ -54,10 +54,10 @@ public class AttributeAdapter extends ArrayAdapter<Attribute> {
 		Attribute attr = (Attribute) getItem(position);
 		holder.txtName.setText(attr.name);
 		holder.txtValue.setText(attr.value);
-		if(ViewProductUserDefinedAttributeActivity.canEdit==false){
-			Utils.setEditableEditText(holder.txtValue, false);
-//			holder.txtValue.setFilters(Global.uneditableInputFilters);
-		}
+//		if(ViewProductUserDefinedAttributeActivity.canEdit==false){
+//			Utils.setEditableEditText(holder.txtValue, false);
+////			holder.txtValue.setFilters(Global.uneditableInputFilters);
+//		}
 		
 		return convertView;
 	}
