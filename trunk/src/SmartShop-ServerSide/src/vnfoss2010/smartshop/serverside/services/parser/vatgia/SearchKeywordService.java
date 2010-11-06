@@ -102,11 +102,12 @@ public class SearchKeywordService extends BaseRestfulService {
 				if (jsonArray.size() > 0) {
 					jsonReturn.add("results", jsonArray);
 					jsonReturn.addProperty("errCode", 0);
-					jsonReturn.addProperty("message",
-							Global.messages.getString("parse_product_vatgia_successfully"));
+					jsonReturn.addProperty("message", Global.messages
+							.getString("parse_product_vatgia_successfully"));
 				} else {
-					jsonReturn.addProperty("message",
-							Global.messages.getString("parse_product_vatgia_fail"));
+					jsonReturn.addProperty("errCode", 1);
+					jsonReturn.addProperty("message", Global.messages
+							.getString("parse_product_vatgia_fail"));
 				}
 			} else {
 				jsonReturn.addProperty("errCode", 1);
