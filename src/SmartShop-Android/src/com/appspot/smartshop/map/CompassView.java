@@ -92,8 +92,9 @@ public class CompassView  extends View {
         Path path = new Path();
         path.lineTo(-5, -5);
         path.lineTo(0, 15);
-        path.lineTo(5, 0);
+        path.lineTo(5, -5);
         path.lineTo(0, 0);
+        canvas.drawPath(path, mPaint);
     }
 
     @Override

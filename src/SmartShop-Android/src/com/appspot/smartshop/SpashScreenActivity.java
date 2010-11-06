@@ -22,6 +22,7 @@ import android.widget.Toast;
 public class SpashScreenActivity extends Activity {
 	public static final String TAG = "[SpashScreenActivity]";
 	public static final int HANDLER_MSG_WAIT = 1;
+	public static final int HANDLER_CANT_CONNECT_TO_NETWORK = 2;
 	
     /** Called when the activity is first created. */
     @Override
@@ -49,9 +50,19 @@ public class SpashScreenActivity extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			Intent intent = new Intent(getApplicationContext(), SmartShopActivity.class);
-			startActivity(intent);
-			finish();
+			switch (msg.what) {
+			case HANDLER_MSG_WAIT:
+				Intent intent = new Intent(getApplicationContext(), SmartShopActivity.class);
+				startActivity(intent);
+				finish();
+				break;
+				
+			case HANDLER_CANT_CONNECT_TO_NETWORK:
+				Toast.makeText(getApplicationContext(), getString(R.string.cannot_connect_network),
+						Toast.LENGTH_SHORT).show();
+				finish();
+				break;
+			}
 		}
     	
     };
@@ -76,8 +87,7 @@ public class SpashScreenActivity extends Activity {
 
 			@Override
 			public void onFailure(String message) {
-				Toast.makeText(getApplicationContext(), getString(R.string.cannot_connect_network),
-						Toast.LENGTH_SHORT).show();
+				mHandler.sendEmptyMessage(HANDLER_CANT_CONNECT_TO_NETWORK);
 			}
 		});
 
@@ -110,8 +120,7 @@ public class SpashScreenActivity extends Activity {
 
 				@Override
 				public void onFailure(String message) {
-					Toast.makeText(getApplicationContext(), getString(R.string.cannot_connect_network),
-							Toast.LENGTH_SHORT).show();
+					mHandler.sendEmptyMessage(HANDLER_CANT_CONNECT_TO_NETWORK);
 				}
 			});
 		}
