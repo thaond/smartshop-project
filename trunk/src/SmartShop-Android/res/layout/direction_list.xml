@@ -4,13 +4,8 @@
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:padding="10dp">
 
-	<LinearLayout android:orientation="horizontal" 
+	<LinearLayout android:orientation="horizontal" android:layout_gravity="center_horizontal"
 		android:layout_width="fill_parent" android:layout_height="wrap_content">
-
-		<Button android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/btnShowDirectionOnMap"
-			android:text="@string/btnShowDirectionOnMap" android:textColor="#0000ff"
-			android:textStyle="bold" />
 
 		<TextView android:id="@+id/txtDistance" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:textColor="#ff0000"

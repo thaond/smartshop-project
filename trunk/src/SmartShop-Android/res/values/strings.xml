@@ -318,4 +318,6 @@
 	<string name="delete">Delete Post</string>
 	
 	<string name="hint_enter_search_location">Địa điểm cần tìm</string>
+	
+	<string name="view_direction_detail">Xem chi tiết</string>
 </resources>
