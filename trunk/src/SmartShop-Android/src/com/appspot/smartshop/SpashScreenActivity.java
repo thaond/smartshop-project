@@ -29,15 +29,19 @@ public class SpashScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spash_screen);
         
-        // Load notification
-        if (Global.mapParentCategories.size() != 0) {
-			Log.d(TAG, "[DONT NEED TO GET CATEGORIES LIST]");
-		} else {
-			Log.d(TAG, "[GET CATEGORIES LIST]");
-			getCategoriesList();
-		}
-        
-        mHandler.sendEmptyMessageDelayed(HANDLER_MSG_WAIT, 2000);
+        new Thread() {
+        	public void run() {
+        		// Load notification
+                if (Global.mapParentCategories.size() != 0) {
+        			Log.d(TAG, "[DONT NEED TO GET CATEGORIES LIST]");
+        			mHandler.sendEmptyMessageDelayed(HANDLER_MSG_WAIT, 2000);
+        		} else {
+        			Log.d(TAG, "[GET CATEGORIES LIST]");
+        			getCategoriesList();
+        			mHandler.sendEmptyMessage(HANDLER_MSG_WAIT);
+        		}
+        	};
+        }.start();
     }
     
 	private Handler mHandler = new Handler() {
