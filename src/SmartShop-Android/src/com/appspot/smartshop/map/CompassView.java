@@ -61,7 +61,6 @@ public class CompassView  extends View {
 
     boolean first = true;
     public static final int SIZE = 30;
-    public static final float offset = 2f;
     @Override protected void onDraw(Canvas canvas) {
         mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.FILL);
@@ -76,18 +75,25 @@ public class CompassView  extends View {
         
         mPaint.setColor(Color.RED);
         mPaint.setStrokeWidth(1f);
-        if (x1 == x2) {
-        	if (y2 > y1) {
-        		canvas.drawLine(0, 0, 0, SIZE / 2, mPaint);
-        	} else {
-        		canvas.drawLine(0, 0, 0, - SIZE / 2, mPaint);
-        	}
-        } else {
-        	double alpha = Math.atan((y2 - y1) / (x2 - x1));
-        	float yB = (float) (SIZE / 2 * Math.cos(alpha));
-        	float xB = (float) (SIZE / 2 * Math.sin(alpha));
-        	canvas.drawLine(0, 0, xB, yB, mPaint);
-        }
+//        if (x1 == x2) {
+//        	if (y2 > y1) {
+//        		canvas.drawLine(0, 0, 0, SIZE / 2, mPaint);
+//        	} else {
+//        		canvas.drawLine(0, 0, 0, - SIZE / 2, mPaint);
+//        	}
+//        } else {
+//        	double alpha = Math.atan((y2 - y1) / (x2 - x1));
+//        	float yB = (float) (SIZE / 2 * Math.cos(alpha));
+//        	float xB = (float) (SIZE / 2 * Math.sin(alpha));
+//        	canvas.drawLine(0, 0, xB, yB, mPaint);
+//        }
+        canvas.drawColor(Color.BLACK);
+        mPaint.setColor(Color.RED);
+        Path path = new Path();
+        path.lineTo(-5, -5);
+        path.lineTo(0, 15);
+        path.lineTo(5, 0);
+        path.lineTo(0, 0);
     }
 
     @Override
