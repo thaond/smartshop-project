@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:background="@color/background">
+	<include android:layout_width="fill_parent"
+		android:layout_height="wrap_content" layout="@layout/header" />
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:paddingRight="10dip">
+
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/email_title"
+			android:layout_centerVertical="true" android:id="@+id/lblTitle" />
+
+		<EditText android:layout_height="wrap_content" android:id="@+id/txtTitle"
+			android:layout_width="wrap_content" />
+
+	</LinearLayout>
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:paddingRight="10dip">
+
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/email_sender"
+			android:layout_centerVertical="true" android:id="@+id/lblSender" />
+
+		<EditText android:layout_height="wrap_content" android:id="@+id/txtSender"
+			android:layout_width="wrap_content" />
+
+	</LinearLayout>
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@string/email_content"
+		android:id="@+id/lblContent" />
+
+	<EditText android:layout_height="fill_parent" android:id="@+id/txtContent"
+		android:layout_width="fill_parent" android:layout_weight="1" />
+
+	<Button android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@string/send_email"
+		android:id="@+id/btnSend" android:layout_gravity="right" />
+
+</LinearLayout>

@@ -1,0 +1,93 @@
+/* WEB-BASED */
+.panel-header {
+	border-bottom-style: solid;
+	border-width: medium;
+	height: 27px;
+	border-color: #809FFE; /* light blue */ /*padding-right: 20px;*/
+	/*margin-right: 20px;*/
+}
+
+.lbl-login {
+	position: absolute;
+	right: 10px;
+}
+
+.lbl-user {
+	font-weight: bold;
+	position: absolute;
+	right: 65px;
+}
+
+.cw-DockPanel td {
+	border: 1px solid #BBBBBB;
+	padding: 3px;
+}
+
+.user-profile-left-panel {
+	border: 3px solid #e8eef7;
+	padding: 4px 4px 4px 8px;
+	width: 200px;
+	height: 400px;
+}
+
+.content-title {
+	font-size: 15pt;
+	color: blue;
+}
+
+.content-date {
+	font-size: 7pt;
+	padding-bottom: 10pt;
+}
+
+.gwt-HorizontalSplitPanel {
+	
+}
+
+.gwt-HorizontalSplitPanel .hsplitter {
+	cursor: move;
+	border: 0px;
+	background: #91c0ef url(images/vborder.png) repeat-y;
+}
+
+.img-avatar {
+	width: 128px;
+	height: 128px;
+	padding: 10px;
+}
+
+.img-map {
+	padding-left: 10px;
+	width: 32px;
+	height: 32px;
+}
+
+.img-list-item {
+	width: 128px;
+	max-height: 128px;
+	text-align: center;
+}
+
+.content {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.cursor-hover {
+	cursor: pointer;
+}
+
+.cursor-default {
+	cursor: pointer;
+}
+
+.img-product{
+	width: 50px;
+	height: 50px;
+	padding-right: 10px;
+}
+
+.pnl-related-product {
+	border-left: 3px solid #e8eef7;
+	padding: 5px;
+}

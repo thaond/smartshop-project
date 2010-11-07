@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:scrollbars="vertical">
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="vertical">
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/nameOfProduct"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/nameOfProduct" />
+			<EditText android:id="@+id/txtNameOfProduct"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/priceOfProduct"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/priceOfProduct" />
+			<EditText android:id="@+id/txtPriceOfProduct"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/lblPadding" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+			<CheckBox android:id="@+id/checkBoxIsVAT"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			<TextView android:id="@+id/isVATInPostProductForm"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/isVAT" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/quantityOfProduct"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/quantityOfProduct" />
+			<EditText android:id="@+id/txtQuantityOfProduct"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/warrantyOfProduct"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/warrantyOfProduct" />
+			<EditText android:id="@+id/txtWarrantyOfProduct"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/originOfProduct"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/originOfProduct" />
+			<EditText android:id="@+id/txtOriginOfProduct"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/addressOfProduct"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/addressOfProduct" />
+			<EditText android:id="@+id/txtAddressOfProduct"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="right">
+			<TextView android:id="@+id/lblPadding1" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+			<Button android:id="@+id/btnTagOnMap" android:background="@drawable/tag_on_map"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			<TextView android:id="@+id/lblPadding1" android:layout_width="20dip" android:layout_height="wrap_content"/>
+			<Button android:id="@+id/btnChooseCategory"
+				android:background="@drawable/choose_category" android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+		</LinearLayout>
+		<LinearLayout android:orientation="vertical"
+			android:layout_height="wrap_content" android:layout_width="fill_parent">
+			<TextView android:id="@+id/addressOfProduct"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/description" />
+			<EditText android:id="@+id/txtDescription"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		</LinearLayout>
+
+		<LinearLayout android:orientation="horizontal"
+			android:layout_gravity="right" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:gravity="center_vertical|center_horizontal" >
+
+			<Button android:id="@+id/btnXong" android:background="@drawable/finish"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+				<TextView android:id="@+id/lblPadding1" android:layout_width="20dip" android:layout_height="wrap_content"/>
+			<Button android:id="@+id/btnCancel" android:background="@drawable/exit"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>
