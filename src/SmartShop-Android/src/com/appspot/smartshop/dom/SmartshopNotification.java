@@ -16,7 +16,7 @@ public class SmartshopNotification implements Serializable {
 	public static final int UNTAG_PAGE = 5;
 	public static final int ADD_COMMENT_PRODUCT = 6;
 	public static final int ADD_COMMENT_PAGE = 7;
-	public static final int TAG_PRODUCT_TO_PAGE = 8;
+	public static final int NEW_PRODUCT_FROM_SUBCRIBE = 8;
 
 	public int id;
 	public int type;
@@ -65,7 +65,7 @@ public class SmartshopNotification implements Serializable {
 			return Global.application.getString(R.string.add_comment_product);
 		case ADD_COMMENT_PAGE:
 			return Global.application.getString(R.string.add_comment_page);
-		case TAG_PRODUCT_TO_PAGE:
+		case NEW_PRODUCT_FROM_SUBCRIBE:
 			return Global.application.getString(R.string.tag_product_to_page);
 		default:
 			return Global.application.getString(R.string.notice);

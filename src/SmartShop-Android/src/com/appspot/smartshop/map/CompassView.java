@@ -51,6 +51,7 @@ public class CompassView  extends View {
         }
     };
 
+    private int backgroundColor = Global.application.getResources().getColor(R.color.background);
     public CompassView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		Global.mSensorManager.registerListener(mListener, 
@@ -87,7 +88,7 @@ public class CompassView  extends View {
 //        	float xB = (float) (SIZE / 2 * Math.sin(alpha));
 //        	canvas.drawLine(0, 0, xB, yB, mPaint);
 //        }
-        canvas.drawColor(Color.BLACK);
+        canvas.drawColor(backgroundColor);
         mPaint.setColor(Color.RED);
         Path path = new Path();
         path.lineTo(-5, -5);

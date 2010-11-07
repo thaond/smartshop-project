@@ -5,15 +5,17 @@
 	<include android:layout_width="fill_parent"
 		android:layout_height="wrap_content" layout="@layout/header" />
 	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/txtUsername" />
+		android:textColor="#FFC085" android:layout_height="wrap_content"
+		android:id="@+id/txtUsername" android:paddingLeft="5dip" />
 
 	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/txtName"
-		android:textStyle="bold" android:paddingLeft="5dip" />
-
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/txtPostDate"
+		android:textColor="#FF00FF" android:layout_height="wrap_content"
+		android:id="@+id/txtName" android:textStyle="bold"
 		android:paddingLeft="5dip" />
+
+	<TextView android:layout_width="wrap_content"
+		android:textColor="#FF00FF" android:layout_height="wrap_content"
+		android:id="@+id/txtPostDate" android:paddingLeft="5dip" />
 
 
 	<EditText android:layout_width="fill_parent"
@@ -24,8 +26,9 @@
 		android:layout_height="wrap_content">
 
 		<TextView android:layout_width="wrap_content"
-			android:layout_alignParentLeft="true" android:layout_height="wrap_content"
-			android:id="@+id/txtPageView" android:paddingLeft="5dip" />
+			android:textColor="#FFC085" android:layout_alignParentLeft="true"
+			android:layout_height="wrap_content" android:id="@+id/txtPageView"
+			android:paddingLeft="5dip" />
 
 		<Button android:id="@+id/viewUserInfo" android:layout_width="48dip"
 			android:layout_height="48dip" android:background="@drawable/user_profile"

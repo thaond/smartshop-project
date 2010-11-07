@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -156,9 +157,12 @@ public class PageActivity extends BaseUIActivity {
 			break;
 
 		case EDIT_MODE:
+			Log.e(TAG, "edit mode");
 			url = String.format(URLConstant.EDIT_PAGE, Global.getSession());
 			break;
 		}
+		
+		Log.e(TAG, "Old json: " + Global.gsonWithHour.toJson(page));
 
 		task = new SimpleAsyncTask(this, new DataLoader() {
 
@@ -171,11 +175,12 @@ public class PageActivity extends BaseUIActivity {
 				// set attributes for page
 				page.content = txtContent.getText().toString();
 				page.name = txtName.getText().toString();
-				page.date_post = new Date();
+//				page.date_post = new Date();
 				page.username = Global.userInfo.username;
 				page.page_view++;
 
 				String param = Global.gsonWithHour.toJson(page);
+				Log.e(TAG, "New json: " + Global.gsonWithHour.toJson(page));
 
 				RestClient.postData(url, param, new JSONParser() {
 
@@ -193,19 +198,5 @@ public class PageActivity extends BaseUIActivity {
 			}
 		});
 		task.execute();
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 0, 0, getString(R.string.return_to_home)).setIcon(R.drawable.home);
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == 0) {
-			Utils.returnHomeActivity(this);
-		}
-		return super.onOptionsItemSelected(item);
 	}
 }

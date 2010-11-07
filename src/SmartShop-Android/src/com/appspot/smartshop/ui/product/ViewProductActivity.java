@@ -84,7 +84,6 @@ public class ViewProductActivity extends TabActivity {
 	private ProductInfo productInfo;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 0, 0, getString(R.string.return_to_home)).setIcon(R.drawable.home);
 		menu.add(0, MENU_VIEW_RELATED_RRODUCTS, 0,
 				getString(R.string.view_related_products));
 		return super.onCreateOptionsMenu(menu);
@@ -92,9 +91,7 @@ public class ViewProductActivity extends TabActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == 0) {
-			Utils.returnHomeActivity(this);
-		} else if (item.getItemId() == MENU_VIEW_RELATED_RRODUCTS) {
+		if (item.getItemId() == MENU_VIEW_RELATED_RRODUCTS) {
 			Intent intent = new Intent(this, ViewRelatedProductsActivity.class);
 			intent.putExtra(Global.RELATED_PRODUCT_ID, productInfo.id);
 			startActivity(intent);
