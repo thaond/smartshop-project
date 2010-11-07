@@ -1,0 +1,47 @@
+h1. [][PHẦN 5: TỔNG KẾT|]
+
+h2. [][1.     Kết quả đạt được|][]
+
+[-          Xây dựng được kiến trúc của toàn bộ hệ thống với độ ổn định và khả năng tích hợp các tính năng mới cao. Điều này dẫn đến việc mở rộng các tính năng khác của hệ thống|]
+
+[-          Các tài liệu mô tả sản phẩm được trình bày khá chi tiết nên dễ dàng cho cộng đồng phát triển mã nguồn mở sử dụng cũng như việc sử dụng các web service để triển khai trên các nền tảng khác diễn ra thông suốt, gặp ít trở ngại.|]
+
+-          Các tính năng và mô tả được hiện thực đầy đủ nhưng phần đặc tả đã trình bày.
+
+-          Hỗ trợ đa ngôn ngữ.
+
+h2. [][][]2.     Kết quả chưa đạt được
+
+-          Chỉ mới tổng hợp thông tin từ một nguồn bên ngoài là vatgia.com nên chưa thể hiện hết những ưu điểm của ý tưởng.
+
+-          Tài khoản sử dụng để triển khai trên Google App Engine là tài khoản miễn phí nên bị hạn chế một số tính năng quan trọng như dịch vụ Blobstore không được kích hoạt. Blobstore API là dịch vụ cho phép lưu trữ tập tin với kích thước lớn.
+
+-          Tính năng gửi SMS hiện hoạt động không ổn định do nhóm đã hiện thực thử nghiệm tính năng này bằng cách gửi tin nhắn SMS thông qua website [www.mobifone.com.vn|http://www.mobifone.com.vn] nhưng do kết nối giữa Google App Engine và Mobifone thường với thời gian trễ vượt quá mức giới hạn cho phép của dịch vụ URL Fetch của Google App Engine. Nhưng nhóm đã sử dụng
+
+-          Ứng dụng tại máy khách (client) cần được hiện thực trên nhiều nền tảng hơn nữa để tiếp cận thêm nhiều người dùng.
+
+h2. [][3.     Hướng phát triển sản phẩm SmartShop|]
+
+Với mong muốn hoàn thiện sản phẩm nhằm phục vụ cộng đồng tốt hơn, chúng tôi cũng đã đề ra kế hoạch cho sản phẩm:
+
+·         Khắc phục và cải tiến các vấn đề được đề cập trong phần “[Kết quả chưa đạt được|#_Kết_quả_chưa]”
+
+·         Tiếp tục phát triển tính năng tổng hợp thông tin từ các trang thương mại điện tử khác.
+
+·         Không chỉ là kênh trung gian mà còn cung cấp các phương thức giao dịch trực tuyến giữa người mua và người bán.
+
+·         Khai thác dữ liệu của nhu cầu người mua để biết thị hiếu hiện tại của người từ đó có những đánh giá phù hợp với thị thường hỗ trợ cả người mua và người bán.
+
+·         Cải tiến hệ thống để có thể ứng phó với những trường hợp số lượng thành viên lên rất nhiều.
+
+·         Tăng cường quản lý chất lượng thông tin: tránh những thông tin dư thừa, tạo bộ lọc để tránh những thông tin rác...
+
+·         Phát triển server riêng không phụ thuộc vào Google App Engine.
+
+·         Cho phép tích hợp vào các ứng dụng web khác sẵn có.
+
+h1. [][LỜI KẾT|]
+
+Sản phẩm được thiết kế và hiện thực trong thời gian ngắn (3 tháng) và mặc dù đã cố gắng phân tích kỹ lưỡng trước khi thực hiện và hoàn thành dự án trong thời gian cho phép nhưng không tránh khỏi những thiếu sót. Chính vì vậy nhóm tác giả rất mong nhận được những đóng góp của tất cả mọi người, đó là động lực và cơ sở để chúng tôi tiếp tục hoàn thiện sản phẩm. Mọi ý kiến đóng góp cho sản phẩm xin vui lòng gửi mail về địa chỉ PHẦN%205_files/image001.gifvnfoss-2010@googlegroups.com.
+
+Xin chân thành cảm ơn.
