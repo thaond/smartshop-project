@@ -52,7 +52,8 @@ public class CompanyAdapter extends ArrayAdapter<Company> {
 
 		Company company = getItem(position);
 		holder.txtName.setText(company.name);
-		holder.txtPrice.setText(company.vnd + " VND " + "(" + company.usd + " USD" + ")");
+		holder.txtPrice.setText(company.vnd + " VND " + 
+				(company.usd != null ? ("(" + company.usd + " USD" + ")") : ""));
 		// TODO comment of vatgia product
 //		holder.txtComment.setText(Html.fromHtml(company.comment));
 		holder.txtExtraInfo.setText(Html.fromHtml(company.getExtraInfo()));
