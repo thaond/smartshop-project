@@ -83,9 +83,9 @@ public class URLConstant {
 			+ "/api/asd/parser-vatgia-each-product-n/?url=%s";
 
 	public static String SEND_EMAIL_TO_ADMIN = HOST
-			+ "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&session=%s";
+			+ "/api/asd/mail-send-to-admin/?sender=%s&title=%s&content=%s&session=%s";
 	public static String SEND_EMAIL = HOST
-			+ "/api/asd/mail-send-to-admin/?sender=%s&title=%s&cont=%s&to=%s&session=%s";
+			+ "/api/asd/mail-send-to-admin/?sender=%s&title=%s&content=%s&to=%s&session=%s";
 
 	public static final String GET_NOTIFICATIONS = HOST
 			+ "/api/asd/noti-get-by/?username=%s&type=%d";
