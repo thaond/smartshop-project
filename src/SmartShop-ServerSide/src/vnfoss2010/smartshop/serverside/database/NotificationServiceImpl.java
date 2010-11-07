@@ -534,6 +534,27 @@ public class NotificationServiceImpl {
 		return result;
 	}
 
+	public ServiceResult<Void> insertWhenSubscribeMatched(long subcribeID,
+			long productID, String username) {
+		ServiceResult<Void> result = new ServiceResult<Void>();
+
+		Notification noti = new Notification();
+		noti.setUsername(username);
+		noti.setDetail(productID + "");
+		noti.setTimestamp(System.currentTimeMillis());
+		noti.setNew(true);
+		noti.setContent("co san pham moi phu hop");
+		noti.setType(Notification.SUBSCRIBE_HAS_NEW_PRODUCT);
+
+		ServiceResult<Long> insertResult = insertNotification(noti);
+
+		result.setOK(insertResult.isOK());
+		result.setMessage(insertResult.getMessage());
+
+		insertNotification(noti);
+		return result;
+	}
+
 	public ServiceResult<Void> deleteAllNoticationsBy(String username) {
 		ServiceResult<Void> result = new ServiceResult<Void>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();

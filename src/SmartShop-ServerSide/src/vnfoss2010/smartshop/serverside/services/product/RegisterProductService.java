@@ -3,24 +3,27 @@ package vnfoss2010.smartshop.serverside.services.product;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import vnfoss2010.smartshop.serverside.Global;
+import vnfoss2010.smartshop.serverside.database.AccountServiceImpl;
 import vnfoss2010.smartshop.serverside.database.AttributeServiceImpl;
 import vnfoss2010.smartshop.serverside.database.CategoryServiceImpl;
+import vnfoss2010.smartshop.serverside.database.NotificationServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ProductServiceImpl;
 import vnfoss2010.smartshop.serverside.database.ServiceResult;
 import vnfoss2010.smartshop.serverside.database.UserSubcribeProductImpl;
-import vnfoss2010.smartshop.serverside.database.entity.Attribute;
 import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
+import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
-import vnfoss2010.smartshop.serverside.notification.NotificationUtils;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
+import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
 import com.beoui.geocell.GeocellManager;
+import com.beoui.geocell.model.Point;
 import com.google.appengine.repackaged.org.json.JSONObject;
 
 public class RegisterProductService extends BaseRestfulService {
@@ -29,9 +32,11 @@ public class RegisterProductService extends BaseRestfulService {
 			.getLogger(RegisterProductService.class.getName());
 
 	private CategoryServiceImpl dbcat;
+	private AccountServiceImpl dbAccount;
 	private ProductServiceImpl dbProduct;
 	private UserSubcribeProductImpl dbSubscribe;
 	private AttributeServiceImpl dbAttribute;
+	private NotificationServiceImpl dbNoti;
 
 	public RegisterProductService(String serviceName) {
 		super(serviceName);
@@ -40,6 +45,8 @@ public class RegisterProductService extends BaseRestfulService {
 		dbProduct = ProductServiceImpl.getInstance();
 		dbSubscribe = UserSubcribeProductImpl.getInstance();
 		dbAttribute = AttributeServiceImpl.getInstance();
+		dbAccount = AccountServiceImpl.getInstance();
+		dbNoti = NotificationServiceImpl.getInstance();
 	}
 
 	@Override
@@ -51,7 +58,9 @@ public class RegisterProductService extends BaseRestfulService {
 			json = new JSONObject(content);
 		} catch (Exception e) {
 		}
+		String username = getParameterWithThrow("username", params, json);
 		Product product = Global.gsonWithDate.fromJson(content, Product.class);
+		product.setUsername(username);
 
 		if (!product.getSetCategoryKeys().isEmpty()) {
 			ServiceResult<Set<Category>> listCategories = dbcat
@@ -68,72 +77,87 @@ public class RegisterProductService extends BaseRestfulService {
 				.getLocation()));
 		ServiceResult<Long> result = dbProduct.insertProduct(product);
 
-		// Scan for subscribed user
-		Set<String> setKeys = Global.mapSession.keySet();
-		for (String s : setKeys) {
-			ServiceResult<List<UserSubcribeProduct>> resultListUserSubscribeProduct = dbSubscribe
-					.getUserSubscribeProductByUsernameEnhanced(s, 1, null);
-
-			if (resultListUserSubscribeProduct.isOK()) {
-				for (UserSubcribeProduct subcribe : resultListUserSubscribeProduct
-						.getResult()) {
-					if (subcribe.isPushNotification()) {
-						if (isMatchProductAndUserSubscribeProduct(product,
-								subcribe)) {
-							// Push Notification for this user right now
-							log.log(Level.SEVERE, "Push for user: " + s);
-
-							ServiceResult<String> result2 = NotificationUtils
-									.sendNotification(
-											s,
-											NotificationUtils.SUBSCRIBED_PRODUCT,
-											subcribe
-													.getDescription()
-													.substring(
-															0,
-															Math
-																	.min(
-																			40,
-																			subcribe
-																					.getDescription()
-																					.length())),
-											Global.gsonWithDate.toJson(product));
-
-							log.log(Level.SEVERE, "" + result2.getResult());
-							if (!result2.isOK())
-								log.log(Level.SEVERE,
-										"Cannot push notification for user: "
-												+ s);
-						}
-					}
-				}
-			}
-		}
-
-		jsonReturn.put("errCode", result.isOK() ? 0 : 1);
-		jsonReturn.put("message", result.getMessage());
 		if (result.isOK()) {
 			jsonReturn.put("product_id", result.getResult());
+
+			// Scan for subscribed user
+			// Set<String> setKeys = Global.mapSession.keySet();
+			ServiceResult<List<UserInfo>> allUserService = dbAccount
+					.getAllUserInfos();
+			if (allUserService.isOK()) {
+				for (UserInfo user : allUserService.getResult()) {
+					if (user.getUsername().equals(product.getUsername())) {
+						continue;
+					}
+
+					ServiceResult<List<UserSubcribeProduct>> resultListUserSubscribeProduct = dbSubscribe
+							.getUserSubscribeProductByUsernameEnhanced(
+									user.getUsername(), 1, null);
+					if (resultListUserSubscribeProduct.isOK()) {
+						for (UserSubcribeProduct subcribe : resultListUserSubscribeProduct
+								.getResult()) {
+							// if (subcribe.isPushNotification()) {
+							long isMatch = isMatchProductAndUserSubscribeProduct(
+									product, subcribe);
+							if (isMatch != -1) {
+								ServiceResult<Void> insertNotiService = dbNoti
+										.insertWhenSubscribeMatched(
+												subcribe.getId(),
+												product.getId(),
+												subcribe.getUsername());
+								if (!insertNotiService.isOK()) {
+									result.setMessage(result.getMessage()
+											+ ";exception1:"
+											+ insertNotiService.getMessage());
+								}
+							}
+							// }
+						}
+					} else {
+						result.setMessage(result.getMessage() + ";exception2:"
+								+ resultListUserSubscribeProduct.getMessage()
+								+ " " + user.getUsername());
+					}
+				}
+			} else {
+				result.setMessage(result.getMessage() + ";exception3:"
+						+ allUserService.getMessage());
+			}
 		}
+		jsonReturn.put("errCode", result.isOK() ? 0 : 1);
+		jsonReturn.put("message", result.getMessage());
 		return jsonReturn.toString();
 	}
 
-	private boolean isMatchProductAndUserSubscribeProduct(Product product,
+	private long isMatchProductAndUserSubscribeProduct(Product product,
 			UserSubcribeProduct subcribe) {
-		// whether match??
-		// Point center = subcribe.getLocation();
-		// Double maxDistance = subcribe.getRadius();
-		//		
-		// if (center==null || maxDistance == null || maxDistance == 0 ||
-		// product.getLat()==0 || product.getLng() ==0 ){
-		//			
-		// }else{
-		// if (UtilsFunction.distance(center.getLat(), center.getLon(),
-		// product.getLat(), product.getLng()) < subcribe.getRadius()){
-		// UtilsFunction.
-		// }
-		// }
+		Set<String> queryTokens = SearchJanitorUtils
+				.getTokensForIndexingOrQuery(subcribe.getKeyword(),
+						Global.MAXIMUM_NUMBER_OF_WORDS_TO_SEARCH);
+		for (String subcribeFTS : queryTokens) {
+			if (!product.getFts().contains(subcribeFTS)) {
+				return -1;
+			}
+		}
+		for (String subCategory : subcribe.getCategoryList()) {
+			if (!(product.getSetCategoryKeys().contains(subCategory) || product
+					.getAttributeSets().contains(subCategory))) {
+				return -1;
+			}
+		}
 
-		return true;
+		// whether match??
+		Point center = subcribe.getLocation();
+		Double maxDistance = subcribe.getRadius();
+		if (!(center == null || maxDistance == null || maxDistance == 0
+				|| product.getLat() == 0 || product.getLng() == 0)) {
+			if (UtilsFunction.distance(center.getLat(), center.getLon(),
+					product.getLat(), product.getLng()) <= maxDistance) {
+				return subcribe.getId();
+			} else {
+				return -1;
+			}
+		}
+		return subcribe.getId();
 	}
 }

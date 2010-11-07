@@ -20,6 +20,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -173,8 +174,8 @@ public class RestfulServlet extends HttpServlet {
 
 				Map hashMap = new HashMap(req.getParameterMap());
 				hashMap.put("username", new String[] { so.username });
-				r = service.getConstructor(String.class).newInstance(
-						serviceName).process(hashMap, content);
+				r = service.getConstructor(String.class)
+						.newInstance(serviceName).process(hashMap, content);
 
 			} else {
 				// Apply for get userinfo service
@@ -183,11 +184,12 @@ public class RestfulServlet extends HttpServlet {
 				if (so != null) {
 					Map hashMap = new HashMap(req.getParameterMap());
 					hashMap.put("username", new String[] { so.username });
-					r = service.getConstructor(String.class).newInstance(
-							serviceName).process(hashMap, content);
-				}else{
-					r = service.getConstructor(String.class).newInstance(
-							serviceName).process(req.getParameterMap(), content);
+					r = service.getConstructor(String.class)
+							.newInstance(serviceName).process(hashMap, content);
+				} else {
+					r = service.getConstructor(String.class)
+							.newInstance(serviceName)
+							.process(req.getParameterMap(), content);
 				}
 			}
 
@@ -197,6 +199,8 @@ public class RestfulServlet extends HttpServlet {
 			writer.print(ex.toString());
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			Arrays.toString(ex.getStackTrace());
+			ex.printStackTrace(writer);
 			writer.print("{\"error\":\"InternalServerException\"}");
 		}
 	}
@@ -228,7 +232,8 @@ public class RestfulServlet extends HttpServlet {
 		unAuthorizedServices.put("get-tagged-product-from-user",
 				GetTaggedProductFromUser.class);
 		unAuthorizedServices.put("product-vote", VoteProductService.class);
-		unAuthorizedServices.put("product-related", GetRelatedProductsService.class);
+		unAuthorizedServices.put("product-related",
+				GetRelatedProductsService.class);
 		// unAuthorizedServices.put("registerproduct",
 		// RegisterProductService.class);
 		// unAuthorizedServices.put("editproduct", EditProductService.class);
@@ -247,7 +252,7 @@ public class RestfulServlet extends HttpServlet {
 				GetInterestedProductByUsernameService.class);
 		unAuthorizedServices.put("get-interested-product-id-by-username",
 				GetInterestedProductIDByUsernameService.class);
-		
+
 		unAuthorizedServices.put("product-get-by-username",
 				GetProductsByUsernameService.class);
 
@@ -346,14 +351,18 @@ public class RestfulServlet extends HttpServlet {
 				TagFriendToProductService.class);
 		authorizedServices.put("untag-friend-from-product",
 				UntagFriendFromProductService.class);
-		authorizedServices.put("mark-product-as-interest", MarkInterestProductService .class);
-		authorizedServices.put("unmark-product-as-interest", UnmarkInterestProductService .class);
+		authorizedServices.put("mark-product-as-interest",
+				MarkInterestProductService.class);
+		authorizedServices.put("unmark-product-as-interest",
+				UnmarkInterestProductService.class);
 
 		// page
 		authorizedServices.put("create-page", CreatePageService.class);
 		authorizedServices.put("page-edit", EditPageService.class);
-		authorizedServices.put("tag-friend-to-page", TagFriendToPageService.class);
-		authorizedServices.put("untag-friend-from-page", UntagFriendFromPageService.class);
+		authorizedServices.put("tag-friend-to-page",
+				TagFriendToPageService.class);
+		authorizedServices.put("untag-friend-from-page",
+				UntagFriendFromPageService.class);
 
 		// comment
 		authorizedServices.put("create-comment", CreateCommentService.class);

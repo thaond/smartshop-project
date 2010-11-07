@@ -61,7 +61,7 @@ public class ProductServiceImpl {
 					.getString("cannot_handle_with_null"));
 		}
 
-		log.log(Level.SEVERE, "Before: " + product.toString());
+		// log.log(Level.SEVERE, "Before: " + product.toString());
 
 		try {
 			// Make persistence for attribute
@@ -84,7 +84,7 @@ public class ProductServiceImpl {
 
 			// pm.flush();
 			product = pm.makePersistent(product);
-			log.log(Level.SEVERE, "After: " + product.toString());
+			// log.log(Level.SEVERE, "After: " + product.toString());
 
 			if (product == null) {
 				result.setMessage(Global.messages
@@ -1488,19 +1488,19 @@ public class ProductServiceImpl {
 				ServiceResult<List<Product>> result2 = getListProductByCriteriaInCategories(
 						limit, new int[] { 0 }, 1, null, null, null, catKeys);
 				if (result2.isOK()) {
-					if (result.getResult()==null){
+					if (result.getResult() == null) {
 						result.setResult(result2.getResult());
-					}else{
+					} else {
 						result.getResult().addAll(result2.getResult());
 					}
-					log.log(Level.SEVERE, "new result; " + result2.getResult());
+//					log.log(Level.SEVERE, "new result; " + result2.getResult());
 				}
 			}
-			
-			if (result.getResult()==null || result.getResult().isEmpty()){
+
+			if (result.getResult() == null || result.getResult().isEmpty()) {
 				result.setOK(false);
 				return result;
-			}else{
+			} else {
 				result.setOK(true);
 			}
 			if (limit > result.getResult().size())
