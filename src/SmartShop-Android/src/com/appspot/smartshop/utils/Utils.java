@@ -208,9 +208,9 @@ public class Utils {
 	}
 	
 	// load category info from server 
-	public void loadCategories(final Activity activity) {
-		if (Global.mapParentCategories != null && Global.mapChildrenCategories != null
-				&& Global.mapChildrenCategoriesName != null) {
+	public static void loadCategories(final Activity activity) {
+		if (Global.mapParentCategories.size() > 0 && Global.mapChildrenCategories.size() > 0
+				&& Global.mapChildrenCategoriesName.size() > 0) {
 			return;
 		}
 		
@@ -233,9 +233,9 @@ public class Utils {
 
 			@Override
 			public void onFailure(String message) {
-				Global.mapParentCategories = null;
-				Global.mapChildrenCategories = null;
-				Global.mapChildrenCategoriesName = null;
+				Global.mapParentCategories.clear();
+				Global.mapChildrenCategories.clear();
+				Global.mapChildrenCategoriesName.clear();
 				
 				activity.runOnUiThread(new Runnable() {
 					
@@ -278,9 +278,9 @@ public class Utils {
 
 				@Override
 				public void onFailure(String message) {
-					Global.mapParentCategories = null;
-					Global.mapChildrenCategories = null;
-					Global.mapChildrenCategoriesName = null;
+					Global.mapParentCategories.clear();
+					Global.mapChildrenCategories.clear();
+					Global.mapChildrenCategoriesName.clear();
 					
 					activity.runOnUiThread(new Runnable() {
 						

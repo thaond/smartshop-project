@@ -10,6 +10,7 @@ import com.appspot.smartshop.utils.JSONParser;
 import com.appspot.smartshop.utils.RestClient;
 import com.appspot.smartshop.utils.SimpleAsyncTask;
 import com.appspot.smartshop.utils.URLConstant;
+import com.appspot.smartshop.utils.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,12 +34,13 @@ public class SplashScreenActivity extends Activity {
         new Thread() {
         	public void run() {
         		// Load notification
-                if (Global.mapParentCategories.size() != 0) {
+        		if (Global.mapParentCategories.size() > 0 && Global.mapChildrenCategories.size() > 0
+        				&& Global.mapChildrenCategoriesName.size() > 0) {
         			Log.d(TAG, "[DONT NEED TO GET CATEGORIES LIST]");
-        			mHandler.sendEmptyMessageDelayed(HANDLER_MSG_WAIT, 2000);
+        			mHandler.sendEmptyMessageDelayed(HANDLER_MSG_WAIT, 4000);
         		} else {
         			Log.d(TAG, "[GET CATEGORIES LIST]");
-        			getCategoriesList();
+        			Utils.loadCategories(SplashScreenActivity.this);
         			mHandler.sendEmptyMessage(HANDLER_MSG_WAIT);
         		}
         	};
@@ -66,7 +68,4 @@ public class SplashScreenActivity extends Activity {
 		}
     	
     };
-    
-    private void getCategoriesList() {
-	}
 }
