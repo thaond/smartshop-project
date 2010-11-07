@@ -10,7 +10,7 @@
 		<TextView android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:textSize="18dip"
 			android:id="@+id/txtProductName" android:textColor="#00ff00" />
-		<TextView android:layout_width="wrap_content"
+		<TextView android:layout_width="wrap_content" android:textColor="#FFC085"
 			android:layout_height="wrap_content" android:id="@+id/txtNumOfStore" />
 		<TextView android:layout_width="wrap_content" android:textColor="#ff0000"
 			android:layout_height="wrap_content" android:id="@+id/txtProductPrice" />
