@@ -37,26 +37,14 @@ public class GetPageService extends BaseRestfulService {
 		Long id = Long.parseLong(getParameterWithThrow("id", params, json));
 
 		ServiceResult<Page> pageResult = dbPage.findPage(id, true);
-		ServiceResult serviceResult = pageResult;
 		if (pageResult.isOK()) {
-			// TODO option get cats and atts
-			ServiceResult<Set<Category>> categoriesResult = dbCat
-					.findCategories(pageResult.getResult().getSetCategoryKeys());
-			if (categoriesResult.isOK()) {
-				jsonReturn.addProperty("errCode", 0);
-				jsonReturn.add("categories", Global.gsonWithDate
-						.toJsonTree(categoriesResult.getResult()));
-				pageResult.getResult().setSetCategoryKeys(null);
-				jsonReturn.add("page",
-						Global.gsonWithDate.toJsonTree(pageResult.getResult()));
-			} else {
-				jsonReturn.addProperty("errCode", 1);
-				serviceResult = categoriesResult;
-			}
+			jsonReturn.add("page",
+					Global.gsonWithDate.toJsonTree(pageResult.getResult()));
+			jsonReturn.addProperty("errCode", 0);
 		} else {
 			jsonReturn.addProperty("errCode", 1);
 		}
-		jsonReturn.addProperty("message", serviceResult.getMessage());
+		jsonReturn.addProperty("message", pageResult.getMessage());
 		return jsonReturn.toString();
 	}
 
