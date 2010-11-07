@@ -543,7 +543,9 @@ public class NotificationServiceImpl {
 		noti.setDetail(productID + "");
 		noti.setTimestamp(System.currentTimeMillis());
 		noti.setNew(true);
-		noti.setContent("co san pham moi phu hop");
+		noti.setContent(String.format(Global.messages
+				.getString("subscribe_match_new_product"), productID,
+				subcribeID));
 		noti.setType(Notification.SUBSCRIBE_HAS_NEW_PRODUCT);
 
 		ServiceResult<Long> insertResult = insertNotification(noti);
