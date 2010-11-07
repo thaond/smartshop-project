@@ -1,4 +1,4 @@
- package vnfoss2010.smartshop.serverside.database.entity;
+package vnfoss2010.smartshop.serverside.database.entity;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.NotPersistent;
@@ -18,11 +18,12 @@ public class Notification {
 	public static final int ADD_COMMENT_PRODUCT = 6;
 	public static final int ADD_COMMENT_PAGE = 7;
 	public static final int TAG_PRODUCT_TO_PAGE = 8;
-	
+	public static final int SUBSCRIBE_HAS_NEW_PRODUCT = 9;
+
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
-	
+
 	@Persistent
 	private int type;
 
@@ -30,21 +31,21 @@ public class Notification {
 	private String content;
 
 	@Persistent
-	private long timestamp; 
- 
+	private long timestamp;
+
 	@Persistent
 	private boolean isNew;
- 
+
 	@Persistent
-	@Exclude 
+	@Exclude
 	private String username;
-	
+
 	@Persistent
 	private String detail;
-	
+
 	@NotPersistent
 	private String jsonOutput;
-	
+
 	public Notification() {
 	}
 
@@ -54,16 +55,17 @@ public class Notification {
 		this.setUsername(username);
 		this.isNew = true;
 	}
-	
+
 	/**
 	 * Full constructor
 	 */
-	public Notification(String content, long date, boolean isNew, String username, int type, String detail) {
+	public Notification(String content, long date, boolean isNew,
+			String username, int type, String detail) {
 		this.type = type;
 		this.content = content;
 		this.timestamp = date;
 		this.isNew = isNew;
-		//this.type_id = typeId;
+		// this.type_id = typeId;
 		this.username = username;
 		this.detail = detail;
 	}
@@ -98,7 +100,6 @@ public class Notification {
 		return content;
 	}
 
-
 	/**
 	 * @param username
 	 *            the username to set
@@ -129,22 +130,23 @@ public class Notification {
 		return isNew;
 	}
 
-//	/**
-//	 * @param typeId the typeId to set
-//	 */
-//	public void setTypeId(int typeId) {
-//		this.type_id = typeId;
-//	}
-//
-//	/**
-//	 * @return the typeId
-//	 */
-//	public int getTypeId() {
-//		return type_id;
-//	}
+	// /**
+	// * @param typeId the typeId to set
+	// */
+	// public void setTypeId(int typeId) {
+	// this.type_id = typeId;
+	// }
+	//
+	// /**
+	// * @return the typeId
+	// */
+	// public int getTypeId() {
+	// return type_id;
+	// }
 
 	/**
-	 * @param detail the detail to set
+	 * @param detail
+	 *            the detail to set
 	 */
 	public void setDetail(String detail) {
 		this.detail = detail;
@@ -158,7 +160,8 @@ public class Notification {
 	}
 
 	/**
-	 * @param timestamp the timestamp to set
+	 * @param timestamp
+	 *            the timestamp to set
 	 */
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
@@ -172,7 +175,8 @@ public class Notification {
 	}
 
 	/**
-	 * @param type the type to set
+	 * @param type
+	 *            the type to set
 	 */
 	public void setType(int type) {
 		this.type = type;
@@ -185,7 +189,9 @@ public class Notification {
 		return type;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -196,7 +202,8 @@ public class Notification {
 	}
 
 	/**
-	 * @param jsonOutput the jsonOutput to set
+	 * @param jsonOutput
+	 *            the jsonOutput to set
 	 */
 	public void setJsonOutput(String jsonOutput) {
 		this.jsonOutput = jsonOutput;
