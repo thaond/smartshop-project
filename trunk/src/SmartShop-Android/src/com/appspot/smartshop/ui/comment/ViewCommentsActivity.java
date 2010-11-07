@@ -85,11 +85,9 @@ public class ViewCommentsActivity extends BaseUIActivity {
 	}
 
 	private static final int MENU_ADD_COMMENT = 0;
-	private static final int MENU_RETURN_TO_HOME = 1;
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_ADD_COMMENT, 0,
 				getString(R.string.add_new_comment)).setIcon(R.drawable.new_comment);
-		menu.add(0, MENU_RETURN_TO_HOME, 0, getString(R.string.return_to_home)).setIcon(R.drawable.home);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -102,10 +100,6 @@ public class ViewCommentsActivity extends BaseUIActivity {
 			} else {
 				showAddNewCommentDialog();
 			}
-			break;
-			
-		case MENU_RETURN_TO_HOME:
-			Utils.returnHomeActivity(this);
 			break;
 		}
 

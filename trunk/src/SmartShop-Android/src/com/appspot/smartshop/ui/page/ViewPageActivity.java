@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,7 +58,7 @@ public class ViewPageActivity extends BaseUIActivity {
 
 		// display page info on form
 		TextView txtUsername = (TextView) findViewById(R.id.txtUsername);
-		txtUsername.setText(page.username);
+		txtUsername.setText("Người đăng: " + page.username);
 
 		TextView txtName = (TextView) findViewById(R.id.txtName);
 		txtName.setText(page.name);
@@ -66,8 +67,8 @@ public class ViewPageActivity extends BaseUIActivity {
 		txtPostDate.setText(Global.dfFull.format(page.date_post));
 
 		EditText txtContent = (EditText) findViewById(R.id.txtContent);
+		txtContent.setText(Html.fromHtml(page.content));
 		Utils.setEditableEditText(txtContent, false);
-		txtContent.setText(page.content);
 
 		TextView txtPageView = (TextView) findViewById(R.id.txtPageView);
 		txtPageView.setText(getString(R.string.page_view) + " "

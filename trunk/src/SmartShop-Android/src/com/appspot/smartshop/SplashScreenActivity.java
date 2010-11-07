@@ -19,7 +19,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-public class SpashScreenActivity extends Activity {
+public class SplashScreenActivity extends Activity {
 	public static final String TAG = "[SpashScreenActivity]";
 	public static final int HANDLER_MSG_WAIT = 1;
 	public static final int HANDLER_CANT_CONNECT_TO_NETWORK = 2;
@@ -28,7 +28,7 @@ public class SpashScreenActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.spash_screen);
+        setContentView(R.layout.splash_screen);
         
         new Thread() {
         	public void run() {
