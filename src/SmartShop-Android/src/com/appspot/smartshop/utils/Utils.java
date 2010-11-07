@@ -9,9 +9,11 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.appspot.smartshop.R;
 import com.appspot.smartshop.SmartShopActivity;
 import com.appspot.smartshop.ui.BaseUIActivity;
 
@@ -202,6 +204,95 @@ public class Utils {
 	public static void clearAllNotifications() {
 		if (Global.notificationManager != null) {
 			Global.notificationManager.cancelAll();
+		}
+	}
+	
+	// load category info from server 
+	public void loadCategories(final Activity activity) {
+		if (Global.mapParentCategories != null && Global.mapChildrenCategories != null
+				&& Global.mapChildrenCategoriesName != null) {
+			return;
+		}
+		
+		// get parent categories
+		RestClient.getData(URLConstant.GET_PARENT_CATEGORIES, new JSONParser() {
+
+			@Override
+			public void onSuccess(JSONObject json) throws JSONException {
+				JSONArray arr = json.getJSONArray("categories");
+
+				int len = arr.length();
+				String name, key_cat;
+				for (int i = 0; i < len; ++i) {
+					name = arr.getJSONObject(i).getString("name");
+					key_cat = arr.getJSONObject(i).getString("key_cat");
+
+					Global.mapParentCategories.put(key_cat, name);
+				}
+			}
+
+			@Override
+			public void onFailure(String message) {
+				Global.mapParentCategories = null;
+				Global.mapChildrenCategories = null;
+				Global.mapChildrenCategoriesName = null;
+				
+				activity.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(activity, activity.getString(R.string.cannot_connect_network),
+								Toast.LENGTH_SHORT).show();
+						activity.finish();
+					}
+				});
+			}
+		});
+
+		// get child categories
+		for (final String parentId : Global.mapParentCategories.keySet()) {
+			String url = String.format(URLConstant.GET_CHILD_CATEGORIES,
+					parentId);
+
+			RestClient.getData(url, new JSONParser() {
+
+				@Override
+				public void onSuccess(JSONObject json) throws JSONException {
+					JSONArray arr = json.getJSONArray("categories");
+
+					int len = arr.length();
+					String name, key_cat;
+					String[] temp = new String[len];
+					for (int k = 0; k < len; ++k) {
+						name = arr.getJSONObject(k).getString("name");
+						key_cat = arr.getJSONObject(k).getString("key_cat");
+
+						temp[k] = name;
+
+						Global.mapChildrenCategories.put(key_cat, name);
+						Global.mapChildrenCategoriesName.put(name, key_cat);
+					}
+
+					Global.listCategories.add(temp);
+				}
+
+				@Override
+				public void onFailure(String message) {
+					Global.mapParentCategories = null;
+					Global.mapChildrenCategories = null;
+					Global.mapChildrenCategoriesName = null;
+					
+					activity.runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							Toast.makeText(activity, activity.getString(R.string.cannot_connect_network),
+									Toast.LENGTH_SHORT).show();
+							activity.finish();
+						}
+					});
+				}
+			});
 		}
 	}
 }
