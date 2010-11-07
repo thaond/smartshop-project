@@ -186,6 +186,14 @@ public class NotificationServiceImpl {
 									.toJson(resultProduct.getResult().getId()));
 						}
 						break;
+					case Notification.SUBSCRIBE_HAS_NEW_PRODUCT:
+						resultProduct = dbProduct.findProduct(Long.parseLong(n
+								.getDetail()));
+						if (resultProduct.isOK()) {
+							n.setJsonOutput(Global.gsonWithDate
+									.toJson(resultProduct.getResult().getId()));
+						}
+						break;
 					default:
 						break;
 					}
@@ -543,9 +551,9 @@ public class NotificationServiceImpl {
 		noti.setDetail(productID + "");
 		noti.setTimestamp(System.currentTimeMillis());
 		noti.setNew(true);
-		noti.setContent(String.format(Global.messages
-				.getString("subscribe_match_new_product"), productID,
-				subcribeID));
+		noti.setContent(String.format(
+				Global.messages.getString("subscribe_match_new_product"),
+				productID, subcribeID));
 		noti.setType(Notification.SUBSCRIBE_HAS_NEW_PRODUCT);
 
 		ServiceResult<Long> insertResult = insertNotification(noti);
