@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<!-- RPC configuration -->
+	<servlet>
+		<servlet-name>rpcserviceimpl</servlet-name>
+		<servlet-class>com.smartshop.docs.server.RPCServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rpcserviceimpl</servlet-name>
+		<url-pattern>/smartshop/util</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>webbasedserviceimpl</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.webbased.server.WebbasedServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>webbasedserviceimpl</servlet-name>
+		<url-pattern>/smartshop/webbased</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetAPIKeyServlet</servlet-name>
+		<servlet-class>com.smartshop.docs.server.GetAPIKeyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetAPIKeyServlet</servlet-name>
+		<url-pattern>/get-api-key</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SmartShop_ServerSide</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.SmartShop_ServerSideServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SmartShop_ServerSide</servlet-name>
+		<url-pattern>/smartshop_serverside</url-pattern>
+	</servlet-mapping>
+
+	<!-- Root servlet for receiving all requests from client -->
+	<servlet>
+		<servlet-name>ResultServlet</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.RestfulServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResultServlet</servlet-name>
+		<url-pattern>/s</url-pattern>
+	</servlet-mapping>
+
+	<!-- Testing Servlet -->
+	<servlet>
+		<servlet-name>TestServlet</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.TestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TestServlet</servlet-name>
+		<url-pattern>/test</url-pattern>
+	</servlet-mapping>
+
+	<!-- Scan Subcribe Servlet -->
+	<servlet>
+		<servlet-name>ScanSubcribeServlet</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.ScanSubcribeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ScanSubcribeServlet</servlet-name>
+		<url-pattern>/scan</url-pattern>
+	</servlet-mapping>
+
+	<!-- Upload Handler Servlet-->
+	<servlet>
+		<servlet-name>UploadHandlerServlet</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.UploadHandlerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadHandlerServlet</servlet-name>
+		<url-pattern>/upload</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetAPIKeyService</servlet-name>
+		<servlet-class>vnfoss2010.smartshop.serverside.GetAPIKeyService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetAPIKeyService</servlet-name>
+		<url-pattern>/signup</url-pattern>
+	</servlet-mapping>
+
+	<!--
+		Configuration file for UrlRewriteFilter http://tuckey.org/urlrewrite/
+	-->
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>WARN</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+	<TableLayout android:layout_height="fill_parent"
+		android:layout_width="fill_parent" android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp" android:layout_marginBottom="20dp"
+		android:layout_marginTop="20dp">
+
+		<TableRow android:layout_weight="1">
+			<Button android:id="@+id/btnProductList" android:background="@drawable/user_products_list"
+				android:layout_height="fill_parent" android:layout_weight="1"
+				android:layout_width="fill_parent"></Button>
+			<Button android:id="@+id/btnPageList" android:background="@drawable/user_pages_list"
+				android:layout_height="fill_parent" android:layout_weight="1"
+				android:layout_width="fill_parent"></Button>
+		</TableRow>
+
+	</TableLayout>
+
+</LinearLayout>

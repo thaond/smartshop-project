@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.appspot.smartshop" android:versionCode="1"
+	android:versionName="1.0">
+	<application android:icon="@drawable/icon" android:label="@string/app_name">
+		<uses-library android:name="com.google.android.maps" />
+		<service android:name=".ui.user.notification.SmartShopNotificationService"/>
+		
+		<activity android:name=".SplashScreenActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".SmartShopActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".HomeActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="Home" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.user.ViewUserInfoActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="User"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.user.RegisterUserActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="User"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.user.ViewUserProfileActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.user.LoginActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="Login"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".test.TestActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="Test"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".test.Compass" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="Test"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".test.GraphicsActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="Test"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.product.ViewRelatedProductsActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="PostProduct"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.PostProductActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="PostProduct"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ProductBasicAttributeActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="PostProductBasicAttribute"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ProductGalleryActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="ProductGalleryActivity"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ProductUserDefinedAttributeActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="PostProductUserDefine"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ProductUploadImagesActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="PostProductBasicAttribute"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.SelectTwoProductActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="SelectTwoProduct"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.CompareTwoProductsActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="SelectTwoProduct"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.page.PageActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="Page"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.page.ViewPageActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="ViewPage"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.comment.ViewCommentsActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="ViewComments"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ProductsListActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="ProductsList"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ViewProductActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="ViewSingle"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ViewProductBasicAttributeActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="ViewBasicAttributeOfProduct"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.product.ViewProductUserDefinedAttributeActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="ViewAdvanceAttributeOfProduct"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.page.PagesListActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="PagesList"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.user.UserProductListActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="UserProductList"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".test.ImageFromUrlExample"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="ImageFromUrlExample"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".map.SearchProductsOnMapActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="SearchProductsOnMap"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".map.DirectionListActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="DirectionList"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".test.UploadActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="Upload"></action>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.product.CategoryDialogActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<!-- File chooser Activity -->
+		<activity android:name="org.anddev.android.filebrowser.AndroidFileBrowser"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="FileBrowser" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name="com.appspot.smartshop.utils.capture.ImageCaptureActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="ImageCapture" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".map.DirectionOnMapActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name="org.anddev.android.filebrowser.AndroidFileBrowser"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.product.vatgia.SearchVatgiaActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		
+
+		<activity android:name=".ui.product.SearchProductsTabActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.product.vatgia.VatgiaProductDetailActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.product.vatgia.VatgiaCompaniesActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.product.vatgia.VatgiaTabActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.user.email.SendEmailToAdminActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.user.email.SendEmailActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".test.StatusBarNotifications"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.user.subcribe.UserSubcribeListActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.user.subcribe.ProductsListOfSubcribeActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".ui.user.subcribe.SubcribeActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".ui.user.AddFriendActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
+		<!-- Notification Zone-->
+		<activity android:name=".ui.user.notification.AddFriendNotificationActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+	</application>
+
+	<uses-sdk android:minSdkVersion="4" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.VIBRATE" />
+</manifest> 

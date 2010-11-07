@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<p><span class="title">TRANG TH&Ocirc;NG TIN</span></p>
+<hr/>
+<h2><a name="0">&nbsp;</a>Nội dung</h2>
+<ul>
+<li><a href="#1">Giới thiệu&nbsp</a></li>
+<li><a href="#2">Tạo trang th&ocirc;ng tin&nbsp;</a></li>
+<li><a href="#3">Lấy dữ liệu của trang th&ocirc;ng tin&nbsp;</a></li>
+<li><a href="#4">Tag sản phẩm v&agrave;o trang th&ocirc;ng tin&nbsp;</a></li>
+<li><a href="#5">Untag sản phẩm khỏi trang th&ocirc;ng tin&nbsp;</a></li>
+<li><a href="#6">Cập nhật trang th&ocirc;ng tin&nbsp;</a></li>
+<li><a href="#7">T&igrave;m trang th&ocirc;ng tin do một người d&ugrave;ng tạo ra&nbsp;</a></li>
+<li><a href="#8">T&igrave;m trang th&ocirc;ng tin theo danh mục với c&aacute;c ti&ecirc;u chuẩn&nbsp;</a></li>
+<li><a href="#9">T&igrave;m trang th&ocirc;ng tin bằng c&acirc;u truy vấn&nbsp;</a></li>
+</ul>
+<h2>&nbsp;<a name="1">&nbsp;</a>Giới thiệu</h2>
+<blockquote>
+<p class="style1">Để thuận tiện cho người mua lẫn người b&aacute;n, SmartShop đ&atilde; cung cấp tiện &iacute;ch cho người d&ugrave;ng tạo c&aacute;c trang th&ocirc;ng tin. Trang th&ocirc;ng tin l&agrave; nơi m&agrave; người mua c&oacute; thể đăng l&ecirc;n c&aacute;c ti&ecirc;u ch&iacute;, danh mục, m&ocirc; tả... của c&aacute;c sản phẩm m&igrave;nh cần mua khi hệ thống sản phẩm hiện c&oacute; tr&ecirc;n SmartShop kh&ocirc;ng c&oacute; đủ sản phẩm, hay để mọi người c&ugrave;ng đ&oacute;ng g&oacute;p &yacute; kiến về sản phẩm cần mua của họ, hoặc thậm ch&iacute; để nhiều người b&aacute;n t&igrave;m đến cho người mua dễ d&agrave;ng chọn lựa giữa c&aacute;c sản phẩm. Với người b&aacute;n, họ c&oacute; thể dạo quanh c&aacute;c trang th&ocirc;ng tin, nếu thấy trang th&ocirc;ng tin đ&oacute; ph&ugrave; hợp với sản phẩm m&igrave;nh đang b&aacute;n, họ c&oacute; thể tag sản phẩm đ&oacute; của m&igrave;nh v&agrave;o trang th&ocirc;ng tin để người tạo trang dễ d&agrave;ng t&igrave;m đến sản phẩm đ&oacute; một c&aacute;ch nhanh ch&oacute;ng.</p>
+<p class="style1">Do đ&oacute; dịch vụ trang th&ocirc;ng tin đ&atilde; trở th&agrave;nh cầu nối thuận tiện giữa người mua v&agrave; người b&aacute;n cũng như những người quan t&acirc;m.</p>
+<p class="style1">C&aacute;c service trong hệ thống ph&acirc;n l&agrave;m 2 loại:</p>
+<p class="style1">C&aacute;c service cần x&aacute;c thực của th&agrave;nh vi&ecirc;n: l&agrave; c&aacute;c service chỉ c&oacute; th&agrave;nh vi&ecirc;n thực sự của hệ thống mới c&oacute; thể sử dụng, chẳng hạn bao gồm c&aacute;c service như đăng k&yacute; một trang th&ocirc;ng tin mới, tạo trang th&ocirc;ng tin, đăng k&yacute; nhận th&ocirc;ng tin trang th&ocirc;ng tin, ...</p>
+<p class="style1">C&aacute;c service được sử dụng tự do: Mọi người đều c&oacute; thể dễ d&agrave;ng sử dụng c&aacute;c dịch vụ n&agrave;y</p>
+<p class="style1">Để tiện cho bạn theo d&otilde;i, ch&uacute;ng t&ocirc;i tạm k&iacute; hiệu * tr&ecirc;n c&aacute;c ti&ecirc;u đề cho c&aacute;c service cần sự x&aacute;c thực của th&agrave;nh vi&ecirc;n. Sự kh&aacute;c nhau về th&ocirc;ng số gọi h&agrave;m cũng như về chức năng sẽ được tr&igrave;nh b&agrave;y ngay sau đ&acirc;y. C&aacute;c th&agrave;nh vi&ecirc;n trong hệ thống c&oacute; thể l&agrave; người mua hoặc người b&aacute;n hoặc l&agrave; c&oacute; thể thực hiện cả 2 chức năng tr&ecirc;n.</p>
+<p class="style1"><a href="#0">[về đầu trang]</a></p>
+</blockquote>
+<h2><a name="2">&nbsp;</a>Tạo trang th&ocirc;ng tin*</h2>
+<blockquote>
+<p>Để đăng k&yacute; trang th&ocirc;ng tin mới, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng <a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a> tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/create-page/">http://smartshopviet.appspot.com/api/<em>api-key</em>/create-page/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">{name:"Cần mua loa bose",<br /> content:"Cần mua loa bose gi&aacute; 5tr mới 99%",<br /> date_post: "21/08/2010 15:00:00",<br /> setCategoryKeys:["net"]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>name: </strong>Ti&ecirc;u đề của trang th&ocirc;ng tin</li>
+<li><strong>content: </strong>Nội dung của trang th&ocirc;ng tin</li>
+<li><strong>setCategoryKeys: </strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; trang th&ocirc;ng tin thuộc về</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"message":"Th&ecirc;m trang th&agrave;nh c&ocirc;ng","errCode":0}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục Giới thiệu</p>
+<p><a href="#0">[về đầu trang]</a></p>
+</blockquote>
+<h2><a name="3">&nbsp;</a>Lấy dữ liệu của trang th&ocirc;ng tin</h2>
+<blockquote>
+<p>Để lấy th&ocirc;ng tin của trang, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-register/">http://smartshopviet.appspot.com/api/<em>api-key</em>/get-page/?id=48</a></p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<p class="code">id*:&nbsp;m&atilde; số của trang th&ocirc;ng tin</p>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"Tim thay page"<br /> ,"categories":[{"key_cat":"computer_other","name":"Kh&aacute;c","parent_id":"computer"}],<br /> "page":<br /> {"id":48,"name":"Can mua loa bose",<br /> "content":"Can mua loa bose xin gia duoi 5tr c&ograve;n mới 99%",<br /> "link_thumbnail":"",<br /> "page_view":100,<br /> "date_post":"31-08-2010",<br /> "last_modified":"31-08-2010",<br /> "username":"tam",<br /> "setProductIDs":[]}}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong> đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>categories:</strong> danh s&aacute;ch c&aacute;c danh mục m&agrave; trang th&ocirc;ng tin n&agrave;y thuộc về, mỗi danh mục c&oacute; c&aacute;c thuộc t&iacute;nh như sau:                  
+<ul>
+<li><strong>key_cat :</strong> m&atilde; của danh mục</li>
+<li><strong>name : </strong>t&ecirc;n của danh mục</li>
+<li><strong>parent_id : </strong>m&atilde; của danh mục chứa danh mục hiện tại</li>
+</ul>
+</li>
+<li><strong>page: </strong>trang th&ocirc;ng tin t&igrave;m được                  
+<ul>
+<li><strong>id : </strong>m&atilde; của trang th&ocirc;ng tin</li>
+<li><strong>name : </strong>ti&ecirc;u dề của trang th&ocirc;ng tin</li>
+<li><strong>content </strong>: nội dung của trang th&ocirc;ng tin</li>
+<li><strong>link_thumbnail </strong>: h&igrave;nh ảnh đại diện của trang th&ocirc;ng tin</li>
+<li><strong>page_view : </strong>số lần kh&aacute;ch xem trang th&ocirc;ng tin</li>
+<li><strong>username : </strong>t&ecirc;n của user đ&atilde; đăng trang th&ocirc;ng tin</li>
+<li><strong>last_modified : </strong>ng&agrave;y chỉnh sửa cuối c&ugrave;ng của trang th&ocirc;ng tin</li>
+<li><strong>setProductIDs : </strong>danh s&aacute;ch c&aacute;c sản phẩm đ&atilde; được tag v&agrave;o trang th&ocirc;ng tin</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+<h2><a name="4">&nbsp;</a>Tag sản phẩm v&agrave;o trang th&ocirc;ng tin*</h2>
+<blockquote>
+<p>Để tag sản phẩm v&agrave;o trang th&ocirc;ng tin, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng POST tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/tag-product-to-page/">http://smartshopviet.appspot.com/api/<em>api-key</em>/tag-product-to-page/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">{productID:1,pageID:1}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>productID*:</strong> m&atilde; của sản phẩm cần tag v&agrave;o trang th&ocirc;ng tin.</li>
+<li><strong>pageID*:&nbsp;</strong>m&atilde; của trang th&ocirc;ng tin.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"message":"Tag sản phẩm v&agrave;o trang th&agrave;nh c&ocirc;ng","errCode":0}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+</ul>
+<a href="#0">[về đầu trang]</a><br /> 
+<ul>
+</ul>
+</blockquote>
+<h2><a name="5">&nbsp;</a>Untag sản phẩm khỏi trang th&ocirc;ng tin*</h2>
+<blockquote>
+<p>Để untag sản phẩm khỏi trang th&ocirc;ng tin, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng POST tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/untag-product-from-page/">http://smartshopviet.appspot.com/api/<em>api-key</em>/untag-product-from-page/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">{productID:1,pageID:1}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>productID*:</strong>&nbsp;m&atilde; của sản phẩm cần tag v&agrave;o trang th&ocirc;ng tin.</li>
+<li><strong>pageID*:&nbsp;</strong>m&atilde; của trang th&ocirc;ng tin.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"message":"Untag sản phẩm khỏi trang th&agrave;nh c&ocirc;ng","errCode":0}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+</ul>
+<a href="#0">[về đầu trang]</a><br /> 
+<ul>
+</ul>
+</blockquote>
+<p><span style="font-size: 15px; font-weight: bold;"><a name="6">&nbsp;</a>Cập nhật trang th&ocirc;ng tin*</span></p>
+<blockquote>
+<p>Để sửa th&ocirc;ng tin trang th&ocirc;ng tin, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng&nbsp;<a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a>&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/page-edit/">http://smartshopviet.appspot.com/api/<em>api-key</em>/page-edit/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">{name:"Cần mua loa bose",<br /> content:"Cần mua loa bose gi&aacute; 5tr mới 99%",<br /> date_post: "21/08/2010 15:00:00",<br /> setCategoryKeys:["net"]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>name:&nbsp;</strong>Ti&ecirc;u đề của trang th&ocirc;ng tin</li>
+<li><strong>content:&nbsp;</strong>Nội dung của trang th&ocirc;ng tin</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; trang th&ocirc;ng tin thuộc về</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"message":"Cập nhật trang th&agrave;nh c&ocirc;ng","errCode":0}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục Giới thiệu</p>
+<p><a href="#0">[về đầu trang]</a></p>
+</blockquote>
+<h2><a name="7">&nbsp;</a>T&igrave;m trang th&ocirc;ng tin do một người d&ugrave;ng tạo ra</h2>
+<blockquote>
+<p>Để t&igrave;m trang th&ocirc;ng tin bằng query, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/page-get-by-username/?username=tam">http://smartshopviet.appspot.com/api/<em>api-key</em>/page-get-by-username/?username=n</a>ghia</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>username*:&nbsp;</strong>username của user m&agrave; bạn muốn t&igrave;m.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"T&igrave;m thấy c&aacute;c trang th&ocirc;ng tin chứa dữ liệu bạn cần",<br />"pages":[<br />{"id":677,"name":"Can mua laptop",<br />"content":"Can mua lap top dell core i7","link_thumbnail":"",<br />"page_view":12,"date_post":"07/07/2010 12:00:00",<br />"last_modified":"12/12/2010 12:00:00",<br />"username":"nghia",<br />"setCategoryKeys":["laptop"],"setProductIDs":[]},<br />{"id":707,"name":"Can mua RAM laptop",<br />"content":"Can mua RAM laptop gia 2tr","link_thumbnail":"",<br />"page_view":666,"date_post":"23/04/2010 12:00:00",<br />"last_modified":"23/10/2010 12:00:00",&nbsp;"username":"nghia",<br />"setCategoryKeys":["computer_other"],"setProductIDs":[]}<br />]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>pages:</strong>&nbsp;danh s&aacute;ch c&aacute;c trang th&ocirc;ng tin t&igrave;m được, một trang th&ocirc;ng tin sẽ c&oacute; c&aacute;c thuộc t&iacute;nh như sau:   
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của trang th&ocirc;ng tin</li>
+<li><strong>name : ti&ecirc;u đề của trang th&ocirc;ng tin</strong></li>
+<li><strong>content&nbsp;</strong>: nội dung của trang th&ocirc;ng tin</li>
+<li><strong>link_thumbnail&nbsp;</strong>: h&igrave;nh đại diện của trang th&ocirc;ng tin</li>
+<li><strong>page_view&nbsp;</strong>: lượt xem trang th&ocirc;ng tin</li>
+<li><strong>date_post&nbsp;</strong>: ng&agrave;y đăng trang th&ocirc;ng tin</li>
+<li><strong>last_modified&nbsp;</strong>: ng&agrave;y cập nhật cuối c&ugrave;ng của trang th&ocirc;ng tin</li>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setProductIDs :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+<li><strong>setCategoryKeys</strong>&nbsp;: danh s&aacute;ch c&aacute;c m&atilde; danh mục m&agrave; sản phẩm thuộc về</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+<h2><a name="8">&nbsp;</a>T&igrave;m trang th&ocirc;ng tin trong danh mục với c&aacute;c ti&ecirc;u chuẩn</h2>
+<blockquote>
+<p>Để t&igrave;m th&ocirc;ng tin trang th&ocirc;ng tin trong danh mục với một số ti&ecirc;u chuẩn nhất định, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/page-search-criteria/?maximum=10&amp;criterias=1,3,4&amp;cat_keys=laptop,mobile_pda_sub&amp;status=1">http://smartshopviet.appspot.com/api/<em>api-key</em>/page-search-criteria/?maximum=10&amp;criterias=1,3,4&amp;cat_keys=laptop,mobile_pda_sub&amp;status=1</a></p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>maximum: </strong>giới hạn&nbsp;số lượng tối đa số trang th&ocirc;ng tin trong kết quả trả về</li>
+<li><strong>criterias</strong>: c&aacute;c t&ugrave;y chọn của c&acirc;u truy vấn, c&oacute; thể c&oacute; c&aacute;c gi&aacute; trị như sau :          
+<ul>
+<li><strong>0</strong>: ng&agrave;y đăng trang th&ocirc;ng tin tăng dần</li>
+</ul>
+<ul>
+<li><strong>1</strong>: ng&agrave;y đăng trang th&ocirc;ng tin giảm dần</li>
+<li><strong>2</strong>: ng&agrave;y cuối c&ugrave;ng cập nhật tăng dần</li>
+<li><strong>3</strong>: ng&agrave;y cuối c&ugrave;ng cập nhật giảm&nbsp;&nbsp;dần</li>
+<li><strong>4</strong>: số lượt xem trang th&ocirc;ng tin tăng dần</li>
+<li><strong>5</strong>: số lượt xem trang th&ocirc;ng tin giảm dần&nbsp;</li>
+</ul>
+</li>
+<li><strong>key_cats: </strong>c&aacute;c m&atilde; của danh mục.</li>
+<li><strong>username</strong>: t&ecirc;n của user đ&atilde; đăng trang th&ocirc;ng tin</li>
+<li><strong>q</strong>:&nbsp;từ kh&oacute;a do user truyền v&agrave;o, server sẽ dựa v&agrave;o từ kh&oacute;a n&agrave;y để t&igrave;m kiếm trang th&ocirc;ng tin.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"T&igrave;m c&aacute;c trang theo ti&ecirc;u ch&iacute; th&agrave;nh c&ocirc;ng",<br /> "pages":[<br /> {"id":677, "name":"Can mua laptop",<br /> "content":"Can mua lap top dell core i7","link_thumbnail":"",<br /> "page_view":12, "date_post":"07/07/2010 12:00:00",<br /> "last_modified":"12/12/2010 12:00:00", "username":"nghia",<br /> "setCategoryKeys":["laptop"], "setProductIDs":[]}]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>pages:</strong>&nbsp;danh s&aacute;ch c&aacute;c trang th&ocirc;ng tin t&igrave;m được, một trang th&ocirc;ng tin sẽ c&oacute; c&aacute;c thuộc t&iacute;nh như sau:      
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của trang th&ocirc;ng tin</li>
+<li><strong>name : ti&ecirc;u đề của trang th&ocirc;ng tin</strong></li>
+<li><strong>content&nbsp;</strong>: nội dung của trang th&ocirc;ng tin</li>
+<li><strong>link_thumbnail&nbsp;</strong>: h&igrave;nh đại diện của trang th&ocirc;ng tin</li>
+<li><strong>page_view&nbsp;</strong>: lượt xem trang th&ocirc;ng tin</li>
+<li><strong>date_post&nbsp;</strong>: ng&agrave;y đăng trang th&ocirc;ng tin</li>
+<li><strong>last_modified&nbsp;</strong>: ng&agrave;y cập nhật cuối c&ugrave;ng của trang th&ocirc;ng tin</li>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setProductIDs :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+<li><strong>setCategoryKeys</strong>&nbsp;: danh s&aacute;ch c&aacute;c m&atilde; danh mục m&agrave; sản phẩm thuộc về</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+<h2><a name="9">&nbsp;</a>T&igrave;m trang th&ocirc;ng tin bằng c&acirc;u truy vấn</h2>
+<blockquote>
+<p>Để t&igrave;m trang th&ocirc;ng tin bằng query, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/product-search/?q=laptop">http://smartshopviet.appspot.com/api/<em>api-key</em>/product-search/?q=laptop</a></p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>q*:&nbsp;</strong>từ kh&oacute;a do user truyền v&agrave;o, server sẽ dựa v&agrave;o từ kh&oacute;a n&agrave;y để t&igrave;m kiếm trang th&ocirc;ng tin (dựa v&agrave;o ...).</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"T&igrave;m thấy c&aacute;c trang th&ocirc;ng tin chứa dữ liệu bạn cần",<br /> "pages":[<br /> {"id":677,"name":"Can mua laptop",<br /> "content":"Can mua lap top dell core i7","link_thumbnail":"",<br /> "page_view":12,"date_post":"07/07/2010 12:00:00",<br /> "last_modified":"12/12/2010 12:00:00",<br /> "username":"nghia",<br /> "setCategoryKeys":["laptop"],"setProductIDs":[]},<br /> {"id":707,"name":"Can mua RAM laptop",<br /> "content":"Can mua RAM laptop gia 2tr","link_thumbnail":"",<br /> "page_view":666,"date_post":"23/04/2010 12:00:00",<br /> "last_modified":"23/10/2010 12:00:00",&nbsp;"username":"loi",<br /> "setCategoryKeys":["computer_other"],"setProductIDs":[]}<br /> ]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>pages:</strong>&nbsp;danh s&aacute;ch c&aacute;c trang th&ocirc;ng tin t&igrave;m được, một trang th&ocirc;ng tin sẽ c&oacute; c&aacute;c thuộc t&iacute;nh như sau:     
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của trang th&ocirc;ng tin</li>
+<li><strong>name : ti&ecirc;u đề của trang th&ocirc;ng tin</strong></li>
+<li><strong>content </strong>: nội dung của trang th&ocirc;ng tin</li>
+<li><strong>link_thumbnail </strong>: h&igrave;nh đại diện của trang th&ocirc;ng tin</li>
+<li><strong>page_view </strong>: lượt xem trang th&ocirc;ng tin</li>
+<li><strong>date_post </strong>: ng&agrave;y đăng trang th&ocirc;ng tin</li>
+<li><strong>last_modified </strong>: ng&agrave;y cập nhật cuối c&ugrave;ng của trang th&ocirc;ng tin</li>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setProductIDs :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+<li><strong>setCategoryKeys</strong>&nbsp;: danh s&aacute;ch c&aacute;c m&atilde; danh mục m&agrave; sản phẩm thuộc về</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+</body>
+</html>

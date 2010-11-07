@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<p><span class="title">SẢN PHẨM</span></p>
+<hr/>
+<h2><a name="0">&nbsp;</a>Nội dung</h2>
+<ul>
+<li><a href="#1">Giới thiệu</a></li>
+<li><a href="#2">Đăng sản phẩm</a></li>
+<li><a href="#3">Lấy th&ocirc;ng tin sản phẩm</a></li>
+<li><a href="#4">T&igrave;m sản phẩm dựa tr&ecirc;n từ kh&oacute;a&nbsp;</a></li>
+<li><a href="#5">Sửa th&ocirc;ng tin sản phẩm</a></li>
+<li><a href="#6">T&igrave;m sản phẩm trong phạm vi nhất định</a></li>
+<li><a href="#7">T&igrave;m sản phẩm trong danh mục với c&aacute;c ti&ecirc;u chuẩn</a></li>
+<li><a href="#8">T&igrave;m sản phẩm người d&ugrave;ng đ&atilde; mua</a></li>
+<li><a href="#9">T&igrave;m sản phẩm người d&ugrave;ng đ&atilde; b&aacute;n</a></li>
+<li><a href="#10">T&igrave;m sản phẩm người d&ugrave;ng quan t&acirc;m</a></li>
+</ul>
+<h2><a name="1">&nbsp;</a>Giới thiệu</h2>
+<blockquote>
+<p class="style1">Người b&aacute;n c&oacute; thể đăng sản phẩm tr&ecirc;n hệ thống SmartShop để người d&ugrave;ng c&oacute; thể dễ d&agrave;ng t&igrave;m kiếm th&ocirc;ng qua c&aacute;c dịch vụ t&igrave;m kiếm t&iacute;ch hợp tr&ecirc;n hệ thống.</p>
+<p class="style1">C&aacute;c service trong hệ thống ph&acirc;n l&agrave;m 2 loại:</p>
+<p class="style1">C&aacute;c service cần x&aacute;c thực của th&agrave;nh vi&ecirc;n: l&agrave; c&aacute;c service chỉ c&oacute; th&agrave;nh vi&ecirc;n thực sự của hệ thống mới c&oacute; thể sử dụng, chẳng hạn bao gồm c&aacute;c service như đăng k&yacute; một sản phẩm mới, tạo trang th&ocirc;ng tin, đăng k&yacute; nhận th&ocirc;ng tin sản phẩm, ...</p>
+<p class="style1">C&aacute;c service được sử dụng tự do: Mọi người đều c&oacute; thể dễ d&agrave;ng sử dụng c&aacute;c dịch vụ n&agrave;y</p>
+<p class="style1">Để tiện cho bạn theo d&otilde;i, ch&uacute;ng t&ocirc;i tạm k&iacute; hiệu * tr&ecirc;n c&aacute;c ti&ecirc;u đề cho c&aacute;c service cần sự x&aacute;c thực của th&agrave;nh vi&ecirc;n. Sự kh&aacute;c nhau về th&ocirc;ng số gọi h&agrave;m cũng như về chức năng sẽ được tr&igrave;nh b&agrave;y ngay sau đ&acirc;y. C&aacute;c th&agrave;nh vi&ecirc;n trong hệ thống c&oacute; thể l&agrave; người mua hoặc người b&aacute;n hoặc l&agrave; c&oacute; thể thực hiện cả 2 chức năng tr&ecirc;n.</p>
+<p class="style1"><a href="#0">[về đầu trang]</a></p>
+</blockquote>
+<h2><a name="2">&nbsp;</a>Đăng sản phẩm *</h2>
+<blockquote>
+<p>Để đăng k&yacute; sản phẩm mới, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng <a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a> tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-register/">http://smartshopviet.appspot.com/api/&lt;api-key&gt;/registerproduct/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">{"name":"Nec Monitor","price":123.0,<br /> "is_vat":false,"quantity":2,"date_post":"04/09/2010 02:13:39",<br /> "warranty":"12 month","origin":"China","address":"Binh Tan",<br /> "lat":10.11,"lng":106.123,"description":"Man h&igrave;nh rất xịn",<br /> "setCategoryKeys":["laptop"],"attributeSets":[]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>name: </strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price: </strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat: </strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy: </strong>số lượng sản phẩm</li>
+<li><strong>date_post: </strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty: </strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin: </strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng: </strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description: </strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys: </strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về<strong><br /></strong></li>
+<li><strong>attributeSets: </strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"message":"T&ecirc;n đăng nhập đ&atilde; tồn tại","errCode":0}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục Giới thiệu</p>
+<p><a href="#0">[về đầu trang]</a></p>
+</blockquote>
+<h2><a name="3">&nbsp;</a>Lấy th&ocirc;ng tin sản phẩm</h2>
+<blockquote>
+<p>Để lấy th&ocirc;ng tin của sản phẩm, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/&lt;api-key&gt;/account-register/">http://smartshopviet.appspot.com/api/&lt;api-key&gt;/get-product/?id=82/</a></p>
+<p class="code">Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>id*:&nbsp;</strong>m&atilde; số của sản phẩm</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"T&igrave;m sản phẩm th&agrave;nh c&ocirc;ng",<br /> "listCategories":[{"key_cat":"mobile_pda_sub","name":"Mobile, PDA","parent_id":"mobile_pda"}],<br /> "product":{"id":651,"name":"Android G1",<br /> "price":1000.0,"is_vat":false,"quantity":2,<br /> "date_post":"09/08/2010 12:00:00","warranty":"12 month",<br /> "origin":"China","address":"Trường Chinh",<br /> "lat":10.831394,"lng":106.622547,<br /> "description":"Chất lượng vượt thời gian",<br /> "product_view":3,"username":"hieu",<br /> "listBuyers":[],"setPagesID":[],<br /> "attributeSets":[]}}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong> đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>listCategories :</strong> danh s&aacute;ch c&aacute;c danh mục m&agrave; sản phẩm n&agrave;y thuộc về, mỗi danh mục c&oacute; c&aacute;c thuộc t&iacute;nh như sau:              
+<ul>
+<li><strong>key_cat :</strong> m&atilde; của danh mục</li>
+<li><strong>name : </strong>t&ecirc;n của danh mục</li>
+<li><strong>parent_id : </strong>m&atilde; của danh mục chứa danh mục hiện tại</li>
+</ul>
+</li>
+<li><strong>product : </strong>sản phẩm t&igrave;m được              
+<ul>
+<li><strong>id : </strong>m&atilde; của sản phẩm</li>
+</ul>
+<ul>
+<li><strong>name:&nbsp;</strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price:&nbsp;</strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat:&nbsp;</strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy:&nbsp;</strong>số lượng sản phẩm</li>
+<li><strong>date_post:&nbsp;</strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty:&nbsp;</strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin:&nbsp;</strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description:&nbsp;</strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về<strong><br /></strong></li>
+<li><strong>attributeSets:&nbsp;</strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+</ul>
+<ul>
+<li><strong>product_view : </strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username : </strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers : </strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setPagesID : </strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+<h2><a name="4">&nbsp;</a>T&igrave;m sản phẩm theo query</h2>
+<blockquote>
+<p>Để t&igrave;m sản phẩm, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/product-search/?q=laptop">http://smartshopviet.appspot.com/api/<em>api-key</em>/product-search/?q=laptop</a></p>
+<p class="code">Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>q*:&nbsp;</strong>từ kh&oacute;a do user truyền v&agrave;o, server sẽ dựa v&agrave;o từ kh&oacute;a n&agrave;y để t&igrave;m kiếm sản phẩm.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"T&igrave;m c&aacute;c sản phẩm th&agrave;nh c&ocirc;ng",<br /> "products":[<br /> {"id":651,"name":"Android G1",<br /> "price":1000.0,"is_vat":false,"quantity":2,<br /> "date_post":"09/08/2010 12:00:00",<br /> "warranty":"12 month","origin":"China",<br /> "address":"Trường Chinh","lat":10.831394,"lng":106.622547,<br /> "description":"Chất lượng vượt thời gian","product_view":3,<br /> "username":"hieu","listBuyers":[],"setPagesID":[],<br /> "setCategoryKeys":["mobile_pda_sub"],"attributeSets":[]},<br /> {"id":663,"name":"Sạc Android G1",<br /> "price":1000.0,"is_vat":false,"quantity":2,<br /> "date_post":"09/07/2010 12:00:00",<br /> "warranty":"12 month","origin":"China",<br /> "address":"Trường Chinh","lat":10.831394,"lng":106.622547,<br /> "description":"Chất lượng vượt thời gian","product_view":3,<br /> "username":"hieu","listBuyers":[],"setPagesID":[],<br /> "setCategoryKeys":["mobile_accessories"],"attributeSets":[]}]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>products :</strong> danh s&aacute;ch&nbsp;sản phẩm t&igrave;m được              
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của sản phẩm</li>
+</ul>
+<ul>
+<li><strong>name:&nbsp;</strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price:&nbsp;</strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat:&nbsp;</strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy:&nbsp;</strong>số lượng sản phẩm</li>
+<li><strong>date_post:&nbsp;</strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty:&nbsp;</strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin:&nbsp;</strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description:&nbsp;</strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về<strong><br /></strong></li>
+<li><strong>attributeSets:&nbsp;</strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+</ul>
+<ul>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setPagesID :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+<h2><span style="font-size: 15px; font-weight: bold;"><a name="5">&nbsp;</a>Sửa th&ocirc;ng tin sản phẩm&nbsp;*</span></h2>
+<blockquote>
+<p>Để sửa th&ocirc;ng tin sản phẩm, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng&nbsp;<a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a>&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/editproduct/">http://smartshopviet.appspot.com/api/<em>api-key</em>/editproduct/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">{"id":651,"name":"Android G1","price":1000.0,<br /> "is_vat":true,"quantity":2,<br /> "warranty":"12 month","origin":"China",<br /> "address":"Trường Chinh","lat":10.831394,"lng":106.622547,<br /> "description":"Chất lượng vượt thời gian","attributeSets":[],<br /> "setCategoryKeys":["mobile_pda_sub"]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>name:&nbsp;</strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price:&nbsp;</strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat:&nbsp;</strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy:&nbsp;</strong>số lượng sản phẩm</li>
+<li><strong>date_post:&nbsp;</strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty:&nbsp;</strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin:&nbsp;</strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description:&nbsp;</strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về<strong><br /></strong></li>
+<li><strong>attributeSets:&nbsp;</strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"message":"Sửa th&ocirc;ng tin sản phẩm th&agrave;nh c&ocirc;ng","errCode":0}</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục Giới thiệu</p>
+</blockquote>
+<h2><a name="6">&nbsp;</a>T&igrave;m sản phẩm trong phạm vi nhất định</h2>
+<blockquote>
+<p>Để t&igrave;m th&ocirc;ng tin sản phẩm trong phạm vi nhất định, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng&nbsp;<a href="http://en.wikipedia.org/wiki/POST_%28HTTP%29">POST</a>&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/searchproductproximity/">http://smartshopviet.appspot.com/api/<em>api-key</em>/searchproductproximity/</a></p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">{lat:10.764789,lng:106.618749,<br /> distance:100,<br /> limit:40,<br /> q:"nokia"}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ trung t&acirc;m của nơi t&igrave;m sản phẩm</li>
+<li><strong>distance</strong>: b&aacute;n k&iacute;nh của phạm vi t&igrave;m kiếm.&nbsp;</li>
+<li><strong>limit:&nbsp;</strong>giới hạn số lượng sản phẩm trong kết quả trả về.</li>
+<li><strong>q:&nbsp;</strong>từ kh&oacute;a do user truyền v&agrave;o, server sẽ dựa v&agrave;o từ kh&oacute;a n&agrave;y để t&igrave;m kiếm sản phẩm.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"T&igrave;m sản phẩm th&agrave;nh c&ocirc;ng",<br /> "products":[<br /> {"id":642,"name":"Nokia 6670","price":1000.0,<br /> "is_vat":false,"quantity":2,<br /> "date_post":"06/06/2010 12:00:00",<br /> "warranty":"12 month","origin":"China",<br /> "address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br /> "lat":10.764789,"lng":106.618749,<br /> "description":"Chất lượng vượt thời gian",<br /> "product_view":3,"username":"tam",<br /> "listBuyers":[],"setPagesID":[],<br /> "setCategoryKeys":["mobile_pda_sub"],"attributeSets":[]}<br /> ,{"id":654,"name":"Sạc Nokia","price":1000.0,<br /> "is_vat":false,"quantity":2,<br /> "date_post":"10/02/2010 12:00:00",<br /> "warranty":"12 month","origin":"China",<br /> "address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br /> "lat":10.764789,"lng":106.618749,<br /> "description":"Chất lượng vượt thời gian",<br /> "product_view":3,"username":"tam",<br /> "listBuyers":[],"setPagesID":[],<br /> "setCategoryKeys":["mobile_accessories"],"attributeSets":[]}]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>products :</strong> danh s&aacute;ch&nbsp;sản phẩm t&igrave;m được         
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của sản phẩm</li>
+</ul>
+<ul>
+<li><strong>name:&nbsp;</strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price:&nbsp;</strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat:&nbsp;</strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy:&nbsp;</strong>số lượng sản phẩm</li>
+<li><strong>date_post:&nbsp;</strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty:&nbsp;</strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin:&nbsp;</strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description:&nbsp;</strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về<strong><br /></strong></li>
+<li><strong>attributeSets:&nbsp;</strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+</ul>
+<ul>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setPagesID :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+<h2><a name="7">&nbsp;</a>T&igrave;m sản phẩm trong danh mục với c&aacute;c ti&ecirc;u chuẩn</h2>
+<blockquote>
+<p>Để t&igrave;m th&ocirc;ng tin sản phẩm trong danh mục với một số ti&ecirc;u chuẩn nhất định, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/searchproductproximity/">http://smartshopviet.appspot.com/api/<em>api-key</em>/product-search-criteria-cat/?maximum=10&amp;criterias=1,3,4&amp;cat_keys=laptop,mobile_pda_sub&amp;status=1</a></p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>maximum: </strong>giới hạn&nbsp;số lượng tối đa số sản phẩm trong kết quả trả về</li>
+<li><strong>criterias</strong>: c&aacute;c t&ugrave;y chọn của c&acirc;u truy vấn, c&oacute; thể c&oacute; c&aacute;c gi&aacute; trị như sau :      
+<ul>
+<li><strong>0</strong>: ng&agrave;y đăng sản phẩm tăng dần</li>
+</ul>
+<ul>
+<li><strong>1</strong>: ng&agrave;y đăng sản phẩm giảm dần</li>
+<li><strong>2</strong>: gi&aacute; tăng dần</li>
+<li><strong>3</strong>: gi&aacute; giảm dần</li>
+<li><strong>4</strong>: số lượt xem sản phẩm tăng dần</li>
+<li><strong>5</strong>: số lượt xem sản phẩm giảm dần</li>
+<li><strong>6</strong>: số lượng của sản phẩm tăng dần</li>
+<li><strong>7</strong>: số lượng của sản phẩm giảm dần&nbsp;</li>
+</ul>
+</li>
+<li><strong>cat_keys: </strong>c&aacute;c m&atilde; của danh mục.</li>
+<li><strong>status: </strong>trạng th&aacute;i của sản phẩm, bao gồm c&aacute;c gi&aacute; trị như sau:      
+<ul>
+<li><strong>0:</strong>&nbsp;tất cả c&aacute;c sản phẩm</li>
+<li><strong>1:</strong>&nbsp;c&aacute;c sản phẩm c&ograve;n h&agrave;ng</li>
+<li><strong>2:</strong>&nbsp;c&aacute;c sản phẩm đ&atilde; hết h&agrave;ng</li>
+</ul>
+</li>
+<li><strong>username</strong>: t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>q</strong>:&nbsp;từ kh&oacute;a do user truyền v&agrave;o, server sẽ dựa v&agrave;o từ kh&oacute;a n&agrave;y để t&igrave;m kiếm sản phẩm.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"T&igrave;m sản phẩm th&agrave;nh c&ocirc;ng",<br />"products":[<br />{"id":642,"name":"Nokia 6670","price":1000.0,<br />"is_vat":false,"quantity":2,<br />"date_post":"06/06/2010 12:00:00",<br />"warranty":"12 month","origin":"China",<br />"address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br />"lat":10.764789,"lng":106.618749,<br />"description":"Chất lượng vượt thời gian",<br />"product_view":3,"username":"tam",<br />"listBuyers":[],"setPagesID":[],<br />"setCategoryKeys":["mobile_pda_sub"],"attributeSets":[]}<br />,{"id":654,"name":"Sạc Nokia","price":1000.0,<br />"is_vat":false,"quantity":2,<br />"date_post":"10/02/2010 12:00:00",<br />"warranty":"12 month","origin":"China",<br />"address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br />"lat":10.764789,"lng":106.618749,<br />"description":"Chất lượng vượt thời gian",<br />"product_view":3,"username":"tam",<br />"listBuyers":[],"setPagesID":[],<br />"setCategoryKeys":["mobile_accessories"],"attributeSets":[]}]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>products :</strong> danh s&aacute;ch&nbsp;sản phẩm t&igrave;m được       
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của sản phẩm</li>
+</ul>
+<ul>
+<li><strong>name:&nbsp;</strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price:&nbsp;</strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat:&nbsp;</strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy:&nbsp;</strong>số lượng sản phẩm</li>
+<li><strong>date_post:&nbsp;</strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty:&nbsp;</strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin:&nbsp;</strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description:&nbsp;</strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về<strong><br /></strong></li>
+<li><strong>attributeSets:&nbsp;</strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+</ul>
+<ul>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setPagesID :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+<h2><a name="8">&nbsp;</a>T&igrave;m sản phẩm người d&ugrave;ng đ&atilde; mua</h2>
+<blockquote>
+<p>Để t&igrave;m th&ocirc;ng tin sản phẩm m&agrave; người d&ugrave;ng đ&atilde; mua, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/product-get-buyed-product/?username=tam&amp;limit=0">http://smartshopviet.appspot.com/api/<em>api-key</em>/product-get-buyed-product/?username=tam&amp;limit=0</a></p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>username</strong>: username của người d&ugrave;ng cần t&igrave;m.&nbsp;</li>
+<li><strong>limit:&nbsp;</strong>giới hạn số lượng sản phẩm trong kết quả trả về.</li>
+<li><strong>q:&nbsp;</strong>từ kh&oacute;a do user truyền v&agrave;o, server sẽ dựa v&agrave;o từ kh&oacute;a n&agrave;y để t&igrave;m kiếm sản phẩm.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"Lấy danh s&aacute;ch sản phẩm b&aacute;n bởi tam th&agrave;nh c&ocirc;ng",<br />"products":[<br />{"id":642,"name":"Nokia 6670","price":1000.0,<br />"is_vat":false,"quantity":2,<br />"date_post":"06/06/2010 12:00:00",<br />"warranty":"12 month","origin":"China",<br />"address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br />"lat":10.764789,"lng":106.618749,<br />"description":"Chất lượng vượt thời gian",<br />"product_view":3,"username":"tam",<br />"listBuyers":[],"setPagesID":[],<br />"setCategoryKeys":["mobile_pda_sub"],"attributeSets":[]}<br />,{"id":654,"name":"Sạc Nokia","price":1000.0,<br />"is_vat":false,"quantity":2,<br />"date_post":"10/02/2010 12:00:00",<br />"warranty":"12 month","origin":"China",<br />"address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br />"lat":10.764789,"lng":106.618749,<br />"description":"Chất lượng vượt thời gian",<br />"product_view":3,"username":"tam",<br />"listBuyers":[],"setPagesID":[],<br />"setCategoryKeys":["mobile_accessories"],"attributeSets":[]}]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>products :</strong>&nbsp;danh s&aacute;ch&nbsp;sản phẩm t&igrave;m được     
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của sản phẩm</li>
+</ul>
+<ul>
+<li><strong>name:&nbsp;</strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price:&nbsp;</strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat:&nbsp;</strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy:&nbsp;</strong>số lượng sản phẩm</li>
+<li><strong>date_post:&nbsp;</strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty:&nbsp;</strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin:&nbsp;</strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description:&nbsp;</strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về<strong><br /></strong></li>
+<li><strong>attributeSets:&nbsp;</strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+</ul>
+<ul>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setPagesID :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+<h2><a name="9">&nbsp;</a>T&igrave;m sản phẩm người d&ugrave;ng đ&atilde; b&aacute;n</h2>
+<blockquote>
+<p>Để t&igrave;m th&ocirc;ng tin sản phẩm m&agrave; người d&ugrave;ng đ&atilde; b&aacute;n, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/product-get-selled-product/?username=tam&amp;limit=0">http://smartshopviet.appspot.com/api/<em>api-key</em>/product-get-selled-product/?username=tam&amp;limit=0</a></p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>username</strong>: username của người d&ugrave;ng cần t&igrave;m.&nbsp;</li>
+<li><strong>limit:&nbsp;</strong>giới hạn số lượng sản phẩm trong kết quả trả về.</li>
+<li><strong>q:&nbsp;</strong>từ kh&oacute;a do user truyền v&agrave;o, server sẽ dựa v&agrave;o từ kh&oacute;a n&agrave;y để t&igrave;m kiếm sản phẩm.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"Lấy danh s&aacute;ch sản phẩm b&aacute;n bởi tam th&agrave;nh c&ocirc;ng",<br />"products":[<br />{"id":642,"name":"Nokia 6670","price":1000.0,<br />"is_vat":false,"quantity":2,<br />"date_post":"06/06/2010 12:00:00",<br />"warranty":"12 month","origin":"China",<br />"address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br />"lat":10.764789,"lng":106.618749,<br />"description":"Chất lượng vượt thời gian",<br />"product_view":3,"username":"tam",<br />"listBuyers":[],"setPagesID":[],<br />"setCategoryKeys":["mobile_pda_sub"],"attributeSets":[]}<br />,{"id":654,"name":"Sạc Nokia","price":1000.0,<br />"is_vat":false,"quantity":2,<br />"date_post":"10/02/2010 12:00:00",<br />"warranty":"12 month","origin":"China",<br />"address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br />"lat":10.764789,"lng":106.618749,<br />"description":"Chất lượng vượt thời gian",<br />"product_view":3,"username":"tam",<br />"listBuyers":[],"setPagesID":[],<br />"setCategoryKeys":["mobile_accessories"],"attributeSets":[]}]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>products :</strong>&nbsp;danh s&aacute;ch&nbsp;sản phẩm t&igrave;m được     
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của sản phẩm</li>
+</ul>
+<ul>
+<li><strong>name:&nbsp;</strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price:&nbsp;</strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat:&nbsp;</strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy:&nbsp;</strong>số lượng sản phẩm</li>
+<li><strong>date_post:&nbsp;</strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty:&nbsp;</strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin:&nbsp;</strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description:&nbsp;</strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về<strong><br /></strong></li>
+<li><strong>attributeSets:&nbsp;</strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+</ul>
+<ul>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setPagesID :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+<h2><a name="10">&nbsp;</a>T&igrave;m sản phẩm người d&ugrave;ng quan t&acirc;m</h2>
+<blockquote>
+<p>Để t&igrave;m th&ocirc;ng tin sản phẩm m&agrave; người d&ugrave;ng quan t&acirc;m, c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng GET&nbsp;tới địa chỉ:</p>
+<p class="code"><a href="http://smartshopviet.appspot.com/api/<em>api-key</em>/product-get-interested-product/?username=tam&amp;limit=0">http://smartshopviet.appspot.com/api/<em>api-key</em>/product-get-interested-product/?username=tam&amp;limit=0</a></p>
+<p>Trong đ&oacute;, &yacute; nghĩa c&aacute;c th&ocirc;ng số như sau (c&aacute;c th&ocirc;ng số c&oacute; k&yacute; hiệu * l&agrave; bắt buộc trong lời gửi y&ecirc;u cầu):</p>
+<ul>
+<li><strong>username</strong>: username của người d&ugrave;ng cần t&igrave;m.&nbsp;</li>
+<li><strong>limit:&nbsp;</strong>giới hạn số lượng sản phẩm trong kết quả trả về.</li>
+<li><strong>q:&nbsp;</strong>từ kh&oacute;a do user truyền v&agrave;o, server sẽ dựa v&agrave;o từ kh&oacute;a n&agrave;y để t&igrave;m kiếm sản phẩm.</li>
+</ul>
+<p>Sau đ&oacute;, server sẽ kiểm tra t&iacute;nh hợp c&aacute;c th&ocirc;ng tin của t&agrave;i khoản v&agrave; trả kết quả về với c&aacute;c th&ocirc;ng số như sau:</p>
+<p class="code">{"errCode":0,"message":"Lấy danh s&aacute;ch sản phẩm b&aacute;n bởi tam th&agrave;nh c&ocirc;ng",<br />"products":[<br />{"id":642,"name":"Nokia 6670","price":1000.0,<br />"is_vat":false,"quantity":2,<br />"date_post":"06/06/2010 12:00:00",<br />"warranty":"12 month","origin":"China",<br />"address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br />"lat":10.764789,"lng":106.618749,<br />"description":"Chất lượng vượt thời gian",<br />"product_view":3,"username":"tam",<br />"listBuyers":[],"setPagesID":[],<br />"setCategoryKeys":["mobile_pda_sub"],"attributeSets":[]}<br />,{"id":654,"name":"Sạc Nokia","price":1000.0,<br />"is_vat":false,"quantity":2,<br />"date_post":"10/02/2010 12:00:00",<br />"warranty":"12 month","origin":"China",<br />"address":"T&acirc;n H&ograve;a Đ&ocirc;ng",<br />"lat":10.764789,"lng":106.618749,<br />"description":"Chất lượng vượt thời gian",<br />"product_view":3,"username":"tam",<br />"listBuyers":[],"setPagesID":[],<br />"setCategoryKeys":["mobile_accessories"],"attributeSets":[]}]}</p>
+<p>Trong đ&oacute;, &yacute; nghĩa của c&aacute;c th&ocirc;ng số như sau :</p>
+<ul>
+<li><strong>errCode, message :</strong>&nbsp;đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục giới thiệu</li>
+<li><strong>products :</strong>&nbsp;danh s&aacute;ch&nbsp;sản phẩm t&igrave;m được     
+<ul>
+<li><strong>id :&nbsp;</strong>m&atilde; của sản phẩm</li>
+</ul>
+<ul>
+<li><strong>name:&nbsp;</strong>t&ecirc;n của sản phẩm</li>
+<li><strong>price:&nbsp;</strong>gi&aacute; sản phẩm</li>
+<li><strong>is_vat:&nbsp;</strong>c&oacute; gi&aacute; trị l&agrave; true hoặc false - cho biết gi&aacute; của sản phẩm đ&atilde; bao gồm thuế VAT hay chưa</li>
+<li><strong>quantiy:&nbsp;</strong>số lượng sản phẩm</li>
+<li><strong>date_post:&nbsp;</strong>ng&agrave;y đăng sản phẩm</li>
+<li><strong>warranty:&nbsp;</strong>thời hạn bảo h&agrave;nh</li>
+<li><strong>origin:&nbsp;</strong>xuất xứ của sản phẩm</li>
+<li><strong>lat,&nbsp;lng:&nbsp;</strong>tọa độ của nơi b&aacute;n sản phẩm</li>
+<li><strong>description:&nbsp;</strong>m&ocirc; tả về sản phẩm</li>
+<li><strong>setCategoryKeys:&nbsp;</strong>chứa tập c&aacute;c kh&oacute;a của c&aacute;c danh mục m&agrave; sản phẩm thuộc về<strong><br /></strong></li>
+<li><strong>attributeSets:&nbsp;</strong>chứa c&aacute;c tập thuộc t&iacute;nh của sản phẩm, do người d&ugrave;ng định nghĩa</li>
+</ul>
+<ul>
+<li><strong>product_view :&nbsp;</strong>số lần kh&aacute;ch xem sản phẩm</li>
+<li><strong>username :&nbsp;</strong>t&ecirc;n của user đ&atilde; đăng sản phẩm</li>
+<li><strong>listBuyers :&nbsp;</strong>danh s&aacute;ch c&aacute;c user đ&atilde; mua sản phẩm</li>
+<li><strong>setPagesID :&nbsp;</strong>danh s&aacute;ch c&aacute;c page m&agrave; sản phẩm n&agrave;y đ&atilde; được user tag</li>
+</ul>
+</li>
+</ul>
+<a href="#0">[về đầu trang]</a></blockquote>
+<h2>sửa th&ocirc;ng tin t&agrave;i khoản</h2>
+</body>
+</html>

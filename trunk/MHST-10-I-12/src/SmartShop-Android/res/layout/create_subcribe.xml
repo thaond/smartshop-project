@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:orientation="vertical" android:background="@color/background">
+	<include android:layout_width="fill_parent"
+		android:layout_height="wrap_content" layout="@layout/header" />
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/txtDate"
+		android:layout_gravity="center_horizontal" />
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal">
+		<EditText android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:id="@+id/txtSearch"
+			android:layout_weight="1" android:textSize="12dip"
+			android:hint="@string/search_product_on_map"/>
+		<EditText android:layout_width="75dip" android:layout_height="wrap_content"
+			android:id="@+id/txtRadius" android:paddingRight="10dip" 
+			android:hint="@string/search_radius_on_map" android:textSize="12dip"/>
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/btnSubcribe"
+			android:text="@string/register_subcribe" />
+	</LinearLayout>
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_gravity="right" android:layout_height="wrap_content">
+		<CheckBox android:layout_width="wrap_content" android:text="@string/subcribe_active"
+			android:layout_height="wrap_content" android:id="@+id/chActive" />
+		<CheckBox android:layout_width="wrap_content" android:text="@string/subcribe_email"
+			android:layout_height="wrap_content" android:id="@+id/chEmail" />
+		<CheckBox android:layout_width="wrap_content" android:text="@string/subcribe_sms"
+			android:layout_height="wrap_content" android:id="@+id/chSms"
+			android:paddingRight="10dip" />
+		<CheckBox android:layout_width="wrap_content" android:text="@string/push_notification"
+			android:layout_height="wrap_content" android:id="@+id/chPush"
+			android:paddingRight="10dip" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/btnCategories"
+			android:background="@drawable/category" />
+	</LinearLayout>
+
+	<com.google.android.maps.MapView
+		android:id="@+id/mapview" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:clickable="true"
+		android:apiKey="@string/mapApiKey" layout_weight="1" />
+
+	<TextView android:layout_width="fill_parent"
+		android:layout_gravity="center" android:layout_height="wrap_content"
+		android:id="@+id/txtLocation" />
+
+</LinearLayout>

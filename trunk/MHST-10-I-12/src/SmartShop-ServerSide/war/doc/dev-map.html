@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Language" content="en-us" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<p><span class="title">Các dịch vụ về bản đồ</span></p>
+<hr />
+<h2><a name="0"></a>Nội dung</h2>
+<ul>
+<li><a href="#introduction">Giới thiệu</a></li>
+<li><a href="#getLocation">Lấy vị trí trên bản đồ</a></li>
+<li><a href="#getDirection">Tìm đường đi trên bản đồ</a></li>
+</ul>
+
+<h2 id="introduction">Giới thiệu</h2>
+<blockquote>
+<p class="style1">C&aacute;c service trong hệ thống ph&acirc;n l&agrave;m 2 loại:</p>
+<p class="style1">C&aacute;c service cần x&aacute;c thực của th&agrave;nh vi&ecirc;n: l&agrave; c&aacute;c service chỉ c&oacute; th&agrave;nh vi&ecirc;n thực sự của hệ thống mới c&oacute; thể sử dụng, chẳng hạn bao gồm c&aacute;c service như đăng k&yacute; một sản phẩm mới, tạo trang th&ocirc;ng tin, đăng k&yacute; nhận th&ocirc;ng tin sản phẩm, ...</p>
+<p class="style1">C&aacute;c service được sử dụng tự do: Mọi người đều c&oacute; thể dễ d&agrave;ng sử dụng c&aacute;c dịch vụ n&agrave;y</p>
+<p class="style1">Để tiện cho bạn theo d&otilde;i, ch&uacute;ng t&ocirc;i tạm k&iacute; hiệu * tr&ecirc;n c&aacute;c ti&ecirc;u đề cho c&aacute;c service cần sự x&aacute;c thực của th&agrave;nh vi&ecirc;n. Sự kh&aacute;c nhau về th&ocirc;ng số gọi h&agrave;m cũng như về chức năng sẽ được tr&igrave;nh b&agrave;y ngay sau đ&acirc;y. C&aacute;c th&agrave;nh vi&ecirc;n trong hệ thống c&oacute; thể l&agrave; người mua hoặc người b&aacute;n hoặc l&agrave; c&oacute; thể thực hiện cả 2 chức năng tr&ecirc;n.</p>
+<p><a href="#0">[về đầu trang]</a></p></blockquote>
+
+<h2 id="getLocation">Lấy vị trí trên bản đồ</h2>
+<blockquote>
+<p>Để lấy vị trí trên bản đồ, bạn c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng
+<a href="http://en.wikipedia.org/wiki/GET_(HTTP)">GET</a> tới địa chỉ:</p>
+<p class="code">
+<a href="http://smartshopviet.appspot.com/api/%3Capi-key%3E/map-geocoder/?adr=ADDRESS">
+http://smartshopviet.appspot.com/api/&lt;api-key&gt;/map-geocoder/?adr=ADDRESS</a><br>
+</p>
+<p>với c&aacute;c th&ocirc;ng số trong header như sau:</p>
+<p class="code">
+ADDRESS: là địa chỉ địa điểm như thông thường hoặc là tọa độ lat long của vị trí 
+đó trên bản đồ<br>
+Sample request:<br>
+http://smartshopviet.appspot.com/api/&lt;api-key&gt;/map-geocoder/?adr=268%20Ly%20Thuong%20Kiet%20Ho%20Chi%20MInh&amp;src=google,yahoo&amp;country=Vietnam</br>
+<br>http://smartshopviet.appspot.com/api/&lt;api-key&gt;/map-geocoder/?lat=10.123&lng=106.123123&src=google,yahoo&country=Vietnam</br></p>
+<p>Sau đó, server sẽ kiểm tra tính hợp lệ của các thông tin của tài khoản và trả 
+kết quả về với các thông số như sau:</p>
+<p class="code">yahoo[<br />
+{fulladdress<br />
+zipcode<br />
+city<br />
+countrycode<br />
+point[lat,lng,alt] } ]<br />
+<br />
+google</p>
+<p>C&aacute;c th&ocirc;ng số n&agrave;y đ&atilde; được tr&igrave;nh b&agrave;y chi tiết tại mục <a href="/doc/dev-intro.html">Giới thiệu</a></p>
+<p><a href="#0">[về đầu trang]</a></p></blockquote>
+<h2 id="findDirection">Tìm đường đi trên bản đồ</h2>
+<blockquote>
+<p>Để tìm đường đi trên bản đồ, bạn c&oacute; thể sử dụng gửi y&ecirc;u cầu dưới dạng
+<a href="http://en.wikipedia.org/wiki/GET_(HTTP)">GET</a> tới địa chỉ:</p>
+<p>Hiện tại Smart-Shop hỗ trợ 2 hình thức tìm đường đi trên bản đồ<ul>
+<li>Tìm đường đi thông qua tọa độ latitude and longtitude của điểm đầu và điểm 
+cuối</li>
+<li>Tìm đường đi thông qua địa chỉ (theo tên đường phố, quận, huyện, tỉnh, thành 
+phố)</li>
+</ul>
+
+<p class="code">Sample request:<br>http://smartshopviet.appspot.com/api/asd/map-direction/?origin=10.123,106.32&amp;destination=10.45,106.232&amp;mode=bicycling
+<br />
+Or<br />
+http://smartshopviet.appspot.com/api/asd/map-direction/?origin=Bến+Thành&amp;destination=Bách+Khoa+Việt+Nam&amp;mode=bicycling</p>
+<p>Sau đ&oacute;, server sẽ trả về đường đi từ điểm bắt đầu đến điểm kết thúc.<br> Tham khảo thêm tại: <a href="http://code.google.com/apis/maps/documentation/directions">http://code.google.com/apis/maps/documentation/directions</p>
+<p><a href="#0">[về đầu trang]</a></p></blockquote>
+</body>
+
+</html>
