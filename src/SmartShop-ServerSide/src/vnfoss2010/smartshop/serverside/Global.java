@@ -35,8 +35,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
 public abstract class Global {
-	//public static String HOST_NAME = "http://localhost:8888";
-	public static String HOST_NAME = "http://smartshopviet.appspot.com";
+	public static String HOST_NAME = "http://localhost:8888";
+	//public static String HOST_NAME = "http://smartshopviet.appspot.com";
 	public static final String NORMAL_DATE = "dd/MM/yyyy";
 	public static final String NORMAL_DATE_WITH_HOUR = "dd/MM/yyyy hh:mm:ss";
 	public static DateFormat df = new SimpleDateFormat(NORMAL_DATE);

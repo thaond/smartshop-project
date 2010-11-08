@@ -1,5 +1,6 @@
 package vnfoss2010.smartshop.webbased.client.utils;
 
+import vnfoss2010.smartshop.webbased.client.LoadingDialog;
 import vnfoss2010.smartshop.webbased.client.RelatedProductsPanel;
 import vnfoss2010.smartshop.webbased.client.UserProfileLeftPanel;
 import vnfoss2010.smartshop.webbased.client.ViewProductPanel;
@@ -53,6 +54,7 @@ public class WebbasedHistoryManager implements ValueChangeHandler<String> {
 		System.out.println(value);
 		if (arr.length == 2) {
 			String type = arr[0];
+			LoadingDialog.getInstance().setVisible(true);
 			int id = Integer.parseInt(arr[1]);
 			if (type.equals("product")){
 				System.out.println("Show Product + " + id);
@@ -92,12 +94,13 @@ public class WebbasedHistoryManager implements ValueChangeHandler<String> {
 									result.listRelatedProduct);
 						}
 						ViewProductPanel.getInstance().showProduct(result);
-						
+						LoadingDialog.getInstance().setVisible(false);
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
 						caught.printStackTrace();
+						LoadingDialog.getInstance().setVisible(false);
 					}
 				});
 			}else if (type.equals("page")){
@@ -124,11 +127,13 @@ public class WebbasedHistoryManager implements ValueChangeHandler<String> {
 									result.userInfo);
 						}
 						ViewProductPanel.getInstance().showPage(result);
+						LoadingDialog.getInstance().setVisible(false);
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
 						caught.printStackTrace();
+						LoadingDialog.getInstance().setVisible(false);
 					}
 				});
 			}
