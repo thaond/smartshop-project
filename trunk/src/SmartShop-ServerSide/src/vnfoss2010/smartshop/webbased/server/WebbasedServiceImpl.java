@@ -35,7 +35,7 @@ public class WebbasedServiceImpl extends RemoteServiceServlet implements
 	public String greetServer(String input) throws IllegalArgumentException {
 		return "Hello";
 	}
-	
+		
 	public WebbasedServiceImpl(){
 		super();
 		

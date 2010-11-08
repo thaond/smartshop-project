@@ -28,17 +28,34 @@ public class TreePanel extends VerticalPanel {
 
 		// 5. Ứng dụng Android
 		Tree treeAndroid = new Tree();
-		TreeItem rootAndroid = new TreeItem("Ứng dụng Android");
-		ItemNode itemIntroAnd = new ItemNode("Giới thiệu sản phẩm",
-				"android-intro", "/doc/android-intro.html");
-		ItemNode itemDownload = new ItemNode("Download", "android-download",
-				"/doc/android-download.html");
-		TreeItem itemGuide = new TreeItem("Hướng dẫn sử dụng");
+		TreeItem rootAndroid = new TreeItem(
+				"Hướng dẫn sử dụng ứng dụng trên Android");
+		ItemNode itemInstall = new ItemNode("Download và cài đặt sản phẩm",
+				"android-install", "/doc/1_cai_dat_ung_dung.htm");
+		ItemNode itemMainForm = new ItemNode("Màn hình chính",
+				"android-main-form", "/doc/2_man_hinh_chinh.htm");
+		ItemNode itemLoginForm = new ItemNode("Màn hình đăng nhập",
+				"android-login-form", "/doc/3_man_hinh_dang_nhap.htm");
+		ItemNode itemAndProduct = new ItemNode("Tính năng tìm kiếm sản phẩm",
+				"android-product", "/doc/4_tim_kiem_san_pham.htm");
+		ItemNode itemAndPage = new ItemNode(
+				"Tính năng tìm kiếm các bài viết từ hệ thống SmartShop",
+				"android-page", "/doc/5_tim_kiem_bai_viet.htm");
+		ItemNode itemUser = new ItemNode("Các tính năng dành cho người dùng",
+				"android-user", "/doc/6_chuc_nang_nguoi_dung.htm");
+		ItemNode itemNotification = new ItemNode(
+				"Tính năng tự động thông báo (Notification)",
+				"android-notification", "/doc/7_notification.htm");
 
-		rootAndroid.addItem(itemIntroAnd);
-		rootAndroid.addItem(itemDownload);
-		rootAndroid.addItem(itemGuide);
+		rootAndroid.addItem(itemInstall);
+		rootAndroid.addItem(itemMainForm);
+		rootAndroid.addItem(itemLoginForm);
+		rootAndroid.addItem(itemAndProduct);
+		rootAndroid.addItem(itemAndPage);
+		rootAndroid.addItem(itemUser);
+		rootAndroid.addItem(itemNotification);
 		rootAndroid.setState(true);
+
 		treeAndroid.addItem(rootAndroid);
 
 		// 6. Dành cho nhà phát triển
