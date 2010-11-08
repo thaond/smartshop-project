@@ -179,6 +179,7 @@ public class SmartShopNotificationService extends Service {
 
 		case SmartshopNotification.TAG_PRODUCT:
 		case SmartshopNotification.UNTAG_PRODUCT:
+		case SmartshopNotification.NEW_PRODUCT_FROM_SUBCRIBE:
 			intent = new Intent(this, ViewProductActivity.class);
 			ProductInfo productInfo = Global.gsonWithHour.fromJson(
 					sNotification.jsonOutput, ProductInfo.class);
