@@ -17,8 +17,8 @@ public class Notification {
 	public static final int UNTAG_PAGE = 5;
 	public static final int ADD_COMMENT_PRODUCT = 6;
 	public static final int ADD_COMMENT_PAGE = 7;
-	public static final int TAG_PRODUCT_TO_PAGE = 8;
-	public static final int SUBSCRIBE_HAS_NEW_PRODUCT = 9;
+	public static final int TAG_PRODUCT_TO_PAGE = 9;
+	public static final int SUBSCRIBE_HAS_NEW_PRODUCT = 8;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
