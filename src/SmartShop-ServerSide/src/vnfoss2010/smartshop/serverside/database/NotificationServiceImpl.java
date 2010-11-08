@@ -191,7 +191,7 @@ public class NotificationServiceImpl {
 								.getDetail()));
 						if (resultProduct.isOK()) {
 							n.setJsonOutput(Global.gsonWithDate
-									.toJson(resultProduct.getResult().getId()));
+									.toJson(resultProduct.getResult()));
 						}
 						break;
 					default:
