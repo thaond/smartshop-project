@@ -1,0 +1,181 @@
+<font size = "6">PHỤ LỤC: HƯỚNG DẪN PHÁT TRIỂN HỆ THỐNG SMARTSHOP</font>
+
+<font size = "4">Nội dung</font>
+
+<wiki:toc max_depth="2" />
+
+= I.            Cài đặt các chương trình phát triển cho module server =
+
+== 1.      Cài đặt JDK ==
+
+-          Truy cập vào đây http://java.sun.com/javase/downloads/index.jsp
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image001.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image002.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image003.png]
+
+== 2.      Cài đặt Eclipse ==
+
+-          Truy cập vào http://www.eclipse.org/downloads/  để tải bản Eclipse 3.5 (Galieo) dành cho phát triển ứng dụng J2EE.
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image004.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image005.png]
+
+-          Sau khi tải file zip về chỉ cần giải nén thư mục là có thể làm việc ngay được với môi trường Eclipse.
+
+== 3.      Cài đặt Google App Engine ==
+
+-          Truy cập vào [http://code.google.com/appengine/downloads.html  http://code.google.com/appengine/downloads.html]  để tải SDK của Google App Engine (bản dành cho ngôn ngữ Java).
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image006.png]
+
+-          Có thể tải thêm tài liệu của Google App Engine để thuận lợi tra cứu
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image007.png]
+
+-          Sau khi tải về chỉ cần giải nén file zip.
+
+== 4.      Cài đặt Google Web Toolkit ==
+
+Truy cập vào [http://code.google.com/webtoolkit/download.html  http://code.google.com/webtoolkit/download.html] để tải SDK của Google Web Toolkit.
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image008.png]
+
+-          Sau khi tải về chỉ cần giải nén file zip.
+
+== 5.      Cài đặt Google plugin cho Eclipse ==
+
+Để làm việc với Google App Engine và Google Web Toolkit trong Eclipse.
+
+Thao tác cài đặt
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image009.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image010.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image011.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image012.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image013.png]
+
+-          Restart lại Eclipse
+
+-          Chỉnh đường dẫn tới SDK của Google App Engine và Google Web Toolkit
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image014.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image015.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image016.png]
+
+-          Đường dẫn tới SDK là thư mục đã giải nén của file zip Google App Engine SDK.
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image017.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image018.png]
+
+-          Đường dẫn tới SDK là thư mục đã giải nén của file zipe Google Web Toolkit SDK.
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image019.png]
+
+-          Ấn OK để Eclipse cập nhật SDK của Google App Engine và Google Web Toolkit
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image020.png]
+
+= II.            Cài đặt các chương trình phát triển cho module mobile Android =
+
+== 1.      1. Tải SDK của android. ==
+
+-          Tải từ trang [http://developer.android.com/sdk/1.6_r1/index.html  http://developer.android.com/sdk/1.6_r1/index.html] (version hiện tại là 1.6 release 1). (nếu chưa tải theo hướng dẫn trên)
+
+== 2.      2. Cài plugin ADT cho eclipse. ==
+
+-          Cài online từ link sau: [https://dl-ssl.google.com/android/eclipse/  https://dl-ssl.google.com/android/eclipse/]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image021.png]
+
+-          Nếu việc update không thành công thì có thể tải trực tiếp file zip chứa plugin ADT [http://dl.google.com/android/ADT-0.9.3.zip  http://dl.google.com/android/ADT-0.9.3.zip]  cho Eclipse rồi cài đặt offline.
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image022.png]
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image023.png]
+
+-          Chọn đường dẫn tới file zip chứa plugin ADT đã tải. Sau đó cài đặt theo hướng dẫn trên màn hình. Sau khi cài cần khởi động lại Eclipse.
+
+_ Chi tiết tham khảo tại: _  [http://developer.android.com/sdk/1.6_r1/installing.html  _http://developer.android.com/sdk/1.6_r1/installing.html_]_  _
+
+-          Configure đường dẫn tới SDK của android trong Eclipse và tạo file avd.
+
+o   Chọn Window / Preference
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image024.png]
+
+o   Chỉnh đường dẫn tới SDK.
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image025.png]
+
+-          Tạo file AVD
+
+o   Cần 1 file .avd để định nghĩa system image và các thiết lập cho thiết bị di động để emulator có thể chạy được.
+
+o   Cách tạo:
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image026.png]               [http://hangxachtayusa.net/smartshop/dev/clip_image027.png]
+
+_ (Trong ảnh là 1 file my_avd.avd đã được tạo sẵn. Chỉ cần ấn vào New để tạo 1 file avd mới)._
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image028.png]
+
+= III.            Hướng dẫn import và biên dịch mã nguồn các module =
+
+== 1.      Cài đặt chương trình bổ sung SVN cho Eclipse ==
+
+-          Đây là công cụ hỗ trợ, cho phép bạn làm việc nhóm 1 cách hiệu quả. Bạn vào trang http://subclipse.tigris.org/ để lấy link, cách cài đặt tương tự như cài đặt * GWT* cho *Eclipse*.
+
+== 2.      Nạp mã nguồn: ==
+
+=== a.      Cách 1: ===
+
+-          Trên thanh Menu, chọn *File* > *New* > *Other* > *Thư mục SVN* > *Checkout Projects from SVN*
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image029.png]
+
+Hình  1 - File > Other
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image030.png]
+
+Hình  2 - Chọn Checkout Projects from SVN
+
+Nhấn *Next*, chọn * Create a new repository location*, trên trường văn bản *URL* bạn nhập vào địa chỉ  [https://smartshop-project.googlecode.com/svn/trunk/src/SmartShop-ServerSide/  https://smartshop-project.googlecode.com/svn/trunk/src/SmartShop-ServerSide/] cho phần *Server* và  [https://smartshop-project.googlecode.com/svn/trunk/src/SmartShop-Android/  https://smartshop-project.googlecode.com/svn/trunk/src/SmartShop-Android/] cho phần *Android* *Client*
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image031.png]
+
+Hình  3 - Nhập vào URL và nhấn Next
+
+-          Nhấn Next và nhấn Finish, sau đó bạn chờ SVN Eclipse tải mã nguồn.
+
+=== b.      Cách 2: ===
+
+-          Bạn truy cập vào url [http://code.google.com/p/smartshop-project/downloads/list  http://code.google.com/p/smartshop-project/downloads/list] , tải mã nguồn của *client* và *server*, sau đó giải nén.
+
+-          Trên thanh *Menu* của *Eclipse*, chọn *Import…* > *Thư mục General* > *Existing Projects into Workspace*, nhấn *Next*
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image032.png]
+
+Hình 4 - File > Import
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image033.png]
+
+Hình 5 - Chọn Existing Projects into Workspace và nhấn next
+
+-          Trên trường văn bản *Select root directory*, bạn chọn đường dẫn đến thư mục chứa 2 dự án mà bạn vừa giải nén, bạn có thể check vào *Copy projects into workspace* nếu bạn muốn *Eclipse* chép project vào workspace hiện hành.
+
+[http://hangxachtayusa.net/smartshop/dev/clip_image034.png]
+
+Hình 6 - Chọn Dự án vừa giải nén và nhấn Next
+
+-          Sau khi nạp mã nguồn (bằng *cách 1* hay *cách 2*), ở cửa sổ *Project Explorer* trong *Eclipse* bạn sẽ thấy 2 dự án *SmartShop-Android* và *SmartShop-ServerSide*
