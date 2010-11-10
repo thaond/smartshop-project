@@ -1,3 +1,4 @@
+#SmartShop còn giúp người tiêu dùng chủ động, tiết kiệm thời gian trong việc mua hàng và tìm kiếm sản phẩm phù hợp với nhu cầu của mình...
 <font size = "6">Giới thiệu sản phẩm</font>
 ----
 <wiki:toc max_depth="2" />
