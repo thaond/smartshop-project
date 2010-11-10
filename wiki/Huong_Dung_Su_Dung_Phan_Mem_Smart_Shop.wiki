@@ -1,24 +1,6 @@
 [#_Toc276927166 HƯỚNG DẪN SỬ DỤNG ỨNG DỤNG SMARTSHOP TRÊN ĐIỆN THOẠI ANDROID..  22]
 
-[#_Toc276927167 1.      Cài đặt ứng dụng:  22]
-
-[#_Toc276927168 2.      Màn hình chính.  23]
-
-[#_Toc276927169 3.      Màn hình Đăng nhập.  24]
-
-[#_Toc276927170 4.      Tính năng tìm kiếm sản phẩm..  26]
-
-[#_Toc276927171 a.      Tìm kiếm sản phẩm từ hệ thống SmartShop.  26]
-
-[#_Toc276927172  §          Tính năng tìm kiếm sản phẩm trên bản đồ.  34]
-
-[#_Toc276927173 b.      Tìm kiếm sản phẩm từ các hệ thống  khác.  36]
-
-[#_Toc276927174 5.      Tính năng tìm kiếm các bài viết từ hệ thống SmartShop.  39]
-
-[#_Toc276927175 6.      Các tính năng dành cho người dùng.  40]
-
-[#_Toc276927176 7.      Tính năng tự động thông báo (Notification)  48]
+<wiki:toc max_depth="2" />
 
 = HƯỚNG DẪN SỬ DỤNG ỨNG DỤNG SMARTSHOP TRÊN ĐIỆN THOẠI ANDROID =
 
