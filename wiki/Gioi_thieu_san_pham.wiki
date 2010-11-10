@@ -1,0 +1,19 @@
+<font size = "6">Giới thiệu sản phẩm</font>
+----
+<wiki:toc max_depth="2" />
+<br />            
+= 1. Đặt vấn đề =
+Ngày nay, khi nhu cầu mua bán, trao đổi của mọi người tăng cao và quan trọng hơn cả đó là thói mua sắm của người tiêu dùng đang dần thay đổi theo chiều hướng tích cực: giảm dần tâm lý mua hàng “thấy tận mắt, sờ tận tay”, luôn tìm hiểu thật kỹ lưỡng trước khi quyết định mua sản phẩm… kéo theo đó là sự ra đời và phát triển mạnh mẽ của các hình thức mua bán mới để đáp ứng nhu cầu đa dạng đó, như: các hình thức thương mại điện tử (E-commerce, M-commerce), giao hàng tận nhà... Nhưng có lẽ vẫn chưa đáp ứng được hết nhu cầu của người tiêu dùng trong việc so sánh giá cả, địa điểm, độ tin cậy cửa hàng, đánh giá của người tiêu dùng khác… Và cũng chính sự phát triển mạnh mẽ của Internet, các kênh bán hàng trên mạng ngày càng nở rộ đã khiến người tiêu dùng khó khăn trong việc chọn lựa các sản phẩm phù hợp nhất với nhu cầu của mình một cách dễ dàng và ít tốn chi phí nhất.
+
+Bên cạnh đó sự phát triển mạnh mẽ của các công nghệ di dộng và nhu cầu khai thác các dịch vụ hướng địa điểm (Location Based Services) nhằm mang đến những tiện ích tuyệt vời cho người sử dụng trong lĩnh vực thương mại điện tử.
+ 
+Còn về phía người bán, các nhu cầu như: phát triển hệ thống kinh doanh trực tuyến, đăng những thông tin mới, kiểm hàng hóa, quảng bá các mặt hàng đến người tay tiêu dùng một cách tiện lợi nhất… lại trở nên cấp thiết.  
+
+= 2. Giải pháp =
+Sản phẩm SmartShop ra đời như là một dịch vụ giúp người tiêu dùng có những lựa chọn sáng suốt hơn bằng việc tăng khả năng lựa chọn, tìm kiếm sản phẩm theo một tiêu chí nào đó, hoặc theo địa điểm thông qua hệ thống cơ sở dữ liệu đã được tổng hợp từ các doanh nghiệp và các trang mua sắm khác để từ đó đưa ra những so sánh quý giá.  
+
+Ngoài ra, SmartShop còn giúp người tiêu dùng chủ động, tiết kiệm thời gian trong việc mua hàng và tìm kiếm sản phẩm phù hợp với nhu cầu của mình bằng việc cung cấp tính năng đăng ký sản phẩm quan tâm theo địa điểm, từ khóa, danh mục… và thông báo qua Email, SMS và Push Notification ngay lập tức khi sản phẩm được đăng.
+ 
+Đối với người bán, bên cạnh khả năng cung cấp cho họ nơi để quảng bá sản phẩm hiệu quả, họ còn có thể sử dụng hệ thống mở của SmartShop để xây dựng hệ thống mua bán trực tuyến dễ dàng hoặc sử dụng các dịch vụ mở của chương trình tạo một kênh thông tin trung gian giữa khách hàng và doanh nghiệp, giúp quảng bá doanh nghiệp dễ dàng hơn. Ngoài ra, người bán dễ dàng chia sẻ, giới thiệu sản phẩm của mình thông qua các mạng xã hội lớn hiện nay như Facebook. Đồng thời, SmartShop tăng sự giao tiếp, giữ liên lạc 2 chiều giữa người bán và người mua: người bán cung cấp các thông tin chi tiết về sản phẩm và giới thiệu đến các khách hàng quan tâm, khách hàng cũ; người mua sẽ phản hồi, đánh giá độ uy tín của người bán, sản phẩm…
+
+Và quan trọng hơn cả, bên cạnh việc thiết kế với tính mở cao nhất, SmartShop cung cấp các API cho nhà phát triển khác có thể sử dụng những dịch vụ hữu ích của hệ thống.
