@@ -1,5 +1,6 @@
-HƯỚNG DẪN SỬ DỤNG ỨNG DỤNG SMARTSHOP TRÊN ĐIỆN THOẠI ANDROID
+<font size ="6">HƯỚNG DẪN SỬ DỤNG ỨNG DỤNG SMARTSHOP TRÊN ĐIỆN THOẠI ANDROID</font>
 
+<font size ="4">NỘI DUNG</font>
 <wiki:toc max_depth="2" />
 
 
