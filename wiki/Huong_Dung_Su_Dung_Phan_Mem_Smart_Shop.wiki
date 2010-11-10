@@ -97,7 +97,7 @@ phải vào Setting -&gt; Applications -&gt; check vào ô Unknown sources (cho 
   -         
  Splash 
 screen hiển thị lúc khởi động chương trình.
-
+[http://hangxachtayusa.net/smartshop/android/clip_image004.jpg]
         
   -         
  Màn 
