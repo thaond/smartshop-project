@@ -1,10 +1,9 @@
-[#_Toc276927166 HƯỚNG DẪN SỬ DỤNG ỨNG DỤNG SMARTSHOP TRÊN ĐIỆN THOẠI ANDROID..  22]
+HƯỚNG DẪN SỬ DỤNG ỨNG DỤNG SMARTSHOP TRÊN ĐIỆN THOẠI ANDROID
 
 <wiki:toc max_depth="2" />
 
-= HƯỚNG DẪN SỬ DỤNG ỨNG DỤNG SMARTSHOP TRÊN ĐIỆN THOẠI ANDROID =
 
-== 1.      Cài đặt ứng dụng: ==
+= 1.      Cài đặt ứng dụng: ==
 
 -          Download file .apk phiên bản SmartShop mới nhất tại địa chỉ [http://code.google.com/p/smartshop-project/downloads/list  http://code.google.com/p/smartshop-project/downloads/list]. Sau đó bạn theo 1 trong 2 hướng dẫn cài đặt sau:
 
@@ -28,7 +27,7 @@
 
 *  Lưu ý:* phải vào Setting -> Applications -> check vào ô Unknown sources (cho phép cài đặt các ứng dụng không trong Market)
 
-== 2.      Màn hình chính ==
+= 2.      Màn hình chính ==
 
 [http://hangxachtayusa.net/smartshop/android/clip_image004.jpg]
 
@@ -46,7 +45,7 @@
 
 §  Đăng ký: dành cho người chưa có tài khoản trên hệ thống SmartShop.
 
-== 3.       Màn hình Đăng nhập ==
+= 3.       Màn hình Đăng nhập ==
 
 -          Từ màn hình chính chọn Đăng nhập.
 
@@ -62,7 +61,7 @@
 
 [http://hangxachtayusa.net/smartshop/android/clip_image012.jpg]
 
-== 4.       Tính năng tìm kiếm sản phẩm ==
+= 4.       Tính năng tìm kiếm sản phẩm ==
 
 === a.     Tìm kiếm sản phẩm từ hệ thống SmartShop ===
 
@@ -212,7 +211,7 @@
 
 [http://hangxachtayusa.net/smartshop/android/clip_image090.jpg]
 
-== 5.       Tính năng tìm kiếm các bài viết từ hệ thống SmartShop ==
+= 5.       Tính năng tìm kiếm các bài viết từ hệ thống SmartShop ==
 
 [http://hangxachtayusa.net/smartshop/android/clip_image092.jpg]
 
@@ -236,7 +235,7 @@
 
 [http://hangxachtayusa.net/smartshop/android/clip_image096.jpg]
 
-== 6.       Các tính năng dành cho người dùng ==
+= 6.       Các tính năng dành cho người dùng ==
 
 -          Tại màn hình chính, người dùng chọn menu Thông tin, màn hình Thông tin cá nhân của người dùng sẽ được hiển thị.
 
@@ -322,9 +321,8 @@
 
 * [http://hangxachtayusa.net/smartshop/android/clip_image140.jpg]*
 
-=  =
 
-== 7.       Tính năng tự động thông báo   (Notification) ==
+= 7.       Tính năng tự động thông báo   (Notification) ==
 
 [http://hangxachtayusa.net/smartshop/android/clip_image142.jpg]
 
