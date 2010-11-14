@@ -16,7 +16,7 @@ public class ItemNode extends Anchor {
 	private String filePath;
 
 	public ItemNode(String name, String token, String filePath) {
-		super(name);
+		super(name, true);
 
 		this.name = name;
 		this.token = token;
