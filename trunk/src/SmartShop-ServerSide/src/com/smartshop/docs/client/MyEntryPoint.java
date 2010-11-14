@@ -20,11 +20,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class MyEntryPoint implements EntryPoint{
 	@Override
 	public void onModuleLoad() {
-		RootPanel.get().add(new MainPanel());
+		RootPanel.get().add(MainPanel.getInstance());
 		
 		History.addValueChangeHandler(HistoryManager.getInstance());
 		History.fireCurrentHistoryState();
 		
+		//RootPanel.get().add(FullServicesPanel.getInstance());
 	}
 
 	void testImage() {

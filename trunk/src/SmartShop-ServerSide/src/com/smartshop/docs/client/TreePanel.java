@@ -80,6 +80,7 @@ public class TreePanel extends VerticalPanel {
 				"dev-subcribe", "/doc/dev-subcribe.html");
 		ItemNode itemPage = new ItemNode("Trang thông tin", "dev-page",
 				"/doc/dev-page.html");
+		ItemNode itemFullServices = new ItemNode("ĐẦY ĐỦ DỊCH VỤ <img src=\"./images/new.png\" border=0 />", "dev-full-services", null);
 
 		rootDev.addItem(itemDevIntro);
 		rootDev.addItem(itemDevSignUp);
@@ -90,6 +91,7 @@ public class TreePanel extends VerticalPanel {
 		rootDev.addItem(itemSubcribe);
 		rootDev.addItem(itemMap);
 		rootDev.addItem(itemSMSEmail);
+		rootDev.addItem(itemFullServices);
 		rootDev.setState(true);
 		treeDev.addItem(rootDev);
 

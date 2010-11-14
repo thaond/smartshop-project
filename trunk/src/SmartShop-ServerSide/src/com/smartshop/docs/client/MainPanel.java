@@ -7,12 +7,20 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.smartshop.docs.client.rpc.RPCService;
 import com.smartshop.docs.client.rpc.RPCServiceAsync;
 import com.smartshop.docs.client.utils.ClientUtil;
 import com.smartshop.docs.share.GoogleUser;
 
 public class MainPanel extends FlowPanel {
+	private static MainPanel instance = null;
+	
+	public static MainPanel getInstance(){
+		if (instance == null)
+			instance = new MainPanel();
+		return instance;
+	}
 
 	private RPCServiceAsync rpcServiceAsync = RPCService.Util.getInstance();
 	private HTML linkLogin;
@@ -21,7 +29,7 @@ public class MainPanel extends FlowPanel {
 	private HorizontalSplitPanel pnlMain;
 	private Label lblTitle;
 
-	public MainPanel() {
+	private MainPanel() {
 		initUI();
 		initOther();
 		// add to root
@@ -53,6 +61,10 @@ public class MainPanel extends FlowPanel {
 
 		pnlMain.setLeftWidget(TreePanel.getInstance());
 		pnlMain.setRightWidget(ContentPanel.getInstance());
+	}
+	
+	public void setRightWidget(Widget w){
+		pnlMain.setRightWidget(w);
 	}
 
 	private void initOther() {

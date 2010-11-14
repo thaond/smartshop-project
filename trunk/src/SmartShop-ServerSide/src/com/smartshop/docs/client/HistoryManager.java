@@ -23,13 +23,16 @@ public class HistoryManager implements ValueChangeHandler<String> {
 
 	private HistoryManager() {
 	}
-	
-	private void onHistoryChange(String token){
+
+	private void onHistoryChange(String token) {
 		if (token.equals(""))
 			token = "intro";
-		if (ClientUtil.mapNode.containsKey(token)) {
+		if (token.equals("dev-full-services")) {
+			MainPanel.getInstance().setRightWidget(FullServicesPanel.getInstance());
+		} else if (ClientUtil.mapNode.containsKey(token)) {
 			ItemNode itemNode = ClientUtil.mapNode.get(token);
 			ContentPanel.getInstance().showData(itemNode);
+			MainPanel.getInstance().setRightWidget(ContentPanel.getInstance());
 		}
 	}
 
