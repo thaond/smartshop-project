@@ -302,7 +302,6 @@ public class AndroidFileBrowser extends ListActivity {
 		String selectedFileString = this.directoryEntries.get(selectionRowID)
 				.getText();
 
-		// TODO
 		// if (selectedFileString.equals(getString(R.string.current_dir))) {
 		// // Refresh
 		// this.browseTo(this.currentDirectory);

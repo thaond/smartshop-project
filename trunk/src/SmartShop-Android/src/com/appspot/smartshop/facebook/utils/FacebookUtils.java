@@ -7,8 +7,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.appspot.smartshop.R;
 import com.appspot.smartshop.facebook.core.AsyncFacebookRunner;
 import com.appspot.smartshop.facebook.core.DialogError;
 import com.appspot.smartshop.facebook.core.Facebook;
@@ -26,15 +28,24 @@ public class FacebookUtils {
 	private Activity activity;
 	private static final String TAG = "[FacebookUtils]";
 	// Variable for Facebook's connection
-	private final String APP_ID = "168183433192672"; // SmartShop API Key on
-	private final String[] PERMISSIONS = new String[] { "publish_stream",
-			"read_stream", "offline_access" };
+	private static final String APP_ID = "168183433192672"; // SmartShop API Key
+															// on
+	private static final String[] PERMISSIONS = new String[] {
+			"publish_stream", "read_stream", "offline_access" };
 	private Facebook mFacebook;
 	private AsyncFacebookRunner mAsyncRunner;
+	private Button btnLogin;
 
 	public FacebookUtils(Activity context) {
 		this.activity = context;
 		init();
+	}
+
+	public FacebookUtils(Activity context, Button btnLogin) {
+		this(context);
+
+		this.btnLogin = btnLogin;
+
 	}
 
 	private void init() {
@@ -137,11 +148,15 @@ public class FacebookUtils {
 
 		public void onLogoutBegin() {
 			Log.d(TAG, "onLogoutBegin");
+			if (btnLogin != null)
+				btnLogin.setBackgroundResource(R.drawable.logout_button);
 		}
 
 		public void onLogoutFinish() {
 			Log.d(TAG, "onLogoutFinish");
 			SessionStore.clear(activity);
+			if (btnLogin != null)
+				btnLogin.setBackgroundResource(R.drawable.login_button);
 		}
 	}
 
