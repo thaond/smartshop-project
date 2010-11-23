@@ -102,114 +102,115 @@ public class SampleData {
 		ArrayList<Product> products = new ArrayList<Product>();
 
 		Product product;
-		product = new Product("Billiards - Bar - Coffee Inter", 7, false, 2,
-				"12 month", "Việt Nam", "708, Lê Hồng Phong, P.12, Q.10, HCM",
-				10.774344, 106.671703, "Billiards - Bar - Coffee Inter", 3,
-				new Date(110, 1, 1), "hieu");
-		product.getSetCategoryKeys().add("coffee");
-		products.add(product);
-		product = new Product("Đen & Trắng Coffee", 1000, false, 2, "12 month",
-				"Việt Nam", "47, Tú Xương, P.7, Q.3", 10.779698, 106.68535,
-				"Không gian yên tĩnh", 3, new Date(110, 8, 12), "tam");
-		product.getSetCategoryKeys().add("coffee");
-		products.add(product);
-
-		product = new Product("Coffee World", 20, false, 2, "12 month",
-				"China", "Võ Văn Tần, 6th Ward, Saigon", 10.776494, 106.689985,
-				"Phục vụ chu đáo", 3, new Date(110, 7, 5), "duc");
-		product.getSetCategoryKeys().add("coffee");
-		products.add(product);
-
-		product = new Product("New Pearl", 3, false, 2, "6 month", "China",
-				"205 Pham Ngu Lao, Phạm Ngũ Lão, District 1", 10.770213,
-				106.693118, "Giá cả phải chăng", 3, new Date(110, 4, 3),
-				"nghia");
-		product.getSetCategoryKeys().add("coffee");
-		products.add(product);
-
-		product = new Product("Fruit shake", 200, false, 2, "12 month",
-				"China", "72 Nguyen Cu Trinh, Ho Chi Minh City", 10.765322,
-				106.689942, "Không gian sang trọng, quý phái", 3, new Date(110,
-						2, 3), "nghia");
-		product.getSetCategoryKeys().add("coffee");
-		products.add(product);
-
-		/* Mobile sample */
-		product = new Product("Nokia 6670", 1000, false, 2, "12 month",
-				"China", "Tân Hòa Đông", 10.764789, 106.618749,
-				"Chất lượng vượt thời gian", 3, new Date(110, 5, 6), "tam");
-		product.getSetCategoryKeys().add("mobile_pda_sub");
-		products.add(product);
-
-		product = new Product("Samsung wave", 3000, false, 2, "12 month",
-				"China", "Tân Hòa Đông", 10.764789, 106.618749,
-				"Chất lượng vượt thời gian", 3, new Date(110, 6, 5), "tam");
-		product.getSetCategoryKeys().add("mobile_pda_sub");
-		products.add(product);
-
-		product = new Product("Nokia 1110", 1000, false, 2, "12 month",
-				"China", "Đường Hòa Bình", 10.770059, 106.632653,
-				"Chất lượng vượt thời gian", 3, new Date(110, 2, 1), "duc");
-		product.getSetCategoryKeys().add("mobile_pda_sub");
-		products.add(product);
-
-		product = new Product("Android G1", 1000, false, 2, "12 month",
-				"China", "Trường Chinh", 10.831394, 106.622547,
-				"Chất lượng vượt thời gian", 3, new Date(110, 7, 9), "hieu");
-		product.getSetCategoryKeys().add("mobile_pda_sub");
-		products.add(product);
-
-		/* accessories sample */
-		product = new Product("Sạc Nokia", 1000, false, 2, "12 month", "China",
-				"Tân Hòa Đông", 10.764789, 106.618749,
-				"Chất lượng vượt thời gian", 3, new Date(110, 1, 10), "tam");
-		product.getSetCategoryKeys().add("mobile_accessories");
-		products.add(product);
-
-		product = new Product("Sạc Samsung wave", 3000, false, 2, "12 month",
-				"China", "Tân Hòa Đông", 10.764789, 106.618749,
-				"Chất lượng vượt thời gian", 3, new Date(110, 10, 24), "tam");
-		product.getSetCategoryKeys().add("mobile_accessories");
-		products.add(product);
-
-		product = new Product("Sạc Nokia 1110", 1000, false, 2, "12 month",
-				"China", "Đường Hòa Bình", 10.770059, 106.632653,
-				"Chất lượng vượt thời gian", 3, new Date(110, 3, 5), "duc");
-		product.getSetCategoryKeys().add("mobile_accessories");
-		products.add(product);
-
-		product = new Product("Sạc Android G1", 1000, false, 2, "12 month",
-				"China", "Trường Chinh", 10.831394, 106.622547,
-				"Chất lượng vượt thời gian", 3, new Date(110, 6, 9), "hieu");
-		product.getSetCategoryKeys().add("mobile_accessories");
-		products.add(product);
-
-		/* Laptop */
-		product = new Product("sony vaio CW23 ", 1200, false, 2, "12 month",
-				"China", "Đường Quang Trung", 10.841553, 106.644005,
-				"Man hình rất xịn", 3, new Date(110, 4, 3), "tamvo");
-		product.getSetCategoryKeys().add("laptop");
-		products.add(product);
-
-		product = new Product("sony vaio  F115", 1000, false, 2, "12 month",
-				"China", "Binh Tan", 10.777268, 106.6563, "Man hình rất xịn",
-				3, new Date(110, 1, 7), "tamvo");
-		product.getSetCategoryKeys().add("laptop");
-		products.add(product);
-
-		product = new Product("HP Envy", 2000, false, 2, "12 month", "USA",
-				"Tan Binh", 10.777268, 106.6563, "Màn hình 3D", 3, new Date(
-						110, 2, 3), "hieu");
-		product.getSetCategoryKeys().add("laptop");
-		products.add(product);
-
-		product = new Product("HP Pavillon", 7000, false, 2, "12 month",
-				"China", "Q3", 10.777268, 106.6563, "Man hình rất xịn", 3,
-				new Date(110, 1, 2), "duc");
-		product.getSetCategoryKeys().add("laptop");
-		products.add(product);
 		
-		//TODO
+//		product = new Product("Billiards - Bar - Coffee Inter", 7, false, 2,
+//				"12 month", "Việt Nam", "708, Lê Hồng Phong, P.12, Q.10, HCM",
+//				10.774344, 106.671703, "Billiards - Bar - Coffee Inter", 3,
+//				new Date(110, 1, 1), "hieu");
+//		product.getSetCategoryKeys().add("coffee");
+//		products.add(product);
+//		product = new Product("Đen & Trắng Coffee", 1000, false, 2, "12 month",
+//				"Việt Nam", "47, Tú Xương, P.7, Q.3", 10.779698, 106.68535,
+//				"Không gian yên tĩnh", 3, new Date(110, 8, 12), "tam");
+//		product.getSetCategoryKeys().add("coffee");
+//		products.add(product);
+//
+//		product = new Product("Coffee World", 20, false, 2, "12 month",
+//				"China", "Võ Văn Tần, 6th Ward, Saigon", 10.776494, 106.689985,
+//				"Phục vụ chu đáo", 3, new Date(110, 7, 5), "duc");
+//		product.getSetCategoryKeys().add("coffee");
+//		products.add(product);
+//
+//		product = new Product("New Pearl", 3, false, 2, "6 month", "China",
+//				"205 Pham Ngu Lao, Phạm Ngũ Lão, District 1", 10.770213,
+//				106.693118, "Giá cả phải chăng", 3, new Date(110, 4, 3),
+//				"nghia");
+//		product.getSetCategoryKeys().add("coffee");
+//		products.add(product);
+//
+//		product = new Product("Fruit shake", 200, false, 2, "12 month",
+//				"China", "72 Nguyen Cu Trinh, Ho Chi Minh City", 10.765322,
+//				106.689942, "Không gian sang trọng, quý phái", 3, new Date(110,
+//						2, 3), "nghia");
+//		product.getSetCategoryKeys().add("coffee");
+//		products.add(product);
+//
+//		/* Mobile sample */
+//		product = new Product("Nokia 6670", 1000, false, 2, "12 month",
+//				"China", "Tân Hòa Đông", 10.764789, 106.618749,
+//				"Chất lượng vượt thời gian", 3, new Date(110, 5, 6), "tam");
+//		product.getSetCategoryKeys().add("mobile_pda_sub");
+//		products.add(product);
+//
+//		product = new Product("Samsung wave", 3000, false, 2, "12 month",
+//				"China", "Tân Hòa Đông", 10.764789, 106.618749,
+//				"Chất lượng vượt thời gian", 3, new Date(110, 6, 5), "tam");
+//		product.getSetCategoryKeys().add("mobile_pda_sub");
+//		products.add(product);
+//
+//		product = new Product("Nokia 1110", 1000, false, 2, "12 month",
+//				"China", "Đường Hòa Bình", 10.770059, 106.632653,
+//				"Chất lượng vượt thời gian", 3, new Date(110, 2, 1), "duc");
+//		product.getSetCategoryKeys().add("mobile_pda_sub");
+//		products.add(product);
+//
+//		product = new Product("Android G1", 1000, false, 2, "12 month",
+//				"China", "Trường Chinh", 10.831394, 106.622547,
+//				"Chất lượng vượt thời gian", 3, new Date(110, 7, 9), "hieu");
+//		product.getSetCategoryKeys().add("mobile_pda_sub");
+//		products.add(product);
+//
+//		/* accessories sample */
+//		product = new Product("Sạc Nokia", 1000, false, 2, "12 month", "China",
+//				"Tân Hòa Đông", 10.764789, 106.618749,
+//				"Chất lượng vượt thời gian", 3, new Date(110, 1, 10), "tam");
+//		product.getSetCategoryKeys().add("mobile_accessories");
+//		products.add(product);
+//
+//		product = new Product("Sạc Samsung wave", 3000, false, 2, "12 month",
+//				"China", "Tân Hòa Đông", 10.764789, 106.618749,
+//				"Chất lượng vượt thời gian", 3, new Date(110, 10, 24), "tam");
+//		product.getSetCategoryKeys().add("mobile_accessories");
+//		products.add(product);
+//
+//		product = new Product("Sạc Nokia 1110", 1000, false, 2, "12 month",
+//				"China", "Đường Hòa Bình", 10.770059, 106.632653,
+//				"Chất lượng vượt thời gian", 3, new Date(110, 3, 5), "duc");
+//		product.getSetCategoryKeys().add("mobile_accessories");
+//		products.add(product);
+//
+//		product = new Product("Sạc Android G1", 1000, false, 2, "12 month",
+//				"China", "Trường Chinh", 10.831394, 106.622547,
+//				"Chất lượng vượt thời gian", 3, new Date(110, 6, 9), "hieu");
+//		product.getSetCategoryKeys().add("mobile_accessories");
+//		products.add(product);
+//
+//		/* Laptop */
+//		product = new Product("sony vaio CW23 ", 1200, false, 2, "12 month",
+//				"China", "Đường Quang Trung", 10.841553, 106.644005,
+//				"Man hình rất xịn", 3, new Date(110, 4, 3), "tamvo");
+//		product.getSetCategoryKeys().add("laptop");
+//		products.add(product);
+//
+//		product = new Product("sony vaio  F115", 1000, false, 2, "12 month",
+//				"China", "Binh Tan", 10.777268, 106.6563, "Man hình rất xịn",
+//				3, new Date(110, 1, 7), "tamvo");
+//		product.getSetCategoryKeys().add("laptop");
+//		products.add(product);
+//
+//		product = new Product("HP Envy", 2000, false, 2, "12 month", "USA",
+//				"Tan Binh", 10.777268, 106.6563, "Màn hình 3D", 3, new Date(
+//						110, 2, 3), "hieu");
+//		product.getSetCategoryKeys().add("laptop");
+//		products.add(product);
+//
+//		product = new Product("HP Pavillon", 7000, false, 2, "12 month",
+//				"China", "Q3", 10.777268, 106.6563, "Man hình rất xịn", 3,
+//				new Date(110, 1, 2), "duc");
+//		product.getSetCategoryKeys().add("laptop");
+//		products.add(product);
+//		
+//		//TODO
 		//////////////////
 		product = new Product("Nokia N95 8GB", 7000, false, 2, "12 tháng",
 				"China", "Công Ty CP Thế Giới Số Trần Anh (trananh)",
@@ -243,7 +244,7 @@ public class SampleData {
 		products.add(product);
 		
 ////////////////////
-		product = new Product("Bán Samsung E2370 A837 chống nước,Toshiba G450,Motorola V8,O2 Cocoon", 7000, false, 2, "12 tháng",
+		product = new Product("Samsung E2370 A837 chống nước,Toshiba G450,Motorola V8,O2 Cocoon", 7000, false, 2, "12 tháng",
 				"China", "247 Phan Đăng Lưu - Hà Nội",
 				10.777268, 106.6563, UtilsFunction
 						.getContent("./sample/o2_cocoon.txt"), 3,
@@ -344,7 +345,7 @@ public class SampleData {
 		products.add(product);
 		
 ////////////////////
-		product = new Product("", 7000, false, 2, "12 tháng",
+		product = new Product("HTC", 7000, false, 2, "12 tháng",
 				"China", "số 635 Minh Khai (ngã ba Minh Khai – Lạc Trung) Phường Vĩnh Tuy – Quận Hai Bà Trưng – Hà Nội.",
 				10.777268, 106.6563, UtilsFunction
 						.getContent("./sample/htc.txt"), 3,
@@ -362,6 +363,27 @@ public class SampleData {
 		product.getSetMedias().add(new Media("HTC s620","http://enbac2.vcmedia.vn/up_new/2009/12/30/item/168/167679/20091230102447_large_10_2009_1254480784.gif"));
 		product.getSetMedias().add(new Media("HTC s620","http://enbac2.vcmedia.vn/up_new/2009/12/30/item/168/167679/20091230102728_hof1254878549.jpg"));
 		product.getSetMedias().add(new Media("HTC s620","http://enbac2.vcmedia.vn/up_new/2009/12/30/item/168/167679/20091230102742_htc_hero_375x378_custom.jpg"));
+		products.add(product);
+		
+		product = new Product("Y5 Cafe Sách", 10, false, 1,
+				"", "", "136, Xuân Thủy, Q.Cầu Giấy",
+				21.036735,105.783689, "Phù hợp túi tiền sinh viên", 123,
+				new Date(110, 1, 1), "hieu");
+		product.getSetCategoryKeys().add("coffee");
+		products.add(product);
+		
+		product = new Product("Cafe Internet Sinh Viên", 12, false, 1,
+				"", "", "205, Xuân Thủy, Q.Cầu Giấy",
+				21.036613, 105.784218, "Phù hợp túi tiền sinh viên", 200,
+				new Date(110, 2, 1), "tam");
+		product.getSetCategoryKeys().add("coffee");
+		products.add(product);
+		
+		product = new Product("Cafe Deco", 15, false, 1,
+				"", "", "197, Xuân Thủy, Q.Cầu Giấy",
+				21.036638,105.784287, "Phù hợp túi tiền sinh viên", 250,
+				new Date(110, 3, 1), "duc");
+		product.getSetCategoryKeys().add("coffee");
 		products.add(product);
 		
 		return products;
