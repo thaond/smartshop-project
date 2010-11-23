@@ -10,4 +10,9 @@
 	<ListView android:layout_height="fill_parent" android:id="@+id/listInfo"
 		android:layout_width="fill_parent" android:layout_weight="1"
 		android:background="@color/background"></ListView>
+
+	<Button android:id="@+id/btnLogin" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:gravity="center_horizontal"
+		android:src="@drawable/login_button" android:layout_gravity="center_horizontal" />
+
 </LinearLayout>

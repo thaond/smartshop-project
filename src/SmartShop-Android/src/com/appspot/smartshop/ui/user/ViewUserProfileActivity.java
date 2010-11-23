@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import com.appspot.smartshop.R;
 import com.appspot.smartshop.dom.UserInfo;
+import com.appspot.smartshop.facebook.utils.FacebookUtils;
 import com.appspot.smartshop.ui.BaseUIActivity;
 import com.appspot.smartshop.ui.page.PageActivity;
 import com.appspot.smartshop.ui.page.PagesListActivity;
@@ -35,18 +38,20 @@ import com.appspot.smartshop.utils.Utils;
  */
 public class ViewUserProfileActivity extends BaseUIActivity {
 	public static final String TAG = "[ViewUserProfileActivity]";
-	
+
 	private ListView listInfos;
 	private ImageView imgAvatar;
 	private ProfileAdapter adapter;
 	private UserInfo userInfo;
 	private boolean isOwn = true;
-	
+
+	private FacebookUtils fb;
+
 	@Override
 	protected void onCreatePre() {
 		setContentView(R.layout.user_profile);
 	}
-	
+
 	@Override
 	protected void onCreatePost(Bundle savedInstanceState) {
 		adapter = new ProfileAdapter(ViewUserProfileActivity.this,
@@ -54,7 +59,7 @@ public class ViewUserProfileActivity extends BaseUIActivity {
 		imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
 		listInfos = (ListView) findViewById(R.id.listInfo);
 		listInfos.setAdapter(adapter);
-		
+
 		// user function buttons
 
 		Button btnSubcribe = (Button) findViewById(R.id.btnSubcribe);
@@ -66,13 +71,13 @@ public class ViewUserProfileActivity extends BaseUIActivity {
 			btnSubcribe.setVisibility(View.GONE);
 			// View other profile
 			isOwn = false;
-			//userInfo = (UserInfo) tmp.get(Global.USER_INFO); vanloi999 has replace this statement by the next one
+			// userInfo = (UserInfo) tmp.get(Global.USER_INFO); vanloi999 has
+			// replace this statement by the next one
 			userInfo = Global.userInfo;
 			viewProfile();
 		} else if (Global.userInfo == null) {
-			
-			Utils.createOKDialog(
-					this, getString(R.string.notice),
+
+			Utils.createOKDialog(this, getString(R.string.notice),
 					getString(R.string.errMustLoginToViewProfile),
 					new DialogInterface.OnClickListener() {
 
@@ -91,10 +96,28 @@ public class ViewUserProfileActivity extends BaseUIActivity {
 			userInfo = Global.userInfo;
 			viewProfile();
 		}
+
+		Button btnLogin = (Button) findViewById(R.id.btnLogin);
+		btnLogin.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (fb.isLogin()) {
+					fb.logout();
+				} else {
+					fb.login();
+				}
+			}
+		});
+
+		fb = new FacebookUtils(this);
+		btnLogin.setBackgroundColor(Color.TRANSPARENT);
+		btnLogin.setBackgroundResource(fb.isLogin() ? R.drawable.logout_button
+				: R.drawable.login_button);
 	}
 
 	private void viewProfile() {
-//		userInfo.avatarLink = "http://10.0.2.2/uploads/tam1234/a.jpg";
+		// userInfo.avatarLink = "http://10.0.2.2/uploads/tam1234/a.jpg";
 		Log.d(TAG, "fdsfdsfs");
 		if (StringUtils.isEmptyOrNull(userInfo.avatarLink)) {
 			imgAvatar.setBackgroundDrawable(Global.drawableNoAvatar);
@@ -102,9 +125,8 @@ public class ViewUserProfileActivity extends BaseUIActivity {
 			try {
 				Bitmap bitmapAvatar = Utils
 						.getBitmapFromURL(userInfo.avatarLink);
-				bitmapAvatar = Bitmap.createScaledBitmap(bitmapAvatar,
-						150, 150,
-						true);
+				bitmapAvatar = Bitmap.createScaledBitmap(bitmapAvatar, 150,
+						150, true);
 				imgAvatar.setImageBitmap(bitmapAvatar);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -159,21 +181,25 @@ public class ViewUserProfileActivity extends BaseUIActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (isOwn){
+		if (isOwn) {
 			menu.add(0, R.string.my_page_list, 0,
-					getString(R.string.my_page_list)).setIcon(R.drawable.user_pages_list);
+					getString(R.string.my_page_list)).setIcon(
+					R.drawable.user_pages_list);
 			menu.add(0, R.string.my_product_list, 1,
-					getString(R.string.my_product_list)).setIcon(R.drawable.user_products_list);
+					getString(R.string.my_product_list)).setIcon(
+					R.drawable.user_products_list);
 			menu.add(0, R.string.add_new_page, 2,
-					getString(R.string.add_new_page)).setIcon(R.drawable.add_new_page);
+					getString(R.string.add_new_page)).setIcon(
+					R.drawable.add_new_page);
 			menu.add(0, R.string.add_new_product, 0,
-					getString(R.string.add_new_product)).setIcon(R.drawable.post_new_product);
-			menu.add(0, R.string.user_info, 1,
-					getString(R.string.user_info)).setIcon(R.drawable.user_info);
-			menu.add(0, R.string.subcribe, 2,
-					getString(R.string.subcribe)).setIcon(R.drawable.subcribe);	
-			menu.add(0, R.string.addFriend, 3,
-					getString(R.string.addFriend)).setIcon(R.drawable.add_friend);	
+					getString(R.string.add_new_product)).setIcon(
+					R.drawable.post_new_product);
+			menu.add(0, R.string.user_info, 1, getString(R.string.user_info))
+					.setIcon(R.drawable.user_info);
+			menu.add(0, R.string.subcribe, 2, getString(R.string.subcribe))
+					.setIcon(R.drawable.subcribe);
+			menu.add(0, R.string.addFriend, 3, getString(R.string.addFriend))
+					.setIcon(R.drawable.add_friend);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -183,45 +209,51 @@ public class ViewUserProfileActivity extends BaseUIActivity {
 		Intent intent = null;
 		switch (item.getItemId()) {
 		case R.string.my_page_list:
-//			Intent intent = new Intent(ViewUserProfileActivity.this,
-//					ViewUserInfoActivity.class);
-//			intent.putExtra(Global.USER_INFO, Global.userInfo);
-//			startActivityForResult(intent, R.string.edit_profile);
-//			break;
-			intent = new Intent(ViewUserProfileActivity.this, PagesListActivity.class);
+			// Intent intent = new Intent(ViewUserProfileActivity.this,
+			// ViewUserInfoActivity.class);
+			// intent.putExtra(Global.USER_INFO, Global.userInfo);
+			// startActivityForResult(intent, R.string.edit_profile);
+			// break;
+			intent = new Intent(ViewUserProfileActivity.this,
+					PagesListActivity.class);
 			intent.putExtra(Global.PAGES_TYPE, PagesListActivity.PAGES_OF_USER);
 			intent.putExtra(Global.PAGES_OF_USER, Global.userInfo.username);
 			startActivity(intent);
 			break;
 		case R.string.my_product_list:
-			intent = new Intent(ViewUserProfileActivity.this, UserProductListActivity.class);
+			intent = new Intent(ViewUserProfileActivity.this,
+					UserProductListActivity.class);
 			intent.putExtra(Global.PRODUCTS_OF_USER, Global.userInfo.username);
 			startActivity(intent);
 			break;
 		case R.string.add_new_page:
-			intent = new Intent(ViewUserProfileActivity.this, PageActivity.class);
+			intent = new Intent(ViewUserProfileActivity.this,
+					PageActivity.class);
 			startActivity(intent);
 			break;
 		case R.string.add_new_product:
-			intent = new Intent(ViewUserProfileActivity.this, PostProductActivity.class);
+			intent = new Intent(ViewUserProfileActivity.this,
+					PostProductActivity.class);
 			startActivity(intent);
 			break;
 		case R.string.user_info:
-			intent = new Intent(ViewUserProfileActivity.this, ViewUserInfoActivity.class);
+			intent = new Intent(ViewUserProfileActivity.this,
+					ViewUserInfoActivity.class);
 			intent.putExtra(Global.USER_INFO, Global.userInfo);
 			intent.putExtra(Global.CAN_EDIT_USER_INFO, true);
 			startActivity(intent);
 			break;
 		case R.string.subcribe:
-			intent = new Intent(ViewUserProfileActivity.this, UserSubcribeListActivity.class);
-//			intent.pu???
+			intent = new Intent(ViewUserProfileActivity.this,
+					UserSubcribeListActivity.class);
+			// intent.pu???
 			startActivity(intent);
 			break;
-		case  R.string.addFriend:
-			intent = new Intent(ViewUserProfileActivity.this,AddFriendActivity.class);
+		case R.string.addFriend:
+			intent = new Intent(ViewUserProfileActivity.this,
+					AddFriendActivity.class);
 			startActivity(intent);
 			break;
-			
 
 		default:
 			break;
