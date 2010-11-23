@@ -19,6 +19,7 @@ import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
+import vnfoss2010.smartshop.serverside.sms.SendSMS;
 import vnfoss2010.smartshop.serverside.utils.SearchJanitorUtils;
 import vnfoss2010.smartshop.serverside.utils.UtilsFunction;
 
@@ -105,11 +106,19 @@ public class RegisterProductService extends BaseRestfulService {
 												subcribe.getId(),
 												product.getId(),
 												subcribe.getUsername());
+
 								if (!insertNotiService.isOK()) {
 									result.setMessage(result.getMessage()
 											+ ";exception1:"
 											+ insertNotiService.getMessage());
 								}
+								if (subcribe.getType_notification() % 100 >= 10) {
+									if (sendSMS(subcribe, product.getId()) == false) {
+										result.setMessage(result.getMessage()
+												+ ";exception2: gui tin nhan ko thanh cong");
+									}
+								}
+
 							}
 							// }
 						}
@@ -127,6 +136,17 @@ public class RegisterProductService extends BaseRestfulService {
 		jsonReturn.put("errCode", result.isOK() ? 0 : 1);
 		jsonReturn.put("message", result.getMessage());
 		return jsonReturn.toString();
+	}
+
+	private boolean sendSMS(UserSubcribeProduct subcribe, long productID) {
+		ServiceResult<UserInfo> userResult = dbAccount.getUserInfo(subcribe
+				.getUsername());
+		if (userResult.isOK()) {
+			String message = "San pham co ma " + productID
+					+ " phu hop voi dich vu co ma " + subcribe.getId();
+			return SendSMS.sendSMS(message, userResult.getResult().getPhone());
+		}
+		return false;
 	}
 
 	private long isMatchProductAndUserSubscribeProduct(Product product,
