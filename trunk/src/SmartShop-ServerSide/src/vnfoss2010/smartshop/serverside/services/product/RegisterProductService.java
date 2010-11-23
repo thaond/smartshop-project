@@ -17,6 +17,7 @@ import vnfoss2010.smartshop.serverside.database.entity.Category;
 import vnfoss2010.smartshop.serverside.database.entity.Product;
 import vnfoss2010.smartshop.serverside.database.entity.UserInfo;
 import vnfoss2010.smartshop.serverside.database.entity.UserSubcribeProduct;
+import vnfoss2010.smartshop.serverside.mail.MailUtils;
 import vnfoss2010.smartshop.serverside.services.BaseRestfulService;
 import vnfoss2010.smartshop.serverside.services.exception.RestfulException;
 import vnfoss2010.smartshop.serverside.sms.SendSMS;
@@ -118,7 +119,9 @@ public class RegisterProductService extends BaseRestfulService {
 												+ ";exception2: gui tin nhan ko thanh cong");
 									}
 								}
-
+								if (subcribe.getType_notification() >= 100) {
+									sendMail(subcribe, product.getId());
+								}
 							}
 							// }
 						}
@@ -147,6 +150,17 @@ public class RegisterProductService extends BaseRestfulService {
 			return SendSMS.sendSMS(message, userResult.getResult().getPhone());
 		}
 		return false;
+	}
+
+	private void sendMail(UserSubcribeProduct subcribe, long productID) {
+		ServiceResult<UserInfo> userResult = dbAccount.getUserInfo(subcribe
+				.getUsername());
+		if (userResult.isOK()) {
+			String content = "San pham co ma " + productID
+					+ " phu hop voi dich vu co ma " + subcribe.getId();
+			MailUtils.sendEmail("admins", userResult.getResult().getEmail(),
+					"[SmartShop]Thong tin dich vu", content);
+		}
 	}
 
 	private long isMatchProductAndUserSubscribeProduct(Product product,
