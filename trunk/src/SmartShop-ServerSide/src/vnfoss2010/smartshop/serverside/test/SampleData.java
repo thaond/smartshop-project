@@ -135,30 +135,30 @@ public class SampleData {
 //		product.getSetCategoryKeys().add("coffee");
 //		products.add(product);
 //
-//		/* Mobile sample */
-//		product = new Product("Nokia 6670", 1000, false, 2, "12 month",
-//				"China", "Tân Hòa Đông", 10.764789, 106.618749,
-//				"Chất lượng vượt thời gian", 3, new Date(110, 5, 6), "tam");
-//		product.getSetCategoryKeys().add("mobile_pda_sub");
-//		products.add(product);
-//
-//		product = new Product("Samsung wave", 3000, false, 2, "12 month",
-//				"China", "Tân Hòa Đông", 10.764789, 106.618749,
-//				"Chất lượng vượt thời gian", 3, new Date(110, 6, 5), "tam");
-//		product.getSetCategoryKeys().add("mobile_pda_sub");
-//		products.add(product);
-//
-//		product = new Product("Nokia 1110", 1000, false, 2, "12 month",
-//				"China", "Đường Hòa Bình", 10.770059, 106.632653,
-//				"Chất lượng vượt thời gian", 3, new Date(110, 2, 1), "duc");
-//		product.getSetCategoryKeys().add("mobile_pda_sub");
-//		products.add(product);
-//
-//		product = new Product("Android G1", 1000, false, 2, "12 month",
-//				"China", "Trường Chinh", 10.831394, 106.622547,
-//				"Chất lượng vượt thời gian", 3, new Date(110, 7, 9), "hieu");
-//		product.getSetCategoryKeys().add("mobile_pda_sub");
-//		products.add(product);
+		/* Mobile sample */
+		product = new Product("Nokia 6670", 1000, false, 2, "12 month",
+				"China", "Tân Hòa Đông", 10.764789, 106.618749,
+				"Chất lượng vượt thời gian", 3, new Date(110, 5, 6), "tam");
+		product.getSetCategoryKeys().add("mobile_pda_sub");
+		products.add(product);
+
+		product = new Product("Samsung wave", 3000, false, 2, "12 month",
+				"China", "Tân Hòa Đông", 10.764789, 106.618749,
+				"Chất lượng vượt thời gian", 3, new Date(110, 6, 5), "tam");
+		product.getSetCategoryKeys().add("mobile_pda_sub");
+		products.add(product);
+
+		product = new Product("Nokia 1110", 1000, false, 2, "12 month",
+				"China", "Đường Hòa Bình", 10.770059, 106.632653,
+				"Chất lượng vượt thời gian", 3, new Date(110, 2, 1), "duc");
+		product.getSetCategoryKeys().add("mobile_pda_sub");
+		products.add(product);
+
+		product = new Product("Android G1", 1000, false, 2, "12 month",
+				"China", "Trường Chinh", 10.831394, 106.622547,
+				"Chất lượng vượt thời gian", 3, new Date(110, 7, 9), "hieu");
+		product.getSetCategoryKeys().add("mobile_pda_sub");
+		products.add(product);
 //
 //		/* accessories sample */
 //		product = new Product("Sạc Nokia", 1000, false, 2, "12 month", "China",
@@ -185,30 +185,30 @@ public class SampleData {
 //		product.getSetCategoryKeys().add("mobile_accessories");
 //		products.add(product);
 //
-//		/* Laptop */
-//		product = new Product("sony vaio CW23 ", 1200, false, 2, "12 month",
-//				"China", "Đường Quang Trung", 10.841553, 106.644005,
-//				"Man hình rất xịn", 3, new Date(110, 4, 3), "tamvo");
-//		product.getSetCategoryKeys().add("laptop");
-//		products.add(product);
-//
-//		product = new Product("sony vaio  F115", 1000, false, 2, "12 month",
-//				"China", "Binh Tan", 10.777268, 106.6563, "Man hình rất xịn",
-//				3, new Date(110, 1, 7), "tamvo");
-//		product.getSetCategoryKeys().add("laptop");
-//		products.add(product);
-//
-//		product = new Product("HP Envy", 2000, false, 2, "12 month", "USA",
-//				"Tan Binh", 10.777268, 106.6563, "Màn hình 3D", 3, new Date(
-//						110, 2, 3), "hieu");
-//		product.getSetCategoryKeys().add("laptop");
-//		products.add(product);
-//
-//		product = new Product("HP Pavillon", 7000, false, 2, "12 month",
-//				"China", "Q3", 10.777268, 106.6563, "Man hình rất xịn", 3,
-//				new Date(110, 1, 2), "duc");
-//		product.getSetCategoryKeys().add("laptop");
-//		products.add(product);
+		/* Laptop */
+		product = new Product("sony vaio CW23 ", 1200, false, 2, "12 month",
+				"China", "Đường Quang Trung", 10.841553, 106.644005,
+				"Man hình rất xịn", 3, new Date(110, 4, 3), "tamvo");
+		product.getSetCategoryKeys().add("laptop");
+		products.add(product);
+
+		product = new Product("sony vaio  F115", 1000, false, 2, "12 month",
+				"China", "Binh Tan", 10.777268, 106.6563, "Man hình rất xịn",
+				3, new Date(110, 1, 7), "tamvo");
+		product.getSetCategoryKeys().add("laptop");
+		products.add(product);
+
+		product = new Product("HP Envy", 2000, false, 2, "12 month", "USA",
+				"Tan Binh", 10.777268, 106.6563, "Màn hình 3D", 3, new Date(
+						110, 2, 3), "hieu");
+		product.getSetCategoryKeys().add("laptop");
+		products.add(product);
+
+		product = new Product("HP Pavillon", 7000, false, 2, "12 month",
+				"China", "Q3", 10.777268, 106.6563, "Man hình rất xịn", 3,
+				new Date(110, 1, 2), "duc");
+		product.getSetCategoryKeys().add("laptop");
+		products.add(product);
 //		
 //		//TODO
 		//////////////////
