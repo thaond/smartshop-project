@@ -338,11 +338,31 @@ public class ProductServiceImpl {
 		List<Object> listParameters = new ArrayList<Object>();
 
 		if (priceRange != null && priceRange.length == 2) {
-			where.append("price>" + priceRange[0] + " ");
+			where.append("price>=" + priceRange[0] + " ");
 			if (priceRange[1] > priceRange[0]) {
-				where.append("&& price<" + priceRange[1] + " ");
+				where.append("&& price<=" + priceRange[1] + " ");
 			}
-			orderBy.append("price asc ");
+			if (criterias != null) {
+				for (int i = 0; i < criterias.length; i++) {
+					switch (criterias[i]) {
+					case 2:
+						orderBy.append("price asc ");
+						criterias[i] = -1;
+						break;
+
+					case 3:
+						orderBy.append("price desc ");
+						criterias[i] = -1;
+						break;
+					}
+					if (criterias[i] == -1) {
+						break;
+					}
+				}
+			}
+			if (orderBy.indexOf("price") == -1) {
+				orderBy.append("price asc ");
+			}
 		}
 
 		// switch (status) {
@@ -378,13 +398,13 @@ public class ProductServiceImpl {
 					orderBy.append("date_post desc ");
 					break;
 
-				case 2:
-					orderBy.append("price asc ");
-					break;
-
-				case 3:
-					orderBy.append("price desc ");
-					break;
+				// case 2:
+				// orderBy.append("price asc ");
+				// break;
+				//
+				// case 3:
+				// orderBy.append("price desc ");
+				// break;
 
 				case 4:
 					orderBy.append("product_view asc ");
@@ -590,7 +610,7 @@ public class ProductServiceImpl {
 		// Product p = pm.getObjectById(Product.class, listIds.get(0));
 		// log.log(Level.SEVERE, p +"");
 
-		if (listIds.size() > 0) {
+		if (listIds != null && listIds.size() > 0) {
 			result.setOK(true);
 			result.setMessage(Global.messages
 					.getString("search_product_by_criteria_in_cat_successfully"));
