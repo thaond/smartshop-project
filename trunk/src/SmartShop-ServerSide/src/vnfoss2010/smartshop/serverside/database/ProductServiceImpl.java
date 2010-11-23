@@ -337,9 +337,7 @@ public class ProductServiceImpl {
 		String query = "";
 		List<Object> listParameters = new ArrayList<Object>();
 
-		if (priceRange != null && priceRange.length > 0
-				&& priceRange.length <= 2 && priceRange[0] >= 0
-				&& priceRange[1] >= 0) {
+		if (priceRange != null && priceRange.length == 2) {
 			where.append("price>" + priceRange[0] + " ");
 			if (priceRange[1] > priceRange[0]) {
 				where.append("&& price<" + priceRange[1] + " ");
@@ -1493,7 +1491,8 @@ public class ProductServiceImpl {
 					} else {
 						result.getResult().addAll(result2.getResult());
 					}
-//					log.log(Level.SEVERE, "new result; " + result2.getResult());
+					// log.log(Level.SEVERE, "new result; " +
+					// result2.getResult());
 				}
 			}
 
