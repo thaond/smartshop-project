@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="300dip" android:layout_height="wrap_content"
+	android:orientation="vertical" android:paddingRight="10dip" android:paddingLeft="10dip">
+
+	<LinearLayout android:layout_width="300dip"
+		android:layout_height="wrap_content">
+		<TextView android:layout_width="120dip"
+			android:layout_height="wrap_content" android:text="Từ khoảng (VNĐ)" />
+		<EditText android:layout_width="160dip"
+			android:layout_height="wrap_content" android:id="@+id/txtFromPrice"/>
+	</LinearLayout>
+
+	<LinearLayout android:layout_width="300dip"
+		android:layout_height="wrap_content">
+		<TextView android:layout_width="120dip"
+			android:layout_height="wrap_content" android:text="Tới khoảng (VNĐ)" />
+		<EditText android:layout_width="160dip"
+			android:layout_height="wrap_content" android:id="@+id/txtToPrice"/>
+	</LinearLayout>
+	
+	<Button android:layout_width="48dip" android:layout_height="48dip"
+		android:background="@drawable/search" android:layout_gravity="center"
+		android:id="@+id/btnSearch"/>
+
+</LinearLayout>

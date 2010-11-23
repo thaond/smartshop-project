@@ -2,7 +2,7 @@ package com.appspot.smartshop.utils;
 
 public class URLConstant {
 	//TODO Change to real host
-	//public static final String HOST = "http://10.0.2.2:8888";
+//	public static final String HOST = "http://10.0.2.2:8888";
 	public static final String HOST = "http://smartshopviet.appspot.com";
 	public static final String WEBHOST = "http://smartshopviet.appspot.com";
 	public static final String URL_NO_PRODUCT_IMG = WEBHOST + "/webbased/product_unknown.png";

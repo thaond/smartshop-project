@@ -8,7 +8,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -45,6 +48,7 @@ public class SearchVatgiaActivity extends Activity {
 	private boolean first = true;
 	
 	private String query = null;
+	private AlertDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +107,97 @@ public class SearchVatgiaActivity extends Activity {
 		// text fields
 		txtPageInfo = (TextView) findViewById(R.id.txtPageInfo);
 		txtPageInfo.setVisibility(View.GONE);
+		
+		// TODO: search products based on price range 
+		Button btnPriceRange = (Button) findViewById(R.id.btnPriceRange);
+		btnPriceRange.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				createProductPriceDialog();
+			}
+		});
+	}
+	
+	private void createProductPriceDialog() {
+		LayoutInflater inflater = LayoutInflater.from(this);
+		final View view = inflater.inflate(R.layout.product_price_range_dialog, null);
+		
+		Button btnSearch = (Button) view.findViewById(R.id.btnSearch);
+		btnSearch.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				EditText txtFromPrice = (EditText) view.findViewById(R.id.txtFromPrice);
+				EditText txtToPrice = (EditText) view.findViewById(R.id.txtToPrice);
+				
+				query = txtSearch.getText().toString();
+				url = String.format(URLConstant.GET_VATGIA_PRODUCTS, query, currentPage);
+				
+				String fromPrice = txtFromPrice.getText().toString();
+				String toPrice = txtToPrice.getText().toString();
+				
+				url += "&price_from=" + fromPrice + "&price_to=" + toPrice;
+				
+				loadProducts();
+				dialog.dismiss();
+			}
+		});
+		
+		Builder dialogBuilder = new AlertDialog.Builder(this);
+		dialogBuilder.setView(view);
+		dialog = dialogBuilder.create();
+		
+		dialog.show();
+	}
+
+	protected void loadProducts() {
+		task = new SimpleAsyncTask(this, new DataLoader() {
+			
+			@Override
+			public void updateUI() {
+				if (numOfPages != NO_PAGE) {
+					txtPageInfo.setVisibility(View.VISIBLE);
+					txtPageInfo.setText(currentPage + " / " + numOfPages);
+					adapter = new NProductVatgiaAdapter(SearchVatgiaActivity.this, 0, products, new FacebookUtils(SearchVatgiaActivity.this));
+					listProducts.setAdapter(adapter);
+					
+					btnNext.setVisibility(View.VISIBLE);
+					btnPrev.setVisibility(View.VISIBLE);
+				} else {
+					txtPageInfo.setVisibility(View.GONE);
+					btnNext.setVisibility(View.GONE);
+					btnPrev.setVisibility(View.GONE);
+				}
+			}
+			
+			@Override
+			public void loadData() {
+				
+				RestClient.getData(url, new JSONParser() {
+					
+					@Override
+					public void onSuccess(JSONObject json) throws JSONException {
+						if (first) {
+							numOfPages = json.getInt("numOfPages");
+							first = false;
+						}
+						
+						JSONArray arr = json.getJSONArray("results");
+						products = Global.gsonDateWithoutHour.fromJson(arr.toString(), 
+								NProductVatGia.getType());
+					}
+					
+					@Override
+					public void onFailure(String message) {
+						task.hasData = false;
+						task.message = message;
+						task.cancel(true);
+					}
+				});
+			}
+		});
+		task.execute();
 	}
 
 	private SimpleAsyncTask task;

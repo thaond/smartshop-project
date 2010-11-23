@@ -84,6 +84,8 @@ public class SearchProductsOnMapActivity extends MapActivity {
 		super.onCreate(icicle);
 		setContentView(R.layout.search_products_on_map);
 		
+		Global.application = this;
+		
 		BaseUIActivity.initHeader(this);
 		
 		// text view
@@ -103,7 +105,7 @@ public class SearchProductsOnMapActivity extends MapActivity {
 		
 		// controller
 		mapController = mapView.getController();
-		mapController.setZoom(16);
+		mapController.setZoom(18);
 		
 		// location listener
 		myLocationListener = new MyLocationListener(this, new MyLocationCallback() {

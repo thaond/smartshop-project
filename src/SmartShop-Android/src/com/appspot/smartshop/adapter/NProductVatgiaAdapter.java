@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -67,16 +68,19 @@ public class NProductVatgiaAdapter extends ArrayAdapter<NProductVatGia> {
 
 		Bitmap imageOfProduct = Utils.getBitmapFromURL(item.imageThumbnail);
 
-		imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct, IMAGE_WIDTH,
-				IMAGE_HEIGHT, true);
+		if (imageOfProduct != null)
+			imageOfProduct = Bitmap.createScaledBitmap(imageOfProduct, IMAGE_WIDTH,
+					IMAGE_HEIGHT, true);
 
-		holder.image.setImageBitmap(imageOfProduct);
+		if (imageOfProduct != null)
+			holder.image.setImageBitmap(imageOfProduct);
 
 		holder.txtName.setText(item.productName);
 		String numOfStore = String.format(Global.application
 				.getString(R.string.num_of_stores), item.numOfStore);
 		holder.txtNumOfStore.setText(numOfStore);
-		holder.txtPrice.setText(item.priceVND);
+		if (item.priceVND != null)
+			holder.txtPrice.setText(item.priceVND);
 		convertView.setOnClickListener(new OnClickListener() {
 
 			@Override

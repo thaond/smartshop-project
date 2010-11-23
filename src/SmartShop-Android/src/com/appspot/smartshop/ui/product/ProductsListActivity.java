@@ -8,9 +8,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -97,11 +100,52 @@ public class ProductsListActivity extends MapActivity {
 		chCheapest = (CheckBox) findViewById(R.id.chCheapest);
 		chMostView = (CheckBox) findViewById(R.id.chMostView);
 		
+		// TODO: search products based on price range
+		Button btnPriceRange = (Button) findViewById(R.id.btnPriceRange);
+		btnPriceRange.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				searchProductsByPriceRange();
+			}
+		});
+		
 		// list view
 		listView = (ListView) findViewById(R.id.listViewProductAfterSearch);
 		productAdapter = new ProductAdapter(this, R.layout.product_list_item,
 				new LinkedList<ProductInfo>(),new FacebookUtils(this) );
 		loadProductsList();	
+	}
+
+	protected void searchProductsByPriceRange() {
+		LayoutInflater inflater = LayoutInflater.from(this);
+		final View view = inflater.inflate(R.layout.product_price_range_dialog, null);
+		
+		Button btnSearch = (Button) view.findViewById(R.id.btnSearch);
+		btnSearch.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				EditText txtFromPrice = (EditText) view.findViewById(R.id.txtFromPrice);
+				EditText txtToPrice = (EditText) view.findViewById(R.id.txtToPrice);
+				
+				constructUrl();
+				
+				String fromPrice = txtFromPrice.getText().toString();
+				String toPrice = txtToPrice.getText().toString();
+				
+				url += "&pricerange" + fromPrice + "," + toPrice;
+				
+				loadData();
+				dialog.dismiss();
+			}
+		});
+		
+		Builder dialogBuilder = new AlertDialog.Builder(this);
+		dialogBuilder.setView(view);
+		dialog = dialogBuilder.create(); 
+		
+		dialog.show();
 	}
 
 	protected void searchProductsByQuery(String query) {
@@ -143,6 +187,7 @@ public class ProductsListActivity extends MapActivity {
 	
 	public static final int MENU_SEARCH_BY_CATEGORIES = 0;
 	public static final int MENU_COMPARE_TWO_PRODUCTS = 1;
+	private AlertDialog dialog;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_SEARCH_BY_CATEGORIES, 0,
