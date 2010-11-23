@@ -13,20 +13,26 @@
 
 	</LinearLayout>
 
-	<LinearLayout android:layout_width="fill_parent"
+	<RelativeLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="horizontal">
 
 		<Button android:layout_width="wrap_content" android:background="@drawable/prev"
 			android:layout_height="wrap_content" android:id="@+id/btnPrev"
-			android:paddingRight="10dip" />
+			android:paddingRight="10dip" android:layout_alignParentLeft="true" />
 		<Button android:layout_width="wrap_content" android:background="@drawable/next"
-			android:layout_height="wrap_content" android:id="@+id/btnNext" />
+			android:layout_height="wrap_content" android:id="@+id/btnNext"
+			android:layout_toRightOf="@+id/btnPrev" />
 
 		<TextView android:layout_width="wrap_content"
 			android:textColor="#ff0000" android:textStyle="bold"
-			android:layout_height="wrap_content" android:id="@+id/txtPageInfo" />
+			android:layout_height="wrap_content" android:id="@+id/txtPageInfo"
+			android:layout_toRightOf="@+id/btnNext" />
 
-	</LinearLayout>
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:background="@drawable/dollar"
+			android:id="@+id/btnPriceRange" android:layout_alignParentRight="true" />
+
+	</RelativeLayout>
 
 	<ListView android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:id="@+id/listVatgiapProducts" />

@@ -26,7 +26,9 @@
 		<CheckBox android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:text="@string/chMostView"
 			android:textSize="12dip" android:id="@+id/chMostView" />
-
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:background="@drawable/dollar"
+			android:id="@+id/btnPriceRange" />
 	</LinearLayout>
 
 	<ListView android:layout_width="fill_parent"
